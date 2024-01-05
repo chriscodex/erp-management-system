@@ -53,7 +53,7 @@ export const columnsProducts = [
     },
   },
   {
-    accessorFn: (row) => row?.categoriaId?.nombre,
+    accessorFn: (row) => row?.categoryId?.nombre,
     id: 'category',
     header: ({ column }) => {
       return (
@@ -67,7 +67,7 @@ export const columnsProducts = [
       );
     },
     cell: ({ row }) => {
-      const segment = row?.original?.categoriaId?.nombre;
+      const segment = row?.original?.categoryId?.nombre;
       return <div className="text-start">{segment}</div>;
     },
   },
