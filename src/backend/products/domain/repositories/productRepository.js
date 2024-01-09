@@ -22,7 +22,7 @@ export class ProductRepository {
         .find()
         .populate('segmentId')
         .populate('marcaId')
-        .populate('categoriaId')
+        .populate('categoryId')
         .populate('almacenId')
         .populate('proveedorId');
 
@@ -50,7 +50,7 @@ export class ProductRepository {
         })
         .populate('segmentId')
         .populate('marcaId')
-        .populate('categoriaId')
+        .populate('categoryId')
         .populate('almacenId')
         .populate('proveedorId');
 
