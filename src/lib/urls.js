@@ -30,6 +30,7 @@ export const getAlmacenUrl = `${process.env.NEXT_PUBLIC_API_URL}/almacenes`;
 /* Products */
 export const getAllProductsUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 export const getProductByIdUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
+export const createProductClientUrl = '/api/products';
 
 /* Proveedores */
 export const getAllProveedoresServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/proveedores`;
