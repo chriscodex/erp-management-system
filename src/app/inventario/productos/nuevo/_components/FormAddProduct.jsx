@@ -28,6 +28,8 @@ import { createProductSchema } from '@/app/inventario/productos/nuevo/_services/
 import { NumberInputField } from '@/components/formInputs/NumberInputField';
 import { StringInputField } from '@/components/formInputs/StringInputField';
 import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
+import { createProductRequest } from '@/app/inventario/productos/nuevo/_services/requests';
+import { toast } from 'sonner';
 
 export function FormAddProduct({
   categories,
@@ -63,19 +65,19 @@ export function FormAddProduct({
 
     console.log(data);
 
-    // Toast promise para buscar una persona
-    // toast.promise(createMarcaRequest(data, setFormSubmitIsLoading, setError), {
-    //   loading: 'Creando...',
-    //   success: () => {
-    //     clearErrors();
-    //     // router.push('/inventario/marcas');
-    //     return `Marca creada exitosamente`;
-    //   },
-    //   error: (error) => {
-    //     setFormSubmitIsLoading(false);
-    //     return error;
-    //   },
-    // });
+    // Toast promise para crear
+    toast.promise(createProductRequest(data, setFormSubmitIsLoading), {
+      loading: 'Creando...',
+      success: () => {
+        clearErrors();
+        // router.push('/inventario/marcas');
+        return `Producto creada exitosamente`;
+      },
+      error: (error) => {
+        setFormSubmitIsLoading(false);
+        return error;
+      },
+    });
   });
 
   return (
