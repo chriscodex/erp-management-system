@@ -6,9 +6,9 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-export async function delay(ms) {
+export async function delay() {
   try {
-    return new Promise((resolve) => setTimeout(resolve, ms)); // eslint-disable-line
+    return new Promise((resolve) => setTimeout(resolve, 1500)); // eslint-disable-line
   } catch (error) {
     console.log(error);
   }
