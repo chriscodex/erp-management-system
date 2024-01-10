@@ -10,7 +10,7 @@ export async function fetchData(url) {
 
     return response;
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     return error;
   }
 }

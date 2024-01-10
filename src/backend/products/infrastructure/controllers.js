@@ -16,15 +16,15 @@ export async function getAllProductsController() {
   }
 }
 
-export async function getProductByIdController(id) {
+export async function getProductByDataController(productData) {
   try {
     await connectDB();
-    const productData = await productService.getProductById(id);
-    return productData;
+    const product = await productService.getProductByData(productData);
+    return product;
   } catch (error) {
     console.error('Controller: Error buscando el producto:', error);
     throw new Error(
-      'Controller: Internal Server Error - getProductByIdController'
+      'Controller: Internal Server Error - getProductByDataController'
     );
   }
 }

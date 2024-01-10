@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 
-import { getProductByIdController } from '@/backend/products/infrastructure/controllers';
+import { getProductByDataController } from '@/backend/products/infrastructure/controllers';
 
 export async function GET(request, { params }) {
   try {
     const { id } = params;
-    const { payload, status } = await getProductByIdController(id);
+    const { payload, status } = await getProductByDataController({ id });
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });

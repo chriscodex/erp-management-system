@@ -43,9 +43,11 @@ export class ProductService {
       };
     }
   }
-  async getProductById(id) {
+  async getProductByData(productData) {
     try {
-      const productFound = await this.productRepository.getProductById(id);
+      const productFound = await this.productRepository.getProductByData(
+        productData
+      );
 
       if (!productFound) {
         console.log('Product Service: El producto no existe');
@@ -151,6 +153,22 @@ export class ProductService {
         };
       }
       console.log('Product Service: El proveedor existe');
+
+      // Validar si un producto con ese nombre y en el mismo segmento ya existe
+      const productFound = await this.productRepository.getProductByData(
+        productData
+      );
+      if (productFound) {
+        console.log(
+          'Product Service: Un producto con el mismo nombre ya existe en el segmento seleccionado'
+        );
+        return {
+          status: 409,
+          payload:
+            'Un producto con el mismo nombre ya existe en el segmento seleccionado',
+        };
+      }
+      console.log('Product Service: El producto no existe');
 
       // Crear el producto
       const productCreated = await this.productRepository.createProduct(

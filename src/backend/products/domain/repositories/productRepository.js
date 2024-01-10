@@ -42,11 +42,13 @@ export class ProductRepository {
       );
     }
   }
-  async getProductById(id) {
+  async getProductByData(productData) {
     try {
+      const filter = {};
+      console.log(productData);
       const productFound = await this.productModel
         .findOne({
-          _id: new mongoose.Types.ObjectId(id),
+          _id: new mongoose.Types.ObjectId(productData.id),
         })
         .populate('segmentId')
         .populate('marcaId')
