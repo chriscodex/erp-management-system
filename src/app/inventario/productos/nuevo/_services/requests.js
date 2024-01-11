@@ -9,7 +9,7 @@ import {
 import { fetchData } from '@/lib/fetchData';
 import { delay } from '@/lib/utils';
 
-export async function getSegmentByFilterRequest(segmentFilter) {
+export async function getSegmentByDataRequest(segmentFilter) {
   try {
     const response = await fetchData(
       `${getSegmentsByFilterServerUrl}/?nombre=${segmentFilter}`

@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import {
   getAllSegmentsController,
-  getSegmentByFilter,
+  getSegmentByData,
 } from '@/backend/segments/infrastructure/controller';
 
 export async function GET(request) {
@@ -12,7 +12,7 @@ export async function GET(request) {
 
     let result;
     if (segmentName !== null) {
-      result = await getSegmentByFilter({
+      result = await getSegmentByData({
         nombre: segmentName,
       });
     } else {

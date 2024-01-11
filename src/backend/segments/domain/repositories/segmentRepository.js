@@ -45,7 +45,7 @@ export class SegmentRepository {
     }
   }
 
-  async getSegmentByFilter(segmentFilter) {
+  async getSegmentByData(segmentFilter) {
     try {
       const segmentFound = await this.segmentModel.findOne(segmentFilter);
 

@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
 import { CategoryRepository } from '@/backend/categorias/domain/repositories/categoryRepository';
 import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
@@ -171,9 +173,10 @@ export class ProductService {
       console.log('Product Service: No hay duplicados');
 
       // Generar código
-      const code = crypto.randomBytes(4).toString('hex');
-      console.log(code);
+      const uuid = uuidv4();
+      const numericCode = parseInt(uuid.replace(/\D/g, '').slice(0, 8), 10);
 
+      console.log(numericCode);
       // // Crear el producto
       // const productCreated = await this.productRepository.createProduct(
       //   productData

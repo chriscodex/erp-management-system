@@ -1,5 +1,5 @@
 import {
-  getSegmentByFilterRequest,
+  getSegmentByDataRequest,
   getAllProveedoresRequest,
   getMarcasBySegmentDataRequest,
   getCategoriesBySegmentDataRequest,
@@ -26,7 +26,7 @@ export default async function AddProductPage() {
     getMarcasBySegmentDataRequest({ segmentName: 'Productos' }),
     getAllProveedoresRequest(),
     getAllAlmacenesRequest(),
-    getSegmentByFilterRequest('Productos'),
+    getSegmentByDataRequest('Productos'),
   ]);
 
   const { categories } = categoriesResponse;
