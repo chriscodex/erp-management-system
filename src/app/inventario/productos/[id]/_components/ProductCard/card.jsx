@@ -23,7 +23,7 @@ export default function ProductCard({ product }) {
   const stockStatus = product.stock < product.stockMinimo ? 'low' : 'normal';
 
   return (
-    <Card className="w-full max-w-lg mx-auto">
+    <Card className="w-full">
       <CardHeader>
         <div className="flex justify-start items-start">
           <div>
@@ -34,7 +34,7 @@ export default function ProductCard({ product }) {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-4 max-w-lg">
         {product.descripcion && (
           <p className="text-sm text-muted-foreground">{product.descripcion}</p>
         )}
@@ -46,7 +46,7 @@ export default function ProductCard({ product }) {
           <div className="flex items-center">
             <Package className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
-              Categoría: {product?.categoriaId?.nombre}
+              Categoría: {product?.categoryId?.nombre}
             </span>
           </div>
           <div className="flex items-center">

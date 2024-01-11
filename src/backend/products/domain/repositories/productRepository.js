@@ -44,12 +44,19 @@ export class ProductRepository {
   }
   async getProductByData(productData) {
     try {
+      if (!productData) {
+        console.log('Proveedor Repository: Proveedor no proporcionado');
+        return null;
+      }
+
       const filter = {};
-      console.log(productData);
+
+      if (productData.id) {
+        filter._id = new mongoose.Types.ObjectId(productData.id);
+      }
+
       const productFound = await this.productModel
-        .findOne({
-          _id: new mongoose.Types.ObjectId(productData.id),
-        })
+        .findOne(filter)
         .populate('segmentId')
         .populate('marcaId')
         .populate('categoryId')

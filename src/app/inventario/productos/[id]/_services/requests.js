@@ -12,6 +12,6 @@ export async function getProductByIdRequest(id) {
     const product = response?.data?.payload;
     return { product, status: 200 };
   } catch (error) {
-    // console.log(error);
+    console.log(error);
   }
 }
