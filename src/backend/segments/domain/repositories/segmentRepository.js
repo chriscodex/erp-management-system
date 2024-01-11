@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { Segment } from '@/backend/segments/domain/models/segment';
+import { Filter1Rounded } from '@mui/icons-material';
 
 export class SegmentRepository {
   constructor() {
@@ -24,30 +25,24 @@ export class SegmentRepository {
     }
   }
 
-  async getSegmentById(id) {
+  async getSegmentByData(segmentData) {
     try {
-      const segmentFound = await this.segmentModel.findOne({
-        _id: new mongoose.Types.ObjectId(id),
-      });
-
-      if (!segmentFound) {
-        console.log('Segment Repository: Segmento no encontrado');
+      if (!segmentData) {
+        console.log('Proveedor Repository: Proveedor no proporcionado');
         return null;
       }
 
-      console.log('Segment Repository: Segmento encontrado');
-      return segmentFound;
-    } catch (error) {
-      console.error(
-        `Segment Repository: Error al buscar el segmento: ${error.message}`
-      );
-      throw new Error(`Error al buscar el segmento: ${error.message}`);
-    }
-  }
+      const filter = {};
 
-  async getSegmentByData(segmentFilter) {
-    try {
-      const segmentFound = await this.segmentModel.findOne(segmentFilter);
+      if (segmentData.id) {
+        filter._id = new mongoose.Types.ObjectId(segmentData.id);
+      }
+
+      if (segmentData.nombre) {
+        filter.nombre = { $regex: new RegExp(`^${segmentData.nombre}$`, 'i') };
+      }
+
+      const segmentFound = await this.segmentModel.findOne(filter);
 
       if (!segmentFound) {
         console.log('Segment Repository: Segmento no encontrado');

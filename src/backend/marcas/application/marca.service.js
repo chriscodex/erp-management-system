@@ -109,9 +109,9 @@ export class MarcaService {
       }
 
       // Validar si el segmento existe
-      const segmentFound = await this.segmentRepository.getSegmentById(
-        marca.segmentId
-      );
+      const segmentFound = await this.segmentRepository.getSegmentByData({
+        id: marca.segmentId,
+      });
       if (!segmentFound) {
         console.log('Marca Service: El segmento no existe');
         return {
@@ -171,9 +171,9 @@ export class MarcaService {
 
       // Validar si el segmento enviado existe
       if (marca.segmentId) {
-        const segmentFound = await this.segmentRepository.getSegmentById(
-          marca.segmentId
-        );
+        const segmentFound = await this.segmentRepository.getSegmentByData({
+          id: marca.segmentId,
+        });
         if (!segmentFound) {
           console.log('Marca Service: El segmento no existe');
           return {

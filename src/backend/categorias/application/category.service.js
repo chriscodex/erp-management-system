@@ -112,9 +112,9 @@ export class CategoryService {
       }
 
       // Validar si el segmento existe
-      const segmentFound = await this.segmentRepository.getSegmentById(
-        category.segmentId
-      );
+      const segmentFound = await this.segmentRepository.getSegmentByData({
+        id: category.segmentId,
+      });
       if (!segmentFound) {
         console.log('Category Service: El segmento no existe');
         return {

@@ -90,9 +90,9 @@ export class ProductService {
       }
 
       // Validar si el segmento existe
-      const segmentFound = await this.segmentRepository.getSegmentById(
-        productData.segmentId
-      );
+      const segmentFound = await this.segmentRepository.getSegmentByData({
+        id: productData.segmentId,
+      });
       if (!segmentFound) {
         console.log('Product Service: El segmento no existe');
         return {
@@ -172,11 +172,16 @@ export class ProductService {
       }
       console.log('Product Service: No hay duplicados');
 
-      // Generar código
+      // Generar código para el producto
       const uuid = uuidv4();
       const numericCode = parseInt(uuid.replace(/\D/g, '').slice(0, 8), 10);
 
-      console.log(numericCode);
+      // Generar código para las unidades
+
+      const productObject = {
+        ...productData,
+        code: numericCode,
+      };
       // // Crear el producto
       // const productCreated = await this.productRepository.createProduct(
       //   productData
