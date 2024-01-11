@@ -55,6 +55,10 @@ export class ProductRepository {
         filter._id = new mongoose.Types.ObjectId(productData.id);
       }
 
+      if (productData.nombre) {
+        filter.nombre = { $regex: new RegExp(`^${productData.nombre}$`, 'i') };
+      }
+
       const productFound = await this.productModel
         .findOne(filter)
         .populate('segmentId')

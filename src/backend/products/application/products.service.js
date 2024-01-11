@@ -168,17 +168,21 @@ export class ProductService {
             'Un producto con el mismo nombre ya existe en el segmento seleccionado',
         };
       }
-      console.log('Product Service: El producto no existe');
+      console.log('Product Service: No hay duplicados');
 
-      // Crear el producto
-      const productCreated = await this.productRepository.createProduct(
-        productData
-      );
-      console.log('Product Service: Producto creado correctamente');
-      return {
-        status: 201,
-        payload: productCreated,
-      };
+      // Generar código
+      const code = crypto.randomBytes(4).toString('hex');
+      console.log(code);
+
+      // // Crear el producto
+      // const productCreated = await this.productRepository.createProduct(
+      //   productData
+      // );
+      // console.log('Product Service: Producto creado correctamente');
+      // return {
+      //   status: 201,
+      //   payload: productCreated,
+      // };
     } catch (error) {
       console.error(
         `Product Service: Error interno al crear un producto: ${error.message}`
