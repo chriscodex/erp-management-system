@@ -83,28 +83,6 @@ export class MarcaRepository {
       );
     }
   }
-  async getMarcaById(id) {
-    try {
-      const marca = await this.marcaModel
-        .findOne({
-          _id: new mongoose.Types.ObjectId(id),
-        })
-        .populate('segmentId');
-
-      if (!marca) {
-        console.log('Marca Repository: Marca no encontrada');
-        return null;
-      }
-
-      console.log('Marca Repository: Marca encontrada');
-      return marca;
-    } catch (error) {
-      console.error(
-        `Marca Repository: Error al buscar la marca: ${error.message}`
-      );
-      throw new Error(`Error al buscar la marca: ${error.message}`);
-    }
-  }
   async getMarcaByData(marcaData) {
     try {
       if (!marcaData) {

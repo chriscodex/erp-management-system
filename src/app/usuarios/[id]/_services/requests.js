@@ -1,9 +1,9 @@
 import { fetchData, patchData } from '@/lib/fetchData';
-import { getUserUrl, updateUserUrl } from '@/lib/urls.js';
+import { getUserServerUrl, updateUserUrl } from '@/lib/urls.js';
 
 export async function getUserRequest(dni) {
   try {
-    const url = `${getUserUrl}/${dni}`;
+    const url = `${getUserServerUrl}/${dni}`;
     const response = await fetchData(url);
     if (response?.status !== 200) {
       console.log('Error al obtener el usuario desde el cliente');

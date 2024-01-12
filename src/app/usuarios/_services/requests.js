@@ -1,9 +1,9 @@
-import { getAllUsersUrl, deleteUserUrl } from '@/lib/urls.js';
+import { getAllUsersServerUrl, deleteUserUrl } from '@/lib/urls.js';
 import { fetchData, deleteData } from '@/lib/fetchData';
 
 export async function getAllUsersRequest() {
   try {
-    const response = await fetchData(getAllUsersUrl);
+    const response = await fetchData(getAllUsersServerUrl);
     if (response?.status !== 200) {
       console.log('Error al obtener todos los usuarios');
       return { users: [], status: 500 };
