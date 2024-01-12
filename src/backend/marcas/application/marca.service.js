@@ -66,9 +66,9 @@ export class MarcaService {
       };
     }
   }
-  async getMarca(id) {
+  async getMarcaByData(marcaData) {
     try {
-      const marcaFound = await this.marcaRepository.getMarcaById(id);
+      const marcaFound = await this.marcaRepository.getMarcaByData(marcaData);
 
       if (!marcaFound) {
         console.log('Marca Service: La marca no existe');

@@ -1,6 +1,5 @@
 import mongoose from 'mongoose';
 import { Segment } from '@/backend/segments/domain/models/segment';
-import { Filter1Rounded } from '@mui/icons-material';
 
 export class SegmentRepository {
   constructor() {

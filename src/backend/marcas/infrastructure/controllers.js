@@ -19,7 +19,9 @@ export async function getAllMarcasController() {
 export async function getMarcasBySegmentDataController(segmentData) {
   try {
     await connectDB();
-    const marcasFiltered = await marcaService.getMarcaBySegmentData(segmentData);
+    const marcasFiltered = await marcaService.getMarcaBySegmentData(
+      segmentData
+    );
     return marcasFiltered;
   } catch (error) {
     console.error(
@@ -32,11 +34,11 @@ export async function getMarcasBySegmentDataController(segmentData) {
   }
 }
 
-export async function getMarcaController(id) {
+export async function getMarcaByDataController(marcaData) {
   try {
     await connectDB();
-    const marcaData = await marcaService.getMarca(id);
-    return marcaData;
+    const marca = await marcaService.getMarcaByData(marcaData);
+    return marca;
   } catch (error) {
     console.error('Controller: Error buscando la marca:', error);
     throw new Error('Controller: Internal Server Error - getMarcaController');

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import {
-  getMarcaController,
+  getMarcaByDataController,
   updateMarcaController,
   deleteMarcaController,
 } from '@/backend/marcas/infrastructure/controllers';
@@ -8,7 +8,7 @@ import {
 export async function GET(request, { params }) {
   try {
     const { id } = params;
-    const { payload, status } = await getMarcaController(id);
+    const { payload, status } = await getMarcaByDataController({ id });
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
