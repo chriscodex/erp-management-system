@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 import { User } from '@/backend/users/domain/models/user';
 
 export class UserRepository {
@@ -19,19 +21,36 @@ export class UserRepository {
       throw new Error(`Error al buscar todos los usuarios: ${error.message}`);
     }
   }
-  async getUser(dni) {
+  async getUserByData(userData) {
     try {
-      const user = await User.findOne({ dni }).select('-password');
+      if (!userData) {
+        console.log('User Repository: Usuario no proporcionado');
+        return null;
+      }
 
-      if (!user) {
+      const filter = {};
+
+      if (userData.id) {
+        filter._id = new mongoose.Types.ObjectId(userData.id);
+      }
+
+      if (userData.dni) {
+        filter.dni = userData.dni;
+      }
+
+      const userFound = await User.findOne(filter).select('-password');
+
+      if (!userFound) {
         console.log('User Repository: Usuario no encontrado');
         return null;
       }
 
       console.log('User Repository: Usuario encontrado');
-      return user;
+      return userFound;
     } catch (error) {
-      console.error(`User Repository: Error al buscar un usuario: ${error.message}`);
+      console.error(
+        `User Repository: Error al buscar un usuario: ${error.message}`
+      );
       throw new Error(`Error al buscar un usuario: ${error.message}`);
     }
   }
@@ -54,7 +73,9 @@ export class UserRepository {
       }).select('-password');
 
       if (!updatedUser) {
-        console.log('User Repository: Usuario no encontrado para ser actualizado');
+        console.log(
+          'User Repository: Usuario no encontrado para ser actualizado'
+        );
         return null;
       }
 
@@ -72,14 +93,18 @@ export class UserRepository {
       const deletedUser = await User.findOneAndDelete({ dni });
 
       if (!deletedUser) {
-        console.log('User Repository: Usuario no encontrado para ser eliminado');
+        console.log(
+          'User Repository: Usuario no encontrado para ser eliminado'
+        );
         return null;
       }
 
       console.log('User Repository: Usuario encontrado y eliminado');
       return deletedUser;
     } catch (error) {
-      console.error(`User Repository: Error al eliminar usuario: ${error.message}`);
+      console.error(
+        `User Repository: Error al eliminar usuario: ${error.message}`
+      );
       throw new Error(`Error al eliminar usuario: ${error.message}`);
     }
   }

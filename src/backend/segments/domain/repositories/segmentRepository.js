@@ -28,7 +28,7 @@ export class SegmentRepository {
   async getSegmentByData(segmentData) {
     try {
       if (!segmentData) {
-        console.log('Proveedor Repository: Proveedor no proporcionado');
+        console.log('Segment Repository: Segmento no proporcionado');
         return null;
       }
 

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import {
-  getUserController,
+  getUserByDataController,
   updateUserController,
   deleteUserController,
 } from '@/backend/users/infrastructure/controllers';
@@ -8,7 +8,7 @@ import {
 export async function GET(request, { params }) {
   try {
     const { dni } = params;
-    const { payload, status } = await getUserController(dni);
+    const { payload, status } = await getUserByDataController({ dni });
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });

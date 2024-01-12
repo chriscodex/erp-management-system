@@ -34,9 +34,9 @@ export class UsersService {
       };
     }
   }
-  async getUser(dni) {
+  async getUserByData(userData) {
     try {
-      const userFound = await this.userRepository.getUser(dni);
+      const userFound = await this.userRepository.getUserByData(userData);
 
       if (!userFound) {
         console.log('User Service: El usuario no existe');

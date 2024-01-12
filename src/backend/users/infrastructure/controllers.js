@@ -16,11 +16,11 @@ export async function getAllUsersController() {
   }
 }
 
-export async function getUserController(dni) {
+export async function getUserByDataController(userData) {
   try {
     await connectDB();
-    const userData = await userService.getUser(dni);
-    return userData;
+    const user = await userService.getUserByData(userData);
+    return user;
   } catch (error) {
     console.error('Controller: Error buscando un usuario:', error);
     throw new Error('Controller: Internal Server Error - getUserController');
