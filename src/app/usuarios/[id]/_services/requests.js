@@ -1,5 +1,6 @@
 import { fetchData, patchData } from '@/lib/fetchData';
-import { getUserServerUrl, updateUserUrl } from '@/lib/urls.js';
+import { getUserServerUrl, updateUserClientUrl } from '@/lib/urls.js';
+import { delay } from '@/lib/utils';
 
 export async function getUserRequest(dni) {
   try {
@@ -16,17 +17,17 @@ export async function getUserRequest(dni) {
   }
 }
 
-/* eslint-disable */
 export async function updateUserRequest(user, setLoading) {
+  /* eslint-disable */
   return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
     try {
       setLoading(true);
-      console.log(user);
       // Simular tiempo de retraso
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await delay();
 
       const { dni } = user;
-      const url = `${updateUserUrl}/${dni}`;
+      const url = `${updateUserClientUrl}/${dni}`;
 
       // Obtener los datos de la persona
       const response = await patchData(url, user);
@@ -46,4 +47,3 @@ export async function updateUserRequest(user, setLoading) {
     }
   });
 }
-/* eslint-enable */
