@@ -1,5 +1,6 @@
-import { getAllUsersServerUrl, deleteUserUrl } from '@/lib/urls.js';
+import { getAllUsersServerUrl, deleteUserClientUrl } from '@/lib/urls.js';
 import { fetchData, deleteData } from '@/lib/fetchData';
+import { delay } from '@/lib/utils';
 
 export async function getAllUsersRequest() {
   try {
@@ -15,14 +16,15 @@ export async function getAllUsersRequest() {
   }
 }
 
-/* eslint-disable */
 export async function deleteUserRequest(dni) {
+  /* eslint-disable */
   return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
     try {
       // Simular tiempo de retraso
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await delay();
 
-      const url = `${deleteUserUrl}/${dni}`;
+      const url = `${deleteUserClientUrl}/${dni}`;
 
       // Obtener los datos de la persona
       const response = await deleteData(url);
@@ -39,4 +41,3 @@ export async function deleteUserRequest(dni) {
     }
   });
 }
-/* eslint-enable */
