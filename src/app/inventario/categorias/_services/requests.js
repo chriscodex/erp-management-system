@@ -1,16 +1,16 @@
 import { fetchData, postData, deleteData, patchData } from '@/lib/fetchData';
 import {
   getAllSegmentsServerUrl,
-  getAllCategoriesUrl,
-  createCategoryUrl,
-  updateCategoryUrl,
+  getAllCategoriesServerUrl,
+  createCategoryClientUrl,
+  updateCategoryClientUrl,
   deleteCategoryUrl,
 } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
 export async function getAllCategoriesRequest() {
   try {
-    const response = await fetchData(getAllCategoriesUrl);
+    const response = await fetchData(getAllCategoriesServerUrl);
     if (response?.status !== 200) {
       console.log('Error al obtener todas las categorias');
       return { categories: [], status: 500 };
@@ -46,7 +46,7 @@ export async function createCategoryRequest(category, setLoading) {
       await delay();
 
       // Obtener los datos de la persona
-      const response = await postData(createCategoryUrl, category);
+      const response = await postData(createCategoryClientUrl, category);
       if (response?.status !== 201) {
         setLoading(false);
         reject(
@@ -74,7 +74,7 @@ export async function updateCategoryRequest(category, setLoading) {
       await delay();
 
       const { _id: id } = category;
-      const url = `${updateCategoryUrl}/${id}`;
+      const url = `${updateCategoryClientUrl}/${id}`;
 
       // Obtener los datos de la persona
       const response = await patchData(url, category);
