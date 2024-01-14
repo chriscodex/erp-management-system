@@ -1,9 +1,9 @@
-import { getAllMarcasUrl, deleteMarcaUrl } from '@/lib/urls';
+import { getAllMarcasServerUrl, deleteMarcaUrl } from '@/lib/urls';
 import { fetchData, deleteData } from '@/lib/fetchData';
 
 export async function getAllMarcasRequest() {
   try {
-    const response = await fetchData(getAllMarcasUrl);
+    const response = await fetchData(getAllMarcasServerUrl);
     if (response?.status !== 200) {
       console.log('Error al obtener todas las marcas');
       return { marcas: [], status: 500 };
