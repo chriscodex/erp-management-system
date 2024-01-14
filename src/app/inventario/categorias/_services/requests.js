@@ -4,7 +4,7 @@ import {
   getAllCategoriesServerUrl,
   createCategoryClientUrl,
   updateCategoryClientUrl,
-  deleteCategoryUrl,
+  deleteCategoryClientUrl,
 } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
@@ -104,7 +104,7 @@ export async function deleteCategoryRequest(id) {
       // Simular tiempo de retraso
       await delay();
 
-      const url = `${deleteCategoryUrl}/${id}`;
+      const url = `${deleteCategoryClientUrl}/${id}`;
 
       // Obtener los datos de la persona
       const response = await deleteData(url);
