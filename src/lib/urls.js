@@ -1,7 +1,7 @@
 /* Users */
 export const getAllUsersServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/users`;
 export const getUserServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/users`;
-export const createUserUrl = '/api/users';
+export const createUserServerUrl = '/api/users';
 export const updateUserUrl = '/api/users';
 export const deleteUserUrl = '/api/users';
 

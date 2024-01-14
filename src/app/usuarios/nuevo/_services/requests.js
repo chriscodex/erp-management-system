@@ -1,4 +1,4 @@
-import { createUserUrl } from '@/lib/urls.js';
+import { createUserServerUrl } from '@/lib/urls.js';
 import { postData } from '@/lib/fetchData';
 
 /* eslint-disable */
@@ -10,7 +10,7 @@ export async function createUserRequest(user, setLoading) {
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
       // Obtener los datos de la persona
-      const response = await postData(createUserUrl, user);
+      const response = await postData(createUserServerUrl, user);
       if (response?.status !== 201) {
         setLoading(false);
         reject(
