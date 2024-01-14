@@ -1,11 +1,12 @@
 import { fetchData, postData, deleteData, patchData } from '@/lib/fetchData';
 import {
-  getAllSegmentsUrl,
+  getAllSegmentsServerUrl,
   getAllCategoriesUrl,
   createCategoryUrl,
   updateCategoryUrl,
   deleteCategoryUrl,
 } from '@/lib/urls';
+import { delay } from '@/lib/utils';
 
 export async function getAllCategoriesRequest() {
   try {
@@ -23,7 +24,7 @@ export async function getAllCategoriesRequest() {
 
 export async function getAllSegmentsRequest() {
   try {
-    const response = await fetchData(getAllSegmentsUrl);
+    const response = await fetchData(getAllSegmentsServerUrl);
     if (response?.status !== 200) {
       console.log('Error al obtener todos los segmentos');
       return { categories: [], status: 500 };
@@ -35,13 +36,14 @@ export async function getAllSegmentsRequest() {
   }
 }
 
-/* eslint-disable */
 export async function createCategoryRequest(category, setLoading) {
+  /* eslint-disable */
   return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await delay();
 
       // Obtener los datos de la persona
       const response = await postData(createCategoryUrl, category);
@@ -61,15 +63,15 @@ export async function createCategoryRequest(category, setLoading) {
     }
   });
 }
-/* eslint-enable */
 
-/* eslint-disable */
 export async function updateCategoryRequest(category, setLoading) {
+  /* eslint-disable */
   return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await delay();
 
       const { _id: id } = category;
       const url = `${updateCategoryUrl}/${id}`;
@@ -93,14 +95,14 @@ export async function updateCategoryRequest(category, setLoading) {
     }
   });
 }
-/* eslint-enable */
 
-/* eslint-disable */
 export async function deleteCategoryRequest(id) {
+  /* eslint-disable */
   return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
     try {
       // Simular tiempo de retraso
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await delay();
 
       const url = `${deleteCategoryUrl}/${id}`;
 
@@ -119,4 +121,3 @@ export async function deleteCategoryRequest(id) {
     }
   });
 }
-/* eslint-enable */
