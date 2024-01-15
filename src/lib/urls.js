@@ -14,7 +14,7 @@ export const deleteCategoryClientUrl = '/api/categories';
 
 /* Marcas */
 export const getAllMarcasServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
-export const getMarcaUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
+export const getMarcaServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
 export const getMarcasBySegmentDataServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
 export const createMarcaUrl = '/api/marcas';
 export const updateMarcaUrl = '/api/marcas';

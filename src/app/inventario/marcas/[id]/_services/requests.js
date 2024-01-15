@@ -1,9 +1,10 @@
 import { fetchData, patchData } from '@/lib/fetchData';
-import { getMarcaUrl, updateMarcaUrl } from '@/lib/urls';
+import { getMarcaServerUrl, updateMarcaUrl } from '@/lib/urls';
+import { delay } from '@/lib/utils';
 
 export async function getMarcaRequest(id) {
   try {
-    const url = `${getMarcaUrl}/${id}`;
+    const url = `${getMarcaServerUrl}/${id}`;
     const response = await fetchData(url);
     if (response?.status !== 200) {
       console.log('Error al obtener el usuario desde el cliente');
@@ -16,13 +17,14 @@ export async function getMarcaRequest(id) {
   }
 }
 
-/* eslint-disable */
 export async function updateMarcaRequest(id, marca, setLoading) {
+  /* eslint-disable */
   return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await delay();
 
       const url = `${updateMarcaUrl}/${id}`;
 
@@ -31,8 +33,7 @@ export async function updateMarcaRequest(id, marca, setLoading) {
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar la marca: ' +
-            response.response?.data?.error
+          'No se pudo actualizar la marca: ' + response.response?.data?.error
         );
         return;
       }
@@ -45,4 +46,3 @@ export async function updateMarcaRequest(id, marca, setLoading) {
     }
   });
 }
-/* eslint-enable */

@@ -1,16 +1,18 @@
 import { postData } from '@/lib/fetchData';
-import { createMarcaUrl } from '@/lib/urls';
+import { createMarcaClientUrl } from '@/lib/urls';
+import { delay } from '@/lib/utils';
 
-/* eslint-disable */
 export async function createMarcaRequest(marca, setLoading, setError) {
+  /* eslint-disable */
   return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await delay();
 
       // Obtener los datos de la persona
-      const response = await postData(createMarcaUrl, marca);
+      const response = await postData(createMarcaClientUrl, marca);
       if (response?.status === 409) {
         setLoading(false);
         setError('nombre', {
@@ -35,4 +37,3 @@ export async function createMarcaRequest(marca, setLoading, setError) {
     }
   });
 }
-/* eslint-enable */

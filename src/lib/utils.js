@@ -6,6 +6,10 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
+/**
+ * Simula un retraso en la ejecución del código de 1.5 segundos.
+ * @returns {Promise} - Promesa que se resuelve después de 1.5 segundos.
+ */
 export async function delay() {
   try {
     return new Promise((resolve) => setTimeout(resolve, 1500)); // eslint-disable-line
