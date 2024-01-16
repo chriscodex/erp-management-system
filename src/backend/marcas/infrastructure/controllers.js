@@ -32,27 +32,7 @@ export async function getMarcasController(request) {
     return result;
   } catch (error) {
     console.error('Controller: Error obteniendo todas las marcas:', error);
-    throw new Error(
-      'Controller: Internal Server Error - getAllMarcasController'
-    );
-  }
-}
-
-export async function getMarcasBySegmentDataController(segmentData) {
-  try {
-    await connectDB();
-    const marcasFiltered = await marcaService.getMarcaBySegmentData(
-      segmentData
-    );
-    return marcasFiltered;
-  } catch (error) {
-    console.error(
-      'Controller: Error obteniendo las marcas filtradas por segmento:',
-      error
-    );
-    throw new Error(
-      'Controller: Internal Server Error - getMarcasBySegmentIdController'
-    );
+    throw new Error('Controller: Internal Server Error - getMarcasController');
   }
 }
 
@@ -67,12 +47,12 @@ export async function getMarcaByDataController(marcaData) {
   }
 }
 
-export async function createMarcaController(marcaData) {
+export async function createMarcaController(request) {
   try {
+    const body = await request.json();
     await connectDB();
 
-    /* Responses { payload, status} */
-    const createdMarca = await marcaService.createMarca(marcaData);
+    const createdMarca = await marcaService.createMarca(body);
     return createdMarca;
   } catch (error) {
     console.error('Controller: Error al crear una marca:', error);

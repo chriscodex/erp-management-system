@@ -29,8 +29,7 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { payload, status } = await createMarcaController(body);
+    const { payload, status } = await createMarcaController(request);
 
     if (status !== 201) {
       return NextResponse.json({ error: payload }, { status });
