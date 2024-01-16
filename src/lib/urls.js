@@ -25,7 +25,7 @@ export const getAllAlmacenesServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/alma
 
 /* Products */
 export const getAllProductsServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
-export const getProductByIdUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
+export const getProductByIdServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 export const createProductClientUrl = '/api/products';
 
 /* Proveedores */

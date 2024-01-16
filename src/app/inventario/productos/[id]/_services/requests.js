@@ -1,9 +1,9 @@
 import { fetchData } from '@/lib/fetchData';
-import { getProductByIdUrl } from '@/lib/urls';
+import { getProductByIdServerUrl } from '@/lib/urls';
 
 export async function getProductByIdRequest(id) {
   try {
-    const url = `${getProductByIdUrl}/${id}`;
+    const url = `${getProductByIdServerUrl}/${id}`;
     const response = await fetchData(url);
     if (response?.status !== 200) {
       console.log('Error al obtener el producto desde el cliente');
