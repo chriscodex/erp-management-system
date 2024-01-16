@@ -1,37 +1,13 @@
 import { NextResponse } from 'next/server';
 
 import {
-  getAllMarcasController,
-  getMarcasBySegmentDataController,
+  getMarcasController,
   createMarcaController,
 } from '@/backend/marcas/infrastructure/controllers';
 
 export async function GET(request) {
   try {
-    // Extrae los query parameters de la URL
-    const { searchParams } = new URL(request.url);
-    const segmentId = searchParams.get('segmentId');
-    const segmentName = searchParams.get('segmentName');
-
-    if (segmentId !== null && segmentName !== null) {
-      return NextResponse.json(
-        {
-          error:
-            'No se pueden filtrar por segmentId y segmentName al mismo tiempo',
-        },
-        { status: 400 }
-      );
-    }
-
-    let result;
-    if (segmentId !== null || segmentName !== null) {
-      result = await getMarcasBySegmentDataController({
-        id: segmentId,
-        nombre: segmentName,
-      });
-    } else {
-      result = await getAllMarcasController();
-    }
+    const result = await getMarcasController(request);
 
     const { payload, status } = result;
 

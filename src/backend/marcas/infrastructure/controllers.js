@@ -3,11 +3,33 @@ import { connectDB } from '@/db/mongodb';
 
 const marcaService = new MarcaService();
 
-export async function getAllMarcasController() {
+export async function getMarcasController(request) {
   try {
     await connectDB();
-    const marcas = await marcaService.getAllMarcas();
-    return marcas;
+
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const segmentId = searchParams.get('segmentId');
+    const segmentName = searchParams.get('segmentName');
+
+    if (segmentId !== null && segmentName !== null) {
+      return {
+        payload:
+          'No se pueden filtrar por segmentId y segmentName al mismo tiempo',
+        status: 400,
+      };
+    }
+
+    let result;
+    if (segmentId !== null || segmentName !== null) {
+      result = await marcaService.getMarcaBySegmentData({
+        id: segmentId,
+        nombre: segmentName,
+      });
+    } else {
+      result = await marcaService.getAllMarcas();
+    }
+    return result;
   } catch (error) {
     console.error('Controller: Error obteniendo todas las marcas:', error);
     throw new Error(
