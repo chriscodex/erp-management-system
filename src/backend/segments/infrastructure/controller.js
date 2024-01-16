@@ -1,5 +1,5 @@
-import { SegmentService } from '@/backend/segments/application/segments.service.js';
 import { connectDB } from '@/db/mongodb';
+import { SegmentService } from '@/backend/segments/application/segments.service.js';
 
 const segmentService = new SegmentService();
 
