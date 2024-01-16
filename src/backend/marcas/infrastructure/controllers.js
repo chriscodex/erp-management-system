@@ -36,10 +36,14 @@ export async function getMarcasController(request) {
   }
 }
 
-export async function getMarcaByDataController(marcaData) {
+export async function getMarcaController(routeContext) {
   try {
+    const { params } = routeContext;
+    const { id } = params;
+
     await connectDB();
-    const marca = await marcaService.getMarcaByData(marcaData);
+
+    const marca = await marcaService.getMarcaByData({ id });
     return marca;
   } catch (error) {
     console.error('Controller: Error buscando la marca:', error);
