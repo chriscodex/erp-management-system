@@ -1,5 +1,5 @@
 import { fetchData, patchData } from '@/lib/fetchData';
-import { getMarcaServerUrl, updateMarcaUrl } from '@/lib/urls';
+import { getMarcaServerUrl, updateMarcaClientUrl } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
 export async function getMarcaRequest(id) {
@@ -26,7 +26,7 @@ export async function updateMarcaRequest(id, marca, setLoading) {
       // Simular tiempo de retraso
       await delay();
 
-      const url = `${updateMarcaUrl}/${id}`;
+      const url = `${updateMarcaClientUrl}/${id}`;
 
       // Obtener los datos de la persona
       const response = await patchData(url, marca);
