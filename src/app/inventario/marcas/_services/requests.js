@@ -1,5 +1,6 @@
-import { getAllMarcasServerUrl, deleteMarcaUrl } from '@/lib/urls';
+import { getAllMarcasServerUrl, deleteMarcaClientUrl } from '@/lib/urls';
 import { fetchData, deleteData } from '@/lib/fetchData';
+import { delay } from '@/lib/utils';
 
 export async function getAllMarcasRequest() {
   try {
@@ -20,9 +21,9 @@ export async function deleteMarcaRequest(id) {
   return new Promise(async (resolve, reject) => {
     try {
       // Simular tiempo de retraso
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      await delay();
 
-      const url = `${deleteMarcaUrl}/${id}`;
+      const url = `${deleteMarcaClientUrl}/${id}`;
 
       // Obtener los datos de la persona
       const response = await deleteData(url);
