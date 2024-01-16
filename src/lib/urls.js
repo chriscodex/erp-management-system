@@ -22,10 +22,9 @@ export const deleteMarcaClientUrl = '/api/marcas';
 
 /* Almacen */
 export const getAllAlmacenesServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/almacenes`;
-export const getAlmacenUrl = `${process.env.NEXT_PUBLIC_API_URL}/almacenes`;
 
 /* Products */
-export const getAllProductsUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
+export const getAllProductsServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 export const getProductByIdUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 export const createProductClientUrl = '/api/products';
 

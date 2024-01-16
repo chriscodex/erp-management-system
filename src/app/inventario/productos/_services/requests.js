@@ -1,9 +1,9 @@
-import { getAllProductsUrl} from '@/lib/urls';
+import { getAllProductsServerUrl} from '@/lib/urls';
 import { fetchData } from '@/lib/fetchData';
 
 export async function getAllProductsRequest() {
   try {
-    const response = await fetchData(getAllProductsUrl);
+    const response = await fetchData(getAllProductsServerUrl);
     if (response?.status !== 200) {
       console.log('Error al obtener todos los productos');
       return { products: [], status: 500 };
