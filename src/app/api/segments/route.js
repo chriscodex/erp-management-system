@@ -1,25 +1,11 @@
 import { NextResponse } from 'next/server';
-import {
-  getAllSegmentsController,
-  getSegmentByData,
-} from '@/backend/segments/infrastructure/controller';
+import { getSegmentsController } from '@/backend/segments/infrastructure/controller';
 
 export async function GET(request) {
   try {
-    // Extrae los query parameters de la URL
-    const { searchParams } = new URL(request.url);
-    const segmentName = searchParams.get('nombre');
+    const segments = await getSegmentsController(request);
 
-    let result;
-    if (segmentName !== null) {
-      result = await getSegmentByData({
-        nombre: segmentName,
-      });
-    } else {
-      result = await getAllSegmentsController();
-    }
-
-    const { payload, status } = result;
+    const { payload, status } = segments;
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });

@@ -3,26 +3,25 @@ import { SegmentService } from '@/backend/segments/application/segments.service.
 
 const segmentService = new SegmentService();
 
-export async function getAllSegmentsController() {
+export async function getSegmentsController(request) {
   try {
-    await connectDB();
-    const categories = await segmentService.getAllSegments();
-    return categories;
-  } catch (error) {
-    console.error('Controller: Error fetching segments:', error);
-    throw new Error(
-      'Controller: Internal Server Error - getAllSegmentsController'
-    );
-  }
-}
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const segmentName = searchParams.get('nombre');
 
-export async function getSegmentByData(segmentFilter) {
-  try {
     await connectDB();
-    const segmentsFiltered = await segmentService.getSegmentByData(
-      segmentFilter
-    );
-    return segmentsFiltered;
+
+    let result;
+
+    if (segmentName !== null) {
+      result = await segmentService.getSegmentByData({
+        nombre: segmentName,
+      });
+    } else {
+      result = await segmentService.getAllSegments();
+    }
+
+    return result;
   } catch (error) {
     console.error('Controller: Error fetching segments by filter:', error);
     throw new Error('Controller: Internal Server Error - getSegmentByData');

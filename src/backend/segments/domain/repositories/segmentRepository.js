@@ -24,21 +24,23 @@ export class SegmentRepository {
     }
   }
 
-  async getSegmentByData(segmentData) {
+  async getSegmentByData(segmentFilter) {
     try {
-      if (!segmentData) {
+      if (Object.keys(segmentFilter).length === 0) {
         console.log('Segment Repository: Segmento no proporcionado');
         return null;
       }
 
       const filter = {};
 
-      if (segmentData.id) {
-        filter._id = new mongoose.Types.ObjectId(segmentData.id);
+      if (segmentFilter.id) {
+        filter._id = new mongoose.Types.ObjectId(segmentFilter.id);
       }
 
-      if (segmentData.nombre) {
-        filter.nombre = { $regex: new RegExp(`^${segmentData.nombre}$`, 'i') };
+      if (segmentFilter.nombre) {
+        filter.nombre = {
+          $regex: new RegExp(`^${segmentFilter.nombre}$`, 'i'),
+        };
       }
 
       const segmentFound = await this.segmentModel.findOne(filter);
