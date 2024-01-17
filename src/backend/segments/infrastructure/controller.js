@@ -23,7 +23,12 @@ export async function getSegmentsController(request) {
 
     return result;
   } catch (error) {
-    console.error('Controller: Error fetching segments by filter:', error);
-    throw new Error('Controller: Internal Server Error - getSegmentByData');
+    console.error(
+      'Segments Controller: Error interno al obtener todos los segmentos:',
+      error.message
+    );
+    throw new Error(
+      'Segments Controller: Internal Server Error - getSegmentByData'
+    );
   }
 }

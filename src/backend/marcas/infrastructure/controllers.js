@@ -32,10 +32,12 @@ export async function getMarcasController(request) {
     return result;
   } catch (error) {
     console.error(
-      'Controller: Error interno al obtener todas las marcas:',
+      'Marca Controller: Error interno al obtener todas las marcas:',
       error.message
     );
-    throw new Error('Controller: Internal Server Error - getMarcasController');
+    throw new Error(
+      'Marca Controller: Internal Server Error - getMarcasController'
+    );
   }
 }
 
@@ -50,10 +52,12 @@ export async function getMarcaController(routeContext) {
     return marca;
   } catch (error) {
     console.error(
-      'Controller: Error interno buscando la marca:',
+      'Marca Controller: Error interno buscando la marca:',
       error.message
     );
-    throw new Error('Controller: Internal Server Error - getMarcaController');
+    throw new Error(
+      'Marca Controller: Internal Server Error - getMarcaController'
+    );
   }
 }
 
@@ -66,11 +70,11 @@ export async function createMarcaController(request) {
     return createdMarca;
   } catch (error) {
     console.error(
-      'Controller: Error interno al crear una marca:',
+      'Marca Controller: Error interno al crear una marca:',
       error.message
     );
     throw new Error(
-      'Controller: Internal Server Error - createMarcaController'
+      'Marca Controller: Internal Server Error - createMarcaController'
     );
   }
 }
@@ -87,11 +91,11 @@ export async function updateMarcaController(request, routeContext) {
     return result;
   } catch (error) {
     console.error(
-      'Controller: Error interno actualizando la marca:',
+      'Marca Controller: Error interno actualizando la marca:',
       error.message
     );
     throw new Error(
-      'Controller: Internal Server Error - updateMarcaController'
+      'Marca Controller: Internal Server Error - updateMarcaController'
     );
   }
 }
@@ -107,11 +111,11 @@ export async function deleteMarcaController(routeContext) {
     return marcaDeleted;
   } catch (error) {
     console.error(
-      'Controller: Error interno eliminando la marca:',
+      'Marca Controller: Error interno eliminando la marca:',
       error.message
     );
     throw new Error(
-      'Controller: Internal Server Error - deleteMarcaController'
+      'Marca Controller: Internal Server Error - deleteMarcaController'
     );
   }
 }

@@ -3,9 +3,7 @@ import { getSegmentsController } from '@/backend/segments/infrastructure/control
 
 export async function GET(request) {
   try {
-    const segments = await getSegmentsController(request);
-
-    const { payload, status } = segments;
+    const { payload, status } = await getSegmentsController(request);
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
