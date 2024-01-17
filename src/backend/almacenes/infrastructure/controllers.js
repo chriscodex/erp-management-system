@@ -16,10 +16,14 @@ export async function getAllAlmacenesController() {
   }
 }
 
-export async function getAlmacenByDataController(almacenData) {
+export async function getAlmacenController(routeContext) {
   try {
+    const { params } = routeContext;
+    const { id } = params;
+
     await connectDB();
-    const almacen = await almacenService.getAlmacenByData(almacenData);
+
+    const almacen = await almacenService.getAlmacenByData({ id });
     return almacen;
   } catch (error) {
     console.error('Controller: Error buscando el almacen:', error);
