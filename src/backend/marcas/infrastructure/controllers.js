@@ -84,9 +84,13 @@ export async function updateMarcaController(request, routeContext) {
   }
 }
 
-export async function deleteMarcaController(id) {
+export async function deleteMarcaController(routeContext) {
   try {
+    const { params } = routeContext;
+    const { id } = params;
+
     await connectDB();
+
     const marcaDeleted = await marcaService.deleteMarca(id);
     return marcaDeleted;
   } catch (error) {

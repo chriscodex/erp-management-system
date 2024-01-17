@@ -43,10 +43,9 @@ export async function PATCH(request, routeContext) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(_, routeContext) {
   try {
-    const { id } = params;
-    const { payload, status } = await deleteMarcaController(id);
+    const { payload, status } = await deleteMarcaController(routeContext);
 
     if (status === 204) {
       return new NextResponse(null, { status });
