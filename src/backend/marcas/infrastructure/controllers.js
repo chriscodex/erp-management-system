@@ -31,7 +31,10 @@ export async function getMarcasController(request) {
     }
     return result;
   } catch (error) {
-    console.error('Controller: Error obteniendo todas las marcas:', error);
+    console.error(
+      'Controller: Error interno al obtener todas las marcas:',
+      error.message
+    );
     throw new Error('Controller: Internal Server Error - getMarcasController');
   }
 }
@@ -46,7 +49,10 @@ export async function getMarcaController(routeContext) {
     const marca = await marcaService.getMarcaByData({ id });
     return marca;
   } catch (error) {
-    console.error('Controller: Error buscando la marca:', error);
+    console.error(
+      'Controller: Error interno buscando la marca:',
+      error.message
+    );
     throw new Error('Controller: Internal Server Error - getMarcaController');
   }
 }
@@ -59,7 +65,10 @@ export async function createMarcaController(request) {
     const createdMarca = await marcaService.createMarca(body);
     return createdMarca;
   } catch (error) {
-    console.error('Controller: Error al crear una marca:', error);
+    console.error(
+      'Controller: Error interno al crear una marca:',
+      error.message
+    );
     throw new Error(
       'Controller: Internal Server Error - createMarcaController'
     );
@@ -77,7 +86,10 @@ export async function updateMarcaController(request, routeContext) {
     const result = await marcaService.updateMarca(id, body);
     return result;
   } catch (error) {
-    console.error('Controller: Error actualizando la marca:', error);
+    console.error(
+      'Controller: Error interno actualizando la marca:',
+      error.message
+    );
     throw new Error(
       'Controller: Internal Server Error - updateMarcaController'
     );
@@ -94,7 +106,10 @@ export async function deleteMarcaController(routeContext) {
     const marcaDeleted = await marcaService.deleteMarca(id);
     return marcaDeleted;
   } catch (error) {
-    console.error('Controller: Error eliminando la marca:', error);
+    console.error(
+      'Controller: Error interno eliminando la marca:',
+      error.message
+    );
     throw new Error(
       'Controller: Internal Server Error - deleteMarcaController'
     );
