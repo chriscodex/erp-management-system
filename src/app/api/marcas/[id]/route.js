@@ -7,8 +7,7 @@ import {
 
 export async function GET(_, routeContext) {
   try {
-    const result = await getMarcaController(routeContext);
-    const { payload, status } = result;
+    const { payload, status } = await getMarcaController(routeContext);
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
@@ -23,11 +22,12 @@ export async function GET(_, routeContext) {
   }
 }
 
-export async function PATCH(request, { params }) {
+export async function PATCH(request, routeContext) {
   try {
-    const { id } = params;
-    const body = await request.json();
-    const { payload, status } = await updateMarcaController(id, body);
+    const { payload, status } = await updateMarcaController(
+      request,
+      routeContext
+    );
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });

@@ -66,11 +66,16 @@ export async function createMarcaController(request) {
   }
 }
 
-export async function updateMarcaController(id, marca) {
+export async function updateMarcaController(request, routeContext) {
   try {
+    const { params } = routeContext;
+    const { id } = params;
+    const body = await request.json();
+
     await connectDB();
-    const updatedMarca = await marcaService.updateMarca(id, marca);
-    return updatedMarca;
+
+    const result = await marcaService.updateMarca(id, body);
+    return result;
   } catch (error) {
     console.error('Controller: Error actualizando la marca:', error);
     throw new Error(
