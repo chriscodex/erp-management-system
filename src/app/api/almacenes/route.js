@@ -12,6 +12,9 @@ export async function GET() {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Almacenes Route: Error interno al obtener todas los almacenes: ${error.message}`
+    );
     return NextResponse.json(
       { message: 'Error obteniendo los almacenes' },
       { status: 500 }
