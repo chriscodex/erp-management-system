@@ -6,10 +6,15 @@ const almacenService = new AlmacenService();
 export async function getAllAlmacenesController() {
   try {
     await connectDB();
+
     const almacenes = await almacenService.getAllAlmacenes();
+
     return almacenes;
   } catch (error) {
-    console.error('Controller: Error fetching almacenes:', error);
+    console.error(
+      'Almacen Controller: Error interno al obtener el almacen:',
+      error.message
+    );
     throw new Error(
       'Controller: Internal Server Error - getAllAlmacenesController'
     );
@@ -26,7 +31,12 @@ export async function getAlmacenController(routeContext) {
     const almacen = await almacenService.getAlmacenByData({ id });
     return almacen;
   } catch (error) {
-    console.error('Controller: Error buscando el almacen:', error);
-    throw new Error('Controller: Internal Server Error - getAlmacenController');
+    console.error(
+      'Almacen Controller: Error interno al obtener el almacen:',
+      error.message
+    );
+    throw new Error(
+      'Almacen Controller: Internal Server Error - getAlmacenController'
+    );
   }
 }
