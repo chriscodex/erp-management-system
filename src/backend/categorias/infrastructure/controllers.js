@@ -3,11 +3,34 @@ import { connectDB } from '@/db/mongodb';
 
 const categoryService = new CategoryService();
 
-export async function getAllCategoriesController() {
+export async function getCategoriesController(request) {
   try {
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const segmentId = searchParams.get('segmentId');
+    const segmentName = searchParams.get('segmentName');
+
+    if (segmentId !== null && segmentName !== null) {
+      return {
+        payload:
+          'No se pueden filtrar por segmentId y segmentName al mismo tiempo',
+        status: 400,
+      };
+    }
+
     await connectDB();
-    const categories = await categoryService.getAllCategories();
-    return categories;
+
+    let result;
+    if (segmentId !== null || segmentName !== null) {
+      result = await categoryService.getCategoriesBySegmentData({
+        id: segmentId,
+        nombre: segmentName,
+      });
+    } else {
+      result = await categoryService.getAllCategories();
+    }
+
+    return result;
   } catch (error) {
     console.error('Controller: Error obteniendo todas las categorias:', error);
     throw new Error(

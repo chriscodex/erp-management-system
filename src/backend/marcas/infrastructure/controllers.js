@@ -5,8 +5,6 @@ const marcaService = new MarcaService();
 
 export async function getMarcasController(request) {
   try {
-    await connectDB();
-
     // Extrae los query parameters de la URL
     const { searchParams } = new URL(request.url);
     const segmentId = searchParams.get('segmentId');
@@ -19,6 +17,8 @@ export async function getMarcasController(request) {
         status: 400,
       };
     }
+
+    await connectDB();
 
     let result;
     if (segmentId !== null || segmentName !== null) {
