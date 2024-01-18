@@ -36,7 +36,7 @@ export async function getMarcasController(request) {
       error.message
     );
     throw new Error(
-      'Marca Controller: Internal Server Error - getMarcasController'
+      'Marca Controller: Error interno al obtener todas las marcas'
     );
   }
 }
@@ -55,9 +55,7 @@ export async function getMarcaController(routeContext) {
       'Marca Controller: Error interno buscando la marca:',
       error.message
     );
-    throw new Error(
-      'Marca Controller: Internal Server Error - getMarcaController'
-    );
+    throw new Error('Marca Controller: Error interno buscando la marca');
   }
 }
 
@@ -73,9 +71,7 @@ export async function createMarcaController(request) {
       'Marca Controller: Error interno al crear una marca:',
       error.message
     );
-    throw new Error(
-      'Marca Controller: Internal Server Error - createMarcaController'
-    );
+    throw new Error('Marca Controller: Error interno al crear una marca');
   }
 }
 
@@ -94,9 +90,7 @@ export async function updateMarcaController(request, routeContext) {
       'Marca Controller: Error interno actualizando la marca:',
       error.message
     );
-    throw new Error(
-      'Marca Controller: Internal Server Error - updateMarcaController'
-    );
+    throw new Error('Marca Controller: Error interno actualizando la marca');
   }
 }
 

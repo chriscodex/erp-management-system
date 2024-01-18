@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
-import { getAllEmpresasController } from '@/backend/empresas/infrastructure/controllers';
+import { getEmpresasController } from '@/backend/empresas/infrastructure/controllers';
 
 export async function GET() {
   try {
-    const { payload, status } = await getAllEmpresasController();
+    const { payload, status } = await getEmpresasController();
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
