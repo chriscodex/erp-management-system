@@ -11,8 +11,11 @@ export async function GET(request) {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `ExternalApi Route: Error interno al buscar usuario por DNI: ${error.message}`
+    );
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Error obteniendo los datos de la persona' },
       { status: 500 }
     );
   }
