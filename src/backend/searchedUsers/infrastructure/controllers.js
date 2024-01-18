@@ -28,18 +28,24 @@ export async function getUserDataByDniController(request) {
   }
 }
 
-export async function getSearchedUserController(dni) {
+export async function getSearchedUserController(request) {
   try {
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const dni = searchParams.get('dni');
+
     await connectDB();
-    /* Responses { payload, status} */
-    const searchedUserData = await searchedUserService.getSearchedUser(
-      dni,
-      getDataByDniFromExternalApi
-    );
+
+    const searchedUserData = await searchedUserService.getSearchedUser(dni);
     return searchedUserData;
   } catch (error) {
-    console.error('Error fetching user data:', error);
+    console.error(
+      'SearchedUser Controller: Error interno al obtener los datos del searchedUser:',
+      error.message
+    );
 
-    throw new Error('Internal Server Error - getSearchedUserController');
+    throw new Error(
+      'SearchedUser Controller: Error interno al obtener los datos del searchedUser'
+    );
   }
 }

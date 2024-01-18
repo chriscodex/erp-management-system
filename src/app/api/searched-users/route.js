@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
+
 import { getSearchedUserController } from '@/backend/searchedUsers/infrastructure/controllers';
 
 export async function GET(request) {
   try {
-    const dni = request.nextUrl.searchParams.get('dni');
-    const { payload, status } = await getSearchedUserController(dni);
+    const { payload, status } = await getSearchedUserController(request);
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
