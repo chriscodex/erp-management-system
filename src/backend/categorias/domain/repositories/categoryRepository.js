@@ -37,12 +37,16 @@ export class CategoryRepository {
 
       const filter = {};
 
-      if (categoryData.segmentId) {
-        filter.segmentId = new mongoose.Types.ObjectId(categoryData.segmentId);
-      }
-
       if (categoryData.id) {
         filter._id = new mongoose.Types.ObjectId(categoryData.id);
+      }
+
+      if (categoryData.nombre) {
+        filter.nombre = { $regex: new RegExp(`^${categoryData.nombre}$`, 'i') };
+      }
+
+      if (categoryData.segmentId) {
+        filter.segmentId = new mongoose.Types.ObjectId(categoryData.segmentId);
       }
 
       const categoryFound = await this.categoryModel

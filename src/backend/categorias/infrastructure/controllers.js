@@ -61,10 +61,15 @@ export async function createCategoryController(request) {
   }
 }
 
-export async function updateCategoryController(id, category) {
+export async function updateCategoryController(request, contextRoute) {
   try {
+    const { params } = contextRoute;
+    const { id } = params;
+    const body = await request.json();
+
     await connectDB();
-    const updatedCategory = await categoryService.updateCategory(id, category);
+
+    const updatedCategory = await categoryService.updateCategory(id, body);
     return updatedCategory;
   } catch (error) {
     console.error(

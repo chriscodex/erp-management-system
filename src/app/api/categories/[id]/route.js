@@ -14,7 +14,10 @@ export async function DELETE(_, contextRoute) {
 
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
-    console.error(error.message);
+    console.error(
+      'Categorias Route: Error interno eliminar la categoría:',
+      error.message
+    );
     return NextResponse.json(
       { message: 'Error eliminando la categoría' },
       { status: 500 }
@@ -22,11 +25,12 @@ export async function DELETE(_, contextRoute) {
   }
 }
 
-export async function PATCH(request, { params }) {
+export async function PATCH(request, contextRoute) {
   try {
-    const { id } = params;
-    const body = await request.json();
-    const { payload, status } = await updateCategoryController(id, body);
+    const { payload, status } = await updateCategoryController(
+      request,
+      contextRoute
+    );
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
@@ -34,7 +38,10 @@ export async function PATCH(request, { params }) {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
-    console.log(error);
+    console.error(
+      'Categorias Route: Error interno actualizar la categoría:',
+      error.message
+    );
     return NextResponse.json(
       { message: 'Error actualizando la categoría' },
       { status: 500 }

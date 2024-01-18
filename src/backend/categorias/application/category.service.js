@@ -165,6 +165,7 @@ export class CategoryService {
   }
   async updateCategory(id, category) {
     try {
+      console.log(category);
       // Validar los datos del usuario enviado con el schema
       const categoryValidated = updateCategorySchema.safeParse(category);
 
@@ -179,9 +180,10 @@ export class CategoryService {
       }
 
       // Validar si una categoría con ese nombre y en el mismo segmento ya existe
-      const categoryFound = await this.categoryRepository.getCategoryByData(
-        category
-      );
+      const categoryFound = await this.categoryRepository.getCategoryByData({
+        id: id,
+        ...category,
+      });
       if (categoryFound) {
         console.log(
           'Category Service: Una categoría con el mismo nombre ya existe en el segmento seleccionado'
