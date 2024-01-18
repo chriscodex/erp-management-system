@@ -3,15 +3,18 @@ import { ProveedorService } from '@/backend/proveedores/application/proveedor.se
 
 const proveedorService = new ProveedorService();
 
-export async function getAllProveedoresController() {
+export async function getProveedoresController() {
   try {
     await connectDB();
     const proveedores = await proveedorService.getAllProveedores();
     return proveedores;
   } catch (error) {
-    console.error('Controller: Error obteniendo todas los proveedores:', error);
+    console.error(
+      'Marca Controller: Error interno al obtener todas los proveedores:',
+      error.message
+    );
     throw new Error(
-      'Controller: Internal Server Error - getAllProveedoresController'
+      'Marca Controller: Error interno al obtener todas los proveedores'
     );
   }
 }

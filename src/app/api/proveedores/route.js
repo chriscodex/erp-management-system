@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 
-import { getAllProveedoresController } from '@/backend/proveedores/infrastructure/controller';
+import { getProveedoresController } from '@/backend/proveedores/infrastructure/controller';
 
 export async function GET() {
   try {
-    const { payload, status } = await getAllProveedoresController();
+    const { payload, status } = await getProveedoresController();
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
@@ -12,8 +12,11 @@ export async function GET() {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Marcas Route: Error interno al obtener los proveedores: ${error.message}`
+    );
     return NextResponse.json(
-      { message: 'Error obteniendo los proveedores' },
+      { message: 'Error interno al obtener los proveedores' },
       { status: 500 }
     );
   }
