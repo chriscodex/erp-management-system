@@ -3,16 +3,28 @@ import { SearchedUserService } from '@/backend/searchedUsers/application/searche
 import { connectDB } from '@/db/mongodb';
 
 // Crear la instancia del servicio
-const searchedUserService = new SearchedUserService(getDataByDniFromExternalApi);
+const searchedUserService = new SearchedUserService(
+  getDataByDniFromExternalApi
+);
 
-export async function getUserDataByDniController(dni) {
+export async function getUserDataByDniController(request) {
   try {
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const numeroDni = searchParams.get('numero');
+
     await connectDB();
-    const userData = await getDataByDniFromExternalApi(dni);
+
+    const userData = await getDataByDniFromExternalApi(numeroDni);
     return userData;
   } catch (error) {
-    console.error('Error fetching user data:', error);
-    throw new Error('Internal Server Error - getUserDataByDniController');
+    console.error(
+      'ExternalApi Controller: Error interno al obtener los datos de la persona desde la API externa APIS.NET:',
+      error.message
+    );
+    throw new Error(
+      'ExternalApi Controller: Error interno al obtener los datos de la persona desde la API externa APIS.NET'
+    );
   }
 }
 

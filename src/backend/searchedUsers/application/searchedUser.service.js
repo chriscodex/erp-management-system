@@ -34,13 +34,14 @@ export class SearchedUserService {
         };
       }
 
-      const searchedUserCreated = await this.searchedUserRepository.createSearchedUser(
-        dni,
-        MayusculasATitulo(
-          `${userFromExternalApi.payload.apellidoPaterno} ${userFromExternalApi.payload.apellidoMaterno}`
-        ),
-        MayusculasATitulo(userFromExternalApi.payload.nombres)
-      );
+      const searchedUserCreated =
+        await this.searchedUserRepository.createSearchedUser(
+          dni,
+          MayusculasATitulo(
+            `${userFromExternalApi.payload.apellidoPaterno} ${userFromExternalApi.payload.apellidoMaterno}`
+          ),
+          MayusculasATitulo(userFromExternalApi.payload.nombres)
+        );
 
       const searchedUserCreatedFormated = {
         dni: searchedUserCreated.dni,
@@ -53,7 +54,10 @@ export class SearchedUserService {
         status: 200,
       };
     } catch (error) {
-      throw new Error(`Error al buscar el usuario: ${error.message}`);
+      console.error('SearchedUser Service: Error al buscar el usuario');
+      throw new Error(
+        `SearchedUser Service: Error al buscar el usuario: ${error.message}`
+      );
     }
   }
 }
