@@ -4,10 +4,9 @@ import {
   updateCategoryController,
 } from '@/backend/categorias/infrastructure/controllers';
 
-export async function DELETE(request, { params }) {
+export async function DELETE(_, contextRoute) {
   try {
-    const { id } = params;
-    const { payload, status } = await deleteCategoryController(id);
+    const { payload, status } = await deleteCategoryController(contextRoute);
 
     if (status === 204) {
       return new NextResponse(null, { status });
@@ -15,7 +14,7 @@ export async function DELETE(request, { params }) {
 
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     return NextResponse.json(
       { message: 'Error eliminando la categoría' },
       { status: 500 }

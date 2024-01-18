@@ -77,11 +77,15 @@ export async function updateCategoryController(id, category) {
   }
 }
 
-export async function deleteCategoryController(id) {
+export async function deleteCategoryController(contextRoute) {
   try {
+    const { params } = contextRoute;
+    const { id } = params;
+
     await connectDB();
 
     const deletedCategory = await categoryService.deleteCategory(id);
+
     return deletedCategory;
   } catch (error) {
     console.error(
