@@ -32,42 +32,31 @@ export async function getCategoriesController(request) {
 
     return result;
   } catch (error) {
-    console.error('Controller: Error obteniendo todas las categorias:', error);
-    throw new Error(
-      'Controller: Internal Server Error - getAllCategoriesController'
-    );
-  }
-}
-
-export async function getCategoriesBySegmentDataController(segmentData) {
-  try {
-    await connectDB();
-    const marcasFiltered = await categoryService.getCategoriesBySegmentData(
-      segmentData
-    );
-    return marcasFiltered;
-  } catch (error) {
     console.error(
-      'Controller: Error obteniendo las categorías filtradas por segmento:',
-      error
+      'Categorias Controller: Error interno al obtener todas las categorias:',
+      error.message
     );
     throw new Error(
-      'Controller: Error interno obteniendo las categorías filtradas por segmento'
+      'Categorias Controller: Internal Server Error - getCategoriesController'
     );
   }
 }
 
-export async function createCategoryController(categoryData) {
+export async function createCategoryController(request) {
   try {
+    const body = await request.json();
+
     await connectDB();
 
-    /* Responses { payload, status} */
-    const createdCategory = await categoryService.createCategory(categoryData);
+    const createdCategory = await categoryService.createCategory(body);
     return createdCategory;
   } catch (error) {
-    console.error('Controller: Error al crear una categoría:', error);
+    console.error(
+      'Categorias Controller: Error interno al crear una categoría:',
+      error.message
+    );
     throw new Error(
-      'Controller: Internal Server Error - createCategoryController'
+      'Categorias Controller: Internal Server Error - createCategoryController'
     );
   }
 }
@@ -78,9 +67,12 @@ export async function updateCategoryController(id, category) {
     const updatedCategory = await categoryService.updateCategory(id, category);
     return updatedCategory;
   } catch (error) {
-    console.error('Controller: Error actualizando la categoría:', error);
+    console.error(
+      'Categorias Controller: Error interno al actualizar la categoría:',
+      error.message
+    );
     throw new Error(
-      'Controller: Internal Server Error - updateCategoryController'
+      'Categorias Controller: Internal Server Error - updateCategoryController'
     );
   }
 }
@@ -92,9 +84,12 @@ export async function deleteCategoryController(id) {
     const deletedCategory = await categoryService.deleteCategory(id);
     return deletedCategory;
   } catch (error) {
-    console.error('Controller: Error al eliminar categoría:', error);
+    console.error(
+      'Categorias Controller: Error interno al eliminar la categoría:',
+      error.message
+    );
     throw new Error(
-      'Controller: Internal Server Error - deleteCategoryController'
+      'Categorias Controller: Internal Server Error - deleteCategoryController'
     );
   }
 }

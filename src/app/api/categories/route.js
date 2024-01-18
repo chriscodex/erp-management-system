@@ -26,8 +26,7 @@ export async function GET(request) {
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { payload, status } = await createCategoryController(body);
+    const { payload, status } = await createCategoryController(request);
 
     if (status !== 201) {
       return NextResponse.json({ error: payload }, { status });
@@ -35,6 +34,9 @@ export async function POST(request) {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Categorias Route: Error interno al crear la categoría: ${error.message}`
+    );
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
