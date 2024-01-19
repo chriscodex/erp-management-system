@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import {
-  getAllUsersController,
+  getUsersController,
   createUserController,
 } from '@/backend/users/infrastructure/controllers';
 
 export async function GET() {
   try {
-    const { payload, status } = await getAllUsersController();
+    const { payload, status } = await getUsersController();
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
@@ -14,6 +14,9 @@ export async function GET() {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Users Route: Error interno al obtener los usuarios: ${error.message}`
+    );
     return NextResponse.json(
       { message: 'Error obteniendo los usuarios' },
       { status: 500 }
