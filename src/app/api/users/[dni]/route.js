@@ -5,10 +5,9 @@ import {
   deleteUserController,
 } from '@/backend/users/infrastructure/controllers';
 
-export async function GET(request, { params }) {
+export async function GET(_, contextRoute) {
   try {
-    const { dni } = params;
-    const { payload, status } = await getUserByDataController({ dni });
+    const { payload, status } = await getUserByDataController(contextRoute);
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });

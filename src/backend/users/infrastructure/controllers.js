@@ -19,10 +19,14 @@ export async function getUsersController() {
   }
 }
 
-export async function getUserByDataController(userData) {
+export async function getUserByDataController(contextRoute) {
   try {
+    const { params } = contextRoute;
+    const { dni } = params;
+
     await connectDB();
-    const user = await userService.getUserByData(userData);
+
+    const user = await userService.getUserByData({ dni });
     return user;
   } catch (error) {
     console.error('Controller: Error buscando un usuario:', error);
