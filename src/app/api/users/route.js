@@ -26,8 +26,7 @@ export async function GET() {
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const { payload, status } = await createUserController(body);
+    const { payload, status } = await createUserController(request);
 
     if (status !== 201) {
       return NextResponse.json({ error: payload }, { status });

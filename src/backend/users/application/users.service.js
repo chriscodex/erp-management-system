@@ -77,7 +77,7 @@ export class UsersService {
       }
 
       // Validar si el usuario ya existe
-      const userFound = await this.userRepository.getUser(user.dni);
+      const userFound = await this.userRepository.getUserByData(user);
       if (userFound) {
         console.log('User Service: El usuario ya existe');
         return {

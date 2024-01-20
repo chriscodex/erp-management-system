@@ -30,12 +30,14 @@ export async function getUserByDataController(userData) {
   }
 }
 
-export async function createUserController(user) {
+export async function createUserController(request) {
   try {
+    const body = await request.json();
+
     await connectDB();
 
     /* Responses { payload, status} */
-    const createdUser = await userService.createUser(user);
+    const createdUser = await userService.createUser(body);
 
     return createdUser;
   } catch (error) {
