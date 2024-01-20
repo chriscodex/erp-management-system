@@ -38,7 +38,9 @@ export async function PATCH(request, contextRoute) {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
-    console.log(error);
+    console.error(
+      `Users Route: Error interno al actualizar el usuario: ${error.message}`
+    );
     return NextResponse.json(
       { message: 'Error interno al actualizar el usuario' },
       { status: 500 }
@@ -46,10 +48,9 @@ export async function PATCH(request, contextRoute) {
   }
 }
 
-export async function DELETE(request, { params }) {
+export async function DELETE(_, contextRoute) {
   try {
-    const { dni } = params;
-    const { payload, status } = await deleteUserController(dni);
+    const { payload, status } = await deleteUserController(contextRoute);
 
     if (status === 204) {
       return new NextResponse(null, { status });
@@ -57,9 +58,11 @@ export async function DELETE(request, { params }) {
 
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
-    console.log(error);
+    console.error(
+      `Users Route: Error interno al eliminar el usuario: ${error.message}`
+    );
     return NextResponse.json(
-      { message: 'Error eliminando el usuario' },
+      { message: 'Error interno eliminando el usuario' },
       { status: 500 }
     );
   }

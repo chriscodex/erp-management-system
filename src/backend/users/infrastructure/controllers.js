@@ -75,13 +75,20 @@ export async function updateUserController(request, contextRoute) {
   }
 }
 
-export async function deleteUserController(dni) {
+export async function deleteUserController(contextRoute) {
   try {
+    const { params } = contextRoute;
+    const { dni } = params;
+
     await connectDB();
+
     const deletedUser = await userService.deleteUser(dni);
     return deletedUser;
   } catch (error) {
-    console.error('Controller: Error eliminando el usuario:', error);
-    throw new Error('Controller: Internal Server Error - deleteUserController');
+    console.error(
+      'Users Controller: Error interno eliminando el usuario:',
+      error.message
+    );
+    throw new Error('Users Controller: Error interno eliminando el usuario');
   }
 }
