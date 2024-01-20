@@ -15,8 +15,11 @@ export async function GET(_, contextRoute) {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Users Route: Error interno al obtener el usuario: ${error.message}`
+    );
     return NextResponse.json(
-      { message: 'Error obteniendo el usuario' },
+      { message: 'Error interno obteniendo el usuario' },
       { status: 500 }
     );
   }

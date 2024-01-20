@@ -29,8 +29,11 @@ export async function getUserByDataController(contextRoute) {
     const user = await userService.getUserByData({ dni });
     return user;
   } catch (error) {
-    console.error('Controller: Error buscando un usuario:', error);
-    throw new Error('Controller: Internal Server Error - getUserController');
+    console.error(
+      'Users Controller: Error interno al obtener el usuario:',
+      error.message
+    );
+    throw new Error('Users Controller: Error interno al obtener el usuario');
   }
 }
 
