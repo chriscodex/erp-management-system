@@ -34,8 +34,11 @@ export async function POST(request) {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Users Route: Error interno al crear el usuario: ${error.message}`
+    );
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Error interno al crear el usuario' },
       { status: 500 }
     );
   }

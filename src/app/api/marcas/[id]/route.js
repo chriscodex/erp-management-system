@@ -19,7 +19,7 @@ export async function GET(_, routeContext) {
       `Marcas Route: Error interno al obtener la marca: ${error.message}`
     );
     return NextResponse.json(
-      { error: 'Error obteniendo la marca' },
+      { error: 'Error interno obteniendo la marca' },
       { status: 500 }
     );
   }
@@ -42,7 +42,7 @@ export async function PATCH(request, routeContext) {
       `Marcas Route: Error interno al actualizar la marca: ${error.message}`
     );
     return NextResponse.json(
-      { message: 'Error actualizando la marca' },
+      { message: 'Error interno actualizando la marca' },
       { status: 500 }
     );
   }
@@ -62,7 +62,7 @@ export async function DELETE(_, routeContext) {
       `Marcas Route: Error interno al eliminar la marca: ${error.message}`
     );
     return NextResponse.json(
-      { message: 'Error eliminando la marca' },
+      { message: 'Error interno eliminando la marca' },
       { status: 500 }
     );
   }
