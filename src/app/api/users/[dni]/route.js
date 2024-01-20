@@ -25,11 +25,12 @@ export async function GET(_, contextRoute) {
   }
 }
 
-export async function PATCH(request, { params }) {
+export async function PATCH(request, contextRoute) {
   try {
-    const { dni } = params;
-    const body = await request.json();
-    const { payload, status } = await updateUserController(dni, body);
+    const { payload, status } = await updateUserController(
+      request,
+      contextRoute
+    );
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
@@ -39,7 +40,7 @@ export async function PATCH(request, { params }) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { message: 'Error actualizando el usuario' },
+      { message: 'Error interno al actualizar el usuario' },
       { status: 500 }
     );
   }

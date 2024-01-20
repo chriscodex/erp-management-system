@@ -48,19 +48,30 @@ export async function createUserController(request) {
 
     return createdUser;
   } catch (error) {
-    console.error('Controller: Error creando el usuario:', error);
-    throw new Error('Controller: Internal Server Error - createUserController');
+    console.error(
+      'Users Controller: Error interno al crear el usuario:',
+      error.message
+    );
+    throw new Error('Users Controller: Error interno al crear el usuario');
   }
 }
 
-export async function updateUserController(dni, user) {
+export async function updateUserController(request, contextRoute) {
   try {
+    const { params } = contextRoute;
+    const { dni } = params;
+    const body = await request.json();
+
     await connectDB();
-    const updatedUser = await userService.updateUser(dni, user);
+
+    const updatedUser = await userService.updateUser(dni, body);
     return updatedUser;
   } catch (error) {
-    console.error('Controller: Error actualizando el usuario:', error);
-    throw new Error('Controller: Internal Server Error - updateUserController');
+    console.error(
+      'Users Controller: Error interno al actualizar el usuario:',
+      error.message
+    );
+    throw new Error('Users Controller: Error interno al actualizar el usuario');
   }
 }
 
