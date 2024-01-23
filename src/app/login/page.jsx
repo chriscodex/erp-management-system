@@ -22,13 +22,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
+import { Loader2 } from 'lucide-react';
 
 function LoginPage() {
   const router = useRouter();
 
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   /* Verificación de token de inicio de sesión existente */
   const { data: session, status } = useSession();
@@ -38,27 +40,37 @@ function LoginPage() {
   }
 
   /* Manejo de visibilidad de contraseña */
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
+  const handleClickShowPassword = () => {
+    setError('');
+    setShowPassword((show) => !show);
+  };
 
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
+    setError('');
   };
 
   const handleMouseUpPassword = (event) => {
     event.preventDefault();
+    setError('');
   };
 
   /* Manejo de formulario */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    setError('');
+    setIsLoading(true);
+
     const formData = new FormData(e.currentTarget);
 
     if (!formData.get('dni')) {
+      setIsLoading(false);
       return setError('Ingrese su DNI');
     }
 
     if (!formData.get('password')) {
+      setIsLoading(false);
       return setError('Ingrese su contraseña');
     }
 
@@ -68,14 +80,15 @@ function LoginPage() {
       redirect: false,
     });
 
-    console.log(res);
-
-    if (res?.error) return setError(res.error);
+    if (res?.error) {
+      setIsLoading(false);
+      return setError(res.error);
+    }
 
     // Redirección a la pagina de inicio
-    if (res?.ok) return router.push('/');
-
-    console.log(res);
+    if (res?.ok) {
+      return router.push('/');
+    }
   };
 
   return (
@@ -90,7 +103,9 @@ function LoginPage() {
             autoComplete="off"
           >
             <CardHeader>
-              <CardTitle className="text-3xl text-black">Iniciar Sesión</CardTitle>
+              <CardTitle className="text-3xl text-black">
+                Iniciar Sesión
+              </CardTitle>
               <CardDescription>
                 Ingrese su DNI y contraseña para iniciar sesión
               </CardDescription>
@@ -146,8 +161,17 @@ function LoginPage() {
                 <p className="h-11"></p>
               )}
 
-              <button className="w-full bg-[#FF0A02] text-white font-semibold px-4 py-2 mt-3 rounded-md">
-                Iniciar Sesión
+              <button
+                disabled={isLoading}
+                className={`w-full font-semibold px-4 py-2 mt-3 rounded-md hover:opacity-80 bg-[#FF0A02] text-white ${
+                  isLoading ? 'opacity-80' : 'opacity-100'
+                }`}
+              >
+                {isLoading ? (
+                  <Loader2 className="h-6 w-6 animate-spin mx-auto" />
+                ) : (
+                  'Iniciar Sesión'
+                )}
               </button>
             </CardContent>
           </Box>
