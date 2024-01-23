@@ -15,6 +15,14 @@ import {
   OutlinedInput,
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
 
 function LoginPage() {
   const router = useRouter();
@@ -72,8 +80,8 @@ function LoginPage() {
 
   return (
     <>
-      <section className="h-screen w-full text-black flex justify-center items-center">
-        <div className="h-[400px] w-[800px] max-w-7xl grid grid-cols-2 gap-4 bg-gray-100 shadow-xl rounded-md">
+      <section className="w-full flex flex-col items-center justify-center p-4">
+        <Card className="flex flex-row gap-4 shadow-xl rounded-md bg-white">
           {/* Izquierda */}
           <Box
             component="form"
@@ -81,72 +89,75 @@ function LoginPage() {
             className="flex flex-col items-center justify-center"
             autoComplete="off"
           >
-            <h1 className="text-3xl self-start pl-12 font-normal">
-              Iniciar Sesión
-            </h1>
-            <TextField
-              id="outlined-basic"
-              label="DNI"
-              variant="outlined"
-              name="dni"
-              sx={{
-                width: '300px',
-                marginTop: '20px',
-              }}
-            />
-
-            <FormControl
-              variant="outlined"
-              sx={{
-                marginTop: '20px',
-              }}
-            >
-              <InputLabel htmlFor="outlined-adornment-password">
-                Contraseña
-              </InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password"
-                name="password"
-                type={showPassword ? 'text' : 'password'}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      onMouseUp={handleMouseUpPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Contraseña"
+            <CardHeader>
+              <CardTitle className="text-3xl text-black">Iniciar Sesión</CardTitle>
+              <CardDescription>
+                Ingrese su DNI y contraseña para iniciar sesión
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center">
+              <TextField
+                id="outlined-basic"
+                label="DNI"
+                variant="outlined"
+                name="dni"
                 sx={{
                   width: '300px',
+                  marginTop: '20px',
                 }}
               />
-            </FormControl>
+              <FormControl
+                variant="outlined"
+                sx={{
+                  marginTop: '20px',
+                }}
+              >
+                <InputLabel htmlFor="outlined-adornment-password">
+                  Contraseña
+                </InputLabel>
+                <OutlinedInput
+                  id="outlined-adornment-password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position="end">
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                        onMouseUp={handleMouseUpPassword}
+                        edge="end"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                  label="Contraseña"
+                  sx={{
+                    width: '300px',
+                  }}
+                />
+              </FormControl>
+              {error ? (
+                <p className="text-red-500 h-8 mt-3 font-normal text-sm self-start">
+                  {error}
+                </p>
+              ) : (
+                <p className="h-11"></p>
+              )}
 
-            {error ? (
-              <p className="text-red-500 h-8 pl-4 mt-3 font-normal">{error}</p>
-            ) : (
-              <p className="h-11"></p>
-            )}
-
-            <button className="w-[222px] bg-[#FF0A02] text-white font-semibold px-4 py-2 mt-3 rounded-md">
-              Iniciar Sesión
-            </button>
+              <button className="w-full bg-[#FF0A02] text-white font-semibold px-4 py-2 mt-3 rounded-md">
+                Iniciar Sesión
+              </button>
+            </CardContent>
           </Box>
-          {/* Derecha */}
-          <div className="w-full pr-4 flex justify-center items-center">
-            <img
-              src="fb.jpg"
-              alt="motorock-logo"
-              className="rounded-lg w-[400px]"
-            ></img>
-          </div>
-        </div>
+          {/* Derecha - Imagen */}
+          <img
+            src="fb.jpg"
+            alt="motorock-logo"
+            className="rounded-r-md w-[400px] h-[400px] hidden md:block"
+          />
+        </Card>
       </section>
     </>
   );
