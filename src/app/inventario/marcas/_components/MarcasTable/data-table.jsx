@@ -64,7 +64,7 @@ export function DataTableMarcas({ columns, data, status = 200 }) {
   // table.getColumn('rol').getIsVisible();
 
   useEffect(() => {
-    if (status !== 200) {
+    if (status === 500) {
       toast.error(
         'No podemos conectarnos al servidor en este momento. Verifica tu conexión a internet o inténtalo nuevamente en unos minutos. Si el error persiste, ponte en contacto con los desarrolladores.',
         { duration: 10000 }
