@@ -1,6 +1,6 @@
 import { deleteMarcaClientUrl } from '@/lib/urls';
 import { deleteData } from '@/lib/fetchData';
-import { delay } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 import { connectDB } from '@/db/mongodb';
 import { MarcaService } from '@/backend/marcas/application/marca.service';
@@ -17,7 +17,8 @@ export async function getAllMarcasRequest() {
       return { marcas: [], status: 500 };
     }
     const marcas = response?.payload;
-    return { marcas, status: 200 };
+
+    return { marcas: simplificadorParaClientComponent(marcas), status: 200 };
   } catch (error) {
     console.error(error);
   }
