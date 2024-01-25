@@ -12,7 +12,7 @@ export class ProveedorRepository {
 
       if (proveedores.length === 0) {
         console.log('Proveedor Repository: No se encontraron proveedores');
-        return null;
+        return [];
       }
 
       console.log('Proveedor Repository: Proveedores encontrados');

@@ -9,7 +9,7 @@ export class UserRepository {
 
       if (users.length === 0) {
         console.log('User Repository: No se encontraron usuarios');
-        return null;
+        return [];
       }
 
       console.log('User Repository: Usuarios encontrados');

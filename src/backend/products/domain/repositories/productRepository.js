@@ -28,7 +28,7 @@ export class ProductRepository {
 
       if (products.length === 0) {
         console.log('Product Repository: No se encontraron products');
-        return null;
+        return [];
       }
 
       console.log('Product Repository: Productos encontrados');

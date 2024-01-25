@@ -10,7 +10,7 @@ export class EmpresaRepository {
 
       if (empresas.length === 0) {
         console.log('Empresa Repository: No se encontraron empresas');
-        return null;
+        return [];
       }
 
       console.log('Empresa Repository: Empresas encontradas');

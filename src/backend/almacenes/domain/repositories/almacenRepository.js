@@ -11,7 +11,7 @@ export class AlmacenRepository {
 
       if (almacenes.length === 0) {
         console.log('Almacén Repository: No se encontraron almacenes');
-        return null;
+        return [];
       }
 
       console.log('Almacén Repository: Almacenes encontrados');

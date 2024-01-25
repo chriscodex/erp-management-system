@@ -11,7 +11,7 @@ export class SegmentRepository {
 
       if (segmentsFound.length === 0) {
         console.log('Segment Repository: No se encontraron segmentos');
-        return null;
+        return [];
       }
 
       console.log('Segment Repository: Segmentos encontrados');

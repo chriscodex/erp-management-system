@@ -10,21 +10,21 @@ export class MarcaRepository {
   }
   async getAllMarcas() {
     try {
-      const marcas = await this.marcaModel.find().populate('segmentId');
+      const marcas = await this.marcaModel.find({}).populate('segmentId');
 
       if (marcas.length === 0) {
         console.log('Marca Repository: No se encontraron marcas');
-        return null;
+        return [];
       }
 
       console.log('Marca Repository: Marcas encontradas');
       return marcas;
     } catch (error) {
       console.error(
-        `Marca Repository: Error al buscar todas las marcas: ${error.message}`
+        `Marca Repository: Error al buscar todas las marcas: ${error}`
       );
       throw new Error(
-        `Marca Repository: Error al buscar todas las marcas: ${error.message}`
+        `Marca Repository: Error al buscar todas las marcas: ${error}`
       );
     }
   }

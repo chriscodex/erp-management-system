@@ -14,7 +14,7 @@ export class CategoryRepository {
 
       if (categories.length === 0) {
         console.log('Category Repository: No se encontraron categorías');
-        return null;
+        return [];
       }
 
       console.log('Category Repository: Categorías encontrados');
