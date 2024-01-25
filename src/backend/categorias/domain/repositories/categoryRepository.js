@@ -21,10 +21,10 @@ export class CategoryRepository {
       return categories;
     } catch (error) {
       console.error(
-        `Category Repository: Error al buscar todas las categorías: ${error.message}`
+        `Category Repository: Error al buscar todas las categorías: ${error}`
       );
       throw new Error(
-        `Error interno al buscar todas las categorías: ${error.message}`
+        `Error interno al buscar todas las categorías: ${error}`
       );
     }
   }

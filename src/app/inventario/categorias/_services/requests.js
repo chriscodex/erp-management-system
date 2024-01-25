@@ -18,7 +18,7 @@ export async function getAllCategoriesRequest() {
     const response = await categoryService.getAllCategories();
     if (response?.status !== 200) {
       console.log('Error al obtener todas las categorias');
-      return { categories: [], status: 500 };
+      return { categories: [], status: response?.status };
     }
     const categories = response?.payload;
     return { categories, status: 200 };

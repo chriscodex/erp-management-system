@@ -11,12 +11,11 @@ export class CategoryService {
   async getAllCategories() {
     try {
       const categories = await this.categoryRepository.getAllCategories();
-
-      if (!categories) {
+      if (categories.length === 0) {
         console.log('Category Service: No se encontraron categorias');
         return {
-          status: 404,
-          payload: 'No se encontraron categorias',
+          status: 200,
+          payload: categories,
         };
       }
 

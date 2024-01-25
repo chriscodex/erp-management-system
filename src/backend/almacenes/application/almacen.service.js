@@ -8,7 +8,7 @@ export class AlmacenService {
     try {
       const almacenes = await this.almacenRepository.getAllAlmacenes();
 
-      if (!almacenes) {
+      if (almacenes.length === 0) {
         console.log('Almacen Service: No se encontraron almacenes');
         return {
           status: 404,
