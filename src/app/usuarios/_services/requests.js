@@ -1,6 +1,6 @@
 import { deleteUserClientUrl } from '@/lib/urls.js';
 import { deleteData } from '@/lib/fetchData';
-import { delay } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 import { connectDB } from '@/db/mongodb';
 import { UsersService } from '@/backend/users/application/users.service';
@@ -13,10 +13,10 @@ export async function getAllUsersRequest() {
     const response = await userService.getAllUsers();
     if (response?.status !== 200) {
       console.log('Error al obtener todos los usuarios');
-      return { users: [], status: 500 };
+      return { users: [], status: response?.status };
     }
     const users = response?.payload;
-    return { users, status: 200 };
+    return { users: simplificadorParaClientComponent(users), status: 200 };
   } catch (error) {
     console.error(error);
   }

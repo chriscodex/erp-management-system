@@ -8,7 +8,6 @@ import { NavbarSimple } from '@/components/navbar/NavbarSimple';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/app/usuarios/_components/UsersTable/data-table';
 import {
-  simplificadorParaClientComponent,
   sortByUpdateDateDesc,
 } from '@/lib/utils';
 import { getAllUsersRequest } from '@/app/usuarios/_services/requests';
@@ -16,9 +15,7 @@ import { getAllUsersRequest } from '@/app/usuarios/_services/requests';
 export default async function Page() {
   const { users, status } = await getAllUsersRequest();
 
-  const usersSimplified = simplificadorParaClientComponent(users);
-
-  const usersSorted = sortByUpdateDateDesc(usersSimplified);
+  const usersSorted = sortByUpdateDateDesc(users);
 
   return (
     <>
