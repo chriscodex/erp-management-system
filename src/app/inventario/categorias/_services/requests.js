@@ -4,7 +4,7 @@ import {
   updateCategoryClientUrl,
   deleteCategoryClientUrl,
 } from '@/lib/urls';
-import { delay } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 import { connectDB } from '@/db/mongodb';
 import { SegmentService } from '@/backend/segments/application/segments.service';
@@ -21,7 +21,10 @@ export async function getAllCategoriesRequest() {
       return { categories: [], status: response?.status };
     }
     const categories = response?.payload;
-    return { categories, status: 200 };
+    return {
+      categories: simplificadorParaClientComponent(categories),
+      status: 200,
+    };
   } catch (error) {
     console.error(error);
   }

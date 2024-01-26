@@ -8,11 +8,11 @@ export class EmpresaService {
     try {
       const empresas = await this.empresaRepository.getAllEmpresas();
 
-      if (!empresas) {
+      if (empresas.length === 0) {
         console.log('Empresa Service: No se encontraron empresas');
         return {
-          status: 404,
-          payload: 'No se encontraron empresas',
+          status: 200,
+          payload: [],
         };
       }
 

@@ -56,8 +56,8 @@ export class ProductService {
       if (!productFound) {
         console.log('Product Service: El producto no existe');
         return {
-          status: 404,
-          payload: 'El producto no existe',
+          status: 200,
+          payload: null,
         };
       }
 

@@ -11,8 +11,8 @@ export class AlmacenService {
       if (almacenes.length === 0) {
         console.log('Almacen Service: No se encontraron almacenes');
         return {
-          status: 404,
-          payload: 'No se encontraron almacenes',
+          status: 200,
+          payload: [],
         };
       }
 

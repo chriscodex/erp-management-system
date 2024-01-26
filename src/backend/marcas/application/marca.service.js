@@ -12,11 +12,11 @@ export class MarcaService {
     try {
       const marcas = await this.marcaRepository.getAllMarcas();
 
-      if (!marcas) {
+      if (marcas.length === 0) {
         console.log('Marca Service: No se encontraron marcas');
         return {
-          status: 404,
-          payload: 'No se encontraron marcas',
+          status: 200,
+          payload: [],
         };
       }
 

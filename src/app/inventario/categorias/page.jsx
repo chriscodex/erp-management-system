@@ -33,9 +33,8 @@ export default async function CategoriasPage() {
   const { segments } = await getAllSegmentsRequest();
 
   const segmentsSimplified = simplificadorParaClientComponent(segments);
-  const categoriesSimplified = simplificadorParaClientComponent(categories);
 
-  const categoriesSorted = sortByUpdateDateDesc(categoriesSimplified);
+  const categoriesSorted = sortByUpdateDateDesc(categories);
 
   return (
     <>
