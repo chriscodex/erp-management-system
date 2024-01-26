@@ -24,11 +24,11 @@ export class ProductService {
     try {
       const products = await this.productRepository.getAllProducts();
 
-      if (!products) {
+      if (products.length === 0) {
         console.log('Product Service: No se encontraron productos');
         return {
-          status: 404,
-          payload: 'No se encontraron productos',
+          status: 200,
+          payload: [],
         };
       }
 
