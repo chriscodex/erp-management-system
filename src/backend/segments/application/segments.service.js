@@ -6,9 +6,9 @@ export class SegmentService {
   }
   async getAllSegments() {
     try {
-      const categories = await this.segmentRepository.getAllSegments();
+      const segments = await this.segmentRepository.getAllSegments();
 
-      if (!categories) {
+      if (segments.length === 0) {
         console.log('Segment Service: No se encontraron segmentos');
         return {
           status: 200,
@@ -19,7 +19,7 @@ export class SegmentService {
       console.log('Segment Service: Segmentos encontradas');
       return {
         status: 200,
-        payload: categories,
+        payload: segments,
       };
     } catch (error) {
       console.error(
