@@ -11,11 +11,11 @@ export class UsersService {
     try {
       const users = await this.userRepository.getAllUsers();
 
-      if (!users) {
+      if (users.length === 0) {
         console.log('User Service: No se encontraron usuarios');
         return {
-          status: 404,
-          payload: 'No se encontraron usuarios',
+          status: 200,
+          payload: [],
         };
       }
 
