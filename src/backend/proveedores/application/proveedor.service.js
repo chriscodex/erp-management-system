@@ -8,11 +8,11 @@ export class ProveedorService {
     try {
       const proveedores = await this.proveedorRepository.getAllProveedores();
 
-      if (!proveedores) {
+      if (proveedores.length === 0) {
         console.log('Proveedor Service: No se encontraron proveedores');
         return {
-          status: 404,
-          payload: 'No se encontraron proveedores',
+          status: 200,
+          payload: [],
         };
       }
 
