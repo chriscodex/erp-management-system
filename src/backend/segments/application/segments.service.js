@@ -11,8 +11,8 @@ export class SegmentService {
       if (!categories) {
         console.log('Segment Service: No se encontraron segmentos');
         return {
-          status: 404,
-          payload: 'No se encontraron segmentos',
+          status: 200,
+          payload: [],
         };
       }
 
