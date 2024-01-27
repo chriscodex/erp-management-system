@@ -1,17 +1,17 @@
 version: '3.8'  # (opcional, pero recomendable incluirlo)
 
 services:
-  mongodb:
-    image: mongo:latest
-    container_name: mongodb
-    restart: always
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: qweasdzxc
-    ports:
-      - '27017:27017'
-    volumes:
-      - mongo-data:/data/db  # Volumen para persistir datos de MongoDB
+  # mongodb:
+  #   image: mongo:latest
+  #   container_name: mongodb
+  #   restart: always
+  #   environment:
+  #     MONGO_INITDB_ROOT_USERNAME: admin
+  #     MONGO_INITDB_ROOT_PASSWORD: qweasdzxc
+  #   ports:
+  #     - '27017:27017'
+  #   volumes:
+  #     - mongo-data:/data/db  # Volumen para persistir datos de MongoDB
 
   nextjs:
     build: .
@@ -20,14 +20,15 @@ services:
     ports:
       - '3000:3000'
     environment:
-      MONGODB_URI: mongodb://admin:qweasdzxc@mongodb:27017/motorock?authSource=admin
+      # MONGODB_URI: mongodb://admin:qweasdzxc@mongodb:27017/motorock?authSource=admin
+      MONGODB_URI: mongodb+srv://admin-chris:Lascosascomoson2c-@motorock-test.e9ujs.mongodb.net/?retryWrites=true&w=majority&appName=MotoRock-Test
       NEXTAUTH_URL: http://localhost:3000
       NEXTAUTH_SECRET: N1ouTYi6isl2sz6
       NEXT_PUBLIC_API_URL: http://localhost:3000/api
       NEXT_PUBLIC_TOKEN_API_RUC_DNI: apis-token-11180.sMCjVvCzDCLfbeIeYfFTPX1uuypmvEEj
       NEXT_PUBLIC_API_RUC_DNI_URL: https://api.apis.net.pe/v2
-    depends_on:
-      - mongodb
+    # depends_on:
+    #   - mongodb
     volumes:
       - .:/app  # Montar el código fuente desde la raíz en /app del contenedor
 

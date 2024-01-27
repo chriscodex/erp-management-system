@@ -8,13 +8,15 @@ export const connectDB = async () => {
       throw new Error('MONGODB_URI must be defined in .env.local');
     }
 
-    const { connection } = await mongoose.connect(MONGODB_URI);
+    const { connection } = await mongoose.connect(MONGODB_URI, {
+      dbName: 'motorock',
+    });
     if (connection.readyState === 1) {
       console.log('MongoDB connected');
       return true;
     }
   } catch (error) {
-    console.log('Error',error);
-    throw error
+    console.log('Error', error);
+    throw error;
   }
 };
