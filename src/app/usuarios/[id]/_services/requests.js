@@ -1,6 +1,6 @@
 import { patchData } from '@/lib/fetchData';
 import { updateUserClientUrl } from '@/lib/urls.js';
-import { delay } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 import { connectDB } from '@/db/mongodb';
 import { UsersService } from '@/backend/users/application/users.service';
@@ -17,7 +17,7 @@ export async function getUserRequest(dni) {
       return { user: null, status: 500 };
     }
     const user = response?.payload;
-    return { user, status: 200 };
+    return { user: simplificadorParaClientComponent(user), status: 200 };
   } catch (error) {
     console.log(error);
   }
