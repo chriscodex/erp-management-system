@@ -51,9 +51,12 @@ export function agregarNumeracionTable(array) {
  * @returns {object|array} - El objeto o array de objetos simplificado.
  */
 export function simplificadorParaClientComponent(input) {
+  if (input === null || input === undefined) {
+    return null; // O manejarlo como prefieras
+  }
   // Si el input es un array, mapea y simplifica cada item
   if (Array.isArray(input)) {
-    return input.map(item => JSON.parse(JSON.stringify(item)));
+    return input.map((item) => JSON.parse(JSON.stringify(item)));
   }
 
   // Si el input no es un array, simplifica el único objeto

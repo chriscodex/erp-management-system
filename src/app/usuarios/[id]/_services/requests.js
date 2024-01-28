@@ -14,9 +14,10 @@ export async function getUserRequest(dni) {
 
     if (response?.status !== 200) {
       console.log('Error al obtener el usuario desde el cliente');
-      return { user: null, status: 500 };
+      return { user: null, status: response?.status };
     }
     const user = response?.payload;
+
     return { user: simplificadorParaClientComponent(user), status: 200 };
   } catch (error) {
     console.log(error);

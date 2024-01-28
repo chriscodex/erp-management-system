@@ -41,8 +41,8 @@ export class UsersService {
       if (!userFound) {
         console.log('User Service: El usuario no existe');
         return {
-          status: 404,
-          payload: 'El usuario no existe',
+          status: 200,
+          payload: null,
         };
       }
 

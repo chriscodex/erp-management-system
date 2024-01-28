@@ -15,6 +15,7 @@ import { FormUserDetail } from '@/app/usuarios/[id]/_components/FormUserDetail';
 
 export default async function Page({ params }) {
   const { user } = await getUserRequest(params.id);
+
   if (!user) {
     notFound();
   }
