@@ -15,9 +15,7 @@ export async function getAllAlmacenesController() {
       'Almacen Controller: Error interno al obtener el almacen:',
       error.message
     );
-    throw new Error(
-      'Controller: Internal Server Error - getAllAlmacenesController'
-    );
+    throw new Error('Almacen Controller: Error interno al obtener el almacen');
   }
 }
 
@@ -35,8 +33,6 @@ export async function getAlmacenController(routeContext) {
       'Almacen Controller: Error interno al obtener el almacen:',
       error.message
     );
-    throw new Error(
-      'Almacen Controller: Internal Server Error - getAlmacenController'
-    );
+    throw new Error('Almacen Controller: Error interno al obtener el almacen');
   }
 }

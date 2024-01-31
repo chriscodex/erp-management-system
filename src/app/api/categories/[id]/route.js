@@ -19,7 +19,7 @@ export async function DELETE(_, contextRoute) {
       error.message
     );
     return NextResponse.json(
-      { message: 'Error eliminando la categoría' },
+      { message: 'Error interno eliminando la categoría' },
       { status: 500 }
     );
   }
@@ -43,7 +43,7 @@ export async function PATCH(request, contextRoute) {
       error.message
     );
     return NextResponse.json(
-      { message: 'Error actualizando la categoría' },
+      { message: 'Error interno actualizando la categoría' },
       { status: 500 }
     );
   }

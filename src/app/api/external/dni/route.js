@@ -15,7 +15,7 @@ export async function GET(request) {
       `ExternalApi Route: Error interno al buscar usuario por DNI: ${error.message}`
     );
     return NextResponse.json(
-      { error: 'Error obteniendo los datos de la persona' },
+      { error: 'Error obteniendo los datos de la persona desde la API externa' },
       { status: 500 }
     );
   }

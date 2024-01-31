@@ -15,7 +15,7 @@ export async function GET(request) {
       `Segments Route: Error interno al obtener todas los segmentos: ${error.message}`
     );
     return NextResponse.json(
-      { error: 'Error obteniendo todas los segmentos' },
+      { error: 'Error interno obteniendo todas los segmentos' },
       { status: 500 }
     );
   }

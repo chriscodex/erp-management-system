@@ -37,7 +37,7 @@ export async function getCategoriesController(request) {
       error.message
     );
     throw new Error(
-      'Categorias Controller: Internal Server Error - getCategoriesController'
+      'Categorias Controller: Error interno al obtener todas las categorias'
     );
   }
 }
@@ -56,7 +56,7 @@ export async function createCategoryController(request) {
       error.message
     );
     throw new Error(
-      'Categorias Controller: Internal Server Error - createCategoryController'
+      'Categorias Controller: Error interno al crear una categoría'
     );
   }
 }
@@ -77,7 +77,7 @@ export async function updateCategoryController(request, contextRoute) {
       error.message
     );
     throw new Error(
-      'Categorias Controller: Internal Server Error - updateCategoryController'
+      'Categorias Controller: Error interno al actualizar la categoría'
     );
   }
 }
@@ -98,7 +98,7 @@ export async function deleteCategoryController(contextRoute) {
       error.message
     );
     throw new Error(
-      'Categorias Controller: Internal Server Error - deleteCategoryController'
+      'Categorias Controller: Error interno al eliminar la categoría'
     );
   }
 }

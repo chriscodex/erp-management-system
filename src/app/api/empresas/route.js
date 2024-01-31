@@ -16,7 +16,7 @@ export async function GET() {
       `Empresas Route: Error interno al obtener todas las empresas: ${error.message}`
     );
     return NextResponse.json(
-      { message: 'Error obteniendo todas las empresas' },
+      { message: 'Error interno obteniendo todas las empresas' },
       { status: 500 }
     );
   }

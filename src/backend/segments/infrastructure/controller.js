@@ -28,7 +28,7 @@ export async function getSegmentsController(request) {
       error.message
     );
     throw new Error(
-      'Segments Controller: Internal Server Error - getSegmentByData'
+      'Segments Controller: Error interno al obtener todos los segmentos'
     );
   }
 }

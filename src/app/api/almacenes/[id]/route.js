@@ -16,7 +16,7 @@ export async function GET(_, routeContext) {
       `Almacenes Route: Error interno al obtener el almacen: ${error.message}`
     );
     return NextResponse.json(
-      { message: 'Error obteniendo el almacen' },
+      { message: 'Error interno obteniendo el almacen' },
       { status: 500 }
     );
   }

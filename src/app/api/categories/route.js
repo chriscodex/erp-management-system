@@ -18,7 +18,7 @@ export async function GET(request) {
       `Categorias Route: Error interno al obtener todas las categorias: ${error.message}`
     );
     return NextResponse.json(
-      { message: 'Error obteniendo todas las categorías' },
+      { message: 'Error interno obteniendo todas las categorías' },
       { status: 500 }
     );
   }
@@ -38,7 +38,7 @@ export async function POST(request) {
       `Categorias Route: Error interno al crear la categoría: ${error.message}`
     );
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Error interno al crear la categoría' },
       { status: 500 }
     );
   }
