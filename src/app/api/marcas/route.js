@@ -21,7 +21,7 @@ export async function GET(request) {
       `Marcas Route: Error interno al obtener todas las marcas: ${error.message}`
     );
     return NextResponse.json(
-      { error: 'Error obteniendo todas las marcas' },
+      { error: 'Error interno obteniendo todas las marcas' },
       { status: 500 }
     );
   }
@@ -41,7 +41,7 @@ export async function POST(request) {
       `Marcas Route: Error interno al crear la marca: ${error.message}`
     );
     return NextResponse.json(
-      { error: 'Internal Server Error' },
+      { error: 'Error interno al crear la marca' },
       { status: 500 }
     );
   }
