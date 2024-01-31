@@ -1,3 +1,6 @@
+/* SearchedUser */
+export const getSearchedUserClientUrl = '/api/searched-users';
+
 /* Users */
 export const createUserClientUrl = '/api/users';
 export const updateUserClientUrl = '/api/users';
