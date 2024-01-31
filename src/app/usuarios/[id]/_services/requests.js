@@ -24,7 +24,7 @@ export async function getUserRequestServer(dni) {
   }
 }
 
-export async function updateUserRequest(user, setLoading) {
+export async function updateUserRequestClient(user, setLoading) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */

@@ -49,7 +49,7 @@ import {
 import { CrearFullName } from '@/lib/formateador';
 import { updateUserSchema } from '@/app/usuarios/[id]/_validations/updateUserSchema';
 import { updatePasswordSchema } from '@/app/usuarios/[id]/_validations/updatePasswordSchema';
-import { updateUserRequest } from '@/app/usuarios/[id]/_services/requests';
+import { updateUserRequestClient } from '@/app/usuarios/[id]/_services/requests';
 import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
 import { useRouter } from 'next/navigation';
 
@@ -86,24 +86,27 @@ function FormUserDetail({ userDetail }) {
     useState(false);
 
   // Manejo de formulario
-  const onUpdateUserSubmit = handleSubmitUserUpdate(async (data) => {
-    console.log(data);
+  const onUpdateUserSubmit = handleSubmitUserUpdate(async (submitFormData) => {
+    console.log(submitFormData);
     setFormUpdateUserSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(updateUserRequest(data, setFormUpdateUserSubmitIsLoading), {
-      loading: 'Actualizando...',
-      success: () => {
-        clearErrorsUserUpdate();
-        setIsEditUserOpen(false);
-        router.refresh();
-        return `Datos del usuario actualizados exitosamente`;
-      },
-      error: (error) => {
-        setFormUpdateUserSubmitIsLoading(false);
-        return error;
-      },
-    });
+    toast.promise(
+      updateUserRequestClient(submitFormData, setFormUpdateUserSubmitIsLoading),
+      {
+        loading: 'Actualizando...',
+        success: () => {
+          clearErrorsUserUpdate();
+          setIsEditUserOpen(false);
+          router.refresh();
+          return `Datos del usuario actualizados exitosamente`;
+        },
+        error: (error) => {
+          setFormUpdateUserSubmitIsLoading(false);
+          return error;
+        },
+      }
+    );
   });
 
   /* Handle Delete Dialog */
@@ -134,20 +137,23 @@ function FormUserDetail({ userDetail }) {
     setFormUpdateUserSubmitIsLoading(true);
     setIsUpdatePasswordOpen(false);
 
-    toast.promise(updateUserRequest(passwordForm, setFormUpdateUserSubmitIsLoading), {
-      loading: 'Actualizando...',
-      success: () => {
-        clearPasswordErrors();
-        resetPasswordForm();
-        router.refresh();
-        return `Contraseña actualizada exitosamente`;
-      },
-      error: (error) => {
-        resetPasswordForm();
-        setFormUpdateUserSubmitIsLoading(false);
-        return error;
-      },
-    });
+    toast.promise(
+      updateUserRequest(passwordForm, setFormUpdateUserSubmitIsLoading),
+      {
+        loading: 'Actualizando...',
+        success: () => {
+          clearPasswordErrors();
+          resetPasswordForm();
+          router.refresh();
+          return `Contraseña actualizada exitosamente`;
+        },
+        error: (error) => {
+          resetPasswordForm();
+          setFormUpdateUserSubmitIsLoading(false);
+          return error;
+        },
+      }
+    );
   });
 
   const handleTabSecurity = () => {
@@ -583,7 +589,7 @@ function FormUserDetail({ userDetail }) {
                               </FormItem>
                             )}
                           />
-                          <span className='col-span-3'></span>
+                          <span className="col-span-3"></span>
                           <DialogFooter>
                             <Button type="submit">Guardar</Button>
                           </DialogFooter>
