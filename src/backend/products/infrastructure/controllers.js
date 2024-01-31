@@ -19,16 +19,21 @@ export async function getProductsController() {
   }
 }
 
-export async function getProductByDataController(productData) {
+export async function getProductByDataController(contextRoute) {
   try {
+    const { params } = contextRoute;
+    const { id } = params;
+
     await connectDB();
-    const product = await productService.getProductByData(productData);
+
+    const product = await productService.getProductByData({ id });
     return product;
   } catch (error) {
-    console.error('Controller: Error buscando el producto:', error);
-    throw new Error(
-      'Controller: Internal Server Error - getProductByDataController'
+    console.error(
+      'Product Controller: Error interno buscando el producto:',
+      error.message
     );
+    throw new Error('Product Controller: Error interno buscando el producto');
   }
 }
 
