@@ -32,15 +32,19 @@ export async function getProductByDataController(productData) {
   }
 }
 
-export async function createProductController(product) {
+export async function createProductController(request) {
   try {
+    const body = await request.json();
+
     await connectDB();
-    const createdProduct = await productService.createProduct(product);
+
+    const createdProduct = await productService.createProduct(body);
     return createdProduct;
   } catch (error) {
-    console.error('Controller: Error creando el producto:', error);
-    throw new Error(
-      'Controller: Internal Server Error - createProductController'
+    console.error(
+      'Product Controller: Error interno al crear el producto:',
+      error.message
     );
+    throw new Error('Product Controller: Error interno al crear el producto');
   }
 }
