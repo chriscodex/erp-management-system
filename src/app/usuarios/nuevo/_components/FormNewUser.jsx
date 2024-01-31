@@ -49,7 +49,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import { BusquedaPorDni } from '@/components/toast/toastSetup';
+import { buscarPorDniClientRequest } from '@/lib/globalRequests';
 
 function FormNewUser() {
   const router = useRouter();
@@ -72,14 +72,11 @@ function FormNewUser() {
     handleSubmit,
     watch,
     setValue,
-    formState: { errors },
     control,
     clearErrors,
   } = form;
 
   const formData = watch();
-
-  console.log('Zod errors: ', errors);
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
@@ -120,7 +117,7 @@ function FormNewUser() {
       }
 
       // Toast promise para buscar una persona
-      toast.promise(BusquedaPorDni(dni, setSearchByDniIsLoading), {
+      toast.promise(buscarPorDniClientRequest(dni, setSearchByDniIsLoading), {
         loading: 'Buscando...',
         success: (persona) => {
           setValue('apellidos', persona?.apellidos);
