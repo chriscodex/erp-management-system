@@ -22,14 +22,3 @@ export async function getDataByDniTest() {
     console.log('getDataByDniTest error:', error);
   }
 }
-
-
-// export async function getDataByRucTest() {
-//   try {
-//     const ruc = await getDataByRucFromApi('20428729201');
-
-//     return ruc;
-//   } catch (error) {
-//     console.log('getDataByRucTest error:', error);
-//   }
-// }

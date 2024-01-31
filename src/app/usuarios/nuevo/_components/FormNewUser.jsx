@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 
 import { newUserSchema } from '@/app/usuarios/nuevo/_validations/newUserSchema';
-import { createUserRequest } from '@/app/usuarios/nuevo/_services/requests';
+import { createUserRequestClient } from '@/app/usuarios/nuevo/_services/requests';
 import { cn } from '@/lib/utils';
 import {
   Loader2,
@@ -68,13 +68,7 @@ function FormNewUser() {
     },
   });
 
-  const {
-    handleSubmit,
-    watch,
-    setValue,
-    control,
-    clearErrors,
-  } = form;
+  const { handleSubmit, watch, setValue, control, clearErrors } = form;
 
   const formData = watch();
 
@@ -87,7 +81,7 @@ function FormNewUser() {
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(createUserRequest(data, setFormSubmitIsLoading), {
+    toast.promise(createUserRequestClient(data, setFormSubmitIsLoading), {
       loading: 'Creando...',
       success: () => {
         clearErrors();

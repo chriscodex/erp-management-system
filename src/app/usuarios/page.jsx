@@ -7,13 +7,12 @@ import { columns } from '@/app/usuarios/_components/UsersTable/columns';
 import { NavbarSimple } from '@/components/navbar/NavbarSimple';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/app/usuarios/_components/UsersTable/data-table';
-import {
-  sortByUpdateDateDesc,
-} from '@/lib/utils';
+import { sortByUpdateDateDesc } from '@/lib/utils';
 import { getAllUsersRequest } from '@/app/usuarios/_services/requests';
 
 export default async function Page() {
   const { users, status } = await getAllUsersRequest();
+  console.log('user', users);
 
   const usersSorted = sortByUpdateDateDesc(users);
 
