@@ -13,7 +13,7 @@ export async function GET() {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Marcas Route: Error interno al obtener los proveedores: ${error.message}`
+      `Proveedores Route: Error interno al obtener los proveedores: ${error.message}`
     );
     return NextResponse.json(
       { message: 'Error interno al obtener los proveedores' },

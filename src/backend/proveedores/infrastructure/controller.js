@@ -10,11 +10,11 @@ export async function getProveedoresController() {
     return proveedores;
   } catch (error) {
     console.error(
-      'Marca Controller: Error interno al obtener todas los proveedores:',
+      'Proveedores Controller: Error interno al obtener todas los proveedores:',
       error.message
     );
     throw new Error(
-      'Marca Controller: Error interno al obtener todas los proveedores'
+      'Proveedores Controller: Error interno al obtener todas los proveedores'
     );
   }
 }
