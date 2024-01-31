@@ -13,6 +13,7 @@ import {
   MapPin,
   ActivityIcon,
   IdCardIcon,
+  Trash,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -54,7 +55,6 @@ import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAle
 import { useRouter } from 'next/navigation';
 
 function FormUserDetail({ userDetail }) {
-  console.log(userDetail);
   const router = useRouter();
 
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
@@ -87,7 +87,6 @@ function FormUserDetail({ userDetail }) {
 
   // Manejo de formulario
   const onUpdateUserSubmit = handleSubmitUserUpdate(async (submitFormData) => {
-    console.log(submitFormData);
     setFormUpdateUserSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
@@ -133,12 +132,11 @@ function FormUserDetail({ userDetail }) {
 
   // Manejo de formulario
   const onUpdatePasswordSubmit = handlePasswordSubmit(async (passwordForm) => {
-    console.log(passwordForm);
     setFormUpdateUserSubmitIsLoading(true);
     setIsUpdatePasswordOpen(false);
 
     toast.promise(
-      updateUserRequest(passwordForm, setFormUpdateUserSubmitIsLoading),
+      updateUserRequestClient(passwordForm, setFormUpdateUserSubmitIsLoading),
       {
         loading: 'Actualizando...',
         success: () => {
@@ -202,6 +200,7 @@ function FormUserDetail({ userDetail }) {
               type="button"
               onClick={() => setIsOpenDialogDeleteUser(true)}
             >
+              <Trash className="h-4 w-4" />
               Eliminar
             </Button>
           </CardHeader>
@@ -552,7 +551,7 @@ function FormUserDetail({ userDetail }) {
                             render={({ field }) => (
                               <FormItem className="col-span-4 items center">
                                 <Label className="text-start">
-                                  Nueva Contraseña
+                                  Nueva contraseña
                                 </Label>
                                 <FormControl>
                                   <Input
@@ -574,7 +573,7 @@ function FormUserDetail({ userDetail }) {
                             render={({ field }) => (
                               <FormItem className="col-span-4 items center">
                                 <Label className="text-start">
-                                  Nueva Contraseña
+                                  Confirmar nueva contraseña
                                 </Label>
                                 <FormControl>
                                   <Input
