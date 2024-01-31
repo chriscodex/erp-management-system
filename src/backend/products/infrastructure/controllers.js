@@ -3,15 +3,18 @@ import { connectDB } from '@/db/mongodb';
 
 const productService = new ProductService();
 
-export async function getAllProductsController() {
+export async function getProductsController() {
   try {
     await connectDB();
     const products = await productService.getAllProducts();
     return products;
   } catch (error) {
-    console.error('Controller: Error obteniendo todas los productos:', error);
+    console.error(
+      'Product Controller: Error interno al obtener todas los productos:',
+      error.message
+    );
     throw new Error(
-      'Controller: Internal Server Error - getAllProductsController'
+      'Product Controller: Error interno al obtener todas los productos'
     );
   }
 }
