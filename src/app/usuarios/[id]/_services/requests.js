@@ -5,7 +5,7 @@ import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 import { connectDB } from '@/db/mongodb';
 import { UsersService } from '@/backend/users/application/users.service';
 
-export async function getUserRequest(dni) {
+export async function getUserRequestServer(dni) {
   try {
     await connectDB();
     const userService = new UsersService();

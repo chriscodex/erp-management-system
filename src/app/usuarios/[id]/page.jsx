@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { getUserRequest } from '@/app/usuarios/[id]/_services/requests';
+import { getUserRequestServer } from '@/app/usuarios/[id]/_services/requests';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -14,7 +14,7 @@ import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { FormUserDetail } from '@/app/usuarios/[id]/_components/FormUserDetail';
 
 export default async function Page({ params }) {
-  const { user } = await getUserRequest(params.id);
+  const { user } = await getUserRequestServer(params.id);
 
   if (!user) {
     notFound();

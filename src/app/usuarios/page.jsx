@@ -12,7 +12,6 @@ import { getAllUsersRequest } from '@/app/usuarios/_services/requests';
 
 export default async function Page() {
   const { users, status } = await getAllUsersRequest();
-  console.log('user', users);
 
   const usersSorted = sortByUpdateDateDesc(users);
 
