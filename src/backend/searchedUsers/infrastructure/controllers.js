@@ -43,7 +43,6 @@ export async function getSearchedUserController(request) {
       'SearchedUser Controller: Error interno al obtener los datos del searchedUser:',
       error.message
     );
-
     throw new Error(
       'SearchedUser Controller: Error interno al obtener los datos del searchedUser'
     );
