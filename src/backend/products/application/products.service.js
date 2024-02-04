@@ -90,6 +90,21 @@ export class ProductService {
         };
       }
 
+      // Validar si un producto con ese nombre y en el mismo segmento ya existe
+      const productFound = await this.productRepository.getProductByData(
+        productData
+      );
+      if (productFound) {
+        console.log(
+          'Product Service: Un producto con el mismo nombre ya existe'
+        );
+        return {
+          status: 409,
+          payload: 'Un producto con el mismo nombre ya existe',
+        };
+      }
+      console.log('Product Service: No hay duplicados');
+
       // Validar si el segmento existe
       const segmentFound = await this.segmentRepository.getSegmentByData({
         id: productData.segmentId,
@@ -156,22 +171,6 @@ export class ProductService {
         };
       }
       console.log('Product Service: El proveedor existe');
-
-      // Validar si un producto con ese nombre y en el mismo segmento ya existe
-      const productFound = await this.productRepository.getProductByData(
-        productData
-      );
-      if (productFound) {
-        console.log(
-          'Product Service: Un producto con el mismo nombre ya existe en el segmento seleccionado'
-        );
-        return {
-          status: 409,
-          payload:
-            'Un producto con el mismo nombre ya existe en el segmento seleccionado',
-        };
-      }
-      console.log('Product Service: No hay duplicados');
 
       // Generar código para el producto
       const uuid = uuidv4();
