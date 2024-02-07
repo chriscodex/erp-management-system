@@ -88,4 +88,5 @@ export const createProductSchema = z.object({
   almacenId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un almacen',
   }),
+  obsequio: z.enum(['si', 'no']),
 });
