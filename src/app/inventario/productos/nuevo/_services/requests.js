@@ -6,7 +6,7 @@ import {
   getAllAlmacenesServerUrl,
   createProductClientUrl,
 } from '@/lib/urls';
-import { fetchData } from '@/lib/fetchData';
+import { fetchData, postData } from '@/lib/fetchData';
 import { delay } from '@/lib/utils';
 
 export async function getSegmentByDataRequest(segmentFilter) {
@@ -103,9 +103,10 @@ export async function getAllAlmacenesRequest() {
   }
 }
 
-/* eslint-disable */
 export async function createProductRequest(product, setLoading) {
+  /* eslint-disable */
   return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso para pruebas en la UI
@@ -129,4 +130,3 @@ export async function createProductRequest(product, setLoading) {
     }
   });
 }
-/* eslint-enable */
