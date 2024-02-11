@@ -41,6 +41,7 @@ export default async function AddProductPage() {
     proveedoresResponse,
     almacenesResponse,
     segmentResponse,
+  // eslint-disable-next-line no-undef
   ] = await Promise.all([
     getCategoriesBySegmentDataRequest({ segmentName: 'Productos' }),
     getMarcasBySegmentDataRequest({ segmentName: 'Productos' }),
