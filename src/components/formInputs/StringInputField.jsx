@@ -26,7 +26,7 @@ export function StringInputField({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem className="space-y-2">
+        <FormItem className="space-y-2 col-span-2">
           <FormLabel>{title}</FormLabel>
           <div className="relative">
             <FormControl>
