@@ -303,7 +303,7 @@ export async function seedProducts() {
     productsDataMock.forEach((product) => {
       product.segmentId = segmentMap['Productos'] || '';
       product.marcaId = marcaMap['Castrol'] || '';
-      product.categoriaId = categoriaMap['Aceites'] || '';
+      product.categoryId = categoriaMap['Aceites'] || '';
       product.almacenId = almacenMap['MotoRock Ruta 33'] || '';
       product.proveedorId = proveedorMap['Motorland SAS'] || '';
     });
