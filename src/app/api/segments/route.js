@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getSegmentsController } from '@/backend/segments/infrastructure/controller';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   try {
     const { payload, status } = await getSegmentsController(request);

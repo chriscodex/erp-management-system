@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 
 import { getSearchedUserController } from '@/backend/searchedUsers/infrastructure/controllers';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   try {
     const { payload, status } = await getSearchedUserController(request);

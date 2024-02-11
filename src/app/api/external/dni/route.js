@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getUserDataByDniController } from '@/backend/searchedUsers/infrastructure/controllers';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   try {
     const { payload, status } = await getUserDataByDniController(request);
