@@ -13,6 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -52,6 +53,7 @@ export function FormAddProduct({
       proveedorId: '',
       almacenId: almacenes[0]?._id,
       segmentId: segment._id,
+      obsequio: 'no',
     },
   });
 
@@ -61,7 +63,7 @@ export function FormAddProduct({
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
-    // setFormSubmitIsLoading(true);
+    setFormSubmitIsLoading(true);
 
     console.log(data);
 
@@ -71,7 +73,7 @@ export function FormAddProduct({
       success: () => {
         clearErrors();
         // router.push('/inventario/marcas');
-        return `Producto creada exitosamente`;
+        return `Producto creado exitosamente`;
       },
       error: (error) => {
         setFormSubmitIsLoading(false);
@@ -120,7 +122,7 @@ export function FormAddProduct({
               control={control}
               name="marcaId"
               render={({ field }) => (
-                <FormItem className="space-y-2">
+                <FormItem className="space-y-2 md:col-span-1 col-span-2">
                   <FormLabel>Marca</FormLabel>
                   <div className="relative">
                     <Select
@@ -303,6 +305,32 @@ export function FormAddProduct({
                       </SelectContent>
                     </Select>
                     <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="obsequio"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-start space-y-3">
+                  <FormLabel>Obsequio</FormLabel>
+                  <div className="flex space-x-2">
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>No</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value === 'si'}
+                        onCheckedChange={(checked) =>
+                          field.onChange(checked ? 'si' : 'no')
+                        }
+                        disabled={formSubmitIsLoading}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Sí</FormLabel>
+                    </div>
                   </div>
                 </FormItem>
               )}
