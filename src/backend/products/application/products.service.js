@@ -1,5 +1,3 @@
-import { v4 as uuidv4 } from 'uuid';
-
 import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
 import { CategoryRepository } from '@/backend/categorias/domain/repositories/categoryRepository';
 import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
@@ -7,7 +5,10 @@ import { AlmacenRepository } from '@/backend/almacenes/domain/repositories/almac
 import { ProveedorRepository } from '@/backend/proveedores/domain/repositories/proveedorRepository';
 import { SegmentRepository } from '@/backend/segments/domain/repositories/segmentRepository';
 import { createProductSchema } from '@/backend/products/application/validations/createProductSchema';
-import { generarUnidadesDelProducto } from '@/backend/products/application/helpers';
+import {
+  generarCodigoUnicoDelProducto,
+  generarUnidadesDelProducto,
+} from '@/backend/products/application/helpers';
 
 export class ProductService {
   constructor() {
@@ -172,25 +173,23 @@ export class ProductService {
       }
       console.log('Product Service: El proveedor existe');
 
-      // Generar código para el producto
-      const uuid = uuidv4();
-      const numericCode = parseInt(uuid.replace(/\D/g, '').slice(0, 8), 10);
-      const productCode = `2${numericCode}`;
+      const productCode = await generarCodigoUnicoDelProducto(
+        this.productRepository
+      );
 
       // Generar las unidades del producto
       const stock = productData.stock;
-      const unidades = generarUnidadesDelProducto(productCode, parseInt(stock));
-
-      // Generar código para las unidades
+      const unidades = await generarUnidadesDelProducto(
+        productCode,
+        parseInt(stock)
+      );
 
       const productObject = {
         ...productData,
         code: productCode,
         unidades,
       };
-
-      console.log(productObject);
-      // // Crear el producto
+      // Crear el producto
       const productCreated = await this.productRepository.createProduct(
         productObject
       );
