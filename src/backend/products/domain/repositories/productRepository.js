@@ -55,6 +55,32 @@ export class ProductRepository {
         filter._id = new mongoose.Types.ObjectId(productData.id);
       }
 
+      if (productData.segmentId) {
+        filter.segmentId = new mongoose.Types.ObjectId(productData.segmentId);
+      }
+
+      if (productData.marcaId) {
+        filter.marcaId = new mongoose.Types.ObjectId(productData.marcaId);
+      }
+
+      if (productData.categoryId) {
+        filter.categoryId = new mongoose.Types.ObjectId(productData.categoryId);
+      }
+
+      if (productData.almacenId) {
+        filter.almacenId = new mongoose.Types.ObjectId(productData.almacenId);
+      }
+
+      if (productData.proveedorId) {
+        filter.proveedorId = new mongoose.Types.ObjectId(
+          productData.proveedorId
+        );
+      }
+
+      if (productData.code) {
+        filter.code = { $regex: new RegExp(`^${productData.code}$`, 'i') };
+      }
+
       if (productData.nombre) {
         filter.nombre = { $regex: new RegExp(`^${productData.nombre}$`, 'i') };
       }

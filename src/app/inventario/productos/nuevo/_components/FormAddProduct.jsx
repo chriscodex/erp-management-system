@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Package } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
 import {
   Form,
@@ -39,6 +40,7 @@ export function FormAddProduct({
   segment,
   almacenes,
 }) {
+  const router = useRouter();
   const addProductForm = useForm({
     resolver: zodResolver(createProductSchema),
     defaultValues: {
@@ -57,7 +59,7 @@ export function FormAddProduct({
     },
   });
 
-  const { handleSubmit, control, clearErrors, setError } = addProductForm;
+  const { handleSubmit, control, clearErrors } = addProductForm;
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
@@ -72,7 +74,7 @@ export function FormAddProduct({
       loading: 'Creando...',
       success: () => {
         clearErrors();
-        // router.push('/inventario/marcas');
+        router.push('/inventario/productos');
         return `Producto creado exitosamente`;
       },
       error: (error) => {
