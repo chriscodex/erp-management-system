@@ -43,3 +43,10 @@ export function agregarNumeracionTable(array) {
     numeracion: index + 1,
   }));
 }
+
+export function simplificadorListaParaClientComponent(lista) {
+  const listaSimplificada = lista.map((item) =>
+    JSON.parse(JSON.stringify(item))
+  );
+  return listaSimplificada;
+}
