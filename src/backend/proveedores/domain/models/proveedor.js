@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 
 // if (models.Proveedor) {
-  delete models.Proveedor;
+  // delete models.Proveedor;
 // }
 
 const proveedorSchema = new Schema(
