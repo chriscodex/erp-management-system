@@ -44,9 +44,18 @@ export function agregarNumeracionTable(array) {
   }));
 }
 
-export function simplificadorListaParaClientComponent(lista) {
-  const listaSimplificada = lista.map((item) =>
-    JSON.parse(JSON.stringify(item))
-  );
-  return listaSimplificada;
+/**
+ * Simplifica un objeto o array de objetos para ser utilizado en el lado
+ * del cliente, transformado buffers.
+ * @param {object|array} input - El objeto o array de objetos a simplificar.
+ * @returns {object|array} - El objeto o array de objetos simplificado.
+ */
+export function simplificadorParaClientComponent(input) {
+  // Si el input es un array, mapea y simplifica cada item
+  if (Array.isArray(input)) {
+    return input.map(item => JSON.parse(JSON.stringify(item)));
+  }
+
+  // Si el input no es un array, simplifica el único objeto
+  return JSON.parse(JSON.stringify(input));
 }
