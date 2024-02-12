@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 
+import { simplificadorParaClientComponent } from '@/lib/utils';
+
 export default async function AddProductPage() {
   /* Secciones del navbar */
   const navbarTitles = [
@@ -41,7 +43,7 @@ export default async function AddProductPage() {
     proveedoresResponse,
     almacenesResponse,
     segmentResponse,
-  // eslint-disable-next-line no-undef
+    // eslint-disable-next-line no-undef
   ] = await Promise.all([
     getCategoriesBySegmentDataRequest({ segmentName: 'Productos' }),
     getMarcasBySegmentDataRequest({ segmentName: 'Productos' }),
@@ -56,6 +58,13 @@ export default async function AddProductPage() {
   const { almacenes } = almacenesResponse;
   const { segment } = segmentResponse;
 
+  const marcasSimplificadas = simplificadorParaClientComponent(marcas);
+  const almacenesSimplificados = simplificadorParaClientComponent(almacenes);
+  const proveedoresSimplificados =
+    simplificadorParaClientComponent(proveedores);
+  const segmentoSimplificado = simplificadorParaClientComponent(segment);
+  const categoriesSimplificadas = simplificadorParaClientComponent(categories);
+
   return (
     <NavbarDynamic titles={navbarTitles}>
       <div className="container mx-auto p-6">
@@ -68,11 +77,11 @@ export default async function AddProductPage() {
           </CardHeader>
           <CardContent>
             <FormAddProduct
-              segment={segment}
-              categories={categories}
-              marcas={marcas}
-              proveedores={proveedores}
-              almacenes={almacenes}
+              segment={segmentoSimplificado}
+              categories={categoriesSimplificadas}
+              marcas={marcasSimplificadas}
+              proveedores={proveedoresSimplificados}
+              almacenes={almacenesSimplificados}
             />
           </CardContent>
         </Card>
