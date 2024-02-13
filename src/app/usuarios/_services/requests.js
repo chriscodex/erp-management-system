@@ -1,15 +1,21 @@
-import { getAllUsersServerUrl, deleteUserClientUrl } from '@/lib/urls.js';
-import { fetchData, deleteData } from '@/lib/fetchData';
+import { deleteUserClientUrl } from '@/lib/urls.js';
+import { deleteData } from '@/lib/fetchData';
 import { delay } from '@/lib/utils';
+
+import { connectDB } from '@/db/mongodb';
+import { UsersService } from '@/backend/users/application/users.service';
 
 export async function getAllUsersRequest() {
   try {
-    const response = await fetchData(getAllUsersServerUrl);
+    await connectDB();
+    const userService = new UsersService();
+
+    const response = await userService.getAllUsers();
     if (response?.status !== 200) {
       console.log('Error al obtener todos los usuarios');
       return { users: [], status: 500 };
     }
-    const users = response?.data?.payload;
+    const users = response?.payload;
     return { users, status: 200 };
   } catch (error) {
     console.error(error);
