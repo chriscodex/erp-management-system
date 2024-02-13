@@ -66,20 +66,23 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(updateCategoryRequest(categoryObject, setFormSubmitIsLoading), {
-      loading: 'Actualizando...',
-      success: () => {
-        clearErrors();
-        resetForm();
-        onClose();
-        router.refresh();
-        return `Categoría actualizada exitosamente`;
-      },
-      error: (error) => {
-        setFormSubmitIsLoading(false);
-        return error;
-      },
-    });
+    toast.promise(
+      updateCategoryRequest(categoryObject, setFormSubmitIsLoading),
+      {
+        loading: 'Actualizando...',
+        success: () => {
+          clearErrors();
+          resetForm();
+          onClose();
+          router.refresh();
+          return `Categoría actualizada exitosamente`;
+        },
+        error: (error) => {
+          setFormSubmitIsLoading(false);
+          return error;
+        },
+      }
+    );
   });
 
   return (

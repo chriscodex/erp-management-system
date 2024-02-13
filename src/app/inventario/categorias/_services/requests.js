@@ -1,21 +1,26 @@
-import { fetchData, postData, deleteData, patchData } from '@/lib/fetchData';
+import { postData, deleteData, patchData } from '@/lib/fetchData';
 import {
-  getAllSegmentsServerUrl,
-  getAllCategoriesServerUrl,
   createCategoryClientUrl,
   updateCategoryClientUrl,
   deleteCategoryClientUrl,
 } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
+import { connectDB } from '@/db/mongodb';
+import { SegmentService } from '@/backend/segments/application/segments.service';
+import { CategoryService } from '@/backend/categorias/application/category.service';
+
 export async function getAllCategoriesRequest() {
   try {
-    const response = await fetchData(getAllCategoriesServerUrl);
+    await connectDB();
+    const categoryService = new CategoryService();
+
+    const response = await categoryService.getAllCategories();
     if (response?.status !== 200) {
       console.log('Error al obtener todas las categorias');
       return { categories: [], status: 500 };
     }
-    const categories = response?.data?.payload;
+    const categories = response?.payload;
     return { categories, status: 200 };
   } catch (error) {
     console.error(error);
@@ -24,12 +29,16 @@ export async function getAllCategoriesRequest() {
 
 export async function getAllSegmentsRequest() {
   try {
-    const response = await fetchData(getAllSegmentsServerUrl);
+    await connectDB();
+    const segmentService = new SegmentService();
+
+    const response = await segmentService.getAllSegments();
+
     if (response?.status !== 200) {
       console.log('Error al obtener todos los segmentos');
       return { categories: [], status: 500 };
     }
-    const segments = response?.data?.payload;
+    const segments = response?.payload;
     return { segments, status: 200 };
   } catch (error) {
     console.error(error);

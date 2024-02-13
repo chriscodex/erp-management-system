@@ -1,14 +1,18 @@
-import { getAllProductsServerUrl} from '@/lib/urls';
-import { fetchData } from '@/lib/fetchData';
+import { connectDB } from '@/db/mongodb';
+import { ProductService } from '@/backend/products/application/products.service';
 
 export async function getAllProductsRequest() {
   try {
-    const response = await fetchData(getAllProductsServerUrl);
+    await connectDB();
+    const productService = new ProductService();
+
+    const response = await productService.getAllProducts();
+
     if (response?.status !== 200) {
       console.log('Error al obtener todos los productos');
       return { products: [], status: 500 };
     }
-    const products = response?.data?.payload;
+    const products = response?.payload;
     return { products, status: 200 };
   } catch (error) {
     console.error(error);

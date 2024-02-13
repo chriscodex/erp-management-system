@@ -1,16 +1,22 @@
-import { fetchData, patchData } from '@/lib/fetchData';
-import { getUserServerUrl, updateUserClientUrl } from '@/lib/urls.js';
+import { patchData } from '@/lib/fetchData';
+import { updateUserClientUrl } from '@/lib/urls.js';
 import { delay } from '@/lib/utils';
+
+import { connectDB } from '@/db/mongodb';
+import { UsersService } from '@/backend/users/application/users.service';
 
 export async function getUserRequest(dni) {
   try {
-    const url = `${getUserServerUrl}/${dni}`;
-    const response = await fetchData(url);
+    await connectDB();
+    const userService = new UsersService();
+
+    const response = await userService.getUserByData({ dni });
+
     if (response?.status !== 200) {
       console.log('Error al obtener el usuario desde el cliente');
       return { user: null, status: 500 };
     }
-    const user = response?.data?.payload;
+    const user = response?.payload;
     return { user, status: 200 };
   } catch (error) {
     console.log(error);

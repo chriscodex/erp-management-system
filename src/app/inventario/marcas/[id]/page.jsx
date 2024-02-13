@@ -4,6 +4,7 @@ import { getMarcaRequest } from '@/app/inventario/marcas/[id]/_services/requests
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import DetailContent from '@/app/inventario/marcas/[id]/_components/detailContent';
 import { formatDateLong } from '@/lib/formateador';
+import { simplificadorParaClientComponent } from '@/lib/utils';
 
 export default async function Page({ params }) {
   const { marca } = await getMarcaRequest(params.id);
@@ -12,7 +13,9 @@ export default async function Page({ params }) {
     notFound();
   }
 
-  const { nombre: marcaName, updatedAt } = marca;
+  const marcaSimplified = simplificadorParaClientComponent(marca);
+
+  const { nombre: marcaName, updatedAt } = marcaSimplified;
 
   const updatedAtFormated = formatDateLong(updatedAt);
 
@@ -36,7 +39,10 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailContent marcaData={marca} updatedAt={updatedAtFormated} />
+      <DetailContent
+        marcaData={marcaSimplified}
+        updatedAt={updatedAtFormated}
+      />
     </NavbarDynamic>
   );
 }

@@ -54,7 +54,7 @@ export function FormAddProduct({
       precioVenta: '',
       proveedorId: '',
       almacenId: almacenes[0]?._id,
-      segmentId: segment._id,
+      segmentId: segment?._id,
       obsequio: 'no',
     },
   });

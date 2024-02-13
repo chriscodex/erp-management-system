@@ -1,24 +1,32 @@
-import { getAllMarcasServerUrl, deleteMarcaClientUrl } from '@/lib/urls';
-import { fetchData, deleteData } from '@/lib/fetchData';
+import { deleteMarcaClientUrl } from '@/lib/urls';
+import { deleteData } from '@/lib/fetchData';
 import { delay } from '@/lib/utils';
+
+import { connectDB } from '@/db/mongodb';
+import { MarcaService } from '@/backend/marcas/application/marca.service';
 
 export async function getAllMarcasRequest() {
   try {
-    const response = await fetchData(getAllMarcasServerUrl);
+    await connectDB();
+    const marcaService = new MarcaService();
+
+    const response = await marcaService.getAllMarcas();
+
     if (response?.status !== 200) {
       console.log('Error al obtener todas las marcas');
       return { marcas: [], status: 500 };
     }
-    const marcas = response?.data?.payload;
+    const marcas = response?.payload;
     return { marcas, status: 200 };
   } catch (error) {
     console.error(error);
   }
 }
 
-/* eslint-disable */
 export async function deleteMarcaRequest(id) {
+  /* eslint-disable */
   return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -40,4 +48,3 @@ export async function deleteMarcaRequest(id) {
     }
   });
 }
-/* eslint-enable */

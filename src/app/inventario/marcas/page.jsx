@@ -7,13 +7,19 @@ import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Button } from '@/components/ui/button';
 import { DataTableMarcas } from '@/app/inventario/marcas/_components/MarcasTable/data-table.jsx';
 import { columnsMarcas } from '@/app/inventario/marcas/_components/MarcasTable/columns.jsx';
-import { sortByUpdateDateDesc } from '@/lib/utils';
+import {
+  simplificadorParaClientComponent,
+  sortByUpdateDateDesc,
+} from '@/lib/utils';
 import { getAllMarcasRequest } from '@/app/inventario/marcas/_services/requests';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default async function MarcasPage() {
   const { marcas, status } = await getAllMarcasRequest();
-  const marcasSorted = sortByUpdateDateDesc(marcas);
+
+  const marcasSimplified = simplificadorParaClientComponent(marcas);
+  
+  const marcasSorted = sortByUpdateDateDesc(marcasSimplified);
 
   /* Secciones del navbar */
   const navbarTitles = [

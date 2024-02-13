@@ -21,7 +21,6 @@ export const columns = [
   {
     accessorKey: 'apellidos',
     header: ({ column }) => {
-      console.log(column);
       return (
         <Button
           variant="ghost"

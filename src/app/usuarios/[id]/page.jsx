@@ -12,12 +12,15 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { FormUserDetail } from '@/app/usuarios/[id]/_components/FormUserDetail';
+import { simplificadorParaClientComponent } from '@/lib/utils';
 
 export default async function Page({ params }) {
   const { user } = await getUserRequest(params.id);
   if (!user) {
     notFound();
   }
+
+  const userSimplified = simplificadorParaClientComponent(user);
 
   return (
     <SidebarInset>
@@ -49,7 +52,7 @@ export default async function Page({ params }) {
         </div>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        <FormUserDetail userDetail={user} />
+        <FormUserDetail userDetail={userSimplified} />
       </div>
     </SidebarInset>
   );

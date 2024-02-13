@@ -9,9 +9,12 @@ import { DataTableProducts } from '@/app/inventario/productos/_components/Produc
 import { columnsProducts } from '@/app/inventario/productos/_components/ProductsTable/columns';
 import { getAllProductsRequest } from '@/app/inventario/productos/_services/requests';
 import { Label } from '@/components/ui/label';
+import { simplificadorParaClientComponent } from '@/lib/utils';
 
 export default async function ProductsPage() {
   const { products } = await getAllProductsRequest();
+
+  const productsSimplified = simplificadorParaClientComponent(products);
 
   /* Secciones del navbar */
   const navbarTitles = [
@@ -43,7 +46,10 @@ export default async function ProductsPage() {
             </Button>
           </CardHeader>
           <CardContent>
-            <DataTableProducts columns={columnsProducts} data={products} />
+            <DataTableProducts
+              columns={columnsProducts}
+              data={productsSimplified}
+            />
           </CardContent>
         </Card>
       </div>
