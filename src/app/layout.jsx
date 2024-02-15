@@ -14,11 +14,19 @@ const roboto = Roboto({
 export const metadata = {
   title: 'MotoRock',
   description: 'MotoRock Ruta 33',
+  manifest: '/manifest.json',
+  icons: {
+    apple: '/icon512_rounded.png',
+    android: '/icon512_maskable.png',
+  },
 };
 
 export default function RootLayout({ children }) {
   return (
     <html lang="es">
+      <head>
+      <link rel="icon" href="moto.svg" sizes="any" />
+      </head>
       <body className={`${roboto.className} antialiased`}>
         <main>
           <Providers>
