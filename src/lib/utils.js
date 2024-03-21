@@ -5,7 +5,7 @@ export function cn(...inputs) {
   return twMerge(clsx(inputs));
 }
 
-export const TIME_DEBOUNCE = 300;
+export const TIME_DEBOUNCE = 0;
 
 /**
  * Simula un retraso en la ejecución del código de 1.5 segundos.

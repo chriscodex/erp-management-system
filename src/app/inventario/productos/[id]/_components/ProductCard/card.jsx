@@ -8,7 +8,14 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { Package, DollarSign, ShoppingCart, Gift, Truck } from 'lucide-react';
+import {
+  Package,
+  DollarSign,
+  ShoppingCart,
+  Gift,
+  Truck,
+  ExternalLink,
+} from 'lucide-react';
 
 export default function ProductCard({ product }) {
   const availableUnits = product.unidades.filter(
@@ -85,7 +92,9 @@ export default function ProductCard({ product }) {
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button variant="outline">Editar</Button>
-        <Button>Ver Detalles</Button>
+        <Button>
+          Ver Gastos <ExternalLink className="h-4 w-4" />
+        </Button>
       </CardFooter>
     </Card>
   );
