@@ -156,7 +156,6 @@ function FormUserDetail({ userDetail }) {
 
   const handleTabSecurity = () => {
     setIsEditUserOpen(false);
-    router.refresh();
     resetUserUpdate();
   };
 
