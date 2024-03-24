@@ -66,11 +66,15 @@ export class UserRepository {
       throw new Error(`Error al crear usuario: ${error.message}`);
     }
   }
-  async updateUser(dni, user) {
+  async updateUser(userId, user) {
     try {
-      const updatedUser = await User.findOneAndUpdate({ dni }, user, {
-        new: true,
-      }).select('-password');
+      const updatedUser = await User.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(userId) },
+        user,
+        {
+          new: true,
+        }
+      ).select('-password');
 
       if (!updatedUser) {
         console.log(
@@ -88,9 +92,11 @@ export class UserRepository {
       throw new Error(`Error al actualizar usuario: ${error.message}`);
     }
   }
-  async deleteUser(dni) {
+  async deleteUser(userId) {
     try {
-      const deletedUser = await User.findOneAndDelete({ dni });
+      const deletedUser = await User.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(userId),
+      });
 
       if (!deletedUser) {
         console.log(

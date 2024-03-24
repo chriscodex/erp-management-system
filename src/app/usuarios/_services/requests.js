@@ -22,7 +22,7 @@ export async function getAllUsersRequestServer() {
   }
 }
 
-export async function deleteUserRequestClient(dni) {
+export async function deleteUserRequestClient(userId) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
@@ -30,11 +30,11 @@ export async function deleteUserRequestClient(dni) {
       // Simular tiempo de retraso
       await delay();
 
-      const url = `${deleteUserClientUrl}/${dni}`;
+      const url = `${deleteUserClientUrl}/${userId}`;
 
       // Obtener los datos de la persona
       const response = await deleteData(url);
-      if (response?.status !== 204) {
+      if (response?.status === 500) {
         reject(
           'No se pudo eliminar el usuario: ' + response.response?.data?.error
         );

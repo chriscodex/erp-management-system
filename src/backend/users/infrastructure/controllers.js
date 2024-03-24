@@ -59,12 +59,12 @@ export async function createUserController(request) {
 export async function updateUserController(request, contextRoute) {
   try {
     const { params } = contextRoute;
-    const { dni } = params;
+    const { id } = params;
     const body = await request.json();
 
     await connectDB();
 
-    const updatedUser = await userService.updateUser(dni, body);
+    const updatedUser = await userService.updateUser(id, body);
     return updatedUser;
   } catch (error) {
     console.error(
@@ -78,11 +78,11 @@ export async function updateUserController(request, contextRoute) {
 export async function deleteUserController(contextRoute) {
   try {
     const { params } = contextRoute;
-    const { dni } = params;
+    const { id: userId } = params;
 
     await connectDB();
 
-    const deletedUser = await userService.deleteUser(dni);
+    const deletedUser = await userService.deleteUser(userId);
     return deletedUser;
   } catch (error) {
     console.error(

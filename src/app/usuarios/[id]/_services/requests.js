@@ -5,12 +5,12 @@ import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 import { connectDB } from '@/db/mongodb';
 import { UsersService } from '@/backend/users/application/users.service';
 
-export async function getUserRequestServer(dni) {
+export async function getUserRequestServer(userId) {
   try {
     await connectDB();
     const userService = new UsersService();
 
-    const response = await userService.getUserByData({ dni });
+    const response = await userService.getUserByData({ id: userId });
 
     if (response?.status !== 200) {
       console.log('Error al obtener el usuario desde el cliente');
@@ -24,7 +24,7 @@ export async function getUserRequestServer(dni) {
   }
 }
 
-export async function updateUserRequestClient(user, setLoading) {
+export async function updateUserRequestClient(userData, setLoading) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
@@ -33,11 +33,11 @@ export async function updateUserRequestClient(user, setLoading) {
       // Simular tiempo de retraso
       await delay();
 
-      const { dni } = user;
-      const url = `${updateUserClientUrl}/${dni}`;
+      const { id } = userData;
+      const url = `${updateUserClientUrl}/${id}`;
 
       // Obtener los datos de la persona
-      const response = await patchData(url, user);
+      const response = await patchData(url, userData);
       if (response?.status !== 200) {
         setLoading(false);
         reject(

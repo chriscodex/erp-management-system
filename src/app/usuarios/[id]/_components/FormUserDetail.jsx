@@ -91,7 +91,10 @@ function FormUserDetail({ userDetail }) {
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateUserRequestClient(submitFormData, setFormUpdateUserSubmitIsLoading),
+      updateUserRequestClient(
+        { ...submitFormData, id: userDetail?._id },
+        setFormUpdateUserSubmitIsLoading
+      ),
       {
         loading: 'Actualizando...',
         success: () => {
@@ -603,7 +606,7 @@ function FormUserDetail({ userDetail }) {
         <DeleteUserAlert
           isOpen={isOpenDialogDeleteUser}
           setIsOpen={setIsOpenDialogDeleteUser}
-          userDni={userDetail?.dni}
+          userId={userDetail?._id}
           actionAfterComplete="push"
         />
       </div>

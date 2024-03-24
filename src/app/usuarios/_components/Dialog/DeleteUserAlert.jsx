@@ -26,13 +26,13 @@ import { useRouter } from 'next/navigation';
  *
  * @returns Un JSX con el diálogo de confirmación de eliminación de un usuario.
  */
-function DeleteUserAlert({ isOpen, setIsOpen, userDni, actionAfterComplete }) {
+function DeleteUserAlert({ isOpen, setIsOpen, userId, actionAfterComplete }) {
   const router = useRouter();
 
   const handleConfirmationDeleteUser = async () => {
     try {
       setIsOpen(false);
-      toast.promise(deleteUserRequestClient(userDni), {
+      toast.promise(deleteUserRequestClient(userId), {
         loading: 'Eliminando...',
         success: () => {
           if (actionAfterComplete === 'refresh') {

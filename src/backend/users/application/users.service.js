@@ -118,7 +118,7 @@ export class UsersService {
       };
     }
   }
-  async updateUser(dni, user) {
+  async updateUser(userId, user) {
     try {
       // Validar los datos del usuario enviado con el schema
       const userValidated = updateUserSchema.safeParse(user);
@@ -139,7 +139,7 @@ export class UsersService {
         user.password = passwordHash;
       }
 
-      const userUpdated = await this.userRepository.updateUser(dni, user);
+      const userUpdated = await this.userRepository.updateUser(userId, user);
 
       if (!userUpdated) {
         console.log('User Service: El usuario no existe');
@@ -164,15 +164,15 @@ export class UsersService {
       };
     }
   }
-  async deleteUser(dni) {
+  async deleteUser(userId) {
     try {
-      const userDeleted = await this.userRepository.deleteUser(dni);
+      const userDeleted = await this.userRepository.deleteUser(userId);
 
       if (!userDeleted) {
         console.log('User Service: El usuario no existe');
         return {
-          status: 404,
-          payload: 'El usuario no existe',
+          status: 200,
+          payload: null,
         };
       }
 

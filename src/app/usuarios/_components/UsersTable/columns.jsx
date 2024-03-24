@@ -101,7 +101,7 @@ export const columns = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { dni } = row.original;
+      const { _id: userId } = row.original;
 
       const router = useRouter();
 
@@ -123,7 +123,7 @@ export const columns = [
             </DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/usuarios/${dni}`)}
+              onClick={() => router.push(`/usuarios/${userId}`)}
             >
               <RiFileListLine />
               Detalle
@@ -141,7 +141,7 @@ export const columns = [
           <DeleteUserAlert
             isOpen={isOpenDialogDeleteUser}
             setIsOpen={setIsOpenDialogDeleteUser}
-            userDni={dni}
+            userId={userId}
             actionAfterComplete="refresh"
           />
         </DropdownMenu>

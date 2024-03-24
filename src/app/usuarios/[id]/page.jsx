@@ -14,7 +14,8 @@ import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { FormUserDetail } from '@/app/usuarios/[id]/_components/FormUserDetail';
 
 export default async function Page({ params }) {
-  const { user } = await getUserRequestServer(params.id);
+  const userId = params.id;
+  const { user } = await getUserRequestServer(userId);
 
   if (!user) {
     notFound();
