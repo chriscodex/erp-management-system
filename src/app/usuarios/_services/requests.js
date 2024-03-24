@@ -5,7 +5,7 @@ import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 import { connectDB } from '@/db/mongodb';
 import { UsersService } from '@/backend/users/application/users.service';
 
-export async function getAllUsersRequest() {
+export async function getAllUsersRequestServer() {
   try {
     await connectDB();
     const userService = new UsersService();
@@ -22,7 +22,7 @@ export async function getAllUsersRequest() {
   }
 }
 
-export async function deleteUserRequest(dni) {
+export async function deleteUserRequestClient(dni) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */

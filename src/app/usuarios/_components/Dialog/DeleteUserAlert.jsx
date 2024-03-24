@@ -10,10 +10,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { deleteUserRequest } from '@/app/usuarios/_services/requests';
+import { deleteUserRequestClient } from '@/app/usuarios/_services/requests';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-
 
 /**
  * @description Un diálogo de confirmación de eliminación de un usuario.
@@ -33,7 +32,7 @@ function DeleteUserAlert({ isOpen, setIsOpen, userDni, actionAfterComplete }) {
   const handleConfirmationDeleteUser = async () => {
     try {
       setIsOpen(false);
-      toast.promise(deleteUserRequest(userDni), {
+      toast.promise(deleteUserRequestClient(userDni), {
         loading: 'Eliminando...',
         success: () => {
           if (actionAfterComplete === 'refresh') {
