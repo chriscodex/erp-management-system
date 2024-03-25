@@ -17,20 +17,20 @@ const authOptions = {
         await connectDB();
 
         const userFound = await User.findOne({
-          dni: credentials.dni,
+          dni: credentials?.dni,
           estado: 'activo',
         });
 
         if (!userFound)
           throw new Error('No se ha encontrado un usuario con ese DNI');
 
-        const passwordMatch = await bcryptjs.compare(
-          credentials.password,
-          userFound.password
+        const passwordMatch = await bcryptjs?.compare(
+          credentials?.password,
+          userFound?.password
         );
         if (!passwordMatch) throw new Error('Contraseña incorrecta');
 
-        delete userFound.password;
+        delete userFound?.password;
 
         return userFound;
       },
@@ -50,14 +50,14 @@ const authOptions = {
       await connectDB();
       // Verificar si el usuario sigue existiendo en la base de datos
       const userExists = await User.findOne({
-        dni: token.user.dni,
+        dni: token?.user?.dni,
         estado: 'activo',
       });
       if (!userExists) {
         throw new Error('Usuario invalidado.');
       }
-      delete token.user.password;
-      session.user = token.user;
+      delete token?.user?.password;
+      session.user = token?.user;
       // console.log(session);
       return session;
     },
