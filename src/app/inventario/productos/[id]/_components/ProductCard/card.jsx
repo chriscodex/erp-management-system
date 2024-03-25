@@ -16,6 +16,7 @@ import {
   Truck,
   ExternalLink,
 } from 'lucide-react';
+import Link from 'next/link';
 
 export default function ProductCard({ product }) {
   const availableUnits = product.unidades.filter(
@@ -92,9 +93,11 @@ export default function ProductCard({ product }) {
       </CardContent>
       <CardFooter className="flex justify-between">
         <Button variant="outline">Editar</Button>
-        <Button>
-          Ver Gastos <ExternalLink className="h-4 w-4" />
-        </Button>
+        <Link href={`/inventario/productos/${product?._id}/gastos`}>
+          <Button>
+            Ver Gastos <ExternalLink className="h-4 w-4" />
+          </Button>
+        </Link>
       </CardFooter>
     </Card>
   );

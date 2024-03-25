@@ -13,6 +13,12 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { contarEstadoDeUnidades } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
+import { useIsMobile } from '@/hooks/use-mobile';
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@/components/ui/chart';
 
 export default function GraphicSingleProductCard({ unidades }) {
   const totalUnidades = unidades?.length;
@@ -29,43 +35,74 @@ export default function GraphicSingleProductCard({ unidades }) {
     {
       name: `Disponibles`,
       unidades: unidadesDisponibles,
+      fill: '#16a34a',
     },
     {
       name: `Dañados`,
       unidades: unidadesDanadas,
+      fill: '#ef4444',
     },
     {
       name: `Reparados`,
       unidades: unidadesReparadas,
+      fill: '#3b82f6',
     },
     {
       name: `Desaparecidos`,
       unidades: unidadesDesaparecidas,
+      fill: '#f59e0b',
     },
   ];
+
+  // Obtener use mobile
+  const isMobile = useIsMobile();
+
+  const chartConfig = {
+    unidades: {
+      label: 'Unidades',
+    },
+  };
 
   return (
     <>
       <Card>
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle>Stock Total: {totalUnidades}</CardTitle>
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle className="text-xl font-bold">
+            Stock Total: {totalUnidades}
+          </CardTitle>
         </CardHeader>
-        <CardContent>
-          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <Label className="font-bold text-muted-foreground">{`Disponibles: ${unidadesDisponibles}`}</Label>
-            <Label className="font-bold text-muted-foreground">{`Dañados: ${unidadesDanadas}`}</Label>
-            <Label className="font-bold text-muted-foreground">{`Reparados: ${unidadesReparadas}`}</Label>
-            <Label className="font-bold text-muted-foreground">{`Desaparecidos: ${unidadesDesaparecidas}`}</Label>
+        <CardContent className="space-y-4 px-2">
+          <div className="flex flex-row items-center justify-between space-y-0 pb-2 gap-1">
+            <Label className="sm:block font-bold text-green-600">{`Disponibles: ${unidadesDisponibles}`}</Label>
+            <Label className="font-bold text-red-500">{`Dañados: ${unidadesDanadas}`}</Label>
+            <Label className="font-bold text-blue-500">{`Reparados: ${unidadesReparadas}`}</Label>
+            <Label className="font-bold text-amber-500">{`Desaparecidos: ${unidadesDesaparecidas}`}</Label>
           </div>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={salesData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="unidades" fill="#3b82f6" />
-            </BarChart>
-          </ResponsiveContainer>
+          <ChartContainer config={chartConfig}>
+            <ResponsiveContainer width="100%" height={'100%'}>
+              <BarChart data={salesData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  dataKey="name"
+                  tickLine={false}
+                  tickMargin={10}
+                  axisLine={false}
+                  tickFormatter={(value) => {
+                    const slice = isMobile
+                      ? value.slice(0, 7)
+                      : value.slice(0, 6);
+                    return `${slice}.`;
+                  }}
+                />
+                <YAxis />
+                <ChartTooltip
+                  cursor={false}
+                  content={<ChartTooltipContent hideLabel />}
+                />
+                <Bar dataKey="unidades" layout="vertical" radius={5} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartContainer>
         </CardContent>
       </Card>
     </>
