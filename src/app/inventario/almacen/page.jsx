@@ -11,39 +11,12 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import {
-  Users,
-  Package,
-  DollarSign,
-  TrendingUp,
-  ExternalLink,
-} from 'lucide-react';
+import { Package, DollarSign, ExternalLink } from 'lucide-react';
 import { NavbarSimple } from '@/components/navbar/NavbarSimple';
-import { getAllAlmacenesRequest } from '@/app/inventario/almacen/_services/requests.js';
-
-const companies = [
-  {
-    id: 1,
-    name: 'Motorock ruta 33',
-    description: 'Sucursal principal en la ruta 33',
-    employees: 25,
-    inventory: 150,
-    monthlyRevenue: 75000,
-    growthRate: 5.2,
-  },
-  {
-    id: 2,
-    name: 'Motorock store',
-    description: 'Tienda online de accesorios y repuestos',
-    employees: 10,
-    inventory: 500,
-    monthlyRevenue: 45000,
-    growthRate: 8.7,
-  },
-];
+import { getAllAlmacenesRequestServer } from '@/app/inventario/almacen/_services/requests.js';
 
 export default async function CompaniesPage() {
-  const {almacenes} = await getAllAlmacenesRequest();
+  const { almacenes } = await getAllAlmacenesRequestServer();
 
   return (
     <NavbarSimple title="Almacen">
@@ -54,7 +27,7 @@ export default async function CompaniesPage() {
             <h1 className="text-3xl font-bold">Almacén</h1>
           </div>
           <p className="text-muted-foreground mt-2">
-            Administra y supervisa tus almacenes
+            Administra y supervisa tus almaceness
           </p>
         </header>
 
