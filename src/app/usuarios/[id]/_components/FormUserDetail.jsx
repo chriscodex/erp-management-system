@@ -53,6 +53,10 @@ import { updatePasswordSchema } from '@/app/usuarios/[id]/_validations/updatePas
 import { updateUserRequestClient } from '@/app/usuarios/[id]/_services/requests';
 import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
 import { useRouter } from 'next/navigation';
+import {
+  onChangeCelular,
+  onChangeNumero,
+} from '@/components/formInputs/onChange';
 
 function FormUserDetail({ userDetail }) {
   const router = useRouter();
@@ -301,6 +305,7 @@ function FormUserDetail({ userDetail }) {
                                 autoComplete="off"
                                 disabled={formUpdateUserSubmitIsLoading}
                                 {...field}
+                                onChange={(e) => onChangeNumero(e, field)}
                               />
                             </FormControl>
                             <span className="col-span-1"></span>
@@ -330,6 +335,7 @@ function FormUserDetail({ userDetail }) {
                                 autoComplete="off"
                                 disabled={formUpdateUserSubmitIsLoading}
                                 {...field}
+                                onChange={(e) => onChangeCelular(e, field)}
                               />
                             </FormControl>
                             <span className="col-span-1"></span>

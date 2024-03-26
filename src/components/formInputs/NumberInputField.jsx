@@ -6,7 +6,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { onChangeNumero } from '@/components/formInputs/onChange/onChange';
+import { onChangeNumero } from '@/components/formInputs/onChange';
 
 export function NumberInputField({
   control,

@@ -53,7 +53,7 @@ import { buscarPorDniClientRequest } from '@/lib/globalRequests';
 import {
   onChangeCelular,
   onChangeNumero,
-} from '@/components/formInputs/onChange/onChange';
+} from '@/components/formInputs/onChange';
 
 function FormNewUser() {
   const router = useRouter();
