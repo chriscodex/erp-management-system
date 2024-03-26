@@ -50,6 +50,10 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { buscarPorDniClientRequest } from '@/lib/globalRequests';
+import {
+  onChangeCelular,
+  onChangeNumero,
+} from '@/components/formInputs/onChange/onChange';
 
 function FormNewUser() {
   const router = useRouter();
@@ -160,6 +164,9 @@ function FormNewUser() {
                           autoComplete="off"
                           disabled={searchByDniIsLoading || formSubmitIsLoading}
                           {...field}
+                          onChange={(e) => {
+                            onChangeNumero(e, field);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -267,6 +274,9 @@ function FormNewUser() {
                           autoComplete="off"
                           disabled={formSubmitIsLoading}
                           {...field}
+                          onChange={(e) => {
+                            onChangeCelular(e, field);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />

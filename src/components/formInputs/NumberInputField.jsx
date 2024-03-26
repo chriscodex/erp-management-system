@@ -6,6 +6,7 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { onChangeNumero } from '@/components/formInputs/onChange/onChange';
 
 export function NumberInputField({
   control,
@@ -38,9 +39,7 @@ export function NumberInputField({
                 disabled={formSubmitIsLoading}
                 {...field}
                 onChange={(e) => {
-                  // Filtramos cualquier valor que no sea un número
-                  const value = e.target.value.replace(/[^0-9]/g, '');
-                  field.onChange(value); // Actualizamos el valor del campo
+                  onChangeNumero(e, field);
                 }}
                 onKeyDown={handleKeyDown} // Captura el evento de tecla Enter
               />
