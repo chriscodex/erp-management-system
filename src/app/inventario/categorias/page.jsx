@@ -1,9 +1,6 @@
 import { RiAppsLine } from '@remixicon/react';
 
-import {
-  simplificadorParaClientComponent,
-  sortByUpdateDateDesc,
-} from '@/lib/utils';
+import { sortByUpdateDateDesc } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { DataTableCategory } from '@/app/inventario/categorias/_components/categoriesTable/data-table';
@@ -32,8 +29,6 @@ export default async function CategoriasPage() {
 
   const { segments } = await getAllSegmentsRequest();
 
-  const segmentsSimplified = simplificadorParaClientComponent(segments);
-
   const categoriesSorted = sortByUpdateDateDesc(categories);
 
   return (
@@ -47,12 +42,12 @@ export default async function CategoriasPage() {
                 Categorías
               </Label>
             </div>
-            <SheetAddWrapper segments={segmentsSimplified} />
+            <SheetAddWrapper segments={segments} />
           </CardHeader>
           <CardContent>
             <DataTableCategory
               data={categoriesSorted}
-              segments={segmentsSimplified}
+              segments={segments}
               status={status}
             />
           </CardContent>

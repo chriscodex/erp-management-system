@@ -42,7 +42,10 @@ export async function getAllSegmentsRequest() {
       return { categories: [], status: 500 };
     }
     const segments = response?.payload;
-    return { segments, status: 200 };
+    return {
+      segments: simplificadorParaClientComponent(segments),
+      status: 200,
+    };
   } catch (error) {
     console.error(error);
   }

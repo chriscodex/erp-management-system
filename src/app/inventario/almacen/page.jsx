@@ -27,7 +27,7 @@ export default async function CompaniesPage() {
             <h1 className="text-3xl font-bold">Almacén</h1>
           </div>
           <p className="text-muted-foreground mt-2">
-            Administra y supervisa tus almaceness
+            Administra y supervisa tus almacenes
           </p>
         </header>
 
