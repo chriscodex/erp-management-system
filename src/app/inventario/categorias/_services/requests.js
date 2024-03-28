@@ -51,7 +51,7 @@ export async function getAllSegmentsRequestServer() {
   }
 }
 
-export async function createCategoryRequest(category, setLoading) {
+export async function createCategoryRequestClient(category, setLoading) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
