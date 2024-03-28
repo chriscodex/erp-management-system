@@ -11,7 +11,6 @@ import {
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 
 import { Input } from '@/components/ui/input';
 import {
@@ -39,6 +38,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import serverErrorToast from '@/components/toast/serverErrorToast';
 
 export function DataTableCategory({ data, segments, status = 200 }) {
   const router = useRouter();
@@ -208,10 +208,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
 
   useEffect(() => {
     if (status === 500) {
-      toast.error(
-        'No podemos conectarnos al servidor en este momento. Verifica tu conexión a internet o inténtalo nuevamente en unos minutos. Si el error persiste, ponte en contacto con Christian.',
-        { duration: 10000 }
-      );
+      serverErrorToast();
     }
   }, [status]);
 
