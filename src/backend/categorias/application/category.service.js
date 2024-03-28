@@ -15,7 +15,7 @@ export class CategoryService {
         console.log('Category Service: No se encontraron categorias');
         return {
           status: 200,
-          payload: categories,
+          payload: [],
         };
       }
 
@@ -162,11 +162,10 @@ export class CategoryService {
       };
     }
   }
-  async updateCategory(id, category) {
+  async updateCategory(categoryId, categoryData) {
     try {
-      console.log(category);
       // Validar los datos del usuario enviado con el schema
-      const categoryValidated = updateCategorySchema.safeParse(category);
+      const categoryValidated = updateCategorySchema.safeParse(categoryData);
 
       if (!categoryValidated.success) {
         console.log(
@@ -179,11 +178,11 @@ export class CategoryService {
       }
 
       // Validar si una categoría con ese nombre y en el mismo segmento ya existe
-      const categoryFound = await this.categoryRepository.getCategoryByData({
-        id: id,
-        ...category,
-      });
-      if (categoryFound) {
+      delete categoryData.id;
+      const categoryFound = await this.categoryRepository.getCategoryByData(
+        categoryData
+      );
+      if (categoryFound && categoryFound?._id !== categoryId) {
         console.log(
           'Category Service: Una categoría con el mismo nombre ya existe en el segmento seleccionado'
         );
@@ -195,8 +194,8 @@ export class CategoryService {
       }
 
       const categoryUpdated = await this.categoryRepository.updateCategory(
-        id,
-        category
+        categoryId,
+        categoryData
       );
 
       if (!categoryUpdated) {
