@@ -23,9 +23,7 @@ export class CategoryRepository {
       console.error(
         `Category Repository: Error al buscar todas las categorías: ${error}`
       );
-      throw new Error(
-        `Error interno al buscar todas las categorías: ${error}`
-      );
+      throw new Error(`Error interno al buscar todas las categorías: ${error}`);
     }
   }
   async getCategoryByData(categoryData) {
@@ -42,7 +40,7 @@ export class CategoryRepository {
       }
 
       if (categoryData.nombre) {
-        filter.nombre = { $regex: new RegExp(`^${categoryData.nombre}$`, 'i') };
+        filter.nombre = categoryData.nombre;
       }
 
       if (categoryData.segmentId) {
@@ -131,10 +129,10 @@ export class CategoryRepository {
       throw new Error(`Error al crear categoría: ${error.message}`);
     }
   }
-  async updateCategory(id, category) {
+  async updateCategory(categoryId, category) {
     try {
       const updatedCategory = await this.categoryModel.findOneAndUpdate(
-        { _id: new mongoose.Types.ObjectId(id) },
+        { _id: new mongoose.Types.ObjectId(categoryId) },
         category,
         {
           new: true,
