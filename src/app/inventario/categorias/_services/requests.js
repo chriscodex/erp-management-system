@@ -10,7 +10,7 @@ import { connectDB } from '@/db/mongodb';
 import { SegmentService } from '@/backend/segments/application/segments.service';
 import { CategoryService } from '@/backend/categorias/application/category.service';
 
-export async function getAllCategoriesRequest() {
+export async function getAllCategoriesRequestServer() {
   try {
     await connectDB();
     const categoryService = new CategoryService();
@@ -30,7 +30,7 @@ export async function getAllCategoriesRequest() {
   }
 }
 
-export async function getAllSegmentsRequest() {
+export async function getAllSegmentsRequestServer() {
   try {
     await connectDB();
     const segmentService = new SegmentService();
@@ -39,7 +39,7 @@ export async function getAllSegmentsRequest() {
 
     if (response?.status !== 200) {
       console.log('Error al obtener todos los segmentos');
-      return { categories: [], status: 500 };
+      return { categories: [], status: response?.status };
     }
     const segments = response?.payload;
     return {
