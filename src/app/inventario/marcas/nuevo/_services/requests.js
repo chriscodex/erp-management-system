@@ -26,7 +26,7 @@ export async function getAllSegmentsRequestServer() {
   }
 }
 
-export async function createMarcaRequest(marca, setLoading, setError) {
+export async function createMarcaRequestClient(marca, setLoading, setError) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */

@@ -5,7 +5,7 @@ import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 import { connectDB } from '@/db/mongodb';
 import { MarcaService } from '@/backend/marcas/application/marca.service';
 
-export async function getAllMarcasRequest() {
+export async function getAllMarcasRequestServer() {
   try {
     await connectDB();
     const marcaService = new MarcaService();

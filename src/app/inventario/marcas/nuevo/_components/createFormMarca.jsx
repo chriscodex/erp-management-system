@@ -27,7 +27,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { createMarcaSchema } from '@/app/inventario/marcas/nuevo/_services/validations/createMarcaSchema';
-import { createMarcaRequest } from '@/app/inventario/marcas/nuevo/_services/requests.js';
+import { createMarcaRequestClient } from '@/app/inventario/marcas/nuevo/_services/requests.js';
 
 export function CreateFormMarca({ segments }) {
   const router = useRouter();
@@ -50,7 +50,7 @@ export function CreateFormMarca({ segments }) {
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(createMarcaRequest(data, setFormSubmitIsLoading, setError), {
+    toast.promise(createMarcaRequestClient(data, setFormSubmitIsLoading, setError), {
       loading: 'Creando...',
       success: () => {
         clearErrors();
