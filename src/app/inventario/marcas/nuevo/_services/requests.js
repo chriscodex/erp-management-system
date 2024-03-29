@@ -1,6 +1,30 @@
 import { postData } from '@/lib/fetchData';
 import { createMarcaClientUrl } from '@/lib/urls';
-import { delay } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
+
+import { connectDB } from '@/db/mongodb';
+import { SegmentService } from '@/backend/segments/application/segments.service';
+
+export async function getAllSegmentsRequestServer() {
+  try {
+    await connectDB();
+    const segmentService = new SegmentService();
+
+    const response = await segmentService.getAllSegments();
+
+    if (response?.status !== 200) {
+      console.log('Error al obtener todos los segmentos');
+      return { categories: [], status: response?.status };
+    }
+    const segments = response?.payload;
+    return {
+      segments: simplificadorParaClientComponent(segments),
+      status: 200,
+    };
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export async function createMarcaRequest(marca, setLoading, setError) {
   /* eslint-disable */

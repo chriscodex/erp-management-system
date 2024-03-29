@@ -1,12 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { CreateFormMarca } from '@/app/inventario/marcas/nuevo/_components/createFormMarca';
-import { getAllSegmentsRequest } from '@/app/inventario/categorias/_services/requests';
-import { simplificadorParaClientComponent } from '@/lib/utils';
+import { getAllSegmentsRequestServer } from '@/app/inventario/marcas/nuevo/_services/requests';
 
 export default async function Page() {
-  const { segments } = await getAllSegmentsRequest();
-  const segmentsSimplified = simplificadorParaClientComponent(segments);
+  const { segments } = await getAllSegmentsRequestServer();
 
   const titles = [
     {
@@ -35,7 +33,7 @@ export default async function Page() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <CreateFormMarca segments={segmentsSimplified} />
+            <CreateFormMarca segments={segments} />
           </CardContent>
         </Card>
       </div>
