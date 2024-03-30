@@ -73,8 +73,8 @@ export class MarcaService {
       if (!marcaFound) {
         console.log('Marca Service: La marca no existe');
         return {
-          status: 404,
-          payload: 'La marca no existe',
+          status: 200,
+          payload: null,
         };
       }
 

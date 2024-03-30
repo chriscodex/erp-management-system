@@ -1,11 +1,11 @@
-import {  patchData } from '@/lib/fetchData';
+import { patchData } from '@/lib/fetchData';
 import { updateMarcaClientUrl } from '@/lib/urls';
-import { delay } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 import { connectDB } from '@/db/mongodb';
 import { MarcaService } from '@/backend/marcas/application/marca.service';
 
-export async function getMarcaRequest(id) {
+export async function getMarcaRequestServer(id) {
   try {
     await connectDB();
     const marcaService = new MarcaService();
@@ -14,10 +14,10 @@ export async function getMarcaRequest(id) {
 
     if (response?.status !== 200) {
       console.log('Error al obtener el usuario desde el cliente');
-      return { marca: null, status: 500 };
+      return { marca: null, status: response?.status };
     }
     const marca = response?.payload;
-    return { marca, status: 200 };
+    return { marca: simplificadorParaClientComponent(marca), status: 200 };
   } catch (error) {
     console.log(error);
   }
