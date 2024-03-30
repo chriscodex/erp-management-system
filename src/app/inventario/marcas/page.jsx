@@ -42,10 +42,10 @@ export default async function MarcasPage() {
             <Button>
               <Link
                 href="/inventario/marcas/nuevo"
-                className="flex justify-end"
+                className="flex justify-end items-center gap-2"
               >
                 <Plus />
-                Agregar Marca
+                <span>Agregar Marca</span>
               </Link>
             </Button>
           </CardHeader>

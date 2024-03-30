@@ -27,7 +27,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { updateMarcaSchema } from '@/app/inventario/marcas/[id]/edit/_services/validations/updateMarcaSchema';
 import { Textarea } from '@/components/ui/textarea';
-import { updateMarcaRequest } from '@/app/inventario/marcas/[id]/_services/requests.js';
+import { updateMarcaRequestClient } from '@/app/inventario/marcas/[id]/_services/requests.js';
 
 export function UpdateFormMarca({ segments, marcaData }) {
   const router = useRouter();
@@ -52,7 +52,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateMarcaRequest(marcaData?._id, data, setFormSubmitIsLoading),
+      updateMarcaRequestClient(marcaData?._id, data, setFormSubmitIsLoading),
       {
         loading: 'Actualizando...',
         success: () => {

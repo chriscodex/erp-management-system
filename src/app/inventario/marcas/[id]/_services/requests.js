@@ -23,7 +23,7 @@ export async function getMarcaRequestServer(id) {
   }
 }
 
-export async function updateMarcaRequest(id, marca, setLoading) {
+export async function updateMarcaRequestClient(marcaId, marca, setLoading) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
@@ -32,7 +32,7 @@ export async function updateMarcaRequest(id, marca, setLoading) {
       // Simular tiempo de retraso
       await delay();
 
-      const url = `${updateMarcaClientUrl}/${id}`;
+      const url = `${updateMarcaClientUrl}/${marcaId}`;
 
       // Obtener los datos de la persona
       const response = await patchData(url, marca);
