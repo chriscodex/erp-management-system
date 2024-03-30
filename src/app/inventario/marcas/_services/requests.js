@@ -24,7 +24,7 @@ export async function getAllMarcasRequestServer() {
   }
 }
 
-export async function deleteMarcaRequest(id) {
+export async function deleteMarcaRequestClient(marcaId) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
@@ -32,7 +32,7 @@ export async function deleteMarcaRequest(id) {
       // Simular tiempo de retraso
       await delay();
 
-      const url = `${deleteMarcaClientUrl}/${id}`;
+      const url = `${deleteMarcaClientUrl}/${marcaId}`;
 
       // Obtener los datos de la persona
       const response = await deleteData(url);
