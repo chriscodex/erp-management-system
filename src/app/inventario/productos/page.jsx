@@ -7,14 +7,11 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { DataTableProducts } from '@/app/inventario/productos/_components/ProductsTable/data-table';
 import { columnsProducts } from '@/app/inventario/productos/_components/ProductsTable/columns';
-import { getAllProductsRequest } from '@/app/inventario/productos/_services/requests';
+import { getAllProductsRequestServer } from '@/app/inventario/productos/_services/requests';
 import { Label } from '@/components/ui/label';
-import { simplificadorParaClientComponent } from '@/lib/utils';
 
 export default async function ProductsPage() {
-  const { products } = await getAllProductsRequest();
-
-  const productsSimplified = simplificadorParaClientComponent(products);
+  const { products } = await getAllProductsRequestServer();
 
   /* Secciones del navbar */
   const navbarTitles = [
@@ -47,7 +44,7 @@ export default async function ProductsPage() {
         <CardContent>
           <DataTableProducts
             columns={columnsProducts}
-            data={productsSimplified}
+            data={products}
           />
         </CardContent>
       </Card>

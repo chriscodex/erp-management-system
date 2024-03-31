@@ -1,7 +1,8 @@
 import { connectDB } from '@/db/mongodb';
 import { ProductService } from '@/backend/products/application/products.service';
+import { simplificadorParaClientComponent } from '@/lib/utils';
 
-export async function getAllProductsRequest() {
+export async function getAllProductsRequestServer() {
   try {
     await connectDB();
     const productService = new ProductService();
@@ -13,7 +14,10 @@ export async function getAllProductsRequest() {
       return { products: [], status: 500 };
     }
     const products = response?.payload;
-    return { products, status: 200 };
+    return {
+      products: simplificadorParaClientComponent(products),
+      status: 200,
+    };
   } catch (error) {
     console.error(error);
   }
