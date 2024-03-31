@@ -36,7 +36,9 @@ function NavbarDynamic({ children, titles = [] }) {
                           {item.title}
                         </Link>
                       ) : (
-                        <BreadcrumbPage className="pointer-events-none">{item.title}</BreadcrumbPage>
+                        <BreadcrumbPage className="pointer-events-none">
+                          {item.title}
+                        </BreadcrumbPage>
                       )}
                     </BreadcrumbItem>
                     {index < titles.length - 1 && (
@@ -48,7 +50,9 @@ function NavbarDynamic({ children, titles = [] }) {
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">{children}</div>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0 container mx-auto">
+          {children}
+        </div>
       </SidebarInset>
     </>
   );
