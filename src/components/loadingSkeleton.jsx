@@ -9,7 +9,7 @@ import {
 import { NavbarSimple } from '@/components/navbar/NavbarSimple';
 import { Skeleton } from '@/components/ui/skeleton';
 
-export default function Loading() {
+export function LoadingSkeleton() {
   return (
     <NavbarSimple title="">
       <div className="container mx-auto p-4">
