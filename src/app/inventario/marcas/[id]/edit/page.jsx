@@ -1,20 +1,16 @@
 import { notFound } from 'next/navigation';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getMarcaRequest } from '@/app/inventario/marcas/[id]/_services/requests.js';
+import { getMarcaRequestServer } from '@/app/inventario/marcas/[id]/_services/requests.js';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { UpdateFormMarca } from '@/app/inventario/marcas/[id]/edit/_components/updateFormMarca';
-import { getAllSegmentsRequest } from '@/app/inventario/categorias/_services/requests';
-import { simplificadorParaClientComponent } from '@/lib/utils';
+import { getAllSegmentsRequestServer } from '@/app/inventario/marcas/nuevo/_services/requests.js';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }) {
-  const { marca } = await getMarcaRequest(params.id);
-  const { segments } = await getAllSegmentsRequest();
-  const segmentsSimplified = simplificadorParaClientComponent(segments);
-
-  console.log('marca', marca);
+  const { marca } = await getMarcaRequestServer(params.id);
+  const { segments } = await getAllSegmentsRequestServer();
 
   if (!marca) {
     notFound();
@@ -53,7 +49,7 @@ export default async function Page({ params }) {
             <CardTitle className="text-3xl font-bold">Editar</CardTitle>
           </CardHeader>
           <CardContent>
-            <UpdateFormMarca marcaData={marca} segments={segmentsSimplified} />
+            <UpdateFormMarca marcaData={marca} segments={segments} />
           </CardContent>
         </Card>
       </div>

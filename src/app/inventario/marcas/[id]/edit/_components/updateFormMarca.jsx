@@ -184,6 +184,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
           <div className="flex justify-end space-x-2 mt-4">
             <div className="flex space-x-2">
               <Button
+                disabled={formSubmitIsLoading}
                 onClick={(e) => {
                   e.preventDefault();
                   router.back();
