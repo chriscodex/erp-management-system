@@ -58,23 +58,14 @@ export async function getCategoriesBySegmentDataRequestServer(segmentData) {
   }
 }
 
-export async function getMarcasBySegmentDataRequestServer(segmentData) {
+export async function getMarcasBySegmentDataRequestServer(marcaAndSegmentData) {
   try {
-    const { segmentId, segmentName } = segmentData;
-
-    const filter = {};
-
-    if (segmentName) {
-      filter.nombre = segmentName;
-    }
-    if (segmentId) {
-      filter.id = segmentId;
-    }
-
     await connectDB();
     const marcaService = new MarcaService();
 
-    const response = await marcaService.getMarcasBySegmentData(filter);
+    const response = await marcaService.getMarcasBySegmentData(
+      marcaAndSegmentData
+    );
 
     if (response?.status !== 200) {
       console.log('Error al obtener marcas por segmento');

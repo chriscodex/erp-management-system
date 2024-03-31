@@ -28,46 +28,45 @@ export class MarcaRepository {
       );
     }
   }
-  async getMarcasBySegmentData(segmentData) {
+  async getMarcasBySegmentData(marcaAndSegmentData) {
     try {
-      const { id, nombre } = segmentData;
+      const segmentFilter = {};
+      const marcaFilter = {};
 
-      let marcasFiltered;
-      if (id) {
-        marcasFiltered = await this.marcaModel
-          .find()
-          .populate({
-            path: 'segmentId',
-            match: {
-              $or: [
-                { _id: new mongoose.Types.ObjectId(id) }, // Coincide con el segmentId proporcionado
-              ],
-            },
-          })
-          .then(
-            (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
-          );
-        console.log('Marca Repository: Marcas filtradas por segmentId');
-      } else if (nombre) {
-        marcasFiltered = await this.marcaModel
-          .find()
-          .populate({
-            path: 'segmentId',
-            match: {
-              $or: [{ nombre: { $regex: new RegExp(`^${nombre}$`, 'i') } }],
-            },
-          })
-          .then(
-            (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
-          );
-        console.log('Marca Repository: Marcas filtradas por segmentName');
+      if (marcaAndSegmentData.segmentId) {
+        segmentFilter.segmentId = new mongoose.Types.ObjectId(
+          marcaAndSegmentData.segmentId
+        );
       }
+
+      if (marcaAndSegmentData.nombre) {
+        segmentFilter.nombre = {
+          $regex: new RegExp(`^${marcaAndSegmentData.nombre}$`, 'i'),
+        };
+      }
+
+      // Filtro para la marca
+      if (marcaAndSegmentData.marcaEstado) {
+        marcaFilter.estado = marcaAndSegmentData.marcaEstado;
+      }
+
+      const marcasFiltered = await this.marcaModel
+        .find(marcaFilter)
+        .populate({
+          path: 'segmentId',
+          match: segmentFilter,
+        })
+        .then(
+          (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+        );
+
+      console.log(marcasFiltered);
 
       if (marcasFiltered.length === 0) {
         console.log(
           'Marca Repository: No se encontraron marcas filtradas por segmento'
         );
-        return null;
+        return [];
       }
 
       console.log(

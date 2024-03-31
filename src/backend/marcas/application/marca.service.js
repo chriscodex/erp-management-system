@@ -37,11 +37,11 @@ export class MarcaService {
   }
   async getMarcasBySegmentData(segmentData) {
     try {
-      const marcaFiltered = await this.marcaRepository.getMarcasBySegmentData(
+      const marcasFiltered = await this.marcaRepository.getMarcasBySegmentData(
         segmentData
       );
 
-      if (!marcaFiltered) {
+      if (marcasFiltered.length === 0) {
         console.log(
           'Marca Service: No se encontraron marcas filtradas por segmento'
         );
@@ -54,7 +54,7 @@ export class MarcaService {
       console.log('Marca Service: Marcas filtradas por segmento encontradas');
       return {
         status: 200,
-        payload: marcaFiltered,
+        payload: marcasFiltered,
       };
     } catch (error) {
       console.error(
