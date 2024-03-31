@@ -128,7 +128,7 @@ export async function getAllProveedoresRequestServer() {
   }
 }
 
-export async function createProductRequest(product, setLoading) {
+export async function createProductRequestClient(product, setLoading) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */

@@ -30,7 +30,7 @@ import { createProductSchema } from '@/app/inventario/productos/nuevo/_services/
 import { NumberInputField } from '@/components/formInputs/NumberInputField';
 import { StringInputField } from '@/components/formInputs/StringInputField';
 import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
-import { createProductRequest } from '@/app/inventario/productos/nuevo/_services/requests';
+import { createProductRequestClient } from '@/app/inventario/productos/nuevo/_services/requests';
 import { toast } from 'sonner';
 
 export function FormAddProduct({
@@ -67,10 +67,8 @@ export function FormAddProduct({
   const onSubmit = handleSubmit(async (data) => {
     setFormSubmitIsLoading(true);
 
-    console.log(data);
-
     // Toast promise para crear
-    toast.promise(createProductRequest(data, setFormSubmitIsLoading), {
+    toast.promise(createProductRequestClient(data, setFormSubmitIsLoading), {
       loading: 'Creando...',
       success: () => {
         clearErrors();
