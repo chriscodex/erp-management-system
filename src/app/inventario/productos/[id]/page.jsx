@@ -6,7 +6,10 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { formatDateLong } from '@/lib/formateador';
 import { DataTableProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/data-table';
 import { columnsProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/columns';
-import { agregarNumeracionTable, simplificadorParaClientComponent } from '@/lib/utils';
+import {
+  agregarNumeracionTable,
+  simplificadorParaClientComponent,
+} from '@/lib/utils';
 import ProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/card';
 import GraphicSingleProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/graphic';
 
@@ -44,21 +47,19 @@ export default async function Page({ params }) {
   const updatedAtFormated = formatDateLong(updatedAt);
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <div className="container mx-auto p-4">
-        <Card>
-          <CardHeader className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 pb-2">
-            <ProductCard product={productSimplified} />
-            <GraphicSingleProductCard />
-          </CardHeader>
-          <CardContent>
-            <DataTableProduct
-              columns={columnsProduct}
-              data={unidadesEnumeradas}
-              status={status}
-            />
-          </CardContent>
-        </Card>
-      </div>
+      <Card>
+        <CardHeader className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 pb-2">
+          <ProductCard product={productSimplified} />
+          <GraphicSingleProductCard />
+        </CardHeader>
+        <CardContent>
+          <DataTableProduct
+            columns={columnsProduct}
+            data={unidadesEnumeradas}
+            status={status}
+          />
+        </CardContent>
+      </Card>
     </NavbarDynamic>
   );
 }

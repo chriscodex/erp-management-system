@@ -32,27 +32,25 @@ export default async function ProductsPage() {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <div className="container mx-auto p-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
-            <div className="flex items-center gap-2">
-              <RiGalleryView2 className="md:h-9 h-5 md:w-9 w-5" />
-              <Label className="sm:text-4xl text-xl font-bold">Productos</Label>
-            </div>
-            <Button asChild>
-              <Link href="/inventario/productos/nuevo">
-                <Plus className="h-4 w-4" /> Agregar Producto
-              </Link>
-            </Button>
-          </CardHeader>
-          <CardContent>
-            <DataTableProducts
-              columns={columnsProducts}
-              data={productsSimplified}
-            />
-          </CardContent>
-        </Card>
-      </div>
+      <Card>
+        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
+          <div className="flex items-center gap-2">
+            <RiGalleryView2 className="md:h-9 h-5 md:w-9 w-5" />
+            <Label className="sm:text-4xl text-xl font-bold">Productos</Label>
+          </div>
+          <Button asChild>
+            <Link href="/inventario/productos/nuevo">
+              <Plus className="h-4 w-4" /> Agregar Producto
+            </Link>
+          </Button>
+        </CardHeader>
+        <CardContent>
+          <DataTableProducts
+            columns={columnsProducts}
+            data={productsSimplified}
+          />
+        </CardContent>
+      </Card>
     </NavbarDynamic>
   );
 }

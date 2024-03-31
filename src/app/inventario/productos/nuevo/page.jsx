@@ -67,25 +67,23 @@ export default async function AddProductPage() {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <div className="container mx-auto p-6">
-        <Card className="w-full max-w-7xl mx-auto">
-          <CardHeader>
-            <CardTitle className="text-2xl">Agregar Producto</CardTitle>
-            <CardDescription>
-              Complete los detalles del nuevo producto a continuación.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <FormAddProduct
-              segment={segmentoSimplificado}
-              categories={categoriesSimplificadas}
-              marcas={marcasSimplificadas}
-              proveedores={proveedoresSimplificados}
-              almacenes={almacenesSimplificados}
-            />
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="w-full max-w-7xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl">Agregar Producto</CardTitle>
+          <CardDescription>
+            Complete los detalles del nuevo producto a continuación.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <FormAddProduct
+            segment={segmentoSimplificado}
+            categories={categoriesSimplificadas}
+            marcas={marcasSimplificadas}
+            proveedores={proveedoresSimplificados}
+            almacenes={almacenesSimplificados}
+          />
+        </CardContent>
+      </Card>
     </NavbarDynamic>
   );
 }
