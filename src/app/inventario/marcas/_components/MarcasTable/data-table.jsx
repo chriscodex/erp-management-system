@@ -23,7 +23,7 @@ import {
 } from '@/components/ui/table';
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
-import serverErrorToast from '@/components/toast/serverErrorToast';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
 
 export function DataTableMarcas({ columns, data, status = 200 }) {
   const router = useRouter();

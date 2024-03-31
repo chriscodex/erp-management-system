@@ -21,7 +21,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import serverErrorToast from '@/components/toast/serverErrorToast';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
 
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';

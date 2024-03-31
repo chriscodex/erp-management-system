@@ -38,7 +38,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-import serverErrorToast from '@/components/toast/serverErrorToast';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
 
 export function DataTableCategory({ data, segments, status = 200 }) {
   const router = useRouter();
