@@ -97,7 +97,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
         return (
           <div className="text-start">
             {row.getValue('estado') === 'activo' ? (
-              <Badge variant="success" className="text-sm">
+              <Badge variant="successTable" className="text-sm">
                 Activo
               </Badge>
             ) : (
