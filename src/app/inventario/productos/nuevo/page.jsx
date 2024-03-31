@@ -1,9 +1,9 @@
 import {
-  getSegmentByDataRequest,
-  getAllProveedoresRequest,
-  getMarcasBySegmentDataRequest,
-  getCategoriesBySegmentDataRequest,
-  getAllAlmacenesRequest,
+  getSegmentByDataRequestServer,
+  getAllProveedoresRequestServer,
+  getMarcasBySegmentDataRequestServer,
+  getCategoriesBySegmentDataRequestServer,
+  getAllAlmacenesRequestServer,
 } from '@/app/inventario/productos/nuevo/_services/requests';
 import { FormAddProduct } from '@/app/inventario/productos/nuevo/_components/FormAddProduct';
 import {
@@ -14,8 +14,6 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-
-import { simplificadorParaClientComponent } from '@/lib/utils';
 
 export default async function AddProductPage() {
   /* Secciones del navbar */
@@ -38,32 +36,25 @@ export default async function AddProductPage() {
   ];
 
   const [
-    categoriesResponse,
-    marcasResponse,
+    categoriesProductResponse,
+    marcasProductResponse,
     proveedoresResponse,
     almacenesResponse,
     segmentResponse,
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
-    getCategoriesBySegmentDataRequest({ segmentName: 'Productos' }),
-    getMarcasBySegmentDataRequest({ segmentName: 'Productos' }),
-    getAllProveedoresRequest(),
-    getAllAlmacenesRequest(),
-    getSegmentByDataRequest('Productos'),
+    getCategoriesBySegmentDataRequestServer({ segmentName: 'Productos' }),
+    getMarcasBySegmentDataRequestServer({ segmentName: 'Productos' }),
+    getAllProveedoresRequestServer(),
+    getAllAlmacenesRequestServer(),
+    getSegmentByDataRequestServer('Productos'),
   ]);
 
-  const { categories } = categoriesResponse;
-  const { marcas } = marcasResponse;
+  const { categories } = categoriesProductResponse;
+  const { marcas } = marcasProductResponse;
   const { proveedores } = proveedoresResponse;
   const { almacenes } = almacenesResponse;
   const { segment } = segmentResponse;
-
-  const marcasSimplificadas = simplificadorParaClientComponent(marcas);
-  const almacenesSimplificados = simplificadorParaClientComponent(almacenes);
-  const proveedoresSimplificados =
-    simplificadorParaClientComponent(proveedores);
-  const segmentoSimplificado = simplificadorParaClientComponent(segment);
-  const categoriesSimplificadas = simplificadorParaClientComponent(categories);
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -76,11 +67,11 @@ export default async function AddProductPage() {
         </CardHeader>
         <CardContent>
           <FormAddProduct
-            segment={segmentoSimplificado}
-            categories={categoriesSimplificadas}
-            marcas={marcasSimplificadas}
-            proveedores={proveedoresSimplificados}
-            almacenes={almacenesSimplificados}
+            segment={segment}
+            categories={categories}
+            marcas={marcas}
+            proveedores={proveedores}
+            almacenes={almacenes}
           />
         </CardContent>
       </Card>

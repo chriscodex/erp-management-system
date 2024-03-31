@@ -1,8 +1,6 @@
-import {
-  createProductClientUrl,
-} from '@/lib/urls';
+import { createProductClientUrl } from '@/lib/urls';
 import { postData } from '@/lib/fetchData';
-import { delay } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 import { connectDB } from '@/db/mongodb';
 import { AlmacenService } from '@/backend/almacenes/application/almacen.service';
@@ -11,7 +9,7 @@ import { ProveedorService } from '@/backend/proveedores/application/proveedor.se
 import { CategoryService } from '@/backend/categorias/application/category.service';
 import { SegmentService } from '@/backend/segments/application/segments.service';
 
-export async function getSegmentByDataRequest(segmentFilter) {
+export async function getSegmentByDataRequestServer(segmentFilter) {
   try {
     await connectDB();
     const segmentService = new SegmentService();
@@ -25,13 +23,13 @@ export async function getSegmentByDataRequest(segmentFilter) {
       return { segment: null, status: response?.status };
     }
     const segment = response?.payload;
-    return { segment, status: 200 };
+    return { segment: simplificadorParaClientComponent(segment), status: 200 };
   } catch (error) {
     console.error(error);
   }
 }
 
-export async function getCategoriesBySegmentDataRequest(segmentData) {
+export async function getCategoriesBySegmentDataRequestServer(segmentData) {
   try {
     const { segmentName } = segmentData;
 
@@ -51,13 +49,16 @@ export async function getCategoriesBySegmentDataRequest(segmentData) {
       return { categories: [], status: response?.status };
     }
     const categories = response?.payload;
-    return { categories, status: 200 };
+    return {
+      categories: simplificadorParaClientComponent(categories),
+      status: 200,
+    };
   } catch (error) {
     console.error(error);
   }
 }
 
-export async function getMarcasBySegmentDataRequest(segmentData) {
+export async function getMarcasBySegmentDataRequestServer(segmentData) {
   try {
     const { segmentId, segmentName } = segmentData;
 
@@ -80,13 +81,13 @@ export async function getMarcasBySegmentDataRequest(segmentData) {
       return { marcas: [], status: response?.status };
     }
     const marcas = response?.payload;
-    return { marcas, status: 200 };
+    return { marcas: simplificadorParaClientComponent(marcas), status: 200 };
   } catch (error) {
     console.error(error);
   }
 }
 
-export async function getAllAlmacenesRequest() {
+export async function getAllAlmacenesRequestServer() {
   try {
     await connectDB();
     const almacenService = new AlmacenService();
@@ -95,16 +96,19 @@ export async function getAllAlmacenesRequest() {
 
     if (response?.status !== 200) {
       console.log('Error al obtener todos los almacenes');
-      return { almacenes: [], status: 500 };
+      return { almacenes: [], status: response?.status };
     }
     const almacenes = response?.payload;
-    return { almacenes, status: 200 };
+    return {
+      almacenes: simplificadorParaClientComponent(almacenes),
+      status: 200,
+    };
   } catch (error) {
     console.error(error);
   }
 }
 
-export async function getAllProveedoresRequest() {
+export async function getAllProveedoresRequestServer() {
   try {
     await connectDB();
     const proveedorService = new ProveedorService();
@@ -115,7 +119,10 @@ export async function getAllProveedoresRequest() {
       return { proveedores: [], status: response?.status };
     }
     const proveedores = response?.payload;
-    return { proveedores, status: 200 };
+    return {
+      proveedores: simplificadorParaClientComponent(proveedores),
+      status: 200,
+    };
   } catch (error) {
     console.error(error);
   }
