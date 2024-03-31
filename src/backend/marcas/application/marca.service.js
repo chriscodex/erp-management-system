@@ -35,9 +35,9 @@ export class MarcaService {
       };
     }
   }
-  async getMarcaBySegmentData(segmentData) {
+  async getMarcasBySegmentData(segmentData) {
     try {
-      const marcaFiltered = await this.marcaRepository.getMarcaBySegmentData(
+      const marcaFiltered = await this.marcaRepository.getMarcasBySegmentData(
         segmentData
       );
 
@@ -46,8 +46,8 @@ export class MarcaService {
           'Marca Service: No se encontraron marcas filtradas por segmento'
         );
         return {
-          status: 404,
-          payload: 'No se encontraron marcas filtradas por segmento',
+          status: 200,
+          payload: [],
         };
       }
 
@@ -215,7 +215,7 @@ export class MarcaService {
       if (!marcaDeleted) {
         console.log('Marca Service: Marca no encontrada para ser eliminada');
         return {
-          status: 404,
+          status: 200,
           payload: 'La marca no existe',
         };
       }

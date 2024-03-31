@@ -22,7 +22,7 @@ export async function getMarcasController(request) {
 
     let result;
     if (segmentId !== null || segmentName !== null) {
-      result = await marcaService.getMarcaBySegmentData({
+      result = await marcaService.getMarcasBySegmentData({
         id: segmentId,
         nombre: segmentName,
       });

@@ -28,7 +28,7 @@ export class MarcaRepository {
       );
     }
   }
-  async getMarcaBySegmentData(segmentData) {
+  async getMarcasBySegmentData(segmentData) {
     try {
       const { id, nombre } = segmentData;
 

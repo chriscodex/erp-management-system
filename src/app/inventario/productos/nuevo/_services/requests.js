@@ -74,7 +74,7 @@ export async function getMarcasBySegmentDataRequestServer(segmentData) {
     await connectDB();
     const marcaService = new MarcaService();
 
-    const response = await marcaService.getMarcaBySegmentData(filter);
+    const response = await marcaService.getMarcasBySegmentData(filter);
 
     if (response?.status !== 200) {
       console.log('Error al obtener marcas por segmento');
