@@ -63,20 +63,21 @@ function FormUserDetail({ userDetail }) {
 
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
 
+  const userCurrentData = {
+    dni: userDetail?.dni,
+    apellidos: userDetail?.apellidos,
+    nombres: userDetail?.nombres,
+    celular: userDetail?.celular,
+    direccion: userDetail?.direccion,
+    rol: userDetail?.rol,
+    estado: userDetail?.estado,
+    password: '',
+    confirmPassword: '',
+  };
   /* Formulario Setup */
   const formUserUpdate = useForm({
     resolver: zodResolver(updateUserSchema),
-    defaultValues: {
-      dni: userDetail?.dni,
-      apellidos: userDetail?.apellidos,
-      nombres: userDetail?.nombres,
-      celular: userDetail?.celular,
-      direccion: userDetail?.direccion,
-      rol: userDetail?.rol,
-      estado: userDetail?.estado,
-      password: '',
-      confirmPassword: '',
-    },
+    defaultValues: userCurrentData,
   });
 
   const {
@@ -101,9 +102,7 @@ function FormUserDetail({ userDetail }) {
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
     const userDataToUpdate = Object.keys(currentValues).reduce(
       (datosCambiados, key) => {
-        if (
-          currentValues[key] !== formUserUpdate.formState.defaultValues[key]
-        ) {
+        if (currentValues[key] !== userCurrentData[key]) {
           datosCambiados[key] = currentValues[key];
         }
         return datosCambiados;
