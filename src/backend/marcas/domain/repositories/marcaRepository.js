@@ -62,8 +62,6 @@ export class MarcaRepository {
           (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
         );
 
-      console.log(marcasFiltered);
-
       if (marcasFiltered.length === 0) {
         console.log(
           'Marca Repository: No se encontraron marcas filtradas por segmento'

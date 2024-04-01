@@ -97,7 +97,6 @@ function FormUserDetail({ userDetail }) {
 
     // Obtener los valores actuales del formulario
     const currentValues = watch();
-    console.log(currentValues);
 
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
     const userDataToUpdate = Object.keys(currentValues).reduce(
