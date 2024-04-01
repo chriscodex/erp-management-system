@@ -33,8 +33,9 @@ export class MarcaRepository {
       const segmentFilter = {};
       const marcaFilter = {};
 
+      /* Filtros para el segmento */
       if (marcaAndSegmentData.segmentId) {
-        segmentFilter.segmentId = new mongoose.Types.ObjectId(
+        segmentFilter._id = new mongoose.Types.ObjectId(
           marcaAndSegmentData.segmentId
         );
       }
@@ -45,11 +46,12 @@ export class MarcaRepository {
         };
       }
 
-      // Filtro para la marca
+      /* Filtros para la marca */
       if (marcaAndSegmentData.marcaEstado) {
         marcaFilter.estado = marcaAndSegmentData.marcaEstado;
       }
 
+      // Buscar las marcas usando los filtros
       const marcasFiltered = await this.marcaModel
         .find(marcaFilter)
         .populate({

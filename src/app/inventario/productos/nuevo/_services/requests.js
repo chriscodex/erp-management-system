@@ -29,20 +29,16 @@ export async function getSegmentByDataRequestServer(segmentFilter) {
   }
 }
 
-export async function getCategoriesBySegmentDataRequestServer(segmentData) {
+export async function getCategoriesBySegmentDataRequestServer(
+  categoryAndSegmentData
+) {
   try {
-    const { segmentName } = segmentData;
-
-    const filter = {};
-
-    if (segmentName) {
-      filter.nombre = segmentName;
-    }
-
     await connectDB();
     const categoryService = new CategoryService();
 
-    const response = await categoryService.getCategoriesBySegmentData(filter);
+    const response = await categoryService.getCategoriesBySegmentData(
+      categoryAndSegmentData
+    );
 
     if (response?.status !== 200) {
       console.log('Error al obtener la categorías por segmento');

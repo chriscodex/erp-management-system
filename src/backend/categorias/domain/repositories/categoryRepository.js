@@ -68,28 +68,34 @@ export class CategoryRepository {
     }
   }
 
-  async getCategoriesBySegmentData(segmentData) {
+  async getCategoriesBySegmentData(categoryAndSegmentData) {
     try {
-      if (!segmentData) {
-        console.log('Category Repository: Categoría no proporcionada');
-        return null;
+      const segmentFilter = {};
+      const categoryFilter = {};
+
+      /* Filtros para el segmento */
+      if (categoryAndSegmentData.segmentId) {
+        segmentFilter._id = new mongoose.Types.ObjectId(
+          categoryAndSegmentData.segmentId
+        );
       }
 
-      const filter = {};
-
-      if (segmentData.id) {
-        filter._id = new mongoose.Types.ObjectId(segmentData.id);
+      if (categoryAndSegmentData.segmentName) {
+        segmentFilter.nombre = {
+          $regex: new RegExp(`^${categoryAndSegmentData.segmentName}$`, 'i'),
+        };
       }
 
-      if (segmentData.nombre) {
-        filter.nombre = { $regex: new RegExp(`^${segmentData.nombre}$`, 'i') };
+      /* Filtros para la categoría */
+      if (categoryAndSegmentData.categoryEstado) {
+        categoryFilter.estado = categoryAndSegmentData.categoryEstado;
       }
 
       const categoriesFilteredBySegmentData = await this.categoryModel
-        .find()
+        .find(categoryFilter)
         .populate({
           path: 'segmentId',
-          match: filter,
+          match: segmentFilter,
         })
         .then(
           (results) => results.filter((category) => category.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
