@@ -240,8 +240,17 @@ function FormUserDetail({ userDetail }) {
           <CardContent>
             <Tabs defaultValue="info" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="info">Información</TabsTrigger>
-                <TabsTrigger onClick={handleTabSecurity} value="security">
+                <TabsTrigger
+                  disabled={formUpdateUserSubmitIsLoading}
+                  value="info"
+                >
+                  Información
+                </TabsTrigger>
+                <TabsTrigger
+                  disabled={formUpdateUserSubmitIsLoading}
+                  onClick={handleTabSecurity}
+                  value="security"
+                >
                   Seguridad
                 </TabsTrigger>
               </TabsList>
