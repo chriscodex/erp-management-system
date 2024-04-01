@@ -154,10 +154,10 @@ export class MarcaService {
       };
     }
   }
-  async updateMarca(id, marca) {
+  async updateMarca(marcaId, marcaData) {
     try {
       // Validar los datos del usuario enviado con el schema
-      const marcaValidated = updateMarcaSchema.safeParse(marca);
+      const marcaValidated = updateMarcaSchema.safeParse(marcaData);
 
       if (!marcaValidated.success) {
         console.log(
@@ -170,9 +170,9 @@ export class MarcaService {
       }
 
       // Validar si el segmento enviado existe
-      if (marca.segmentId) {
+      if (marcaData.segmentId) {
         const segmentFound = await this.segmentRepository.getSegmentByData({
-          id: marca.segmentId,
+          id: marcaData.segmentId,
         });
         if (!segmentFound) {
           console.log('Marca Service: El segmento no existe');
@@ -184,9 +184,9 @@ export class MarcaService {
       }
 
       // Validar si una marca con ese nombre y en el mismo segmento ya existe
-      if (marca.nombre) {
-        const marcaFound = await this.marcaRepository.getMarcaByData(marca);
-        if (marcaFound && marcaFound?._id !== id) {
+      if (marcaData.nombre) {
+        const marcaFound = await this.marcaRepository.getMarcaByData(marcaData);
+        if (marcaFound && marcaFound?._id !== marcaId) {
           console.log(
             'Marca Service: Una marca con el mismo nombre ya existe en el segmento seleccionado'
           );
@@ -198,7 +198,10 @@ export class MarcaService {
         }
       }
 
-      const marcaUpdated = await this.marcaRepository.updateMarca(id, marca);
+      const marcaUpdated = await this.marcaRepository.updateMarca(
+        marcaId,
+        marcaData
+      );
 
       if (!marcaUpdated) {
         console.log('Marca Service: La marca no existe');

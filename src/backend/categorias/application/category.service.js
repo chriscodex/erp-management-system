@@ -177,20 +177,35 @@ export class CategoryService {
         };
       }
 
-      // Validar si una categoría con ese nombre y en el mismo segmento ya existe
-      delete categoryData.id;
-      const categoryFound = await this.categoryRepository.getCategoryByData(
-        categoryData
-      );
-      if (categoryFound && categoryFound?._id !== categoryId) {
-        console.log(
-          'Category Service: Una categoría con el mismo nombre ya existe en el segmento seleccionado'
+      // Validar si el segmento enviado existe
+      if (categoryData.segmentId) {
+        const segmentFound = await this.segmentRepository.getSegmentByData({
+          id: categoryData.segmentId,
+        });
+        if (!segmentFound) {
+          console.log('Category Service: El segmento no existe');
+          return {
+            status: 404,
+            payload: 'El segmento no existe',
+          };
+        }
+      }
+
+      // Validar si una marca con ese nombre y en el mismo segmento ya existe
+      if (categoryData.nombre) {
+        const categoryFound = await this.categoryRepository.getCategoryByData(
+          categoryData
         );
-        return {
-          status: 409,
-          payload:
-            'Una categoría con el mismo nombre ya existe en el segmento seleccionado',
-        };
+        if (categoryFound && categoryFound?._id !== categoryId) {
+          console.log(
+            'Category Service: Una categoría con el mismo nombre ya existe en el segmento seleccionado'
+          );
+          return {
+            status: 409,
+            payload:
+              'Una mategoría con el mismo nombre ya existe en el segmento seleccionado',
+          };
+        }
       }
 
       const categoryUpdated = await this.categoryRepository.updateCategory(
