@@ -52,22 +52,47 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
     handleSubmit,
     control,
     clearErrors,
+    watch,
     reset: resetForm,
   } = updateCategoryForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   // Manejo de formulario
-  const onSubmit = handleSubmit(async (data) => {
-    const categoryObject = {
-      ...data,
-      id: categoryData?._id,
-    };
+  const onSubmit = handleSubmit(async () => {
     setFormSubmitIsLoading(true);
+
+    // Obtener los valores actuales del formulario
+    const currentValues = watch();
+
+    // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
+    const categoryDataToUpdate = Object.keys(currentValues).reduce(
+      (datosCambiados, key) => {
+        if (
+          currentValues[key] !== updateCategoryForm.formState.defaultValues[key]
+        ) {
+          datosCambiados[key] = currentValues[key];
+        }
+        return datosCambiados;
+      },
+      {}
+    );
+
+    categoryDataToUpdate.segmentId = watch('segmentId');
+
+    if (Object.keys(categoryDataToUpdate).length === 0) {
+      toast.error('No se han realizado cambios.');
+      setFormSubmitIsLoading(false);
+      return;
+    }
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateCategoryRequestClient(categoryObject, setFormSubmitIsLoading),
+      updateCategoryRequestClient(
+        categoryData?._id,
+        categoryDataToUpdate,
+        setFormSubmitIsLoading
+      ),
       {
         loading: 'Actualizando...',
         success: () => {

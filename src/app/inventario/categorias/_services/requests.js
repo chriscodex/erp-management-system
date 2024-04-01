@@ -79,7 +79,11 @@ export async function createCategoryRequestClient(category, setLoading) {
   });
 }
 
-export async function updateCategoryRequestClient(category, setLoading) {
+export async function updateCategoryRequestClient(
+  categoryId,
+  category,
+  setLoading
+) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
@@ -88,11 +92,10 @@ export async function updateCategoryRequestClient(category, setLoading) {
       // Simular tiempo de retraso
       await delay();
 
-      const { id } = category;
-      const url = `${updateCategoryClientUrl}/${id}`;
+      const updateCategoryUrl = `${updateCategoryClientUrl}/${categoryId}`;
 
       // Obtener los datos de la persona
-      const response = await patchData(url, category);
+      const response = await patchData(updateCategoryUrl, category);
       if (response?.status !== 200) {
         setLoading(false);
         reject(
