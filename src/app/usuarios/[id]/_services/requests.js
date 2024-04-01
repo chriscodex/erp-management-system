@@ -24,7 +24,7 @@ export async function getUserRequestServer(userId) {
   }
 }
 
-export async function updateUserRequestClient(userData, setLoading) {
+export async function updateUserRequestClient(userId, userData, setLoading) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
@@ -33,11 +33,10 @@ export async function updateUserRequestClient(userData, setLoading) {
       // Simular tiempo de retraso
       await delay();
 
-      const { id } = userData;
-      const url = `${updateUserClientUrl}/${id}`;
+      const updateUserUrl = `${updateUserClientUrl}/${userId}`;
 
       // Obtener los datos de la persona
-      const response = await patchData(url, userData);
+      const response = await patchData(updateUserUrl, userData);
       if (response?.status !== 200) {
         setLoading(false);
         reject(

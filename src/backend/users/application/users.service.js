@@ -118,10 +118,10 @@ export class UsersService {
       };
     }
   }
-  async updateUser(userId, user) {
+  async updateUser(userId, userData) {
     try {
       // Validar los datos del usuario enviado con el schema
-      const userValidated = updateUserSchema.safeParse(user);
+      const userValidated = updateUserSchema.safeParse(userData);
 
       if (!userValidated.success) {
         console.log(
@@ -133,13 +133,28 @@ export class UsersService {
         };
       }
 
-      if (user.password) {
-        const { password } = user;
-        const passwordHash = await bcryptjs.hash(password, 12);
-        user.password = passwordHash;
+      // Validar si una usuario con el mismo DNI existe
+      if (userData.dni) {
+        const userFound = await this.userRepository.getUserByData(userData);
+        if (userFound && userFound?._id !== userId) {
+          console.log('User Service: Un usuario con el mismo dni ya existe');
+          return {
+            status: 409,
+            payload: 'Un usuario con el mismo dni ya existe',
+          };
+        }
       }
 
-      const userUpdated = await this.userRepository.updateUser(userId, user);
+      if (userData.password) {
+        const { password } = userData;
+        const passwordHash = await bcryptjs.hash(password, 12);
+        userData.password = passwordHash;
+      }
+
+      const userUpdated = await this.userRepository.updateUser(
+        userId,
+        userData
+      );
 
       if (!userUpdated) {
         console.log('User Service: El usuario no existe');

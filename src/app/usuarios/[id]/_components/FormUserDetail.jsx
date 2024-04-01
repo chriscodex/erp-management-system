@@ -84,19 +84,44 @@ function FormUserDetail({ userDetail }) {
     control: controlUserUpdate,
     clearErrors: clearErrorsUserUpdate,
     reset: resetUserUpdate,
+    watch,
   } = formUserUpdate;
 
   const [formUpdateUserSubmitIsLoading, setFormUpdateUserSubmitIsLoading] =
     useState(false);
 
   // Manejo de formulario
-  const onUpdateUserSubmit = handleSubmitUserUpdate(async (submitFormData) => {
+  const onUpdateUserSubmit = handleSubmitUserUpdate(async () => {
     setFormUpdateUserSubmitIsLoading(true);
+
+    // Obtener los valores actuales del formulario
+    const currentValues = watch();
+    console.log(currentValues);
+
+    // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
+    const userDataToUpdate = Object.keys(currentValues).reduce(
+      (datosCambiados, key) => {
+        if (
+          currentValues[key] !== formUserUpdate.formState.defaultValues[key]
+        ) {
+          datosCambiados[key] = currentValues[key];
+        }
+        return datosCambiados;
+      },
+      {}
+    );
+
+    if (Object.keys(userDataToUpdate).length === 0) {
+      toast.error('No se han realizado cambios.');
+      setFormUpdateUserSubmitIsLoading(false);
+      return;
+    }
 
     // Toast promise para buscar una persona
     toast.promise(
       updateUserRequestClient(
-        { ...submitFormData, id: userDetail?._id },
+        userDetail?._id,
+        userDataToUpdate,
         setFormUpdateUserSubmitIsLoading
       ),
       {
@@ -124,7 +149,6 @@ function FormUserDetail({ userDetail }) {
   const passwordForm = useForm({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
-      dni: userDetail?.dni,
       password: '',
       confirmPassword: '',
     },
@@ -143,7 +167,11 @@ function FormUserDetail({ userDetail }) {
     setIsUpdatePasswordOpen(false);
 
     toast.promise(
-      updateUserRequestClient(passwordForm, setFormUpdateUserSubmitIsLoading),
+      updateUserRequestClient(
+        userDetail?._id,
+        passwordForm,
+        setFormUpdateUserSubmitIsLoading
+      ),
       {
         loading: 'Actualizando...',
         success: () => {
