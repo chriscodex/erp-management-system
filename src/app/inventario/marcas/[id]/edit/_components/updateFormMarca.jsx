@@ -42,17 +42,44 @@ export function UpdateFormMarca({ segments, marcaData }) {
     },
   });
 
-  const { handleSubmit, control, clearErrors } = updateMarcaForm;
+  const { handleSubmit, control, clearErrors, watch } = updateMarcaForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   // Manejo de formulario
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async () => {
     setFormSubmitIsLoading(true);
+
+    // Obtener los valores actuales del formulario
+    const currentValues = watch();
+
+    // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
+    const marcaDataToUpdate = Object.keys(currentValues).reduce(
+      (datosCambiados, key) => {
+        if (
+          currentValues[key] !== updateMarcaForm.formState.defaultValues[key]
+        ) {
+          datosCambiados[key] = currentValues[key];
+        }
+        return datosCambiados;
+      },
+      {}
+    );
+    marcaDataToUpdate.segmentId = watch('segmentId');
+
+    if (Object.keys(marcaDataToUpdate).length === 0) {
+      toast.error('No se han realizado cambios.');
+      setFormSubmitIsLoading(false);
+      return;
+    }
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateMarcaRequestClient(marcaData?._id, data, setFormSubmitIsLoading),
+      updateMarcaRequestClient(
+        marcaData?._id,
+        marcaDataToUpdate,
+        setFormSubmitIsLoading
+      ),
       {
         loading: 'Actualizando...',
         success: () => {
