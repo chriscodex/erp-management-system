@@ -43,16 +43,14 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={titles}>
-      <div className="container mx-auto p-4">
-        <Card className="w-full max-w-7xl mx-auto">
-          <CardHeader>
-            <CardTitle className="text-3xl font-bold">Editar</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <UpdateFormMarca marcaData={marca} segments={segments} />
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="w-full max-w-7xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-3xl font-bold">Editar</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <UpdateFormMarca marcaData={marca} segments={segments} />
+        </CardContent>
+      </Card>
     </NavbarDynamic>
   );
 }
