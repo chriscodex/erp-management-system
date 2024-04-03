@@ -26,7 +26,7 @@ import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
 import { Button } from '@/components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
+import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 import { SheetUpdateUnitProductWrapper } from '../Sheets/sheetUpdateWrapper';
 
 export function DataTableProduct({ data, status = 200 }) {
@@ -82,17 +82,21 @@ export function DataTableProduct({ data, status = 200 }) {
       cell: ({ row }) => {
         return (
           <div className="text-start">
-            {row.getValue('estado') === 'disponible' ? (
-              <Badge
-                variant="success"
-                className="text-sm w-[71px] flex justify-center"
-              >
-                Activo
-              </Badge>
-            ) : (
-              <Badge variant="error" className="text-sm">
-                Inactivo
-              </Badge>
+            {row.getValue('estado') === 'disponible' && (
+              <BadgeUnitProduct variant="successTable">
+                Disponible
+              </BadgeUnitProduct>
+            )}
+            {row.getValue('estado') === 'reparado' && (
+              <BadgeUnitProduct variant="blueTable">Reparado</BadgeUnitProduct>
+            )}
+            {row.getValue('estado') === 'desaparecido' && (
+              <BadgeUnitProduct variant="orangeTable">
+                Desaparecido
+              </BadgeUnitProduct>
+            )}
+            {row.getValue('estado') === 'dañado' && (
+              <BadgeUnitProduct variant="redTable">Dañado</BadgeUnitProduct>
             )}
           </div>
         );
