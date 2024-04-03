@@ -24,9 +24,7 @@ export default function GraphicSingleProductCard({ unidades }) {
     unidadesDesaparecidas,
   } = contarEstadoDeUnidades(unidades);
 
-  const ddd = contarEstadoDeUnidades(unidades);
-  console.log(ddd);
-  // Datos simulados para los gráficos
+  // Datos para los gráficos
   const salesData = [
     {
       name: `Disponibles`,

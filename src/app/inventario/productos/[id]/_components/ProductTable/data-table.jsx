@@ -24,8 +24,95 @@ import {
 } from '@/components/ui/table';
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
+import { Button } from '@/components/ui/button';
+import { ArrowUpDown } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { SheetUpdateUnitProductWrapper } from '../Sheets/sheetUpdateWrapper';
 
-export function DataTableProduct({ columns, data, status = 200 }) {
+export function DataTableProduct({ data, status = 200 }) {
+  const columns = [
+    {
+      accessorKey: 'numeracion',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="w-1"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            N°
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <div className="text-start">{row.getValue('numeracion')}</div>;
+      },
+    },
+    {
+      accessorKey: 'code',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Código
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <div className="text-start">{row.getValue('code')}</div>;
+      },
+    },
+    {
+      accessorKey: 'estado',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Estado
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return (
+          <div className="text-start">
+            {row.getValue('estado') === 'disponible' ? (
+              <Badge
+                variant="success"
+                className="text-sm w-[71px] flex justify-center"
+              >
+                Activo
+              </Badge>
+            ) : (
+              <Badge variant="error" className="text-sm">
+                Inactivo
+              </Badge>
+            )}
+          </div>
+        );
+      },
+    },
+    {
+      id: 'actions',
+      cell: ({ row }) => {
+        return (
+          <div className="flex items-center space-x-3">
+            <SheetUpdateUnitProductWrapper
+              unitProductData={row.original}
+              productData={data}
+            />
+          </div>
+        );
+      },
+    },
+  ];
+
   const router = useRouter();
 
   /* Sorting */

@@ -4,7 +4,6 @@ import { getProductByIdRequestServer } from './_services/requests';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { DataTableProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/data-table';
-import { columnsProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/columns';
 import { agregarNumeracionTable } from '@/lib/utils';
 import ProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/card';
 import GraphicSingleProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/graphic';
@@ -47,11 +46,7 @@ export default async function Page({ params }) {
           <GraphicSingleProductCard unidades={unidades} />
         </CardHeader>
         <CardContent>
-          <DataTableProduct
-            columns={columnsProduct}
-            data={unidadesEnumeradas}
-            status={status}
-          />
+          <DataTableProduct data={unidadesEnumeradas} status={status} />
         </CardContent>
       </Card>
     </NavbarDynamic>
