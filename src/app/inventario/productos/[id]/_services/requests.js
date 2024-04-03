@@ -2,7 +2,7 @@ import { connectDB } from '@/db/mongodb';
 import { ProductService } from '@/backend/products/application/products.service';
 import { simplificadorParaClientComponent } from '@/lib/utils';
 
-export async function getProductByIdRequest(id) {
+export async function getProductByIdRequestServer(id) {
   try {
     await connectDB();
     const productService = new ProductService();
