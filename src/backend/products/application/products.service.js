@@ -9,6 +9,7 @@ import {
   generarCodigoUnicoDelProducto,
   generarUnidadesDelProducto,
 } from '@/backend/products/application/helpers';
+import { updateUnitProductSchema } from '@/backend/products/application/validations/updateUnitProductSchema';
 
 export class ProductService {
   constructor() {
@@ -201,6 +202,57 @@ export class ProductService {
     } catch (error) {
       console.error(
         `Product Service: Error interno al crear un producto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async updateUnitProduct(unitProductId, unitProductData) {
+    try {
+      const unitProductForValidation = {
+        unitProductId,
+        ...unitProductData,
+      };
+      // Validar los datos del unitProduct enviado con el schema
+      const productValidated = updateUnitProductSchema.safeParse(
+        unitProductForValidation
+      );
+
+      if (!productValidated.success) {
+        console.log(
+          `Product Service: Error de validación de schema de producto al actualizar ${productValidated}`
+        );
+        return {
+          status: 400,
+          payload: productValidated.error.issues,
+        };
+      }
+
+      const unitProductUpdated = await this.productRepository.updateUnitProduct(
+        unitProductId,
+        unitProductData
+      );
+
+      if (!unitProductUpdated) {
+        console.log(
+          'Product Service: UnitProduct no encontrado para actualizar'
+        );
+        return {
+          status: 404,
+          payload: 'UnitProduct no encontrado para actualizar',
+        };
+      }
+
+      console.log('Product Service: UnitProduct actualizado correctamente');
+      return {
+        status: 200,
+        payload: unitProductUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al actualizar el unitProduct: ${error.message}`
       );
       return {
         status: 500,
