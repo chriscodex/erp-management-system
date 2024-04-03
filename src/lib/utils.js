@@ -31,6 +31,31 @@ export function agregarNumeracionTable(array) {
   }));
 }
 
+export function contarEstadoDeUnidades(lista) {
+  const unidadesDisponibles = lista?.filter(
+    (unidad) => unidad.estado === 'disponible'
+  ).length;
+
+  const unidadesDanadas = lista?.filter(
+    (unidad) => unidad.estado === 'dañado'
+  ).length;
+
+  const unidadesReparadas = lista?.filter(
+    (unidad) => unidad.estado === 'reparado'
+  ).length;
+
+  const unidadesDesaparecidas = lista?.filter(
+    (unidad) => unidad.estado === 'desaparecido'
+  ).length;
+
+  return {
+    unidadesDisponibles,
+    unidadesDanadas,
+    unidadesReparadas,
+    unidadesDesaparecidas,
+  };
+}
+
 /**
  * Simplifica un objeto o array de objetos para ser utilizado en el lado
  * del cliente, transformado buffers.

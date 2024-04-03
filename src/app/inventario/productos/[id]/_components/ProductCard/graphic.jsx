@@ -1,7 +1,5 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 import {
   BarChart,
   Bar,
@@ -12,28 +10,55 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 
-export default function GraphicSingleProductCard() {
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { contarEstadoDeUnidades } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
+
+export default function GraphicSingleProductCard({ unidades }) {
+  const totalUnidades = unidades?.length;
+
+  const {
+    unidadesDisponibles,
+    unidadesDanadas,
+    unidadesReparadas,
+    unidadesDesaparecidas,
+  } = contarEstadoDeUnidades(unidades);
+
+  const ddd = contarEstadoDeUnidades(unidades);
+  console.log(ddd);
   // Datos simulados para los gráficos
   const salesData = [
-    { name: 'Disponibles', unidades: 12 },
-    { name: 'Dañados', unidades: 1 },
-    { name: 'Reparados', unidades: 0 },
-    { name: 'Desaparecidos', unidades: 2 },
+    {
+      name: `Disponibles`,
+      unidades: unidadesDisponibles,
+    },
+    {
+      name: `Dañados`,
+      unidades: unidadesDanadas,
+    },
+    {
+      name: `Reparados`,
+      unidades: unidadesReparadas,
+    },
+    {
+      name: `Desaparecidos`,
+      unidades: unidadesDesaparecidas,
+    },
   ];
 
   return (
     <>
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <CardTitle>Stock Total: 15</CardTitle>
-          <div>
-            <p className="text-sm text-muted-foreground">Total: 15</p>
-          </div>
-          <div>
-            <p className="text-sm text-muted-foreground">Total: 15</p>
-          </div>
+          <CardTitle>Stock Total: {totalUnidades}</CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <Label className="font-bold text-muted-foreground">{`Disponibles: ${unidadesDisponibles}`}</Label>
+            <Label className="font-bold text-muted-foreground">{`Dañados: ${unidadesDanadas}`}</Label>
+            <Label className="font-bold text-muted-foreground">{`Reparados: ${unidadesReparadas}`}</Label>
+            <Label className="font-bold text-muted-foreground">{`Desaparecidos: ${unidadesDesaparecidas}`}</Label>
+          </div>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={salesData}>
               <CartesianGrid strokeDasharray="3 3" />
