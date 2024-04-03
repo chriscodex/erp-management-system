@@ -11,13 +11,13 @@ const badgeVariants = cva(
         default:
           'border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80',
         successTable:
-          'bg-green-600 text-neutral-100 font-normal text-base w-[90px] flex items-center justify-center',
+          'bg-green-600 text-neutral-100 font-normal text-base w-[120px] flex items-center justify-center',
         blueTable:
-          'bg-blue-500 text-neutral-100 font-normal text-base w-[90px] flex items-center justify-center',
+          'bg-blue-500 text-neutral-100 font-normal text-base w-[120px] flex items-center justify-center',
         orangeTable:
-          'bg-orange-500 text-neutral-100 font-normal text-base w-[90px] flex items-center justify-center',
+          'bg-orange-500 text-neutral-100 font-normal text-base w-[120px] flex items-center justify-center',
         redTable:
-          'bg-red-500 text-neutral-100 font-normal text-base w-[90px] flex items-center justify-center',
+          'bg-red-500 text-neutral-100 font-normal text-base w-[120px] flex items-center justify-center',
       },
     },
     defaultVariants: {
