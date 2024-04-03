@@ -130,4 +130,28 @@ export class ProductRepository {
       throw new Error(`Error al crear el producto: ${error.message}`);
     }
   }
+  async updateUnitProduct(unitProductId, unitProductData) {
+    const filter = {};
+
+    // Recorrer las claves de unitProductData y construir el filtro
+    for (const key in unitProductData) {
+      if (Object.hasOwnProperty.call(unitProductData, key)) {
+        filter[`unidades.$.${key}`] = unitProductData[key];
+      }
+    }
+
+    // Realizar la actualización
+    const productUpdated = await this.productModel.findOneAndUpdate(
+      { 'unidades._id': unitProductId }, // Filtrar por el ID del subdocumento
+      { $set: filter }, // Actualizar dinámicamente solo los campos enviados
+      { new: true } // Retornar el producto actualizado
+    );
+
+    // Manejo de errores o producto no encontrado
+    if (!productUpdated) {
+      throw new Error(`Producto con la unidad ${unitProductId} no encontrado`);
+    }
+
+    return productUpdated;
+  }
 }
