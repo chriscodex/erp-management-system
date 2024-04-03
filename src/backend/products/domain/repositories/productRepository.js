@@ -131,27 +131,36 @@ export class ProductRepository {
     }
   }
   async updateUnitProduct(unitProductId, unitProductData) {
-    const filter = {};
+    try {
+      const filter = {};
 
-    // Recorrer las claves de unitProductData y construir el filtro
-    for (const key in unitProductData) {
-      if (Object.hasOwnProperty.call(unitProductData, key)) {
-        filter[`unidades.$.${key}`] = unitProductData[key];
+      // Recorrer las claves de unitProductData y construir el filtro
+      for (const key in unitProductData) {
+        if (Object.hasOwnProperty.call(unitProductData, key)) {
+          filter[`unidades.$.${key}`] = unitProductData[key];
+        }
       }
+
+      // Realizar la actualización
+      const productUpdated = await this.productModel.findOneAndUpdate(
+        { 'unidades._id': unitProductId }, // Filtrar por el ID del subdocumento
+        { $set: filter }, // Actualizar dinámicamente solo los campos enviados
+        { new: true } // Retornar el producto actualizado
+      );
+
+      // Manejo de errores o producto no encontrado
+      if (!productUpdated) {
+        throw new Error(
+          `Producto con la unidad ${unitProductId} no encontrado`
+        );
+      }
+
+      return productUpdated;
+    } catch (error) {
+      console.log(
+        `Product Repository: Error al actualizar el unitProduct: ${error.message}`
+      );
+      throw new Error(`Error al actualizar el unitProduct: ${error.message}`);
     }
-
-    // Realizar la actualización
-    const productUpdated = await this.productModel.findOneAndUpdate(
-      { 'unidades._id': unitProductId }, // Filtrar por el ID del subdocumento
-      { $set: filter }, // Actualizar dinámicamente solo los campos enviados
-      { new: true } // Retornar el producto actualizado
-    );
-
-    // Manejo de errores o producto no encontrado
-    if (!productUpdated) {
-      throw new Error(`Producto con la unidad ${unitProductId} no encontrado`);
-    }
-
-    return productUpdated;
   }
 }
