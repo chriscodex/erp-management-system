@@ -1,5 +1,6 @@
 import { connectDB } from '@/db/mongodb';
 import { ProductService } from '@/backend/products/application/products.service';
+import { simplificadorParaClientComponent } from '@/lib/utils';
 
 export async function getProductByIdRequest(id) {
   try {
@@ -13,7 +14,7 @@ export async function getProductByIdRequest(id) {
       return { product: null, status: 500 };
     }
     const product = response?.payload;
-    return { product, status: 200 };
+    return { product: simplificadorParaClientComponent(product), status: 200 };
   } catch (error) {
     console.log(error);
   }

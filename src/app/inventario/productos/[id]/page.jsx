@@ -3,13 +3,9 @@ import { notFound } from 'next/navigation';
 import { getProductByIdRequest } from './_services/requests';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { formatDateLong } from '@/lib/formateador';
 import { DataTableProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/data-table';
 import { columnsProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/columns';
-import {
-  agregarNumeracionTable,
-  simplificadorParaClientComponent,
-} from '@/lib/utils';
+import { agregarNumeracionTable } from '@/lib/utils';
 import ProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/card';
 import GraphicSingleProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/graphic';
 
@@ -20,9 +16,7 @@ export default async function Page({ params }) {
     notFound();
   }
 
-  const productSimplified = simplificadorParaClientComponent(product);
-
-  const { nombre: productName, updatedAt, unidades } = productSimplified;
+  const { nombre: productName, unidades } = product;
 
   const navbarTitles = [
     {
@@ -44,12 +38,12 @@ export default async function Page({ params }) {
 
   const unidadesEnumeradas = agregarNumeracionTable(unidades);
 
-  const updatedAtFormated = formatDateLong(updatedAt);
+  // const updatedAtFormated = formatDateLong(updatedAt);
   return (
     <NavbarDynamic titles={navbarTitles}>
       <Card>
         <CardHeader className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 pb-2">
-          <ProductCard product={productSimplified} />
+          <ProductCard product={product} />
           <GraphicSingleProductCard />
         </CardHeader>
         <CardContent>
