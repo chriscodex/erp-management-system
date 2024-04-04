@@ -53,3 +53,24 @@ export async function createProductController(request) {
     throw new Error('Product Controller: Error interno al crear el producto');
   }
 }
+
+export async function updateUnitProductController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id } = params;
+    const body = await request.json();
+
+    await connectDB();
+
+    const result = await productService.updateUnitProduct(id, body);
+    return result;
+  } catch (error) {
+    console.error(
+      'Product Controller: Error interno actualizando el unitProduct:',
+      error.message
+    );
+    throw new Error(
+      'Product Controller: Error interno actualizando el unitProduct'
+    );
+  }
+}
