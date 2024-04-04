@@ -5,9 +5,9 @@ import {
   deleteMarcaController,
 } from '@/backend/marcas/infrastructure/controllers';
 
-export async function GET(_, routeContext) {
+export async function GET(_, contextRoute) {
   try {
-    const { payload, status } = await getMarcaController(routeContext);
+    const { payload, status } = await getMarcaController(contextRoute);
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
@@ -25,11 +25,11 @@ export async function GET(_, routeContext) {
   }
 }
 
-export async function PATCH(request, routeContext) {
+export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateMarcaController(
       request,
-      routeContext
+      contextRoute
     );
 
     if (status !== 200) {
@@ -48,9 +48,9 @@ export async function PATCH(request, routeContext) {
   }
 }
 
-export async function DELETE(_, routeContext) {
+export async function DELETE(_, contextRoute) {
   try {
-    const { payload, status } = await deleteMarcaController(routeContext);
+    const { payload, status } = await deleteMarcaController(contextRoute);
 
     if (status === 204) {
       return new NextResponse(null, { status });

@@ -19,9 +19,9 @@ export async function getAllAlmacenesController() {
   }
 }
 
-export async function getAlmacenController(routeContext) {
+export async function getAlmacenController(contextRoute) {
   try {
-    const { params } = routeContext;
+    const { params } = contextRoute;
     const { id } = params;
 
     await connectDB();

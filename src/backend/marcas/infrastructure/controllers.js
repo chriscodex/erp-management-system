@@ -41,9 +41,9 @@ export async function getMarcasController(request) {
   }
 }
 
-export async function getMarcaController(routeContext) {
+export async function getMarcaController(contextRoute) {
   try {
-    const { params } = routeContext;
+    const { params } = contextRoute;
     const { id } = params;
 
     await connectDB();
@@ -75,9 +75,9 @@ export async function createMarcaController(request) {
   }
 }
 
-export async function updateMarcaController(request, routeContext) {
+export async function updateMarcaController(request, contextRoute) {
   try {
-    const { params } = routeContext;
+    const { params } = contextRoute;
     const { id } = params;
     const body = await request.json();
 
@@ -94,9 +94,9 @@ export async function updateMarcaController(request, routeContext) {
   }
 }
 
-export async function deleteMarcaController(routeContext) {
+export async function deleteMarcaController(contextRoute) {
   try {
-    const { params } = routeContext;
+    const { params } = contextRoute;
     const { id } = params;
 
     await connectDB();

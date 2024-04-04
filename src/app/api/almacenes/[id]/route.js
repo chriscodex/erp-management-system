@@ -2,9 +2,9 @@ import { NextResponse } from 'next/server';
 
 import { getAlmacenController } from '@/backend/almacenes/infrastructure/controllers';
 
-export async function GET(_, routeContext) {
+export async function GET(_, contextRoute) {
   try {
-    const { payload, status } = await getAlmacenController(routeContext);
+    const { payload, status } = await getAlmacenController(contextRoute);
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
