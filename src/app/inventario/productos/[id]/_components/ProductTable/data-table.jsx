@@ -11,7 +11,6 @@ import {
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 
 import { Input } from '@/components/ui/input';
 import {
@@ -28,8 +27,9 @@ import { Button } from '@/components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 import { SheetUpdateUnitProductWrapper } from '../Sheets/sheetUpdateWrapper';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
 
-export function DataTableProduct({ data, status = 200 }) {
+export function DataTableProduct({ productData, unidades, status = 200 }) {
   const columns = [
     {
       accessorKey: 'numeracion',
@@ -109,7 +109,7 @@ export function DataTableProduct({ data, status = 200 }) {
           <div className="flex items-center space-x-3">
             <SheetUpdateUnitProductWrapper
               unitProductData={row.original}
-              productData={data}
+              productData={productData}
             />
           </div>
         );
@@ -123,9 +123,8 @@ export function DataTableProduct({ data, status = 200 }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
-  /* Table */
   const table = useReactTable({
-    data,
+    data: unidades,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -156,10 +155,7 @@ export function DataTableProduct({ data, status = 200 }) {
 
   useEffect(() => {
     if (status !== 200) {
-      toast.error(
-        'No podemos conectarnos al servidor en este momento. Verifica tu conexión a internet o inténtalo nuevamente en unos minutos. Si el error persiste, ponte en contacto con los desarrolladores.',
-        { duration: 10000 }
-      );
+      serverErrorToast();
     }
   }, [status]);
 

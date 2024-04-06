@@ -46,7 +46,11 @@ export default async function Page({ params }) {
           <GraphicSingleProductCard unidades={unidades} />
         </CardHeader>
         <CardContent>
-          <DataTableProduct data={unidadesEnumeradas} status={status} />
+          <DataTableProduct
+            productData={product}
+            unidades={unidadesEnumeradas}
+            status={status}
+          />
         </CardContent>
       </Card>
     </NavbarDynamic>

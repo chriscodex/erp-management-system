@@ -22,7 +22,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import { updateCategoryRequestClient } from '@/app/inventario/categorias/_services/requests';
 import {
   Select,
   SelectContent,
@@ -31,7 +30,8 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { updateUnitProductSchema } from '@/app/inventario/productos/[id]/_services/validations/updateUnitProductSchema';
+import { updateUnitProductFormSchema } from '@/app/inventario/productos/[id]/_services/validations/updateUnitProductSchema';
+import { updateUnitProductRequestClient } from '@/app/inventario/productos/[id]/_services/requests';
 
 export function UpdateUnitProductForm({
   unitProductData,
@@ -41,7 +41,7 @@ export function UpdateUnitProductForm({
   const router = useRouter();
 
   const updateUnitProductForm = useForm({
-    resolver: zodResolver(updateUnitProductSchema),
+    resolver: zodResolver(updateUnitProductFormSchema),
     defaultValues: {
       estado: unitProductData?.estado,
     },
@@ -65,7 +65,7 @@ export function UpdateUnitProductForm({
     const currentValues = watch();
 
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
-    const categoryDataToUpdate = Object.keys(currentValues).reduce(
+    const unitProductDataToUpdate = Object.keys(currentValues).reduce(
       (datosCambiados, key) => {
         if (
           currentValues[key] !==
@@ -78,9 +78,7 @@ export function UpdateUnitProductForm({
       {}
     );
 
-    categoryDataToUpdate.segmentId = watch('segmentId');
-
-    if (Object.keys(categoryDataToUpdate).length === 0) {
+    if (Object.keys(unitProductDataToUpdate).length === 0) {
       toast.error('No se han realizado cambios.');
       setFormSubmitIsLoading(false);
       return;
@@ -88,9 +86,9 @@ export function UpdateUnitProductForm({
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateCategoryRequestClient(
-        productData?._id,
-        categoryDataToUpdate,
+      updateUnitProductRequestClient(
+        unitProductData?._id,
+        unitProductDataToUpdate,
         setFormSubmitIsLoading
       ),
       {
@@ -100,7 +98,7 @@ export function UpdateUnitProductForm({
           resetForm();
           onClose();
           router.refresh();
-          return `Categoría actualizada exitosamente`;
+          return `Unidad de producto actualizada exitosamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);
@@ -110,12 +108,15 @@ export function UpdateUnitProductForm({
     );
   });
 
+  console.log(productData);
+
   return (
     <SheetContent>
       <SheetHeader>
         <SheetTitle>{productData?.nombre}</SheetTitle>
         <SheetDescription>{productData?.descripcion}</SheetDescription>
       </SheetHeader>
+      
       <Form {...updateUnitProductForm}>
         <form onSubmit={onSubmit} className="grid gap-4 py-4">
           <FormField
