@@ -24,6 +24,7 @@ import {
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTableMarcas({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -50,8 +51,6 @@ export function DataTableMarcas({ columns, data, status = 200 }) {
 
   /* Search */
   const [searchValue, setSearchValue] = useState('');
-
-  const TIME_DEBOUNCE = 300;
 
   const debouncedSearch = useDebouncedCallback((value) => {
     table.getColumn('nombre')?.setFilterValue(value);
