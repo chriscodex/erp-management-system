@@ -32,6 +32,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { updateUnitProductFormSchema } from '@/app/inventario/productos/[id]/_services/validations/updateUnitProductSchema';
 import { updateUnitProductRequestClient } from '@/app/inventario/productos/[id]/_services/requests';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
 export function UpdateUnitProductForm({
   unitProductData,
@@ -116,47 +118,65 @@ export function UpdateUnitProductForm({
         <SheetTitle>{productData?.nombre}</SheetTitle>
         <SheetDescription>{productData?.descripcion}</SheetDescription>
       </SheetHeader>
-      
-      <Form {...updateUnitProductForm}>
-        <form onSubmit={onSubmit} className="grid gap-4 py-4">
-          <FormField
-            control={control}
-            name="estado"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel>Estado</FormLabel>
-                <div className="relative">
-                  <Select
-                    defaultValue={unitProductData?.estado}
-                    onValueChange={field.onChange}
-                    disabled={formSubmitIsLoading}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full pl-2">
-                        <SelectValue placeholder="Seleccione un estado" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value="disponible">Disponible</SelectItem>
-                      <SelectItem value="dañado">Dañado</SelectItem>
-                      <SelectItem value="reparado">Reparado</SelectItem>
-                      <SelectItem value="desaparecido">Desaparecido</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <SheetFooter>
-            <SheetClose asChild>
-              <Button disabled={formSubmitIsLoading} onClick={onSubmit}>
-                Actualizar
-              </Button>
-            </SheetClose>
-          </SheetFooter>
-        </form>
-      </Form>
+      <Separator />
+      <div className="grid gap-4 py-4">
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label className="col-span-1 text-left font-bold">Código: </Label>
+          <p className="col-span-2">{productData?.code}</p>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label className="col-span-1 text-left font-bold">Marca: </Label>
+          <p className="col-span-2">{productData?.marcaId?.nombre}</p>
+        </div>
+        <div className="grid grid-cols-3 items-center gap-4">
+          <Label className="col-span-1 text-left font-bold">Categoría: </Label>
+          <p className="col-span-2">{productData?.categoryId?.nombre}</p>
+        </div>
+        <Form {...updateUnitProductForm}>
+          <form onSubmit={onSubmit} className="grid gap-4">
+            <FormField
+              control={control}
+              name="estado"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel className="col-span-1 text-left font-bold">
+                    Estado
+                  </FormLabel>
+                  <div className="relative">
+                    <Select
+                      defaultValue={unitProductData?.estado}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un estado" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="disponible">Disponible</SelectItem>
+                        <SelectItem value="dañado">Dañado</SelectItem>
+                        <SelectItem value="reparado">Reparado</SelectItem>
+                        <SelectItem value="desaparecido">
+                          Desaparecido
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <SheetFooter>
+              <SheetClose asChild>
+                <Button disabled={formSubmitIsLoading} onClick={onSubmit}>
+                  Actualizar
+                </Button>
+              </SheetClose>
+            </SheetFooter>
+          </form>
+        </Form>
+      </div>
     </SheetContent>
   );
 }
