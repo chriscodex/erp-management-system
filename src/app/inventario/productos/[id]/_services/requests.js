@@ -1,6 +1,8 @@
 import { connectDB } from '@/db/mongodb';
 import { ProductService } from '@/backend/products/application/products.service';
-import { simplificadorParaClientComponent } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
+import { patchData } from '@/lib/fetchData';
+import { updateUnitProductClientUrl } from '@/lib/urls';
 
 export async function getProductByIdRequestServer(id) {
   try {
@@ -18,4 +20,38 @@ export async function getProductByIdRequestServer(id) {
   } catch (error) {
     console.log(error);
   }
+}
+
+export async function updateUnitProductRequestClient(
+  unitProductId,
+  unitProductData,
+  setLoading
+) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      setLoading(true);
+      // Simular tiempo de retraso
+      await delay();
+
+      const updateUnitProductoUrl = `${updateUnitProductClientUrl}/${unitProductId}`;
+
+      // Obtener los datos de la persona
+      const response = await patchData(updateUnitProductoUrl, unitProductData);
+      if (response?.status !== 200) {
+        setLoading(false);
+        reject(
+          'No se pudo actualizar la marca: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      setLoading(false);
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
+      setLoading(false);
+      reject(error);
+    }
+  });
 }
