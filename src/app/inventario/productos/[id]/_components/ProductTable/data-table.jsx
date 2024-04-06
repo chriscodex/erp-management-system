@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
 
+import { TIME_DEBOUNCE } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -140,8 +141,6 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
 
   /* Search */
   const [searchValue, setSearchValue] = useState('');
-
-  const TIME_DEBOUNCE = 300;
 
   const debouncedSearch = useDebouncedCallback((value) => {
     table.getColumn('code')?.setFilterValue(value);

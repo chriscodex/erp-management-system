@@ -25,6 +25,7 @@ import { serverErrorToast } from '@/components/toast/serverErrorToast';
 
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
+import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTable({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -51,8 +52,6 @@ export function DataTable({ columns, data, status = 200 }) {
 
   /* Search */
   const [searchValue, setSearchValue] = useState('');
-
-  const TIME_DEBOUNCE = 300;
 
   const debouncedSearch = useDebouncedCallback((value) => {
     table.getColumn('apellidos')?.setFilterValue(value);

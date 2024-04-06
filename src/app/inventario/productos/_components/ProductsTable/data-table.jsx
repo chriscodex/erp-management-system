@@ -11,7 +11,6 @@ import {
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 
 import { Input } from '@/components/ui/input';
 import {
@@ -24,6 +23,8 @@ import {
 } from '@/components/ui/table';
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTableProducts({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -51,8 +52,6 @@ export function DataTableProducts({ columns, data, status = 200 }) {
   /* Search */
   const [searchValue, setSearchValue] = useState('');
 
-  const TIME_DEBOUNCE = 300;
-
   const debouncedSearch = useDebouncedCallback((value) => {
     table.getColumn('nombre')?.setFilterValue(value);
   }, TIME_DEBOUNCE);
@@ -65,10 +64,7 @@ export function DataTableProducts({ columns, data, status = 200 }) {
 
   useEffect(() => {
     if (status !== 200) {
-      toast.error(
-        'No podemos conectarnos al servidor en este momento. Verifica tu conexión a internet o inténtalo nuevamente en unos minutos. Si el error persiste, ponte en contacto con los desarrolladores.',
-        { duration: 10000 }
-      );
+      serverErrorToast();
     }
   }, [status]);
 
@@ -88,7 +84,6 @@ export function DataTableProducts({ columns, data, status = 200 }) {
           className="max-w-sm"
         />
         <div>
-          
           {/* View options */}
           <DataTableViewOptions table={table} />
         </div>
