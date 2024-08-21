@@ -1,4 +1,4 @@
-import { Schema } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 const userSchema = new Schema({
   dni: {
@@ -12,3 +12,7 @@ const userSchema = new Schema({
     select: false,
   },
 });
+
+const User = models.User || model('User', userSchema);
+
+export default User
