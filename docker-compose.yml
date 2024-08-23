@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.8'  # (opcional, pero recomendable incluirlo)
 
 services:
   mongodb:
@@ -7,8 +7,24 @@ services:
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: admin
-      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_ROOT_PASSWORD: qweasdzxc
     ports:
       - '27017:27017'
     volumes:
-      - mongo-data:/data/db
+      - mongo-data:/data/db  # Volumen para persistir datos de MongoDB
+
+  nextjs:
+    build: .
+    container_name: nextjs-motorock
+    restart: always
+    ports:
+      - '3000:3000'
+    environment:
+      MONGODB_URI: mongodb://admin:qweasdzxc@mongodb:27017/motorock?authSource=admin
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app  # Montar el código fuente desde la raíz en /app del contenedor
+
+volumes:
+  mongo-data:  # Definición del volumen
