@@ -21,6 +21,8 @@ services:
       - '3000:3000'
     environment:
       MONGODB_URI: mongodb://admin:qweasdzxc@mongodb:27017/motorock?authSource=admin
+      NEXTAUTH_URL: http://localhost:3000
+      NEXTAUTH_SECRET: N1ouTYi6isl2sz6
     depends_on:
       - mongodb
     volumes:
