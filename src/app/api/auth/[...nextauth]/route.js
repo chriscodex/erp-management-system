@@ -5,6 +5,20 @@ const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: 'Credentials',
+      credentials: {
+        dni: { label: "DNI", type: "text", placeholder: "" },
+        contraseña: { label: "Contraseña", type: "password" }
+      },
+      async authorize(credentials, req) {
+        const user = {
+          dni: credentials.dni,
+          apellidos: "Perez",
+          nombres: "Juan",
+          celular: "1234567890",
+          password: credentials.contrasenya
+        }
+        return user
+      }
     })
   ]
 })
