@@ -1,6 +1,7 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { connectDB } from '@/libs/mongodb'
+import User from '@/models/user'
 
 const handler = NextAuth({
   providers: [
@@ -11,6 +12,7 @@ const handler = NextAuth({
         contraseña: { label: "Contraseña", type: "password" }
       },
       async authorize(credentials, req) {
+        const client = await connectDB()
         const user = {
           dni: credentials.dni,
           apellidos: "Perez",
