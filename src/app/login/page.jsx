@@ -1,4 +1,6 @@
-function LoginPage() {
+
+
+function LoginPage() {  
   return (
     <>
       <div>Login page</div>
