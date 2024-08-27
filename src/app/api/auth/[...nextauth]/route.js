@@ -13,7 +13,6 @@ const handler = NextAuth({
         password: { label: 'Contraseña', type: 'password' },
       },
       async authorize(credentials, req) {
-        try {
           await connectDB();
 
           const userFound = await User.findOne({ dni: credentials.dni });
@@ -30,10 +29,6 @@ const handler = NextAuth({
           delete userFound.password;
 
           return userFound;
-        } catch (error) {
-          console.log(error);
-          return null;
-        }
       },
     }),
   ],
