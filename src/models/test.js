@@ -18,15 +18,15 @@ const connectDB = async () => {
 
 // Función para crear un nuevo usuario
 const createUser = async () => {
-  const passwordHash = await bcryptjs.hash('password123', 12);
+  const passwordHash = await bcryptjs.hash('123', 12);
   
   try {
     const newUser = new User({
-      dni: '12345678',
-      apellidos: 'Perez',
-      nombres: 'Juan',
+      dni: '74062106',
+      apellidos: 'Espinoza Cadillo',
+      nombres: 'Christian Gonzalo',
       celular: '987654321',
-      dirección: 'Av. Siempre Viva 123',
+      dirección: 'Av. Centenario 123',
       password: passwordHash,
       rol: 'admin',
     });
