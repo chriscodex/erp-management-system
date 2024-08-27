@@ -30,10 +30,10 @@ function LoginPage() {
 
   return (
     <>
-      <section className="h-screen w-full text-white">
+      <section className="h-screen w-full text-white flex justify-center">
         <div className="h-screen w-full max-w-7xl grid grid-cols-2 gap-4">
           {/* Izquierda */}
-          <form onSubmit={handleSubmit} className="flex flex-col">
+          <form onSubmit={handleSubmit} className="flex flex-col items-center justify-center">
             {error && <p className="text-red-500">{error}</p>}
 
             <h1 className="text-3xl">Iniciar Sesión</h1>
@@ -45,8 +45,8 @@ function LoginPage() {
             <button className='bg-blue-400 px-4 py-2 mt-3'>Iniciar Sesión</button>
           </form>
           {/* Derecha */}
-          <div className="py-4 pr-4 flex justify-center items-center">
-            <img src="fb.jpg" className="rounded-lg"></img>
+          <div className="w-full py-4 pr-4 flex justify-center items-center">
+            <img src="fb.jpg" alt='motorock-logo' className="rounded-lg"></img>
           </div>
         </div>
       </section>
