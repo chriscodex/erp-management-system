@@ -1,29 +1,64 @@
-import NextAuth from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
-import { connectDB } from '@/libs/mongodb'
-import User from '@/models/user'
+import NextAuth from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { connectDB } from '@/libs/mongodb';
+import { User } from '@/models/user';
+import bcryptjs from 'bcryptjs';
 
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        dni: { label: "DNI", type: "text", placeholder: "" },
-        contraseña: { label: "Contraseña", type: "password" }
+        dni: { label: 'DNI', type: 'text', placeholder: '' },
+        password: { label: 'Contraseña', type: 'password' },
       },
       async authorize(credentials, req) {
-        const client = await connectDB()
-        const user = {
-          dni: credentials.dni,
-          apellidos: "Perez",
-          nombres: "Juan",
-          celular: "1234567890",
-          password: credentials.contrasenya
-        }
-        return user
-      }
-    })
-  ]
-})
+        try {
+          await connectDB();
 
-export { handler as GET, handler as POST }
+          const userFound = await User.findOne({ dni: credentials.dni });
+
+          if (!userFound)
+            throw new Error('No se ha encontrado un usuario con ese DNI');
+
+          const passwordMatch = await bcryptjs.compare(
+            credentials.password,
+            userFound.password
+          );
+          if (!passwordMatch) throw new Error('Contraseña incorrecta');
+
+          delete userFound.password;
+
+          return userFound;
+        } catch (error) {
+          console.log(error);
+          return null;
+        }
+      },
+    }),
+  ],
+  callbacks: {
+    jwt({ account, token, user, profile, session }) {
+      if (user) {
+        delete user?.password;
+        token.user = user;
+      }
+      return token;
+    },
+    session({ session, token }) {
+      delete token.user.password;
+      session.user = token.user;
+      console.log(session);
+      return session;
+    },
+  },
+  pages: {
+    signIn: '/login',
+  },
+  session: {
+    strategy: 'jwt',
+    maxAge: 60 * 60 * 24 * 7,
+  },
+});
+
+export { handler as GET, handler as POST };
