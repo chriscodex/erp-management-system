@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { signIn } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -15,12 +16,20 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
+
 function LoginPage() {
   const router = useRouter();
 
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
+  /* Verificación de token de inicio de sesión existente */
+  const { data: session, status } = useSession();
+  if (status === 'authenticated') {
+    router.push('/dashboard');
+  }
+
+  /* Manejo de visibilidad de contraseña */
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
   const handleMouseDownPassword = (event) => {
@@ -31,6 +40,7 @@ function LoginPage() {
     event.preventDefault();
   };
 
+  /* Manejo de formulario */
   const handleSubmit = async (e) => {
     e.preventDefault();
 
