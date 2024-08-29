@@ -75,9 +75,9 @@ function Sidebar() {
         {status === 'authenticated' ? (
           <div className="flex shadow-inner justify-center items-center gap-4 pl-3 pr-1">
             <img
-              src="/fb.jpg"
+              src="/profile-placeholder.jpg"
               alt="user-profile"
-              className="rounded-full w-[50px]"
+              className="rounded-full w-[50px] h-[50px] object-cover"
             />
             <ul className="flex flex-col justify-center items-start">
               <li className="font-bold">{user}</li>
