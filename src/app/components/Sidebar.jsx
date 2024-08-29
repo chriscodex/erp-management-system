@@ -1,10 +1,17 @@
 'use client';
-import { useSession } from 'next-auth/react';
 
-import { RiHome2Line, RiExpandUpDownLine } from '@remixicon/react';
+import {
+  RiHome2Line,
+  RiExpandUpDownLine,
+  RiSettings3Line,
+  RiLogoutBoxRLine
+} from '@remixicon/react';
+
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
 
 import { FormateadorNombresApellidos } from '@/utils/formateador';
-import { useState } from 'react';
 
 function Sidebar() {
   /* Datos de la sesión */
@@ -28,8 +35,30 @@ function Sidebar() {
     },
   ];
 
+  /* Menu Animation Variants */
+  const menuVariants = {
+    hidden: {
+      opacity: 0,
+      x: -10, // Desplazamiento hacia la izquierda
+    },
+    visible: {
+      opacity: 1,
+      x: 5,
+      transition: {
+        duration: 0.3, // Duración de la animación
+      },
+    },
+    exit: {
+      opacity: 0,
+      x: -10, // Desplazamiento hacia la izquierda al salir
+      transition: {
+        duration: 0.3, // Duración de la animación de salida
+      },
+    },
+  };
+
   return (
-    <section className="fixed w-[400px] bg-rose-700 h-screen flex flex-col">
+    <section className="fixed w-[350px] bg-component h-screen flex flex-col">
       <div>
         <p className="text-sm font-bold opacity-80 pl-4 pt-4 pb-4">MENU</p>
         <ul>
@@ -41,7 +70,7 @@ function Sidebar() {
           ))}
         </ul>
       </div>
-      <div className="w-full mt-auto">
+      <div className="mt-auto bg-zinc-700 rounded-md mb-2 mx-2 shadow-inner select-none py-3">
         {/* {status === 'authenticated' ? (
           <div className="flex justify-center items-center gap-4 border-t py-4">
             <img
@@ -60,7 +89,7 @@ function Sidebar() {
             Cargando ...{' '}
           </p>
         )} */}
-        <div className="flex justify-center items-center gap-4 border-t py-4 pl-3 pr-1">
+        <div className="flex shadow-inner justify-center items-center gap-4 pl-3 pr-1">
           <img
             src="/fb.jpg"
             alt="user-profile"
@@ -70,23 +99,36 @@ function Sidebar() {
             <li className="font-bold">{user}</li>
             <li className="opacity-80">{rol}</li>
           </ul>
-          <div className="ml-auto cursor-pointer hover:bg-rose-400 rounded-full p-2" onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}>
+          <div
+            className="ml-auto cursor-pointer hover:bg-zinc-800 hover:shadow-inner rounded-full p-2"
+            onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+          >
             <RiExpandUpDownLine />
           </div>
         </div>
       </div>
-      {isUserMenuOpen && ( // Renderizar el menú condicionalmente
-        <div className="absolute left-full top-1/2 transform -translate-y-1/2 bg-white p-4 shadow-lg rounded">
-          <ul>
-            <li className="py-2 cursor-pointer hover:bg-rose-300">
-              Configuración
-            </li>
-            <li className="py-2 cursor-pointer hover:bg-rose-300">
-              Cerrar Sesión
-            </li>
-          </ul>
-        </div>
-      )}
+      <AnimatePresence>
+        {isUserMenuOpen && ( // Renderizar el menú condicionalmente
+          <motion.div
+            className="absolute left-full bottom-1 transform -translate-y-1/2 bg-zinc-800 shadow-lg rounded select-none"
+            variants={menuVariants}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+          >
+            <ul className="py-1 px-1">
+              <li className="px-2 py-2 cursor-pointer hover:bg-zinc-600 flex gap-1 rounded">
+                <RiSettings3Line />
+                Configuración
+              </li>
+              <li className="px-2 py-2 cursor-pointer hover:bg-zinc-600 flex gap-1 rounded">
+              <RiLogoutBoxRLine />
+                Cerrar Sesión
+              </li>
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
