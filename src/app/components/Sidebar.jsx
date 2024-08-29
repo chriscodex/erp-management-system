@@ -54,7 +54,7 @@ function Sidebar() {
             Cargando ...{' '}
           </p>
         )} */}
-        <div className="flex justify-center items-center gap-4 border-t py-4 px-4">
+        <div className="flex justify-center items-center gap-4 border-t py-4 pl-3 pr-1">
           <img
             src="/fb.jpg"
             alt="user-profile"
@@ -64,7 +64,9 @@ function Sidebar() {
             <li className="font-bold">{user}</li>
             <li className="opacity-80">{rol}</li>
           </ul>
-          <RiExpandUpDownLine className="ml-auto cursor-pointer" />
+          <div className="ml-auto cursor-pointer hover:bg-rose-400 rounded-full p-2">
+            <RiExpandUpDownLine />
+          </div>
         </div>
       </div>
     </section>
