@@ -4,10 +4,10 @@ import {
   RiHome2Line,
   RiExpandUpDownLine,
   RiSettings3Line,
-  RiLogoutBoxRLine
+  RiLogoutBoxRLine,
 } from '@remixicon/react';
 
-import { useSession } from 'next-auth/react';
+import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
@@ -116,16 +116,19 @@ function Sidebar() {
             animate="visible"
             exit="exit"
           >
-            <ul className="py-1 px-1">
-              <li className="px-2 py-2 cursor-pointer hover:bg-zinc-600 flex gap-1 rounded">
+            <div className="py-1 px-1">
+              <button className="px-2 py-2 cursor-pointer hover:bg-zinc-600 flex gap-1 rounded">
                 <RiSettings3Line />
                 Configuración
-              </li>
-              <li className="px-2 py-2 cursor-pointer hover:bg-zinc-600 flex gap-1 rounded">
-              <RiLogoutBoxRLine />
+              </button>
+              <button
+                className="px-2 py-2 cursor-pointer hover:bg-zinc-600 flex gap-1 rounded"
+                onClick={() => signOut()}
+              >
+                <RiLogoutBoxRLine />
                 Cerrar Sesión
-              </li>
-            </ul>
+              </button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
