@@ -20,6 +20,10 @@ function MotosMenu() {
           <RiDropboxFill />
           <span className="leading-3">Marcas</span>
         </div>
+        <div className="h-10 flex items-center gap-2 cursor-pointer hover:text-white hover:bg-zinc-700 rounded pl-4 pr-2">
+          <RiDropboxFill />
+          <span className="leading-3">Categorías</span>
+        </div>
       </div>
     </motion.div>
   );
