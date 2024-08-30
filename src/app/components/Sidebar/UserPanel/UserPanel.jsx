@@ -9,7 +9,7 @@ import { UserPanelOptions } from './UserPanelOptions';
 import { SkeletonUserPanel } from './SkeletonUserPanel';
 
 function UserPanel({user, rol, status}) {
-  const [isUserPanelOptionsOpen, setisUserPanelOptionsOpen] = useState();
+  const [isUserPanelOptionsOpen, setIsUserPanelOptionsOpen] = useState();
 
   return (
     <>
@@ -38,7 +38,7 @@ function UserPanel({user, rol, status}) {
           ) : (
             <SkeletonUserPanel
               isUserPanelOptionsOpen={isUserPanelOptionsOpen}
-              setIsUserPanelOptionsOpen={setisUserPanelOptionsOpen}
+              setIsUserPanelOptionsOpen={setIsUserPanelOptionsOpen}
             />
           )}
         </div>
