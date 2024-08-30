@@ -1,8 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { Skeleton } from '@mui/material';
+import { AnimatePresence } from 'framer-motion';
 import { RiExpandUpDownLine } from '@remixicon/react';
 
 import { UserPanelOptions } from './UserPanelOptions';
