@@ -5,12 +5,20 @@ import {
   RiExpandUpDownLine,
   RiSettings3Line,
   RiLogoutBoxRLine,
+  RiBox3Line,
+  RiMotorbikeLine,
+  RiStackFill,
+  RiStackshareFill,
+  RiAppsLine,
+  RiDropboxFill,
+  RiArrowRightSLine,
 } from '@remixicon/react';
 import Skeleton from '@mui/material/Skeleton';
 
 import { useSession, signOut } from 'next-auth/react';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import clsx from 'clsx';
 
 import { FormateadorNombresApellidos } from '@/utils/formateador';
 
@@ -27,17 +35,47 @@ function Sidebar() {
 
   /* Estados para los submenus */
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isInventarioMenuOpen, setIsInventarioMenuOpen] = useState(false);
+  const [isMotosMenuOpen, setIsMotosMenuOpen] = useState(false);
+  const [isProductosGeneralesMenuOpen, setIsProductosGeneralesMenuOpen] =
+    useState(false);
 
-  /* Menu items */
-  const menuItems = [
+  /* Controladores de los submenus */
+  const handleInventarioMenuClick = () => {
+    setIsInventarioMenuOpen(!isInventarioMenuOpen);
+    setIsMotosMenuOpen(false);
+    setIsUserMenuOpen(false);
+    setIsProductosGeneralesMenuOpen(false);
+  };
+
+  const motosMenuItems = [
     {
-      icon: <RiHome2Line />,
-      label: 'Inicio',
+      icon: <RiStackFill />,
+      label: 'Modelos',
+    },
+    {
+      icon: <RiAppsLine />,
+      label: 'Marcas',
+    },
+    {
+      icon: <RiStackshareFill />,
+      label: 'Categorías',
+    },
+  ];
+
+  const productosGeneralesMenuItems = [
+    {
+      icon: <RiAppsLine />,
+      label: 'Marcas',
+    },
+    {
+      icon: <RiStackshareFill />,
+      label: 'Categorías',
     },
   ];
 
   /* Menu Animation Variants */
-  const menuVariants = {
+  const menuUser = {
     hidden: {
       opacity: 0,
       x: -10, // Desplazamiento hacia la izquierda
@@ -59,17 +97,82 @@ function Sidebar() {
   };
 
   return (
-    <section className="fixed w-[350px] bg-component h-screen flex flex-col">
-      <div>
-        <p className="text-sm font-bold opacity-80 pl-4 pt-4 pb-4">MENU</p>
-        <ul>
-          {menuItems.map((item) => (
-            <li key={item.label} className="flex gap-2 text-xl pl-4">
-              {item.icon}
-              <p>{item.label}</p>
-            </li>
-          ))}
-        </ul>
+    <section className="fixed w-[350px] bg-component h-screen flex flex-col select-none">
+      <div className="text-xl text-neutral-300">
+        <p className="text-sm font-bold opacity-60 pl-4 pt-4 pb-4">MENU</p>
+        <div>
+          {/* Inicio */}
+          <div className="h-10 flex items-center gap-2 rounded m-2 text-xl pl-4 pr-2 cursor-pointer hover:bg-zinc-700 transition-colors opacity-80 hover:opacity-100">
+            <RiHome2Line />
+            <p>Inicio</p>
+          </div>
+          {/* Inventario */}
+          <div
+            className={clsx(
+              'h-10 flex items-center gap-2 rounded m-2 pl-4 pr-2 cursor-pointer hover:bg-zinc-700 transition-colors opacity-80 hover:opacity-100',
+              isInventarioMenuOpen ? 'bg-zinc-700 font-bold opacity-100' : ''
+            )}
+            onClick={handleInventarioMenuClick}
+          >
+            <RiBox3Line />
+            <p>Inventario</p>
+            <motion.div
+              animate={{ rotate: isInventarioMenuOpen ? 90 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="ml-auto"
+            >
+              <RiArrowRightSLine size={28} className="ml-auto" />
+            </motion.div>
+          </div>
+          <AnimatePresence>
+            {isInventarioMenuOpen && (
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden rounded text-xl ml-8"
+              >
+                <ul className="flex flex-col gap-2 justify-center pl-5 pr-2">
+                  <li
+                    className="h-10 flex items-center gap-2 cursor-pointer hover:text-white hover:bg-zinc-700 rounded pl-4 pr-2"
+                    onClick={() => setIsMotosMenuOpen(!isMotosMenuOpen)}
+                  >
+                    <RiMotorbikeLine />
+                    <span className="leading-3">Motos</span>
+                    <motion.div
+                      animate={{ rotate: isMotosMenuOpen ? 90 : 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="ml-auto"
+                    >
+                      <RiArrowRightSLine size={28} className="ml-auto" />
+                    </motion.div>
+                  </li>
+                  <li
+                    className="h-10 flex items-center gap-2 cursor-pointer hover:text-white hover:bg-zinc-700 rounded pl-4 pr-2"
+                    onClick={() =>
+                      setIsProductosGeneralesMenuOpen(
+                        !isProductosGeneralesMenuOpen
+                      )
+                    }
+                  >
+                    <RiDropboxFill />
+                    <span className="leading-3">Productos Generales</span>
+                    <motion.div
+                      animate={{
+                        rotate: isProductosGeneralesMenuOpen ? 90 : 0,
+                      }}
+                      transition={{ duration: 0.3 }}
+                      className="ml-auto"
+                    >
+                      <RiArrowRightSLine size={28} className="ml-auto" />
+                    </motion.div>
+                  </li>
+                </ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
       <div className="mt-auto bg-zinc-700 rounded-md mb-2 mx-2 shadow-inner select-none py-3">
         {status === 'authenticated' ? (
@@ -107,7 +210,7 @@ function Sidebar() {
         {isUserMenuOpen && ( // Renderizar el menú condicionalmente
           <motion.div
             className="absolute left-full bottom-1 transform -translate-y-1/2 bg-zinc-800 shadow-lg rounded select-none"
-            variants={menuVariants}
+            variants={menuUser}
             initial="hidden"
             animate="visible"
             exit="exit"
