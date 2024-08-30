@@ -1,6 +1,7 @@
 'use client';
-import { RiLogoutBoxRLine, RiSettings3Line } from '@remixicon/react';
 import { motion } from 'framer-motion';
+import { RiLogoutBoxRLine, RiSettings3Line } from '@remixicon/react';
+import { signOut } from 'next-auth/react';
 
 function UserPanelOptions() {
   const menuUser = {
