@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { useSession } from 'next-auth/react';
-import { RiArrowRightSLine, RiBox3Line, RiHome2Line } from '@remixicon/react';
+import { RiArrowRightSLine, RiBox3Line, RiHome2Line, RiGroupFill } from '@remixicon/react';
 import clsx from 'clsx';
 
 import { FormateadorNombresApellidos } from '@/utils/formateador';
@@ -26,6 +26,7 @@ function Sidebar() {
   const [isMotosMenuOpen, setIsMotosMenuOpen] = useState(false);
   const [isProductosGeneralesMenuOpen, setIsProductosGeneralesMenuOpen] =
     useState(false);
+  const [isUsuariosOpen, setIsUsuariosOpen] = useState(false);
 
   /* Controladores de los submenus */
   const handleInventarioMenuClick = () => {
@@ -37,7 +38,8 @@ function Sidebar() {
   return (
     <section className="fixed w-[350px] bg-component h-screen flex flex-col select-none">
       <div className="text-xl text-neutral-300">
-        <p className="text-sm font-bold opacity-60 pl-4 pt-4 pb-4">MENU</p>
+        {/* Menu */}
+        <p className="text-sm font-bold opacity-60 pl-4 pt-8">MENU</p>
         <div>
           {/* Inicio */}
           <div className="h-10 flex items-center gap-2 rounded m-2 text-xl pl-4 pr-2 cursor-pointer hover:bg-zinc-700 transition-colors opacity-80 hover:opacity-100">
@@ -74,6 +76,20 @@ function Sidebar() {
               />
             )}
           </AnimatePresence>
+        </div>
+        {/* Administración Menu */}
+        <p className="text-sm font-bold opacity-60 pl-4 pt-4">
+          ADMINISTRACIÓN
+        </p>
+        <div
+          className={clsx(
+            'h-10 flex items-center gap-2 rounded m-2 pl-4 pr-2 cursor-pointer hover:bg-zinc-700 transition-colors opacity-80 hover:opacity-100',
+            isUsuariosOpen ? 'bg-zinc-700 font-bold opacity-100' : ''
+          )}
+          onClick={() => setIsUsuariosOpen(!isUsuariosOpen)}
+        >
+          <RiGroupFill />
+          <p>Usuarios</p>
         </div>
       </div>
       <UserPanel user={user} rol={rol} status={status} />
