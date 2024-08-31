@@ -12,7 +12,7 @@ function UserPanel({user, rol, status}) {
 
   return (
     <>
-      <div className="mt-auto bg-zinc-700 rounded-md mb-2 mx-2 shadow-inner select-none py-3">
+      <div className="mt-auto bg-zinc-700 rounded-md mb-2 mx-2 shadow-inner select-none py-3 text-[#ededed]">
         <div className="flex shadow-inner justify-center items-center gap-4 pl-3 pr-1">
           {status === 'authenticated' ? (
             <>
