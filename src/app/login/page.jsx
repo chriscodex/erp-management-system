@@ -26,7 +26,7 @@ function LoginPage() {
   /* Verificación de token de inicio de sesión existente */
   const { data: session, status } = useSession();
   if (status === 'authenticated') {
-    router.push('/dashboard');
+    router.push('/inicio');
   }
 
   /* Manejo de visibilidad de contraseña */
@@ -64,7 +64,7 @@ function LoginPage() {
 
     if (res?.error) return setError(res.error);
 
-    if (res?.ok) return router.push('/dashboard');
+    if (res?.ok) return router.push('/inicio');
 
     console.log(res);
   };
