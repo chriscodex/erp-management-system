@@ -27,7 +27,7 @@ function UserPanelOptions() {
 
   return (
     <motion.div
-      className="absolute left-full bottom-1 transform -translate-y-1/2 bg-zinc-800 shadow-lg rounded select-none"
+      className="absolute left-full bottom-1 transform -translate-y-1/2 bg-zinc-800 shadow-lg rounded select-none text-neutral-50"
       variants={menuUser}
       initial="hidden"
       animate="visible"
