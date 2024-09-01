@@ -5,7 +5,7 @@ export default function Layout({ children }) {
     <html lang="en">
       <body>
         <Sidebar />
-        <div className='pl-[350px]'>{children}</div>
+        <div className="ml-[350px] p-2">{children}</div>
       </body>
     </html>
   );
