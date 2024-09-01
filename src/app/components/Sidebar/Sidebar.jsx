@@ -8,7 +8,7 @@ import {
   RiArrowRightSLine,
   RiBox3Line,
   RiHome2Line,
-  RiGroupFill,
+  RiShieldUserFill
 } from '@remixicon/react';
 import clsx from 'clsx';
 
@@ -51,15 +51,17 @@ function Sidebar() {
         <p className="text-sm font-bold opacity-60 pl-4 pt-8">MENU</p>
         <div>
           {/* Inicio */}
-          <div className="h-10 flex items-center gap-2 rounded m-2 text-xl pl-4 pr-2 cursor-pointer hover:bg-zinc-700 transition-colors opacity-80 hover:opacity-100">
+          <div
+            className="h-10 flex items-center gap-2 rounded m-2 text-xl pl-4 pr-2 cursor-pointer hover:bg-zinc-700 transition-colors opacity-80 hover:opacity-100"
+            onClick={() => router.push('/inicio')}
+          >
             <RiHome2Line />
             <p>Inicio</p>
           </div>
           {/* Inventario */}
           <div
             className={clsx(
-              'h-10 flex items-center gap-2 rounded m-2 pl-4 pr-2 cursor-pointer hover:bg-zinc-700 transition-colors opacity-80 hover:opacity-100',
-              isInventarioMenuOpen ? 'bg-zinc-700 font-bold opacity-100' : ''
+              'h-10 flex items-center gap-2 rounded m-2 pl-4 pr-2 cursor-pointer hover:bg-zinc-700 transition-colors opacity-80 hover:opacity-100'
             )}
             onClick={handleInventarioMenuClick}
           >
@@ -97,7 +99,7 @@ function Sidebar() {
           )}
           onClick={() => router.push('/usuarios')}
         >
-          <RiGroupFill />
+          <RiShieldUserFill />
           <p>Usuarios</p>
         </div>
       </div>
