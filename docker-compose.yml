@@ -23,6 +23,7 @@ services:
       MONGODB_URI: mongodb://admin:qweasdzxc@mongodb:27017/motorock?authSource=admin
       NEXTAUTH_URL: http://localhost:3000
       NEXTAUTH_SECRET: N1ouTYi6isl2sz6
+      NEXT_PUBLIC_API_URL: http://localhost:3000/api
     depends_on:
       - mongodb
     volumes:
