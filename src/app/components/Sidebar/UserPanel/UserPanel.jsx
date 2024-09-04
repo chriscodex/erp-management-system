@@ -7,7 +7,7 @@ import { RiExpandUpDownLine } from '@remixicon/react';
 import { UserPanelOptions } from './UserPanelOptions';
 import { SkeletonUserPanel } from './SkeletonUserPanel';
 
-function UserPanel({user, rol, status}) {
+function UserPanel({ user, rol, status }) {
   const [isUserPanelOptionsOpen, setIsUserPanelOptionsOpen] = useState();
 
   return (
@@ -35,10 +35,7 @@ function UserPanel({user, rol, status}) {
               </div>
             </>
           ) : (
-            <SkeletonUserPanel
-              isUserPanelOptionsOpen={isUserPanelOptionsOpen}
-              setIsUserPanelOptionsOpen={setIsUserPanelOptionsOpen}
-            />
+            <SkeletonUserPanel />
           )}
         </div>
       </div>
