@@ -12,7 +12,7 @@ const authOptions = {
         dni: { label: 'DNI', type: 'text', placeholder: '' },
         password: { label: 'Contraseña', type: 'password' },
       },
-      async authorize(credentials, req) { // eslint-disable-line
+      async authorize(credentials, req) {// eslint-disable-line
         await connectDB();
 
         const userFound = await User.findOne({ dni: credentials.dni });
@@ -33,7 +33,7 @@ const authOptions = {
     }),
   ],
   callbacks: {
-    jwt({ account, token, user, profile, session }) { // eslint-disable-line
+    jwt({ account, token, user, profile, session }) {// eslint-disable-line
       if (user) {
         delete user?.password;
         token.user = user;
