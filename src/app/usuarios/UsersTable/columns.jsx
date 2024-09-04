@@ -1,32 +1,68 @@
 'use client';
 
+import { MoreHorizontal } from 'lucide-react';
+
+import { Button } from '@/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+
 export const columns = [
   {
     accessorKey: 'dni',
-    header: 'Status',
-    header: () => <div className="text-right">DNI</div>,
+    header: 'DNI',
+  },
+  {
+    accessorKey: 'fullName',
+    header: () => <div className="text-start">Nombres Completos</div>,
     cell: ({ row }) => {
-      const digits = row.getValue('dni');
-      const formattedNumber = digits.replace(/\D/g, '');
-      const formated = formattedNumber.substring(0, 8)
-
+      console.log('row:', row);
       return (
-        <div className="text-right font-medium">
-          {formated}
-        </div>
+        <div className="text-start font-medium">{row.getValue('fullName')}</div>
       );
     },
   },
   {
-    accessorKey: 'nombres',
-    header: 'Nombres',
-  },
-  {
-    accessorKey: 'apellidos',
-    header: 'Apellidos',
+    accessorKey: 'rol',
+    header: 'Rol',
   },
   {
     accessorKey: 'celular',
     header: 'Celular',
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const user = row.original;
+
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center">
+            <DropdownMenuLabel className="select-none">
+              Acciones
+            </DropdownMenuLabel>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(user.dni)}
+            >
+              Detalle
+            </DropdownMenuItem>
+            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Eliminar</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
   },
 ];
