@@ -19,6 +19,14 @@ const userRepository = {
       console.log(error);
     }
   },
+  async getAllUsers() {
+    try {
+      const users = await User.find();
+      return users;
+    } catch (error) {
+      console.log(error);
+    }
+  },
 };
 
 export { userRepository };
