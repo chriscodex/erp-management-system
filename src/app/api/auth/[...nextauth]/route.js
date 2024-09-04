@@ -4,7 +4,7 @@ import { connectDB } from '@/libs/mongodb';
 import { User } from '@/models/user';
 import bcryptjs from 'bcryptjs';
 
-const handler = NextAuth({
+const authOptions = {
   providers: [
     CredentialsProvider({
       name: 'Credentials',
@@ -12,28 +12,28 @@ const handler = NextAuth({
         dni: { label: 'DNI', type: 'text', placeholder: '' },
         password: { label: 'Contraseña', type: 'password' },
       },
-      async authorize(credentials, req) {
-          await connectDB();
+      async authorize(credentials, req) { // eslint-disable-line
+        await connectDB();
 
-          const userFound = await User.findOne({ dni: credentials.dni });
+        const userFound = await User.findOne({ dni: credentials.dni });
 
-          if (!userFound)
-            throw new Error('No se ha encontrado un usuario con ese DNI');
+        if (!userFound)
+          throw new Error('No se ha encontrado un usuario con ese DNI');
 
-          const passwordMatch = await bcryptjs.compare(
-            credentials.password,
-            userFound.password
-          );
-          if (!passwordMatch) throw new Error('Contraseña incorrecta');
+        const passwordMatch = await bcryptjs.compare(
+          credentials.password,
+          userFound.password
+        );
+        if (!passwordMatch) throw new Error('Contraseña incorrecta');
 
-          delete userFound.password;
+        delete userFound.password;
 
-          return userFound;
+        return userFound;
       },
     }),
   ],
   callbacks: {
-    jwt({ account, token, user, profile, session }) {
+    jwt({ account, token, user, profile, session }) { // eslint-disable-line
       if (user) {
         delete user?.password;
         token.user = user;
@@ -54,6 +54,8 @@ const handler = NextAuth({
     strategy: 'jwt',
     maxAge: 60 * 60 * 24 * 7,
   },
-});
+};
 
-export { handler as GET, handler as POST };
+const handler = NextAuth(authOptions);
+
+export { handler as GET, handler as POST, authOptions };
