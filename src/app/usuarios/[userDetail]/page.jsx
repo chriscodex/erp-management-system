@@ -9,7 +9,9 @@ function UserDetail({ params }) {
   return (
     <>
       <UserDetailNavbar userDni={params.userDetail} />
-      <div>userDetail</div>
+      <div className='mt-2 flex flex-col'>
+        <h1></h1>
+      </div>
     </>
   );
 }
