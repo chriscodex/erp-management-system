@@ -12,7 +12,7 @@ const connectDB = async () => {
     }
   } catch (error) {
     console.error('Error connecting to MongoDB:', error);
-    process.exit(1); // Salir del proceso en caso de error
+    process.exit(1);
   }
 };
 
@@ -35,8 +35,6 @@ const createUser = async () => {
     console.log('Usuario creado:', savedUser);
   } catch (error) {
     console.error('Error creando el usuario:', error);
-  } finally {
-    mongoose.disconnect(); // Cierra la conexión a la base de datos
   }
 };
 
