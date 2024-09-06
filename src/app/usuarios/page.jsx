@@ -9,6 +9,16 @@ import { getAllUsers } from './Infraestructura/apiClient';
 async function UsuariosPage() {
   const data = await getAllUsers();
 
+  const dataFormated = data.map((user) => {
+    const fullName = {
+      fullName: user.nombres + ' ' + user.apellidos,
+      ...user,
+    };
+    delete fullName.apellidos;
+    delete fullName.nombres;
+    return fullName;
+  });
+
   return (
     <>
       <UserNavbar />
@@ -18,8 +28,8 @@ async function UsuariosPage() {
         </h1>
         <Button>Agregar Usuario</Button>
       </div>
-      <div className='w-full max-w-3xl mx-auto'>
-        <DataTable columns={columns} data={data} />
+      <div className="w-full max-w-3xl mx-auto">
+        <DataTable columns={columns} data={dataFormated} />
       </div>
     </>
   );
