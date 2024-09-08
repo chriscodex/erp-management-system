@@ -1,7 +1,6 @@
 import { Roboto } from 'next/font/google';
 
-import { Providers } from '@/app/components/Providers';
-import { Toaster } from '@/components/ui/toaster';
+import { Providers } from '@/components/providers/Providers';
 
 import './globals.css';
 
@@ -21,7 +20,6 @@ export default function RootLayout({ children }) {
       <body className={`${roboto.className} antialiased`}>
         <main>
           <Providers>{children}</Providers>
-          <Toaster />
         </main>
       </body>
     </html>
