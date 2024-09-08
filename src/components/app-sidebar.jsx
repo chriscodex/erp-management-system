@@ -5,7 +5,6 @@ import {
   AudioWaveform,
   BookOpen,
   Bot,
-  Command,
   Frame,
   GalleryVerticalEnd,
   Map,
@@ -35,19 +34,12 @@ const data = {
   },
   teams: [
     {
-      name: "Acme Inc",
+      name: "MotoRock Ruta 33",
       logo: GalleryVerticalEnd,
-      plan: "Enterprise",
     },
     {
-      name: "Acme Corp.",
+      name: "MotoRock Store",
       logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
     },
   ],
   navMain: [
