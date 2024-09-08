@@ -21,15 +21,25 @@ import {
 } from '@/components/ui/select';
 import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, User, Mail, Lock, Shield } from 'lucide-react';
+import {
+  Loader2,
+  User,
+  Lock,
+  Shield,
+  MapPin,
+  CreditCard,
+  Phone,
+} from 'lucide-react';
 
 import { NewUserNavbar } from '../Navbar/NewUserNavbar';
 
 const initialFormData = {
-  name: '',
-  email: '',
+  dni: '',
+  nombres: '',
+  celular: '',
+  dirección: '',
+  rol: 'Vendedor',
   password: '',
-  role: '',
   isActive: true,
 };
 
@@ -45,7 +55,7 @@ export default function CreateUser() {
   };
 
   const handleRoleChange = (value) => {
-    setFormData((prev) => ({ ...prev, role: value }));
+    setFormData((prev) => ({ ...prev, rol: value }));
   };
 
   const handleActiveChange = (checked) => {
@@ -76,8 +86,8 @@ export default function CreateUser() {
   return (
     <>
       <NewUserNavbar />
-      <div className="container mx-auto p-4">
-        <Card className="w-full max-w-2xl mx-auto">
+      <div className="container mx-auto py-4">
+        <Card className="w-full max-w-7xl mr-auto">
           <CardHeader>
             <CardTitle className="text-2xl">Crear Nuevo Usuario</CardTitle>
             <CardDescription>
@@ -87,14 +97,31 @@ export default function CreateUser() {
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Nombre Completo</Label>
+                <Label htmlFor="dni">DNI</Label>
+                <div className="relative">
+                  <CreditCard className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="dni"
+                    name="dni"
+                    type="text"
+                    placeholder="12345678"
+                    value={formData.dni}
+                    onChange={handleInputChange}
+                    className="pl-8"
+                    required
+                    autocomplete="off"
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="nombres">Nombre Completo</Label>
                 <div className="relative">
                   <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
-                    id="name"
-                    name="name"
+                    id="nombres"
+                    name="nombres"
                     placeholder="John Doe"
-                    value={formData.name}
+                    value={formData.nombres}
                     onChange={handleInputChange}
                     className="pl-8"
                     required
@@ -102,19 +129,55 @@ export default function CreateUser() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label htmlFor="email">Correo Electrónico</Label>
+                <Label htmlFor="celular">Celular</Label>
                 <div className="relative">
-                  <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="john@example.com"
-                    value={formData.email}
+                    id="celular"
+                    name="celular"
+                    type="number"
+                    value={formData.celular}
                     onChange={handleInputChange}
                     className="pl-8"
                     required
                   />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="direccion">Dirección</Label>
+                <div className="relative">
+                  <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="direccion"
+                    name="direccion"
+                    type="direccion"
+                    value={formData.dirección}
+                    onChange={handleInputChange}
+                    className="pl-8"
+                    required
+                  />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="rol">Rol</Label>
+                <div className="relative">
+                  <Shield className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Select
+                    onValueChange={handleRoleChange}
+                    value={formData.rol}
+                    required
+                  >
+                    <SelectTrigger className="w-full pl-8">
+                      <SelectValue placeholder="Seleccione un rol" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Vendedor">Vendedor</SelectItem>
+                      <SelectItem value="Administrador">
+                        Administrador
+                      </SelectItem>
+                      <SelectItem value="Tecnico">Técnico</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
               <div className="space-y-2">
@@ -134,26 +197,7 @@ export default function CreateUser() {
                   />
                 </div>
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="role">Rol</Label>
-                <div className="relative">
-                  <Shield className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Select
-                    onValueChange={handleRoleChange}
-                    value={formData.role}
-                    required
-                  >
-                    <SelectTrigger className="w-full pl-8">
-                      <SelectValue placeholder="Seleccione un rol" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="user">Usuario</SelectItem>
-                      <SelectItem value="admin">Administrador</SelectItem>
-                      <SelectItem value="editor">Editor</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+
               <div className="flex items-center space-x-2">
                 <Switch
                   id="isActive"
