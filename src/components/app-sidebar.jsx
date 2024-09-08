@@ -22,14 +22,13 @@ import {
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-  SidebarRail,
 } from "@/components/ui/sidebar"
 
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "Josué Rubina",
+    email: "Administrador",
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
@@ -163,7 +162,6 @@ export function AppSidebar({
       <SidebarFooter>
         <NavUser user={data.user} />
       </SidebarFooter>
-      <SidebarRail />
     </Sidebar>)
   );
 }
