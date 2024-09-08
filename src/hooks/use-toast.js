@@ -5,13 +5,6 @@ import * as React from "react"
 const TOAST_LIMIT = 1
 const TOAST_REMOVE_DELAY = 1000000
 
-const actionTypes = {
-  ADD_TOAST: "ADD_TOAST",
-  UPDATE_TOAST: "UPDATE_TOAST",
-  DISMISS_TOAST: "DISMISS_TOAST",
-  REMOVE_TOAST: "REMOVE_TOAST"
-}
-
 let count = 0
 
 function genId() {
@@ -19,7 +12,7 @@ function genId() {
   return count.toString();
 }
 
-const toastTimeouts = new Map()
+const toastTimeouts = new Map() // eslint-disable-line
 
 const addToRemoveQueue = (toastId) => {
   if (toastTimeouts.has(toastId)) {
