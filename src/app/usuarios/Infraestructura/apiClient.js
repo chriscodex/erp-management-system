@@ -33,12 +33,12 @@ async function getAllUsers() {
   }
 }
 
-async function getUser(userId) {
-  try {
+// async function getUser(userId) {
+//   try {
     
-  } catch (error) {
+//   } catch (error) {
     
-  }
-}
+//   }
+// }
 
 export { fetchData, delay, getAllUsers };
