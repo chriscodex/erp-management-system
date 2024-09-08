@@ -33,4 +33,12 @@ async function getAllUsers() {
   }
 }
 
+async function getUser(userId) {
+  try {
+    
+  } catch (error) {
+    
+  }
+}
+
 export { fetchData, delay, getAllUsers };
