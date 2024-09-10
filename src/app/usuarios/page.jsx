@@ -1,10 +1,11 @@
+import Link from 'next/link';
+
 import { AppSidebar } from '@/components/app-sidebar';
 import {
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -12,7 +13,12 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+
+import { DataTable } from '@/app/usuarios/UsersTable/data-table';
+import { columns } from '@/app/usuarios/UsersTable//columns';
+
+import { getAllUsers } from '@/app/usuarios/Infraestructura/apiClient';
 
 export default function Page() {
   return (
@@ -28,7 +34,7 @@ export default function Page() {
             />
             <Breadcrumb>
               <BreadcrumbList>
-              <BreadcrumbItem>
+                <BreadcrumbItem>
                   <BreadcrumbPage>Usuarios</BreadcrumbPage>
                 </BreadcrumbItem>
               </BreadcrumbList>
@@ -36,6 +42,11 @@ export default function Page() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <Link href="/usuarios/nuevo">
+            <Button>Agregar Nuevo Usuario</Button>
+          </Link>
+
+          <DataTable columns={columns} data={getAllUsers()} />
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />
