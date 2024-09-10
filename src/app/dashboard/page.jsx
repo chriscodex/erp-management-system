@@ -2,7 +2,6 @@ import { AppSidebar } from '@/components/app-sidebar';
 import {
   Breadcrumb,
   BreadcrumbItem,
-  BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
@@ -13,6 +12,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
+import Link from 'next/link';
 
 export default function Page() {
   return (
@@ -22,13 +22,22 @@ export default function Page() {
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center gap-2 px-4">
             <SidebarTrigger className="-ml-1" />
-            <Separator orientation="vertical" className="mr-2 h-4 dark:bg-white bg-muted-foreground" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 h-4 dark:bg-white bg-muted-foreground"
+            />
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/usuarios">
+                  <Link
+                    href="/usuarios"
+                    className="text-muted-foreground transition-colors hover:text-foreground"
+                  >
                     Building Your Application
-                  </BreadcrumbLink>
+                  </Link>
+                  {/* <BreadcrumbLink href="/usuarios">
+                    Building Your Application
+                  </BreadcrumbLink> */}
                 </BreadcrumbItem>
                 <BreadcrumbSeparator className="hidden md:block" />
                 <BreadcrumbItem>

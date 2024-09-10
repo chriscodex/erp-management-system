@@ -2,7 +2,6 @@
 
 import {
   ChevronsUpDown,
-  CreditCard,
   LogOut,
   Moon,
   Sun,

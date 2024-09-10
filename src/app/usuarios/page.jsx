@@ -1,38 +1,49 @@
-import { DataTable } from '@/app/usuarios/UsersTable/data-table';
-import { columns } from '@/app/usuarios/UsersTable//columns';
+import { AppSidebar } from '@/components/app-sidebar';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { Separator } from '@/components/ui/separator';
+import {
+  SidebarInset,
+  SidebarProvider,
+  SidebarTrigger,
+} from '@/components/ui/sidebar';
+import Link from 'next/link';
 
-import { UserNavbar } from '@/app/usuarios/Navbar/UserNavbar';
-import { Button } from '@/components/ui/button';
-
-import { getAllUsers } from './Infraestructura/apiClient';
-
-async function UsuariosPage() {
-  const data = await getAllUsers();
-
-  const dataFormated = data.map((user) => {
-    const fullName = {
-      fullName: user.nombres + ' ' + user.apellidos,
-      ...user,
-    };
-    delete fullName.apellidos;
-    delete fullName.nombres;
-    return fullName;
-  });
-
+export default function Page() {
   return (
-    <>
-      <UserNavbar />
-      <div className="flex justify-between ml-2 my-2">
-        <h1 className="text-3xl text-component font-bold">
-          Todos los Usuarios
-        </h1>
-        <Button>Agregar Usuario</Button>
-      </div>
-      <div className="w-full max-w-3xl mx-auto">
-        <DataTable columns={columns} data={dataFormated} />
-      </div>
-    </>
+    <SidebarProvider>
+      <AppSidebar />
+      <SidebarInset>
+        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2 px-4">
+            <SidebarTrigger className="-ml-1" />
+            <Separator
+              orientation="vertical"
+              className="mr-2 h-4 dark:bg-white bg-muted-foreground"
+            />
+            <Breadcrumb>
+              <BreadcrumbList>
+              <BreadcrumbItem>
+                  <BreadcrumbPage>Usuarios</BreadcrumbPage>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+        </header>
+        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+            <div className="aspect-video rounded-xl bg-muted/50" />
+          </div>
+          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
-
-export default UsuariosPage;
