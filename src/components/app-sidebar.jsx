@@ -5,12 +5,12 @@ import {
   AudioWaveform,
   BookOpen,
   Bot,
-  Frame,
   GalleryVerticalEnd,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
+  User2Icon
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -130,9 +130,9 @@ const data = {
   ],
   projects: [
     {
-      name: 'Design Engineering',
+      name: 'Usuarios',
       url: '#',
-      icon: Frame,
+      icon: User2Icon,
     },
     {
       name: 'Sales & Marketing',
