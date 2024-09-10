@@ -22,7 +22,7 @@ import { getAllUsers } from '@/app/usuarios/Infraestructura/apiClient';
 
 export default function Page() {
   return (
-    <SidebarProvider>
+    <>
       <AppSidebar />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
@@ -55,6 +55,6 @@ export default function Page() {
           <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
         </div>
       </SidebarInset>
-    </SidebarProvider>
+    </>
   );
 }
