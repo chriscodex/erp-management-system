@@ -131,7 +131,7 @@ const data = {
   projects: [
     {
       name: 'Usuarios',
-      url: '#',
+      url: '/usuarios',
       icon: User2Icon,
     },
     {
