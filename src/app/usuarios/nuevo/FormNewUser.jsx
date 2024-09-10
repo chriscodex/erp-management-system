@@ -21,7 +21,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
 import { useToast } from '@/hooks/use-toast';
 import {
   Loader2,
@@ -38,7 +37,7 @@ function FormNewUser() {
     dni: '',
     nombres: '',
     celular: '',
-    dirección: '',
+    direccion: '',
     rol: 'Vendedor',
     password: '',
     isActive: true,
@@ -56,10 +55,6 @@ function FormNewUser() {
 
   const handleRoleChange = (value) => {
     setFormData((prev) => ({ ...prev, rol: value }));
-  };
-
-  const handleActiveChange = (checked) => {
-    setFormData((prev) => ({ ...prev, isActive: checked }));
   };
 
   const handleSubmit = async (e) => {
@@ -80,131 +75,123 @@ function FormNewUser() {
     );
 
     // Resetear el formulario
-    setFormData(initialFormData);
+    // setFormData(initialFormData);
   };
 
   return (
     <div className="container mx-auto py-4">
-        <Card className="w-full max-w-7xl mr-auto">
-          <CardHeader>
-            <CardTitle className="text-2xl">Crear Nuevo Usuario</CardTitle>
-            <CardDescription>
-              Ingrese los detalles del nuevo usuario para el sistema.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="dni">DNI</Label>
-                <div className="relative">
-                  <CreditCard className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="dni"
-                    name="dni"
-                    type="text"
-                    placeholder="12345678"
-                    value={formData.dni}
-                    onChange={handleInputChange}
-                    className="pl-8"
-                    required
-                    autocomplete="off"
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="nombres">Nombre Completo</Label>
-                <div className="relative">
-                  <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="nombres"
-                    name="nombres"
-                    placeholder="John Doe"
-                    value={formData.nombres}
-                    onChange={handleInputChange}
-                    className="pl-8"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="celular">Celular</Label>
-                <div className="relative">
-                  <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="celular"
-                    name="celular"
-                    type="number"
-                    value={formData.celular}
-                    onChange={handleInputChange}
-                    className="pl-8"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="direccion">Dirección</Label>
-                <div className="relative">
-                  <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="direccion"
-                    name="direccion"
-                    type="direccion"
-                    value={formData.dirección}
-                    onChange={handleInputChange}
-                    className="pl-8"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="rol">Rol</Label>
-                <div className="relative">
-                  <Shield className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Select
-                    onValueChange={handleRoleChange}
-                    value={formData.rol}
-                    required
-                  >
-                    <SelectTrigger className="w-full pl-8">
-                      <SelectValue placeholder="Seleccione un rol" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Vendedor">Vendedor</SelectItem>
-                      <SelectItem value="Administrador">
-                        Administrador
-                      </SelectItem>
-                      <SelectItem value="Tecnico">Técnico</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Contraseña</Label>
-                <div className="relative">
-                  <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    id="password"
-                    name="password"
-                    type="password"
-                    placeholder="••••••••"
-                    value={formData.password}
-                    onChange={handleInputChange}
-                    className="pl-8"
-                    required
-                    minLength={8}
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center space-x-2">
-                <Switch
-                  id="isActive"
-                  checked={formData.isActive}
-                  onCheckedChange={handleActiveChange}
+      <Card className="w-full max-w-7xl mr-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl">Crear Nuevo Usuario</CardTitle>
+          <CardDescription>
+            Ingrese los detalles del nuevo usuario para el sistema.
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="dni">DNI</Label>
+              <div className="relative">
+                <CreditCard className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="dni"
+                  name="dni"
+                  type="text"
+                  placeholder="12345678"
+                  value={formData.dni}
+                  onChange={handleInputChange}
+                  className="pl-8"
+                  required
+                  autocomplete="off"
                 />
-                <Label htmlFor="isActive">Usuario Activo</Label>
               </div>
-              <Button className="w-full" disabled={isLoading}>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="nombres">Nombre Completo</Label>
+              <div className="relative">
+                <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="nombres"
+                  name="nombres"
+                  placeholder="Apellidos y Nombres"
+                  value={formData.nombres}
+                  onChange={handleInputChange}
+                  className="pl-8"
+                  required
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="celular">Celular</Label>
+              <div className="relative">
+                <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="celular"
+                  name="celular"
+                  type="text"
+                  placeholder="987654321"
+                  value={formData.celular}
+                  onChange={handleInputChange}
+                  className="pl-8"
+                  required
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="direccion">Dirección</Label>
+              <div className="relative">
+                <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="direccion"
+                  name="direccion"
+                  type="direccion"
+                  placeholder="Av. Centanario 123"
+                  value={formData.direccion}
+                  onChange={handleInputChange}
+                  className="pl-8"
+                  required
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="rol">Rol</Label>
+              <div className="relative">
+                <Shield className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Select
+                  onValueChange={handleRoleChange}
+                  value={formData.rol}
+                  required
+                >
+                  <SelectTrigger className="w-full pl-8">
+                    <SelectValue placeholder="Seleccione un rol" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Vendedor">Vendedor</SelectItem>
+                    <SelectItem value="Administrador">Administrador</SelectItem>
+                    <SelectItem value="Tecnico">Técnico</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Contraseña</Label>
+              <div className="relative">
+                <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="password"
+                  name="password"
+                  type="password"
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={handleInputChange}
+                  className="pl-8"
+                  required
+                  minLength={8}
+                />
+              </div>
+            </div>
+            <div className="space-y-2 w-full flex justify-end">
+              <Button className="max-w-40" disabled={isLoading}>
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -214,10 +201,11 @@ function FormNewUser() {
                   'Crear Usuario'
                 )}
               </Button>
-            </form>
-          </CardContent>
-        </Card>
-      </div>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
   );
 }
 
