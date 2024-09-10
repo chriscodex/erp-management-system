@@ -1,12 +1,14 @@
 'use client';
 
 import {
-  BadgeCheck,
   ChevronsUpDown,
   CreditCard,
   LogOut,
-  
+  Moon,
+  Sun,
+  Settings
 } from 'lucide-react';
+import { useTheme } from 'next-themes';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -27,6 +29,7 @@ import {
 
 export function NavUser({ user }) {
   const { isMobile } = useSidebar();
+  const { setTheme, theme } = useTheme();
 
   return (
     <SidebarMenu>
@@ -54,7 +57,7 @@ export function NavUser({ user }) {
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuLabel className="p-0 font-normal">
+            <DropdownMenuLabel className="p-0 font-normal select-none">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
@@ -68,17 +71,31 @@ export function NavUser({ user }) {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <BadgeCheck />
-                Modo Oscuro
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => {
+                  setTheme(theme === 'dark' ? 'light' : 'dark');
+                }}
+              >
+                {theme === 'dark' ? (
+                  <>
+                    <Sun />
+                    Modo Claro
+                  </>
+                ) : (
+                  <>
+                    <Moon />
+                    Modo Oscuro
+                  </>
+                )}
               </DropdownMenuItem>
-              <DropdownMenuItem>
-                <CreditCard />
+              <DropdownMenuItem className="cursor-pointer">
+                <Settings />
                 Configuración
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
               <LogOut />
               Cerrar Sesión
             </DropdownMenuItem>
