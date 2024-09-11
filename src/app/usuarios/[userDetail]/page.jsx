@@ -11,7 +11,6 @@ import {
 import { Separator } from '@/components/ui/separator';
 import {
   SidebarInset,
-  SidebarProvider,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 import { FormUserDetail } from './FormUserDetail';
@@ -21,46 +20,35 @@ export default function Page({ params }) {
     notFound();
   }
   return (
-    <SidebarProvider>
-      <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-            <Separator
-              orientation="vertical"
-              className="mr-2 h-4 dark:bg-white bg-muted-foreground"
-            />
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <Link
-                    href="/usuarios"
-                    className="text-muted-foreground transition-colors hover:text-foreground"
-                  >
-                    Usuarios
-                  </Link>
-                  {/* <BreadcrumbLink href="/usuarios">
-                    Building Your Application
-                  </BreadcrumbLink> */}
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem className="select-none">
-                  <BreadcrumbPage>Nuevo Usuario</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <FormUserDetail />
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
+    <SidebarInset>
+      <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+        <div className="flex items-center gap-2 px-4">
+          <SidebarTrigger className="-ml-1" />
+          <Separator
+            orientation="vertical"
+            className="mr-2 h-4 dark:bg-white bg-muted-foreground"
+          />
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem className="hidden md:block">
+                <Link
+                  href="/usuarios"
+                  className="text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Usuarios
+                </Link>
+              </BreadcrumbItem>
+              <BreadcrumbSeparator className="hidden md:block" />
+              <BreadcrumbItem className="select-none">
+                <BreadcrumbPage>Usuario: {params.userDetail}</BreadcrumbPage>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
         </div>
-      </SidebarInset>
-    </SidebarProvider>
+      </header>
+      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+        <FormUserDetail />
+      </div>
+    </SidebarInset>
   );
 }
