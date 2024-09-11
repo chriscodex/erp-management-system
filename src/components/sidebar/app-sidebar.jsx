@@ -3,12 +3,7 @@
 import * as React from 'react';
 import {
   AudioWaveform,
-  BookOpen,
-  Bot,
   GalleryVerticalEnd,
-  Map,
-  PieChart,
-  Settings2,
   SquareTerminal,
   User2Icon,
 } from 'lucide-react';
@@ -31,7 +26,7 @@ const data = {
   user: {
     name: 'Josué Rubina',
     email: 'Administrador',
-    avatar: '/avatars/shadcn.jpg',
+    avatar: '/avatars/avatar-default.jpg',
   },
   teams: [
     {
@@ -45,53 +40,27 @@ const data = {
   ],
   navMain: [
     {
-      title: 'Usuarios',
+      title: 'Inventario',
       url: '#',
       icon: SquareTerminal,
       isActive: false,
       items: [
         {
-          title: 'Vendedores',
+          title: 'Motos',
           url: '/usuarios',
           items: [
-            { title: 'Preferencias', url: '/settings/general/preferencias' },
-            { title: 'Idioma', url: '/settings/general/idioma' },
+            { title: 'Modelos', url: '/settings/general/preferencias' },
+            { title: 'Marcas', url: '/settings/general/idioma' },
+            { title: 'Categorías', url: '/settings/general/idioma' },
           ],
         },
         {
-          title: 'Starred',
-          url: '#',
+          title: 'Productos Generales',
+          url: '/usuarios',
           items: [
-            { title: 'Preferencias', url: '/settings/general/preferencias' },
-            { title: 'Idioma', url: '/settings/general/idioma' },
+            { title: 'Marcas', url: '/settings/general/idioma' },
+            { title: 'Categorías', url: '/settings/general/idioma' },
           ],
-        },
-        {
-          title: 'Settings',
-          url: '#',
-          items: [
-            { title: 'Preferencias', url: '/settings/general/preferencias' },
-            { title: 'Idioma', url: '/settings/general/idioma' },
-          ],
-        },
-      ],
-    },
-    {
-      title: 'Models',
-      url: '#',
-      icon: Bot,
-      items: [
-        {
-          title: 'Genesis',
-          url: '#',
-        },
-        {
-          title: 'Explorer',
-          url: '#',
-        },
-        {
-          title: 'Quantum',
-          url: '#',
         },
       ],
     },
@@ -101,16 +70,6 @@ const data = {
       name: 'Usuarios',
       url: '/usuarios',
       icon: User2Icon,
-    },
-    {
-      name: 'Sales & Marketing',
-      url: '#',
-      icon: PieChart,
-    },
-    {
-      name: 'Travel',
-      url: '#',
-      icon: Map,
     },
   ],
 };
