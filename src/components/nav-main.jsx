@@ -22,7 +22,7 @@ import Link from 'next/link';
 export function NavMain({ navTitle, items }) {
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>{navTitle}</SidebarGroupLabel>
+      <SidebarGroupLabel className="select-none">{navTitle}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <Collapsible
@@ -47,7 +47,7 @@ export function NavMain({ navTitle, items }) {
                       key={subItem.title}
                       asChild
                       defaultOpen={false}
-                      className="group/collapsible"
+                      className="group/collapsible cursor-pointer"
                     >
                       <SidebarMenuSubItem>
                         <CollapsibleTrigger asChild>
