@@ -2,7 +2,7 @@ import { Roboto } from 'next/font/google';
 
 import { Providers } from '@/components/providers/Providers';
 import { SidebarProvider } from '@/components/ui/sidebar';
-import { AppSidebar } from '@/components/app-sidebar';
+import { AppSidebar } from '@/components/sidebar/app-sidebar';
 
 import './globals.css';
 

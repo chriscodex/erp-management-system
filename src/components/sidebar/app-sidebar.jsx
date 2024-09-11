@@ -53,14 +53,26 @@ const data = {
         {
           title: 'Vendedores',
           url: '/usuarios',
+          items: [
+            { title: 'Preferencias', url: '/settings/general/preferencias' },
+            { title: 'Idioma', url: '/settings/general/idioma' },
+          ],
         },
         {
           title: 'Starred',
           url: '#',
+          items: [
+            { title: 'Preferencias', url: '/settings/general/preferencias' },
+            { title: 'Idioma', url: '/settings/general/idioma' },
+          ],
         },
         {
           title: 'Settings',
           url: '#',
+          items: [
+            { title: 'Preferencias', url: '/settings/general/preferencias' },
+            { title: 'Idioma', url: '/settings/general/idioma' },
+          ],
         },
       ],
     },
@@ -79,52 +91,6 @@ const data = {
         },
         {
           title: 'Quantum',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Documentation',
-      url: '#',
-      icon: BookOpen,
-      items: [
-        {
-          title: 'Introduction',
-          url: '#',
-        },
-        {
-          title: 'Get Started',
-          url: '#',
-        },
-        {
-          title: 'Tutorials',
-          url: '#',
-        },
-        {
-          title: 'Changelog',
-          url: '#',
-        },
-      ],
-    },
-    {
-      title: 'Settings',
-      url: '#',
-      icon: Settings2,
-      items: [
-        {
-          title: 'General',
-          url: '#',
-        },
-        {
-          title: 'Team',
-          url: '#',
-        },
-        {
-          title: 'Billing',
-          url: '#',
-        },
-        {
-          title: 'Limits',
           url: '#',
         },
       ],
@@ -157,10 +123,7 @@ export function AppSidebar({ ...props }) {
   return (
     <>
       {!isLoginPage && (
-        <Sidebar
-          collapsible="icon"
-          {...props}
-        >
+        <Sidebar collapsible="icon" {...props}>
           <SidebarHeader>
             <TeamSwitcher teams={data.teams} />
           </SidebarHeader>
