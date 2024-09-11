@@ -1,6 +1,8 @@
 import { Roboto } from 'next/font/google';
 
 import { Providers } from '@/components/providers/Providers';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/app-sidebar';
 
 import './globals.css';
 
@@ -19,7 +21,12 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body className={`${roboto.className} antialiased`}>
         <main>
-          <Providers>{children}</Providers>
+          <Providers>
+            <SidebarProvider>
+              <AppSidebar />
+              {children}
+            </SidebarProvider>
+          </Providers>
         </main>
       </body>
     </html>

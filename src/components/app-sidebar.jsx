@@ -10,7 +10,7 @@ import {
   PieChart,
   Settings2,
   SquareTerminal,
-  User2Icon
+  User2Icon,
 } from 'lucide-react';
 
 import { NavMain } from '@/components/nav-main';
@@ -23,6 +23,8 @@ import {
   SidebarFooter,
   SidebarHeader,
 } from '@/components/ui/sidebar';
+
+import { usePathname } from 'next/navigation';
 
 // This is sample data.
 const data = {
@@ -148,18 +150,31 @@ const data = {
 };
 
 export function AppSidebar({ ...props }) {
+  const pathname = usePathname();
+
+  const isLoginPage = pathname === '/login';
+
   return (
-    <Sidebar collapsible="icon" {...props}>
-      <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
-      </SidebarHeader>
-      <SidebarContent>
-        <NavMain navTitle={'Plataforma'} items={data.navMain} />
-        <NavProjects projects={data.projects} />
-      </SidebarContent>
-      <SidebarFooter>
-        <NavUser user={data.user} />
-      </SidebarFooter>
-    </Sidebar>
+    <>
+      {!isLoginPage && (
+        <Sidebar
+          collapsible="icon"
+          {...props}
+        >
+          <SidebarHeader>
+            <TeamSwitcher teams={data.teams} />
+          </SidebarHeader>
+
+          <SidebarContent>
+            <NavMain navTitle={'Plataforma'} items={data.navMain} />
+            <NavProjects projects={data.projects} />
+          </SidebarContent>
+
+          <SidebarFooter>
+            <NavUser user={data.user} />
+          </SidebarFooter>
+        </Sidebar>
+      )}
+    </>
   );
 }
