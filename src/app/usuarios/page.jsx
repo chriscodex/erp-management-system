@@ -54,7 +54,7 @@ export default async function Page() {
             <Button>Agregar Nuevo Usuario</Button>
           </Link>
 
-          <DataTable columns={columns} data={dataFormated} />
+          <DataTable columns={columns} data={[]} />
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />

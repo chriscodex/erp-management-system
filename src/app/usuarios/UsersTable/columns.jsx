@@ -19,12 +19,10 @@ export const columns = [
   },
   {
     accessorKey: 'fullName',
-    header: () => <div className="text-start">Nombres Completos</div>,
+    header: () => <div className="text-start">Apellidos y Nombres</div>,
     cell: ({ row }) => {
       console.log('row:', row);
-      return (
-        <div className="text-start font-medium">{row.getValue('fullName')}</div>
-      );
+      return <div className="text-start">{row.getValue('fullName')}</div>;
     },
   },
   {

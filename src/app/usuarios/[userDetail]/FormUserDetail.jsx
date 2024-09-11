@@ -1,6 +1,5 @@
 'use client';
 
-import { notFound } from 'next/navigation';
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -29,16 +28,9 @@ import {
   ActivityIcon,
 } from 'lucide-react';
 
-import { UserDetailNavbar } from '@/app/usuarios/Navbar/UserDetailNavbar';
 import { FormateadorNombresApellidos } from '@/utils/formateador';
 
-function UserDetail({ params }) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  if (params.userDetail === '8484') {
-    notFound();
-  }
-
+function FormUserDetail() {
   const initialUserDetails = {
     id: 1,
     name: 'Alice Johnson',
@@ -63,6 +55,8 @@ function UserDetail({ params }) {
     rol: 'Administrador',
   };
 
+  const [isOpen, setIsOpen] = useState(false);
+
   const [userDetails, setUserDetails] = useState(initialUserDetails);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -78,7 +72,6 @@ function UserDetail({ params }) {
 
   return (
     <>
-      <UserDetailNavbar userDni={params.userDetail} />
       <div className="container mx-auto py-2">
         <Card className="w-full max-w-7xl mx-auto">
           {/* Header */}
@@ -327,12 +320,7 @@ function UserDetail({ params }) {
                   </div>
                   <Dialog open={isOpen} onOpenChange={setIsOpen}>
                     <DialogTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="bg-gray-800 text-neutral-50"
-                      >
-                        Cambiar contraseña
-                      </Button>
+                      <Button>Cambiar contraseña</Button>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[625px]">
                       <DialogHeader>
@@ -383,4 +371,4 @@ function UserDetail({ params }) {
   );
 }
 
-export default UserDetail;
+export { FormUserDetail };
