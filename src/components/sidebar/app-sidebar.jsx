@@ -49,17 +49,17 @@ const data = {
           title: 'Motos',
           url: '/usuarios',
           items: [
-            { title: 'Modelos', url: '/settings/general/preferencias' },
-            { title: 'Marcas', url: '/settings/general/idioma' },
-            { title: 'Categorías', url: '/settings/general/idioma' },
+            { title: 'Modelos', url: '/inventario/motos/modelos' },
+            { title: 'Marcas', url: '/inventario/motos/marcas' },
+            { title: 'Categorías', url: '/inventario/motos/categorias' },
           ],
         },
         {
           title: 'Productos Generales',
           url: '/usuarios',
           items: [
-            { title: 'Marcas', url: '/settings/general/idioma' },
-            { title: 'Categorías', url: '/settings/general/idioma' },
+            { title: 'Marcas', url: '/inventario/productos/marcas' },
+            { title: 'Categorías', url: '/inventario/productos/categorias' },
           ],
         },
       ],
