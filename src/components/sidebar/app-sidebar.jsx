@@ -7,6 +7,18 @@ import {
   SquareTerminal,
   User2Icon,
 } from 'lucide-react';
+import {
+  RiArrowRightSLine,
+  RiBox3Line,
+  RiHome2Line,
+  RiShieldUserFill,
+  RiDropboxFill,
+  RiMotorbikeFill,
+  RiMotorbikeLine,
+  RiInstanceFill,
+  RiGalleryView2,
+  RiAppsLine,
+} from '@remixicon/react';
 
 import { NavMain } from '@/components/nav-main';
 import { NavProjects } from '@/components/nav-projects';
@@ -42,26 +54,51 @@ const data = {
     {
       title: 'Inventario',
       url: '#',
-      icon: SquareTerminal,
-      isActive: false,
+      icon: RiBox3Line,
       items: [
         {
           title: 'Motos',
           url: '/inventario/modelos',
           items: [
-            { title: 'Modelos', url: '/inventario/motos/modelos' },
-            { title: 'Marcas', url: '/inventario/motos/marcas' },
-            { title: 'Categorías', url: '/inventario/motos/categorias' },
+            {
+              title: 'Modelos',
+              url: '/inventario/motos/modelos',
+              icon: RiMotorbikeLine,
+            },
+            {
+              title: 'Marcas',
+              url: '/inventario/motos/marcas',
+              icon: RiInstanceFill,
+            },
+            {
+              title: 'Categorías',
+              url: '/inventario/motos/categorias',
+              icon: RiAppsLine,
+            },
           ],
+          icon: RiMotorbikeFill,
         },
         {
-          title: 'Productos Generales',
+          title: 'Productos',
           url: '/inventario/productos/todos',
           items: [
-            { title: 'Todos', url: '/inventario/productos/todos' },
-            { title: 'Marcas', url: '/inventario/productos/marcas' },
-            { title: 'Categorías', url: '/inventario/productos/categorias' },
+            {
+              title: 'Todos',
+              url: '/inventario/productos/todos',
+              icon: RiDropboxFill,
+            },
+            {
+              title: 'Marcas',
+              url: '/inventario/productos/marcas',
+              icon: RiInstanceFill,
+            },
+            {
+              title: 'Categorías',
+              url: '/inventario/productos/categorias',
+              icon: RiAppsLine,
+            },
           ],
+          icon: RiGalleryView2,
         },
       ],
     },

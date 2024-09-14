@@ -50,7 +50,7 @@ export default async function Page() {
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          <Link href="/usuarios/nuevo">
+          <Link href="/usuarios/nuevo" className='flex justify-end'>
             <Button>Agregar Nuevo Usuario</Button>
           </Link>
 
