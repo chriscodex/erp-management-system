@@ -47,7 +47,7 @@ const data = {
       items: [
         {
           title: 'Motos',
-          url: '/usuarios',
+          url: '/inventario/modelos',
           items: [
             { title: 'Modelos', url: '/inventario/motos/modelos' },
             { title: 'Marcas', url: '/inventario/motos/marcas' },
@@ -56,8 +56,9 @@ const data = {
         },
         {
           title: 'Productos Generales',
-          url: '/usuarios',
+          url: '/inventario/productos/todos',
           items: [
+            { title: 'Todos', url: '/inventario/productos/todos' },
             { title: 'Marcas', url: '/inventario/productos/marcas' },
             { title: 'Categorías', url: '/inventario/productos/categorias' },
           ],
