@@ -1,11 +1,11 @@
 import { Label } from '@/components/ui/label';
 
-function ModelosPage() {
+function MotosModelosPage() {
   return (
     <>
-      <Label>Modelos</Label>
+      <Label>MotosModelos</Label>
     </>
   );
 }
 
-export default ModelosPage
+export default MotosModelosPage
