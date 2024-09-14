@@ -145,7 +145,7 @@ function FormNewUser() {
                   id="direccion"
                   name="direccion"
                   type="direccion"
-                  placeholder="Av. Centanario 123"
+                  placeholder="Av. Centenario 123"
                   value={formData.direccion}
                   onChange={handleInputChange}
                   className="pl-8"
