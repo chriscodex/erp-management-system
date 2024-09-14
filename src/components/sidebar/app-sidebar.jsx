@@ -1,17 +1,9 @@
 'use client';
 
 import * as React from 'react';
+import { AudioWaveform, GalleryVerticalEnd, User2Icon } from 'lucide-react';
 import {
-  AudioWaveform,
-  GalleryVerticalEnd,
-  SquareTerminal,
-  User2Icon,
-} from 'lucide-react';
-import {
-  RiArrowRightSLine,
   RiBox3Line,
-  RiHome2Line,
-  RiShieldUserFill,
   RiDropboxFill,
   RiMotorbikeFill,
   RiMotorbikeLine,
