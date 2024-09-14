@@ -52,7 +52,7 @@ export function NavMain({ navTitle, items }) {
                       <SidebarMenuSubItem>
                         <CollapsibleTrigger asChild>
                           <SidebarMenuSubButton>
-                            {subItem.icon && <item.icon />}
+                            {subItem.icon && <subItem.icon />}
                             <span>{subItem.title}</span>
                             <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 group-data-[state=closed]/collapsible:rotate-0" />
                           </SidebarMenuSubButton>
@@ -64,7 +64,7 @@ export function NavMain({ navTitle, items }) {
                               <SidebarMenuSubItem key={subSubItem.title}>
                                 <SidebarMenuSubButton asChild>
                                   <Link href={subSubItem.url}>
-                                    {subSubItem.icon && <item.icon />}
+                                    {subSubItem.icon && <subSubItem.icon />}
                                     <span>{subSubItem.title}</span>
                                   </Link>
                                 </SidebarMenuSubButton>
