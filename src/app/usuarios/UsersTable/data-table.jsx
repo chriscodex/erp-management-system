@@ -6,9 +6,11 @@ import {
   useReactTable,
   getPaginationRowModel,
   getSortedRowModel,
+  getFilteredRowModel,
 } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
+import { Input } from "@/components/ui/input"
 
 import {
   Table,
@@ -21,7 +23,8 @@ import {
 import { useState } from 'react';
 
 export function DataTable({ columns, data }) {
-  const [sorting, setSorting] = useState([])
+  const [sorting, setSorting] = useState([]);
+  const [columnFilters, setColumnFilters] = useState([]);
 
   const table = useReactTable({
     data,
@@ -30,15 +33,26 @@ export function DataTable({ columns, data }) {
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
+      columnFilters,
     },
   });
 
-  
-
   return (
     <div>
+      <div className="flex items-center py-4">
+        <Input
+          placeholder="Buscar por nombres"
+          value={(table.getColumn("fullName")?.getFilterValue()) ?? ""}
+          onChange={(event) =>
+            table.getColumn("fullName")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
       <div className="rounded-md border min-h-[420px]">
         <Table>
           <TableHeader>
