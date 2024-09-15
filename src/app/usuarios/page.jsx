@@ -5,7 +5,7 @@ import { columns } from '@/app/usuarios/UsersTable/columns';
 import { NavbarSimple } from '@/components/navbar/NavbarSimple';
 import { Button } from '@/components/ui/button';
 import { Label } from '@radix-ui/react-label';
-import { User2Icon } from 'lucide-react';
+import { User2Icon, Plus } from 'lucide-react';
 
 import { getAllUsers } from '@/app/usuarios/Infraestructura/apiClient';
 
@@ -31,7 +31,10 @@ export default async function Page() {
             <Label className="text-4xl font-bold">Usuarios</Label>
           </div>
           <Link href="/usuarios/nuevo" className="flex justify-end">
-            <Button>Agregar Nuevo Usuario</Button>
+            <Button>
+              <Plus />
+              Agregar Nuevo Usuario
+            </Button>
           </Link>
         </div>
         <DataTable columns={columns} data={dataFormated} />
