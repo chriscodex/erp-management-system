@@ -23,7 +23,6 @@ export const columns = [
     accessorKey: 'fullName',
     header: () => <div className="text-start">Apellidos y Nombres</div>,
     cell: ({ row }) => {
-      console.log('row:', row);
       return <div className="text-start">{row.getValue('fullName')}</div>;
     },
   },
