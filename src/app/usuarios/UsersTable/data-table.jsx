@@ -8,7 +8,8 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
 
 // import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -25,6 +26,7 @@ import {
 import CustomPagination from './pagination';
 
 export function DataTable({ columns, data }) {
+  /* Sorting */
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
@@ -34,6 +36,8 @@ export function DataTable({ columns, data }) {
     setCurrentPage(page);
     // Aquí cargarías los datos para la nueva página
   };
+
+  /* Table */
 
   const table = useReactTable({
     data,
@@ -50,9 +54,18 @@ export function DataTable({ columns, data }) {
     },
   });
 
-  const handleSearch = (term) => {
+  /* Search */
+  const [searchValue, setSearchValue] = useState('');
 
-  }
+  const TIME_DEBOUNCE = 300;
+
+  const debouncedSearch = useDebouncedCallback((value) => {
+    table.getColumn('fullName')?.setFilterValue(value);
+  }, TIME_DEBOUNCE);
+
+  useEffect(() => {
+    debouncedSearch(searchValue);
+  }, [searchValue, debouncedSearch]);
 
   console.log(table.getFilteredRowModel());
 
@@ -62,10 +75,8 @@ export function DataTable({ columns, data }) {
       <div className="flex items-center py-4">
         <Input
           placeholder="Buscar por nombres"
-          value={table.getColumn('fullName')?.getFilterValue() ?? ''}
-          onChange={(event) =>
-            table.getColumn('fullName')?.setFilterValue(event.target.value)
-          }
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
         />
       </div>
