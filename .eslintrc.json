@@ -4,5 +4,8 @@
     "@next/next/no-img-element": "off",
     "no-unused-vars": "error",
     "no-undef": "error"
-  }
+  },
+  "ignores": [
+    "./src/db/seed.js"
+  ]
 }
