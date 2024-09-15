@@ -47,14 +47,14 @@ export function NavMain({ navTitle, items }) {
                       key={subItem.title}
                       asChild
                       defaultOpen={false}
-                      className="group/collapsible cursor-pointer"
+                      className="group/collapsibleSub cursor-pointer"
                     >
                       <SidebarMenuSubItem>
                         <CollapsibleTrigger asChild>
                           <SidebarMenuSubButton>
                             {subItem.icon && <subItem.icon />}
                             <span>{subItem.title}</span>
-                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 group-data-[state=closed]/collapsible:rotate-0" />
+                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsibleSub:rotate-90 group-data-[state=closed]/collapsibleSub:rotate-0" />
                           </SidebarMenuSubButton>
                         </CollapsibleTrigger>
 
