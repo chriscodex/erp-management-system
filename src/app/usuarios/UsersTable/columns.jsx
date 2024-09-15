@@ -18,21 +18,37 @@ export const columns = [
   {
     accessorKey: 'ID',
     header: () => <div className="text-start">N°</div>,
+    cell: ({ row, table }) => {
+      const pageIndex = table.getState().pagination.pageIndex;
+      const pageSize = table.getState().pagination.pageSize;
+      const rowIndex = row.index;
+      console.log(table.getState());
+      // Calcular el número correcto de la fila basado en la paginación
+      const number = pageIndex * pageSize + rowIndex + 1;
+
+      return <div className="text-start">{number}</div>;
+    },
+  },
+  {
+    accessorKey: 'fullName',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Apellidos y Nombres
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
     cell: ({ row }) => {
-      console.log(row);
-      return <div className="text-start">{parseInt(row.id) + 1}</div>;
+      return <div className="text-start">{row.getValue('fullName')}</div>;
     },
   },
   {
     accessorKey: 'dni',
     header: 'DNI',
-  },
-  {
-    accessorKey: 'fullName',
-    header: () => <div className="text-start">Apellidos y Nombres</div>,
-    cell: ({ row }) => {
-      return <div className="text-start">{row.getValue('fullName')}</div>;
-    },
   },
   {
     accessorKey: 'rol',

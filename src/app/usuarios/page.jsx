@@ -28,7 +28,7 @@ export default async function Page() {
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
             <User2Icon className="h-9 w-9" />
-            <Label className="text-4xl font-bold">Usuarios</Label>
+            <Label className="sm:text-4xl text-xl font-bold">Usuarios</Label>
           </div>
           <Link href="/usuarios/nuevo" className="flex justify-end">
             <Button>

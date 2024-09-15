@@ -50,6 +50,10 @@ export function DataTable({ columns, data }) {
     },
   });
 
+  const handleSearch = (term) => {
+
+  }
+
   console.log(table.getFilteredRowModel());
 
   return (
