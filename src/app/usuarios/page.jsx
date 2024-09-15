@@ -19,13 +19,16 @@ export default async function Page() {
     delete fullName.nombres;
     return fullName;
   });
+
+  const totalData = dataFormated.length;
+
   return (
     <>
       <NavbarSimple title="Usuarios">
         <Link href="/usuarios/nuevo" className="flex justify-end">
           <Button>Agregar Nuevo Usuario</Button>
         </Link>
-        <DataTable columns={columns} data={dataFormated} />
+        <DataTable columns={columns} data={dataFormated} totalData={totalData} />
       </NavbarSimple>
     </>
   );
