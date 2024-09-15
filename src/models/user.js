@@ -24,7 +24,7 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Celular is required'],
     },
-    dirección: {
+    direccion: {
       type: String,
       required: [true, 'Dirección is required'],
     },
