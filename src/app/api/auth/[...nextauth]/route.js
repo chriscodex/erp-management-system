@@ -12,7 +12,8 @@ const authOptions = {
         dni: { label: 'DNI', type: 'text', placeholder: '' },
         password: { label: 'Contraseña', type: 'password' },
       },
-      async authorize(credentials, req) {// eslint-disable-line
+      async authorize(credentials, req) {
+        // eslint-disable-line
         await connectDB();
 
         const userFound = await User.findOne({ dni: credentials.dni });
@@ -33,14 +34,22 @@ const authOptions = {
     }),
   ],
   callbacks: {
-    jwt({ account, token, user, profile, session }) {// eslint-disable-line
+    jwt({ account, token, user, profile, session }) {
+      // eslint-disable-line
       if (user) {
         delete user?.password;
         token.user = user;
       }
       return token;
     },
-    session({ session, token }) {
+    async session({ session, token }) {
+      // Conectar a la base de datos
+      await connectDB();
+      // Verificar si el usuario sigue existiendo en la base de datos
+      const userExists = await User.findOne({ dni: token.user.dni });
+      if (!userExists) {
+        throw new Error('Usuario no encontrado. La sesión ha sido invalidada.');
+      }
       delete token.user.password;
       session.user = token.user;
       console.log(session);

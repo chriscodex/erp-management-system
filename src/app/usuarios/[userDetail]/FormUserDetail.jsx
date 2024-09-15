@@ -339,7 +339,7 @@ function FormUserDetail() {
                             id="name"
                             type="password"
                             className="col-span-3"
-                            autocomplete="off"
+                            autoComplete="off"
                           />
                         </div>
                         <div className="grid grid-cols-4 items-center">
@@ -350,7 +350,7 @@ function FormUserDetail() {
                             id="username"
                             type="password"
                             className="col-span-3"
-                            autocomplete="off"
+                            autoComplete="off"
                           />
                         </div>
                       </div>

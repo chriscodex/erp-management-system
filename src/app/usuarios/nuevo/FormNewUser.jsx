@@ -102,7 +102,7 @@ function FormNewUser() {
                   onChange={handleInputChange}
                   className="pl-8"
                   required
-                  autocomplete="off"
+                  autoComplete="off"
                 />
               </div>
             </div>
