@@ -16,6 +16,14 @@ import { ArrowUpDown } from 'lucide-react';
 
 export const columns = [
   {
+    accessorKey: 'ID',
+    header: () => <div className="text-start">N°</div>,
+    cell: ({ row }) => {
+      console.log(row);
+      return <div className="text-start">{parseInt(row.id) + 1}</div>;
+    },
+  },
+  {
     accessorKey: 'dni',
     header: 'DNI',
   },
