@@ -8,9 +8,11 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from '@tanstack/react-table';
+import { useState } from 'react';
 
-import { Button } from '@/components/ui/button';
-import { Input } from "@/components/ui/input"
+// import { useIsMobile } from '@/hooks/use-mobile';
+
+import { Input } from '@/components/ui/input';
 
 import {
   Table,
@@ -20,11 +22,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { useState } from 'react';
+import CustomPagination from './pagination';
 
 export function DataTable({ columns, data }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    // Aquí cargarías los datos para la nueva página
+  };
 
   const table = useReactTable({
     data,
@@ -41,19 +50,22 @@ export function DataTable({ columns, data }) {
     },
   });
 
+  console.log(table.getFilteredRowModel());
+
   return (
     <div>
+      {/* Input */}
       <div className="flex items-center py-4">
         <Input
           placeholder="Buscar por nombres"
-          value={(table.getColumn("fullName")?.getFilterValue()) ?? ""}
+          value={table.getColumn('fullName')?.getFilterValue() ?? ''}
           onChange={(event) =>
-            table.getColumn("fullName")?.setFilterValue(event.target.value)
+            table.getColumn('fullName')?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
       </div>
-      <div className="rounded-md border min-h-[420px]">
+      <div className="rounded-md border sm:min-h-[528px] min-h-[528px]">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -103,24 +115,15 @@ export function DataTable({ columns, data }) {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4 select-none">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Anterior
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Siguiente
-        </Button>
-      </div>
+      <CustomPagination
+        totalItems={table.getFilteredRowModel().rows.length}
+        currentPage={currentPage}
+        onPageChange={handlePageChange}
+        nextPage={table.nextPage}
+        previousPage={table.previousPage}
+        firstPage={table.firstPage}
+        lastPage={table.lastPage}
+      />
     </div>
   );
 }

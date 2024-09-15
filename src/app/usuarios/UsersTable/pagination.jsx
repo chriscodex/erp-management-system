@@ -47,7 +47,7 @@ export default function CustomPagination({
       </div>
       <div className="flex items-center space-x-6">
         <div className="flex w-[100px] items-center justify-center text-sm font-medium">
-          Página {currentPage} de {totalPages}
+          Página {currentPage} de {totalPages === 0 ? 1 : totalPages}
         </div>
         <div className="flex items-center space-x-2">
           <Button
@@ -72,7 +72,7 @@ export default function CustomPagination({
             variant="outline"
             className="h-8 w-8 p-0"
             onClick={handleNextPage}
-            disabled={currentPage === totalPages}
+            disabled={currentPage === totalPages || totalPages === 0}
           >
             <span className="sr-only">Ir a la página siguiente</span>
             <ChevronRight className="h-4 w-4" />
@@ -81,7 +81,7 @@ export default function CustomPagination({
             variant="outline"
             className="hidden h-8 w-8 p-0 sm:flex"
             onClick={handleLastPage}
-            disabled={currentPage === totalPages}
+            disabled={currentPage === totalPages || totalPages === 0}
           >
             <span className="sr-only">Ir a la última página</span>
             <ChevronsRight className="h-4 w-4" />

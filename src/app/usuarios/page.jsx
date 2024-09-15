@@ -20,15 +20,13 @@ export default async function Page() {
     return fullName;
   });
 
-  const totalData = dataFormated.length;
-
   return (
     <>
       <NavbarSimple title="Usuarios">
         <Link href="/usuarios/nuevo" className="flex justify-end">
           <Button>Agregar Nuevo Usuario</Button>
         </Link>
-        <DataTable columns={columns} data={dataFormated} totalData={totalData} />
+        <DataTable columns={columns} data={dataFormated} />
       </NavbarSimple>
     </>
   );
