@@ -1,7 +1,7 @@
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 
-function MotosCategoriasPage() {
+function Loading() {
   const titles = [
     {
       title: 'Inventario',
@@ -19,14 +19,13 @@ function MotosCategoriasPage() {
       active: false,
     },
   ];
-
   return (
     <>
       <NavbarDynamic titles={titles}>
-        <Label>Motos Categorias</Label>
+        <Label>Cargando ...</Label>
       </NavbarDynamic>
     </>
   );
 }
 
-export default MotosCategoriasPage
+export default Loading;

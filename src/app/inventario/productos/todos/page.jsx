@@ -18,7 +18,8 @@ function ProductosTodosPage() {
       href: '/inventario/productos/todos',
       active: false,
     },
-  ]
+  ];
+
   return (
     <>
       <NavbarDynamic titles={titles}>
