@@ -12,6 +12,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
+import { ArrowUpDown } from 'lucide-react';
+
 export const columns = [
   {
     accessorKey: 'dni',
@@ -27,7 +29,17 @@ export const columns = [
   },
   {
     accessorKey: 'rol',
-    header: 'Rol',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Rol
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
   },
   {
     accessorKey: 'celular',
