@@ -28,14 +28,15 @@ import {
   Lock,
   Shield,
   MapPin,
-  CreditCard,
   Phone,
+  IdCardIcon
 } from 'lucide-react';
 
 function FormNewUser() {
   const initialFormData = {
     dni: '',
     nombres: '',
+    apellidos: '',
     celular: '',
     direccion: '',
     rol: 'Vendedor',
@@ -92,7 +93,7 @@ function FormNewUser() {
             <div className="space-y-2">
               <Label htmlFor="dni">DNI</Label>
               <div className="relative">
-                <CreditCard className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="dni"
                   name="dni"
@@ -107,17 +108,34 @@ function FormNewUser() {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="nombres">Nombre Completo</Label>
+              <Label htmlFor="nombres">Apellidos</Label>
               <div className="relative">
                 <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
                   id="nombres"
                   name="nombres"
-                  placeholder="Apellidos y Nombres"
+                  placeholder="Apellidos"
                   value={formData.nombres}
                   onChange={handleInputChange}
                   className="pl-8"
                   required
+                  autoComplete="off"
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="nombres">Nombres</Label>
+              <div className="relative">
+                <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  id="apellidos"
+                  name="apellidos"
+                  placeholder="Nombres"
+                  value={formData.apellidos}
+                  onChange={handleInputChange}
+                  className="pl-8"
+                  required
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -134,6 +152,7 @@ function FormNewUser() {
                   onChange={handleInputChange}
                   className="pl-8"
                   required
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -150,6 +169,7 @@ function FormNewUser() {
                   onChange={handleInputChange}
                   className="pl-8"
                   required
+                  autoComplete="off"
                 />
               </div>
             </div>
@@ -186,7 +206,7 @@ function FormNewUser() {
                   onChange={handleInputChange}
                   className="pl-8"
                   required
-                  minLength={8}
+                  minLength={3}
                 />
               </div>
             </div>
