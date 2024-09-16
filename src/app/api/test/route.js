@@ -8,7 +8,7 @@ export async function GET() {
   try {
     await connectDB();
 
-    const dni = await getDataByDni('74062106');
+    // const dni = await getDataByDni('74062106');
 
     const ruc = await getDataByRuc('20428729201');
 

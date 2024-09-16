@@ -10,6 +10,7 @@ import {
   RiInstanceFill,
   RiGalleryView2,
   RiAppsLine,
+  RiFundsBoxFill,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/nav-main';
@@ -95,24 +96,14 @@ const data = {
         {
           title: 'Almacen',
           url: '/inventario/productos/todos',
-          items: [
-            {
-              title: 'Todos',
-              url: '/inventario/productos/todos',
-              icon: RiDropboxFill,
-            },
-            {
-              title: 'Marcas',
-              url: '/inventario/productos/marcas',
-              icon: RiInstanceFill,
-            },
-            {
-              title: 'Categorías',
-              url: '/inventario/productos/categorias',
-              icon: RiAppsLine,
-            },
-          ],
+          items: [],
           icon: RiGalleryView2,
+        },
+        {
+          title: 'Movimientos',
+          url: '/inventario/modelos',
+          items: [],
+          icon: RiFundsBoxFill,
         },
       ],
     },

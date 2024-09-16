@@ -36,47 +36,61 @@ export function NavMain({ navTitle, items }) {
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
-                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 group-data-[state=closed]/collapsible:rotate-0" />
+                  {item.items?.length > 0 && (
+                    <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90 group-data-[state=closed]/collapsible:rotate-0" />
+                  )}
                 </SidebarMenuButton>
               </CollapsibleTrigger>
 
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <Collapsible
-                      key={subItem.title}
-                      asChild
-                      defaultOpen={false}
-                      className="group/collapsibleSub cursor-pointer"
-                    >
-                      <SidebarMenuSubItem>
-                        <CollapsibleTrigger asChild>
-                          <SidebarMenuSubButton>
-                            {subItem.icon && <subItem.icon />}
-                            <span>{subItem.title}</span>
-                            <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsibleSub:rotate-90 group-data-[state=closed]/collapsibleSub:rotate-0" />
-                          </SidebarMenuSubButton>
-                        </CollapsibleTrigger>
-
-                        <CollapsibleContent>
-                          <SidebarMenuSub className="ml-4">
-                            {subItem.items?.map((subSubItem) => (
-                              <SidebarMenuSubItem key={subSubItem.title}>
-                                <SidebarMenuSubButton asChild>
-                                  <Link href={subSubItem.url}>
-                                    {subSubItem.icon && <subSubItem.icon />}
-                                    <span>{subSubItem.title}</span>
-                                  </Link>
+              {item.items?.length > 0 && (
+                <CollapsibleContent>
+                  <SidebarMenuSub>
+                    {item.items.map((subItem) => (
+                      <Collapsible
+                        key={subItem.title}
+                        asChild
+                        defaultOpen={false}
+                        className="group/collapsibleSub cursor-pointer"
+                      >
+                        <SidebarMenuSubItem>
+                          {subItem.items?.length > 0 ? (
+                            <>
+                              <CollapsibleTrigger asChild>
+                                <SidebarMenuSubButton>
+                                  {subItem.icon && <subItem.icon />}
+                                  <span>{subItem.title}</span>
+                                  <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsibleSub:rotate-90 group-data-[state=closed]/collapsibleSub:rotate-0" />
                                 </SidebarMenuSubButton>
-                              </SidebarMenuSubItem>
-                            ))}
-                          </SidebarMenuSub>
-                        </CollapsibleContent>
-                      </SidebarMenuSubItem>
-                    </Collapsible>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
+                              </CollapsibleTrigger>
+                              <CollapsibleContent>
+                                <SidebarMenuSub className="ml-4">
+                                  {subItem.items.map((subSubItem) => (
+                                    <SidebarMenuSubItem key={subSubItem.title}>
+                                      <SidebarMenuSubButton asChild>
+                                        <Link href={subSubItem.url}>
+                                          {subSubItem.icon && <subSubItem.icon />}
+                                          <span>{subSubItem.title}</span>
+                                        </Link>
+                                      </SidebarMenuSubButton>
+                                    </SidebarMenuSubItem>
+                                  ))}
+                                </SidebarMenuSub>
+                              </CollapsibleContent>
+                            </>
+                          ) : (
+                            <SidebarMenuSubButton asChild>
+                              <Link href={subItem.url}>
+                                {subItem.icon && <subItem.icon />}
+                                <span>{subItem.title}</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          )}
+                        </SidebarMenuSubItem>
+                      </Collapsible>
+                    ))}
+                  </SidebarMenuSub>
+                </CollapsibleContent>
+              )}
             </SidebarMenuItem>
           </Collapsible>
         ))}
