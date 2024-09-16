@@ -1,13 +1,8 @@
 'use client';
 
-import {
-  ChevronsUpDown,
-  LogOut,
-  Moon,
-  Sun,
-  Settings
-} from 'lucide-react';
+import { ChevronsUpDown, LogOut, Moon, Sun, Settings } from 'lucide-react';
 import { useTheme } from 'next-themes';
+import { signOut } from 'next-auth/react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -94,7 +89,10 @@ export function NavUser({ user }) {
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => signOut()}
+            >
               <LogOut />
               Cerrar Sesión
             </DropdownMenuItem>
