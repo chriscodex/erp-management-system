@@ -24,8 +24,8 @@ services:
       NEXTAUTH_URL: http://localhost:3000
       NEXTAUTH_SECRET: N1ouTYi6isl2sz6
       NEXT_PUBLIC_API_URL: http://localhost:3000/api
-      NEXT_TOKEN_RENIEC: apis-token-11180.sMCjVvCzDCLfbeIeYfFTPX1uuypmvEEj
-      NEXT_RENIEC_URL: https://api.apis.net.pe/v2/reniec
+      TOKEN_API_RUC_DNI: apis-token-11180.sMCjVvCzDCLfbeIeYfFTPX1uuypmvEEj
+      NEXT_API_RUC_DNI_URL: https://api.apis.net.pe/v2
     depends_on:
       - mongodb
     volumes:
