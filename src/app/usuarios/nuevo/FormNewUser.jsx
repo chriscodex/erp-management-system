@@ -84,7 +84,7 @@ function FormNewUser() {
         <CardHeader>
           <CardTitle className="text-2xl">Crear Nuevo Usuario</CardTitle>
           <CardDescription>
-            Ingrese los detalles del nuevo usuario para el sistema.
+            Ingrese los datos del nuevo usuario para el sistema.
           </CardDescription>
         </CardHeader>
         <CardContent>
