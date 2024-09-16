@@ -74,7 +74,7 @@ export function DataTable({ columns, data }) {
       {/* Input */}
       <div className="flex items-center py-4">
         <Input
-          placeholder="Buscar por nombres"
+          placeholder="Buscar por apellidos y nombres"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
