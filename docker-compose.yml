@@ -24,6 +24,7 @@ services:
       NEXTAUTH_URL: http://localhost:3000
       NEXTAUTH_SECRET: N1ouTYi6isl2sz6
       NEXT_PUBLIC_API_URL: http://localhost:3000/api
+      NEXT_TOKEN_SUNAT: apis-token-11180.sMCjVvCzDCLfbeIeYfFTPX1uuypmvEEj
     depends_on:
       - mongodb
     volumes:
