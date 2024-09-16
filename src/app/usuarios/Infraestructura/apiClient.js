@@ -1,33 +1,9 @@
 import { getAllUsersUrl } from './apiUrls';
-
-async function fetchData(url) {
-  try {
-    const res = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    const data = await res.json();
-
-    return data;
-  } catch (error) {
-    console.log(error);
-  }
-}
-
-async function delay(ms) {
-  try {
-    return new Promise((resolve) => setTimeout(resolve, ms)); // eslint-disable-line
-  } catch (error) {
-    console.log(error);
-  }
-}
+import { getData } from '@/utils/fetchData';
 
 async function getAllUsers() {
   try {
-    return fetchData(getAllUsersUrl);
+    return getData(getAllUsersUrl);
   } catch (error) {
     console.log(error);
   }
@@ -35,10 +11,10 @@ async function getAllUsers() {
 
 // async function getUser(userId) {
 //   try {
-    
+
 //   } catch (error) {
-    
+
 //   }
 // }
 
-export { fetchData, delay, getAllUsers };
+export { getAllUsers };
