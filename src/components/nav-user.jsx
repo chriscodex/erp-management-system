@@ -31,8 +31,6 @@ export function NavUser() {
 
   const fullName = FormateadorNombresApellidos(user?.nombres, user?.apellidos);
 
-  console.log(user);
-
   return (
     <SidebarMenu>
       <SidebarMenuItem>
