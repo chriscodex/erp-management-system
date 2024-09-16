@@ -29,7 +29,7 @@ export function NavMain({ navTitle, items }) {
             key={item.title}
             asChild
             defaultOpen={item.isActive}
-            className="group/collapsible"
+            className="group/collapsible select-none"
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
