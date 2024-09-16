@@ -123,7 +123,7 @@ export function AppSidebar({ ...props }) {
           </SidebarContent>
 
           <SidebarFooter>
-            <NavUser user={data.user} />
+            <NavUser />
           </SidebarFooter>
         </Sidebar>
       )}
