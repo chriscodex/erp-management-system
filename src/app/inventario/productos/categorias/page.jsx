@@ -14,7 +14,7 @@ function ProductosCategoriasPage() {
       active: false,
     },
     {
-      title: 'Todos los productos',
+      title: 'Categorías',
       href: '/inventario/productos/todos',
       active: false,
     },

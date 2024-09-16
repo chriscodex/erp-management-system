@@ -9,12 +9,12 @@ function MotosMarcasPage() {
       active: false,
     },
     {
-      title: 'Productos',
+      title: 'Motos',
       href: '/inventario/productos/todos',
       active: false,
     },
     {
-      title: 'Todos los productos',
+      title: 'Marcas',
       href: '/inventario/productos/todos',
       active: false,
     },

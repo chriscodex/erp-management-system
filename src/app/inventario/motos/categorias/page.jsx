@@ -9,13 +9,13 @@ function MotosCategoriasPage() {
       active: false,
     },
     {
-      title: 'Productos',
+      title: 'Motos',
       href: '/inventario/productos/todos',
       active: false,
     },
     {
-      title: 'Todos los productos',
-      href: '/inventario/productos/todos',
+      title: 'Categorías',
+      href: '/inventario/motos/categorias',
       active: false,
     },
   ];
