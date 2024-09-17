@@ -1,6 +1,8 @@
 'use client';
 
 import { ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import { useSidebar } from '@/components/ui/sidebar';
 
 import {
   Collapsible,
@@ -17,9 +19,10 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
-import Link from 'next/link';
 
 export function NavMain({ navTitle, items }) {
+  const { open } = useSidebar()
+  
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="select-none">{navTitle}</SidebarGroupLabel>
@@ -33,7 +36,7 @@ export function NavMain({ navTitle, items }) {
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton tooltip={item.title}>
+                <SidebarMenuButton className={`${open ? '' : 'pointer-events-none'}`}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
                   {item.items?.length > 0 && (
@@ -68,7 +71,9 @@ export function NavMain({ navTitle, items }) {
                                     <SidebarMenuSubItem key={subSubItem.title}>
                                       <SidebarMenuSubButton asChild>
                                         <Link href={subSubItem.url}>
-                                          {subSubItem.icon && <subSubItem.icon />}
+                                          {subSubItem.icon && (
+                                            <subSubItem.icon />
+                                          )}
                                           <span>{subSubItem.title}</span>
                                         </Link>
                                       </SidebarMenuSubButton>
