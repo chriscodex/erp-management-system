@@ -1,7 +1,5 @@
 'use client';
 
-'use client';
-
 import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -29,8 +27,15 @@ import {
   Shield,
   MapPin,
   Phone,
-  IdCardIcon
+  IdCardIcon,
+  SearchIcon,
 } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 function FormNewUser() {
   const initialFormData = {
@@ -105,6 +110,26 @@ function FormNewUser() {
                   required
                   autoComplete="off"
                 />
+                <button
+                  className="absolute right-3 top-1.5 h-4 w-4 text-muted-foreground cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    console.log('DNI');
+                  }}
+                  role="button"
+                  type="button"
+                >
+                  <TooltipProvider delayDuration={0}>
+                    <Tooltip>
+                      <TooltipTrigger>
+                        <SearchIcon />
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Busca por DNI</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
+                </button>
               </div>
             </div>
             <div className="space-y-2">
@@ -117,6 +142,11 @@ function FormNewUser() {
                   placeholder="Apellidos"
                   value={formData.nombres}
                   onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault(); // Evita el envío del formulario
+                    }
+                  }}
                   className="pl-8"
                   required
                   autoComplete="off"
@@ -133,6 +163,11 @@ function FormNewUser() {
                   placeholder="Nombres"
                   value={formData.apellidos}
                   onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault(); // Evita el envío del formulario
+                    }
+                  }}
                   className="pl-8"
                   required
                   autoComplete="off"
@@ -150,6 +185,11 @@ function FormNewUser() {
                   placeholder="987654321"
                   value={formData.celular}
                   onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault(); // Evita el envío del formulario
+                    }
+                  }}
                   className="pl-8"
                   required
                   autoComplete="off"
@@ -167,6 +207,11 @@ function FormNewUser() {
                   placeholder="Av. Centenario 123"
                   value={formData.direccion}
                   onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault(); // Evita el envío del formulario
+                    }
+                  }}
                   className="pl-8"
                   required
                   autoComplete="off"
@@ -204,6 +249,11 @@ function FormNewUser() {
                   placeholder="••••••••"
                   value={formData.password}
                   onChange={handleInputChange}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault(); // Evita el envío del formulario
+                    }
+                  }}
                   className="pl-8"
                   required
                   minLength={3}
