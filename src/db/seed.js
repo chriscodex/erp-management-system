@@ -1,4 +1,3 @@
-// eslint ignored
 import { connectDB } from './mongodb';
 import { models } from 'mongoose';
 import bcryptjs from 'bcryptjs';

@@ -37,6 +37,8 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+import { getDataByDni } from '@/utils/fetchData';
+
 function FormNewUser() {
   const initialFormData = {
     dni: '',

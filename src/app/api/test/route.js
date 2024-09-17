@@ -8,16 +8,16 @@ export async function GET() {
   try {
     await connectDB();
 
-    // const dni = await getDataByDni('74062106');
+    const dni = await getDataByDni('74062106');
 
-    const ruc = await getDataByRuc('20428729201');
+    // const ruc = await getDataByRuc('20428729201');
 
-    console.log(ruc);
+    console.log(dni);
 
     // await seedUsers();
 
     // await createUser();
-    return NextResponse.json(ruc);
+    return NextResponse.json(dni);
   } catch (error) {
     console.log(error);
     return NextResponse.json(
