@@ -1,9 +1,20 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/db/mongodb';
+import { getAllUsers } from '@/users/users.service';
 
 export async function GET() {
-  await connectDB();
-  return NextResponse.json([]);
+  try {
+    await connectDB();
+
+    const users = await getAllUsers();
+
+    return NextResponse.json(users);
+  } catch (error) {
+    return NextResponse.json(
+      { message: 'Error fetching users' },
+      { status: 500 }
+    );
+  }
 }
 
 export async function POST() {
