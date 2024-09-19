@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/db/mongodb';
-import { getAllUsers } from '@/users/users.service';
+import { getAllUsers } from '@/users/application/users.service';
 
 export async function GET() {
   try {
