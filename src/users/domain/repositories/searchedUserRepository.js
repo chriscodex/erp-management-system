@@ -1,6 +1,6 @@
 import { SearchedUser } from '@/users/domain/models/searchedUser';
 
-const userRepository = {
+export class SearchedUserRepository {
   async getSearchedUser(dni) {
     try {
       const users = await SearchedUser.find(dni);
@@ -8,7 +8,7 @@ const userRepository = {
     } catch (error) {
       console.log(error);
     }
-  },
-};
+  }
+}
 
-export { userRepository };
+// export { SearchedUserRepository };
