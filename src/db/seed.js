@@ -7,8 +7,6 @@ import { SearchedUser } from '@/users/domain/models/searchedUser';
 
 export async function seedUsers() {
   try {
-    await connectDB();
-
     const data = [
       {
         nombres: 'Christian Gonzalo',
@@ -74,8 +72,6 @@ export async function seedUsers() {
 
 export async function seedSearchedUsers() {
   try {
-    await connectDB();
-
     const data = [
       {
         dni: '74062106',
@@ -101,6 +97,11 @@ export async function seedSearchedUsers() {
 }
 
 export async function seed() {
-  await seedUsers();
-  await seedSearchedUsers();
+  try {
+    await connectDB(); // Conectarse a la base de datos solo una vez
+    await seedUsers();
+    await seedSearchedUsers();
+  } catch (error) {
+    console.error('Error al ejecutar el seeding:', error);
+  }
 }
