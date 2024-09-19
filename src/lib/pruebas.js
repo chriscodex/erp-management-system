@@ -1,4 +1,4 @@
-import { getDataByDni, getDataByRuc } from './fetchData';
+import { getDataByDni, getDataByRuc } from '@/lib/fetchData';
 import { seed } from '@/db/seed';
 import { connectDB } from '@/db/mongodb';
 
