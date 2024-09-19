@@ -1,4 +1,4 @@
-import { UserRepository } from '@/users/domain/repositories/userRepository';
+import { UserRepository } from '@/backend/users/domain/repositories/userRepository';
 
 export class UserService {
   constructor() {

@@ -1,4 +1,4 @@
-import { SearchedUser } from '@/users/domain/models/searchedUser';
+import { SearchedUser } from '@/backend/users/domain/models/searchedUser';
 
 export class SearchedUserRepository {
   async getSearchedUser(dni) {

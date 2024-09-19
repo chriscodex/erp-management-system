@@ -2,8 +2,8 @@ import { connectDB } from './mongodb';
 import { models } from 'mongoose';
 import bcryptjs from 'bcryptjs';
 
-import { User } from '@/users/domain/models/user';
-import { SearchedUser } from '@/users/domain/models/searchedUser';
+import { User } from '@/backend/users/domain/models/user';
+import { SearchedUser } from '@/backend/users/domain/models/searchedUser';
 
 export async function seedUsers() {
   try {

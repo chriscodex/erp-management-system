@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/db/mongodb';
-import { UserService } from '@/users/application/users.service';
+import { UserService } from '@/backend/users/application/users.service';
 
 const userService = new UserService();
 

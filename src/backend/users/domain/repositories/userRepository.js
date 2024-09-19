@@ -1,6 +1,6 @@
 import bcryptjs from 'bcryptjs';
 
-import { User } from '@/users/domain/models/user';
+import { User } from '@/backend/users/domain/models/user';
 
 export class UserRepository {
   async createUser(user) {
