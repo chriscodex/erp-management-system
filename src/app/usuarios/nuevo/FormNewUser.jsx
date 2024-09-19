@@ -37,8 +37,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { getDataByDni } from '@/utils/fetchData';
-
 function FormNewUser() {
   const initialFormData = {
     dni: '',
@@ -112,7 +110,7 @@ function FormNewUser() {
                   required
                   autoComplete="off"
                 />
-                <button
+                <div
                   className="absolute right-3 top-1.5 h-4 w-4 text-muted-foreground cursor-pointer"
                   onClick={(e) => {
                     e.preventDefault();
@@ -131,7 +129,7 @@ function FormNewUser() {
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
-                </button>
+                </div>
               </div>
             </div>
             <div className="space-y-2">

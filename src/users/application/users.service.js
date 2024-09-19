@@ -1,10 +1,10 @@
-import { UserRepository } from '@/users/domain/repositories/userRepository';
+export class UserService {
+  constructor(UserRepository) {
+    this.userRepository = UserRepository;
+  }
 
-/* Instancia de la clase */
-const userRepository = new UserRepository();
-
-export async function getAllUsers() {
-  const users = await userRepository.getAllUsers();
-
-  return users;
+  async getAllUsers() {
+    const users = await this.userRepository.getAllUsers();
+    return users;
+  }
 }

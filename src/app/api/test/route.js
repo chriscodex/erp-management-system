@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { createUser, connectDB } from '@/models/test';
+import { connectDB } from '@/models/test';
 import { seedUsers } from '@/db/seed';
 import { getDataByDni } from '@/utils/fetchData';
 import { getDataByRuc } from '@/utils/fetchData';
@@ -15,8 +15,6 @@ export async function GET() {
     console.log(dni);
 
     // await seedUsers();
-
-    // await createUser();
     return NextResponse.json(dni);
   } catch (error) {
     console.log(error);
