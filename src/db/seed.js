@@ -55,12 +55,14 @@ export async function seedUsers() {
     console.log('Usuarios existentes eliminados.');
 
     // Hashear las contraseñas de los datos de ejemplo
+    /* eslint-disable */
     const hashedData = await Promise.all(
       data.map(async (user) => {
         const hashedPassword = await bcryptjs.hash(user.password, 12);
         return { ...user, password: hashedPassword };
       })
     );
+    /* eslint-enable */
 
     // Insertar los nuevos datos
     await User.insertMany(hashedData);
