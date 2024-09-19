@@ -28,7 +28,7 @@ import {
   ActivityIcon,
 } from 'lucide-react';
 
-import { FormateadorNombresApellidos } from '@/utils/formateador';
+import { FormateadorNombresApellidos } from '@/lib/formateador';
 
 function FormUserDetail() {
   const initialUserDetails = {

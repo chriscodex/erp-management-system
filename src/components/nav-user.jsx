@@ -21,7 +21,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 
-import { FormateadorNombresApellidos } from '@/utils/formateador';
+import { FormateadorNombresApellidos } from '@/lib/formateador';
 import { Skeleton } from './ui/skeleton';
 
 export function NavUser() {

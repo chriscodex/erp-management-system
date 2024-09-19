@@ -12,7 +12,7 @@ import {
 } from '@remixicon/react';
 import clsx from 'clsx';
 
-import { FormateadorNombresApellidos } from '@/utils/formateador';
+import { FormateadorNombresApellidos } from '@/lib/formateador';
 import { UserPanel } from '@/app/components/Sidebar/UserPanel/UserPanel';
 import { InventarioMenu } from '@/app/components/Sidebar/InventarioMenu';
 

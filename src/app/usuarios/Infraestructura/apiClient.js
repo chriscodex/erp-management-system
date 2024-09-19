@@ -1,5 +1,5 @@
 import { getAllUsersUrl } from './apiUrls';
-import { getData } from '@/utils/fetchData';
+import { getData } from '@/lib/fetchData';
 
 async function getAllUsers() {
   try {
