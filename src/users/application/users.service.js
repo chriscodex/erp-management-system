@@ -1,6 +1,8 @@
+import { UserRepository } from '@/users/domain/repositories/userRepository';
+
 export class UserService {
-  constructor(UserRepository) {
-    this.userRepository = UserRepository;
+  constructor() {
+    this.userRepository = new UserRepository();
   }
 
   async getAllUsers() {
