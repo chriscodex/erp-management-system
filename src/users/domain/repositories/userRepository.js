@@ -2,7 +2,7 @@ import bcryptjs from 'bcryptjs';
 
 import { User } from '@/users/domain/models/user';
 
-const userRepository = {
+export class userRepository {
   async createUser(user) {
     try {
       const { password } = user;
@@ -18,7 +18,7 @@ const userRepository = {
     } catch (error) {
       console.log(error);
     }
-  },
+  }
   async getAllUsers() {
     try {
       const users = await User.find();
@@ -26,7 +26,5 @@ const userRepository = {
     } catch (error) {
       console.log(error);
     }
-  },
-};
-
-export { userRepository };
+  }
+}
