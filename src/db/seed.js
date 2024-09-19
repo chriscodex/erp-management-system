@@ -2,9 +2,10 @@ import { connectDB } from './mongodb';
 import { models } from 'mongoose';
 import bcryptjs from 'bcryptjs';
 
-import { User } from '@/models/user';
+import { User } from '@/users/domain/models/user';
+import { SearchedUser } from '@/users/domain/models/searchedUser';
 
-async function seedUsers() {
+export async function seedUsers() {
   try {
     await connectDB();
 
@@ -65,10 +66,41 @@ async function seedUsers() {
 
     // Insertar los nuevos datos
     await User.insertMany(hashedData);
-    console.log('Base de datos poblada con éxito.');
+    console.log('Usuarios poblados a la base de datos');
   } catch (error) {
     console.error('Error al poblar la base de datos:', error);
   }
 }
 
-export { seedUsers };
+export async function seedSearchedUsers() {
+  try {
+    await connectDB();
+
+    const data = [
+      {
+        dni: '74062106',
+        apellidos: 'Espinoza Cadillo',
+        nombres: 'Christian Gonzalo',
+      },
+    ];
+
+    if (SearchedUser) {
+      delete models.SearchedUser;
+    }
+
+    // Eliminar todos los usuarios existentes
+    await SearchedUser.deleteMany({});
+    console.log('SearchedUsers existentes eliminados.');
+
+    // Insertar los nuevos datos
+    await SearchedUser.insertMany(data);
+    console.log('SearchedUsers poblados a la base de datos');
+  } catch (error) {
+    console.error('Error al poblar la base de datos:', error);
+  }
+}
+
+export async function seed() {
+  await seedUsers();
+  await seedSearchedUsers();
+}

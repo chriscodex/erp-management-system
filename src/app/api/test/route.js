@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
-import { connectDB } from '@/models/test';
-import { seedUsers } from '@/db/seed';
+import { connectDB } from '@/db/mongodb';
+import { seed } from '@/db/seed';
 import { getDataByDni } from '@/utils/fetchData';
 import { getDataByRuc } from '@/utils/fetchData';
 
@@ -12,9 +12,9 @@ export async function GET() {
 
     // const ruc = await getDataByRuc('20428729201');
 
-    console.log(dni);
+    // console.log(dni);
 
-    // await seedUsers();
+    await seed();
     return NextResponse.json(dni);
   } catch (error) {
     console.log(error);
