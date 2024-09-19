@@ -1,12 +1,14 @@
 import { NextResponse } from 'next/server';
 import { connectDB } from '@/db/mongodb';
-import { getAllUsers } from '@/users/application/users.service';
+import { UserApiAdapter } from '@/users/infraestructura/UserApiAdapter';
+
+const userApiAdapter = new UserApiAdapter();
 
 export async function GET() {
   try {
     await connectDB();
 
-    const users = await getAllUsers();
+    const users = await userApiAdapter.getAllUsers();
 
     return NextResponse.json(users);
   } catch (error) {
