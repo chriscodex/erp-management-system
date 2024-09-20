@@ -1,9 +1,9 @@
-import { getAllUsersUrl } from './apiUrls';
+import { usersUrl } from '@/app/usuarios/_services/urls';
 import { getData } from '@/lib/fetchData';
 
-async function getAllUsers() {
+export async function getAllUsers() {
   try {
-    return getData(getAllUsersUrl);
+    return getData(usersUrl);
   } catch (error) {
     console.log(error);
   }
@@ -16,5 +16,3 @@ async function getAllUsers() {
 
 //   }
 // }
-
-export { getAllUsers };

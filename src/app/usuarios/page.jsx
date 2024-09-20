@@ -7,12 +7,12 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@radix-ui/react-label';
 import { User2Icon, Plus } from 'lucide-react';
 
-import { getAllUsers } from '@/app/usuarios/_services/apiClient';
+import { getAllUsers } from '@/app/usuarios/_services/requests';
 
 export default async function Page() {
   const data = await getAllUsers();
 
-  const dataFormated = data.map((user) => {
+  const dataFormated = data?.map((user) => {
     const fullName = {
       fullName: user.nombres + ' ' + user.apellidos,
       ...user,
