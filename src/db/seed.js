@@ -1,4 +1,4 @@
-import { connectDB } from './mongodb';
+import { connectDB } from '@/db/mongodb';
 import { models } from 'mongoose';
 import bcryptjs from 'bcryptjs';
 

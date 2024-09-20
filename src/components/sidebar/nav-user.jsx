@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/sidebar';
 
 import { FormateadorNombresApellidos } from '@/lib/formateador';
-import { Skeleton } from './ui/skeleton';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export function NavUser() {
   const { isMobile } = useSidebar();

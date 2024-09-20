@@ -1,13 +1,13 @@
 import Link from 'next/link';
 
-import { DataTable } from '@/app/usuarios/UsersTable/data-table';
-import { columns } from '@/app/usuarios/UsersTable/columns';
+import { DataTable } from '@/app/usuarios/components/UsersTable/data-table';
+import { columns } from '@/app/usuarios/components/UsersTable/columns';
 import { NavbarSimple } from '@/components/navbar/NavbarSimple';
 import { Button } from '@/components/ui/button';
 import { Label } from '@radix-ui/react-label';
 import { User2Icon, Plus } from 'lucide-react';
 
-import { getAllUsers } from '@/app/usuarios/Infraestructura/apiClient';
+import { getAllUsers } from '@/app/usuarios/_services/apiClient';
 
 export default async function Page() {
   const data = await getAllUsers();
