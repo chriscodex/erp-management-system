@@ -23,7 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import CustomPagination from './pagination';
+import CustomPagination from '@/app/usuarios/_components/UsersTable/pagination';
 
 export function DataTable({ columns, data }) {
   /* Sorting */

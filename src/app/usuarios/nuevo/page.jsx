@@ -13,7 +13,7 @@ import {
   SidebarTrigger,
 } from '@/components/ui/sidebar';
 
-import { FormNewUser } from './FormNewUser';
+import { FormNewUser } from '@/app/usuarios/nuevo/_components/FormNewUser';
 
 export default function Page() {
   return (
