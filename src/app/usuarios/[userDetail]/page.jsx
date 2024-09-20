@@ -13,7 +13,7 @@ import {
   SidebarInset,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { FormUserDetail } from './FormUserDetail';
+import { FormUserDetail } from '@/app/usuarios/[userDetail]/_components/FormUserDetail';
 
 export default function Page({ params }) {
   if (params.userDetail === '8484') {
