@@ -1,7 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
+import { useToast } from '@/hooks/use-toast';
+import {
+  Loader2,
+  User,
+  Lock,
+  Shield,
+  MapPin,
+  Phone,
+  IdCardIcon,
+  SearchIcon,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -19,17 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
-import {
-  Loader2,
-  User,
-  Lock,
-  Shield,
-  MapPin,
-  Phone,
-  IdCardIcon,
-  SearchIcon,
-} from 'lucide-react';
+
 import {
   Tooltip,
   TooltipContent,
@@ -37,34 +39,14 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
+// import { getDataByDni } from '@/lib/fetchData';
+
 function FormNewUser() {
-  const initialFormData = {
-    dni: '',
-    nombres: '',
-    apellidos: '',
-    celular: '',
-    direccion: '',
-    rol: 'Vendedor',
-    password: '',
-    isActive: true,
-  };
-
   const { toast } = useToast();
+  const { register, handleSubmit } = useForm();
 
-  const [formData, setFormData] = useState(initialFormData);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleRoleChange = (value) => {
-    setFormData((prev) => ({ ...prev, rol: value }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
     setIsLoading(true);
 
     // Simular una llamada a la API
@@ -79,9 +61,29 @@ function FormNewUser() {
       },
       { duration: 100 }
     );
+  });
 
-    // Resetear el formulario
-    // setFormData(initialFormData);
+  const initialFormData = {
+    dni: '',
+    nombres: '',
+    apellidos: '',
+    celular: '',
+    direccion: '',
+    rol: 'Vendedor',
+    password: '',
+    isActive: true,
+  };
+
+  const [formData, setFormData] = useState(initialFormData);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleRoleChange = (value) => {
+    setFormData((prev) => ({ ...prev, rol: value }));
   };
 
   return (
@@ -94,21 +96,22 @@ function FormNewUser() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-4">
+          <form onSubmit={onSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="dni">DNI</Label>
               <div className="relative">
                 <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="dni"
-                  name="dni"
                   type="text"
                   placeholder="12345678"
-                  value={formData.dni}
-                  onChange={handleInputChange}
                   className="pl-8"
                   required
                   autoComplete="off"
+                  {...register('dni', {
+                    required: true,
+                    minLength: 8,
+                    maxLength: 8,
+                  })}
                 />
                 <div
                   className="absolute right-3 top-1.5 h-4 w-4 text-muted-foreground cursor-pointer"
@@ -148,7 +151,6 @@ function FormNewUser() {
                     }
                   }}
                   className="pl-8"
-                  required
                   autoComplete="off"
                 />
               </div>
@@ -169,7 +171,6 @@ function FormNewUser() {
                     }
                   }}
                   className="pl-8"
-                  required
                   autoComplete="off"
                 />
               </div>
@@ -191,7 +192,6 @@ function FormNewUser() {
                     }
                   }}
                   className="pl-8"
-                  required
                   autoComplete="off"
                 />
               </div>
@@ -213,7 +213,6 @@ function FormNewUser() {
                     }
                   }}
                   className="pl-8"
-                  required
                   autoComplete="off"
                 />
               </div>
@@ -255,7 +254,6 @@ function FormNewUser() {
                     }
                   }}
                   className="pl-8"
-                  required
                   minLength={3}
                 />
               </div>

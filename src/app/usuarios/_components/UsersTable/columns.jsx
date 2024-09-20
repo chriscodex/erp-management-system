@@ -22,7 +22,6 @@ export const columns = [
       const pageIndex = table.getState().pagination.pageIndex;
       const pageSize = table.getState().pagination.pageSize;
       const rowIndex = row.index;
-      console.log(table.getState());
       // Calcular el número correcto de la fila basado en la paginación
       const number = pageIndex * pageSize + rowIndex + 1;
 
