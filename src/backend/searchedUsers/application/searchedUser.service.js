@@ -1,4 +1,4 @@
-import { SearchedUserRepository } from '@/backend/users/domain/repositories/searchedUserRepository';
+import { SearchedUserRepository } from '@/backend/searchedUsers/domain/repositories/searchedUserRepository';
 
 /* Instancia de la clase */
 const searchedUserRepository = new SearchedUserRepository();

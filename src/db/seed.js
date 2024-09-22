@@ -3,7 +3,7 @@ import { models } from 'mongoose';
 import bcryptjs from 'bcryptjs';
 
 import { User } from '@/backend/users/domain/models/user';
-import { SearchedUser } from '@/backend/users/domain/models/searchedUser';
+import { SearchedUser } from '@/backend/searchedUsers/domain/models/searchedUser';
 
 export async function seedUsers() {
   try {
