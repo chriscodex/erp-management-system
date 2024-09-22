@@ -4,8 +4,9 @@ import { getSearchedUserController } from '@/backend/searchedUsers/infrastructur
 export async function GET(request) {
   try {
     const dni = request.nextUrl.searchParams.get('dni');
-    const searchedUserData = await getSearchedUserController(dni);
-    return NextResponse.json(searchedUserData);
+    const { payload, status } = await getSearchedUserController(dni);
+
+    return NextResponse.json({ payload: payload }, { status });
   } catch (error) {
     return NextResponse.json(
       { error: 'Internal Server Error' },

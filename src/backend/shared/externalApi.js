@@ -20,10 +20,25 @@ export async function getDataByDniFromApi(dni) {
     };
 
     const response = await axios(axiosConfig);
-    return response.data;
+    console.log('response', response);
+
+    console.log('response', response.data);
+
+    return {
+      payload: response.data,
+      status: response.status,
+    };
+
+    // return response.data;
   } catch (error) {
-    throw new Error(
-      'Error al obtener los datos de la API externa APIS.NET.PE:'
+    console.log(
+      'Error en la petición a la API externa APIS.NET.PE:',
+      error.response.data
     );
+    const response = {
+      payload: error.response.data.message,
+      status: error.response.status,
+    };
+    return response;
   }
 }
