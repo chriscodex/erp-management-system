@@ -89,6 +89,23 @@ function FormNewUser() {
 
     await new Promise((resolve) => setTimeout(resolve, 1500)); //eslint-disable-line
     const persona = await getDataByDni(dni);
+    if (!persona) {
+      toast(
+        {
+          title: 'Error',
+          variant: 'destructive',
+          description: `No se ha encontrado una persona con ese DNI`,
+        },
+        { duration: 100 }
+      );
+      setSearchByDniIsLoading(false);
+      return;
+    }
+    toast(
+      {
+        description: 'Persona encontrada',
+      }
+    )
     setValue('apellidos', persona?.apellidosFormateados);
     setValue('nombres', persona?.nombresFormateados);
     setSearchByDniIsLoading(false);
@@ -235,6 +252,19 @@ function FormNewUser() {
                   className="pl-8"
                   autoComplete="off"
                   {...register('password', {})}
+                />
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="password">Confirmar Contraseña</Label>
+              <div className="relative">
+                <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <Input
+                  type="password"
+                  placeholder="••••••••••"
+                  className="pl-8"
+                  autoComplete="off"
+                  {...register('confirmPassword', {})}
                 />
               </div>
             </div>
