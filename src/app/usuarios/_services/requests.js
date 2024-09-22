@@ -1,12 +1,10 @@
-import { usersUrl } from '@/app/usuarios/_services/urls';
+import { getAllUsersUrl, getDataByDniUrl } from '@/app/usuarios/_services/urls';
 import { getData } from '@/lib/fetchData';
 import { FormatearMayusculasAMinusculas } from '@/lib/formateador';
 
-const API_URL = '/api/external/dni/';
-
 export async function getAllUsers() {
   try {
-    return getData(usersUrl);
+    return getData(getAllUsersUrl);
   } catch (error) {
     console.log(error);
   }
@@ -20,8 +18,9 @@ export async function getAllUsers() {
  */
 export async function getDataByDni(dni = '') {
   try {
+    const query = dni ? `?number=${dni}` : '';
     const { nombres, apellidoPaterno, apellidoMaterno } = await getData(
-      `${API_URL + dni}`
+      `${getDataByDniUrl + query}`
     );
     const nombresFormateados = FormatearMayusculasAMinusculas(nombres);
     const apellidosFormateados = FormatearMayusculasAMinusculas(

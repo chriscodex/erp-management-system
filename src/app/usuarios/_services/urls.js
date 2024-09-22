@@ -1,2 +1,3 @@
-export const usersUrl = 'https://6718229fb910c6a6e02b2dae.mockapi.io/users';
+export const getDataByDniUrl = '/api/external/dni'
+export const getAllUsersUrl = 'https://6718229fb910c6a6e02b2dae.mockapi.io/users';
 // export getAllUsersUrl = `${process.env.NEXT_PUBLIC_API_URL}/users`;
