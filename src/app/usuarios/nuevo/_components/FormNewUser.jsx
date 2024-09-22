@@ -135,6 +135,7 @@ function FormNewUser() {
                     required: true,
                     // minLength: 8,
                     // maxLength: 8,
+                    pattern: /^[0-9]+$/,
                   })}
                 />
                 <div
