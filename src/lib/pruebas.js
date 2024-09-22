@@ -1,4 +1,4 @@
-import { getDataByDniFromApi, getDataByRucFromApi } from '@/lib/fetchData';
+import { getDataByDniFromApi } from '@/backend/searchedUsers/infrastructure/externalApis';
 import { seed } from '@/db/seed';
 import { connectDB } from '@/db/mongodb';
 
@@ -23,12 +23,12 @@ export async function getDataByDniTest() {
 }
 
 
-export async function getDataByRucTest() {
-  try {
-    const ruc = await getDataByRucFromApi('20428729201');
+// export async function getDataByRucTest() {
+//   try {
+//     const ruc = await getDataByRucFromApi('20428729201');
 
-    return ruc;
-  } catch (error) {
-    console.log('getDataByRucTest error:', error);
-  }
-}
+//     return ruc;
+//   } catch (error) {
+//     console.log('getDataByRucTest error:', error);
+//   }
+// }
