@@ -20,9 +20,6 @@ export async function getDataByDniFromApi(dni) {
     };
 
     const response = await axios(axiosConfig);
-    console.log('response', response);
-
-    console.log('response', response.data);
 
     return {
       payload: response.data,

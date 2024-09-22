@@ -1,6 +1,5 @@
 import axios from 'axios';
 import https from 'https';
-import http from 'http';
 
 export async function delay(ms) {
   try {

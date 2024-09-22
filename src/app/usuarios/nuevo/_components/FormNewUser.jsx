@@ -106,8 +106,9 @@ function FormNewUser() {
         description: 'Persona encontrada',
       }
     )
-    setValue('apellidos', persona?.apellidosFormateados);
-    setValue('nombres', persona?.nombresFormateados);
+    console.log(persona);
+    setValue('apellidos', persona?.apellidos);
+    setValue('nombres', persona?.nombres);
     setSearchByDniIsLoading(false);
   };
 
