@@ -1,4 +1,4 @@
-import { getDataByDniFromApi } from '@/backend/searchedUsers/infrastructure/externalApi';
+import { getDataByDniFromApi } from '@/backend/shared/externalApi';
 import { getSearchedUser } from '@/backend/searchedUsers/application/searchedUser.service';
 
 export async function getUserDataByDniController(dni) {

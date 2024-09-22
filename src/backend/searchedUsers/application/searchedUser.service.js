@@ -5,9 +5,13 @@ const searchedUserRepository = new SearchedUserRepository();
 
 export async function getSearchedUser(dni, getDataByDniFromApi) {
   try {
-    const searchedUserFound = await searchedUserRepository.getSearchedUser(dni);
+    const searchedUserFound =
+      await searchedUserRepository.getSearchedUserFromDatabase(dni);
 
-    if (searchedUserFound.length > 0) return searchedUserFound;
+    if (searchedUserFound.length > 0) {
+      console.log('Usuario encontrado en la base de datos');
+      return searchedUserFound;
+    }
 
     const userDataFromExternalApi = await getDataByDniFromApi(dni);
 
@@ -15,6 +19,7 @@ export async function getSearchedUser(dni, getDataByDniFromApi) {
       return null;
     }
 
+    console.log('Usuario encontrado en la API externa');
     return userDataFromExternalApi;
   } catch (error) {
     throw new Error(
