@@ -55,17 +55,18 @@ function FormNewUser() {
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
+  const [searchByDniIsLoading, setSearchByDniIsLoading] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
-    setIsLoading(true);
+    setFormSubmitIsLoading(true);
 
     // Simular una llamada a la API
     await new Promise((resolve) => setTimeout(resolve, 1500)); //eslint-disable-line
 
     // Simular una respuesta exitosa
-    setIsLoading(false);
+    setFormSubmitIsLoading(false);
     toast(
       {
         title: 'Usuario creado',
@@ -79,16 +80,18 @@ function FormNewUser() {
   const selectedRole = watch('rol');
 
   const handleSearchByDni = async (e) => {
+    setSearchByDniIsLoading(true);
     e.preventDefault();
     const formState = watch();
 
     const dni = formState.dni;
     // if (!dni || dni.length !== 8) return;
 
+    await new Promise((resolve) => setTimeout(resolve, 1500)); //eslint-disable-line
     const persona = await getDataByDni(dni);
     setValue('apellidos', persona?.apellidosFormateados);
     setValue('nombres', persona?.nombresFormateados);
-    console.log(persona);
+    setSearchByDniIsLoading(false);
   };
 
   return (
@@ -139,25 +142,41 @@ function FormNewUser() {
             <div className="space-y-2">
               <Label htmlFor="nombres">Apellidos</Label>
               <div className="relative">
-                <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                {searchByDniIsLoading ? (
+                  <>
+                    <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                  </>
+                ) : (
+                  <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                )}
                 <Input
                   placeholder="Apellidos"
                   className="pl-8"
                   autoComplete="off"
-                  {...register('apellidos', {})}
+                  {...register('apellidos', {
+                    disabled: searchByDniIsLoading,
+                  })}
                 />
               </div>
             </div>
             <div className="space-y-2">
               <Label htmlFor="nombres">Nombres</Label>
               <div className="relative">
-                <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                {searchByDniIsLoading ? (
+                  <>
+                    <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                  </>
+                ) : (
+                  <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                )}
                 <Input
                   type="text"
                   placeholder="Nombres"
                   className="pl-8"
                   autoComplete="off"
-                  {...register('nombres', {})}
+                  {...register('nombres', {
+                    disabled: searchByDniIsLoading,
+                  })}
                 />
               </div>
             </div>
@@ -220,8 +239,12 @@ function FormNewUser() {
               </div>
             </div>
             <div className="space-y-2 w-full flex justify-end">
-              <Button className="max-w-40" disabled={isLoading} type="submit">
-                {isLoading ? (
+              <Button
+                className="max-w-40"
+                disabled={formSubmitIsLoading}
+                type="submit"
+              >
+                {formSubmitIsLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                     Creando Usuario...
