@@ -13,8 +13,9 @@ export async function getUserDataByDniController(dni) {
 
 export async function getSearchedUserController(dni) {
   try {
+    /* Responses { payload, status} */
     const searchedUserData = await getSearchedUser(dni, getDataByDniFromApi);
-    
+
     return searchedUserData;
   } catch (error) {
     console.error('Error fetching user data:', error);

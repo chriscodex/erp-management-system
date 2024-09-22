@@ -31,14 +31,30 @@ export async function getDataByDniFromApi(dni) {
 
     // return response.data;
   } catch (error) {
-    console.log(
-      'Error en la petición a la API externa APIS.NET.PE:',
-      error.response.data
-    );
-    const response = {
-      payload: error.response.data.message,
-      status: error.response.status,
-    };
-    return response;
+    if (error.response) {
+      // Errores de respuesta de la API
+      console.log(
+        'Error en la petición a la API externa APIS.NET.PE:',
+        error.response.data
+      );
+      return {
+        payload: error.response.data.message,
+        status: error.response.status,
+      };
+    } else if (error.request) {
+      // Errores en la solicitud que no recibieron respuesta
+      console.error('Error en la solicitud:', error.request);
+      return {
+        payload: 'No se recibió respuesta de la API.',
+        status: 500,
+      };
+    } else {
+      // Otros errores
+      console.error('Error', error.message);
+      return {
+        payload: 'Error desconocido.',
+        status: 500,
+      };
+    }
   }
 }

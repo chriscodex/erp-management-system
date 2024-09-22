@@ -28,7 +28,7 @@ import {
   ActivityIcon,
 } from 'lucide-react';
 
-import { FormateadorNombresApellidos } from '@/lib/formateador';
+import { CrearFullName } from '@/lib/formateador';
 
 function FormUserDetail() {
   const initialUserDetails = {
@@ -91,7 +91,7 @@ function FormUserDetail() {
             </Avatar>
             <div>
               <CardTitle className="text-2xl">
-                {FormateadorNombresApellidos(
+                {CrearFullName(
                   userDetails.nombres,
                   userDetails.apellidos
                 )}

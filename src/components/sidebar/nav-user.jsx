@@ -21,7 +21,7 @@ import {
   useSidebar,
 } from '@/components/ui/sidebar';
 
-import { FormateadorNombresApellidos } from '@/lib/formateador';
+import { CrearFullName } from '@/lib/formateador';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export function NavUser() {
@@ -30,7 +30,7 @@ export function NavUser() {
   const { data: session } = useSession();
   const user = session?.user;
 
-  const fullName = FormateadorNombresApellidos(user?.nombres, user?.apellidos);
+  const fullName = CrearFullName(user?.nombres, user?.apellidos);
 
   return (
     <SidebarMenu>

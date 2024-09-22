@@ -1,4 +1,4 @@
-export function FormateadorNombresApellidos(nombres, apellidos) {
+export function CrearFullName(nombres, apellidos) {
   // Obtener la primera palabra de cada string
   const nombre = nombres?.split(' ')[0];
   const apellido = apellidos?.split(' ')[0];
@@ -7,7 +7,8 @@ export function FormateadorNombresApellidos(nombres, apellidos) {
   return `${nombre} ${apellido}`;
 }
 
-export function FormatearMayusculasAMinusculas(oracion) {
+/* Convierte una palabra o palabras todas escritas en mayúsculas a formato título */
+export function MayusculasATitulo(oracion) {
   return oracion
     .toLowerCase()
     .split(' ')
