@@ -1,4 +1,4 @@
-import { getDataByDni, getDataByRuc } from '@/lib/fetchData';
+import { getDataByDniFromApi, getDataByRucFromApi } from '@/lib/fetchData';
 import { seed } from '@/db/seed';
 import { connectDB } from '@/db/mongodb';
 
@@ -14,7 +14,7 @@ export async function seedTest() {
 
 export async function getDataByDniTest() {
   try {
-    const dni = await getDataByDni('74062106');
+    const dni = await getDataByDniFromApi('74062106');
 
     return dni;
   } catch (error) {
@@ -25,7 +25,7 @@ export async function getDataByDniTest() {
 
 export async function getDataByRucTest() {
   try {
-    const ruc = await getDataByRuc('20428729201');
+    const ruc = await getDataByRucFromApi('20428729201');
 
     return ruc;
   } catch (error) {

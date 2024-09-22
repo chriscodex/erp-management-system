@@ -39,11 +39,23 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-// import { getDataByDni } from '@/lib/fetchData';
+import { getDataByDni } from '@/app/usuarios/_services/requests';
+
+// const FormSchema = z.object({
+//   username: z.string().min(2, {
+//     message: 'Username must be at least 2 characters.',
+//   }),
+// });
 
 function FormNewUser() {
   const { toast } = useToast();
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, watch, setValue } = useForm({
+    defaultValues: {
+      rol: 'Vendedor',
+    },
+  });
+
+  const [isLoading, setIsLoading] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
     console.log(data);
@@ -57,33 +69,26 @@ function FormNewUser() {
     toast(
       {
         title: 'Usuario creado',
-        description: `Se ha creado el usuario ${formData.name} exitosamente.`,
+        description: `Se ha creado el usuario exitosamente.`,
       },
       { duration: 100 }
     );
   });
 
-  const initialFormData = {
-    dni: '',
-    nombres: '',
-    apellidos: '',
-    celular: '',
-    direccion: '',
-    rol: 'Vendedor',
-    password: '',
-    isActive: true,
-  };
+  /* Handle Rol Select */
+  const selectedRole = watch('rol');
 
-  const [formData, setFormData] = useState(initialFormData);
-  const [isLoading, setIsLoading] = useState(false);
+  const handleSearchByDni = async (e) => {
+    e.preventDefault();
+    const formState = watch();
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
+    const dni = formState.dni;
+    // if (!dni || dni.length !== 8) return;
 
-  const handleRoleChange = (value) => {
-    setFormData((prev) => ({ ...prev, rol: value }));
+    const persona = await getDataByDni(dni);
+    setValue('apellidos', persona?.apellidosFormateados);
+    setValue('nombres', persona?.nombresFormateados);
+    console.log(persona);
   };
 
   return (
@@ -102,23 +107,19 @@ function FormNewUser() {
               <div className="relative">
                 <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  type="text"
-                  placeholder="12345678"
+                  type="number"
+                  placeholder="DNI"
                   className="pl-8"
-                  required
                   autoComplete="off"
                   {...register('dni', {
                     required: true,
-                    minLength: 8,
-                    maxLength: 8,
+                    // minLength: 8,
+                    // maxLength: 8,
                   })}
                 />
                 <div
                   className="absolute right-3 top-1.5 h-4 w-4 text-muted-foreground cursor-pointer"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log('DNI');
-                  }}
+                  onClick={handleSearchByDni}
                   role="button"
                   type="button"
                 >
@@ -140,18 +141,10 @@ function FormNewUser() {
               <div className="relative">
                 <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="nombres"
-                  name="nombres"
                   placeholder="Apellidos"
-                  value={formData.nombres}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault(); // Evita el envío del formulario
-                    }
-                  }}
                   className="pl-8"
                   autoComplete="off"
+                  {...register('apellidos', {})}
                 />
               </div>
             </div>
@@ -160,18 +153,11 @@ function FormNewUser() {
               <div className="relative">
                 <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="apellidos"
-                  name="apellidos"
+                  type="text"
                   placeholder="Nombres"
-                  value={formData.apellidos}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault(); // Evita el envío del formulario
-                    }
-                  }}
                   className="pl-8"
                   autoComplete="off"
+                  {...register('nombres', {})}
                 />
               </div>
             </div>
@@ -180,19 +166,11 @@ function FormNewUser() {
               <div className="relative">
                 <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="celular"
-                  name="celular"
                   type="text"
                   placeholder="987654321"
-                  value={formData.celular}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault(); // Evita el envío del formulario
-                    }
-                  }}
                   className="pl-8"
                   autoComplete="off"
+                  {...register('celular', {})}
                 />
               </div>
             </div>
@@ -201,30 +179,21 @@ function FormNewUser() {
               <div className="relative">
                 <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="direccion"
-                  name="direccion"
-                  type="direccion"
+                  type="text"
                   placeholder="Av. Centenario 123"
-                  value={formData.direccion}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault(); // Evita el envío del formulario
-                    }
-                  }}
                   className="pl-8"
                   autoComplete="off"
+                  {...register('direccion', {})}
                 />
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="rol">Rol</Label>
+              <Label htmlFor="roles">Rol</Label>
               <div className="relative">
                 <Shield className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Select
-                  onValueChange={handleRoleChange}
-                  value={formData.rol}
-                  required
+                  value={selectedRole}
+                  onValueChange={(value) => setValue('rol', value)}
                 >
                   <SelectTrigger className="w-full pl-8">
                     <SelectValue placeholder="Seleccione un rol" />
@@ -242,24 +211,16 @@ function FormNewUser() {
               <div className="relative">
                 <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  id="password"
-                  name="password"
                   type="password"
-                  placeholder="••••••••"
-                  value={formData.password}
-                  onChange={handleInputChange}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') {
-                      e.preventDefault(); // Evita el envío del formulario
-                    }
-                  }}
+                  placeholder="••••••••••"
                   className="pl-8"
-                  minLength={3}
+                  autoComplete="off"
+                  {...register('password', {})}
                 />
               </div>
             </div>
             <div className="space-y-2 w-full flex justify-end">
-              <Button className="max-w-40" disabled={isLoading}>
+              <Button className="max-w-40" disabled={isLoading} type="submit">
                 {isLoading ? (
                   <>
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />

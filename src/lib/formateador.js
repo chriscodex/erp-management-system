@@ -1,4 +1,4 @@
-function FormateadorNombresApellidos(nombres, apellidos) {
+export function FormateadorNombresApellidos(nombres, apellidos) {
   // Obtener la primera palabra de cada string
   const nombre = nombres?.split(' ')[0];
   const apellido = apellidos?.split(' ')[0];
@@ -7,4 +7,10 @@ function FormateadorNombresApellidos(nombres, apellidos) {
   return `${nombre} ${apellido}`;
 }
 
-export { FormateadorNombresApellidos };
+export function FormatearMayusculasAMinusculas(oracion) {
+  return oracion
+    .toLowerCase()
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}

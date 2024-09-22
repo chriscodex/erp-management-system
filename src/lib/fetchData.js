@@ -1,7 +1,8 @@
 import axios from 'axios';
 import https from 'https';
+import http from 'http';
 
-async function delay(ms) {
+export async function delay(ms) {
   try {
     return new Promise((resolve) => setTimeout(resolve, ms)); // eslint-disable-line
   } catch (error) {
@@ -9,7 +10,7 @@ async function delay(ms) {
   }
 }
 
-async function getData(url) {
+export async function getData(url) {
   try {
     const res = await fetch(url, {
       method: 'GET',
@@ -26,19 +27,21 @@ async function getData(url) {
   }
 }
 
-async function getDataByDni(dni) {
+export async function getDataByDniFromApi(dni) {
   try {
     // Datos
-    const token = process.env.TOKEN_API_RUC_DNI;
+    const token = process.env.NEXT_PUBLIC_TOKEN_API_RUC_DNI;
 
     // URL de la API
-    const apiUrl = `${process.env.NEXT_API_RUC_DNI_URL}/reniec/dni?numero=${dni}`;
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_RUC_DNI_URL}/reniec/dni?numero=${dni}`;
 
     // Configuración de la solicitud
     const axiosConfig = {
       method: 'get',
       url: apiUrl,
       headers: {
+        accept: '*/*',
+        'Content-Type': 'application/json',
         Referer: 'https://apis.net.pe/consulta-dni-api',
         Authorization: `Bearer ${token}`,
       },
@@ -69,7 +72,7 @@ async function getDataByDni(dni) {
   }
 }
 
-async function getDataByRuc(ruc) {
+export async function getDataByRucFromApi(ruc) {
   try {
     // Datos
     const token = process.env.TOKEN_API_RUC_DNI;
@@ -124,5 +127,3 @@ async function getDataByRuc(ruc) {
     console.log(error);
   }
 }
-
-export { delay, getData, getDataByDni, getDataByRuc };
