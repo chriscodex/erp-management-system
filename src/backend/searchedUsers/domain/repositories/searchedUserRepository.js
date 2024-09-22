@@ -6,7 +6,7 @@ export class SearchedUserRepository {
       const users = await SearchedUser.find({ dni: dni });
       return users;
     } catch (error) {
-      throw new Error(`Error al buscar el usuario: ${error.message}`);
+      throw new Error(`Error al buscar el usuario en la base de datos: ${error.message}`);
     }
   }
 }

@@ -22,7 +22,8 @@ export async function getDataByDniFromApi(dni) {
     const response = await axios(axiosConfig);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data from APIS.NET.PE:', error);
-    throw new Error('Failed to fetch data from external API - APIS.NET.PE');
+    throw new Error(
+      'Error al obtener los datos de la API externa APIS.NET.PE:'
+    );
   }
 }
