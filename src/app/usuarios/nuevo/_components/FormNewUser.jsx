@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { cn } from '@/lib/utils';
 
-import { useToast } from '@/hooks/use-toast';
 import {
   Loader2,
   User,
@@ -48,7 +49,6 @@ import { getDataByDni } from '@/app/usuarios/_services/requests';
 // });
 
 function FormNewUser() {
-  const { toast } = useToast();
   const { register, handleSubmit, watch, setValue } = useForm({
     defaultValues: {
       rol: 'Vendedor',
@@ -87,7 +87,7 @@ function FormNewUser() {
     const dni = formState.dni;
     // if (!dni || dni.length !== 8) return;
 
-    await new Promise((resolve) => setTimeout(resolve, 1500)); //eslint-disable-line
+    await new Promise((resolve) => setTimeout(resolve, 5000)); //eslint-disable-line
     const persona = await getDataByDni(dni);
     if (!persona) {
       toast(
@@ -101,11 +101,7 @@ function FormNewUser() {
       setSearchByDniIsLoading(false);
       return;
     }
-    toast(
-      {
-        description: 'Persona encontrada',
-      }
-    )
+    toast.success('Persona encontrada');
     console.log(persona);
     setValue('apellidos', persona?.apellidos);
     setValue('nombres', persona?.nombres);
@@ -128,7 +124,7 @@ function FormNewUser() {
               <div className="relative">
                 <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                 <Input
-                  type="number"
+                  type="text"
                   placeholder="DNI"
                   className="pl-8"
                   autoComplete="off"
@@ -137,24 +133,34 @@ function FormNewUser() {
                     // minLength: 8,
                     // maxLength: 8,
                     pattern: /^[0-9]+$/,
+                    disabled: searchByDniIsLoading,
                   })}
                 />
                 <div
-                  className="absolute right-3 top-1.5 h-4 w-4 text-muted-foreground cursor-pointer"
+                  className={cn(
+                    'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
+                    searchByDniIsLoading
+                      ? 'opacity-75 pointer-events-none'
+                      : 'cursor-pointer'
+                  )}
                   onClick={handleSearchByDni}
-                  role="button"
-                  type="button"
                 >
-                  <TooltipProvider delayDuration={0}>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <SearchIcon />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>Busca por DNI</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  {searchByDniIsLoading ? (
+                    <>
+                      <Loader2 className="h-6 w-6 animate-spin " />
+                    </>
+                  ) : (
+                    <TooltipProvider delayDuration={0}>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <SearchIcon className="h-6 w-6" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Busca por DNI</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
                 </div>
               </div>
             </div>
