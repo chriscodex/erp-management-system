@@ -26,7 +26,7 @@ export async function getSearchedUser(dni, getDataByDniFromApi) {
 
     if (userFromExternalApi.status !== 200) {
       return {
-        payload: userFromExternalApi,
+        payload: userFromExternalApi.payload,
         status: userFromExternalApi.status,
       };
     }

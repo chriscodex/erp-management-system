@@ -40,7 +40,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { getDataByDni } from '@/app/usuarios/_services/requests';
+import { BusquedaPorDni } from '@/lib/toastConfig';
 
 // const FormSchema = z.object({
 //   username: z.string().min(2, {
@@ -67,7 +67,7 @@ function FormNewUser() {
 
     // Simular una respuesta exitosa
     setFormSubmitIsLoading(false);
-    toast(
+    toast.success(
       {
         title: 'Usuario creado',
         description: `Se ha creado el usuario exitosamente.`,
@@ -80,32 +80,35 @@ function FormNewUser() {
   const selectedRole = watch('rol');
 
   const handleSearchByDni = async (e) => {
-    setSearchByDniIsLoading(true);
     e.preventDefault();
-    const formState = watch();
+    try {
+      setSearchByDniIsLoading(true);
 
-    const dni = formState.dni;
-    // if (!dni || dni.length !== 8) return;
+      const formState = watch();
+      const dni = formState.dni;
+      if (!dni || dni.length !== 8) {
+        setSearchByDniIsLoading(false);
+        toast.error('Por favor, ingrese un DNI válido');
+        return;
+      }
 
-    await new Promise((resolve) => setTimeout(resolve, 5000)); //eslint-disable-line
-    const persona = await getDataByDni(dni);
-    if (!persona) {
-      toast(
-        {
-          title: 'Error',
-          variant: 'destructive',
-          description: `No se ha encontrado una persona con ese DNI`,
+      toast.promise(BusquedaPorDni(dni, setSearchByDniIsLoading), {
+        loading: 'Buscando...',
+        success: (persona) => {
+          setValue('apellidos', persona?.apellidos);
+          setValue('nombres', persona?.nombres);
+          return `Persona encontrada`;
         },
-        { duration: 100 }
-      );
+        error: (error) => {
+          setSearchByDniIsLoading(false);
+          return error;
+        },
+      });
+    } catch (error) {
       setSearchByDniIsLoading(false);
-      return;
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
     }
-    toast.success('Persona encontrada');
-    console.log(persona);
-    setValue('apellidos', persona?.apellidos);
-    setValue('nombres', persona?.nombres);
-    setSearchByDniIsLoading(false);
   };
 
   return (

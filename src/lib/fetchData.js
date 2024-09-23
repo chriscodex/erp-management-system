@@ -9,20 +9,18 @@ export async function delay(ms) {
   }
 }
 
-export async function getData(url) {
+export async function fetchData(url) {
   try {
-    const res = await fetch(url, {
-      method: 'GET',
+    const response = await axios.get(url, {
       headers: {
         'Content-Type': 'application/json',
       },
     });
 
-    const data = await res.json();
-
-    return data;
+    return response;
   } catch (error) {
     console.log(error);
+    return error;
   }
 }
 

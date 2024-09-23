@@ -10,7 +10,7 @@ import { User2Icon, Plus } from 'lucide-react';
 import { getAllUsers } from '@/app/usuarios/_services/requests';
 
 export default async function Page() {
-  const data = await getAllUsers();
+  const { data } = await getAllUsers();
 
   const dataFormated = data?.map((user) => {
     const fullName = {

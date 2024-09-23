@@ -1,9 +1,9 @@
 import { getAllUsersUrl, getDataByDniUrl } from '@/app/usuarios/_services/urls';
-import { getData } from '@/lib/fetchData';
+import { fetchData } from '@/lib/fetchData';
 
 export async function getAllUsers() {
   try {
-    return getData(getAllUsersUrl);
+    return fetchData(getAllUsersUrl);
   } catch (error) {
     console.log(error);
   }
@@ -17,9 +17,11 @@ export async function getAllUsers() {
  */
 export async function getDataByDni(dni = '') {
   try {
-    const { payload: userData } = await getData(
+    const userData = await fetchData(
       `${getDataByDniUrl}?dni=${dni}`
     );
+
+    console.log(userData);
 
     return userData;
   } catch (error) {
