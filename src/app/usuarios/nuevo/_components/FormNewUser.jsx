@@ -67,13 +67,7 @@ function FormNewUser() {
 
     // Simular una respuesta exitosa
     setFormSubmitIsLoading(false);
-    toast.success(
-      {
-        title: 'Usuario creado',
-        description: `Se ha creado el usuario exitosamente.`,
-      },
-      { duration: 100 }
-    );
+    toast.success('Usuario creado correctamente');
   });
 
   /* Handle Rol Select */
@@ -88,7 +82,9 @@ function FormNewUser() {
       const dni = formState.dni;
       if (!dni || dni.length !== 8) {
         setSearchByDniIsLoading(false);
-        toast.error('Por favor, ingrese un DNI válido');
+        toast.warning('Por favor, ingrese un DNI válido', {
+          description: 'El DNI debe tener 8 dígitos',
+        });
         return;
       }
 
