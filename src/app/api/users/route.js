@@ -3,9 +3,9 @@ import { createUserController, getAllUsersController } from '@/backend/users/inf
 
 export async function GET() {
   try {
-    const users = await getAllUsersController();
+    const { payload, status } = await getAllUsersController();
 
-    return NextResponse.json(users);
+    return NextResponse.json({ payload }, { status });
   } catch (error) {
     return NextResponse.json(
       { message: 'Error fetching users' },
