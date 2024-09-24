@@ -25,6 +25,27 @@ export class UsersService {
       };
     }
   }
+  async getUser(dni) {
+    try {
+      const userFound = await this.userRepository.getUser(dni);
+      if (!userFound) {
+        return {
+          status: 404,
+          payload: 'El usuario no existe',
+        };
+      }
+
+      return {
+        status: 200,
+        payload: userFound,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async createUser(user) {
     try {
       // Validar los tipos de datos del usuario enviado
