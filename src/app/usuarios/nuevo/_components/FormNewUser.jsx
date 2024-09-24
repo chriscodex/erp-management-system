@@ -17,6 +17,14 @@ import {
   IdCardIcon,
   SearchIcon,
 } from 'lucide-react';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -51,20 +59,30 @@ import { BusquedaPorDni } from '@/components/toast/toastSetup';
 // });
 
 function FormNewUser() {
+  const form = useForm({
+    resolver: zodResolver(newUserSchema),
+    defaultValues: {
+      dni: '',
+      apellidos: '',
+      nombres: '',
+      celular: '',
+      direccion: '',
+      password: '',
+      confirmPassword: '',
+      rol: 'Vendedor',
+    },
+  });
+
   const {
     register,
     handleSubmit,
     watch,
     setValue,
     formState: { errors },
-  } = useForm({
-    resolver: zodResolver(newUserSchema),
-    defaultValues: {
-      rol: 'Vendedor',
-    },
-  });
+    control,
+  } = form;
 
-  console.log('errors zod: ',errors);
+  console.log('errors zod: ', errors);
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
   const [searchByDniIsLoading, setSearchByDniIsLoading] = useState(false);
@@ -128,185 +146,199 @@ function FormNewUser() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={onSubmit} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="dni">DNI</Label>
-              <div className="relative">
-                <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                {/* <FormControl /> */}
-                <Input
-                  type="text"
-                  placeholder="DNI"
-                  className="pl-8"
-                  autoComplete="off"
-                  {...register('dni', {
-                    required: true,
-                    disabled: searchByDniIsLoading,
-                  })}
-                  onInput={(e) => {
-                    // Permitir solo dígitos numéricos
-                    e.target.value = e.target.value.replace(/\D/g, '');
-                  }}
-                />
-                <div
-                  className={cn(
-                    'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
-                    searchByDniIsLoading
-                      ? 'opacity-75 pointer-events-none'
-                      : 'cursor-pointer'
-                  )}
-                  onClick={handleSearchByDni}
-                >
+          <Form {...form}>
+            <form onSubmit={onSubmit} className="space-y-4">
+              <FormField
+                control={control}
+                name="dni"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>DNI</FormLabel>
+                    <div className="relative">
+                      <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="DNI"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={searchByDniIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                      <div
+                        className={cn(
+                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
+                          searchByDniIsLoading
+                            ? 'opacity-75 pointer-events-none'
+                            : 'cursor-pointer'
+                        )}
+                        onClick={handleSearchByDni}
+                      >
+                        {searchByDniIsLoading ? (
+                          <>
+                            <Loader2 className="h-6 w-6 animate-spin " />
+                          </>
+                        ) : (
+                          <TooltipProvider delayDuration={0}>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <SearchIcon className="h-6 w-6" />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Busca por DNI</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )}
+                      </div>
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name="apellidos"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Apellidos</FormLabel>
+                    <div className="relative">
+                      {searchByDniIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
+                      <FormControl>
+                        <Input
+                          placeholder="Apellidos"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={searchByDniIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <div className="space-y-2">
+                <Label htmlFor="nombres">Nombres</Label>
+                <div className="relative">
                   {searchByDniIsLoading ? (
                     <>
-                      <Loader2 className="h-6 w-6 animate-spin " />
+                      <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
                     </>
                   ) : (
-                    <TooltipProvider delayDuration={0}>
-                      <Tooltip>
-                        <TooltipTrigger>
-                          <SearchIcon className="h-6 w-6" />
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Busca por DNI</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   )}
+                  <Input
+                    type="text"
+                    placeholder="Nombres"
+                    className="pl-8"
+                    autoComplete="off"
+                    {...register('nombres', {
+                      disabled: searchByDniIsLoading,
+                    })}
+                  />
                 </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="nombres">Apellidos</Label>
-              <div className="relative">
-                {searchByDniIsLoading ? (
-                  <>
-                    <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
-                  </>
-                ) : (
-                  <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                )}
-                <Input
-                  placeholder="Apellidos"
-                  className="pl-8"
-                  autoComplete="off"
-                  {...register('apellidos', {
-                    disabled: searchByDniIsLoading,
-                    required: true,
-                  })}
-                />
+              <div className="space-y-2">
+                <Label htmlFor="celular">Celular</Label>
+                <div className="relative">
+                  <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="987654321"
+                    className="pl-8"
+                    autoComplete="off"
+                    {...register('celular', {})}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="nombres">Nombres</Label>
-              <div className="relative">
-                {searchByDniIsLoading ? (
-                  <>
-                    <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
-                  </>
-                ) : (
-                  <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                )}
-                <Input
-                  type="text"
-                  placeholder="Nombres"
-                  className="pl-8"
-                  autoComplete="off"
-                  {...register('nombres', {
-                    disabled: searchByDniIsLoading,
-                    required: true,
-                  })}
-                />
+              <div className="space-y-2">
+                <Label htmlFor="direccion">Dirección</Label>
+                <div className="relative">
+                  <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="text"
+                    placeholder="Av. Centenario 123"
+                    className="pl-8"
+                    autoComplete="off"
+                    {...register('direccion', {})}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="celular">Celular</Label>
-              <div className="relative">
-                <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="987654321"
-                  className="pl-8"
-                  autoComplete="off"
-                  {...register('celular', {})}
-                />
+              <div className="space-y-2">
+                <Label htmlFor="roles">Rol</Label>
+                <div className="relative">
+                  <Shield className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Select
+                    value={selectedRole}
+                    onValueChange={(value) => setValue('rol', value)}
+                  >
+                    <SelectTrigger className="w-full pl-8">
+                      <SelectValue placeholder="Seleccione un rol" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Vendedor">Vendedor</SelectItem>
+                      <SelectItem value="Administrador">
+                        Administrador
+                      </SelectItem>
+                      <SelectItem value="Tecnico">Técnico</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="direccion">Dirección</Label>
-              <div className="relative">
-                <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="text"
-                  placeholder="Av. Centenario 123"
-                  className="pl-8"
-                  autoComplete="off"
-                  {...register('direccion', {})}
-                />
+              <div className="space-y-2">
+                <Label htmlFor="password">Contraseña</Label>
+                <div className="relative">
+                  <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="password"
+                    placeholder="••••••••••"
+                    className="pl-8"
+                    autoComplete="off"
+                    {...register('password', {})}
+                  />
+                </div>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="roles">Rol</Label>
-              <div className="relative">
-                <Shield className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Select
-                  value={selectedRole}
-                  onValueChange={(value) => setValue('rol', value)}
+              <div className="space-y-2">
+                <Label htmlFor="password">Confirmar Contraseña</Label>
+                <div className="relative">
+                  <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    type="password"
+                    placeholder="••••••••••"
+                    className="pl-8"
+                    autoComplete="off"
+                    {...register('confirmPassword', {})}
+                  />
+                </div>
+              </div>
+              <div className="space-y-2 w-full flex justify-end">
+                <Button
+                  className="max-w-40"
+                  disabled={formSubmitIsLoading || searchByDniIsLoading}
+                  type="submit"
                 >
-                  <SelectTrigger className="w-full pl-8">
-                    <SelectValue placeholder="Seleccione un rol" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Vendedor">Vendedor</SelectItem>
-                    <SelectItem value="Administrador">Administrador</SelectItem>
-                    <SelectItem value="Tecnico">Técnico</SelectItem>
-                  </SelectContent>
-                </Select>
+                  {formSubmitIsLoading ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Creando Usuario...
+                    </>
+                  ) : (
+                    'Crear Usuario'
+                  )}
+                </Button>
               </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
-              <div className="relative">
-                <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="password"
-                  placeholder="••••••••••"
-                  className="pl-8"
-                  autoComplete="off"
-                  {...register('password', {})}
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="password">Confirmar Contraseña</Label>
-              <div className="relative">
-                <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  type="password"
-                  placeholder="••••••••••"
-                  className="pl-8"
-                  autoComplete="off"
-                  {...register('confirmPassword', {})}
-                />
-              </div>
-            </div>
-            <div className="space-y-2 w-full flex justify-end">
-              <Button
-                className="max-w-40"
-                disabled={formSubmitIsLoading || searchByDniIsLoading}
-                type="submit"
-              >
-                {formSubmitIsLoading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Creando Usuario...
-                  </>
-                ) : (
-                  'Crear Usuario'
-                )}
-              </Button>
-            </div>
-          </form>
+            </form>
+          </Form>
         </CardContent>
       </Card>
     </div>

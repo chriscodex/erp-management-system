@@ -5,8 +5,7 @@ const roles = ['Administrador', 'Vendedor', 'Tecnico'];
 export const newUserSchema = z.object({
   dni: z
     .string()
-    .length(8, 'El DNI debe tener 8 dígitos')
-    .refine((dni) => !isNaN(parseInt(dni)), 'El DNI debe ser un número'),
+    .length(8, 'El DNI debe tener 8 dígitos'),
   apellidos: z
     .string()
     .min(3, {
