@@ -1,6 +1,12 @@
 import { getDataByDni } from '@/app/usuarios/_services/requests';
 
 /* eslint-disable */
+/**
+ * Función para buscar una persona por DNI.
+ * @param {string} dni - El DNI de la persona a buscar.
+ * @param {function} setLoading - Función para manejar el estado de carga.
+ * @returns {Promise} - Promesa que se resuelve con los datos de la persona.
+ */
 export function BusquedaPorDni (dni, setLoading) {
   return new Promise(async (resolve, reject) => {
     try {

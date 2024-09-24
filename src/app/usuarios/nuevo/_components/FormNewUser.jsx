@@ -40,7 +40,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 
-import { BusquedaPorDni } from '@/lib/toastConfig';
+import { BusquedaPorDni } from '@/components/toast/toastSetup';
 
 // const FormSchema = z.object({
 //   username: z.string().min(2, {
