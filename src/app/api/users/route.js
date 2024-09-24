@@ -1,13 +1,8 @@
 import { NextResponse } from 'next/server';
-import { connectDB } from '@/db/mongodb';
-import { UserService } from '@/backend/users/application/users.service';
-
-const userService = new UserService();
+import { createUserController } from '@/backend/users/infrastructure/controllers';
 
 export async function GET() {
   try {
-    await connectDB();
-
     const users = await userService.getAllUsers();
 
     return NextResponse.json(users);
@@ -19,6 +14,16 @@ export async function GET() {
   }
 }
 
-export async function POST() {
-  return NextResponse.json({ message: 'API WORKING' });
+export async function POST(request) {
+  try {
+    const body = await request.json();
+    const { payload, status } = await createUserController(body);
+
+    return NextResponse.json({ payload }, { status });
+  } catch (error) {
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
 }

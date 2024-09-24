@@ -1,12 +1,14 @@
+import { zod } from 'zod';
+
 import { UserRepository } from '@/backend/users/domain/repositories/userRepository';
+import { createUserSchema } from '@/backend/users/validations/createUserSchema';
 
-export class UserService {
-  constructor() {
-    this.userRepository = new UserRepository();
-  }
+const userRepository = new UserRepository();
 
-  async getAllUsers() {
-    const users = await this.userRepository.getAllUsers();
-    return users;
+export async function createUser(newUser) {
+  try {
+    const userValidated = createUserSchema.safeParse(newUser);
+  } catch (error) {
+    
   }
 }
