@@ -5,6 +5,7 @@ import { createUserSchema } from '@/backend/users/validations/createUserSchema';
 
 const userRepository = new UserRepository();
 
+// Proceso de implementación
 export async function createUser(newUser) {
   try {
     const userValidated = createUserSchema.safeParse(newUser);
