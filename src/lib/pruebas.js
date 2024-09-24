@@ -1,4 +1,5 @@
-import { getDataByDniFromApi } from '@/backend/searchedUsers/infrastructure/externalApis';
+
+import { getDataByDniFromApi } from '@/backend/shared/externalApi';
 import { seed } from '@/db/seed';
 import { connectDB } from '@/db/mongodb';
 

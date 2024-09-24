@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getDataByDniTest, getDataByRucTest, seedTest } from '@/lib/pruebas';
+import { getDataByDniTest, seedTest } from '@/lib/pruebas';
 
 export async function GET(request, { params }) {
   try {
@@ -13,8 +13,8 @@ export async function GET(request, { params }) {
         return NextResponse.json(dni);
 
       case 'ruc':
-        const ruc = await getDataByRucTest();
-        return NextResponse.json(ruc);
+        // const ruc = await getDataByRucTest();
+        // return NextResponse.json(ruc);
 
       default:
         return NextResponse.json({ error: 'Invalid type' }, { status: 400 });

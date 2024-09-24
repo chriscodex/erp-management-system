@@ -10,7 +10,7 @@ export class UsersService {
   async getAllUsers() {
     try {
       const users = await this.userRepository.getAllUsers();
-      if (!users) {
+      if (users.length === 0) {
         return {
           status: 404,
           payload: 'No se encontraron usuarios',
