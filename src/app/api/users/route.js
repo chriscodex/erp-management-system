@@ -19,6 +19,10 @@ export async function POST(request) {
     const body = await request.json();
     const { payload, status } = await createUserController(body);
 
+    if (status !== 201) {
+      return NextResponse.json({ error: payload }, { status });
+    }
+
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     return NextResponse.json(

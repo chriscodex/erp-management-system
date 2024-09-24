@@ -30,7 +30,36 @@ export class UsersService {
   async createUser(user) {
     try {
       const userValidated = createUserSchema.safeParse(user);
-      // ...
-    } catch (error) {}
+
+      if (!userValidated.success) {
+        return {
+          status: 400,
+          payload: userValidated.error.issues,
+        };
+      }
+
+      const userFound = await this.userRepository.getUser(user.dni);
+      if (userFound) {
+        return {
+          status: 409,
+          payload: 'El usuario ya existe',
+        };
+      }
+
+      const userCreated = await this.userRepository.createUser(user);
+
+      const userCreatedObject = userCreated.toObject();
+      delete userCreatedObject.password;
+
+      return {
+        status: 201,
+        payload: userCreatedObject,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
   }
 }
