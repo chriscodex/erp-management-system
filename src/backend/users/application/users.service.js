@@ -1,5 +1,3 @@
-import { zod } from 'zod';
-
 import { UserRepository } from '@/backend/users/domain/repositories/userRepository';
 import { createUserSchema } from '@/backend/users/application/validations/createUserSchema';
 
@@ -29,6 +27,7 @@ export class UsersService {
   }
   async createUser(user) {
     try {
+      // Validar los tipos de datos del usuario enviado
       const userValidated = createUserSchema.safeParse(user);
 
       if (!userValidated.success) {
@@ -38,6 +37,7 @@ export class UsersService {
         };
       }
 
+      // Validar si el usuario ya existe
       const userFound = await this.userRepository.getUser(user.dni);
       if (userFound) {
         return {
@@ -46,6 +46,7 @@ export class UsersService {
         };
       }
 
+      // Crear el usuario
       const userCreated = await this.userRepository.createUser(user);
 
       const userCreatedObject = userCreated.toObject();
