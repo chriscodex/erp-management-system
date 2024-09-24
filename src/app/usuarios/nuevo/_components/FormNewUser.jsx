@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { newUserSchema } from '@/app/usuarios/nuevo/validations/newUserSchema';
 
+import { cn } from '@/lib/utils';
 import {
   Loader2,
   User,
@@ -49,11 +51,20 @@ import { BusquedaPorDni } from '@/components/toast/toastSetup';
 // });
 
 function FormNewUser() {
-  const { register, handleSubmit, watch, setValue } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    resolver: zodResolver(newUserSchema),
     defaultValues: {
       rol: 'Vendedor',
     },
   });
+
+  console.log('errors zod: ',errors);
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
   const [searchByDniIsLoading, setSearchByDniIsLoading] = useState(false);
@@ -122,6 +133,7 @@ function FormNewUser() {
               <Label htmlFor="dni">DNI</Label>
               <div className="relative">
                 <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                {/* <FormControl /> */}
                 <Input
                   type="text"
                   placeholder="DNI"
