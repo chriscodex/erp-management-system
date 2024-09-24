@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
-import { createUserController } from '@/backend/users/infrastructure/controllers';
+import { createUserController, getAllUsersController } from '@/backend/users/infrastructure/controllers';
 
 export async function GET() {
   try {
-    const users = await userService.getAllUsers();
+    const users = await getAllUsersController();
 
     return NextResponse.json(users);
   } catch (error) {
