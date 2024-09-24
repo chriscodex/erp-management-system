@@ -179,6 +179,7 @@ function FormNewUser() {
                   autoComplete="off"
                   {...register('apellidos', {
                     disabled: searchByDniIsLoading,
+                    required: true,
                   })}
                 />
               </div>
@@ -200,6 +201,7 @@ function FormNewUser() {
                   autoComplete="off"
                   {...register('nombres', {
                     disabled: searchByDniIsLoading,
+                    required: true,
                   })}
                 />
               </div>
@@ -278,7 +280,7 @@ function FormNewUser() {
             <div className="space-y-2 w-full flex justify-end">
               <Button
                 className="max-w-40"
-                disabled={formSubmitIsLoading}
+                disabled={formSubmitIsLoading || searchByDniIsLoading}
                 type="submit"
               >
                 {formSubmitIsLoading ? (
