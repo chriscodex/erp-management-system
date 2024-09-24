@@ -27,7 +27,6 @@ import {
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Card,
   CardContent,
@@ -74,12 +73,12 @@ function FormNewUser() {
   });
 
   const {
-    register,
     handleSubmit,
     watch,
     setValue,
     formState: { errors },
     control,
+    clearErrors
   } = form;
 
   console.log('errors zod: ', errors);
@@ -98,9 +97,6 @@ function FormNewUser() {
     setFormSubmitIsLoading(false);
     toast.success('Usuario creado correctamente');
   });
-
-  /* Handle Rol Select */
-  const selectedRole = watch('rol');
 
   const handleSearchByDni = async (e) => {
     e.preventDefault();
@@ -122,6 +118,8 @@ function FormNewUser() {
         success: (persona) => {
           setValue('apellidos', persona?.apellidos);
           setValue('nombres', persona?.nombres);
+          clearErrors('apellidos')
+          clearErrors('nombres')
           return `Persona encontrada`;
         },
         error: (error) => {
@@ -227,100 +225,157 @@ function FormNewUser() {
                 )}
               />
 
-              <div className="space-y-2">
-                <Label htmlFor="nombres">Nombres</Label>
-                <div className="relative">
-                  {searchByDniIsLoading ? (
-                    <>
-                      <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
-                    </>
-                  ) : (
-                    <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  )}
-                  <Input
-                    type="text"
-                    placeholder="Nombres"
-                    className="pl-8"
-                    autoComplete="off"
-                    {...register('nombres', {
-                      disabled: searchByDniIsLoading,
-                    })}
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="celular">Celular</Label>
-                <div className="relative">
-                  <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="987654321"
-                    className="pl-8"
-                    autoComplete="off"
-                    {...register('celular', {})}
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="direccion">Dirección</Label>
-                <div className="relative">
-                  <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Av. Centenario 123"
-                    className="pl-8"
-                    autoComplete="off"
-                    {...register('direccion', {})}
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="roles">Rol</Label>
-                <div className="relative">
-                  <Shield className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Select
-                    value={selectedRole}
-                    onValueChange={(value) => setValue('rol', value)}
-                  >
-                    <SelectTrigger className="w-full pl-8">
-                      <SelectValue placeholder="Seleccione un rol" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="Vendedor">Vendedor</SelectItem>
-                      <SelectItem value="Administrador">
-                        Administrador
-                      </SelectItem>
-                      <SelectItem value="Tecnico">Técnico</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Contraseña</Label>
-                <div className="relative">
-                  <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="password"
-                    placeholder="••••••••••"
-                    className="pl-8"
-                    autoComplete="off"
-                    {...register('password', {})}
-                  />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="password">Confirmar Contraseña</Label>
-                <div className="relative">
-                  <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <Input
-                    type="password"
-                    placeholder="••••••••••"
-                    className="pl-8"
-                    autoComplete="off"
-                    {...register('confirmPassword', {})}
-                  />
-                </div>
-              </div>
+              <FormField
+                control={control}
+                name="nombres"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Nombres</FormLabel>
+                    <div className="relative">
+                      {searchByDniIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
+                      <FormControl>
+                        <Input
+                          placeholder="Nombres"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={searchByDniIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name="celular"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Celular</FormLabel>
+                    <div className="relative">
+                      <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <FormControl>
+                        <Input
+                          placeholder="987654321"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={formSubmitIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="direccion"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Dirección</FormLabel>
+                    <div className="relative">
+                      <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <FormControl>
+                        <Input
+                          placeholder="Av. Centenario 123"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={formSubmitIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name="rol"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Rol</FormLabel>
+                    <div className="relative">
+                      <Shield className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <Select
+                        defaultValue={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <FormControl>
+                          <SelectTrigger className="w-full pl-8">
+                            <SelectValue placeholder="Seleccione un rol" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Vendedor">Vendedor</SelectItem>
+                          <SelectItem value="Administrador">
+                            Administrador
+                          </SelectItem>
+                          <SelectItem value="Tecnico">Técnico</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Contraseña</FormLabel>
+                    <div className="relative">
+                      <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="••••••••••"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={formSubmitIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Confirmar Contraseña</FormLabel>
+                    <div className="relative">
+                      <Lock className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="••••••••••"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={formSubmitIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
               <div className="space-y-2 w-full flex justify-end">
                 <Button
                   className="max-w-40"
