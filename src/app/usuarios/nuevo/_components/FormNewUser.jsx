@@ -129,11 +129,12 @@ function FormNewUser() {
                   autoComplete="off"
                   {...register('dni', {
                     required: true,
-                    // minLength: 8,
-                    // maxLength: 8,
-                    pattern: /^[0-9]+$/,
                     disabled: searchByDniIsLoading,
                   })}
+                  onInput={(e) => {
+                    // Permitir solo dígitos numéricos
+                    e.target.value = e.target.value.replace(/\D/g, '');
+                  }}
                 />
                 <div
                   className={cn(
