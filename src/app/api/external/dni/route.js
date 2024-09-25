@@ -4,6 +4,7 @@ import { getUserDataByDniController } from '@/backend/searchedUsers/infrastructu
 export async function GET(request) {
   try {
     const dni = request.nextUrl.searchParams.get('number');
+    
     const userData = await getUserDataByDniController(dni);
     return NextResponse.json(userData);
   } catch (error) {
