@@ -3,17 +3,17 @@ import { SearchedUser } from '@/backend/searchedUsers/domain/models/searchedUser
 export class SearchedUserRepository {
   async getSearchedUserFromDatabase(dni) {
     try {
-      const users = await SearchedUser.findOne({ dni: dni });
+      const searchedUser = await SearchedUser.findOne({ dni: dni });
 
-      if (!users) {
-        console.log('Usuario no encontrado en la base de datos');
+      if (!searchedUser) {
+        console.log('SearchedUser no encontrado en la base de datos');
         return null;
       }
-      console.log('Usuario encontrado en la base de datos');
-      return users;
+      console.log('SearchedUser encontrado en la base de datos');
+      return searchedUser;
     } catch (error) {
       throw new Error(
-        `Error al buscar el usuario en la base de datos: ${error.message}`
+        `Error al buscar un searchedUser en la base de datos: ${error.message}`
       );
     }
   }
