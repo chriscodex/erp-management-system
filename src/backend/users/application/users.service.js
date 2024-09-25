@@ -8,12 +8,14 @@ export class UsersService {
   async getAllUsers() {
     try {
       const users = await this.userRepository.getAllUsers();
-      if (users.length === 0) {
+
+      if (!users) {
         return {
           status: 404,
           payload: 'No se encontraron usuarios',
         };
       }
+
       return {
         status: 200,
         payload: users,
@@ -28,6 +30,7 @@ export class UsersService {
   async getUser(dni) {
     try {
       const userFound = await this.userRepository.getUser(dni);
+      console.log('userFound', userFound);
       if (!userFound) {
         return {
           status: 404,

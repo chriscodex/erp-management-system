@@ -6,7 +6,13 @@ export class UserRepository {
   async getAllUsers() {
     try {
       const users = await User.find();
-      console.log('Usuarios encontrado');
+
+      if (users.length === 0) {
+        console.log('No se encontraron usuarios');
+        return null;
+      }
+
+      console.log('Usuarios encontrados');
       return users;
     } catch (error) {
       throw new Error(`Error al buscar todos los usuario: ${error.message}`);
@@ -15,6 +21,12 @@ export class UserRepository {
   async getUser(dni) {
     try {
       const users = await User.findOne({ dni });
+
+      if (!users) {
+        console.log('Usuario no encontrado');
+        return null;
+      }
+
       console.log('Usuario encontrado');
       return users;
     } catch (error) {
