@@ -1,4 +1,4 @@
-import { getDataByDni } from '@/app/usuarios/_services/requests';
+import { getDataByDni } from '@/lib/utils';
 
 /* eslint-disable */
 /**
