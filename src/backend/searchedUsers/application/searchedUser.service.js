@@ -2,9 +2,9 @@ import { SearchedUserRepository } from '@/backend/searchedUsers/domain/repositor
 import { MayusculasATitulo } from '@/lib/formateador';
 
 export class SearchedUserService {
-  constructor(getDataByDniFromApi) {
+  constructor(getDataByDniFromExternalApi) {
     this.searchedUserRepository = new SearchedUserRepository();
-    this.getDataByDniFromApi = getDataByDniFromApi;
+    this.getDataByDniFromExternalApi = getDataByDniFromExternalApi;
   }
 
   async getSearchedUser(dni) {
@@ -25,7 +25,7 @@ export class SearchedUserService {
         };
       }
 
-      const userFromExternalApi = await this.getDataByDniFromApi(dni);
+      const userFromExternalApi = await this.getDataByDniFromExternalApi(dni);
 
       if (userFromExternalApi.status !== 200) {
         return {

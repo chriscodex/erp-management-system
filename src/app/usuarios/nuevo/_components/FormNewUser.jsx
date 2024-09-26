@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { newUserSchema } from '@/app/usuarios/nuevo/validations/newUserSchema';
 
+import { newUserSchema } from '@/app/usuarios/nuevo/validations/newUserSchema';
 import { cn } from '@/lib/utils';
 import {
   Loader2,
@@ -41,14 +41,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
-
 import { BusquedaPorDni } from '@/components/toast/toastSetup';
 
 // const FormSchema = z.object({

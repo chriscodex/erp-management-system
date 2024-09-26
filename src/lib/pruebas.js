@@ -1,5 +1,5 @@
 
-import { getDataByDniFromApi } from '@/backend/shared/externalApi';
+import { getDataByDniFromExternalApi } from '@/backend/shared/externalApi';
 import { seed } from '@/db/seed';
 import { connectDB } from '@/db/mongodb';
 
@@ -15,7 +15,7 @@ export async function seedTest() {
 
 export async function getDataByDniTest() {
   try {
-    const dni = await getDataByDniFromApi('74062106');
+    const dni = await getDataByDniFromExternalApi('74062106');
 
     return dni;
   } catch (error) {
