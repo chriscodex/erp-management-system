@@ -1,5 +1,6 @@
 import { UserRepository } from '@/backend/users/domain/repositories/userRepository';
 import { createUserSchema } from '@/backend/users/application/validations/createUserSchema';
+import { updateUserSchema } from '@/backend/users/application/validations/updateUserSchema';
 
 export class UsersService {
   constructor() {
@@ -51,10 +52,11 @@ export class UsersService {
   }
   async createUser(user) {
     try {
-      // Validar los tipos de datos del usuario enviado
+      // Validar los datos del usuario enviado con el schema
       const userValidated = createUserSchema.safeParse(user);
 
       if (!userValidated.success) {
+        console.log('Error de validación de schema de usuario al crear');
         return {
           status: 400,
           payload: userValidated.error.issues,
@@ -87,6 +89,39 @@ export class UsersService {
       };
     }
   }
+  async updateUser(dni, user) {
+    try {
+      // Validar los datos del usuario enviado con el schema
+      const userValidated = updateUserSchema.safeParse(user);
+
+      if (!userValidated.success) {
+        console.log('Error de validación de schema de usuario al actualizar');
+        return {
+          status: 400,
+          payload: userValidated.error.issues,
+        };
+      }
+
+      const userUpdated = await this.userRepository.updateUser(dni, user);
+
+      if (!userUpdated) {
+        return {
+          status: 404,
+          payload: 'El usuario no existe',
+        };
+      }
+
+      return {
+        status: 200,
+        payload: userUpdated,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async deleteUser(dni) {
     try {
       const userDeleted = await this.userRepository.deleteUser(dni);
@@ -97,7 +132,7 @@ export class UsersService {
           payload: 'El usuario no existe',
         };
       }
-      
+
       return {
         status: 204,
         payload: userDeleted,
