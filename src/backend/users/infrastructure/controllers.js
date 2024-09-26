@@ -39,6 +39,17 @@ export async function createUserController(user) {
   }
 }
 
+export async function updateUserController(dni, user) {
+  try {
+    await connectDB();
+    const updatedUser = await userService.updateUser(dni, user);
+    return updatedUser;
+  } catch (error) {
+    console.error('Error updating user:', error);
+    throw new Error('Internal Server Error - updateUserController');
+  }
+}
+
 export async function deleteUserController(dni) {
   try {
     await connectDB();
