@@ -76,7 +76,7 @@ function FormNewUser() {
     setValue,
     formState: { errors },
     control,
-    clearErrors
+    clearErrors,
   } = form;
 
   console.log('errors zod: ', errors);
@@ -117,8 +117,8 @@ function FormNewUser() {
         success: (persona) => {
           setValue('apellidos', persona?.apellidos);
           setValue('nombres', persona?.nombres);
-          clearErrors('apellidos')
-          clearErrors('nombres')
+          clearErrors('apellidos');
+          clearErrors('nombres');
           return `Persona encontrada`;
         },
         error: (error) => {
