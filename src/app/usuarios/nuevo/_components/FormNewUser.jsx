@@ -111,6 +111,7 @@ function FormNewUser() {
         return;
       }
 
+      // Toast promise para buscar una persona
       toast.promise(BusquedaPorDni(dni, setSearchByDniIsLoading), {
         loading: 'Buscando...',
         success: (persona) => {
