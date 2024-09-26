@@ -52,9 +52,9 @@ export class UserRepository {
       throw new Error(`Error al crear usuario: ${error.message}`);
     }
   }
-  async updateUser(user) {
+  async updateUser(dni, user) {
     try {
-      const updatedUser = await User.findOneAndUpdate({ dni: user.dni }, user, {
+      const updatedUser = await User.findOneAndUpdate({ dni }, user, {
         new: true,
       });
 
