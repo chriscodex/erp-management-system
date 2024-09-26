@@ -14,12 +14,14 @@ export function BusquedaPorDni (dni, setLoading) {
       // Simular tiempo de retraso
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
+      // Obtener los datos de la persona
       const response = await getDataByDni(dni);
       if (response?.status !== 200) {
         setLoading(false);
         reject('No se ha encontrado una persona con ese DNI');
         return;
       }
+      
       setLoading(false);
       resolve(response?.data?.payload);
     } catch (error) {
