@@ -52,6 +52,23 @@ export class UserRepository {
       throw new Error(`Error al crear usuario: ${error.message}`);
     }
   }
+  async updateUser(user) {
+    try {
+      const updatedUser = await User.findOneAndUpdate({ dni: user.dni }, user, {
+        new: true,
+      });
+
+      if (!updatedUser) {
+        console.log('Usuario no encontrado para ser actualizado');
+        return null;
+      }
+
+      console.log('Usuario actualizado exitosamente');
+      return updatedUser;
+    } catch (error) {
+      throw new Error(`Error al actualizar usuario: ${error.message}`);
+    }
+  }
   async deleteUser(dni) {
     try {
       const deletedUser = await User.findOneAndDelete({ dni });
