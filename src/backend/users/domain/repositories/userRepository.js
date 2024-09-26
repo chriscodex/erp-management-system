@@ -52,4 +52,19 @@ export class UserRepository {
       throw new Error(`Error al crear usuario: ${error.message}`);
     }
   }
+  async deleteUser(dni) {
+    try {
+      const deletedUser = await User.findOneAndDelete({ dni });
+
+      if (!deletedUser) {
+        console.log('Usuario no encontrado para ser eliminado');
+        return null;
+      }
+
+      console.log('Usuario encontrado y eliminado');
+      return deletedUser;
+    } catch (error) {
+      throw new Error(`Error al eliminar usuario: ${error.message}`);
+    }
+  }
 }

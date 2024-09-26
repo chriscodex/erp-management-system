@@ -38,3 +38,14 @@ export async function createUserController(user) {
     throw new Error('Internal Server Error - createUserController');
   }
 }
+
+export async function deleteUserController(dni) {
+  try {
+    await connectDB();
+    const deletedUser = await userService.deleteUser(dni);
+    return deletedUser;
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    throw new Error('Internal Server Error - deleteUserController');
+  }
+}

@@ -87,4 +87,26 @@ export class UsersService {
       };
     }
   }
+  async deleteUser(dni) {
+    try {
+      const userDeleted = await this.userRepository.deleteUser(dni);
+
+      if (!userDeleted) {
+        return {
+          status: 404,
+          payload: 'El usuario no existe',
+        };
+      }
+      
+      return {
+        status: 204,
+        payload: userDeleted,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
