@@ -23,7 +23,7 @@ export async function seedUsers() {
         dni: '44362644',
         celular: '931140270',
         direccion: 'Av. Las Flores 364 Independencia Huaraz',
-        rol: 'Tecnico',
+        rol: 'Administrador',
         password: '123',
       },
       {
