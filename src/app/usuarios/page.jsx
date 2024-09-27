@@ -12,7 +12,7 @@ import { getAllUsers } from '@/app/usuarios/_services/requests';
 export default async function Page() {
   const {users, status} = await getAllUsers();
   
-  console.log('res', users);
+  const usersSorted = users.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
   return (
     <>
@@ -29,7 +29,7 @@ export default async function Page() {
             </Button>
           </Link>
         </div>
-        <DataTable columns={columns} data={users} status={status} />
+        <DataTable columns={columns} data={usersSorted} status={status} />
       </NavbarSimple>
     </>
   );
