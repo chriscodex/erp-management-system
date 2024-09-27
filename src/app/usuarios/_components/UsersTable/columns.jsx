@@ -29,20 +29,38 @@ export const columns = [
     },
   },
   {
-    accessorKey: 'fullName',
+    accessorKey: 'apellidos',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Apellidos y Nombres
+          Apellidos
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue('fullName')}</div>;
+      return <div className="text-start">{row.getValue('apellidos')}</div>;
+    },
+  },
+  {
+    accessorKey: 'nombres',
+    header: ({ column }) => {
+      console.log('column',column);
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Nombres
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <div className="text-start">{row.getValue('nombres')}</div>;
     },
   },
   {
@@ -76,7 +94,7 @@ export const columns = [
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
+              <span className="sr-only">Abrir menu</span>
               <MoreHorizontal className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
