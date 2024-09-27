@@ -4,8 +4,10 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
 import { newUserSchema } from '@/app/usuarios/nuevo/validations/newUserSchema';
+import { createUser } from '@/app/usuarios/nuevo/_services/requests';
 import { cn } from '@/lib/utils';
 import {
   Loader2,
@@ -56,6 +58,8 @@ import { BusquedaPorDni } from '@/components/toast/toastSetup';
 // });
 
 function FormNewUser() {
+  const router = useRouter();
+
   const form = useForm({
     resolver: zodResolver(newUserSchema),
     defaultValues: {
@@ -81,23 +85,32 @@ function FormNewUser() {
 
   const formData = watch();
 
-  console.log('errors zod: ', errors);
+  console.log('Zod errors: ', errors);
 
+  // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
   const [searchByDniIsLoading, setSearchByDniIsLoading] = useState(false);
 
+  // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
     setFormSubmitIsLoading(true);
 
-    // Simular una llamada a la API
-    await new Promise((resolve) => setTimeout(resolve, 1500)); //eslint-disable-line
-
-    // Simular una respuesta exitosa
-    setFormSubmitIsLoading(false);
-    toast.success('Usuario creado correctamente');
+    // Toast promise para buscar una persona
+    toast.promise(createUser(data, setFormSubmitIsLoading), {
+      loading: 'Creando...',
+      success: () => {
+        clearErrors();
+        router.push('/usuarios');
+        return `Usuario creado exitosamente`;
+      },
+      error: (error) => {
+        setFormSubmitIsLoading(false);
+        return error;
+      },
+    });
   });
 
+  // Busqueda por DNI
   const handleSearchByDni = async (e) => {
     e.preventDefault();
     try {
