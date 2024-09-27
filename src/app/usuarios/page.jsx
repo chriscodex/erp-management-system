@@ -10,17 +10,9 @@ import { User2Icon, Plus } from 'lucide-react';
 import { getAllUsers } from '@/app/usuarios/_services/requests';
 
 export default async function Page() {
-  const { data } = await getAllUsers();
-
-  const dataFormated = data?.map((user) => {
-    const fullName = {
-      fullName: user.nombres + ' ' + user.apellidos,
-      ...user,
-    };
-    delete fullName.apellidos;
-    delete fullName.nombres;
-    return fullName;
-  });
+  const {users, status} = await getAllUsers();
+  
+  console.log('res', users);
 
   return (
     <>
@@ -37,7 +29,7 @@ export default async function Page() {
             </Button>
           </Link>
         </div>
-        <DataTable columns={columns} data={dataFormated} />
+        <DataTable columns={columns} data={users} status={status} />
       </NavbarSimple>
     </>
   );
