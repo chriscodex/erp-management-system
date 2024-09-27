@@ -24,8 +24,9 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import CustomPagination from '@/app/usuarios/_components/UsersTable/pagination';
+import { toast } from 'sonner';
 
-export function DataTable({ columns, data }) {
+export function DataTable({ columns, data, status = 200 }) {
   /* Sorting */
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -60,14 +61,22 @@ export function DataTable({ columns, data }) {
   const TIME_DEBOUNCE = 300;
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('fullName')?.setFilterValue(value);
+    table.getColumn('apellidos')?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
     debouncedSearch(searchValue);
   }, [searchValue, debouncedSearch]);
 
-  console.log(table.getFilteredRowModel());
+  // console.log(table.getFilteredRowModel());
+  useEffect(() => {
+    if (status !== 200) {
+      toast.error(
+        'No podemos conectarnos al servidor en este momento. Verifica tu conexión a internet o inténtalo nuevamente en unos minutos. Si el error persiste, ponte en contacto con Christian.',
+        { duration: 10000 }
+      );
+    }
+  }, []);
 
   return (
     <div>
