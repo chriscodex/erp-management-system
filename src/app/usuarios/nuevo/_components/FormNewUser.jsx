@@ -79,6 +79,8 @@ function FormNewUser() {
     clearErrors,
   } = form;
 
+  const formData = watch();
+
   console.log('errors zod: ', errors);
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
@@ -101,8 +103,7 @@ function FormNewUser() {
     try {
       setSearchByDniIsLoading(true);
 
-      const formState = watch();
-      const dni = formState.dni;
+      const dni = formData.dni;
       if (!dni || dni.length !== 8) {
         setSearchByDniIsLoading(false);
         toast.warning('Por favor, ingrese un DNI válido', {
