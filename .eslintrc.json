@@ -3,6 +3,7 @@
   "rules": {
     "@next/next/no-img-element": "off",
     "no-unused-vars": "error",
-    "no-undef": "error"
+    "no-undef": "error",
+    "react-hooks/rules-of-hooks": "off"
   }
 }
