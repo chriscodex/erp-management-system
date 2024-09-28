@@ -1,5 +1,5 @@
 import { createUserUrl } from '@/app/usuarios/nuevo/_services/urls';
-import { postData } from '@/lib/fetchData';
+import { postData, patchData } from '@/lib/fetchData';
 
 /* eslint-disable */
 export async function createUser(user, setLoading) {
@@ -15,6 +15,34 @@ export async function createUser(user, setLoading) {
         setLoading(false);
         reject(
           'No se pudo crear el usuario: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      setLoading(false);
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
+      setLoading(false);
+      reject(error);
+    }
+  });
+}
+/* eslint-enable */
+
+/* eslint-disable */
+export async function updateUser(user, setLoading) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      setLoading(true);
+      // Simular tiempo de retraso
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Obtener los datos de la persona
+      const response = await patchData(createUserUrl, user);
+      if (response?.status !== 200) {
+        setLoading(false);
+        reject(
+          'No se pudo actualizar el usuario: ' + response.response?.data?.error
         );
         return;
       }

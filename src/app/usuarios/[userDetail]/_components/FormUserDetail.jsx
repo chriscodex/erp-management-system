@@ -1,7 +1,19 @@
 'use client';
 
 import { useState } from 'react';
+import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
+import {
+  User,
+  Shield,
+  Edit2,
+  Phone,
+  CreditCard,
+  MapPin,
+  ActivityIcon,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -18,34 +30,23 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import {
-  User,
-  Shield,
-  Edit2,
-  Phone,
-  CreditCard,
-  MapPin,
-  ActivityIcon,
-} from 'lucide-react';
 
 import { CrearFullName } from '@/lib/formateador';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updateUserSchema';
+import { updateUser } from '@/app/usuarios/nuevo/_services/requests';
 
 function FormUserDetail({ userDetail }) {
   /* Formulario Setup */
   const form = useForm({
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
-      dni: '',
-      apellidos: '',
-      nombres: '',
-      celular: '',
-      direccion: '',
-      password: '',
-      confirmPassword: '',
-      rol: 'Vendedor',
+      dni: userDetail?.dni,
+      apellidos: userDetail?.apellidos,
+      nombres: userDetail?.nombres,
+      celular: userDetail?.celular,
+      direccion: userDetail?.direccion,
+      rol: userDetail?.rol,
+      estado: userDetail?.estado,
     },
   });
 
@@ -59,6 +60,24 @@ function FormUserDetail({ userDetail }) {
   } = form;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
+
+  // Manejo de formulario
+  const onSubmit = handleSubmit(async (data) => {
+    setFormSubmitIsLoading(true);
+
+    // Toast promise para buscar una persona
+    toast.promise(updateUser(data, setFormSubmitIsLoading), {
+      loading: 'Actualizando...',
+      success: () => {
+        clearErrors();
+        return `Usuario actualizado exitosamente`;
+      },
+      error: (error) => {
+        setFormSubmitIsLoading(false);
+        return error;
+      },
+    });
+  });
 
   const initialUserDetails = {
     id: 1,
@@ -286,13 +305,13 @@ function FormUserDetail({ userDetail }) {
                   <div className="space-y-4 mt-4">
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 opacity-70" />
-                      <span className="font-semibold gap">Nombres:</span>{' '}
-                      <span>{userDetail?.nombres}</span>
+                      <span className="font-semibold">Apellidos:</span>{' '}
+                      <span>{userDetail?.apellidos}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 opacity-70" />
-                      <span className="font-semibold">Apellidos:</span>{' '}
-                      <span>{userDetail?.apellidos}</span>
+                      <span className="font-semibold gap">Nombres:</span>{' '}
+                      <span>{userDetail?.nombres}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 opacity-70" />
