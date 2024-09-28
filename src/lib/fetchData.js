@@ -29,3 +29,18 @@ export async function postData(url, data) {
     return error;
   }
 }
+
+export async function patchData(url, data) {
+  try {
+    const response = await axios.patch(url, data, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
