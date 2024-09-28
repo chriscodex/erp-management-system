@@ -1,9 +1,9 @@
 import { Schema, model, models } from 'mongoose';
 
 // Eliminar el modelo en caso no considere los cambios
-// if (models.User) {
-//   delete models.User;
-// }
+if (models.User) {
+  delete models.User;
+}
 
 const userSchema = new Schema(
   {
@@ -28,13 +28,17 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Dirección is required'],
     },
-    password: {
-      type: String,
-      required: [true, 'Password is required'],
-    },
     rol: {
       type: String,
       required: [true, 'Rol is required'],
+    },
+    estado: {
+      type: Boolean,
+      required: [true, 'Estado is required'],
+    },
+    password: {
+      type: String,
+      required: [true, 'Password is required'],
     },
   },
   {
