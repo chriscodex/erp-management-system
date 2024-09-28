@@ -20,7 +20,7 @@ export class UserRepository {
   }
   async getUser(dni) {
     try {
-      const users = await User.findOne({ dni });
+      const users = await User.findOne({ dni }).select('-password');
 
       if (!users) {
         console.log('Usuario no encontrado');

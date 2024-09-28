@@ -31,7 +31,7 @@ export class UsersService {
   async getUser(dni) {
     try {
       const userFound = await this.userRepository.getUser(dni);
-      console.log('userFound', userFound);
+
       if (!userFound) {
         return {
           status: 404,

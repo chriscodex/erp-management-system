@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { getUser } from '@/app/usuarios/[userDetail]/_services/requests';
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -9,14 +10,12 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { Separator } from '@/components/ui/separator';
-import {
-  SidebarInset,
-  SidebarTrigger,
-} from '@/components/ui/sidebar';
+import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
 import { FormUserDetail } from '@/app/usuarios/[userDetail]/_components/FormUserDetail';
 
-export default function Page({ params }) {
-  if (params.userDetail === '8484') {
+export default async function Page({ params }) {
+  const { user, status } = await getUser(params.userDetail);
+  if (!user) {
     notFound();
   }
   return (

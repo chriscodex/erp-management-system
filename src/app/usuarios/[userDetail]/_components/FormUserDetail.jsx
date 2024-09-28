@@ -120,7 +120,7 @@ function FormUserDetail() {
                           htmlFor="nombre"
                           className="text-left font-semibold"
                         >
-                          Nombre
+                          Nombres
                         </Label>
                       </div>
                       <Input
