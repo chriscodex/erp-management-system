@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 
-import { newUserSchema } from '@/app/usuarios/nuevo/validations/newUserSchema';
+import { newUserSchema } from '@/app/usuarios/nuevo/_validations/newUserSchema';
 import { createUser } from '@/app/usuarios/nuevo/_services/requests';
 import { cn } from '@/lib/utils';
 import {
