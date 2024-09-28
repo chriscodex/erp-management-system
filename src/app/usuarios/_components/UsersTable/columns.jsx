@@ -64,10 +64,6 @@ export const columns = [
     },
   },
   {
-    accessorKey: 'dni',
-    header: 'DNI',
-  },
-  {
     accessorKey: 'rol',
     header: ({ column }) => {
       return (
