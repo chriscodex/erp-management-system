@@ -30,7 +30,5 @@ export const updateUserSchema = z.object({
   rol: z.enum(roles, {
     errorMap: () => ({ message: 'Seleccione un rol' }),
   }),
-  estado: z.enum(estados, {
-    errorMap: () => ({ message: 'Seleccione un estado' }),
-  }),
+  estado: z.boolean(),
 });

@@ -10,9 +10,9 @@ import {
   Shield,
   Edit2,
   Phone,
-  CreditCard,
   MapPin,
   ActivityIcon,
+  IdCardIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -30,6 +30,21 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '@/components/ui/dialog';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 
 import { CrearFullName } from '@/lib/formateador';
 import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updateUserSchema';
@@ -46,18 +61,13 @@ function FormUserDetail({ userDetail }) {
       celular: userDetail?.celular,
       direccion: userDetail?.direccion,
       rol: userDetail?.rol,
-      estado: userDetail?.estado,
+      estado: userDetail?.estado?.toString(),
     },
   });
 
-  const {
-    handleSubmit,
-    watch,
-    setValue,
-    formState: { errors },
-    control,
-    clearErrors,
-  } = form;
+  console.log(userDetail?.estado);
+
+  const { handleSubmit, control, clearErrors } = form;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
@@ -79,43 +89,11 @@ function FormUserDetail({ userDetail }) {
     });
   });
 
-  const initialUserDetails = {
-    id: 1,
-    name: 'Alice Johnson',
-    email: 'alice@example.com',
-    role: 'Admin',
-    lastLogin: '2023-05-15 10:30',
-    joinDate: '2022-01-15',
-    totalLogins: 253,
-    accountStatus: 'active',
-    twoFactorEnabled: true,
-    recentActivities: [
-      'Changed password - 2023-05-10',
-      'Updated profile picture - 2023-05-05',
-      'Logged in from new device - 2023-05-01',
-    ],
-    nombres: 'Christian Espinoza',
-    apellidos: 'Espinoza Cadillo',
-    dni: '74062106',
-    celular: '931140269',
-    direccion: 'Jr. 9 de diciembre 686',
-    estado: 'Activo',
-    rol: 'Administrador',
-  };
-
   const [isOpen, setIsOpen] = useState(false);
-
-  const [userDetails, setUserDetails] = useState(initialUserDetails);
   const [isEditing, setIsEditing] = useState(false);
 
   const handleEdit = () => {
     setIsEditing(true);
-  };
-
-  const handleSave = (e) => {
-    e.preventDefault();
-    setIsEditing(false);
-    // En una aplicación real, aquí enviarías los datos actualizados al servidor
   };
 
   return (
@@ -154,182 +132,272 @@ function FormUserDetail({ userDetail }) {
               </TabsList>
               <TabsContent value="info">
                 {isEditing ? (
-                  <form
-                    onSubmit={handleSave}
-                    className="space-y-4 mt-4 mr-auto"
-                  >
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <div className="flex gap-2 items-center justify-start">
-                        <User className="h-4 w-4 opacity-70" />
-                        <Label
-                          htmlFor="nombre"
-                          className="text-left font-semibold"
-                        >
-                          Nombres
-                        </Label>
-                      </div>
-                      <Input
-                        id="name"
-                        value={userDetail?.nombres}
-                        onChange={(e) =>
-                          setUserDetails({
-                            ...userDetail,
-                            nombre: e.target.value,
-                          })
-                        }
-                        className="col-span-3"
+                  <Form {...form}>
+                    <form
+                      onSubmit={onSubmit}
+                      className="space-y-4 mt-4 mr-auto"
+                    >
+                      <FormField
+                        control={control}
+                        name="apellidos"
+                        className="w-full"
+                        render={({ field }) => (
+                          <FormItem className="grid grid-cols-4 items-center gap-x-4">
+                            <div className="flex gap-2 items-center justify-start">
+                              <User className="h-4 w-4 text-muted-foreground" />
+                              <Label
+                                htmlFor="nombre"
+                                className="text-left font-semibold text-base"
+                              >
+                                Apellidos
+                              </Label>
+                            </div>
+                            <FormControl>
+                              <Input
+                                type="text"
+                                className="col-span-3"
+                                autoComplete="off"
+                                disabled={formSubmitIsLoading}
+                                {...field}
+                              />
+                            </FormControl>
+                            <span className="col-span-1"></span>
+                            <FormMessage className="col-span-3 h-4" />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <div className="flex gap-2 items-center justify-start">
-                        <User className="h-4 w-4 opacity-70" />
-                        <Label
-                          htmlFor="apellidos"
-                          className="text-left font-semibold"
-                        >
-                          Apellidos
-                        </Label>
-                      </div>
-                      <Input
-                        id="apellidos"
-                        value={userDetails.apellidos}
-                        onChange={(e) =>
-                          setUserDetails({
-                            ...userDetails,
-                            apellidos: e.target.value,
-                          })
-                        }
-                        className="col-span-3"
+                      <FormField
+                        control={control}
+                        name="nombres"
+                        className="w-full"
+                        render={({ field }) => (
+                          <FormItem className="grid grid-cols-4 items-center gap-x-4">
+                            <div className="flex gap-2 items-center justify-start">
+                              <User className="h-4 w-4 text-muted-foreground" />
+                              <Label
+                                htmlFor="nombre"
+                                className="text-left font-semibold text-base"
+                              >
+                                Nombres
+                              </Label>
+                            </div>
+                            <FormControl>
+                              <Input
+                                type="text"
+                                className="col-span-3"
+                                autoComplete="off"
+                                disabled={formSubmitIsLoading}
+                                {...field}
+                              />
+                            </FormControl>
+                            <span className="col-span-1"></span>
+                            <FormMessage className="col-span-3 h-4" />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <div className="flex gap-2 items-center justify-start">
-                        <CreditCard className="h-4 w-4 opacity-70" />
-                        <Label
-                          htmlFor="dni"
-                          className="text-left font-semibold"
-                        >
-                          DNI
-                        </Label>
-                      </div>
-                      <Input
-                        id="name"
-                        value={userDetails.dni}
-                        onChange={(e) =>
-                          setUserDetails({
-                            ...userDetails,
-                            name: e.target.value,
-                          })
-                        }
-                        className="col-span-3"
+                      <FormField
+                        control={control}
+                        name="dni"
+                        className="w-full"
+                        render={({ field }) => (
+                          <FormItem className="grid grid-cols-4 items-center gap-x-4">
+                            <div className="flex gap-2 items-center justify-start">
+                              <IdCardIcon className="h-4 w-4 text-muted-foreground" />
+                              <Label
+                                htmlFor="nombre"
+                                className="text-left font-semibold text-base"
+                              >
+                                DNI
+                              </Label>
+                            </div>
+                            <FormControl>
+                              <Input
+                                type="text"
+                                className="col-span-3"
+                                autoComplete="off"
+                                disabled={formSubmitIsLoading}
+                                {...field}
+                              />
+                            </FormControl>
+                            <span className="col-span-1"></span>
+                            <FormMessage className="col-span-3 h-4" />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <div className="flex gap-2 items-center justify-start">
-                        <Phone className="h-4 w-4 opacity-70" />
-                        <Label
-                          htmlFor="dni"
-                          className="text-left font-semibold"
-                        >
-                          Celular
-                        </Label>
-                      </div>
-                      <Input
-                        id="name"
-                        value={userDetails.celular}
-                        onChange={(e) =>
-                          setUserDetails({
-                            ...userDetails,
-                            name: e.target.value,
-                          })
-                        }
-                        className="col-span-3"
+                      <FormField
+                        control={control}
+                        name="celular"
+                        className="w-full"
+                        render={({ field }) => (
+                          <FormItem className="grid grid-cols-4 items-center gap-x-4">
+                            <div className="flex gap-2 items-center justify-start">
+                              <Phone className="h-4 w-4 text-muted-foreground" />
+                              <Label
+                                htmlFor="nombre"
+                                className="text-left font-semibold text-base"
+                              >
+                                Celular
+                              </Label>
+                            </div>
+                            <FormControl>
+                              <Input
+                                type="text"
+                                className="col-span-3"
+                                autoComplete="off"
+                                disabled={formSubmitIsLoading}
+                                {...field}
+                              />
+                            </FormControl>
+                            <span className="col-span-1"></span>
+                            <FormMessage className="col-span-3 h-4" />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <div className="flex gap-2 items-center justify-start">
-                        <MapPin className="h-4 w-4 opacity-70" />
-                        <Label
-                          htmlFor="dni"
-                          className="text-left font-semibold"
-                        >
-                          Direccion
-                        </Label>
-                      </div>
-                      <Input
-                        id="name"
-                        value={userDetails.direccion}
-                        onChange={(e) =>
-                          setUserDetails({
-                            ...userDetails,
-                            name: e.target.value,
-                          })
-                        }
-                        className="col-span-3"
+                      <FormField
+                        control={control}
+                        name="direccion"
+                        className="w-full"
+                        render={({ field }) => (
+                          <FormItem className="grid grid-cols-4 items-center gap-x-4">
+                            <div className="flex gap-2 items-center justify-start">
+                              <MapPin className="h-4 w-4 text-muted-foreground" />
+                              <Label
+                                htmlFor="nombre"
+                                className="text-left font-semibold text-base"
+                              >
+                                Dirección
+                              </Label>
+                            </div>
+                            <FormControl>
+                              <Input
+                                type="text"
+                                className="col-span-3"
+                                autoComplete="off"
+                                disabled={formSubmitIsLoading}
+                                {...field}
+                              />
+                            </FormControl>
+                            <span className="col-span-1"></span>
+                            <FormMessage className="col-span-3 h-4" />
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <div className="flex gap-2 items-center justify-start">
-                        <ActivityIcon className="h-4 w-4 opacity-70" />
-                        <Label
-                          htmlFor="dni"
-                          className="text-left font-semibold"
-                        >
-                          Estado
-                        </Label>
-                      </div>
-                      <Input
-                        id="name"
-                        value={userDetails.estado}
-                        onChange={(e) =>
-                          setUserDetails({
-                            ...userDetails,
-                            name: e.target.value,
-                          })
-                        }
-                        className="col-span-3"
+
+                      <FormField
+                        control={control}
+                        name="rol"
+                        render={({ field }) => (
+                          <FormItem className="grid grid-cols-4 items-center gap-x-4">
+                            <div className="flex gap-2 items-center justify-start">
+                              <Shield className="h-4 w-4 text-muted-foreground" />
+                              <FormLabel className="text-left font-semibold text-base">
+                                Rol
+                              </FormLabel>
+                            </div>
+                            <div className="relative">
+                              <Select
+                                defaultValue={field.value}
+                                onValueChange={field.onChange}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Seleccione un rol" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="Vendedor">
+                                    Vendedor
+                                  </SelectItem>
+                                  <SelectItem value="Administrador">
+                                    Administrador
+                                  </SelectItem>
+                                  <SelectItem value="Tecnico">
+                                    Técnico
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </div>
+                          </FormItem>
+                        )}
                       />
-                    </div>
-                    <div className="flex justify-end space-x-2">
-                      <Button type="submit">Guardar</Button>
-                      <Button
-                        type="button"
-                        variant="outline"
-                        onClick={() => setIsEditing(false)}
-                      >
-                        Cancelar
-                      </Button>
-                    </div>
-                  </form>
+
+                      <FormField
+                        control={control}
+                        name="estado"
+                        render={({ field }) => (
+                          <FormItem className="grid grid-cols-4 items-center gap-x-4">
+                            <div className="flex gap-2 items-center justify-start">
+                              <ActivityIcon className="h-4 w-4 text-muted-foreground" />
+                              <FormLabel className="text-left font-semibold text-base">
+                                Estado
+                              </FormLabel>
+                            </div>
+                            <div className="relative">
+                              <Select
+                                defaultValue={String(field.value)}
+                                onValueChange={(value) =>
+                                  field.onChange(value === 'true')
+                                }
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="w-full">
+                                    <SelectValue placeholder="Seleccione un estado" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="true">Activo</SelectItem>
+                                  <SelectItem value="false">
+                                    Inactivo
+                                  </SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                      <div className="flex justify-end space-x-2">
+                        <Button type="submit">Guardar</Button>
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={() => setIsEditing(false)}
+                        >
+                          Cancelar
+                        </Button>
+                      </div>
+                    </form>
+                  </Form>
                 ) : (
-                  <div className="space-y-4 mt-4">
+                  <div className="space-y-8 mt-4">
                     <div className="flex items-center space-x-2">
-                      <User className="h-4 w-4 opacity-70" />
+                      <User className="h-4 w-4 text-muted-foreground" />
                       <span className="font-semibold">Apellidos:</span>{' '}
                       <span>{userDetail?.apellidos}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <User className="h-4 w-4 opacity-70" />
+                      <User className="h-4 w-4 text-muted-foreground" />
                       <span className="font-semibold gap">Nombres:</span>{' '}
                       <span>{userDetail?.nombres}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <User className="h-4 w-4 opacity-70" />
+                      <IdCardIcon className="h-4 w-4 text-muted-foreground" />
                       <span className="font-semibold">DNI:</span>{' '}
                       <span>{userDetail?.dni}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Phone className="h-4 w-4 opacity-70" />
+                      <Phone className="h-4 w-4 text-muted-foreground" />
                       <span className="font-semibold">Celular:</span>{' '}
                       <span>{userDetail?.celular}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <MapPin className="h-4 w-4 opacity-70" />
+                      <MapPin className="h-4 w-4 text-muted-foreground" />
                       <span className="font-semibold">Dirección:</span>{' '}
                       <span>{userDetail?.direccion}</span>
                     </div>
                     <div className="flex items-center space-x-2">
-                      <Shield className="h-4 w-4 opacity-70" />
+                      <Shield className="h-4 w-4 text-muted-foreground" />
                       <span className="font-semibold">Rol:</span>{' '}
                       <span>{userDetail?.rol}</span>
                     </div>
@@ -344,7 +412,7 @@ function FormUserDetail({ userDetail }) {
                 <div className="space-y-4 mt-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <ActivityIcon className="h-4 w-4 opacity-70" />
+                      <ActivityIcon className="h-4 w-4 text-muted-foreground" />
                       <span className="font-semibold">
                         Estado de la cuenta:
                       </span>
