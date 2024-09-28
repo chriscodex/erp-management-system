@@ -81,8 +81,8 @@ export const columns = [
     cell: ({ row }) => {
       const userState = row.getValue('estado');
       return (
-        <div className={userState ? 'text-green-500' : 'text-destructive'}>
-          {userState ? 'Activo' : 'Inactivo'}
+        <div className={userState === 'activo' ? 'text-green-500' : 'text-destructive'}>
+          {userState === 'activo' ? 'Activo' : 'Inactivo'}
         </div>
       );
     },
