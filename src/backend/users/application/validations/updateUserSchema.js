@@ -26,13 +26,22 @@ export const updateUserSchema = z.object({
     .string()
     .min(4, { message: 'El celular debe tener al menos 4 dígitos' })
     .optional(), // El celular puede ser opcional
-  direccion: z.string().min(3, {
-    message: 'La dirección debe tener al menos 3 caracteres',
-  }).optional(), // La dirección puede ser opcional
-  rol: z.enum(roles, {
-    errorMap: () => ({ message: 'Seleccione un rol' }),
-  }).optional(), // El rol puede ser opcional
-  password: z.string().min(3, {
-    message: 'La contraseña debe tener al menos 3 caracteres',
-  }).optional(), // La contraseña puede ser opcional
+  direccion: z
+    .string()
+    .min(3, {
+      message: 'La dirección debe tener al menos 3 caracteres',
+    })
+    .optional(), // La dirección puede ser opcional
+  rol: z
+    .enum(roles, {
+      errorMap: () => ({ message: 'Seleccione un rol' }),
+    })
+    .optional(), // El rol puede ser opcional
+  estado: z.boolean().optional(), // El estado puede ser opcional
+  password: z
+    .string()
+    .min(3, {
+      message: 'La contraseña debe tener al menos 3 caracteres',
+    })
+    .optional(), // La contraseña puede ser opcional
 });
