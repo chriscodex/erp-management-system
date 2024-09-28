@@ -1,6 +1,7 @@
 'use client';
 
-import { MoreHorizontal } from 'lucide-react';
+import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -11,8 +12,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-
-import { ArrowUpDown } from 'lucide-react';
 
 export const columns = [
   // {
@@ -92,6 +91,9 @@ export const columns = [
     id: 'actions',
     cell: ({ row }) => {
       const user = row.original;
+      console.log(user);
+
+      const router = useRouter();
 
       return (
         <DropdownMenu>
@@ -106,11 +108,17 @@ export const columns = [
               Acciones
             </DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user.dni)}
+              className="cursor-pointer"
+              onClick={() => router.push(`/usuarios/${user?.dni}`)}
             >
               Detalle
             </DropdownMenuItem>
-            <DropdownMenuItem>Editar</DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => navigator.clipboard.writeText(user?.dni)}
+            >
+              Editar
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem>Eliminar</DropdownMenuItem>
           </DropdownMenuContent>
