@@ -81,7 +81,11 @@ export const columns = [
     cell: ({ row }) => {
       const userState = row.getValue('estado');
       return (
-        <div className={userState === 'activo' ? 'text-green-500' : 'text-destructive'}>
+        <div
+          className={
+            userState === 'activo' ? 'text-green-500' : 'text-destructive'
+          }
+        >
           {userState === 'activo' ? 'Activo' : 'Inactivo'}
         </div>
       );
@@ -112,12 +116,6 @@ export const columns = [
               onClick={() => router.push(`/usuarios/${user?.dni}`)}
             >
               Detalle
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => navigator.clipboard.writeText(user?.dni)}
-            >
-              Editar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="cursor-pointer">
