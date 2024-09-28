@@ -56,7 +56,7 @@ export class UserRepository {
     try {
       const updatedUser = await User.findOneAndUpdate({ dni }, user, {
         new: true,
-      });
+      }).select('-password');
 
       if (!updatedUser) {
         console.log('Usuario no encontrado para ser actualizado');
