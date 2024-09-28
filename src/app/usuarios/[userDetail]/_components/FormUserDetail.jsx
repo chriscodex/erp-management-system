@@ -30,7 +30,7 @@ import {
 
 import { CrearFullName } from '@/lib/formateador';
 
-function FormUserDetail({userDetail}) {
+function FormUserDetail({ userDetail }) {
   const initialUserDetails = {
     id: 1,
     name: 'Alice Johnson',
@@ -91,10 +91,7 @@ function FormUserDetail({userDetail}) {
             </Avatar>
             <div>
               <CardTitle className="text-2xl">
-                {CrearFullName(
-                  userDetail?.nombres,
-                  userDetail?.apellidos
-                )}
+                {CrearFullName(userDetail?.nombres, userDetail?.apellidos)}
               </CardTitle>
               <Badge variant="secondary" className="mt-1">
                 {userDetail.rol}
@@ -261,42 +258,32 @@ function FormUserDetail({userDetail}) {
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 opacity-70" />
                       <span className="font-semibold gap">Nombres:</span>{' '}
-                      {userDetail?.nombres}
+                      <span>{userDetail?.nombres}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">Apellidos:</span>{' '}
-                      {userDetail?.apellidos}
+                      <span>{userDetail?.apellidos}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">DNI:</span>{' '}
-                      {userDetail?.dni}
+                      <span>{userDetail?.dni}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Phone className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">Celular:</span>{' '}
-                      {userDetail?.celular}
+                      <span>{userDetail?.celular}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <MapPin className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">Dirección:</span>{' '}
-                      {userDetail?.direccion}
+                      <span>{userDetail?.direccion}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Shield className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">Rol:</span>{' '}
-                      {userDetail?.rol}
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <ActivityIcon className="h-4 w-4 opacity-70" />
-                      <span className="font-semibold">Estado:</span>{' '}
-                      <Badge
-                        variant="secondary"
-                        className="mt-1 bg-green-600 text-white hover:bg-green-600"
-                      >
-                        {userDetail?.estado}
-                      </Badge>
+                      <span>{userDetail?.rol}</span>
                     </div>
                     <Button onClick={handleEdit} className="mt-4">
                       <Edit2 className="h-4 w-4 mr-2" />
@@ -309,13 +296,16 @@ function FormUserDetail({userDetail}) {
                 <div className="space-y-4 mt-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Shield className="h-4 w-4 opacity-70" />
+                      <ActivityIcon className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">
                         Estado de la cuenta:
                       </span>
                     </div>
-                    <Badge variant="secondary">
-                      {userDetails.accountStatus}
+                    <Badge
+                      variant="secondary"
+                      className="mt-1 bg-green-600 text-white hover:bg-green-600"
+                    >
+                      {userDetail?.estado ? 'Activo' : 'Inactivo'}
                     </Badge>
                   </div>
                   <Dialog open={isOpen} onOpenChange={setIsOpen}>
