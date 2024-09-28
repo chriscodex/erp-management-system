@@ -16,6 +16,7 @@ export async function seedUsers() {
         direccion: 'Jr. 9 de diciembre 686 Carhuaz Carhuaz',
         rol: 'Administrador',
         password: '123',
+        estado: true,
       },
       {
         nombres: 'Josue Israel',
@@ -25,6 +26,7 @@ export async function seedUsers() {
         direccion: 'Av. Las Flores 364 Independencia Huaraz',
         rol: 'Administrador',
         password: '123',
+        estado: true,
       },
       {
         nombres: 'Juan Carlos',
@@ -34,6 +36,7 @@ export async function seedUsers() {
         direccion: 'Av. Los Próceres 123 Breña Lima',
         rol: 'Tecnico',
         password: '123',
+        estado: false,
       },
       {
         nombres: 'Maria Elena',
@@ -43,6 +46,7 @@ export async function seedUsers() {
         direccion: 'Calle Las Flores 456 Surco Lima',
         rol: 'Vendedor',
         password: '123',
+        estado: true,
       },
     ];
 
