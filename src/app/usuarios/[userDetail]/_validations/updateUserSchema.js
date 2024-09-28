@@ -3,7 +3,7 @@ import { z } from 'zod';
 const roles = ['Administrador', 'Vendedor', 'Tecnico'];
 const estados = [true, false];
 
-export const editUserSchema = z.object({
+export const updateUserSchema = z.object({
   dni: z.string().length(8, 'El DNI debe tener 8 dígitos'),
   apellidos: z
     .string()

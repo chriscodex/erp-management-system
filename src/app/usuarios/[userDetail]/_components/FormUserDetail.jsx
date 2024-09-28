@@ -29,8 +29,37 @@ import {
 } from 'lucide-react';
 
 import { CrearFullName } from '@/lib/formateador';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updateUserSchema';
 
 function FormUserDetail({ userDetail }) {
+  /* Formulario Setup */
+  const form = useForm({
+    resolver: zodResolver(updateUserSchema),
+    defaultValues: {
+      dni: '',
+      apellidos: '',
+      nombres: '',
+      celular: '',
+      direccion: '',
+      password: '',
+      confirmPassword: '',
+      rol: 'Vendedor',
+    },
+  });
+
+  const {
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+    control,
+    clearErrors,
+  } = form;
+
+  const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
+
   const initialUserDetails = {
     id: 1,
     name: 'Alice Johnson',
