@@ -1,11 +1,10 @@
 import { z } from 'zod';
 
 const roles = ['Administrador', 'Vendedor', 'Tecnico'];
+const estados = [true, false];
 
-export const newUserSchema = z.object({
-  dni: z
-    .string()
-    .length(8, 'El DNI debe tener 8 dígitos'),
+export const editUserSchema = z.object({
+  dni: z.string().length(8, 'El DNI debe tener 8 dígitos'),
   apellidos: z
     .string()
     .min(3, {
@@ -31,13 +30,7 @@ export const newUserSchema = z.object({
   rol: z.enum(roles, {
     errorMap: () => ({ message: 'Seleccione un rol' }),
   }),
-  password: z.string().min(3, {
-    message: 'La contraseña debe tener al menos 3 caracteres',
+  estado: z.enum(estados, {
+    errorMap: () => ({ message: 'Seleccione un estado' }),
   }),
-  confirmPassword: z.string().min(3, {
-    message: 'Confirmar contraseña debe tener al menos 3 caracteres',
-  }),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Las contraseñas no coinciden',
-  path: ['confirmPassword'],
 });
