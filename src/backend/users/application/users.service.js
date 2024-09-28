@@ -73,7 +73,10 @@ export class UsersService {
       }
 
       // Crear el usuario
-      const userCreated = await this.userRepository.createUser(user);
+      const userCreated = await this.userRepository.createUser({
+        ...user,
+        estado: true,
+      });
 
       const userCreatedObject = userCreated.toObject();
       delete userCreatedObject.password;
