@@ -81,9 +81,8 @@ export const columns = [
     header: 'Estado',
     cell: ({ row }) => {
       const userState = row.getValue('estado');
-      console.log(userState);
       return (
-        <div className={userState ? 'text-green-500 bg-' : 'text-red-500'}>
+        <div className={userState ? 'text-green-500' : 'text-destructive'}>
           {userState ? 'Activo' : 'Inactivo'}
         </div>
       );
