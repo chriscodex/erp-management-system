@@ -16,7 +16,10 @@ const authOptions = {
         // eslint-disable-line
         await connectDB();
 
-        const userFound = await User.findOne({ dni: credentials.dni });
+        const userFound = await User.findOne({
+          dni: credentials.dni,
+          estado: 'activo',
+        });
 
         if (!userFound)
           throw new Error('No se ha encontrado un usuario con ese DNI');
@@ -46,9 +49,12 @@ const authOptions = {
       // Conectar a la base de datos
       await connectDB();
       // Verificar si el usuario sigue existiendo en la base de datos
-      const userExists = await User.findOne({ dni: token.user.dni });
+      const userExists = await User.findOne({
+        dni: token.user.dni,
+        estado: 'activo',
+      });
       if (!userExists) {
-        throw new Error('Usuario no encontrado. La sesión ha sido invalidada.');
+        throw new Error('Usuario invalidado.');
       }
       delete token.user.password;
       session.user = token.user;
