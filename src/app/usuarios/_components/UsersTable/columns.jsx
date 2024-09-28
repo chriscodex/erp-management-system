@@ -48,7 +48,6 @@ export const columns = [
   {
     accessorKey: 'nombres',
     header: ({ column }) => {
-      console.log('column',column);
       return (
         <Button
           variant="ghost"
@@ -78,8 +77,17 @@ export const columns = [
     },
   },
   {
-    accessorKey: 'celular',
-    header: 'Celular',
+    accessorKey: 'estado',
+    header: 'Estado',
+    cell: ({ row }) => {
+      const userState = row.getValue('estado');
+      console.log(userState);
+      return (
+        <div className={userState ? 'text-green-500 bg-' : 'text-red-500'}>
+          {userState ? 'Activo' : 'Inactivo'}
+        </div>
+      );
+    },
   },
   {
     id: 'actions',

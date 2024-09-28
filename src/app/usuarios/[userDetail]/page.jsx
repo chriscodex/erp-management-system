@@ -18,6 +18,7 @@ export default async function Page({ params }) {
   if (!user) {
     notFound();
   }
+  console.log(user);
   return (
     <SidebarInset>
       <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
@@ -39,14 +40,16 @@ export default async function Page({ params }) {
               </BreadcrumbItem>
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem className="select-none">
-                <BreadcrumbPage>Usuario: {params.userDetail}</BreadcrumbPage>
+                <BreadcrumbPage>
+                  Usuario: {user.nombres + ' ' + user.apellidos}
+                </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
       </header>
       <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        <FormUserDetail />
+        <FormUserDetail userDetail={user} />
       </div>
     </SidebarInset>
   );

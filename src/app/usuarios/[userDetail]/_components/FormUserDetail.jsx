@@ -30,7 +30,7 @@ import {
 
 import { CrearFullName } from '@/lib/formateador';
 
-function FormUserDetail() {
+function FormUserDetail({userDetail}) {
   const initialUserDetails = {
     id: 1,
     name: 'Alice Johnson',
@@ -79,11 +79,11 @@ function FormUserDetail() {
             {/* Avatar */}
             <Avatar className="h-20 w-20">
               <AvatarImage
-                src="/profile-placeholder.jpg"
-                alt={userDetails.name}
+                src="/avatars/avatar-default.jpg"
+                alt={userDetail?.dni}
               />
               <AvatarFallback>
-                {userDetails.name
+                {userDetail?.nombres
                   .split(' ')
                   .map((n) => n[0])
                   .join('')}
@@ -92,12 +92,12 @@ function FormUserDetail() {
             <div>
               <CardTitle className="text-2xl">
                 {CrearFullName(
-                  userDetails.nombres,
-                  userDetails.apellidos
+                  userDetail?.nombres,
+                  userDetail?.apellidos
                 )}
               </CardTitle>
               <Badge variant="secondary" className="mt-1">
-                {userDetails.rol}
+                {userDetail.rol}
               </Badge>
             </div>
           </CardHeader>
@@ -125,10 +125,10 @@ function FormUserDetail() {
                       </div>
                       <Input
                         id="name"
-                        value={userDetails.nombres}
+                        value={userDetail?.nombres}
                         onChange={(e) =>
                           setUserDetails({
-                            ...userDetails,
+                            ...userDetail,
                             nombre: e.target.value,
                           })
                         }
@@ -261,32 +261,32 @@ function FormUserDetail() {
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 opacity-70" />
                       <span className="font-semibold gap">Nombres:</span>{' '}
-                      {userDetails.nombres}
+                      {userDetail?.nombres}
                     </div>
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">Apellidos:</span>{' '}
-                      {userDetails.apellidos}
+                      {userDetail?.apellidos}
                     </div>
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">DNI:</span>{' '}
-                      {userDetails.dni}
+                      {userDetail?.dni}
                     </div>
                     <div className="flex items-center space-x-2">
                       <Phone className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">Celular:</span>{' '}
-                      {userDetails.celular}
+                      {userDetail?.celular}
                     </div>
                     <div className="flex items-center space-x-2">
                       <MapPin className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">Dirección:</span>{' '}
-                      {userDetails.direccion}
+                      {userDetail?.direccion}
                     </div>
                     <div className="flex items-center space-x-2">
                       <Shield className="h-4 w-4 opacity-70" />
                       <span className="font-semibold">Rol:</span>{' '}
-                      {userDetails.role}
+                      {userDetail?.rol}
                     </div>
                     <div className="flex items-center space-x-2">
                       <ActivityIcon className="h-4 w-4 opacity-70" />
@@ -295,7 +295,7 @@ function FormUserDetail() {
                         variant="secondary"
                         className="mt-1 bg-green-600 text-white hover:bg-green-600"
                       >
-                        {userDetails.estado}
+                        {userDetail?.estado}
                       </Badge>
                     </div>
                     <Button onClick={handleEdit} className="mt-4">
