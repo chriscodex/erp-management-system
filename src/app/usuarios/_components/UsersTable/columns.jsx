@@ -120,7 +120,9 @@ export const columns = [
               Editar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Eliminar</DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">
+              Eliminar
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );
