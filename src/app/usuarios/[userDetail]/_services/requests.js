@@ -1,5 +1,5 @@
 import { fetchData, patchData } from '@/lib/fetchData';
-import { updateUserUrl } from './urls';
+import { updateUserUrl } from '@/app/usuarios/_services/urls';
 
 export async function getUser(dni) {
   try {
