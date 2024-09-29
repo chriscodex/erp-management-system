@@ -51,6 +51,7 @@ import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updat
 import { updateUser } from '@/app/usuarios/[userDetail]/_services/requests';
 
 function FormUserDetail({ userDetail }) {
+  console.log(userDetail);
   /* Formulario Setup */
   const form = useForm({
     resolver: zodResolver(updateUserSchema),
@@ -333,8 +334,8 @@ function FormUserDetail({ userDetail }) {
                             </div>
                             <div className="relative">
                               <Select
-                                defaultValue={field.value}
-                                onValueChange={field.onChange}
+                                defaultValue={field?.value}
+                                onValueChange={field?.onChange}
                               >
                                 <FormControl>
                                   <SelectTrigger className="w-full">
