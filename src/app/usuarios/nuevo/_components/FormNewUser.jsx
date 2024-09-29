@@ -173,7 +173,7 @@ function FormNewUser() {
                           placeholder="DNI"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={searchByDniIsLoading}
+                          disabled={searchByDniIsLoading || formSubmitIsLoading}
                           {...field}
                         />
                       </FormControl>
@@ -228,7 +228,7 @@ function FormNewUser() {
                           placeholder="Apellidos"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={searchByDniIsLoading}
+                          disabled={searchByDniIsLoading || formSubmitIsLoading}
                           {...field}
                         />
                       </FormControl>
@@ -257,7 +257,7 @@ function FormNewUser() {
                           placeholder="Nombres"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={searchByDniIsLoading}
+                          disabled={searchByDniIsLoading || formSubmitIsLoading}
                           {...field}
                         />
                       </FormControl>
@@ -323,6 +323,7 @@ function FormNewUser() {
                       <Select
                         defaultValue={field.value}
                         onValueChange={field.onChange}
+                        disabled={formSubmitIsLoading}
                       >
                         <FormControl>
                           <SelectTrigger className="w-full pl-8">
