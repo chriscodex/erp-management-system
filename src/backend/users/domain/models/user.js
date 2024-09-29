@@ -33,7 +33,7 @@ const userSchema = new Schema(
       required: [true, 'Rol is required'],
     },
     estado: {
-      type: Boolean,
+      type: String,
       required: [true, 'Estado is required'],
     },
     password: {
