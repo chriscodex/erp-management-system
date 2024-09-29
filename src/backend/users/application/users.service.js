@@ -75,7 +75,7 @@ export class UsersService {
       // Crear el usuario
       const userCreated = await this.userRepository.createUser({
         ...user,
-        estado: true,
+        estado: 'activo',
       });
 
       const userCreatedObject = userCreated.toObject();
