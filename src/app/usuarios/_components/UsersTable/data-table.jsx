@@ -10,6 +10,7 @@ import {
 } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+import { useRouter } from 'next/navigation';
 
 // import { useIsMobile } from '@/hooks/use-mobile';
 
@@ -27,6 +28,8 @@ import CustomPagination from '@/app/usuarios/_components/UsersTable/pagination';
 import { toast } from 'sonner';
 
 export function DataTable({ columns, data, status = 200 }) {
+  const router = useRouter();
+
   /* Sorting */
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -77,6 +80,11 @@ export function DataTable({ columns, data, status = 200 }) {
       );
     }
   }, []);
+
+  useEffect(() => {
+    // Fuerza la actualización de los datos cada vez que se accede a la página
+    router.refresh();
+  }, [router]);
 
   return (
     <div>
