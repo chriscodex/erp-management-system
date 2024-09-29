@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const roles = ['Administrador', 'Vendedor', 'Tecnico'];
-const estados = [true, false];
+const estados = ['activo', 'inactivo'];
 
 export const updateUserSchema = z.object({
   dni: z.string().length(8, 'El DNI debe tener 8 dígitos'),
@@ -30,5 +30,7 @@ export const updateUserSchema = z.object({
   rol: z.enum(roles, {
     errorMap: () => ({ message: 'Seleccione un rol' }),
   }),
-  estado: z.boolean(),
+  estado: z.enum(estados, {
+    errorMap: () => ({ message: 'Seleccione un estado' }),
+  }),
 });

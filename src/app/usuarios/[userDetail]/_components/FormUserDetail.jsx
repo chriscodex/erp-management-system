@@ -48,7 +48,7 @@ import {
 
 import { CrearFullName } from '@/lib/formateador';
 import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updateUserSchema';
-import { updateUser } from '@/app/usuarios/nuevo/_services/requests';
+import { updateUser } from '@/app/usuarios/[userDetail]/_services/requests';
 
 function FormUserDetail({ userDetail }) {
   /* Formulario Setup */
@@ -61,11 +61,9 @@ function FormUserDetail({ userDetail }) {
       celular: userDetail?.celular,
       direccion: userDetail?.direccion,
       rol: userDetail?.rol,
-      estado: userDetail?.estado?.toString(),
+      estado: userDetail?.estado,
     },
   });
-
-  console.log(userDetail?.estado);
 
   const { handleSubmit, control, clearErrors } = form;
 
@@ -335,10 +333,8 @@ function FormUserDetail({ userDetail }) {
                             </div>
                             <div className="relative">
                               <Select
-                                defaultValue={String(field.value)}
-                                onValueChange={(value) =>
-                                  field.onChange(value === 'true')
-                                }
+                                defaultValue={field.value}
+                                onValueChange={field.onChange}
                               >
                                 <FormControl>
                                   <SelectTrigger className="w-full">
@@ -346,8 +342,8 @@ function FormUserDetail({ userDetail }) {
                                   </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                  <SelectItem value="true">Activo</SelectItem>
-                                  <SelectItem value="false">
+                                  <SelectItem value="activo">Activo</SelectItem>
+                                  <SelectItem value="inactivo">
                                     Inactivo
                                   </SelectItem>
                                 </SelectContent>
