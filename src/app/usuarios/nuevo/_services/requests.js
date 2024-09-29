@@ -1,4 +1,4 @@
-import { createUserUrl } from '@/app/usuarios/nuevo/_services/urls';
+import { createUserUrl } from '@/app/usuarios/_services/urls';
 import { postData } from '@/lib/fetchData';
 
 /* eslint-disable */
