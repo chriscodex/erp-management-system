@@ -51,7 +51,6 @@ import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updat
 import { updateUser } from '@/app/usuarios/[userDetail]/_services/requests';
 
 function FormUserDetail({ userDetail }) {
-  console.log(userDetail);
   /* Formulario Setup */
   const form = useForm({
     resolver: zodResolver(updateUserSchema),

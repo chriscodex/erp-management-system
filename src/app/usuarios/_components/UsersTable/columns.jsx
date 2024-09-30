@@ -2,6 +2,7 @@
 
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -12,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { deleteUser } from '@/app/usuarios/_services/requests';
 
 export const columns = [
   // {
@@ -94,10 +96,27 @@ export const columns = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const user = row.original;
-      console.log(user);
+      const { dni } = row.original;
 
       const router = useRouter();
+
+      const deleteUserHandler = async (userDni) => {
+        try {
+          console.log(userDni);
+          toast.promise(deleteUser(userDni), {
+            loading: 'Eliminando...',
+            success: () => {
+              router.refresh();
+              return `Usuario eliminado exitosamente`;
+            },
+            error: (error) => {
+              return error;
+            },
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
       return (
         <DropdownMenu>
@@ -113,12 +132,15 @@ export const columns = [
             </DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/usuarios/${user?.dni}`)}
+              onClick={() => router.push(`/usuarios/${dni}`)}
             >
               Detalle
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => deleteUserHandler(dni)}
+            >
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>

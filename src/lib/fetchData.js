@@ -44,3 +44,18 @@ export async function patchData(url, data) {
     return error;
   }
 }
+
+export async function deleteData(url) {
+  try {
+    const response = await axios.delete(url, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    return response;
+  } catch (error) {
+    console.log(error);
+    return error;
+  }
+}
