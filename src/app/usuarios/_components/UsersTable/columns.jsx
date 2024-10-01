@@ -133,6 +133,7 @@ export const columns = [
             isOpen={isOpenDialogDeleteUser}
             setIsOpen={setIsOpenDialogDeleteUser}
             userDni={dni}
+            actionAfterComplete="refresh"
           />
         </DropdownMenu>
       );
