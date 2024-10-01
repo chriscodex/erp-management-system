@@ -2,7 +2,6 @@
 
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +12,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { deleteUser } from '@/app/usuarios/_services/requests';
+import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAlert';
+import { useState } from 'react';
 
 export const columns = [
   // {
@@ -100,23 +100,8 @@ export const columns = [
 
       const router = useRouter();
 
-      const deleteUserHandler = async (userDni) => {
-        try {
-          console.log(userDni);
-          toast.promise(deleteUser(userDni), {
-            loading: 'Eliminando...',
-            success: () => {
-              router.refresh();
-              return `Usuario eliminado exitosamente`;
-            },
-            error: (error) => {
-              return error;
-            },
-          });
-        } catch (error) {
-          console.log(error);
-        }
-      };
+      const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] =
+        useState(false);
 
       return (
         <DropdownMenu>
@@ -139,11 +124,16 @@ export const columns = [
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => deleteUserHandler(dni)}
+              onClick={() => setIsOpenDialogDeleteUser(true)}
             >
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>
+          <DeleteUserAlert
+            isOpen={isOpenDialogDeleteUser}
+            setIsOpen={setIsOpenDialogDeleteUser}
+            userDni={dni}
+          />
         </DropdownMenu>
       );
     },
