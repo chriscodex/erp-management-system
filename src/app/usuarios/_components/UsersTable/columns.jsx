@@ -16,19 +16,6 @@ import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAler
 import { useState } from 'react';
 
 export const columns = [
-  // {
-  //   accessorKey: 'ID',
-  //   header: () => <div className="text-start">N°</div>,
-  //   cell: ({ row, table }) => {
-  //     const pageIndex = table.getState().pagination.pageIndex;
-  //     const pageSize = table.getState().pagination.pageSize;
-  //     const rowIndex = row.index;
-  //     // Calcular el número correcto de la fila basado en la paginación
-  //     const number = pageIndex * pageSize + rowIndex + 1;
-
-  //     return <div className="text-start">{number}</div>;
-  //   },
-  // },
   {
     accessorKey: 'apellidos',
     header: ({ column }) => {
