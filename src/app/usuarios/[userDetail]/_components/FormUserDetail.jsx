@@ -99,28 +99,36 @@ function FormUserDetail({ userDetail }) {
       <div className="container mx-auto py-2">
         <Card className="w-full max-w-7xl mx-auto">
           {/* Header */}
-          <CardHeader className="flex flex-row items-center space-x-4 pb-2">
+          <CardHeader className="flex flex-row items-center space-x-4 pb-2 justify-between">
             {/* Avatar */}
-            <Avatar className="h-20 w-20">
-              <AvatarImage
-                src="/avatars/avatar-default.jpg"
-                alt={userDetail?.dni}
-              />
-              <AvatarFallback>
-                {userDetail?.nombres
-                  .split(' ')
-                  .map((n) => n[0])
-                  .join('')}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <CardTitle className="text-2xl">
-                {CrearFullName(userDetail?.nombres, userDetail?.apellidos)}
-              </CardTitle>
-              <Badge variant="secondary" className="mt-1">
-                {userDetail.rol}
-              </Badge>
+            <div className="flex items-center space-x-4">
+              <Avatar className="h-20 w-20">
+                <AvatarImage
+                  src="/avatars/avatar-default.jpg"
+                  alt={userDetail?.dni}
+                />
+                <AvatarFallback>
+                  {userDetail?.nombres
+                    .split(' ')
+                    .map((n) => n[0])
+                    .join('')}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <CardTitle className="text-2xl">
+                  {CrearFullName(userDetail?.nombres, userDetail?.apellidos)}
+                </CardTitle>
+                <Badge variant="secondary" className="mt-1">
+                  {userDetail.rol}
+                </Badge>
+              </div>
             </div>
+            <Button
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/70"
+              type="button"
+            >
+              Eliminar
+            </Button>
           </CardHeader>
           <CardContent>
             <Tabs defaultValue="info" className="w-full">
