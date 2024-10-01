@@ -583,6 +583,7 @@ function FormUserDetail({ userDetail }) {
                               </FormItem>
                             )}
                           />
+                          <span className='col-span-3'></span>
                           <DialogFooter>
                             <Button type="submit">Guardar</Button>
                           </DialogFooter>
