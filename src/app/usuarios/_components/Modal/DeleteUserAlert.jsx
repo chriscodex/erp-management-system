@@ -17,7 +17,7 @@ import { useRouter } from 'next/navigation';
 function DeleteUserAlert({ isOpen, setIsOpen, userDni }) {
   const router = useRouter();
 
-  const handleConfirmation = async () => {
+  const handleConfirmationDeleteUser = async () => {
     try {
       setIsOpen(false);
       toast.promise(deleteUser(userDni), {
@@ -36,7 +36,6 @@ function DeleteUserAlert({ isOpen, setIsOpen, userDni }) {
   return (
     <>
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-        {/* <AlertDialogTrigger>Open</AlertDialogTrigger> */}
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Estás completamente seguro?</AlertDialogTitle>
@@ -49,7 +48,7 @@ function DeleteUserAlert({ isOpen, setIsOpen, userDni }) {
             <AlertDialogCancel onClick={() => setIsOpen(false)}>
               Cancelar
             </AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmation}>
+            <AlertDialogAction onClick={handleConfirmationDeleteUser}>
               Continuar
             </AlertDialogAction>
           </AlertDialogFooter>
