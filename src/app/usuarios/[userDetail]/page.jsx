@@ -41,7 +41,7 @@ export default async function Page({ params }) {
               <BreadcrumbSeparator className="hidden md:block" />
               <BreadcrumbItem className="select-none">
                 <BreadcrumbPage>
-                  Usuario: {user.nombres + ' ' + user.apellidos}
+                  {user.nombres + ' ' + user.apellidos}
                 </BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>

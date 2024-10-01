@@ -296,6 +296,7 @@ function FormUserDetail({ userDetail }) {
                               <Select
                                 defaultValue={field.value}
                                 onValueChange={field.onChange}
+                                disabled={formSubmitIsLoading}
                               >
                                 <FormControl>
                                   <SelectTrigger className="w-full">
@@ -335,6 +336,7 @@ function FormUserDetail({ userDetail }) {
                               <Select
                                 defaultValue={field?.value}
                                 onValueChange={field?.onChange}
+                                disabled={formSubmitIsLoading}
                               >
                                 <FormControl>
                                   <SelectTrigger className="w-full">
