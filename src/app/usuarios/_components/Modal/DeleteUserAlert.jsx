@@ -14,7 +14,7 @@ import { deleteUser } from '@/app/usuarios/_services/requests';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-function DeleteUserAlert({ isOpen, setIsOpen, userDni }) {
+function DeleteUserAlert({ isOpen, setIsOpen, userDni, actionAfterComplete }) {
   const router = useRouter();
 
   const handleConfirmationDeleteUser = async () => {
@@ -23,8 +23,14 @@ function DeleteUserAlert({ isOpen, setIsOpen, userDni }) {
       toast.promise(deleteUser(userDni), {
         loading: 'Eliminando...',
         success: () => {
-          router.refresh();
-          return `Usuario eliminado exitosamente`;
+          if (actionAfterComplete === 'refresh') {
+            router.refresh();
+            return `Usuario eliminado exitosamente`;
+          }
+          if (actionAfterComplete === 'push') {
+            router.push('/usuarios');
+            return `Usuario eliminado exitosamente`;
+          }
         },
         error: (error) => {
           return error;

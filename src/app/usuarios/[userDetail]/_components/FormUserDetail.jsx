@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 
 import {
   User,
@@ -49,8 +50,11 @@ import {
 import { CrearFullName } from '@/lib/formateador';
 import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updateUserSchema';
 import { updateUser } from '@/app/usuarios/[userDetail]/_services/requests';
+import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAlert';
 
 function FormUserDetail({ userDetail }) {
+  const router = useRouter();
+
   /* Formulario Setup */
   const form = useForm({
     resolver: zodResolver(updateUserSchema),
@@ -94,6 +98,13 @@ function FormUserDetail({ userDetail }) {
     setIsEditing(true);
   };
 
+  /* Handle Delete Dialog */
+  const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] = useState(false);
+
+  const handleDelete = () => {
+    setIsOpenDialogDeleteUser(true);
+  };
+
   return (
     <>
       <div className="container mx-auto py-2">
@@ -126,6 +137,7 @@ function FormUserDetail({ userDetail }) {
             <Button
               className="bg-destructive text-destructive-foreground hover:bg-destructive/70"
               type="button"
+              onClick={handleDelete}
             >
               Eliminar
             </Button>
@@ -478,6 +490,12 @@ function FormUserDetail({ userDetail }) {
             </Tabs>
           </CardContent>
         </Card>
+        <DeleteUserAlert
+          isOpen={isOpenDialogDeleteUser}
+          setIsOpen={setIsOpenDialogDeleteUser}
+          userDni={userDetail?.dni}
+          actionAfterComplete="push"
+        />
       </div>
     </>
   );
