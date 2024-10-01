@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
 
 import {
   User,
@@ -49,14 +48,16 @@ import {
 
 import { CrearFullName } from '@/lib/formateador';
 import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updateUserSchema';
+import { updatePasswordSchema } from '@/app/usuarios/[userDetail]/_validations/updatePasswordSchema';
 import { updateUser } from '@/app/usuarios/[userDetail]/_services/requests';
 import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAlert';
+import { useRouter } from 'next/navigation';
 
 function FormUserDetail({ userDetail }) {
   const router = useRouter();
 
   /* Formulario Setup */
-  const form = useForm({
+  const formUserUpdate = useForm({
     resolver: zodResolver(updateUserSchema),
     defaultValues: {
       dni: userDetail?.dni,
@@ -66,44 +67,87 @@ function FormUserDetail({ userDetail }) {
       direccion: userDetail?.direccion,
       rol: userDetail?.rol,
       estado: userDetail?.estado,
+      password: '',
+      confirmPassword: '',
     },
   });
 
-  const { handleSubmit, control, clearErrors } = form;
+  const {
+    handleSubmit: handleSubmitUserUpdate,
+    control: controlUserUpdate,
+    clearErrors: clearErrorsUserUpdate,
+    reset: resetUserUpdateForm,
+  } = formUserUpdate;
 
-  const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
+  const [formUpdateUserSubmitIsLoading, setFormUpdateUserSubmitIsLoading] =
+    useState(false);
 
   // Manejo de formulario
-  const onSubmit = handleSubmit(async (data) => {
-    setFormSubmitIsLoading(true);
+  const onUpdateUserSubmit = handleSubmitUserUpdate(async (data) => {
+    console.log(data);
+    setFormUpdateUserSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(updateUser(data, setFormSubmitIsLoading), {
+    toast.promise(updateUser(data, setFormUpdateUserSubmitIsLoading), {
       loading: 'Actualizando...',
       success: () => {
-        clearErrors();
-        return `Usuario actualizado exitosamente`;
+        clearErrorsUserUpdate();
+        router.refresh();
+        return `Datos del usuario actualizados exitosamente`;
       },
       error: (error) => {
-        setFormSubmitIsLoading(false);
+        setFormUpdateUserSubmitIsLoading(false);
         return error;
       },
     });
   });
 
-  const [isOpen, setIsOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-
-  const handleEdit = () => {
-    setIsEditing(true);
-  };
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
 
   /* Handle Delete Dialog */
   const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] = useState(false);
 
-  const handleDelete = () => {
-    setIsOpenDialogDeleteUser(true);
-  };
+  /* Change Password */
+  const [isUpdatePasswordOpen, setIsUpdatePasswordOpen] = useState(false);
+  /* Update PasswordForm */
+  const passwordForm = useForm({
+    resolver: zodResolver(updatePasswordSchema),
+    defaultValues: {
+      dni: userDetail?.dni,
+      password: '',
+      confirmPassword: '',
+    },
+  });
+
+  const {
+    handleSubmit: handlePasswordSubmit,
+    control: controlPassword,
+    clearErrors: clearPasswordErrors,
+    reset: resetPasswordForm,
+  } = passwordForm;
+
+  // Manejo de formulario
+  const onUpdatePasswordSubmit = handlePasswordSubmit(async (passwordForm) => {
+    console.log(passwordForm);
+    setFormUpdateUserSubmitIsLoading(true);
+    setIsUpdatePasswordOpen(false);
+
+    // Toast promise para buscar una persona
+    toast.promise(updateUser(passwordForm, setFormUpdateUserSubmitIsLoading), {
+      loading: 'Actualizando...',
+      success: () => {
+        clearPasswordErrors();
+        resetPasswordForm();
+        router.refresh();
+        return `Contraseña actualizada exitosamente`;
+      },
+      error: (error) => {
+        resetPasswordForm();
+        setFormUpdateUserSubmitIsLoading(false);
+        return error;
+      },
+    });
+  });
 
   return (
     <>
@@ -137,7 +181,7 @@ function FormUserDetail({ userDetail }) {
             <Button
               className="bg-destructive text-destructive-foreground hover:bg-destructive/70"
               type="button"
-              onClick={handleDelete}
+              onClick={() => setIsOpenDialogDeleteUser(true)}
             >
               Eliminar
             </Button>
@@ -149,14 +193,14 @@ function FormUserDetail({ userDetail }) {
                 <TabsTrigger value="security">Seguridad</TabsTrigger>
               </TabsList>
               <TabsContent value="info">
-                {isEditing ? (
-                  <Form {...form}>
+                {isEditUserOpen ? (
+                  <Form {...formUserUpdate}>
                     <form
-                      onSubmit={onSubmit}
+                      onSubmit={onUpdateUserSubmit}
                       className="space-y-4 mt-4 mr-auto"
                     >
                       <FormField
-                        control={control}
+                        control={controlUserUpdate}
                         name="apellidos"
                         className="w-full"
                         render={({ field }) => (
@@ -175,7 +219,7 @@ function FormUserDetail({ userDetail }) {
                                 type="text"
                                 className="col-span-3"
                                 autoComplete="off"
-                                disabled={formSubmitIsLoading}
+                                disabled={formUpdateUserSubmitIsLoading}
                                 {...field}
                               />
                             </FormControl>
@@ -185,7 +229,7 @@ function FormUserDetail({ userDetail }) {
                         )}
                       />
                       <FormField
-                        control={control}
+                        control={controlUserUpdate}
                         name="nombres"
                         className="w-full"
                         render={({ field }) => (
@@ -204,7 +248,7 @@ function FormUserDetail({ userDetail }) {
                                 type="text"
                                 className="col-span-3"
                                 autoComplete="off"
-                                disabled={formSubmitIsLoading}
+                                disabled={formUpdateUserSubmitIsLoading}
                                 {...field}
                               />
                             </FormControl>
@@ -214,7 +258,7 @@ function FormUserDetail({ userDetail }) {
                         )}
                       />
                       <FormField
-                        control={control}
+                        control={controlUserUpdate}
                         name="dni"
                         className="w-full"
                         render={({ field }) => (
@@ -233,7 +277,7 @@ function FormUserDetail({ userDetail }) {
                                 type="text"
                                 className="col-span-3"
                                 autoComplete="off"
-                                disabled={formSubmitIsLoading}
+                                disabled={formUpdateUserSubmitIsLoading}
                                 {...field}
                               />
                             </FormControl>
@@ -243,7 +287,7 @@ function FormUserDetail({ userDetail }) {
                         )}
                       />
                       <FormField
-                        control={control}
+                        control={controlUserUpdate}
                         name="celular"
                         className="w-full"
                         render={({ field }) => (
@@ -262,7 +306,7 @@ function FormUserDetail({ userDetail }) {
                                 type="text"
                                 className="col-span-3"
                                 autoComplete="off"
-                                disabled={formSubmitIsLoading}
+                                disabled={formUpdateUserSubmitIsLoading}
                                 {...field}
                               />
                             </FormControl>
@@ -272,7 +316,7 @@ function FormUserDetail({ userDetail }) {
                         )}
                       />
                       <FormField
-                        control={control}
+                        control={controlUserUpdate}
                         name="direccion"
                         className="w-full"
                         render={({ field }) => (
@@ -291,7 +335,7 @@ function FormUserDetail({ userDetail }) {
                                 type="text"
                                 className="col-span-3"
                                 autoComplete="off"
-                                disabled={formSubmitIsLoading}
+                                disabled={formUpdateUserSubmitIsLoading}
                                 {...field}
                               />
                             </FormControl>
@@ -302,7 +346,7 @@ function FormUserDetail({ userDetail }) {
                       />
 
                       <FormField
-                        control={control}
+                        control={controlUserUpdate}
                         name="rol"
                         render={({ field }) => (
                           <FormItem className="grid grid-cols-4 items-center gap-x-4">
@@ -316,7 +360,7 @@ function FormUserDetail({ userDetail }) {
                               <Select
                                 defaultValue={field.value}
                                 onValueChange={field.onChange}
-                                disabled={formSubmitIsLoading}
+                                disabled={formUpdateUserSubmitIsLoading}
                               >
                                 <FormControl>
                                   <SelectTrigger className="w-full">
@@ -342,7 +386,7 @@ function FormUserDetail({ userDetail }) {
                       />
 
                       <FormField
-                        control={control}
+                        control={controlUserUpdate}
                         name="estado"
                         render={({ field }) => (
                           <FormItem className="grid grid-cols-4 items-center gap-x-4">
@@ -356,7 +400,7 @@ function FormUserDetail({ userDetail }) {
                               <Select
                                 defaultValue={field?.value}
                                 onValueChange={field?.onChange}
-                                disabled={formSubmitIsLoading}
+                                disabled={formUpdateUserSubmitIsLoading}
                               >
                                 <FormControl>
                                   <SelectTrigger className="w-full">
@@ -376,11 +420,20 @@ function FormUserDetail({ userDetail }) {
                         )}
                       />
                       <div className="flex justify-end space-x-2">
-                        <Button type="submit">Guardar</Button>
+                        <Button
+                          type="submit"
+                          disabled={formUpdateUserSubmitIsLoading}
+                        >
+                          Guardar
+                        </Button>
                         <Button
                           type="button"
                           variant="outline"
-                          onClick={() => setIsEditing(false)}
+                          disabled={formUpdateUserSubmitIsLoading}
+                          onClick={() => {
+                            setIsEditUserOpen(false);
+                            resetUserUpdateForm();
+                          }}
                         >
                           Cancelar
                         </Button>
@@ -419,7 +472,10 @@ function FormUserDetail({ userDetail }) {
                       <span className="font-semibold">Rol:</span>{' '}
                       <span>{userDetail?.rol}</span>
                     </div>
-                    <Button onClick={handleEdit} className="mt-4">
+                    <Button
+                      onClick={() => setIsEditUserOpen(true)}
+                      className="mt-4"
+                    >
                       <Edit2 className="h-4 w-4 mr-2" />
                       Editar Información
                     </Button>
@@ -435,56 +491,93 @@ function FormUserDetail({ userDetail }) {
                         Estado de la cuenta:
                       </span>
                     </div>
-                    <Badge
-                      variant="secondary"
-                      className="mt-1 bg-green-600 text-white hover:bg-green-600"
-                    >
-                      {userDetail?.estado ? 'Activo' : 'Inactivo'}
-                    </Badge>
+                    {userDetail?.estado === 'activo' ? (
+                      <Badge
+                        variant="secondary"
+                        className="mt-1 bg-green-600 text-white hover:bg-green-600"
+                      >
+                        Activo
+                      </Badge>
+                    ) : (
+                      <Badge
+                        variant="secondary"
+                        className="mt-1 bg-red-600 text-white hover:bg-red-600"
+                      >
+                        Inactivo
+                      </Badge>
+                    )}
                   </div>
-                  <Dialog open={isOpen} onOpenChange={setIsOpen}>
-                    <DialogTrigger asChild>
-                      <Button>Cambiar contraseña</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[625px]">
-                      <DialogHeader>
-                        <DialogTitle>Cambiar contraseña</DialogTitle>
-                        <DialogDescription>
-                          Asigne una nueva contraseña. Click en guardar al
-                          finalizar.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center">
-                          <Label htmlFor="name" className="text-start">
-                            Nueva Contraseña
-                          </Label>
-                          <Input
-                            id="name"
-                            type="password"
-                            className="col-span-3"
-                            autoComplete="off"
+                  <Form {...passwordForm}>
+                    <Dialog
+                      open={isUpdatePasswordOpen}
+                      onOpenChange={setIsUpdatePasswordOpen}
+                    >
+                      <DialogTrigger asChild>
+                        <Button>Cambiar contraseña</Button>
+                      </DialogTrigger>
+                      <DialogContent className="sm:max-w-[625px]">
+                        <DialogHeader>
+                          <DialogTitle>Cambiar contraseña</DialogTitle>
+                          <DialogDescription>
+                            Asigne una nueva contraseña. Click en guardar al
+                            finalizar.
+                          </DialogDescription>
+                        </DialogHeader>
+                        <form
+                          onSubmit={onUpdatePasswordSubmit}
+                          className="grid gap-4 py-4"
+                        >
+                          <FormField
+                            control={controlPassword}
+                            name="password"
+                            className="grid grid-cols-4 items-center"
+                            render={({ field }) => (
+                              <FormItem className="col-span-4 items center">
+                                <Label className="text-start">
+                                  Nueva Contraseña
+                                </Label>
+                                <FormControl>
+                                  <Input
+                                    id="name"
+                                    type="password"
+                                    className="col-span-3"
+                                    autoComplete="off"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage className="col-span-3 h-4" />
+                              </FormItem>
+                            )}
                           />
-                        </div>
-                        <div className="grid grid-cols-4 items-center">
-                          <Label htmlFor="username" className="text-start">
-                            Repetir Nueva Contraseña
-                          </Label>
-                          <Input
-                            id="username"
-                            type="password"
-                            className="col-span-3"
-                            autoComplete="off"
+                          <FormField
+                            control={controlPassword}
+                            name="confirmPassword"
+                            className="grid grid-cols-4 items-center"
+                            render={({ field }) => (
+                              <FormItem className="col-span-4 items center">
+                                <Label className="text-start">
+                                  Nueva Contraseña
+                                </Label>
+                                <FormControl>
+                                  <Input
+                                    id="name"
+                                    type="password"
+                                    className="col-span-3"
+                                    autoComplete="off"
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage className="col-span-3 h-4" />
+                              </FormItem>
+                            )}
                           />
-                        </div>
-                      </div>
-                      <DialogFooter>
-                        <Button type="submit" onClick={() => setIsOpen(false)}>
-                          Guardar
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
+                          <DialogFooter>
+                            <Button type="submit">Guardar</Button>
+                          </DialogFooter>
+                        </form>
+                      </DialogContent>
+                    </Dialog>
+                  </Form>
                 </div>
               </TabsContent>
             </Tabs>
