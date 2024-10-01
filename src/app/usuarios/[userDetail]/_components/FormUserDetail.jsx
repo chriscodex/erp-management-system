@@ -54,7 +54,10 @@ import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAler
 import { useRouter } from 'next/navigation';
 
 function FormUserDetail({ userDetail }) {
+  console.log(userDetail);
   const router = useRouter();
+
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
 
   /* Formulario Setup */
   const formUserUpdate = useForm({
@@ -76,7 +79,7 @@ function FormUserDetail({ userDetail }) {
     handleSubmit: handleSubmitUserUpdate,
     control: controlUserUpdate,
     clearErrors: clearErrorsUserUpdate,
-    reset: resetUserUpdateForm,
+    reset: resetUserUpdate,
   } = formUserUpdate;
 
   const [formUpdateUserSubmitIsLoading, setFormUpdateUserSubmitIsLoading] =
@@ -92,6 +95,7 @@ function FormUserDetail({ userDetail }) {
       loading: 'Actualizando...',
       success: () => {
         clearErrorsUserUpdate();
+        setIsEditUserOpen(false);
         router.refresh();
         return `Datos del usuario actualizados exitosamente`;
       },
@@ -101,8 +105,6 @@ function FormUserDetail({ userDetail }) {
       },
     });
   });
-
-  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
 
   /* Handle Delete Dialog */
   const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] = useState(false);
@@ -132,7 +134,6 @@ function FormUserDetail({ userDetail }) {
     setFormUpdateUserSubmitIsLoading(true);
     setIsUpdatePasswordOpen(false);
 
-    // Toast promise para buscar una persona
     toast.promise(updateUser(passwordForm, setFormUpdateUserSubmitIsLoading), {
       loading: 'Actualizando...',
       success: () => {
@@ -148,6 +149,18 @@ function FormUserDetail({ userDetail }) {
       },
     });
   });
+
+  const handleTabSecurity = () => {
+    setIsEditUserOpen(false);
+    router.refresh();
+    resetUserUpdate();
+  };
+
+  const handleCancelUpdateUser = () => {
+    setIsEditUserOpen(false);
+    router.refresh();
+    resetUserUpdate();
+  };
 
   return (
     <>
@@ -190,7 +203,9 @@ function FormUserDetail({ userDetail }) {
             <Tabs defaultValue="info" className="w-full">
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="info">Información</TabsTrigger>
-                <TabsTrigger value="security">Seguridad</TabsTrigger>
+                <TabsTrigger onClick={handleTabSecurity} value="security">
+                  Seguridad
+                </TabsTrigger>
               </TabsList>
               <TabsContent value="info">
                 {isEditUserOpen ? (
@@ -398,7 +413,7 @@ function FormUserDetail({ userDetail }) {
                             </div>
                             <div className="relative">
                               <Select
-                                defaultValue={field?.value}
+                                defaultValue={userDetail?.estado}
                                 onValueChange={field?.onChange}
                                 disabled={formUpdateUserSubmitIsLoading}
                               >
@@ -430,10 +445,7 @@ function FormUserDetail({ userDetail }) {
                           type="button"
                           variant="outline"
                           disabled={formUpdateUserSubmitIsLoading}
-                          onClick={() => {
-                            setIsEditUserOpen(false);
-                            resetUserUpdateForm();
-                          }}
+                          onClick={handleCancelUpdateUser}
                         >
                           Cancelar
                         </Button>
