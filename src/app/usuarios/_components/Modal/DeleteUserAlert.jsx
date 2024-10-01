@@ -51,10 +51,16 @@ function DeleteUserAlert({ isOpen, setIsOpen, userDni, actionAfterComplete }) {
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel onClick={() => setIsOpen(false)}>
+            <AlertDialogCancel
+              className="bg-secondary text-secondary-foreground hover:opacity-80"
+              onClick={() => setIsOpen(false)}
+            >
               Cancelar
             </AlertDialogCancel>
-            <AlertDialogAction onClick={handleConfirmationDeleteUser}>
+            <AlertDialogAction
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+              onClick={handleConfirmationDeleteUser}
+            >
               Continuar
             </AlertDialogAction>
           </AlertDialogFooter>
