@@ -79,7 +79,7 @@ export function DataTable({ columns, data, status = 200 }) {
         { duration: 10000 }
       );
     }
-  }, []);
+  }, [status]);
 
   useEffect(() => {
     // Fuerza la actualización de los datos cada vez que se accede a la página
