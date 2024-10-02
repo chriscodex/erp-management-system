@@ -13,11 +13,6 @@ function MotosMarcasPage() {
       active: false,
     },
     {
-      title: 'Motos',
-      href: '/inventario/productos/todos',
-      active: false,
-    },
-    {
       title: 'Marcas',
       href: '/inventario/productos/todos',
       active: false,
@@ -35,7 +30,7 @@ function MotosMarcasPage() {
           <Link href="/usuarios/nuevo" className="flex justify-end">
             <Button>
               <Plus />
-              Agregar Nuevo Marca
+              Agregar Nueva Marca
             </Button>
           </Link>
         </div>
