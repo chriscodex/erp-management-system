@@ -11,6 +11,7 @@ import {
   RiGalleryView2,
   RiAppsLine,
   RiFundsBoxFill,
+  RiArchiveLine
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -94,10 +95,22 @@ const data = {
           icon: RiGalleryView2,
         },
         {
+          title: 'Marcas',
+          url: '/inventario/marcas',
+          items: [],
+          icon: RiInstanceFill,
+        },
+        {
+          title: 'Categorías',
+          url: '/inventario/categorias',
+          items: [],
+          icon: RiAppsLine,
+        },
+        {
           title: 'Almacen',
           url: '/inventario/productos/todos',
           items: [],
-          icon: RiGalleryView2,
+          icon: RiArchiveLine,
         },
         {
           title: 'Movimientos',
