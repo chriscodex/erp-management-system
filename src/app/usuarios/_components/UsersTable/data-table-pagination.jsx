@@ -25,7 +25,7 @@ export function DataTablePagination({ table }) {
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Go to first page</span>
+            <span className="sr-only">Ir a la primera pagina</span>
             <DoubleArrowLeftIcon className="h-4 w-4" />
           </Button>
           <Button
@@ -34,7 +34,7 @@ export function DataTablePagination({ table }) {
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Go to previous page</span>
+            <span className="sr-only">Ir a la pagina anterior</span>
             <ChevronLeftIcon className="h-4 w-4" />
           </Button>
           <Button
@@ -43,7 +43,7 @@ export function DataTablePagination({ table }) {
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Go to next page</span>
+            <span className="sr-only">Ir a la pagina siguiente</span>
             <ChevronRightIcon className="h-4 w-4" />
           </Button>
           <Button
@@ -52,7 +52,7 @@ export function DataTablePagination({ table }) {
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Go to last page</span>
+            <span className="sr-only">Ir a la ultima pagina</span>
             <DoubleArrowRightIcon className="h-4 w-4" />
           </Button>
         </div>
