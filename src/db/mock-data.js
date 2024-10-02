@@ -150,3 +150,20 @@ export const userMockData = [
     estado: 'inactivo',
   },
 ];
+
+export const searchedUsersDataMock = [
+  {
+    dni: '74062106',
+    apellidos: 'Espinoza Cadillo',
+    nombres: 'Christian Gonzalo',
+  },
+];
+
+export const segmentDataMock = [
+  {
+    nombre: 'Motos',
+  },
+  {
+    nombre: 'Productos',
+  },
+];

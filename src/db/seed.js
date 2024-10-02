@@ -2,9 +2,14 @@ import { connectDB } from '@/db/mongodb';
 import { models } from 'mongoose';
 import bcryptjs from 'bcryptjs';
 
-import { userMockData } from '@/db/mock-data';
+import {
+  userMockData,
+  searchedUsersDataMock,
+  segmentDataMock,
+} from '@/db/mock-data';
 import { User } from '@/backend/users/domain/models/user';
 import { SearchedUser } from '@/backend/searchedUsers/domain/models/searchedUser';
+import { Segment } from '@/backend/categorias/domain/models/segment';
 
 export async function seedUsers() {
   try {
@@ -36,14 +41,6 @@ export async function seedUsers() {
 
 export async function seedSearchedUsers() {
   try {
-    const data = [
-      {
-        dni: '74062106',
-        apellidos: 'Espinoza Cadillo',
-        nombres: 'Christian Gonzalo',
-      },
-    ];
-
     if (SearchedUser) {
       delete models.SearchedUser;
     }
@@ -53,8 +50,26 @@ export async function seedSearchedUsers() {
     console.log('SearchedUsers existentes eliminados.');
 
     // Insertar los nuevos datos
-    await SearchedUser.insertMany(data);
+    await SearchedUser.insertMany(searchedUsersDataMock);
     console.log('SearchedUsers poblados a la base de datos');
+  } catch (error) {
+    console.error('Error al poblar la base de datos:', error);
+  }
+}
+
+export async function seedSegment() {
+  try {
+    if (Segment) {
+      delete models.Segment;
+    }
+
+    // Eliminar todos los segmentos existentes
+    await Segment.deleteMany({});
+    console.log('Segmentos existentes eliminados.');
+
+    // Insertar los nuevos datos
+    await Segment.insertMany(segmentDataMock);
+    console.log('Segmentos poblados a la base de datos');
   } catch (error) {
     console.error('Error al poblar la base de datos:', error);
   }
@@ -62,9 +77,11 @@ export async function seedSearchedUsers() {
 
 export async function seed() {
   try {
-    await connectDB(); // Conectarse a la base de datos solo una vez
+    await connectDB();
+
     await seedUsers();
     await seedSearchedUsers();
+    await seedSegment();
   } catch (error) {
     console.error('Error al ejecutar el seeding:', error);
   }
