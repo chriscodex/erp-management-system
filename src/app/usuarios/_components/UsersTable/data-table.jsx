@@ -11,9 +11,9 @@ import {
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 import { Input } from '@/components/ui/input';
-
 import {
   Table,
   TableBody,
@@ -22,9 +22,8 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { toast } from 'sonner';
-
 import { DataTablePagination } from '@/app/usuarios/_components/UsersTable/pagination';
+import { DataTableViewOptions } from '@/app/usuarios/_components/UsersTable/view-options';
 
 export function DataTable({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -80,13 +79,14 @@ export function DataTable({ columns, data, status = 200 }) {
   return (
     <div>
       {/* Input */}
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 w-full">
         <Input
           placeholder="Buscar por apellidos"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
         />
+        <DataTableViewOptions table={table} />
       </div>
       <div className="rounded-md border sm:min-h-[528px] min-h-[528px]">
         <Table>
