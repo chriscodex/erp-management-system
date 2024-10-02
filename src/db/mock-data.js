@@ -167,3 +167,42 @@ export const segmentDataMock = [
     nombre: 'Productos',
   },
 ];
+
+export const categoryDataMock = [
+  {
+    nombre: 'Aventura',
+    descripcion: 'Motos de aventura',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Deportiva',
+    descripcion: 'Para velocidad y maniobrabilidad en carreteras y circuitos.',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Aceites',
+    descripcion: 'Aceites para moto.',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Montañera',
+    descripcion: 'Preparadas para terrenos difíciles y off-road.',
+    estado: 'inactivo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Custom',
+    descripcion: 'Personalizadas para estilo único, enfocadas en el diseño.',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Cascos',
+    descripcion: 'Cascos para moto.',
+    estado: 'activo',
+    segmentId: '',
+  },
+];

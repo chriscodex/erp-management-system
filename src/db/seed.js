@@ -6,10 +6,12 @@ import {
   userMockData,
   searchedUsersDataMock,
   segmentDataMock,
+  categoryDataMock,
 } from '@/db/mock-data';
 import { User } from '@/backend/users/domain/models/user';
 import { SearchedUser } from '@/backend/searchedUsers/domain/models/searchedUser';
 import { Segment } from '@/backend/categorias/domain/models/segment';
+import { Category } from '@/backend/categorias/domain/models/category';
 
 export async function seedUsers() {
   try {
@@ -75,6 +77,44 @@ export async function seedSegment() {
   }
 }
 
+export async function seedCategories() {
+  try {
+    // Eliminar todas las categorías existentes
+    await Category.deleteMany({});
+    console.log('Categorías existentes eliminadas.');
+
+    // Obtener todos los segmentos
+    const segmentos = await Segment.find({});
+    if (segmentos.length === 0) {
+      throw new Error(
+        'No se encontraron segmentos en la base de datos. Asegúrate de ejecutar el seed de segmentos primero.'
+      );
+    }
+
+    // Crear un mapa de segmentos para acceder por nombre
+    const segmentMap = {};
+    segmentos.forEach((segmento) => {
+      segmentMap[segmento.nombre] = segmento._id; // Usa el nombre del segmento como clave
+    });
+
+    // Llenar los segmentId en categoryDataMock
+    categoryDataMock.forEach((category) => {
+      if (segmentMap['Motos']) {
+        category.segmentId = segmentMap['Motos'];
+      }
+      if (segmentMap['Productos']) {
+        if (category.nombre === 'Aceites' || category.nombre === 'Cascos') {
+          category.segmentId = segmentMap['Productos'];
+        }
+      }
+    });
+
+    // Insertar los datos generados de categorías
+    await Category.insertMany(categoryDataMock);
+    console.log('Categorías pobladas en la base de datos.');
+  } catch (error) {}
+}
+
 export async function seed() {
   try {
     await connectDB();
@@ -82,6 +122,7 @@ export async function seed() {
     await seedUsers();
     await seedSearchedUsers();
     await seedSegment();
+    await seedCategories();
   } catch (error) {
     console.error('Error al ejecutar el seeding:', error);
   }

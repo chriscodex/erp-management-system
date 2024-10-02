@@ -5,7 +5,7 @@ import { Schema, model, models } from 'mongoose';
 //   delete models.Category;
 // }
 
-const categoriaSchema = new Schema(
+const categorySchema = new Schema(
   {
     nombre: {
       type: String,
@@ -20,7 +20,7 @@ const categoriaSchema = new Schema(
       type: String,
       required: [true, 'Estado is required'],
     },
-    segmentoId: {
+    segmentId: {
       type: Schema.Types.ObjectId,
       ref: 'Segment',
       required: [true, 'Segmento is required'],
@@ -31,5 +31,4 @@ const categoriaSchema = new Schema(
   }
 );
 
-export const Categoria =
-  models?.Categoria || model('Categoria', categoriaSchema);
+export const Category = models?.Category || model('Category', categorySchema);
