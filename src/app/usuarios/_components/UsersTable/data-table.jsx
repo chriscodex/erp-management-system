@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/table';
 import { toast } from 'sonner';
 
-import { DataTablePagination } from '@/app/usuarios/_components/UsersTable/data-table-pagination';
+import { DataTablePagination } from '@/app/usuarios/_components/UsersTable/pagination';
 
 export function DataTable({ columns, data, status = 200 }) {
   const router = useRouter();
