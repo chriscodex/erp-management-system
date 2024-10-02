@@ -12,8 +12,6 @@ import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
 
-// import { useIsMobile } from '@/hooks/use-mobile';
-
 import { Input } from '@/components/ui/input';
 
 import {
@@ -24,8 +22,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import CustomPagination from '@/app/usuarios/_components/UsersTable/pagination';
 import { toast } from 'sonner';
+
+import { DataTablePagination } from '@/app/usuarios/_components/UsersTable/data-table-pagination';
 
 export function DataTable({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -34,15 +33,7 @@ export function DataTable({ columns, data, status = 200 }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    // Aquí cargarías los datos para la nueva página
-  };
-
   /* Table */
-
   const table = useReactTable({
     data,
     columns,
@@ -147,15 +138,7 @@ export function DataTable({ columns, data, status = 200 }) {
           </TableBody>
         </Table>
       </div>
-      <CustomPagination
-        totalItems={table.getFilteredRowModel().rows.length}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        nextPage={table.nextPage}
-        previousPage={table.previousPage}
-        firstPage={table.firstPage}
-        lastPage={table.lastPage}
-      />
+      <DataTablePagination table={table} />
     </div>
   );
 }
