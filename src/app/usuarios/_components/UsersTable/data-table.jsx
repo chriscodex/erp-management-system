@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/table';
 import { DataTablePagination } from '@/app/usuarios/_components/UsersTable/pagination';
 import { DataTableViewOptions } from '@/app/usuarios/_components/UsersTable/view-options';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 export function DataTable({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -61,7 +62,8 @@ export function DataTable({ columns, data, status = 200 }) {
     debouncedSearch(searchValue);
   }, [searchValue, debouncedSearch]);
 
-  // console.log(table.getFilteredRowModel());
+  // table.getColumn('rol').getIsVisible();
+
   useEffect(() => {
     if (status !== 200) {
       toast.error(
@@ -76,6 +78,15 @@ export function DataTable({ columns, data, status = 200 }) {
     router.refresh();
   }, [router]);
 
+  /* Mobile */
+  const isMobile = useIsMobile();
+  useEffect(() => {
+    if (isMobile) {
+      table.getColumn('rol').toggleVisibility(false);
+      table.getColumn('estado').toggleVisibility(false);
+    }
+  }, [isMobile, table]);
+
   return (
     <div>
       {/* Input */}
@@ -88,7 +99,7 @@ export function DataTable({ columns, data, status = 200 }) {
         />
         <DataTableViewOptions table={table} />
       </div>
-      <div className="rounded-md border sm:min-h-[528px] min-h-[528px]">
+      <div className="rounded-md border sm:min-h-[528px] min-h-[528px] w-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
