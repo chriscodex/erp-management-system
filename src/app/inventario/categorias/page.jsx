@@ -1,7 +1,11 @@
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { Plus } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
+import { RiAppsLine } from '@remixicon/react';
 
-function MotosCategoriasPage() {
+export default function CategoriasPage() {
   const titles = [
     {
       title: 'Inventario',
@@ -10,7 +14,7 @@ function MotosCategoriasPage() {
     },
     {
       title: 'Categorías',
-      href: '/inventario/motos/categorias',
+      href: '/inventario/categorias',
       active: false,
     },
   ];
@@ -18,10 +22,19 @@ function MotosCategoriasPage() {
   return (
     <>
       <NavbarDynamic titles={titles}>
-        <Label>Motos Categorias</Label>
+        <div className="flex justify-between">
+          <div className="flex items-center gap-2">
+            <RiAppsLine className="h-9 w-9" />
+            <Label className="sm:text-4xl text-xl font-bold">Categorías</Label>
+          </div>
+          <Link href="/usuarios/nuevo" className="flex justify-end">
+            <Button>
+              <Plus />
+              Agregar Nueva Categoría
+            </Button>
+          </Link>
+        </div>
       </NavbarDynamic>
     </>
   );
 }
-
-export default MotosCategoriasPage

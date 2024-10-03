@@ -29,4 +29,4 @@ function MotosModelosPage() {
   );
 }
 
-export default MotosModelosPage
+export default MotosModelosPage;
