@@ -22,8 +22,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { DataTablePagination } from '@/app/usuarios/_components/UsersTable/pagination';
-import { DataTableViewOptions } from '@/app/usuarios/_components/UsersTable/view-options';
+
+import { DataTablePagination } from '@/components/ui/table-pagination';
+import { DataTableViewOptions } from '@/components/ui/table-view-options';
 import { useIsMobile } from '@/hooks/use-mobile';
 
 export function DataTable({ columns, data, status = 200 }) {
