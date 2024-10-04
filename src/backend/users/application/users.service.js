@@ -1,3 +1,4 @@
+import bcryptjs from 'bcryptjs';
 import { UserRepository } from '@/backend/users/domain/repositories/userRepository';
 import { createUserSchema } from '@/backend/users/application/validations/createUserSchema';
 import { updateUserSchema } from '@/backend/users/application/validations/updateUserSchema';
@@ -72,11 +73,19 @@ export class UsersService {
         };
       }
 
-      // Crear el usuario
-      const userCreated = await this.userRepository.createUser({
+      // Encriptar la contraseña
+      const { password } = user;
+      const passwordHash = await bcryptjs.hash(password, 12);
+
+      // Crear el objeto de usuario
+      const userObject = {
         ...user,
+        password: passwordHash,
         estado: 'activo',
-      });
+      };
+
+      // Crear el usuario
+      const userCreated = await this.userRepository.createUser(userObject);
 
       const userCreatedObject = userCreated.toObject();
       delete userCreatedObject.password;

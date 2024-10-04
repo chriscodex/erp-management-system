@@ -1,5 +1,3 @@
-import bcryptjs from 'bcryptjs';
-
 import { User } from '@/backend/users/domain/models/user';
 
 export class UserRepository {
@@ -35,15 +33,7 @@ export class UserRepository {
   }
   async createUser(user) {
     try {
-      // Encriptar la contraseña
-      const { password } = user;
-      const passwordHash = await bcryptjs.hash(password, 12);
-
-      // Crear el usuario
-      const newUser = new User({
-        ...user,
-        password: passwordHash,
-      });
+      const newUser = new User(user);
       const savedUser = await newUser.save();
 
       console.log('Usuario creado exitosamente');
