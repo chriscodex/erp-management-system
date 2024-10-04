@@ -5,3 +5,4 @@ export const updateUserUrl = '/api/users';
 export const deleteUserUrl = '/api/users';
 
 /* Categories */
+export const getAllCategoriesUrl = `${process.env.NEXT_PUBLIC_API_URL}/categories`;
