@@ -1,18 +1,19 @@
 import Link from 'next/link';
+import { Label } from '@radix-ui/react-label';
+import { User2Icon, Plus } from 'lucide-react';
 
-import { DataTable } from '@/app/usuarios/_components/UsersTable/data-table';
 import { columns } from '@/app/usuarios/_components/UsersTable/columns';
 import { NavbarSimple } from '@/components/navbar/NavbarSimple';
 import { Button } from '@/components/ui/button';
-import { Label } from '@radix-ui/react-label';
-import { User2Icon, Plus } from 'lucide-react';
+import { DataTable } from '@/app/usuarios/_components/UsersTable/data-table';
+import { sortByCreationDateDesc } from '@/lib/utils';
 
 import { getAllUsers } from '@/app/usuarios/_services/requests';
 
 export default async function Page() {
-  const {users, status} = await getAllUsers();
-  
-  const usersSorted = users.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const { users, status } = await getAllUsers();
+
+  const usersSorted = sortByCreationDateDesc(users);
 
   return (
     <>
