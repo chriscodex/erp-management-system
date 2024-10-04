@@ -25,3 +25,10 @@ export async function getDataByDni(dni = '') {
     console.log(error);
   }
 }
+
+export function sortByCreationDateDesc(list) {
+  const listSorted = list.sort(
+    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+  );
+  return listSorted;
+}
