@@ -114,6 +114,12 @@ export class UsersService {
         };
       }
 
+      if (user.password) {
+        const { password } = user;
+        const passwordHash = await bcryptjs.hash(password, 12);
+        user.password = passwordHash;
+      }
+
       const userUpdated = await this.userRepository.updateUser(dni, user);
 
       if (!userUpdated) {
