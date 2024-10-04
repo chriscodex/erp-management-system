@@ -1,4 +1,4 @@
-import { getAllUsersUrl, deleteUserUrl } from '@/app/usuarios/_services/urls';
+import { getAllUsersUrl, deleteUserUrl } from '@/lib/urls.js';
 import { fetchData, deleteData } from '@/lib/fetchData';
 
 export async function getAllUsers() {
