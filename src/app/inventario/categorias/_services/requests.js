@@ -5,7 +5,7 @@ export async function getAllCategories() {
   try {
     const response = await fetchData(getAllCategoriesUrl);
     if (response?.status !== 200) {
-      console.log('Error al obtener los usuarios');
+      console.log('Error al obtener las categorias');
       return { categories: [], status: 500 };
     }
     console.log(response);
