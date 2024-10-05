@@ -22,7 +22,6 @@ export function CategoryDetail({ categoryData }) {
           que pertenece dentro del inventario.
         </SheetDescription>
       </SheetHeader>
-
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-3 items-center gap-4">
           <label className="col-span-1 text-left font-bold">Segmento</label>
@@ -47,12 +46,6 @@ export function CategoryDetail({ categoryData }) {
           </p>
         </div>
       </div>
-
-      <SheetFooter>
-        <SheetClose asChild>
-          <Button type="submit">Save changes</Button>
-        </SheetClose>
-      </SheetFooter>
     </SheetContent>
   );
 }
