@@ -1,11 +1,17 @@
-import { Label } from '@/components/ui/label';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { RiAppsLine } from '@remixicon/react';
 
-export default function CategoriasPage() {
+import { Label } from '@/components/ui/label';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { Button } from '@/components/ui/button';
+import { sortByCreationDateDesc } from '@/lib/utils';
+
+import { DataTableCategory } from '@/app/inventario/categorias/_components/categoriesTable/data-table';
+import { columnsCategory } from '@/app/inventario/categorias/_components/categoriesTable/columns';
+import { getAllCategories } from '@/app/inventario/categorias/_services/requests';
+
+export default async function CategoriasPage() {
   const titles = [
     {
       title: 'Inventario',
@@ -18,6 +24,10 @@ export default function CategoriasPage() {
       active: false,
     },
   ];
+
+  const { categories, status } = await getAllCategories();
+
+  const categoriesSorted = sortByCreationDateDesc(categories);
 
   return (
     <>
@@ -34,6 +44,11 @@ export default function CategoriasPage() {
             </Button>
           </Link>
         </div>
+        <DataTableCategory
+          columns={columnsCategory}
+          data={categoriesSorted}
+          status={status}
+        />
       </NavbarDynamic>
     </>
   );
