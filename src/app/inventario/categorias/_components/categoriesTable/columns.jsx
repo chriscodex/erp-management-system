@@ -16,6 +16,7 @@ import {
 import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAlert';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import { CategoryDetail } from '@/app/inventario/categorias/_components/sheets/category-detail';
+import { Badge } from '@/components/ui/badge';
 
 export const columnsCategory = [
   {
@@ -68,7 +69,19 @@ export const columnsCategory = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue('estado')}</div>;
+      return (
+        <div className="text-start">
+          {row.getValue('estado') === 'activo' ? (
+            <Badge variant="success" className="text-sm">
+              Activo
+            </Badge>
+          ) : (
+            <Badge variant="error" className="text-sm">
+              Inactivo
+            </Badge>
+          )}
+        </div>
+      );
     },
   },
   {
