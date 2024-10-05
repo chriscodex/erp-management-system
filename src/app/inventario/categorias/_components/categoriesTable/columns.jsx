@@ -2,6 +2,7 @@
 
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +14,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAlert';
-import { useState } from 'react';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
+import { CategoryDetail } from '@/app/inventario/categorias/_components/sheets/category-detail';
 
 export const columnsCategory = [
   {
@@ -53,7 +55,7 @@ export const columnsCategory = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { dni } = row.original;
+      const categoryData = row.original;
 
       const router = useRouter();
 
@@ -72,11 +74,19 @@ export const columnsCategory = [
             <DropdownMenuLabel className="select-none">
               Acciones
             </DropdownMenuLabel>
+            <DropdownMenuItem onClick={(e) => e.preventDefault()} className>
+              <Sheet className="w-full h-full">
+                <SheetTrigger className="w-full h-full text-start cursor-pointer">
+                  Detalle
+                </SheetTrigger>
+                <CategoryDetail categoryData={categoryData} />
+              </Sheet>
+            </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/categorias/${dni}`)}
+              onClick={() => setIsOpenDialogDeleteUser(true)}
             >
-              Detalle
+              Editar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
@@ -89,7 +99,6 @@ export const columnsCategory = [
           <DeleteUserAlert
             isOpen={isOpenDialogDeleteUser}
             setIsOpen={setIsOpenDialogDeleteUser}
-            userDni={dni}
             actionAfterComplete="refresh"
           />
         </DropdownMenu>
