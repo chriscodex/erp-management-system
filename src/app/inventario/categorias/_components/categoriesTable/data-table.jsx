@@ -56,7 +56,7 @@ export function DataTableCategory({ columns, data, status = 200 }) {
   const TIME_DEBOUNCE = 300;
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('apellidos')?.setFilterValue(value);
+    table.getColumn('nombre')?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
