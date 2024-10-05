@@ -16,7 +16,7 @@ export function CategoryDetail({ categoryData }) {
   return (
     <SheetContent>
       <SheetHeader>
-        <SheetTitle>Detalle de la categoría</SheetTitle>
+        <SheetTitle>{categoryData?.nombre}</SheetTitle>
         <SheetDescription>
           Vista detallada de la categoría, donde se especifica el segmento al
           que pertenece dentro del inventario.
@@ -40,13 +40,9 @@ export function CategoryDetail({ categoryData }) {
           <label className="col-span-1 text-left font-bold">Estado</label>
           <p className="col-span-2">
             {categoryData?.estado === 'activo' ? (
-              <Badge variant='success'>
-                Activo
-              </Badge>
+              <Badge variant="success">Activo</Badge>
             ) : (
-              <Badge variant='error'>
-                Inactivo
-              </Badge>
+              <Badge variant="error">Inactivo</Badge>
             )}
           </p>
         </div>
