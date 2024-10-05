@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
-import { getAllCategoriesController } from '@/backend/categorias/infrastructure/controllers';
+import {
+  getAllCategoriesController,
+} from '@/backend/categorias/infrastructure/controllers';
 
 export async function GET() {
   try {
@@ -12,7 +14,7 @@ export async function GET() {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     return NextResponse.json(
-      { message: 'Error fetching users' },
+      { message: 'Error obteniendo todas las categorías' },
       { status: 500 }
     );
   }
