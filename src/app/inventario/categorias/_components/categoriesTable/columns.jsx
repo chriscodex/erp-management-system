@@ -36,6 +36,25 @@ export const columnsCategory = [
     },
   },
   {
+    accessorFn: (row) => row?.segmentId?.nombre,
+    id: 'segmentName',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Segmento
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const segment = row?.original?.segmentId?.nombre;
+      return <div className="text-start">{segment}</div>;
+    },
+  },
+  {
     accessorKey: 'estado',
     header: ({ column }) => {
       return (
