@@ -22,4 +22,20 @@ export class CategoryRepository {
       throw new Error(`Error al buscar todas las categorías: ${error.message}`);
     }
   }
+
+  async deleteCategory(id) {
+    try {
+      const deletedCategory = await this.categoryModel.findOneAndDelete(id);
+
+      if (!deletedCategory) {
+        console.log('Repo: Categoría no encontrada para ser eliminado');
+        return null;
+      }
+
+      console.log('Repo: Categoría encontrada y eliminada');
+      return deletedCategory;
+    } catch (error) {
+      throw new Error(`Error al eliminar categoría: ${error.message}`);
+    }
+  }
 }
