@@ -13,3 +13,14 @@ export async function getAllCategoriesController() {
     throw new Error('Internal Server Error - getAllCategoriesController');
   }
 }
+
+export async function deleteCategoryController(id) {
+  try {
+    await connectDB();
+    const deletedCategory = await categoryService.deleteCategory(id);
+    return deletedCategory;
+  } catch (error) {
+    console.error('Controller - Error al eliminar categoría:', error);
+    throw new Error('Internal Server Error - deleteCategoryController');
+  }
+}
