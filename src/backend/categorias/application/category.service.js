@@ -26,4 +26,26 @@ export class CategoryService {
       };
     }
   }
+  async deleteCategory(id) {
+    try {
+      const categoryDeleted = await this.categoryRepository.deleteCategory(id);
+
+      if (!categoryDeleted) {
+        return {
+          status: 404,
+          payload: 'La categoría no existe',
+        };
+      }
+
+      return {
+        status: 204,
+        payload: categoryDeleted,
+      };
+    } catch (error) {
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
