@@ -12,17 +12,45 @@ export class CategoryRepository {
       const categories = await this.categoryModel.find().populate('segmentId');
 
       if (categories.length === 0) {
-        console.log('No se encontraron categorías');
+        console.log('Repository: No se encontraron categorías');
         return null;
       }
 
-      console.log('Categorías encontrados');
+      console.log('Repository: Categorías encontrados');
       return categories;
     } catch (error) {
       throw new Error(`Error al buscar todas las categorías: ${error.message}`);
     }
   }
+  async getCategory(nombre) {
+    try {
+      const category = await this.categoryModel.findOne({
+        nombre: { $regex: new RegExp(`^${nombre}$`, 'i') },
+      });
 
+      if (!category) {
+        console.log('Repository: Categoría no encontrada');
+        return null;
+      }
+
+      console.log('Repository: Categoría encontrada');
+      return category;
+    } catch (error) {
+      throw new Error(`Error al buscar un categoría: ${error.message}`);
+    }
+  }
+  async createCategory(categoryData) {
+    try {
+      const newCategory = new this.categoryModel(categoryData);
+      const savedCategory = await newCategory.save();
+
+      console.log('Repository: Categoría creada exitosamente');
+      return savedCategory;
+    } catch (error) {
+      console.log(`Repository: Error al crear categoría: ${error.message}`);
+      throw new Error(`Error al crear categoría: ${error.message}`);
+    }
+  }
   async deleteCategory(id) {
     try {
       const deletedCategory = await this.categoryModel.findOneAndDelete(id);
