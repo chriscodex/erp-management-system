@@ -13,7 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAlert';
+import { DeleteCategoryAlert } from '@/app/inventario/categorias/_components/dialogs/DeleteCategoryAlert';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import { CategoryDetail } from '@/app/inventario/categorias/_components/sheets/category-detail';
 import { Badge } from '@/components/ui/badge';
@@ -91,7 +91,7 @@ export const columnsCategory = [
 
       const router = useRouter();
 
-      const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] =
+      const [isOpenDialogDeleteCategory, setIsOpenDialogDeleteCategory] =
         useState(false);
 
       return (
@@ -116,21 +116,20 @@ export const columnsCategory = [
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => setIsOpenDialogDeleteUser(true)}
             >
               Editar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => setIsOpenDialogDeleteUser(true)}
+              onClick={() => setIsOpenDialogDeleteCategory(true)}
             >
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>
-          <DeleteUserAlert
-            isOpen={isOpenDialogDeleteUser}
-            setIsOpen={setIsOpenDialogDeleteUser}
+          <DeleteCategoryAlert
+            isOpen={isOpenDialogDeleteCategory}
+            setIsOpen={setIsOpenDialogDeleteCategory}
             actionAfterComplete="refresh"
           />
         </DropdownMenu>

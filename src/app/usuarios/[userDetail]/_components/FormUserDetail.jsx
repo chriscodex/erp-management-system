@@ -50,7 +50,7 @@ import { CrearFullName } from '@/lib/formateador';
 import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updateUserSchema';
 import { updatePasswordSchema } from '@/app/usuarios/[userDetail]/_validations/updatePasswordSchema';
 import { updateUser } from '@/app/usuarios/[userDetail]/_services/requests';
-import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAlert';
+import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
 import { useRouter } from 'next/navigation';
 
 function FormUserDetail({ userDetail }) {
