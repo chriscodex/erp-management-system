@@ -1,5 +1,5 @@
-import { fetchData } from '@/lib/fetchData';
-import { getAllCategoriesUrl } from '@/lib/urls';
+import { fetchData, deleteData } from '@/lib/fetchData';
+import { getAllCategoriesUrl, deleteCategoryUrl } from '@/lib/urls';
 
 export async function getAllCategories() {
   try {
@@ -15,3 +15,30 @@ export async function getAllCategories() {
     console.log(error);
   }
 }
+
+/* eslint-disable */
+export async function deleteCategory(id) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      console.log(id);
+      // Simular tiempo de retraso
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      const url = `${deleteCategoryUrl}/${id}`;
+
+      // Obtener los datos de la persona
+      const response = await deleteData(url);
+      if (response?.status !== 204) {
+        reject(
+          'No se pudo eliminar la categoría: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+/* eslint-enable */
