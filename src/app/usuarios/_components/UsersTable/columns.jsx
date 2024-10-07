@@ -12,7 +12,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { DeleteUserAlert } from '@/app/usuarios/_components/Modal/DeleteUserAlert';
+import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
 import { useState } from 'react';
 
 export const columns = [
