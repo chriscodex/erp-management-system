@@ -83,8 +83,9 @@ export function DataTableCategory({ columns, data, status = 200 }) {
   const isMobile = useIsMobile();
   useEffect(() => {
     if (isMobile) {
-      table.getColumn('rol').toggleVisibility(false);
       table.getColumn('estado').toggleVisibility(false);
+    } else {
+      table.getColumn('estado').toggleVisibility(true);
     }
   }, [isMobile, table]);
 

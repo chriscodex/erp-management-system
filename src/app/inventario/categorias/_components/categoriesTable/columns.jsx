@@ -114,9 +114,7 @@ export const columnsCategory = [
                 <CategoryDetail categoryData={categoryData} />
               </Sheet>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              className="cursor-pointer"
-            >
+            <DropdownMenuItem className="cursor-pointer">
               Editar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
