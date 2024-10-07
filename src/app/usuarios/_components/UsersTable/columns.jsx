@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
 import { useState } from 'react';
+import { Badge } from '@/components/ui/badge';
 
 export const columns = [
   {
@@ -79,14 +80,17 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      const userState = row.getValue('estado');
       return (
-        <div
-          className={
-            userState === 'activo' ? 'text-green-500' : 'text-destructive'
-          }
-        >
-          {userState === 'activo' ? 'Activo' : 'Inactivo'}
+        <div className="text-start">
+          {row.getValue('estado') === 'activo' ? (
+            <Badge variant="success" className="text-sm">
+              Activo
+            </Badge>
+          ) : (
+            <Badge variant="error" className="text-sm">
+              Inactivo
+            </Badge>
+          )}
         </div>
       );
     },
