@@ -18,15 +18,15 @@ export class UserRepository {
   }
   async getUser(dni) {
     try {
-      const users = await User.findOne({ dni }).select('-password');
+      const user = await User.findOne({ dni }).select('-password');
 
-      if (!users) {
+      if (!user) {
         console.log('Usuario no encontrado');
         return null;
       }
 
       console.log('Usuario encontrado');
-      return users;
+      return user;
     } catch (error) {
       throw new Error(`Error al buscar un usuario: ${error.message}`);
     }
