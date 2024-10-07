@@ -10,20 +10,20 @@ const categorySchema = new Schema(
     nombre: {
       type: String,
       unique: true,
-      required: [true, 'nombre is required'],
+      required: [true, 'nombre es requerido en el schema de categoría'],
     },
     descripcion: {
       type: String,
-      required: [true, 'Descripcion is required'],
+      required: false,
     },
     estado: {
       type: String,
-      required: [true, 'Estado is required'],
+      required: [true, 'Estado es requerido en el schema de categoría'],
     },
     segmentId: {
       type: Schema.Types.ObjectId,
       ref: 'Segment',
-      required: [true, 'Segmento is required'],
+      required: [true, 'SegmentId es requerido en el schema de categoría'],
     },
   },
   {
