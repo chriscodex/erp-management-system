@@ -14,6 +14,19 @@ import { deleteUser } from '@/app/usuarios/_services/requests';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
+
+/**
+ * @description Un diálogo de confirmación de eliminación de un usuario.
+ *
+ * @param {boolean} isOpen - Indica si el diálogo está abierto o no.
+ * @param {(isOpen: boolean) => void} setIsOpen - Función que se llama para cambiar el estado de apertura del diálogo.
+ * @param {string} userDni - DNI del usuario a eliminar.
+ * @param {'refresh' | 'push'} actionAfterComplete - Acción a realizar después de eliminar el usuario:
+ * - 'refresh': Refrescar la página actual.
+ * - 'push': Redirigir a la ruta '/usuarios'.
+ *
+ * @returns Un JSX con el diálogo de confirmación de eliminación de un usuario.
+ */
 function DeleteUserAlert({ isOpen, setIsOpen, userDni, actionAfterComplete }) {
   const router = useRouter();
 
