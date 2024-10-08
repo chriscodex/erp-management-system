@@ -20,7 +20,7 @@ export async function getUserController(dni) {
     const userData = await userService.getUser(dni);
     return userData;
   } catch (error) {
-    console.error('Error buscando usuario:', error);
+    console.error('Error buscando un usuario:', error);
     throw new Error('Internal Server Error - getUserController');
   }
 }
@@ -34,7 +34,7 @@ export async function createUserController(user) {
 
     return createdUser;
   } catch (error) {
-    console.error('Error creating user:', error);
+    console.error('Error creando el usuario:', error);
     throw new Error('Internal Server Error - createUserController');
   }
 }
@@ -45,7 +45,7 @@ export async function updateUserController(dni, user) {
     const updatedUser = await userService.updateUser(dni, user);
     return updatedUser;
   } catch (error) {
-    console.error('Error updating user:', error);
+    console.error('Error actualizando el usuario:', error);
     throw new Error('Internal Server Error - updateUserController');
   }
 }
@@ -56,7 +56,7 @@ export async function deleteUserController(dni) {
     const deletedUser = await userService.deleteUser(dni);
     return deletedUser;
   } catch (error) {
-    console.error('Error deleting user:', error);
+    console.error('Error eliminando el usuario:', error);
     throw new Error('Internal Server Error - deleteUserController');
   }
 }
