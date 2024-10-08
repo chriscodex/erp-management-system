@@ -9,7 +9,6 @@ import {
 } from '@/components/ui/sheet';
 
 export function CategoryDetail({ categoryData }) {
-  console.log(categoryData);
   return (
     <SheetContent>
       <SheetHeader>
