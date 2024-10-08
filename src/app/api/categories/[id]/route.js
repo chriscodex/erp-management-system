@@ -3,7 +3,6 @@ import { deleteCategoryController } from '@/backend/categorias/infrastructure/co
 
 export async function DELETE(request, { params }) {
   try {
-    console.log(params);
     const { id } = params;
     const { payload, status } = await deleteCategoryController(id);
 
@@ -13,7 +12,7 @@ export async function DELETE(request, { params }) {
 
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
-    console.log(error);
+    console.error(error);
     return NextResponse.json(
       { message: 'Error eliminando la categoría' },
       { status: 500 }
