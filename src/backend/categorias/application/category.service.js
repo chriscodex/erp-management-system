@@ -23,7 +23,7 @@ export class CategoryService {
         payload: categories,
       };
     } catch (error) {
-      console.log(
+      console.error(
         `Service: Error interno al obtener todas las categorías: ${error.message}`
       );
       return {
@@ -50,7 +50,7 @@ export class CategoryService {
         payload: categoryDeleted,
       };
     } catch (error) {
-      console.log(
+      console.error(
         `Service: Error interno al borrar categoría: ${error.message}`
       );
       return {
@@ -103,7 +103,7 @@ export class CategoryService {
         payload: categoryCreated,
       };
     } catch (error) {
-      console.log(
+      console.error(
         `Service: Error interno al crear categoría: ${error.message}`
       );
       return {
