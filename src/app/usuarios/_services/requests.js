@@ -8,11 +8,10 @@ export async function getAllUsers() {
       console.log('Error al obtener los usuarios');
       return { users: [], status: 500 };
     }
-    console.log(response);
     const users = response?.data?.payload;
     return { users, status: 200 };
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -20,7 +19,6 @@ export async function getAllUsers() {
 export async function deleteUser(dni) {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(dni);
       // Simular tiempo de retraso
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
