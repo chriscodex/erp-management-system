@@ -6,13 +6,16 @@ export class UserRepository {
       const users = await User.find();
 
       if (users.length === 0) {
-        console.log('No se encontraron usuarios');
+        console.log('Repository: No se encontraron usuarios');
         return null;
       }
 
-      console.log('Usuarios encontrados');
+      console.log('Repository: Usuarios encontrados');
       return users;
     } catch (error) {
+      console.error(
+        `Repository: Error al buscar todos los usuario: ${error.message}`
+      );
       throw new Error(`Error al buscar todos los usuario: ${error.message}`);
     }
   }
@@ -21,13 +24,14 @@ export class UserRepository {
       const user = await User.findOne({ dni }).select('-password');
 
       if (!user) {
-        console.log('Usuario no encontrado');
+        console.log('Repository: Usuario no encontrado');
         return null;
       }
 
-      console.log('Usuario encontrado');
+      console.log('Repository: Usuario encontrado');
       return user;
     } catch (error) {
+      console.error(`Repository: Error al buscar un usuario: ${error.message}`);
       throw new Error(`Error al buscar un usuario: ${error.message}`);
     }
   }
@@ -36,9 +40,10 @@ export class UserRepository {
       const newUser = new User(user);
       const savedUser = await newUser.save();
 
-      console.log('Usuario creado exitosamente');
+      console.log('Repository: Usuario creado exitosamente');
       return savedUser;
     } catch (error) {
+      console.log(`Repository: Error al crear usuario: ${error.message}`);
       throw new Error(`Error al crear usuario: ${error.message}`);
     }
   }
@@ -49,13 +54,16 @@ export class UserRepository {
       }).select('-password');
 
       if (!updatedUser) {
-        console.log('Usuario no encontrado para ser actualizado');
+        console.log('Repository: Usuario no encontrado para ser actualizado');
         return null;
       }
 
-      console.log('Usuario actualizado exitosamente');
+      console.log('Repository: Usuario actualizado exitosamente');
       return updatedUser;
     } catch (error) {
+      console.error(
+        `Repository: Error al actualizar usuario: ${error.message}`
+      );
       throw new Error(`Error al actualizar usuario: ${error.message}`);
     }
   }
@@ -64,13 +72,14 @@ export class UserRepository {
       const deletedUser = await User.findOneAndDelete({ dni });
 
       if (!deletedUser) {
-        console.log('Usuario no encontrado para ser eliminado');
+        console.log('Repository: Usuario no encontrado para ser eliminado');
         return null;
       }
 
-      console.log('Usuario encontrado y eliminado');
+      console.log('Repository: Usuario encontrado y eliminado');
       return deletedUser;
     } catch (error) {
+      console.error(`Repository: Error al eliminar usuario: ${error.message}`);
       throw new Error(`Error al eliminar usuario: ${error.message}`);
     }
   }

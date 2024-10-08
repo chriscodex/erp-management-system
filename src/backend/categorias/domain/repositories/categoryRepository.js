@@ -19,6 +19,9 @@ export class CategoryRepository {
       console.log('Repository: Categorías encontrados');
       return categories;
     } catch (error) {
+      console.error(
+        `Repository: Error al buscar todas las categorías: ${error.message}`
+      );
       throw new Error(`Error al buscar todas las categorías: ${error.message}`);
     }
   }
@@ -36,6 +39,9 @@ export class CategoryRepository {
       console.log('Repository: Categoría encontrada');
       return category;
     } catch (error) {
+      console.error(
+        `Repository: Error al buscar una categoría: ${error.message}`
+      );
       throw new Error(`Error al buscar un categoría: ${error.message}`);
     }
   }
@@ -63,6 +69,7 @@ export class CategoryRepository {
       console.log('Repo: Categoría encontrada y eliminada');
       return deletedCategory;
     } catch (error) {
+      console.error(`Repo: Error al borrar una categoría: ${error.message}`);
       throw new Error(`Error al eliminar categoría: ${error.message}`);
     }
   }
