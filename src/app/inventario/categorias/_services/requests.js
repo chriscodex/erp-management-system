@@ -8,11 +8,10 @@ export async function getAllCategories() {
       console.log('Error al obtener las categorias');
       return { categories: [], status: 500 };
     }
-    console.log(response);
     const categories = response?.data?.payload;
     return { categories, status: 200 };
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -20,7 +19,6 @@ export async function getAllCategories() {
 export async function deleteCategory(id) {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log(id);
       // Simular tiempo de retraso
       await new Promise((resolve) => setTimeout(resolve, 1500));
 
