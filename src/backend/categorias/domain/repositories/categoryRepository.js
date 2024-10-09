@@ -1,5 +1,6 @@
 import { Category } from '@/backend/categorias/domain/models/category';
 import { Segment } from '@/backend/categorias/domain/models/segment.js';
+import mongoose from 'mongoose';
 
 export class CategoryRepository {
   constructor() {
@@ -25,19 +26,24 @@ export class CategoryRepository {
       throw new Error(`Error al buscar todas las categorías: ${error.message}`);
     }
   }
-  async getCategory(nombre) {
+  async getCategory(category) {
     try {
-      const category = await this.categoryModel.findOne({
+      const { nombre, segmentId } = category;
+      const categoryFound = await this.categoryModel.findOne({
         nombre: { $regex: new RegExp(`^${nombre}$`, 'i') },
+        $or: [
+          { segmentId: new mongoose.Types.ObjectId(segmentId) }, // Coincide con el segmentId proporcionado
+          { segmentId: null }, // O permite segmentId nulo
+        ],
       });
 
-      if (!category) {
+      if (!categoryFound) {
         console.log('Category Repository: Categoría no encontrada');
         return null;
       }
 
       console.log('Category Repository: Categoría encontrada');
-      return category;
+      return categoryFound;
     } catch (error) {
       console.error(
         `Category Repository: Error al buscar una categoría: ${error.message}`
