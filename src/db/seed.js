@@ -79,8 +79,8 @@ export async function seedSegment() {
 
 export async function seedCategories() {
   try {
-    if (Segment) {
-      delete models.Segment;
+    if (Category) {
+      delete models.Category;
     }
 
     // Eliminar todas las categorías existentes
