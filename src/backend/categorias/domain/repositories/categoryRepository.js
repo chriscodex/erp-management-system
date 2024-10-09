@@ -12,15 +12,15 @@ export class CategoryRepository {
       const categories = await this.categoryModel.find().populate('segmentId');
 
       if (categories.length === 0) {
-        console.log('Repository: No se encontraron categorías');
+        console.log('Category Repository: No se encontraron categorías');
         return null;
       }
 
-      console.log('Repository: Categorías encontrados');
+      console.log('Category Repository: Categorías encontrados');
       return categories;
     } catch (error) {
       console.error(
-        `Repository: Error al buscar todas las categorías: ${error.message}`
+        `Category Repository: Error al buscar todas las categorías: ${error.message}`
       );
       throw new Error(`Error al buscar todas las categorías: ${error.message}`);
     }
@@ -32,15 +32,15 @@ export class CategoryRepository {
       });
 
       if (!category) {
-        console.log('Repository: Categoría no encontrada');
+        console.log('Category Repository: Categoría no encontrada');
         return null;
       }
 
-      console.log('Repository: Categoría encontrada');
+      console.log('Category Repository: Categoría encontrada');
       return category;
     } catch (error) {
       console.error(
-        `Repository: Error al buscar una categoría: ${error.message}`
+        `Category Repository: Error al buscar una categoría: ${error.message}`
       );
       throw new Error(`Error al buscar un categoría: ${error.message}`);
     }
@@ -50,10 +50,12 @@ export class CategoryRepository {
       const newCategory = new this.categoryModel(categoryData);
       const savedCategory = await newCategory.save();
 
-      console.log('Repository: Categoría creada exitosamente');
+      console.log('Category Repository: Categoría creada exitosamente');
       return savedCategory;
     } catch (error) {
-      console.log(`Repository: Error al crear categoría: ${error.message}`);
+      console.log(
+        `Category Repository: Error al crear categoría: ${error.message}`
+      );
       throw new Error(`Error al crear categoría: ${error.message}`);
     }
   }
@@ -62,14 +64,18 @@ export class CategoryRepository {
       const deletedCategory = await this.categoryModel.findOneAndDelete(id);
 
       if (!deletedCategory) {
-        console.log('Repo: Categoría no encontrada para ser eliminado');
+        console.log(
+          'Category Repository: Categoría no encontrada para ser eliminado'
+        );
         return null;
       }
 
-      console.log('Repo: Categoría encontrada y eliminada');
+      console.log('Category Repository: Categoría encontrada y eliminada');
       return deletedCategory;
     } catch (error) {
-      console.error(`Repo: Error al borrar una categoría: ${error.message}`);
+      console.error(
+        `Category Repository: Error al borrar una categoría: ${error.message}`
+      );
       throw new Error(`Error al eliminar categoría: ${error.message}`);
     }
   }
