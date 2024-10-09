@@ -6,10 +6,12 @@ import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Button } from '@/components/ui/button';
 import { sortByCreationDateDesc } from '@/lib/utils';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 
 import { DataTableCategory } from '@/app/inventario/categorias/_components/categoriesTable/data-table';
 import { columnsCategory } from '@/app/inventario/categorias/_components/categoriesTable/columns';
 import { getAllCategories } from '@/app/inventario/categorias/_services/requests';
+import { AddCategory } from './_components/sheets/add-category';
 
 export default async function CategoriasPage() {
   const titles = [
@@ -37,12 +39,15 @@ export default async function CategoriasPage() {
             <RiAppsLine className="h-9 w-9" />
             <Label className="sm:text-4xl text-xl font-bold">Categorías</Label>
           </div>
-          <Link href="/usuarios/nuevo" className="flex justify-end">
-            <Button>
-              <Plus />
-              Agregar Nueva Categoría
-            </Button>
-          </Link>
+          <Sheet className="">
+            <SheetTrigger className="text-start cursor-pointer">
+              <Button>
+                <Plus />
+                Agregar Nueva Categoría
+              </Button>
+            </SheetTrigger>
+            <AddCategory categoryData={[]} />
+          </Sheet>
         </div>
         <DataTableCategory
           columns={columnsCategory}
