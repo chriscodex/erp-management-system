@@ -12,17 +12,22 @@ export class UsersService {
       const users = await this.userRepository.getAllUsers();
 
       if (!users) {
+        console.log('User Service: No se encontraron usuarios');
         return {
           status: 404,
           payload: 'No se encontraron usuarios',
         };
       }
 
+      console.log('User Service: Usuarios encontrados');
       return {
         status: 200,
         payload: users,
       };
     } catch (error) {
+      console.error(
+        `User Service: Error interno al buscar todos los usuarios: ${error.message}`
+      );
       return {
         status: 500,
         payload: error.message,
@@ -34,17 +39,22 @@ export class UsersService {
       const userFound = await this.userRepository.getUser(dni);
 
       if (!userFound) {
+        console.log('User Service: El usuario no existe');
         return {
           status: 404,
           payload: 'El usuario no existe',
         };
       }
 
+      console.log('User Service: El usuario existe');
       return {
         status: 200,
         payload: userFound,
       };
     } catch (error) {
+      console.error(
+        `User Service: Error interno al buscar un usuario: ${error.message}`
+      );
       return {
         status: 500,
         payload: error.message,
@@ -57,7 +67,9 @@ export class UsersService {
       const userValidated = createUserSchema.safeParse(user);
 
       if (!userValidated.success) {
-        console.log('Error de validación de schema de usuario al crear');
+        console.log(
+          'User Service: Error de validación de schema de usuario al crear'
+        );
         return {
           status: 400,
           payload: userValidated.error.issues,
@@ -67,6 +79,7 @@ export class UsersService {
       // Validar si el usuario ya existe
       const userFound = await this.userRepository.getUser(user.dni);
       if (userFound) {
+        console.log('User Service: El usuario ya existe');
         return {
           status: 409,
           payload: 'El usuario ya existe',
@@ -90,11 +103,15 @@ export class UsersService {
       const userCreatedObject = userCreated.toObject();
       delete userCreatedObject.password;
 
+      console.log('User Service: Usuario creado exitosamente');
       return {
         status: 201,
         payload: userCreatedObject,
       };
     } catch (error) {
+      console.error(
+        `User Service: Error interno al crear un usuario: ${error.message}`
+      );
       return {
         status: 500,
         payload: error.message,
@@ -107,7 +124,9 @@ export class UsersService {
       const userValidated = updateUserSchema.safeParse(user);
 
       if (!userValidated.success) {
-        console.log('Error de validación de schema de usuario al actualizar');
+        console.log(
+          'User Service: Error de validación de schema de usuario al actualizar'
+        );
         return {
           status: 400,
           payload: userValidated.error.issues,
@@ -123,17 +142,22 @@ export class UsersService {
       const userUpdated = await this.userRepository.updateUser(dni, user);
 
       if (!userUpdated) {
+        console.log('User Service: El usuario no existe');
         return {
           status: 404,
           payload: 'El usuario no existe',
         };
       }
 
+      console.log('User Service: Usuario actualizado exitosamente');
       return {
         status: 200,
         payload: userUpdated,
       };
     } catch (error) {
+      console.error(
+        `User Service: Error interno al actualizar un usuario: ${error.message}`
+      );
       return {
         status: 500,
         payload: error.message,
@@ -145,12 +169,14 @@ export class UsersService {
       const userDeleted = await this.userRepository.deleteUser(dni);
 
       if (!userDeleted) {
+        console.log('User Service: El usuario no existe');
         return {
           status: 404,
           payload: 'El usuario no existe',
         };
       }
 
+      console.log('User Service: Usuario eliminado exitosamente');
       return {
         status: 204,
         payload: userDeleted,
