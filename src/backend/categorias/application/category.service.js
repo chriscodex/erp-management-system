@@ -76,15 +76,15 @@ export class CategoryService {
         };
       }
 
-      // Validar si una categoría con ese nombre ya existe
-      const categoryFound = await this.categoryRepository.getCategory(
-        category.nombre
-      );
+      // Validar si una categoría con ese nombre y en el mismo segmento ya existe
+      const categoryFound = await this.categoryRepository.getCategory(category);
       if (categoryFound) {
-        console.log('Category Service: La categoría ya existe');
+        console.log(
+          'Category Service: La categoría ya existe en este segmento'
+        );
         return {
           status: 409,
-          payload: 'La categoría ya existe',
+          payload: 'La categoría ya existe en este segmento',
         };
       }
 
