@@ -9,8 +9,10 @@ export async function getAllUsersController() {
     const users = await userService.getAllUsers();
     return users;
   } catch (error) {
-    console.error('Error fetching users:', error);
-    throw new Error('Internal Server Error - getAllUsersController');
+    console.error('Controller: Error fetching users:', error);
+    throw new Error(
+      'Controller: Internal Server Error - getAllUsersController'
+    );
   }
 }
 
@@ -20,8 +22,8 @@ export async function getUserController(dni) {
     const userData = await userService.getUser(dni);
     return userData;
   } catch (error) {
-    console.error('Error buscando un usuario:', error);
-    throw new Error('Internal Server Error - getUserController');
+    console.error('Controller: Error buscando un usuario:', error);
+    throw new Error('Controller: Internal Server Error - getUserController');
   }
 }
 
@@ -34,8 +36,8 @@ export async function createUserController(user) {
 
     return createdUser;
   } catch (error) {
-    console.error('Error creando el usuario:', error);
-    throw new Error('Internal Server Error - createUserController');
+    console.error('Controller: Error creando el usuario:', error);
+    throw new Error('Controller: Internal Server Error - createUserController');
   }
 }
 
@@ -45,8 +47,8 @@ export async function updateUserController(dni, user) {
     const updatedUser = await userService.updateUser(dni, user);
     return updatedUser;
   } catch (error) {
-    console.error('Error actualizando el usuario:', error);
-    throw new Error('Internal Server Error - updateUserController');
+    console.error('Controller: Error actualizando el usuario:', error);
+    throw new Error('Controller: Internal Server Error - updateUserController');
   }
 }
 
@@ -56,7 +58,7 @@ export async function deleteUserController(dni) {
     const deletedUser = await userService.deleteUser(dni);
     return deletedUser;
   } catch (error) {
-    console.error('Error eliminando el usuario:', error);
-    throw new Error('Internal Server Error - deleteUserController');
+    console.error('Controller: Error eliminando el usuario:', error);
+    throw new Error('Controller: Internal Server Error - deleteUserController');
   }
 }
