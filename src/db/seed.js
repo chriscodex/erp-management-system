@@ -79,6 +79,10 @@ export async function seedSegment() {
 
 export async function seedCategories() {
   try {
+    if (Segment) {
+      delete models.Segment;
+    }
+
     // Eliminar todas las categorías existentes
     await Category.deleteMany({});
     console.log('Categorías existentes eliminadas.');
