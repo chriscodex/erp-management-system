@@ -9,7 +9,6 @@ const categorySchema = new Schema(
   {
     nombre: {
       type: String,
-      unique: true,
       required: [true, 'nombre es requerido en el schema de categoría'],
     },
     descripcion: {
