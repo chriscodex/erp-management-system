@@ -1,5 +1,6 @@
 import { fetchData, deleteData } from '@/lib/fetchData';
 import {
+  getAllSegmentsUrl,
   getAllCategoriesUrl,
   deleteCategoryUrl,
   createCategoryUrl,
@@ -10,11 +11,25 @@ export async function getAllCategories() {
   try {
     const response = await fetchData(getAllCategoriesUrl);
     if (response?.status !== 200) {
-      console.log('Error al obtener las categorias');
+      console.log('Error al obtener todas las categorias');
       return { categories: [], status: 500 };
     }
     const categories = response?.data?.payload;
     return { categories, status: 200 };
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getAllSegments() {
+  try {
+    const response = await fetchData(getAllSegmentsUrl);
+    if (response?.status !== 200) {
+      console.log('Error al obtener todos los segmentos');
+      return { categories: [], status: 500 };
+    }
+    const segments = response?.data?.payload;
+    return { segments, status: 200 };
   } catch (error) {
     console.error(error);
   }
