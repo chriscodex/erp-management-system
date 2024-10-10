@@ -1,5 +1,5 @@
 import { Category } from '@/backend/categorias/domain/models/category';
-import { Segment } from '@/backend/categorias/domain/models/segment.js';
+import { Segment } from '@/backend/segments/domain/models/segment';
 import mongoose from 'mongoose';
 
 export class CategoryRepository {
@@ -23,7 +23,9 @@ export class CategoryRepository {
       console.error(
         `Category Repository: Error al buscar todas las categorías: ${error.message}`
       );
-      throw new Error(`Error al buscar todas las categorías: ${error.message}`);
+      throw new Error(
+        `Error interno al buscar todas las categorías: ${error.message}`
+      );
     }
   }
   async getCategory(category) {
