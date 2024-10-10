@@ -1,4 +1,4 @@
-import { SegmentRepository } from '@/backend/categorias/domain/repositories/categoryRepository.js';
+import { SegmentRepository } from '@/backend/segments/domain/repositories/segmentRepository';
 
 export class SegmentService {
   constructor() {
