@@ -3,9 +3,6 @@ import { z } from 'zod';
 const objectIdRegex = /^[a-f\d]{24}$/i; // Expresión regular para el formato de ObjectId
 
 export const addCategorySchema = z.object({
-  segmentId: z.string().regex(objectIdRegex, {
-    message: 'El id debe ser un ObjectId válido',
-  }),
   nombre: z
     .string()
     .min(1, {
@@ -16,11 +13,8 @@ export const addCategorySchema = z.object({
     }),
   descripcion: z
     .string()
-    .min(3, {
-      message: 'La descripción debe tener al menos 3 caracteres',
-    })
-    .max(50, {
-      message: 'La descripción debe tener más de 50 caracteres',
-    })
     .optional(),
+  segmentId: z.string().regex(objectIdRegex, {
+    message: 'Debe elegir un segmento',
+  }),
 });
