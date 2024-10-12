@@ -26,17 +26,24 @@ import { addCategorySchema } from '@/app/inventario/categorias/_services/validat
 import { Input } from '@/components/ui/input';
 import { createCategory } from '@/app/inventario/categorias/_services/requests.js';
 import { Button } from '@/components/ui/button';
-import { Loader2 } from 'lucide-react';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 
-export function AddCategory({ categoryData }) {
+export function AddCategory({ segments }) {
   const router = useRouter();
 
   const addCategoryForm = useForm({
     resolver: zodResolver(addCategorySchema),
     defaultValues: {
-      segmentId: categoryData?.segmentId,
-      nombre: categoryData?.nombre,
-      descripcion: categoryData?.descripcion,
+      segmentId: '',
+      nombre: '',
+      descripcion: '',
     },
   });
 
@@ -104,18 +111,16 @@ export function AddCategory({ categoryData }) {
           />
           <FormField
             control={control}
-            name="nombre"
+            name="descripcion"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel>Nombre</FormLabel>
+                <FormLabel>Descripción</FormLabel>
                 <div className="relative">
                   <FormControl>
-                    <Input
-                      placeholder="Nombre"
-                      className="pl-2"
-                      autoComplete="off"
+                    <Textarea
                       disabled={formSubmitIsLoading}
                       {...field}
+                      placeholder="Escribe la descripción aquí."
                     />
                   </FormControl>
                   <FormMessage />
@@ -123,9 +128,47 @@ export function AddCategory({ categoryData }) {
               </FormItem>
             )}
           />
+          <FormField
+            control={control}
+            name="segmentId"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Segmento</FormLabel>
+                <div className="relative">
+                  <Select
+                    defaultValue={field.value}
+                    onValueChange={field.onChange}
+                    disabled={formSubmitIsLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Seleccione un segmento" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {segments?.map((segment) => (
+                        <SelectItem key={segment?._id} value={segment?._id}>
+                          {segment?.nombre}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
           <SheetFooter>
             <SheetClose asChild>
-              <Button type="submit">Save changes</Button>
+              <div
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
+                role="button"
+                type="submit"
+                disabled={formSubmitIsLoading}
+                onClick={onSubmit}
+              >
+                Save changes
+              </div>
             </SheetClose>
           </SheetFooter>
         </form>
