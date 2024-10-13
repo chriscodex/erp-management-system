@@ -1,11 +1,11 @@
-import { fetchData, deleteData } from '@/lib/fetchData';
+import { fetchData, postData, deleteData, patchData } from '@/lib/fetchData';
 import {
   getAllSegmentsUrl,
   getAllCategoriesUrl,
-  deleteCategoryUrl,
   createCategoryUrl,
+  updateCategoryUrl,
+  deleteCategoryUrl,
 } from '@/lib/urls';
-import { postData } from '@/lib/fetchData';
 
 export async function getAllCategories() {
   try {
@@ -49,6 +49,38 @@ export async function createCategory(category, setLoading) {
         setLoading(false);
         reject(
           'No se pudo crear la categoría: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      setLoading(false);
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
+      setLoading(false);
+      reject(error);
+    }
+  });
+}
+/* eslint-enable */
+
+/* eslint-disable */
+export async function updateCategory(category, setLoading) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      setLoading(true);
+      // Simular tiempo de retraso
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      const { _id: id } = category;
+      const url = `${updateCategoryUrl}/${id}`;
+
+      // Obtener los datos de la persona
+      const response = await patchData(url, category);
+      if (response?.status !== 200) {
+        setLoading(false);
+        reject(
+          'No se pudo actualizar la categoría: ' +
+            response.response?.data?.error
         );
         return;
       }
