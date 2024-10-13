@@ -4,7 +4,6 @@ import { sortByCreationDateDesc } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { DataTableCategory } from '@/app/inventario/categorias/_components/categoriesTable/data-table';
-import { columnsCategory } from '@/app/inventario/categorias/_components/categoriesTable/columns';
 import {
   getAllCategories,
   getAllSegments,
@@ -41,8 +40,8 @@ export default async function CategoriasPage() {
           <SheetAddWrapper segments={segments} />
         </div>
         <DataTableCategory
-          columns={columnsCategory}
           data={categoriesSorted}
+          segments={segments}
           status={status}
         />
       </NavbarDynamic>
