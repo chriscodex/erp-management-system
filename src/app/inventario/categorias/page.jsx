@@ -9,7 +9,7 @@ import {
   getAllCategories,
   getAllSegments,
 } from '@/app/inventario/categorias/_services/requests';
-import { SheetWrapper } from '@/app/inventario/categorias/_components/sheets/sheetWrapper';
+import { SheetAddWrapper } from '@/app/inventario/categorias/_components/sheets/addCategory/sheetAddWrapper';
 
 export default async function CategoriasPage() {
   const titles = [
@@ -38,7 +38,7 @@ export default async function CategoriasPage() {
             <RiAppsLine className="h-9 w-9" />
             <Label className="sm:text-4xl text-xl font-bold">Categorías</Label>
           </div>
-          <SheetWrapper segments={segments} />
+          <SheetAddWrapper segments={segments} />
         </div>
         <DataTableCategory
           columns={columnsCategory}
