@@ -2,7 +2,15 @@
 
 import { useState } from 'react';
 
+import { Edit } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { Sheet } from '@/components/ui/sheet';
+
 import { UpdateCategory } from '@/app/inventario/categorias/_components/sheets/updateCategory/update-category';
 
 export function SheetUpdateWrapper({ segments, categoryData }) {
@@ -17,8 +25,20 @@ export function SheetUpdateWrapper({ segments, categoryData }) {
   };
 
   return (
-    <div className='w-full cursor-pointer'>
-      <div onClick={handleOpenSheet}>Editar</div>
+    <div className="cursor-pointer">
+      <TooltipProvider delayDuration={0}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <div onClick={handleOpenSheet}>
+              <Edit />
+            </div>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Editar</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
           <UpdateCategory
