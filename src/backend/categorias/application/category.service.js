@@ -1,5 +1,6 @@
 import { CategoryRepository } from '@/backend/categorias/domain/repositories/categoryRepository.js';
 import { createCategorySchema } from '@/backend/categorias/application/validations/createCategorySchema';
+import { updateCategorySchema } from '@/backend/categorias/application/validations/updateCategorySchema';
 
 export class CategoryService {
   constructor() {
@@ -107,6 +108,49 @@ export class CategoryService {
     } catch (error) {
       console.error(
         `Category Service: Error interno al crear categoría: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async updateCategory(id, category) {
+    try {
+      // Validar los datos del usuario enviado con el schema
+      const categoryValidated = updateCategorySchema.safeParse(category);
+
+      if (!categoryValidated.success) {
+        console.log(
+          'Category Service: Error de validación de schema de categoría al actualizar'
+        );
+        return {
+          status: 400,
+          payload: categoryValidated.error.issues,
+        };
+      }
+
+      const categoryUpdated = await this.categoryRepository.updateCategory(
+        id,
+        category
+      );
+
+      if (!categoryUpdated) {
+        console.log('Category Service: La categoría no existe');
+        return {
+          status: 404,
+          payload: 'La categoría no existe',
+        };
+      }
+
+      console.log('Category Service: Categoría actualizada correctamente');
+      return {
+        status: 200,
+        payload: categoryUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Category Service: Error interno al actualizar una categoría: ${error.message}`
       );
       return {
         status: 500,
