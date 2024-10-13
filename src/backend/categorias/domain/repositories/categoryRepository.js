@@ -67,6 +67,32 @@ export class CategoryRepository {
       throw new Error(`Error al crear categoría: ${error.message}`);
     }
   }
+  async updateCategory(id, category) {
+    try {
+      const updatedCategory = await this.categoryModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(id) },
+        category,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedCategory) {
+        console.log(
+          'Category Repository: Categoría no encontrada para ser actualizada'
+        );
+        return null;
+      }
+
+      console.log('Category Repository: Categoría actualizada correctamente');
+      return updatedCategory;
+    } catch (error) {
+      console.error(
+        `Category Repository: Error al actualizar categoría: ${error.message}`
+      );
+      throw new Error(`Error al actualizar categoría: ${error.message}`);
+    }
+  }
   async deleteCategory(id) {
     try {
       const deletedCategory = await this.categoryModel.findOneAndDelete({
