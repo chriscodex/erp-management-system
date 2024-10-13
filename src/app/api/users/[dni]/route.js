@@ -17,7 +17,7 @@ export async function GET(request, { params }) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     return NextResponse.json(
-      { message: 'Error fetching users' },
+      { message: 'Error obteniendo el usuario' },
       { status: 500 }
     );
   }
@@ -37,7 +37,7 @@ export async function PATCH(request, { params }) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { message: 'Error actualizando users' },
+      { message: 'Error actualizando el usuario' },
       { status: 500 }
     );
   }
@@ -56,7 +56,7 @@ export async function DELETE(request, { params }) {
   } catch (error) {
     console.log(error);
     return NextResponse.json(
-      { message: 'Error eliminando users' },
+      { message: 'Error eliminando el usuario' },
       { status: 500 }
     );
   }
