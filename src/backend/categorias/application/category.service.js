@@ -68,7 +68,7 @@ export class CategoryService {
 
       if (!categoryValidated.success) {
         console.log(
-          'Category Service: Error de validación de schema de categoría al crear'
+          `Category Service: Error de validación de schema de categoría al crear ${categoryValidated}`
         );
         return {
           status: 400,
