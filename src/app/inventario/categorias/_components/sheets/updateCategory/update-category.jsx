@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/sheet';
 import { updateCategorySchema } from '@/app/inventario/categorias/_services/validations/updateCategorySchema';
 import { Input } from '@/components/ui/input';
-import { createCategory } from '@/app/inventario/categorias/_services/requests.js';
+import { updateCategory } from '@/app/inventario/categorias/_services/requests';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
@@ -40,9 +40,10 @@ export function UpdateCategory({ segments, onClose, categoryData }) {
   const updateCategoryForm = useForm({
     resolver: zodResolver(updateCategorySchema),
     defaultValues: {
-      segmentId: categoryData?.segmentId?._id,
       nombre: categoryData?.nombre,
       descripcion: categoryData?.descripcion,
+      estado: categoryData?.estado,
+      segmentId: categoryData?.segmentId?._id,
     },
   });
 
@@ -57,11 +58,14 @@ export function UpdateCategory({ segments, onClose, categoryData }) {
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
+    const categoryObject = {
+      ...data,
+      _id: categoryData?._id,
+    };
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(createCategory(data, setFormSubmitIsLoading), {
+    toast.promise(updateCategory(categoryObject, setFormSubmitIsLoading), {
       loading: 'Actualizando...',
       success: () => {
         clearErrors();
@@ -82,7 +86,8 @@ export function UpdateCategory({ segments, onClose, categoryData }) {
       <SheetHeader>
         <SheetTitle>{categoryData?.nombre}</SheetTitle>
         <SheetDescription>
-          Modifique la información de la categoría actual. Luego pulse en actualizar
+          Modifique la información de la categoría actual. Luego pulse en
+          actualizar
         </SheetDescription>
       </SheetHeader>
       <Form {...updateCategoryForm}>
@@ -149,6 +154,33 @@ export function UpdateCategory({ segments, onClose, categoryData }) {
                           {segment?.nombre}
                         </SelectItem>
                       ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="estado"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Estado</FormLabel>
+                <div className="relative">
+                  <Select
+                    defaultValue={categoryData?.estado}
+                    onValueChange={field.onChange}
+                    disabled={formSubmitIsLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Seleccione un estado" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="activo">Activo</SelectItem>
+                      <SelectItem value="inactivo">Inactivo</SelectItem>
                     </SelectContent>
                   </Select>
                   <FormMessage />
