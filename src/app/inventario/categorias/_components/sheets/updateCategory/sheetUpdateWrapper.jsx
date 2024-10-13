@@ -17,7 +17,7 @@ export function SheetUpdateWrapper({ segments, categoryData }) {
   };
 
   return (
-    <div>
+    <div className='w-full cursor-pointer'>
       <div onClick={handleOpenSheet}>Editar</div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
