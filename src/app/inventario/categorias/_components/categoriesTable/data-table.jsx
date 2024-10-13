@@ -22,24 +22,24 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown } from 'lucide-react';
+import { RiFileListLine, RiDeleteBinLine } from '@remixicon/react';
 import { Badge } from '@/components/ui/badge';
+
 import { DeleteCategoryAlert } from '@/app/inventario/categorias/_components/dialogs/DeleteCategoryAlert';
 import { CategoryDetail } from '@/app/inventario/categorias/_components/sheets/category-detail';
 import { SheetUpdateWrapper } from '@/app/inventario/categorias/_components/sheets/updateCategory/sheetUpdateWrapper';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 
 export function DataTableCategory({ data, segments, status = 200 }) {
   const router = useRouter();
@@ -112,59 +112,61 @@ export function DataTableCategory({ data, segments, status = 200 }) {
     },
     {
       id: 'actions',
+      header: 'Acciones',
       cell: ({ row }) => {
         const categoryData = row.original;
-
-        const router = useRouter();
 
         const [isOpenDialogDeleteCategory, setIsOpenDialogDeleteCategory] =
           useState(false);
 
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="h-8 w-8 p-0">
-                <span className="sr-only">Abrir menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="center">
-              <DropdownMenuLabel className="select-none">
-                Acciones
-              </DropdownMenuLabel>
+          <div className="flex items-center space-x-3">
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="cursor-pointer flex">
+                    <Sheet>
+                      <SheetTrigger className="text-start">
+                        <RiFileListLine />
+                      </SheetTrigger>
+                      <CategoryDetail categoryData={categoryData} />
+                    </Sheet>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Detalle</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-              <DropdownMenuItem onClick={(e) => e.preventDefault()} className>
-                <Sheet className="w-full h-full">
-                  <SheetTrigger className="w-full h-full text-start cursor-pointer">
-                    Detalle
-                  </SheetTrigger>
-                  <CategoryDetail categoryData={categoryData} />
-                </Sheet>
-              </DropdownMenuItem>
+            <SheetUpdateWrapper
+              segments={segments}
+              categoryData={categoryData}
+            />
 
-              <DropdownMenuItem onClick={(e) => e.preventDefault()}>
-                <SheetUpdateWrapper
-                  segments={segments}
-                  categoryData={categoryData}
-                />
-              </DropdownMenuItem>
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => setIsOpenDialogDeleteCategory(true)}
+                  >
+                    <RiDeleteBinLine />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Eliminar</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
 
-              <DropdownMenuSeparator />
-
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => setIsOpenDialogDeleteCategory(true)}
-              >
-                Eliminar
-              </DropdownMenuItem>
-            </DropdownMenuContent>
             <DeleteCategoryAlert
               isOpen={isOpenDialogDeleteCategory}
               setIsOpen={setIsOpenDialogDeleteCategory}
               actionAfterComplete="refresh"
               id={categoryData._id}
             />
-          </DropdownMenu>
+          </div>
         );
       },
     },
