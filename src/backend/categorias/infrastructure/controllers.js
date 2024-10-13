@@ -31,6 +31,19 @@ export async function createCategoryController(categoryData) {
   }
 }
 
+export async function updateCategoryController(id, category) {
+  try {
+    await connectDB();
+    const updatedCategory = await categoryService.updateCategory(id, category);
+    return updatedCategory;
+  } catch (error) {
+    console.error('Controller: Error actualizando la categoría:', error);
+    throw new Error(
+      'Controller: Internal Server Error - updateCategoryController'
+    );
+  }
+}
+
 export async function deleteCategoryController(id) {
   try {
     await connectDB();
