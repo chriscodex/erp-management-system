@@ -25,7 +25,6 @@ import {
 import { addCategorySchema } from '@/app/inventario/categorias/_services/validations/addCategorySchema.js';
 import { Input } from '@/components/ui/input';
 import { createCategory } from '@/app/inventario/categorias/_services/requests.js';
-import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
@@ -35,7 +34,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-export function AddCategory({ segments }) {
+export function AddCategory({ segments, onClose }) {
   const router = useRouter();
 
   const addCategoryForm = useForm({
@@ -49,9 +48,6 @@ export function AddCategory({ segments }) {
 
   const {
     handleSubmit,
-    watch,
-    setValue,
-    formState: { errors },
     control,
     clearErrors,
     reset: resetForm,
@@ -70,6 +66,7 @@ export function AddCategory({ segments }) {
       success: () => {
         clearErrors();
         resetForm();
+        onClose();
         router.refresh();
         return `Categoría creada exitosamente`;
       },
@@ -116,7 +113,7 @@ export function AddCategory({ segments }) {
             name="descripcion"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel>Descripción</FormLabel>
+                <FormLabel>Descripción (Opcional)</FormLabel>
                 <div className="relative">
                   <FormControl>
                     <Textarea
