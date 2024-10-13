@@ -64,7 +64,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
     },
     {
       accessorFn: (row) => row?.segmentId?.nombre,
-      id: 'segmentName',
+      id: 'Segmento',
       header: ({ column }) => {
         return (
           <Button
