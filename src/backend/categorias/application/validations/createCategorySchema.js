@@ -16,11 +16,5 @@ export const createCategorySchema = z.object({
     }),
   descripcion: z
     .string()
-    .min(3, {
-      message: 'La descripción debe tener al menos 3 caracteres',
-    })
-    .max(50, {
-      message: 'La descripción debe tener más de 50 caracteres',
-    })
     .optional(),
 });
