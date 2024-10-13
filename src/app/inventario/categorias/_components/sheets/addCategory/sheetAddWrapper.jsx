@@ -1,10 +1,10 @@
 'use client';
 
-import { Sheet } from '@/components/ui/sheet';
 import { Plus } from 'lucide-react';
-
-import { AddCategory } from '@/app/inventario/categorias/_components/sheets/addCategory/add-category.jsx';
 import { useState } from 'react';
+
+import { Sheet } from '@/components/ui/sheet';
+import { AddCategory } from '@/app/inventario/categorias/_components/sheets/addCategory/add-category.jsx';
 
 export function SheetAddWrapper({ segments }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
