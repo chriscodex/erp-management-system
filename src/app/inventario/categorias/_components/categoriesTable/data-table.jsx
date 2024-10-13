@@ -142,11 +142,11 @@ export function DataTableCategory({ data, segments, status = 200 }) {
                 </Sheet>
               </DropdownMenuItem>
 
-              <DropdownMenuItem
-                onClick={(e) => e.preventDefault()}
-                className="cursor-pointer"
-              >
-                <SheetUpdateWrapper segments={segments} categoryData={categoryData} />
+              <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+                <SheetUpdateWrapper
+                  segments={segments}
+                  categoryData={categoryData}
+                />
               </DropdownMenuItem>
 
               <DropdownMenuSeparator />
