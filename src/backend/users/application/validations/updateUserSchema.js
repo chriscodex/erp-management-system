@@ -41,7 +41,7 @@ export const updateUserSchema = z.object({
     .optional(), // El rol puede ser opcional
   estado: z
     .enum(estados, {
-      errorMap: () => ({ message: 'Seleccione un rol' }),
+      errorMap: () => ({ message: 'Seleccione un estado' }),
     })
     .optional(), // El rol puede ser opcional
   password: z
