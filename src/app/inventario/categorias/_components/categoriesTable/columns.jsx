@@ -129,6 +129,7 @@ export const columnsCategory = [
             isOpen={isOpenDialogDeleteCategory}
             setIsOpen={setIsOpenDialogDeleteCategory}
             actionAfterComplete="refresh"
+            id={categoryData._id}
           />
         </DropdownMenu>
       );
