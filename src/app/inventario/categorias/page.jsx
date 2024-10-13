@@ -1,18 +1,14 @@
-import { Plus } from 'lucide-react';
 import { RiAppsLine } from '@remixicon/react';
 
+import { sortByCreationDateDesc } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { sortByCreationDateDesc } from '@/lib/utils';
-import { Sheet, SheetTrigger } from '@/components/ui/sheet';
-
 import { DataTableCategory } from '@/app/inventario/categorias/_components/categoriesTable/data-table';
 import { columnsCategory } from '@/app/inventario/categorias/_components/categoriesTable/columns';
 import {
   getAllCategories,
   getAllSegments,
 } from '@/app/inventario/categorias/_services/requests';
-import { AddCategory } from './_components/sheets/add-category';
 import { SheetWrapper } from '@/app/inventario/categorias/_components/sheets/sheetWrapper';
 
 export default async function CategoriasPage() {
