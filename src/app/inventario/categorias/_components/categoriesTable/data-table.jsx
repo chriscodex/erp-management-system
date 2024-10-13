@@ -127,7 +127,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
                   <div className="cursor-pointer flex">
                     <Sheet>
                       <SheetTrigger className="text-start">
-                        <RiFileListLine />
+                        <RiFileListLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                       </SheetTrigger>
                       <CategoryDetail categoryData={categoryData} />
                     </Sheet>
@@ -151,7 +151,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
                     className="cursor-pointer"
                     onClick={() => setIsOpenDialogDeleteCategory(true)}
                   >
-                    <RiDeleteBinLine />
+                    <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>

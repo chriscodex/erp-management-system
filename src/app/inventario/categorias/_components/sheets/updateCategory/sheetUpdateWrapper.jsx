@@ -30,7 +30,7 @@ export function SheetUpdateWrapper({ segments, categoryData }) {
         <Tooltip>
           <TooltipTrigger asChild>
             <div onClick={handleOpenSheet}>
-              <Edit />
+              <Edit className="w-5 h-5 text-muted-foreground hover:text-foreground" />
             </div>
           </TooltipTrigger>
           <TooltipContent>
