@@ -54,6 +54,7 @@ export function AddCategory({ segments }) {
     formState: { errors },
     control,
     clearErrors,
+    reset: resetForm,
   } = addCategoryForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
@@ -68,6 +69,7 @@ export function AddCategory({ segments }) {
       loading: 'Creando...',
       success: () => {
         clearErrors();
+        resetForm();
         router.refresh();
         return `Categoría creada exitosamente`;
       },
@@ -167,7 +169,7 @@ export function AddCategory({ segments }) {
                 disabled={formSubmitIsLoading}
                 onClick={onSubmit}
               >
-                Save changes
+                Agregar
               </div>
             </SheetClose>
           </SheetFooter>
