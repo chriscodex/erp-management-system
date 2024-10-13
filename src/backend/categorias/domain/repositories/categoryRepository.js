@@ -69,7 +69,9 @@ export class CategoryRepository {
   }
   async deleteCategory(id) {
     try {
-      const deletedCategory = await this.categoryModel.findOneAndDelete(id);
+      const deletedCategory = await this.categoryModel.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(id),
+      });
 
       if (!deletedCategory) {
         console.log(
