@@ -1,10 +1,22 @@
-import { Label } from '@/components/ui/label';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Plus, User2Icon } from 'lucide-react';
 import Link from 'next/link';
+
+import { Label } from '@/components/ui/label';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Button } from '@/components/ui/button';
 
-function MotosMarcasPage() {
+import { DataTableMarcas } from '@/app/inventario/marcas/_components/MarcasTable/data-table.jsx';
+import { columnsMarcas } from '@/app/inventario/marcas/_components/MarcasTable/columns.jsx';
+
+import { sortByCreationDateDesc } from '@/lib/utils';
+
+import { getAllUsers } from '@/app/usuarios/_services/requests';
+
+export default async function MarcasPage() {
+  const { users, status } = await getAllUsers();
+
+  const usersSorted = sortByCreationDateDesc(users);
+
   /* Secciones del navbar */
   const navbarTitles = [
     {
@@ -34,9 +46,12 @@ function MotosMarcasPage() {
             </Button>
           </Link>
         </div>
+        <DataTableMarcas
+          columns={columnsMarcas}
+          data={usersSorted}
+          status={status}
+        />
       </NavbarDynamic>
     </>
   );
 }
-
-export default MotosMarcasPage;
