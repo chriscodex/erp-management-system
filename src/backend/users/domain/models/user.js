@@ -1,9 +1,9 @@
 import { Schema, model, models } from 'mongoose';
 
 // Eliminar el modelo en caso no considere los cambios
-if (models.User) {
-  delete models.User;
-}
+// if (models.User) {
+//   delete models.User;
+// }
 
 const userSchema = new Schema(
   {
