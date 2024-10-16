@@ -7,11 +7,13 @@ import {
   searchedUsersDataMock,
   segmentDataMock,
   categoryDataMock,
+  marcaDataMock
 } from '@/db/mock-data';
 import { User } from '@/backend/users/domain/models/user';
 import { SearchedUser } from '@/backend/searchedUsers/domain/models/searchedUser';
 import { Segment } from '@/backend/segments/domain/models/segment';
 import { Category } from '@/backend/categorias/domain/models/category';
+import { Marca } from '@/backend/marcas/domain/models/marcasModel';
 
 export async function seedUsers() {
   try {
@@ -116,7 +118,68 @@ export async function seedCategories() {
     // Insertar los datos generados de categorías
     await Category.insertMany(categoryDataMock);
     console.log('Categorías pobladas en la base de datos.');
-  } catch (error) {}
+  } catch (error) {
+    console.error('Seed: Error al poblar la base de datos:', error);
+  }
+}
+
+export async function seedMarcas() {
+  try {
+    if (Marca) {
+      delete models.Marca;
+    }
+
+    // Eliminar todas las marcas existentes
+    await Marca.deleteMany({});
+    console.log('Marcas existentes eliminadas.');
+
+    // Obtener todos las categorias
+    const segments = await Segment.find({});
+    if (segments.length === 0) {
+      throw new Error(
+        'No se encontraron categorías en la base de datos. Asegúrate de ejecutar el seed de segmentos primero.'
+      );
+    }
+
+    // Crear un mapa de segmentos para acceder por nombre
+    const segmentMap = {};
+    segments.forEach((segmento) => {
+      segmentMap[segmento.nombre] = segmento._id; // Usa el nombre del segmento como clave
+    });
+
+    // Llenar los segmentId en categoryDataMock
+    marcaDataMock.forEach((marca) => {
+      if (segmentMap['Productos']) {
+        if (
+          marca.nombre === 'Castrol' ||
+          marca.nombre === 'Motul' ||
+          marca.nombre === 'NGK' ||
+          marca.nombre === 'K&N' ||
+          marca.nombre === 'Liqui Moly'
+        ) {
+          marca.segmentId = segmentMap['Productos'];
+        }
+      }
+      if (segmentMap['Motos']) {
+        if (
+          marca.nombre === 'Honda' ||
+          marca.nombre === 'Harley-Davidson' ||
+          marca.nombre === 'Yamaha' ||
+          marca.nombre === 'Kawasaki' ||
+          marca.nombre === 'Ducati' ||
+          marca.nombre === 'BMW Motorrad'
+        ) {
+          marca.segmentId = segmentMap['Motos'];
+        }
+      }
+    });
+
+    // Insertar los datos generados de categorías
+    await Marca.insertMany(marcaDataMock);
+    console.log('Marcas pobladas en la base de datos.');
+  } catch (error) {
+    console.error('Seed: Error al poblar la base de datos:', error);
+  }
 }
 
 export async function seed() {
@@ -127,6 +190,7 @@ export async function seed() {
     await seedSearchedUsers();
     await seedSegment();
     await seedCategories();
+    await seedMarcas();
   } catch (error) {
     console.error('Error al ejecutar el seeding:', error);
   }
