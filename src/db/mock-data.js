@@ -206,3 +206,82 @@ export const categoryDataMock = [
     segmentId: '',
   },
 ];
+
+export const marcaDataMock = [
+  {
+    nombre: 'Honda',
+    descripcion: 'Motos de aventura',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Harley-Davidson',
+    descripcion:
+      'Marca icónica estadounidense conocida por sus motocicletas de estilo crucero, caracterizadas por su potencia y sonido distintivo.',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Castrol',
+    descripcion:
+      'Marca líder en aceites y lubricantes para motores de motocicletas.',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Liqui Moly',
+    descripcion:
+      'Marca alemana de lubricantes, aditivos y productos de mantenimiento.',
+    estado: 'inactivo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Yamaha',
+    descripcion:
+      'Marca japonesa que abarca una amplia gama de motocicletas, desde modelos deportivos y de aventura hasta scooters y cruceros.',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Kawasaki',
+    descripcion:
+      'Conocida por sus motocicletas deportivas de alto rendimiento, especialmente la serie Ninja.',
+    estado: 'inactivo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Ducati',
+    descripcion:
+      'Marca italiana reconocida por su estilo distintivo y rendimiento deportivo, especialmente en motocicletas de carretera y competición.',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'Motul',
+    descripcion:
+      'Conocida por su amplia gama de aceites y lubricantes de alta calidad, especialmente formulados para motocicletas.',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'NGK',
+    descripcion:
+      'Marca japonesa especializada en bujías de alto rendimiento para motocicletas y otros vehículos. ',
+    estado: 'inactivo',
+    segmentId: '',
+  },
+  {
+    nombre: 'BMW Motorrad',
+    descripcion:
+      'División de motocicletas de BMW, que fabrica modelos de turismo, aventura y deportivos.',
+    estado: 'activo',
+    segmentId: '',
+  },
+  {
+    nombre: 'K&N',
+    descripcion:
+      'Fabricante estadounidense conocido por sus filtros de aire y filtros de aceite de alto rendimiento.',
+    estado: 'activo',
+    segmentId: '',
+  },
+];
