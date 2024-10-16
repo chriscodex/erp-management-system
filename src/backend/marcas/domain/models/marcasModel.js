@@ -1,6 +1,6 @@
 import { Schema, model, models } from 'mongoose';
 
-// Eliminar el modelo en caso no considere los cambios
+// // Eliminar el modelo en caso no considere los cambios
 // if (models.Marca) {
 //   delete models.Marca;
 // }
@@ -19,10 +19,10 @@ const marcaSchema = new Schema(
       type: String,
       required: [true, 'Estado es requerido en el schema de marcas'],
     },
-    categoryId: {
+    segmentId: {
       type: Schema.Types.ObjectId,
-      ref: 'Category',
-      required: [true, 'categoryId es requerido en el schema de marcas'],
+      ref: 'Segment',
+      required: [true, 'segmentId es requerido en el schema de marcas'],
     },
   },
   {
