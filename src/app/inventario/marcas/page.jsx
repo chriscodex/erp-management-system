@@ -10,12 +10,11 @@ import { columnsMarcas } from '@/app/inventario/marcas/_components/MarcasTable/c
 
 import { sortByCreationDateDesc } from '@/lib/utils';
 
-import { getAllUsers } from '@/app/usuarios/_services/requests';
+import { getAllMarcas } from '@/app/inventario/marcas/_services/requests';
 
 export default async function MarcasPage() {
-  const { users, status } = await getAllUsers();
-
-  const usersSorted = sortByCreationDateDesc(users);
+  const { marcas, status } = await getAllMarcas();
+  const marcasSorted = sortByCreationDateDesc(marcas);
 
   /* Secciones del navbar */
   const navbarTitles = [
@@ -48,7 +47,7 @@ export default async function MarcasPage() {
         </div>
         <DataTableMarcas
           columns={columnsMarcas}
-          data={usersSorted}
+          data={marcasSorted}
           status={status}
         />
       </NavbarDynamic>
