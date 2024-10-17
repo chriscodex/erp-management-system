@@ -58,4 +58,31 @@ export class MarcaService {
       };
     }
   }
+  async deleteMarca(id) {
+    try {
+      const marcaDeleted = await this.marcaRepository.deleteMarca(id);
+
+      if (!marcaDeleted) {
+        console.log('Marca Service: Marca no encontrada para ser eliminada');
+        return {
+          status: 404,
+          payload: 'La categoría no existe',
+        };
+      }
+
+      console.log('Marca Service: Marca eliminada correctamente');
+      return {
+        status: 204,
+        payload: marcaDeleted,
+      };
+    } catch (error) {
+      console.error(
+        `Marca Service: Error interno al eliminar la marca: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
