@@ -1,4 +1,4 @@
-import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcasRepository';
+import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
 
 export class MarcaService {
   constructor() {
