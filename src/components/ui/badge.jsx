@@ -17,6 +17,8 @@ const badgeVariants = cva(
         outline: 'text-foreground',
         success:
           'bg-green-500 hover:bg-green-500 text-neutral-100 font-normal text-base',
+        successTable:
+          'bg-green-500 hover:bg-green-500 text-neutral-100 font-normal text-base w-[71px] flex items-center justify-center',
         error:
           'bg-red-500 hover:bg-red-500 text-neutral-100 font-normal text-base',
       },

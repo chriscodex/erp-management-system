@@ -70,7 +70,7 @@ export const columnsMarcas = [
       return (
         <div className="text-start">
           {row.getValue('estado') === 'activo' ? (
-            <Badge variant="success" className="text-sm">
+            <Badge variant="successTable" className="text-sm">
               Activo
             </Badge>
           ) : (
