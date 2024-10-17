@@ -18,52 +18,39 @@ import { Badge } from '@/components/ui/badge';
 
 export const columnsMarcas = [
   {
-    accessorKey: 'apellidos',
+    accessorKey: 'nombre',
     header: ({ column }) => {
-      console.log(column);
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Apellidos
+          Nombre
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue('apellidos')}</div>;
+      return <div className="text-start">{row.getValue('nombre')}</div>;
     },
   },
   {
-    accessorKey: 'nombres',
+    accessorFn: (row) => row?.segmentId?.nombre,
+    id: 'Segmento',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Nombres
+          Segmento
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue('nombres')}</div>;
-    },
-  },
-  {
-    accessorKey: 'rol',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Rol
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
+      const segment = row?.original?.segmentId?.nombre;
+      return <div className="text-start">{segment}</div>;
     },
   },
   {
@@ -95,6 +82,7 @@ export const columnsMarcas = [
       );
     },
   },
+
   {
     id: 'actions',
     cell: ({ row }) => {
