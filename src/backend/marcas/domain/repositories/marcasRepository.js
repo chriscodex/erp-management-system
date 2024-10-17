@@ -1,7 +1,12 @@
 import mongoose from 'mongoose';
 import { Marca } from '@/backend/marcas/domain/models/marca';
+import { Segment } from '@/backend/segments/domain/models/segment';
 
 export class MarcaRepository {
+  constructor() {
+    this.marcaModel = Marca;
+    this.segmentModel = Segment;
+  }
   async getAllMarcas() {
     try {
       const marcas = await Marca.find().populate('segmentId');

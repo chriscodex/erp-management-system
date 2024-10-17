@@ -55,7 +55,7 @@ export function DataTableMarcas({ columns, data, status = 200 }) {
   const TIME_DEBOUNCE = 300;
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('apellidos')?.setFilterValue(value);
+    table.getColumn('nombre')?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
@@ -67,7 +67,7 @@ export function DataTableMarcas({ columns, data, status = 200 }) {
   useEffect(() => {
     if (status !== 200) {
       toast.error(
-        'No podemos conectarnos al servidor en este momento. Verifica tu conexión a internet o inténtalo nuevamente en unos minutos. Si el error persiste, ponte en contacto con Christian.',
+        'No podemos conectarnos al servidor en este momento. Verifica tu conexión a internet o inténtalo nuevamente en unos minutos. Si el error persiste, ponte en contacto con los desarrolladores.',
         { duration: 10000 }
       );
     }
@@ -82,7 +82,6 @@ export function DataTableMarcas({ columns, data, status = 200 }) {
   const isMobile = useIsMobile();
   useEffect(() => {
     if (isMobile) {
-      table.getColumn('rol').toggleVisibility(false);
       table.getColumn('estado').toggleVisibility(false);
     }
   }, [isMobile, table]);
@@ -92,7 +91,7 @@ export function DataTableMarcas({ columns, data, status = 200 }) {
       {/* Input */}
       <div className="flex items-center py-4 w-full">
         <Input
-          placeholder="Buscar por apellidos"
+          placeholder="Buscar por nombre"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"

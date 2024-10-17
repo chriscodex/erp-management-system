@@ -47,9 +47,9 @@ import {
 } from '@/components/ui/form';
 
 import { CrearFullName } from '@/lib/formateador';
-import { updateUserSchema } from '@/app/usuarios/[userDetail]/_validations/updateUserSchema';
-import { updatePasswordSchema } from '@/app/usuarios/[userDetail]/_validations/updatePasswordSchema';
-import { updateUser } from '@/app/usuarios/[userDetail]/_services/requests';
+import { updateUserSchema } from '@/app/usuarios/[id]/_validations/updateUserSchema';
+import { updatePasswordSchema } from '@/app/usuarios/[id]/_validations/updatePasswordSchema';
+import { updateUser } from '@/app/usuarios/[id]/_services/requests';
 import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
 import { useRouter } from 'next/navigation';
 

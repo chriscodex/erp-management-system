@@ -1,55 +1,101 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Tag, Calendar, Info, CheckCircle, XCircle } from 'lucide-react';
+import { RiMotorbikeLine, RiDropboxFill } from '@remixicon/react';
 
-import { getMarca } from '@/app/inventario/marcas/[id]/_services/requests';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from '@/components/ui/breadcrumb';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { SidebarInset, SidebarTrigger } from '@/components/ui/sidebar';
-import { FormUserDetail } from '@/app/usuarios/[userDetail]/_components/FormUserDetail';
+import { getMarca } from '@/app/inventario/marcas/[id]/_services/requests.js';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 
 export default async function Page({ params }) {
-  const { marca, status } = await getMarca(params.id);
+  const { marca } = await getMarca(params.id);
+
   if (!marca) {
     notFound();
   }
+
+  const {
+    nombre: marcaName,
+    descripcion,
+    estado,
+    segmentId: { nombre: segmentName },
+    createdAt,
+  } = marca;
+
+  const titles = [
+    {
+      title: 'Inventario',
+      href: '/inventario/todos',
+      active: false,
+    },
+    {
+      title: 'Marcas',
+      href: '/inventario/marcas',
+      active: true,
+    },
+    {
+      title: marcaName,
+      href: '/inventario/marcas',
+      active: false,
+    },
+  ];
+
+  console.log(marca);
+
+  const isActive = estado === 'activo';
+
   return (
-    <SidebarInset>
-      <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-        <div className="flex items-center gap-2 px-4">
-          <SidebarTrigger className="-ml-1" />
-          <Separator
-            orientation="vertical"
-            className="mr-2 h-4 dark:bg-white bg-muted-foreground"
-          />
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <Link
-                  href="/usuarios"
-                  className="text-muted-foreground transition-colors hover:text-foreground"
-                >
-                  Usuarios
-                </Link>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem className="select-none">
-                <BreadcrumbPage>
-                  Marca
-                </BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-      </header>
-      <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-        {/* <FormUserDetail userDetail={user} /> */}
+    <NavbarDynamic titles={titles}>
+      <div className="container mx-auto p-4">
+        <Card className="w-full max-w-7xl mx-auto">
+          <CardHeader>
+            <div className="flex justify-between items-center">
+              <CardTitle className="text-2xl font-bold">{marcaName}</CardTitle>
+              <Badge variant={isActive ? 'success' : 'destructive'}>
+                {isActive ? (
+                  <CheckCircle className="mr-1 h-4 w-4" />
+                ) : (
+                  <XCircle className="mr-1 h-4 w-4" />
+                )}
+                {isActive ? 'Activo' : 'Inactivo'}
+              </Badge>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              <div className="flex items-center space-x-2">
+                <Info className="h-5 w-5 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">
+                  Descripción:
+                </span>
+              </div>
+              <p>{descripcion}</p>
+              <Separator />
+              <div className="flex items-center space-x-2">
+                <Tag className="h-5 w-5 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Segmento:</span>
+                <Badge variant="outline" className="ml-2">
+                  {segmentName === 'Motos' ? (
+                    <RiMotorbikeLine className="mr-1 h-4 w-4" />
+                  ) : (
+                    <RiDropboxFill className="mr-1 h-4 w-4" />
+                  )}
+                  {segmentName}
+                </Badge>
+              </div>
+              <Separator />
+              <div className="flex items-center space-x-2">
+                <Calendar className="h-5 w-5 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">
+                  Fecha de creación:
+                </span>
+                <span>{new Date(createdAt).toLocaleDateString()}</span>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </SidebarInset>
+    </NavbarDynamic>
   );
 }

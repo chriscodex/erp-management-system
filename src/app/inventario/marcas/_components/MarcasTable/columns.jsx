@@ -86,7 +86,7 @@ export const columnsMarcas = [
   {
     id: 'actions',
     cell: ({ row }) => {
-      const { dni } = row.original;
+      const { _id: id } = row.original;
 
       const router = useRouter();
 
@@ -107,7 +107,7 @@ export const columnsMarcas = [
             </DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/usuarios/${dni}`)}
+              onClick={() => router.push(`/inventario/marcas/${id}`)}
             >
               Detalle
             </DropdownMenuItem>
@@ -122,7 +122,7 @@ export const columnsMarcas = [
           <DeleteUserAlert
             isOpen={isOpenDialogDeleteUser}
             setIsOpen={setIsOpenDialogDeleteUser}
-            userDni={dni}
+            userDni={id}
             actionAfterComplete="refresh"
           />
         </DropdownMenu>
