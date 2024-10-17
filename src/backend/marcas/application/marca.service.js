@@ -31,4 +31,31 @@ export class MarcaService {
       };
     }
   }
+  async getMarca(id) {
+    try {
+      const marcaFound = await this.marcaRepository.getMarca(id);
+
+      if (!marcaFound) {
+        console.log('Marca Service: La marca no existe');
+        return {
+          status: 404,
+          payload: 'La marca no existe',
+        };
+      }
+
+      console.log('Marca Service: La marca existe');
+      return {
+        status: 200,
+        payload: marcaFound,
+      };
+    } catch (error) {
+      console.error(
+        `Marca Service: Error interno al buscar una marca: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
