@@ -15,3 +15,14 @@ export async function getAllMarcasController() {
     );
   }
 }
+
+export async function getMarcaController(id) {
+  try {
+    await connectDB();
+    const marcaData = await marcaService.getMarca(id);
+    return marcaData;
+  } catch (error) {
+    console.error('Controller: Error buscando una marca:', error);
+    throw new Error('Controller: Internal Server Error - getMarcaController');
+  }
+}
