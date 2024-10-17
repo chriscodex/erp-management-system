@@ -26,3 +26,16 @@ export async function getMarcaController(id) {
     throw new Error('Controller: Internal Server Error - getMarcaController');
   }
 }
+
+export async function deleteMarcaController(id) {
+  try {
+    await connectDB();
+    const marcaDeleted = await marcaService.deleteMarca(id);
+    return marcaDeleted;
+  } catch (error) {
+    console.error('Controller: Error eliminando la marca:', error);
+    throw new Error(
+      'Controller: Internal Server Error - deleteMarcaController'
+    );
+  }
+}
