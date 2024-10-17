@@ -1,6 +1,6 @@
 import { Marca } from '@/backend/marcas/domain/models/marca';
 
-export class MarcasRepository {
+export class MarcaRepository {
   async getAllMarcas() {
     try {
       const marcas = await Marca.find();
