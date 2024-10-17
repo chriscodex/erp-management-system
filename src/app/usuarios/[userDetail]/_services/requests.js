@@ -1,10 +1,10 @@
 import { fetchData, patchData } from '@/lib/fetchData';
-import { updateUserUrl } from '@/lib/urls.js';
+import { getUserUrl, updateUserUrl } from '@/lib/urls.js';
 
 export async function getUser(dni) {
   try {
-    const getUserUrl = `${process.env.NEXT_PUBLIC_API_URL}/users/${dni}`;
-    const response = await fetchData(getUserUrl);
+    const url = `${getUserUrl}/${dni}`;
+    const response = await fetchData(url);
     if (response?.status !== 200) {
       console.log('Error al obtener el usuario desde el cliente');
       return { user: null, status: 500 };
