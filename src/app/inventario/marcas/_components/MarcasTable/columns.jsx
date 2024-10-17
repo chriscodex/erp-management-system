@@ -2,6 +2,7 @@
 
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -12,9 +13,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
-import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
+import { DeleteMarcaAlert } from '@/app/inventario/marcas/_components/Dialogs/DeleteCategoryAlert.jsx';
 
 export const columnsMarcas = [
   {
@@ -90,6 +90,7 @@ export const columnsMarcas = [
 
       const router = useRouter();
 
+      /* Manejar estado de eliminar marca */
       const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] =
         useState(false);
 
@@ -119,10 +120,11 @@ export const columnsMarcas = [
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>
-          <DeleteUserAlert
+          {/* Dialog Delete */}
+          <DeleteMarcaAlert
             isOpen={isOpenDialogDeleteUser}
             setIsOpen={setIsOpenDialogDeleteUser}
-            userDni={id}
+            id={id}
             actionAfterComplete="refresh"
           />
         </DropdownMenu>
