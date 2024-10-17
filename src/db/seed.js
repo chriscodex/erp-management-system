@@ -13,7 +13,7 @@ import { User } from '@/backend/users/domain/models/user';
 import { SearchedUser } from '@/backend/searchedUsers/domain/models/searchedUser';
 import { Segment } from '@/backend/segments/domain/models/segment';
 import { Category } from '@/backend/categorias/domain/models/category';
-import { Marca } from '@/backend/marcas/domain/models/marcasModel';
+import { Marca } from '@/backend/marcas/domain/models/marcaModel';
 
 export async function seedUsers() {
   try {

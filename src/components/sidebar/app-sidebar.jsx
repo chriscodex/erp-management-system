@@ -59,16 +59,6 @@ const data = {
               url: '/inventario/motos/modelos',
               icon: RiMotorbikeLine,
             },
-            {
-              title: 'Marcas',
-              url: '/inventario/motos/marcas',
-              icon: RiInstanceFill,
-            },
-            {
-              title: 'Categorías',
-              url: '/inventario/motos/categorias',
-              icon: RiAppsLine,
-            },
           ],
           icon: RiMotorbikeFill,
         },
@@ -80,16 +70,6 @@ const data = {
               title: 'Todos',
               url: '/inventario/productos/todos',
               icon: RiDropboxFill,
-            },
-            {
-              title: 'Marcas',
-              url: '/inventario/productos/marcas',
-              icon: RiInstanceFill,
-            },
-            {
-              title: 'Categorías',
-              url: '/inventario/productos/categorias',
-              icon: RiAppsLine,
             },
           ],
           icon: RiGalleryView2,
