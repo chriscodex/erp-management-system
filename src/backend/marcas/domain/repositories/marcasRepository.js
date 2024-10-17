@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { Marca } from '@/backend/marcas/domain/models/marca';
 
 export class MarcaRepository {
@@ -19,6 +20,26 @@ export class MarcaRepository {
       throw new Error(
         `Marca Repository: Error al buscar todas las marcas: ${error.message}`
       );
+    }
+  }
+  async getMarca(id) {
+    try {
+      const marca = await Marca.findOne({
+        _id: new mongoose.Types.ObjectId(id),
+      }).populate('segmentId');
+
+      if (!marca) {
+        console.log('Marca Repository: Marca no encontrada');
+        return null;
+      }
+
+      console.log('Marca Repository: Marca encontrada');
+      return marca;
+    } catch (error) {
+      console.error(
+        `Marca Repository: Error al buscar una marca: ${error.message}`
+      );
+      throw new Error(`Error al buscar una marca: ${error.message}`);
     }
   }
 }

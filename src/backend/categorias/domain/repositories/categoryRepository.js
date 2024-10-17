@@ -1,6 +1,6 @@
+import mongoose from 'mongoose';
 import { Category } from '@/backend/categorias/domain/models/category';
 import { Segment } from '@/backend/segments/domain/models/segment';
-import mongoose from 'mongoose';
 
 export class CategoryRepository {
   constructor() {
