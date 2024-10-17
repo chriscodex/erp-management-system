@@ -3,7 +3,7 @@ import { Marca } from '@/backend/marcas/domain/models/marca';
 export class MarcaRepository {
   async getAllMarcas() {
     try {
-      const marcas = await Marca.find();
+      const marcas = await Marca.find().populate('segmentId');
 
       if (marcas.length === 0) {
         console.log('Marca Repository: No se encontraron marcas');
