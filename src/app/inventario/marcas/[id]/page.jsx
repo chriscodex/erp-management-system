@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { getMarca } from '@/app/inventario/marcas/[id]/_services/requests.js';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { formatDateLong } from '@/lib/formateador';
 
 export default async function Page({ params }) {
   const { marca } = await getMarca(params.id);
@@ -41,7 +42,7 @@ export default async function Page({ params }) {
     },
   ];
 
-  console.log(marca);
+  const createdAtFormated = formatDateLong(createdAt);
 
   const isActive = estado === 'activo';
 
@@ -90,7 +91,7 @@ export default async function Page({ params }) {
                 <span className="text-sm text-muted-foreground">
                   Fecha de creación:
                 </span>
-                <span>{new Date(createdAt).toLocaleDateString()}</span>
+                <span>{createdAtFormated}</span>
               </div>
             </div>
           </CardContent>
