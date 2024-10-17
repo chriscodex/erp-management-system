@@ -9,7 +9,7 @@ export class MarcaRepository {
   }
   async getAllMarcas() {
     try {
-      const marcas = await Marca.find().populate('segmentId');
+      const marcas = await this.marcaModel.find().populate('segmentId');
 
       if (marcas.length === 0) {
         console.log('Marca Repository: No se encontraron marcas');
@@ -29,9 +29,11 @@ export class MarcaRepository {
   }
   async getMarca(id) {
     try {
-      const marca = await Marca.findOne({
-        _id: new mongoose.Types.ObjectId(id),
-      }).populate('segmentId');
+      const marca = await this.marcaModel
+        .findOne({
+          _id: new mongoose.Types.ObjectId(id),
+        })
+        .populate('segmentId');
 
       if (!marca) {
         console.log('Marca Repository: Marca no encontrada');
@@ -45,6 +47,26 @@ export class MarcaRepository {
         `Marca Repository: Error al buscar una marca: ${error.message}`
       );
       throw new Error(`Error al buscar una marca: ${error.message}`);
+    }
+  }
+  async deleteMarca(id) {
+    try {
+      const deletedMarca = await this.marcaModel.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(id),
+      });
+
+      if (!deletedMarca) {
+        console.log('Marca Repository: Marca no encontrada para ser eliminado');
+        return null;
+      }
+
+      console.log('Marca Repository: Marca encontrada y eliminada');
+      return deletedMarca;
+    } catch (error) {
+      console.error(
+        `Marca Repository: Error al eliminar una marca: ${error.message}`
+      );
+      throw new Error(`Error al eliminar categoría: ${error.message}`);
     }
   }
 }

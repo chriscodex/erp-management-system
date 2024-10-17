@@ -110,7 +110,7 @@ export class CategoryRepository {
       return deletedCategory;
     } catch (error) {
       console.error(
-        `Category Repository: Error al borrar una categoría: ${error.message}`
+        `Category Repository: Error al eliminar una categoría: ${error.message}`
       );
       throw new Error(`Error al eliminar categoría: ${error.message}`);
     }
