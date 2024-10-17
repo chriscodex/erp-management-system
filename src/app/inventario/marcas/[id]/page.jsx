@@ -54,7 +54,7 @@ export default async function Page({ params }) {
             <div className="flex justify-between items-center">
               <CardTitle className="text-2xl font-bold">{marcaName}</CardTitle>
               <Badge variant={isActive ? 'success' : 'destructive'}>
-                {isActive ? (
+                {!isActive ? (
                   <CheckCircle className="mr-1 h-4 w-4" />
                 ) : (
                   <XCircle className="mr-1 h-4 w-4" />

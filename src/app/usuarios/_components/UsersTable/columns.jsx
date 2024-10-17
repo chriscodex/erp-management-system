@@ -83,7 +83,10 @@ export const columns = [
       return (
         <div className="text-start">
           {row.getValue('estado') === 'activo' ? (
-            <Badge variant="success" className="text-sm">
+            <Badge
+              variant="success"
+              className="text-sm w-[71px] flex justify-center"
+            >
               Activo
             </Badge>
           ) : (

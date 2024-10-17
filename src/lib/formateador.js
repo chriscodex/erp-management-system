@@ -39,6 +39,7 @@ export function formatHour(date) {
  * Convierte una fecha en formato ISO string a un string en formato corto,
  * ejemplo: "22/10/2022" en lugar de "2022-10-22T00:00:00.000Z".
  * @param {string} date - Fecha en formato ISO string
+ * @param {boolean} hour - Si se desea incluir la hora en la fecha, por defecto es true
  * @returns {string} La fecha en formato corto
  */
 export function formatDateShort(date, hour = true) {
@@ -57,6 +58,7 @@ export function formatDateShort(date, hour = true) {
  * Convierte una fecha en formato ISO string a un string en formato largo,
  * ejemplo: "22 de octubre de 2022" en lugar de "2022-10-22T00:00:00.000Z".
  * @param {string} date - Fecha en formato ISO string
+ * @param {boolean} hour - Si se desea incluir la hora en la fecha, por defecto es true
  * @returns {string} La fecha en formato largo
  */
 export function formatDateLong(date, hour = true) {
@@ -75,6 +77,7 @@ export function formatDateLong(date, hour = true) {
  * Convierte una fecha en formato ISO string a un string en formato largo,
  * ejemplo: "martes, 22 de octubre de 2022" en lugar de "2022-10-22T00:00:00.000Z".
  * @param {string} date - Fecha en formato ISO string
+ * @param {boolean} hour - Si se desea incluir la hora en la fecha, por defecto es true
  * @returns {string} La fecha en formato corto
  */
 export function formatDateFull(date, hour = true) {
