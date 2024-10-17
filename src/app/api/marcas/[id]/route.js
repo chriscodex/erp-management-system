@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
-import { getMarcaController } from '@/backend/marcas/infrastructure/controllers';
+import {
+  getMarcaController,
+  deleteMarcaController,
+} from '@/backend/marcas/infrastructure/controllers';
 
 export async function GET(request, { params }) {
   try {
@@ -14,6 +17,25 @@ export async function GET(request, { params }) {
   } catch (error) {
     return NextResponse.json(
       { message: 'Error obteniendo la marca' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request, { params }) {
+  try {
+    const { id } = params;
+    const { payload, status } = await deleteMarcaController(id);
+
+    if (status === 204) {
+      return new NextResponse(null, { status });
+    }
+
+    return NextResponse.json({ error: payload }, { status });
+  } catch (error) {
+    console.error(error);
+    return NextResponse.json(
+      { message: 'Error eliminando la marca' },
       { status: 500 }
     );
   }
