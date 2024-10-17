@@ -105,6 +105,7 @@ export const columns = [
 
       const router = useRouter();
 
+      /* Manejar estado de eliminar usuario */
       const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] =
         useState(false);
 
@@ -134,6 +135,7 @@ export const columns = [
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>
+          {/* Dialog Delete */}
           <DeleteUserAlert
             isOpen={isOpenDialogDeleteUser}
             setIsOpen={setIsOpenDialogDeleteUser}
