@@ -10,3 +10,6 @@ export const getAllCategoriesUrl = `${process.env.NEXT_PUBLIC_API_URL}/categorie
 export const createCategoryUrl = '/api/categories';
 export const updateCategoryUrl = '/api/categories';
 export const deleteCategoryUrl = '/api/categories';
+
+/* Marcas */
+export const getAllMarcasUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
