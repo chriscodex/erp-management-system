@@ -5,7 +5,7 @@ export async function getAllUsers() {
   try {
     const response = await fetchData(getAllUsersUrl);
     if (response?.status !== 200) {
-      console.log('Error al obtener los usuarios');
+      console.log('Error al obtener todos los usuarios');
       return { users: [], status: 500 };
     }
     const users = response?.data?.payload;
