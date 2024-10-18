@@ -30,7 +30,7 @@ export default async function Page({ params }) {
     descripcion,
     estado,
     segmentId: { nombre: segmentName },
-    createdAt,
+    updatedAt,
   } = marca;
 
   const titles = [
@@ -51,7 +51,7 @@ export default async function Page({ params }) {
     },
   ];
 
-  const createdAtFormated = formatDateLong(createdAt);
+  const updatedAtFormated = formatDateLong(updatedAt);
 
   const isActive = estado === 'activo';
 
@@ -91,9 +91,9 @@ export default async function Page({ params }) {
               <div className="flex items-center space-x-2">
                 <Calendar className="h-5 w-5 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">
-                  Fecha de creación:
+                  Última fecha de actualización:
                 </span>
-                <span>{createdAtFormated}</span>
+                <span>{updatedAtFormated}</span>
               </div>
               <Separator />
               <div className="flex items-center space-x-2">
