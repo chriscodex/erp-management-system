@@ -1,4 +1,4 @@
-import { Plus, User2Icon } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
 import { Label } from '@/components/ui/label';
@@ -11,6 +11,7 @@ import { columnsMarcas } from '@/app/inventario/marcas/_components/MarcasTable/c
 import { sortByCreationDateDesc } from '@/lib/utils';
 
 import { getAllMarcas } from '@/app/inventario/marcas/_services/requests';
+import { RiInstanceFill } from '@remixicon/react';
 
 export default async function MarcasPage() {
   const { marcas, status } = await getAllMarcas();
@@ -35,7 +36,7 @@ export default async function MarcasPage() {
       <NavbarDynamic titles={navbarTitles}>
         <div className="flex justify-between">
           <div className="flex items-center gap-2">
-            <User2Icon className="h-9 w-9" />
+            <RiInstanceFill className="h-9 w-9" />
             <Label className="sm:text-4xl text-xl font-bold">Marcas</Label>
           </div>
           <Link href="/usuarios/nuevo" className="flex justify-end">
