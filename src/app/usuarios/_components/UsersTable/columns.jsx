@@ -2,6 +2,7 @@
 
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,7 +14,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
-import { useState } from 'react';
 import { Badge } from '@/components/ui/badge';
 
 export const columns = [

@@ -1,5 +1,12 @@
 import { notFound } from 'next/navigation';
-import { Tag, Calendar, Info, CheckCircle, XCircle } from 'lucide-react';
+import {
+  Tag,
+  Calendar,
+  Info,
+  CheckCircle,
+  XCircle,
+  ActivityIcon,
+} from 'lucide-react';
 import { RiMotorbikeLine, RiDropboxFill } from '@remixicon/react';
 
 import { Badge } from '@/components/ui/badge';
@@ -8,6 +15,7 @@ import { Separator } from '@/components/ui/separator';
 import { getMarca } from '@/app/inventario/marcas/[id]/_services/requests.js';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { formatDateLong } from '@/lib/formateador';
+import { DetailDropdown } from '@/app/inventario/marcas/[id]/_components/detailDropdown';
 
 export default async function Page({ params }) {
   const { marca } = await getMarca(params.id);
@@ -17,6 +25,7 @@ export default async function Page({ params }) {
   }
 
   const {
+    _id: marcaId,
     nombre: marcaName,
     descripcion,
     estado,
@@ -53,14 +62,7 @@ export default async function Page({ params }) {
           <CardHeader>
             <div className="flex justify-between items-center">
               <CardTitle className="text-2xl font-bold">{marcaName}</CardTitle>
-              <Badge variant={isActive ? 'success' : 'error'}>
-                {isActive ? (
-                  <CheckCircle className="mr-1 h-4 w-4" />
-                ) : (
-                  <XCircle className="mr-1 h-4 w-4" />
-                )}
-                {isActive ? 'Activo' : 'Inactivo'}
-              </Badge>
+              <DetailDropdown marcaId={marcaId} />
             </div>
           </CardHeader>
           <CardContent>
@@ -92,6 +94,19 @@ export default async function Page({ params }) {
                   Fecha de creación:
                 </span>
                 <span>{createdAtFormated}</span>
+              </div>
+              <Separator />
+              <div className="flex items-center space-x-2">
+                <ActivityIcon className="h-5 w-5 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">Estado:</span>
+                <Badge variant={isActive ? 'success' : 'error'}>
+                  {isActive ? (
+                    <CheckCircle className="mr-1 h-4 w-4" />
+                  ) : (
+                    <XCircle className="mr-1 h-4 w-4" />
+                  )}
+                  {isActive ? 'Activo' : 'Inactivo'}
+                </Badge>
               </div>
             </div>
           </CardContent>
