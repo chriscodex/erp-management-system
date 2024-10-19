@@ -27,7 +27,7 @@ export class MarcaRepository {
       );
     }
   }
-  async getMarca(id) {
+  async getMarcaById(id) {
     try {
       const marca = await this.marcaModel
         .findOne({
@@ -49,6 +49,31 @@ export class MarcaRepository {
       throw new Error(`Error al buscar una marca: ${error.message}`);
     }
   }
+  async getMarcaByData(marca) {
+    try {
+      const { nombre, segmentId } = marca;
+      const marcaFound = await this.marcaModel.findOne({
+        nombre: { $regex: new RegExp(`^${nombre}$`, 'i') },
+        $or: [
+          { segmentId: new mongoose.Types.ObjectId(segmentId) }, // Coincide con el segmentId proporcionado
+          { segmentId: null }, // O permite segmentId nulo
+        ],
+      });
+
+      if (!marcaFound) {
+        console.log('Marca Repository: Marca no encontrada');
+        return null;
+      }
+
+      console.log('Marca Repository: Marca encontrada');
+      return marcaFound;
+    } catch (error) {
+      console.error(
+        `Marca Repository: Error al buscar la marca: ${error.message}`
+      );
+      throw new Error(`Error al buscar una marca: ${error.message}`);
+    }
+  }
   async createMarca(marca) {
     try {
       const newMarca = new this.marcaModel(marca);
@@ -57,7 +82,9 @@ export class MarcaRepository {
       console.log('Marca Repository: Marca creada correctamente');
       return savedMarca;
     } catch (error) {
-      console.log(`Marca Repository: Error al crear la marca: ${error.message}`);
+      console.log(
+        `Marca Repository: Error al crear la marca: ${error.message}`
+      );
       throw new Error(`Error al crear la marca: ${error.message}`);
     }
   }
@@ -78,7 +105,7 @@ export class MarcaRepository {
       console.error(
         `Marca Repository: Error al eliminar una marca: ${error.message}`
       );
-      throw new Error(`Error al eliminar categoría: ${error.message}`);
+      throw new Error(`Error al eliminar la marca: ${error.message}`);
     }
   }
 }
