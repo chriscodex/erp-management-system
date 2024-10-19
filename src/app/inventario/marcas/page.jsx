@@ -39,7 +39,7 @@ export default async function MarcasPage() {
             <RiInstanceFill className="h-9 w-9" />
             <Label className="sm:text-4xl text-xl font-bold">Marcas</Label>
           </div>
-          <Link href="/usuarios/nuevo" className="flex justify-end">
+          <Link href="/inventario/marcas/nuevo" className="flex justify-end">
             <Button>
               <Plus />
               Agregar Nueva Marca
