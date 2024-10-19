@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
+import { MoreHorizontal, ArrowUpDown, Edit } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { DeleteMarcaAlert } from '@/app/inventario/marcas/_components/Dialogs/DeleteCategoryAlert.jsx';
+import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
 
 export const columnsMarcas = [
   {
@@ -110,12 +111,14 @@ export const columnsMarcas = [
               className="cursor-pointer"
               onClick={() => router.push(`/inventario/marcas/${id}`)}
             >
+              <RiFileListLine />
               Detalle
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
               onClick={() => router.push(`/inventario/marcas/${id}/edit`)}
             >
+              <Edit />
               Editar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -123,6 +126,7 @@ export const columnsMarcas = [
               className="cursor-pointer"
               onClick={() => setIsOpenDialogDeleteUser(true)}
             >
+              <RiDeleteBinLine />
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>
