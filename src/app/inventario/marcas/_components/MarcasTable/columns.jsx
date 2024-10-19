@@ -112,6 +112,12 @@ export const columnsMarcas = [
             >
               Detalle
             </DropdownMenuItem>
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => router.push(`/inventario/marcas/${id}/edit`)}
+            >
+              Editar
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
