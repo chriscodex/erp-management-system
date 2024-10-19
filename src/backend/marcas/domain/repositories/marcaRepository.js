@@ -49,6 +49,18 @@ export class MarcaRepository {
       throw new Error(`Error al buscar una marca: ${error.message}`);
     }
   }
+  async createMarca(marca) {
+    try {
+      const newMarca = new this.marcaModel(marca);
+      const savedMarca = await newMarca.save();
+
+      console.log('Marca Repository: Marca creada correctamente');
+      return savedMarca;
+    } catch (error) {
+      console.log(`Marca Repository: Error al crear la marca: ${error.message}`);
+      throw new Error(`Error al crear la marca: ${error.message}`);
+    }
+  }
   async deleteMarca(id) {
     try {
       const deletedMarca = await this.marcaModel.findOneAndDelete({
