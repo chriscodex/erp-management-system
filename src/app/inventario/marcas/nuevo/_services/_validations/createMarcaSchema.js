@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 const objectIdRegex = /^[a-f\d]{24}$/i; // Expresión regular para el formato de ObjectId
 
-export const addCategorySchema = z.object({
+export const createMarcaSchema = z.object({
   nombre: z
     .string()
     .min(1, {
