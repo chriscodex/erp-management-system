@@ -1,4 +1,5 @@
 import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
+import { createMarcaSchema } from '@/backend/marcas/application/validations/createMarcaSchema';
 
 export class MarcaService {
   constructor() {
@@ -33,7 +34,7 @@ export class MarcaService {
   }
   async getMarca(id) {
     try {
-      const marcaFound = await this.marcaRepository.getMarca(id);
+      const marcaFound = await this.marcaRepository.getMarcaById(id);
 
       if (!marcaFound) {
         console.log('Marca Service: La marca no existe');
@@ -58,6 +59,55 @@ export class MarcaService {
       };
     }
   }
+  async createMarca(marca) {
+    try {
+      // Validar los datos de la marca enviada con el schema
+      const marcaValidated = createMarcaSchema.safeParse(marca);
+
+      if (!marcaValidated.success) {
+        console.log(
+          `Marca Service: Error de validación de schema de marca al crear ${marcaValidated}`
+        );
+        return {
+          status: 400,
+          payload: marcaValidated.error.issues,
+        };
+      }
+
+      // Validar si una marca con ese nombre y en el mismo segmento ya existe
+      const marcaFound = await this.marcaRepository.getMarcaByData(marca);
+      if (marcaFound) {
+        console.log('Marca Service: La marca ya existe en este segmento');
+        return {
+          status: 409,
+          payload: 'La marca ya existe en este segmento',
+        };
+      }
+
+      // Crear el objeto de marca que será guardado en la base de datos
+      const marcaObject = {
+        ...marca,
+        estado: 'activo',
+      };
+
+      // Crear la marca
+      const marcaCreated = await this.marcaRepository.createMarca(marcaObject);
+
+      console.log('Marca Service: Marca creada correctamente');
+      return {
+        status: 201,
+        payload: marcaCreated,
+      };
+    } catch (error) {
+      console.error(
+        `Marca Service: Error interno al crear una marca: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async deleteMarca(id) {
     try {
       const marcaDeleted = await this.marcaRepository.deleteMarca(id);
@@ -66,7 +116,7 @@ export class MarcaService {
         console.log('Marca Service: Marca no encontrada para ser eliminada');
         return {
           status: 404,
-          payload: 'La categoría no existe',
+          payload: 'La marca no existe',
         };
       }
 
