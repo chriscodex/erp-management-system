@@ -4,18 +4,19 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getMarca } from '@/app/inventario/marcas/[id]/_services/requests.js';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { UpdateFormMarca } from '@/app/inventario/marcas/[id]/edit/_components/updateFormMarca';
+import { getAllSegmentsRequest } from '@/app/inventario/categorias/_services/requests';
 
 export default async function Page({ params }) {
   const { marca } = await getMarca(params.id);
+  const { segments } = await getAllSegmentsRequest();
+
+  console.log('marca', marca);
 
   if (!marca) {
     notFound();
   }
 
-  const {
-    // _id: marcaId,
-    nombre: marcaName,
-  } = marca;
+  const { nombre: marcaName } = marca;
 
   const titles = [
     {
@@ -48,7 +49,7 @@ export default async function Page({ params }) {
             <CardTitle className="text-3xl font-bold">Editar</CardTitle>
           </CardHeader>
           <CardContent>
-            <UpdateFormMarca marcaData={marca} />
+            <UpdateFormMarca marcaData={marca} segments={segments} />
           </CardContent>
         </Card>
       </div>

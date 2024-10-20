@@ -26,7 +26,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { createMarcaSchema } from '@/app/inventario/marcas/nuevo/_services/_validations/createMarcaSchema';
+import { createMarcaSchema } from '@/app/inventario/marcas/nuevo/_services/validations/createMarcaSchema';
 import { createMarcaRequest } from '@/app/inventario/marcas/nuevo/_services/requests.js';
 
 export function CreateFormMarca({ segments }) {
