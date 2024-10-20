@@ -1,7 +1,21 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { Save } from 'lucide-react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Select,
   SelectContent,
@@ -9,74 +23,133 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import { Tag, CheckCircle, XCircle, Bike, Package, Save } from 'lucide-react';
+import { createMarcaSchema } from '@/app/inventario/marcas/nuevo/_services/_validations/createMarcaSchema';
+import { createMarcaRequest } from '@/app/inventario/marcas/nuevo/_services/requests.js';
 
-export function CreateFormMarca() {
+export function CreateFormMarca({ segments }) {
+  const router = useRouter();
+  const form = useForm({
+    resolver: zodResolver(createMarcaSchema),
+    defaultValues: {
+      segmentId: '',
+      nombre: '',
+      descripcion: '',
+    },
+  });
+
+  const { handleSubmit, control, clearErrors, setError } = form;
+
+  // Estados de carga
+  const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
+
+  // Manejo de formulario
+  const onSubmit = handleSubmit(async (data) => {
+    setFormSubmitIsLoading(true);
+
+    // Toast promise para buscar una persona
+    toast.promise(createMarcaRequest(data, setFormSubmitIsLoading, setError), {
+      loading: 'Creando...',
+      success: () => {
+        clearErrors();
+        router.push('/inventario/marcas');
+        return `Marca creada exitosamente`;
+      },
+      error: (error) => {
+        setFormSubmitIsLoading(false);
+        return error;
+      },
+    });
+  });
+
   return (
     <>
-      <form className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="name">Nombre</Label>
-          <Input id="name" name="name" required />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="description">Descripción</Label>
-          <Textarea id="description" name="description" rows={4} />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="segment">Segmento</Label>
-          <Select>
-            <SelectTrigger className="w-full">
-              <SelectValue placeholder="Selecciona un segmento" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="Motos">
-                <div className="flex items-center">
-                  <Bike className="mr-2 h-4 w-4" />
-                  Motos
+      <Form {...form}>
+        <form onSubmit={onSubmit} className="grid gap-4 py-4">
+          <FormField
+            control={control}
+            name="nombre"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Nombre</FormLabel>
+                <div className="relative">
+                  <FormControl>
+                    <Input
+                      placeholder="Nombre"
+                      className="pl-2"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
                 </div>
-              </SelectItem>
-              <SelectItem value="Productos">
-                <div className="flex items-center">
-                  <Package className="mr-2 h-4 w-4" />
-                  Productos
-                </div>
-              </SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="flex items-center space-x-2">
-          <Switch
-            id="isActive"
-          />
-          <Label htmlFor="isActive">
-            {true ? (
-              <span className="flex items-center text-green-600">
-                <CheckCircle className="mr-1 h-4 w-4" />
-                Activo
-              </span>
-            ) : (
-              <span className="flex items-center text-red-600">
-                <XCircle className="mr-1 h-4 w-4" />
-                Inactivo
-              </span>
+              </FormItem>
             )}
-          </Label>
-        </div>
-        <Button type="submit" className="w-full" disabled={false}>
-          {false ? (
-            'Creando...'
-          ) : (
-            <>
-              <Save className="mr-2 h-4 w-4" />
-              Crear Marca
-            </>
-          )}
-        </Button>
-      </form>
+          />
+          <FormField
+            control={control}
+            name="descripcion"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Descripción (Opcional)</FormLabel>
+                <div className="relative">
+                  <FormControl>
+                    <Textarea
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                      placeholder="Escribe la descripción aquí."
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="segmentId"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Segmento</FormLabel>
+                <div className="relative">
+                  <Select
+                    defaultValue={field.value}
+                    onValueChange={field.onChange}
+                    disabled={formSubmitIsLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Seleccione un segmento" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {segments?.map((segment) => (
+                        <SelectItem key={segment?._id} value={segment?._id}>
+                          {segment?.nombre}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+
+          <Button type="submit" className="w-full" disabled={false}>
+            {false ? (
+              'Creando...'
+            ) : (
+              <>
+                <Save className="mr-2 h-4 w-4" />
+                Crear Marca
+              </>
+            )}
+          </Button>
+        </form>
+      </Form>
     </>
   );
 }
