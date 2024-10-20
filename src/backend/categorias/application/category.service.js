@@ -1,10 +1,12 @@
 import { CategoryRepository } from '@/backend/categorias/domain/repositories/categoryRepository.js';
+import { SegmentRepository } from '@/backend/segments/domain/repositories/segmentRepository';
 import { createCategorySchema } from '@/backend/categorias/application/validations/createCategorySchema';
 import { updateCategorySchema } from '@/backend/categorias/application/validations/updateCategorySchema';
 
 export class CategoryService {
   constructor() {
     this.categoryRepository = new CategoryRepository();
+    this.segmentRepository = new SegmentRepository();
   }
   async getAllCategories() {
     try {
@@ -74,6 +76,18 @@ export class CategoryService {
         return {
           status: 400,
           payload: categoryValidated.error.issues,
+        };
+      }
+
+      // Validar si el segmento existe
+      const segmentFound = await this.segmentRepository.getSegmentById(
+        category.segmentId
+      );
+      if (!segmentFound) {
+        console.log('Category Service: El segmento no existe');
+        return {
+          status: 404,
+          payload: 'El segmento no existe',
         };
       }
 
