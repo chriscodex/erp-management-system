@@ -79,8 +79,11 @@ export class MarcaRepository {
       const newMarca = new this.marcaModel(marca);
       const savedMarca = await newMarca.save();
 
+      // Populamos el campo segmentId después de guardar
+      const populatedMarca = await savedMarca.populate('segmentId');
+
       console.log('Marca Repository: Marca creada correctamente');
-      return savedMarca;
+      return populatedMarca;
     } catch (error) {
       console.log(
         `Marca Repository: Error al crear la marca: ${error.message}`
