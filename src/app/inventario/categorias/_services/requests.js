@@ -21,7 +21,7 @@ export async function getAllCategories() {
   }
 }
 
-export async function getAllSegments() {
+export async function getAllSegmentsRequest() {
   try {
     const response = await fetchData(getAllSegmentsUrl);
     if (response?.status !== 200) {
