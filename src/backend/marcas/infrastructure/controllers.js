@@ -42,6 +42,19 @@ export async function createMarcaController(marcaData) {
   }
 }
 
+export async function updateMarcaController(id, marca) {
+  try {
+    await connectDB();
+    const updatedMarca = await marcaService.updateMarca(id, marca);
+    return updatedMarca;
+  } catch (error) {
+    console.error('Controller: Error actualizando la marca:', error);
+    throw new Error(
+      'Controller: Internal Server Error - updateMarcaController'
+    );
+  }
+}
+
 export async function deleteMarcaController(id) {
   try {
     await connectDB();
