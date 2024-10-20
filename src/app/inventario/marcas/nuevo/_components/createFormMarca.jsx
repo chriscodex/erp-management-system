@@ -6,6 +6,7 @@ import { toast } from 'sonner';
 import { Save } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { RiArrowLeftLine } from '@remixicon/react';
 
 import {
   Form,
@@ -137,17 +138,29 @@ export function CreateFormMarca({ segments }) {
               </FormItem>
             )}
           />
-
-          <Button type="submit" className="w-full" disabled={false}>
-            {false ? (
-              'Creando...'
-            ) : (
-              <>
-                <Save className="mr-2 h-4 w-4" />
-                Crear Marca
-              </>
-            )}
-          </Button>
+          <div className="flex items-center justify-end space-x-2">
+            <Button
+              variant="outline"
+              onClick={(e) => {
+                e.preventDefault();
+                router.push('/inventario/marcas');
+              }}
+              disabled={formSubmitIsLoading}
+            >
+              <RiArrowLeftLine className="mr-2 h-4 w-4" />
+              Cancelar
+            </Button>
+            <Button type="submit" disabled={formSubmitIsLoading}>
+              {formSubmitIsLoading ? (
+                'Creando...'
+              ) : (
+                <>
+                  <Save className="mr-2 h-4 w-4" />
+                  Crear Marca
+                </>
+              )}
+            </Button>
+          </div>
         </form>
       </Form>
     </>
