@@ -1,6 +1,7 @@
 import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
 import { SegmentRepository } from '@/backend/segments/domain/repositories/segmentRepository';
 import { createMarcaSchema } from '@/backend/marcas/application/validations/createMarcaSchema';
+import { updateMarcaSchema } from '@/backend/marcas/application/validations/updateMarcaSchema';
 
 export class MarcaService {
   constructor() {
@@ -115,6 +116,60 @@ export class MarcaService {
     } catch (error) {
       console.error(
         `Marca Service: Error interno al crear una marca: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async updateMarca(id, marca) {
+    try {
+      // Validar los datos del usuario enviado con el schema
+      const marcaValidated = updateMarcaSchema.safeParse(marca);
+
+      if (!marcaValidated.success) {
+        console.log(
+          'Marca Service: Error de validación de schema de marca al actualizar'
+        );
+        return {
+          status: 400,
+          payload: marcaValidated.error.issues,
+        };
+      }
+
+      // Validar si el segmento enviado existe
+      if (marca.segmentId) {
+        const segmentFound = await this.segmentRepository.getSegmentById(
+          marca.segmentId
+        );
+        if (!segmentFound) {
+          console.log('Marca Service: El segmento no existe');
+          return {
+            status: 404,
+            payload: 'El segmento no existe',
+          };
+        }
+      }
+
+      const marcaUpdated = await this.marcaRepository.updateMarca(id, marca);
+
+      if (!marcaUpdated) {
+        console.log('Marca Service: La marca no existe');
+        return {
+          status: 404,
+          payload: 'La marca no existe',
+        };
+      }
+
+      console.log('Marca Service: Marca actualizada correctamente');
+      return {
+        status: 200,
+        payload: marcaUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Marca Service: Error interno al actualizar la marca: ${error.message}`
       );
       return {
         status: 500,

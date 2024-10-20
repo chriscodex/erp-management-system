@@ -3,7 +3,7 @@ import { z } from 'zod';
 const objectIdRegex = /^[a-f\d]{24}$/i; // Expresión regular para el formato de ObjectId
 const estados = ['activo', 'inactivo'];
 
-export const updateCategorySchema = z.object({
+export const updateMarcaSchema = z.object({
   nombre: z.string().optional(),
   descripcion: z.string().optional(),
   estado: z
