@@ -2,7 +2,7 @@ import { postData } from '@/lib/fetchData';
 import { createMarcaUrl } from '@/lib/urls';
 
 /* eslint-disable */
-export async function createMarcaRequest(marca, setLoading) {
+export async function createMarcaRequest(marca, setLoading, setError) {
   return new Promise(async (resolve, reject) => {
     try {
       setLoading(true);
@@ -11,11 +11,19 @@ export async function createMarcaRequest(marca, setLoading) {
 
       // Obtener los datos de la persona
       const response = await postData(createMarcaUrl, marca);
+      if (response?.status === 409) {
+        setLoading(false);
+        setError('nombre', {
+          type: 'custom',
+          message:
+            'Una marca con el mismo nombre ya existe en el segmento seleccionado',
+        });
+        reject('No se pudo crear la marca: ' + response.response?.data?.error);
+        return;
+      }
       if (response?.status !== 201) {
         setLoading(false);
-        reject(
-          'No se pudo crear la marca: ' + response.response?.data?.error
-        );
+        reject('No se pudo crear la marca: ' + response.response?.data?.error);
         return;
       }
 
