@@ -91,6 +91,32 @@ export class MarcaRepository {
       throw new Error(`Error al crear la marca: ${error.message}`);
     }
   }
+  async updateMarca(id, marca) {
+    try {
+      const updatedMarca = await this.marcaModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(id) },
+        marca,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedMarca) {
+        console.log(
+          'Marca Repository: Marca no encontrada para ser actualizada'
+        );
+        return null;
+      }
+
+      console.log('Marca Repository: Marca actualizada correctamente');
+      return updatedMarca;
+    } catch (error) {
+      console.error(
+        `Marca Repository: Error al actualizar la marca: ${error.message}`
+      );
+      throw new Error(`Error al actualizar la marca: ${error.message}`);
+    }
+  }
   async deleteMarca(id) {
     try {
       const deletedMarca = await this.marcaModel.findOneAndDelete({
