@@ -57,7 +57,6 @@ export function AddCategory({ segments, onClose }) {
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
