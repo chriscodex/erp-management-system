@@ -50,7 +50,7 @@ export class CategoryRepository {
       console.error(
         `Category Repository: Error al buscar una categoría: ${error.message}`
       );
-      throw new Error(`Error al buscar un categoría: ${error.message}`);
+      throw new Error(`Error al buscar una categoría: ${error.message}`);
     }
   }
   async createCategory(categoryData) {
