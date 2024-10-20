@@ -27,6 +27,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { updateMarcaSchema } from '@/app/inventario/marcas/[id]/edit/_services/validations/updateMarcaSchema';
 import { Textarea } from '@/components/ui/textarea';
+import { updateMarcaRequest } from '@/app/inventario/marcas/[id]/_services/requests.js';
 
 export function UpdateFormMarca({ segments, marcaData }) {
   const router = useRouter();
@@ -41,42 +42,36 @@ export function UpdateFormMarca({ segments, marcaData }) {
     },
   });
 
-  const {
-    handleSubmit,
-    control,
-    clearErrors,
-    reset: resetForm,
-  } = updateMarcaForm;
+  const { handleSubmit, control, clearErrors } = updateMarcaForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
-    const categoryObject = {
-      ...data,
-      _id: marcaData?._id,
-    };
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(updateCategory(categoryObject, setFormSubmitIsLoading), {
-      loading: 'Actualizando...',
-      success: () => {
-        clearErrors();
-        resetForm();
-        router.refresh();
-        return `Marca actualizada exitosamente`;
-      },
-      error: (error) => {
-        setFormSubmitIsLoading(false);
-        return error;
-      },
-    });
+    toast.promise(
+      updateMarcaRequest(marcaData?._id, data, setFormSubmitIsLoading),
+      {
+        loading: 'Actualizando...',
+        success: () => {
+          clearErrors();
+          // router.refresh();
+          router.back();
+          return `Marca actualizada exitosamente`;
+        },
+        error: (error) => {
+          setFormSubmitIsLoading(false);
+          return error;
+        },
+      }
+    );
   });
 
   return (
     <Form {...updateMarcaForm}>
-      <form onSubmit={onSubmit} className="space-y-2">
+      <form onSubmit={onSubmit} className="space-y-8">
         <FormField
           control={control}
           name="nombre"
@@ -160,7 +155,10 @@ export function UpdateFormMarca({ segments, marcaData }) {
           name="estado"
           render={({ field }) => (
             <FormItem className="space-y-2">
-              <FormLabel>Estado</FormLabel>
+              <div className="flex items-center space-x-2 text-muted-foreground">
+                <Tag className="h-5 w-5" />
+                <FormLabel>Estado</FormLabel>
+              </div>
               <div className="relative">
                 <Select
                   defaultValue={marcaData?.estado}

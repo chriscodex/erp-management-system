@@ -6,6 +6,8 @@ import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { UpdateFormMarca } from '@/app/inventario/marcas/[id]/edit/_components/updateFormMarca';
 import { getAllSegmentsRequest } from '@/app/inventario/categorias/_services/requests';
 
+export const dynamic = 'force-dynamic';
+
 export default async function Page({ params }) {
   const { marca } = await getMarca(params.id);
   const { segments } = await getAllSegmentsRequest();
