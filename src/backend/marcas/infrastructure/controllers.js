@@ -27,6 +27,21 @@ export async function getMarcaController(id) {
   }
 }
 
+export async function createMarcaController(marcaData) {
+  try {
+    await connectDB();
+
+    /* Responses { payload, status} */
+    const createdMarca = await marcaService.createMarca(marcaData);
+    return createdMarca;
+  } catch (error) {
+    console.error('Controller: Error al crear una marca:', error);
+    throw new Error(
+      'Controller: Internal Server Error - createMarcaController'
+    );
+  }
+}
+
 export async function deleteMarcaController(id) {
   try {
     await connectDB();
