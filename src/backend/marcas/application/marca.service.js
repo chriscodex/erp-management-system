@@ -1,9 +1,11 @@
 import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
+import { SegmentRepository } from '@/backend/segments/domain/repositories/segmentRepository';
 import { createMarcaSchema } from '@/backend/marcas/application/validations/createMarcaSchema';
 
 export class MarcaService {
   constructor() {
     this.marcaRepository = new MarcaRepository();
+    this.segmentRepository = new SegmentRepository();
   }
   async getAllMarcas() {
     try {
@@ -71,6 +73,18 @@ export class MarcaService {
         return {
           status: 400,
           payload: marcaValidated.error.issues,
+        };
+      }
+
+      // Validar si el segmento existe
+      const segmentFound = await this.segmentRepository.getSegmentById(
+        marca.segmentId
+      );
+      if (!segmentFound) {
+        console.log('Marca Service: El segmento no existe');
+        return {
+          status: 404,
+          payload: 'El segmento no existe',
         };
       }
 
