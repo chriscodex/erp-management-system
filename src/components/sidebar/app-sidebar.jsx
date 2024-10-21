@@ -11,11 +11,14 @@ import {
   RiGalleryView2,
   RiAppsLine,
   RiFundsBoxFill,
-  RiArchiveLine
+  RiArchiveLine,
+  RiHome2Line,
+  RiBuildingLine,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
-import { NavProjects } from '@/components/sidebar/nav-projects';
+import { NavAdministracion } from '@/components/sidebar/nav-projects';
+import { NavHome } from '@/components/sidebar/nav-home';
 import { NavUser } from '@/components/sidebar/nav-user';
 import { TeamSwitcher } from '@/components/sidebar/team-switcher';
 import {
@@ -44,6 +47,11 @@ const data = {
       logo: AudioWaveform,
     },
   ],
+  home: {
+    name: 'Inicio',
+    icon: RiHome2Line,
+    url: '/inicio',
+  },
   navMain: [
     {
       title: 'Inventario',
@@ -107,6 +115,11 @@ const data = {
       url: '/usuarios',
       icon: User2Icon,
     },
+    {
+      name: 'Empresas',
+      url: '/empresas',
+      icon: RiBuildingLine,
+    },
   ],
 };
 
@@ -124,8 +137,9 @@ export function AppSidebar({ ...props }) {
           </SidebarHeader>
 
           <SidebarContent>
+            <NavHome home={data.home} />
             <NavMain navTitle={'Plataforma'} items={data.navMain} />
-            <NavProjects projects={data.projects} />
+            <NavAdministracion projects={data.projects} />
           </SidebarContent>
 
           <SidebarFooter>

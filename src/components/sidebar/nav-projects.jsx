@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/sidebar';
 import Link from 'next/link';
 
-export function NavProjects({ projects }) {
+export function NavAdministracion({ projects }) {
   const { isMobile } = useSidebar();
 
   return (
