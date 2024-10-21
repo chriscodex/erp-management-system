@@ -144,20 +144,6 @@ export class CategoryService {
         };
       }
 
-      // Validar si el segmento enviado existe
-      if (category.segmentId) {
-        const segmentFound = await this.segmentRepository.getSegmentById(
-          category.segmentId
-        );
-        if (!segmentFound) {
-          console.log('Category Service: El segmento no existe');
-          return {
-            status: 404,
-            payload: 'El segmento no existe',
-          };
-        }
-      }
-
       // Validar si una categoría con ese nombre y en el mismo segmento ya existe
       const categoryFound = await this.categoryRepository.getCategory(category);
       if (categoryFound) {

@@ -6,14 +6,14 @@ import { columns } from '@/app/usuarios/_components/UsersTable/columns';
 import { NavbarSimple } from '@/components/navbar/NavbarSimple';
 import { Button } from '@/components/ui/button';
 import { DataTable } from '@/app/usuarios/_components/UsersTable/data-table';
-import { sortByCreationDateDesc } from '@/lib/utils';
+import { sortByUpdateDateDesc } from '@/lib/utils';
 
 import { getAllUsers } from '@/app/usuarios/_services/requests';
 
 export default async function Page() {
   const { users, status } = await getAllUsers();
 
-  const usersSorted = sortByCreationDateDesc(users);
+  const usersSorted = sortByUpdateDateDesc(users);
 
   return (
     <>

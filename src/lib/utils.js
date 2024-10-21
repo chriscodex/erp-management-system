@@ -26,9 +26,9 @@ export async function getDataByDni(dni = '') {
   }
 }
 
-export function sortByCreationDateDesc(list) {
+export function sortByUpdateDateDesc(list) {
   const listSorted = list.sort(
-    (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+    (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
   );
   return listSorted;
 }

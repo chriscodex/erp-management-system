@@ -152,19 +152,6 @@ export class MarcaService {
         }
       }
 
-      // Validar si una marca con ese nombre y en el mismo segmento ya existe
-      const marcaFound = await this.marcaRepository.getMarcaByData(marca);
-      if (marcaFound) {
-        console.log(
-          'Marca Service: Una marca con el mismo nombre ya existe en el segmento seleccionado'
-        );
-        return {
-          status: 409,
-          payload:
-            'Una marca con el mismo nombre ya existe en el segmento seleccionado',
-        };
-      }
-
       const marcaUpdated = await this.marcaRepository.updateMarca(id, marca);
 
       if (!marcaUpdated) {

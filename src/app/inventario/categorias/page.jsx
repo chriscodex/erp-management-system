@@ -1,6 +1,6 @@
 import { RiAppsLine } from '@remixicon/react';
 
-import { sortByCreationDateDesc } from '@/lib/utils';
+import { sortByUpdateDateDesc } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { DataTableCategory } from '@/app/inventario/categorias/_components/categoriesTable/data-table';
@@ -27,7 +27,7 @@ export default async function CategoriasPage() {
   const { categories, status } = await getAllCategories();
   const { segments } = await getAllSegmentsRequest();
 
-  const categoriesSorted = sortByCreationDateDesc(categories);
+  const categoriesSorted = sortByUpdateDateDesc(categories);
 
   return (
     <>

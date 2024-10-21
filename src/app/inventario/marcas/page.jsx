@@ -8,14 +8,14 @@ import { Button } from '@/components/ui/button';
 import { DataTableMarcas } from '@/app/inventario/marcas/_components/MarcasTable/data-table.jsx';
 import { columnsMarcas } from '@/app/inventario/marcas/_components/MarcasTable/columns.jsx';
 
-import { sortByCreationDateDesc } from '@/lib/utils';
+import { sortByUpdateDateDesc } from '@/lib/utils';
 
 import { getAllMarcas } from '@/app/inventario/marcas/_services/requests';
 import { RiInstanceFill } from '@remixicon/react';
 
 export default async function MarcasPage() {
   const { marcas, status } = await getAllMarcas();
-  const marcasSorted = sortByCreationDateDesc(marcas);
+  const marcasSorted = sortByUpdateDateDesc(marcas);
 
   /* Secciones del navbar */
   const navbarTitles = [
