@@ -158,6 +158,19 @@ export class CategoryService {
         }
       }
 
+      // Validar si una categoría con ese nombre y en el mismo segmento ya existe
+      const categoryFound = await this.categoryRepository.getCategory(category);
+      if (categoryFound) {
+        console.log(
+          'Category Service: Una categoría con el mismo nombre ya existe en el segmento seleccionado'
+        );
+        return {
+          status: 409,
+          payload:
+            'Una categoría con el mismo nombre ya existe en el segmento seleccionado',
+        };
+      }
+
       const categoryUpdated = await this.categoryRepository.updateCategory(
         id,
         category
