@@ -50,7 +50,7 @@ const data = {
   home: {
     name: 'Inicio',
     icon: RiHome2Line,
-    url: '/inicio',
+    url: '/',
   },
   navMain: [
     {

@@ -16,7 +16,6 @@ import {
 } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
-
 function LoginPage() {
   const router = useRouter();
 
@@ -26,7 +25,8 @@ function LoginPage() {
   /* Verificación de token de inicio de sesión existente */
   const { data: session, status } = useSession();
   if (status === 'authenticated') {
-    router.push('/inicio');
+    // Redirección a la pagina de inicio
+    router.push('/');
   }
 
   /* Manejo de visibilidad de contraseña */
@@ -64,7 +64,8 @@ function LoginPage() {
 
     if (res?.error) return setError(res.error);
 
-    if (res?.ok) return router.push('/inicio');
+    // Redirección a la pagina de inicio
+    if (res?.ok) return router.push('/');
 
     console.log(res);
   };
@@ -80,7 +81,9 @@ function LoginPage() {
             className="flex flex-col items-center justify-center"
             autoComplete="off"
           >
-            <h1 className="text-3xl self-start pl-12 font-normal">Iniciar Sesión</h1>
+            <h1 className="text-3xl self-start pl-12 font-normal">
+              Iniciar Sesión
+            </h1>
             <TextField
               id="outlined-basic"
               label="DNI"
@@ -125,7 +128,11 @@ function LoginPage() {
               />
             </FormControl>
 
-            {error ? <p className="text-red-500 h-8 pl-4 mt-3 font-normal">{error}</p> : <p className='h-11'></p>}
+            {error ? (
+              <p className="text-red-500 h-8 pl-4 mt-3 font-normal">{error}</p>
+            ) : (
+              <p className="h-11"></p>
+            )}
 
             <button className="w-[222px] bg-[#FF0A02] text-white font-semibold px-4 py-2 mt-3 rounded-md">
               Iniciar Sesión
@@ -133,7 +140,11 @@ function LoginPage() {
           </Box>
           {/* Derecha */}
           <div className="w-full pr-4 flex justify-center items-center">
-            <img src="fb.jpg" alt="motorock-logo" className="rounded-lg w-[400px]"></img>
+            <img
+              src="fb.jpg"
+              alt="motorock-logo"
+              className="rounded-lg w-[400px]"
+            ></img>
           </div>
         </div>
       </section>

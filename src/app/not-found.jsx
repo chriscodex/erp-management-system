@@ -23,7 +23,8 @@ export default function NotFound() {
               ¿Quieres volver a la página principal?
             </p>
             <Button asChild className="w-full">
-              <Link href="/inicio">
+              {/* // Redirección a la pagina de inicio */}
+              <Link href="/">
                 Volver al inicio
               </Link>
             </Button>
