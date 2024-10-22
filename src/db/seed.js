@@ -7,13 +7,15 @@ import {
   searchedUsersDataMock,
   segmentDataMock,
   categoryDataMock,
-  marcaDataMock
+  marcaDataMock,
+  empresaDataMock,
 } from '@/db/mock-data';
 import { User } from '@/backend/users/domain/models/user';
 import { SearchedUser } from '@/backend/searchedUsers/domain/models/searchedUser';
 import { Segment } from '@/backend/segments/domain/models/segment';
 import { Category } from '@/backend/categorias/domain/models/category';
 import { Marca } from '@/backend/marcas/domain/models/marca';
+import { Empresa } from '@/backend/empresas/domain/models/empresa';
 
 export async function seedUsers() {
   try {
@@ -182,6 +184,24 @@ export async function seedMarcas() {
   }
 }
 
+export async function seedEmpresa() {
+  try {
+    if (Empresa) {
+      delete models.Empresa;
+    }
+
+    // Eliminar todos las empresas existentes
+    await Empresa.deleteMany({});
+    console.log('Empresas existentes eliminados.');
+
+    // Insertar las nuevas empresas
+    await Empresa.insertMany(empresaDataMock);
+    console.log('Empresas pobladas en la base de datos');
+  } catch (error) {
+    console.error('Error al poblar las empresas la base de datos:', error);
+  }
+}
+
 export async function seed() {
   try {
     await connectDB();
@@ -191,6 +211,7 @@ export async function seed() {
     await seedSegment();
     await seedCategories();
     await seedMarcas();
+    await seedEmpresa();
   } catch (error) {
     console.error('Error al ejecutar el seeding:', error);
   }

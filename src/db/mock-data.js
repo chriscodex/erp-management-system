@@ -285,3 +285,22 @@ export const marcaDataMock = [
     segmentId: '',
   },
 ];
+
+export const empresaDataMock = [
+  {
+    nombre: 'MotoRock Ruta 33',
+    ruc: '12345678921',
+    descripcion: 'Sucursal principal',
+    direccion: 'Jr. Los Almendros 123',
+    telefono: '963852741',
+    email: 'motorock@gmail.com',
+  },
+  {
+    nombre: 'MotoRock Store',
+    ruc: '20428729201 ',
+    descripcion: 'Empresa secundaria',
+    direccion: 'Jr. Los Almendros 123',
+    telefono: '963852741',
+    email: 'motorock@gmail.com',
+  },
+];
