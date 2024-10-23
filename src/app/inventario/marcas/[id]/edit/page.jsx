@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { getMarca } from '@/app/inventario/marcas/[id]/_services/requests.js';
+import { getMarcaRequest } from '@/app/inventario/marcas/[id]/_services/requests.js';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { UpdateFormMarca } from '@/app/inventario/marcas/[id]/edit/_components/updateFormMarca';
 import { getAllSegmentsRequest } from '@/app/inventario/categorias/_services/requests';
@@ -9,7 +9,7 @@ import { getAllSegmentsRequest } from '@/app/inventario/categorias/_services/req
 export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }) {
-  const { marca } = await getMarca(params.id);
+  const { marca } = await getMarcaRequest(params.id);
   const { segments } = await getAllSegmentsRequest();
 
   console.log('marca', marca);

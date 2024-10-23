@@ -1,7 +1,7 @@
 import { fetchData, patchData } from '@/lib/fetchData';
 import { getMarcaUrl, updateMarcaUrl } from '@/lib/urls';
 
-export async function getMarca(id) {
+export async function getMarcaRequest(id) {
   try {
     const url = `${getMarcaUrl}/${id}`;
     const response = await fetchData(url);
