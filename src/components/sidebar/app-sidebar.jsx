@@ -96,7 +96,7 @@ const data = {
         },
         {
           title: 'Almacen',
-          url: '/inventario/productos/todos',
+          url: '/inventario/almacen',
           items: [],
           icon: RiArchiveLine,
         },
