@@ -96,7 +96,7 @@ export async function updateCategoryRequest(category, setLoading) {
 /* eslint-enable */
 
 /* eslint-disable */
-export async function deleteCategory(id) {
+export async function deleteCategoryRequest(id) {
   return new Promise(async (resolve, reject) => {
     try {
       // Simular tiempo de retraso

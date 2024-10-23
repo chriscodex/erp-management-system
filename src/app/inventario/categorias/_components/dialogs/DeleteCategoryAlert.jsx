@@ -10,7 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { deleteCategory } from '@/app/inventario/categorias/_services/requests';
+import { deleteCategoryRequest } from '@/app/inventario/categorias/_services/requests';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
@@ -25,7 +25,7 @@ export function DeleteCategoryAlert({
   const handleConfirmationDeleteCategory = async () => {
     try {
       setIsOpen(false);
-      toast.promise(deleteCategory(id), {
+      toast.promise(deleteCategoryRequest(id), {
         loading: 'Eliminando...',
         success: () => {
           if (actionAfterComplete === 'refresh') {
