@@ -16,7 +16,7 @@ export async function getAllMarcasRequest() {
 }
 
 /* eslint-disable */
-export async function deleteMarca(id) {
+export async function deleteMarcaRequest(id) {
   return new Promise(async (resolve, reject) => {
     try {
       // Simular tiempo de retraso

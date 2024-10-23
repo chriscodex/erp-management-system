@@ -10,7 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { deleteMarca } from '@/app/inventario/marcas/_services/requests';
+import { deleteMarcaRequest } from '@/app/inventario/marcas/_services/requests';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
@@ -37,7 +37,7 @@ export function DeleteMarcaAlert({
   const handleConfirmationDeleteMarca = async () => {
     try {
       setIsOpen(false);
-      toast.promise(deleteMarca(id), {
+      toast.promise(deleteMarcaRequest(id), {
         loading: 'Eliminando...',
         success: () => {
           if (actionAfterComplete === 'refresh') {
