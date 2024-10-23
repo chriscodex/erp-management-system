@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { DataTableCategory } from '@/app/inventario/categorias/_components/categoriesTable/data-table';
 import {
-  getAllCategories,
+  getAllCategoriesRequest,
   getAllSegmentsRequest,
 } from '@/app/inventario/categorias/_services/requests';
 import { SheetAddWrapper } from '@/app/inventario/categorias/_components/sheets/addCategory/sheetAddWrapper';
@@ -24,7 +24,7 @@ export default async function CategoriasPage() {
     },
   ];
 
-  const { categories, status } = await getAllCategories();
+  const { categories, status } = await getAllCategoriesRequest();
   const { segments } = await getAllSegmentsRequest();
 
   const categoriesSorted = sortByUpdateDateDesc(categories);

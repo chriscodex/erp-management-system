@@ -7,7 +7,7 @@ import {
   deleteCategoryUrl,
 } from '@/lib/urls';
 
-export async function getAllCategories() {
+export async function getAllCategoriesRequest() {
   try {
     const response = await fetchData(getAllCategoriesUrl);
     if (response?.status !== 200) {
