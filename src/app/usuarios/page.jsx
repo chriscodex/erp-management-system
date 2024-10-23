@@ -8,10 +8,10 @@ import { Button } from '@/components/ui/button';
 import { DataTable } from '@/app/usuarios/_components/UsersTable/data-table';
 import { sortByUpdateDateDesc } from '@/lib/utils';
 
-import { getAllUsers } from '@/app/usuarios/_services/requests';
+import { getAllUsersRequest } from '@/app/usuarios/_services/requests';
 
 export default async function Page() {
-  const { users, status } = await getAllUsers();
+  const { users, status } = await getAllUsersRequest();
 
   const usersSorted = sortByUpdateDateDesc(users);
 

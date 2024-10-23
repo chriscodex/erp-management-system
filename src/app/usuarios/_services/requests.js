@@ -1,7 +1,7 @@
 import { getAllUsersUrl, deleteUserUrl } from '@/lib/urls.js';
 import { fetchData, deleteData } from '@/lib/fetchData';
 
-export async function getAllUsers() {
+export async function getAllUsersRequest() {
   try {
     const response = await fetchData(getAllUsersUrl);
     if (response?.status !== 200) {
