@@ -1,7 +1,7 @@
 import { getAllMarcasUrl, deleteMarcaUrl } from '@/lib/urls';
 import { fetchData, deleteData } from '@/lib/fetchData';
 
-export async function getAllMarcas() {
+export async function getAllMarcasRequest() {
   try {
     const response = await fetchData(getAllMarcasUrl);
     if (response?.status !== 200) {

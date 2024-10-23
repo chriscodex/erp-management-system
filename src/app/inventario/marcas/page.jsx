@@ -10,11 +10,11 @@ import { columnsMarcas } from '@/app/inventario/marcas/_components/MarcasTable/c
 
 import { sortByUpdateDateDesc } from '@/lib/utils';
 
-import { getAllMarcas } from '@/app/inventario/marcas/_services/requests';
+import { getAllMarcasRequest } from '@/app/inventario/marcas/_services/requests';
 import { RiInstanceFill } from '@remixicon/react';
 
 export default async function MarcasPage() {
-  const { marcas, status } = await getAllMarcas();
+  const { marcas, status } = await getAllMarcasRequest();
   const marcasSorted = sortByUpdateDateDesc(marcas);
 
   /* Secciones del navbar */
