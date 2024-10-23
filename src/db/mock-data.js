@@ -308,13 +308,13 @@ export const empresaDataMock = [
 export const almacenDataMock = [
   {
     nombre: 'MotoRock Ruta 33',
-    descripción: 'Almacen Principal',
+    descripcion: 'Almacen Principal',
     ubicacion: 'Av. Las FLores 364 Independencia - Huaraz - Perú',
     estado: 'activo',
   },
   {
     nombre: 'Almedros',
-    descripción: 'Almacen Secundario',
+    descripcion: 'Almacen Secundario',
     ubicacion: 'Jr. Los Almendros 123',
     estado: 'inactivo',
   }
