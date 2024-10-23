@@ -95,7 +95,7 @@ const data = {
           icon: RiAppsLine,
         },
         {
-          title: 'Almacen',
+          title: 'Almacén',
           url: '/inventario/almacen',
           items: [],
           icon: RiArchiveLine,

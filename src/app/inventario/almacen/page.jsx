@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import { RiArchiveLine } from '@remixicon/react';
+
 import {
   Card,
   CardContent,
@@ -41,12 +43,15 @@ const companies = [
 
 export default function CompaniesPage() {
   return (
-    <NavbarSimple title="Empresas">
+    <NavbarSimple title="Almacen">
       <div className="container mx-auto p-4">
         <header className="mb-8">
-          <h1 className="text-3xl font-bold">Gestión de Empresas</h1>
+          <div className='flex items-center space-x-2'>
+            <RiArchiveLine className="h-9 w-9 text-muted-foreground" />
+            <h1 className="text-3xl font-bold">Almacén</h1>
+          </div>
           <p className="text-muted-foreground mt-2">
-            Administra y supervisa tus empresas desde un solo lugar
+            Administra y supervisa tus almacenes
           </p>
         </header>
 
