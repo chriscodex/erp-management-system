@@ -9,6 +9,7 @@ import {
   categoryDataMock,
   marcaDataMock,
   empresaDataMock,
+  almacenDataMock,
 } from '@/db/mock-data';
 import { User } from '@/backend/users/domain/models/user';
 import { SearchedUser } from '@/backend/searchedUsers/domain/models/searchedUser';
@@ -16,6 +17,7 @@ import { Segment } from '@/backend/segments/domain/models/segment';
 import { Category } from '@/backend/categorias/domain/models/category';
 import { Marca } from '@/backend/marcas/domain/models/marca';
 import { Empresa } from '@/backend/empresas/domain/models/empresa';
+import { Almacen } from '@/backend/almacenes/domain/models/almacen';
 
 export async function seedUsers() {
   try {
@@ -198,7 +200,25 @@ export async function seedEmpresa() {
     await Empresa.insertMany(empresaDataMock);
     console.log('Empresas pobladas en la base de datos');
   } catch (error) {
-    console.error('Error al poblar las empresas la base de datos:', error);
+    console.error('Error al poblar las empresas en la base de datos:', error);
+  }
+}
+
+export async function seedAlmacen() {
+  try {
+    if (Almacen) {
+      delete models.Almacen;
+    }
+
+    // Eliminar todos los almacenes existentes
+    await Almacen.deleteMany({});
+    console.log('Almacenes existentes eliminados.');
+
+    // Insertar los nuevos datos
+    await Almacen.insertMany(almacenDataMock);
+    console.log('Almacenes poblados a la base de datos');
+  } catch (error) {
+    console.error('Error al poblar los almacenes en base de datos:', error);
   }
 }
 
@@ -212,6 +232,7 @@ export async function seed() {
     await seedCategories();
     await seedMarcas();
     await seedEmpresa();
+    await seedAlmacen();
   } catch (error) {
     console.error('Error al ejecutar el seeding:', error);
   }

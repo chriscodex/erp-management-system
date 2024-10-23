@@ -15,7 +15,7 @@ const almacenSchema = new Schema(
       type: String,
       required: false,
     },
-    direccion: {
+    ubicacion: {
       type: String,
       required: true,
     },
