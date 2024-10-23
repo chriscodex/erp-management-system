@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/sheet';
 import { addCategorySchema } from '@/app/inventario/categorias/_services/validations/addCategorySchema';
 import { Input } from '@/components/ui/input';
-import { createCategory } from '@/app/inventario/categorias/_services/requests';
+import { createCategoryRequest } from '@/app/inventario/categorias/_services/requests';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
@@ -60,7 +60,7 @@ export function AddCategory({ segments, onClose }) {
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(createCategory(data, setFormSubmitIsLoading), {
+    toast.promise(createCategoryRequest(data, setFormSubmitIsLoading), {
       loading: 'Creando...',
       success: () => {
         clearErrors();

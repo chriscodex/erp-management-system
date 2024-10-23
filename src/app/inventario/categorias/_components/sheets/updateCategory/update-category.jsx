@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/sheet';
 import { updateCategorySchema } from '@/app/inventario/categorias/_services/validations/updateCategorySchema';
 import { Input } from '@/components/ui/input';
-import { updateCategory } from '@/app/inventario/categorias/_services/requests';
+import { updateCategoryRequest } from '@/app/inventario/categorias/_services/requests';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
@@ -35,7 +35,7 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 
-export function UpdateCategory({ segments, onClose, categoryData }) {
+export function UpdateCategoryForm({ segments, onClose, categoryData }) {
   const router = useRouter();
 
   const updateCategoryForm = useForm({
@@ -66,7 +66,7 @@ export function UpdateCategory({ segments, onClose, categoryData }) {
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(updateCategory(categoryObject, setFormSubmitIsLoading), {
+    toast.promise(updateCategoryRequest(categoryObject, setFormSubmitIsLoading), {
       loading: 'Actualizando...',
       success: () => {
         clearErrors();

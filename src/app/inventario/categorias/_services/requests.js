@@ -36,7 +36,7 @@ export async function getAllSegmentsRequest() {
 }
 
 /* eslint-disable */
-export async function createCategory(category, setLoading) {
+export async function createCategoryRequest(category, setLoading) {
   return new Promise(async (resolve, reject) => {
     try {
       setLoading(true);
@@ -64,7 +64,7 @@ export async function createCategory(category, setLoading) {
 /* eslint-enable */
 
 /* eslint-disable */
-export async function updateCategory(category, setLoading) {
+export async function updateCategoryRequest(category, setLoading) {
   return new Promise(async (resolve, reject) => {
     try {
       setLoading(true);

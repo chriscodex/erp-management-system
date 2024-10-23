@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/tooltip';
 import { Sheet } from '@/components/ui/sheet';
 
-import { UpdateCategory } from '@/app/inventario/categorias/_components/sheets/updateCategory/update-category';
+import { UpdateCategoryForm } from '@/app/inventario/categorias/_components/sheets/updateCategory/update-category';
 
 export function SheetUpdateWrapper({ segments, categoryData }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
@@ -41,7 +41,7 @@ export function SheetUpdateWrapper({ segments, categoryData }) {
 
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <UpdateCategory
+          <UpdateCategoryForm
             segments={segments}
             onClose={handleCloseSheet}
             categoryData={categoryData}
