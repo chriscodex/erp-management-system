@@ -49,7 +49,7 @@ import {
 import { CrearFullName } from '@/lib/formateador';
 import { updateUserSchema } from '@/app/usuarios/[id]/_validations/updateUserSchema';
 import { updatePasswordSchema } from '@/app/usuarios/[id]/_validations/updatePasswordSchema';
-import { updateUser } from '@/app/usuarios/[id]/_services/requests';
+import { updateUserRequest } from '@/app/usuarios/[id]/_services/requests';
 import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
 import { useRouter } from 'next/navigation';
 
@@ -91,7 +91,7 @@ function FormUserDetail({ userDetail }) {
     setFormUpdateUserSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(updateUser(data, setFormUpdateUserSubmitIsLoading), {
+    toast.promise(updateUserRequest(data, setFormUpdateUserSubmitIsLoading), {
       loading: 'Actualizando...',
       success: () => {
         clearErrorsUserUpdate();
@@ -134,7 +134,7 @@ function FormUserDetail({ userDetail }) {
     setFormUpdateUserSubmitIsLoading(true);
     setIsUpdatePasswordOpen(false);
 
-    toast.promise(updateUser(passwordForm, setFormUpdateUserSubmitIsLoading), {
+    toast.promise(updateUserRequest(passwordForm, setFormUpdateUserSubmitIsLoading), {
       loading: 'Actualizando...',
       success: () => {
         clearPasswordErrors();

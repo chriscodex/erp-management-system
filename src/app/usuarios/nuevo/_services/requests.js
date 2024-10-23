@@ -2,7 +2,7 @@ import { createUserUrl } from '@/lib/urls.js';
 import { postData } from '@/lib/fetchData';
 
 /* eslint-disable */
-export async function createUser(user, setLoading) {
+export async function createUserRequest(user, setLoading) {
   return new Promise(async (resolve, reject) => {
     try {
       setLoading(true);

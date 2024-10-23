@@ -17,7 +17,7 @@ export async function getUserRequest(dni) {
 }
 
 /* eslint-disable */
-export async function updateUser(user, setLoading) {
+export async function updateUserRequest(user, setLoading) {
   return new Promise(async (resolve, reject) => {
     try {
       setLoading(true);
