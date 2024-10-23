@@ -18,3 +18,6 @@ export const getMarcaUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
 export const createMarcaUrl = '/api/marcas';
 export const updateMarcaUrl = '/api/marcas';
 export const deleteMarcaUrl = '/api/marcas';
+
+/* Almacen */
+export const getAllAlmacenesUrl = `${process.env.NEXT_PUBLIC_API_URL}/almacenes`;
