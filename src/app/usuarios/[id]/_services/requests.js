@@ -1,7 +1,7 @@
 import { fetchData, patchData } from '@/lib/fetchData';
 import { getUserUrl, updateUserUrl } from '@/lib/urls.js';
 
-export async function getUser(dni) {
+export async function getUserRequest(dni) {
   try {
     const url = `${getUserUrl}/${dni}`;
     const response = await fetchData(url);

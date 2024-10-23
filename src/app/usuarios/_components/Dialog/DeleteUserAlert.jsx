@@ -10,7 +10,7 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { deleteUser } from '@/app/usuarios/_services/requests';
+import { deleteUserRequest } from '@/app/usuarios/_services/requests';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
@@ -33,7 +33,7 @@ function DeleteUserAlert({ isOpen, setIsOpen, userDni, actionAfterComplete }) {
   const handleConfirmationDeleteUser = async () => {
     try {
       setIsOpen(false);
-      toast.promise(deleteUser(userDni), {
+      toast.promise(deleteUserRequest(userDni), {
         loading: 'Eliminando...',
         success: () => {
           if (actionAfterComplete === 'refresh') {

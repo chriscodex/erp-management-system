@@ -16,7 +16,7 @@ export async function getAllUsersRequest() {
 }
 
 /* eslint-disable */
-export async function deleteUser(dni) {
+export async function deleteUserRequest(dni) {
   return new Promise(async (resolve, reject) => {
     try {
       // Simular tiempo de retraso
