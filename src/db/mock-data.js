@@ -304,3 +304,18 @@ export const empresaDataMock = [
     email: 'motorock@gmail.com',
   },
 ];
+
+export const almacenDataMock = [
+  {
+    nombre: 'MotoRock Ruta 33',
+    descripción: 'Almacen Principal',
+    ubicacion: 'Av. Las FLores 364 Independencia - Huaraz - Perú',
+    estado: 'activo',
+  },
+  {
+    nombre: 'Almedros',
+    descripción: 'Almacen Secundario',
+    ubicacion: 'Jr. Los Almendros 123',
+    estado: 'inactivo',
+  }
+]
