@@ -44,9 +44,9 @@ export class MarcaRepository {
       return marca;
     } catch (error) {
       console.error(
-        `Marca Repository: Error al buscar una marca: ${error.message}`
+        `Marca Repository: Error al buscar la marca: ${error.message}`
       );
-      throw new Error(`Error al buscar una marca: ${error.message}`);
+      throw new Error(`Error al buscar la marca: ${error.message}`);
     }
   }
   async getMarcaByData(marca) {

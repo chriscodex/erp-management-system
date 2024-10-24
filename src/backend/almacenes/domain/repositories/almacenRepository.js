@@ -25,4 +25,25 @@ export class AlmacenRepository {
       );
     }
   }
+  async getAlmacenById(id) {
+    try {
+      const almacen = await this.almacenModel
+        .findOne({
+          _id: new mongoose.Types.ObjectId(id),
+        })
+
+      if (!almacen) {
+        console.log('Almacén Repository: Almacén no encontrado');
+        return null;
+      }
+
+      console.log('Almacén Repository: Almacén encontrado');
+      return almacen;
+    } catch (error) {
+      console.error(
+        `Almacén Repository: Error al buscar el almacen: ${error.message}`
+      );
+      throw new Error(`Error al buscar el almacen: ${error.message}`);
+    }
+  }
 }
