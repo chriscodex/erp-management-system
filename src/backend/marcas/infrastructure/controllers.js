@@ -22,7 +22,7 @@ export async function getMarcaController(id) {
     const marcaData = await marcaService.getMarca(id);
     return marcaData;
   } catch (error) {
-    console.error('Controller: Error buscando una marca:', error);
+    console.error('Controller: Error buscando la marca:', error);
     throw new Error('Controller: Internal Server Error - getMarcaController');
   }
 }

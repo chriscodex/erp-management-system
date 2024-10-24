@@ -15,3 +15,14 @@ export async function getAllAlmacenesController() {
     );
   }
 }
+
+export async function getAlmacenController(id) {
+  try {
+    await connectDB();
+    const almacenData = await almacenService.getAlmacenById(id);
+    return almacenData;
+  } catch (error) {
+    console.error('Controller: Error buscando el almacen:', error);
+    throw new Error('Controller: Internal Server Error - getAlmacenController');
+  }
+}
