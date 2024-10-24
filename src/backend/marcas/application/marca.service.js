@@ -54,7 +54,7 @@ export class MarcaService {
       };
     } catch (error) {
       console.error(
-        `Marca Service: Error interno al buscar una marca: ${error.message}`
+        `Marca Service: Error interno al buscar la marca: ${error.message}`
       );
       return {
         status: 500,

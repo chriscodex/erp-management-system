@@ -31,4 +31,31 @@ export class AlmacenService {
       };
     }
   }
+  async getAlmacenById(id) {
+    try {
+      const almacenFound = await this.almacenRepository.getAlmacenById(id);
+
+      if (!almacenFound) {
+        console.log('Almacen Service: La almacen no existe');
+        return {
+          status: 404,
+          payload: 'La almacen no existe',
+        };
+      }
+
+      console.log('Almacen Service: La almacen existe');
+      return {
+        status: 200,
+        payload: almacenFound,
+      };
+    } catch (error) {
+      console.error(
+        `Almacen Service: Error interno al buscar el almacen: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
