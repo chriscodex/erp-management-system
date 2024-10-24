@@ -16,7 +16,7 @@ export async function getAllAlmacenesController() {
   }
 }
 
-export async function getAlmacenController(id) {
+export async function getAlmacenByIdController(id) {
   try {
     await connectDB();
     const almacenData = await almacenService.getAlmacenById(id);
