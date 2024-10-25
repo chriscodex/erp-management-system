@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+
 import {
   getAllMarcasController,
   createMarcaController,
@@ -14,8 +15,11 @@ export async function GET() {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Marcas Route: Error interno al obtener todas las marcas: ${error.message}`
+    );
     return NextResponse.json(
-      { message: 'Error fetching marcas' },
+      { error: 'Error obteniendo todas las marcas' },
       { status: 500 }
     );
   }
