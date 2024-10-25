@@ -24,7 +24,6 @@ import {
 } from '@/components/ui/table';
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 export function DataTableMarcas({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -77,14 +76,6 @@ export function DataTableMarcas({ columns, data, status = 200 }) {
     // Fuerza la actualización de los datos cada vez que se accede a la página
     router.refresh();
   }, [router]);
-
-  /* Mobile */
-  const isMobile = useIsMobile();
-  useEffect(() => {
-    if (isMobile) {
-      table.getColumn('estado').toggleVisibility(false);
-    }
-  }, [isMobile, table]);
 
   return (
     <div>
