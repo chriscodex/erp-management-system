@@ -36,6 +36,9 @@ export async function POST(request) {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Marcas Route: Error interno al crear la marca: ${error.message}`
+    );
     return NextResponse.json(
       { error: 'Internal Server Error' },
       { status: 500 }
