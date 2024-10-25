@@ -9,7 +9,7 @@ export async function getAllMarcasController() {
     const marcas = await marcaService.getAllMarcas();
     return marcas;
   } catch (error) {
-    console.error('Controller: Error fetching marcas:', error);
+    console.error('Controller: Error obteniendo todas las marcas:', error);
     throw new Error(
       'Controller: Internal Server Error - getAllMarcasController'
     );
