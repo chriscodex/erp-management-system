@@ -20,7 +20,7 @@ export class MarcaService {
         };
       }
 
-      console.log('Marca Service: marcas encontradas');
+      console.log('Marca Service: Marcas encontradas');
       return {
         status: 200,
         payload: marcas,

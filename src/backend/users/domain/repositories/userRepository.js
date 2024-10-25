@@ -14,9 +14,9 @@ export class UserRepository {
       return users;
     } catch (error) {
       console.error(
-        `User Repository: Error al buscar todos los usuario: ${error.message}`
+        `User Repository: Error al buscar todos los usuarios: ${error.message}`
       );
-      throw new Error(`Error al buscar todos los usuario: ${error.message}`);
+      throw new Error(`Error al buscar todos los usuarios: ${error.message}`);
     }
   }
   async getUser(dni) {
