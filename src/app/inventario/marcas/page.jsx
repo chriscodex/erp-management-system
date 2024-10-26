@@ -1,5 +1,6 @@
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
+import { RiInstanceFill } from '@remixicon/react';
 
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
@@ -8,8 +9,7 @@ import { DataTableMarcas } from '@/app/inventario/marcas/_components/MarcasTable
 import { columnsMarcas } from '@/app/inventario/marcas/_components/MarcasTable/columns.jsx';
 import { sortByUpdateDateDesc } from '@/lib/utils';
 import { getAllMarcasRequest } from '@/app/inventario/marcas/_services/requests';
-import { RiInstanceFill } from '@remixicon/react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default async function MarcasPage() {
   const { marcas, status } = await getAllMarcasRequest();

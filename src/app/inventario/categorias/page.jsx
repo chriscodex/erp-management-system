@@ -9,6 +9,7 @@ import {
   getAllSegmentsRequest,
 } from '@/app/inventario/categorias/_services/requests';
 import { SheetAddWrapper } from '@/app/inventario/categorias/_components/sheets/addCategory/sheetAddWrapper';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default async function CategoriasPage() {
   const titles = [
@@ -32,18 +33,24 @@ export default async function CategoriasPage() {
   return (
     <>
       <NavbarDynamic titles={titles}>
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            <RiAppsLine className="h-9 w-9" />
-            <Label className="sm:text-4xl text-xl font-bold">Categorías</Label>
-          </div>
-          <SheetAddWrapper segments={segments} />
-        </div>
-        <DataTableCategory
-          data={categoriesSorted}
-          segments={segments}
-          status={status}
-        />
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center gap-2">
+              <RiAppsLine className="h-9 w-9" />
+              <Label className="sm:text-4xl text-xl font-bold">
+                Categorías
+              </Label>
+            </div>
+            <SheetAddWrapper segments={segments} />
+          </CardHeader>
+          <CardContent>
+            <DataTableCategory
+              data={categoriesSorted}
+              segments={segments}
+              status={status}
+            />
+          </CardContent>
+        </Card>
       </NavbarDynamic>
     </>
   );
