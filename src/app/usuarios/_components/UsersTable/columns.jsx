@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
+import { MoreHorizontal, ArrowUpDown, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
 import { Badge } from '@/components/ui/badge';
+import { RiFileListLine } from '@remixicon/react';
 
 export const columns = [
   {
@@ -125,6 +126,7 @@ export const columns = [
               className="cursor-pointer"
               onClick={() => router.push(`/usuarios/${dni}`)}
             >
+              <RiFileListLine />
               Detalle
             </DropdownMenuItem>
             <DropdownMenuSeparator />
@@ -132,6 +134,7 @@ export const columns = [
               className="cursor-pointer"
               onClick={() => setIsOpenDialogDeleteUser(true)}
             >
+              <Trash2 />
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>
