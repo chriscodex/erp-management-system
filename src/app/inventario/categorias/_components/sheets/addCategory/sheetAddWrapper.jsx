@@ -24,7 +24,7 @@ export function SheetAddWrapper({ segments }) {
         onClick={handleOpenSheet}
       >
         <Plus />
-        Agregar Nueva Categoría
+        Agregar Categoría
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>

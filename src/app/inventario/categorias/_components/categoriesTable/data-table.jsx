@@ -25,7 +25,6 @@ import {
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
-import { useIsMobile } from '@/hooks/use-mobile';
 import { Button } from '@/components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import { RiFileListLine, RiDeleteBinLine } from '@remixicon/react';
@@ -220,16 +219,6 @@ export function DataTableCategory({ data, segments, status = 200 }) {
     // Fuerza la actualización de los datos cada vez que se accede a la página
     router.refresh();
   }, [router]);
-
-  /* Mobile */
-  const isMobile = useIsMobile();
-  useEffect(() => {
-    if (isMobile) {
-      table.getColumn('estado').toggleVisibility(false);
-    } else {
-      table.getColumn('estado').toggleVisibility(true);
-    }
-  }, [isMobile, table]);
 
   return (
     <div>
