@@ -35,6 +35,36 @@ export class CategoryService {
       };
     }
   }
+  async getAllCategoriesByFilter(filter) {
+    try {
+      const categoriesFiltered =
+        await this.categoryRepository.getAllCategoriesByFilter(filter);
+
+      if (!categoriesFiltered) {
+        console.log(
+          'Category Service: No se encontraron categorias por el filtro'
+        );
+        return {
+          status: 404,
+          payload: 'No se encontraron categorias por el filtro',
+        };
+      }
+
+      console.log('Category Service: Categorías encontradas por el filtro');
+      return {
+        status: 200,
+        payload: categoriesFiltered,
+      };
+    } catch (error) {
+      console.error(
+        `Service: Error interno al obtener todas las categorías por el filtro: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async deleteCategory(id) {
     try {
       const categoryDeleted = await this.categoryRepository.deleteCategory(id);
