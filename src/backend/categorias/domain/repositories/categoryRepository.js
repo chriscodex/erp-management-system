@@ -28,27 +28,35 @@ export class CategoryRepository {
       );
     }
   }
-  async getAllCategoriesByFilter(filter) {
+  async getCategoriesBySegmentId(id) {
     try {
-      const categoriesFiltered = await this.categoryModel
-        .find(filter)
-        .populate('segmentId');
+      const categoriesFiltered = await this.categoryModel.find().populate({
+        path: 'segmentId',
+        match: {
+          $or: [
+            { _id: new mongoose.Types.ObjectId(id) }, // Coincide con el segmentId proporcionado
+            { _id: null }, // O permite segmentId nulo
+          ],
+        },
+      });
 
       if (categoriesFiltered.length === 0) {
         console.log(
-          'Category Repository: No se encontraron categorías por el filtro'
+          'Category Repository: No se encontraron categorías filtradas por segmento'
         );
         return null;
       }
 
-      console.log('Category Repository: Categorías encontrados por el filtro');
+      console.log(
+        'Category Repository: Categorías filtradas por segmento encontradas'
+      );
       return categoriesFiltered;
     } catch (error) {
       console.error(
-        `Category Repository: Error al buscar todas las categorías por el filtro: ${error.message}`
+        `Category Repository: Error al buscar categorias filtradas por segmento: ${error.message}`
       );
       throw new Error(
-        `Error interno al buscar todas las categorías por el filtro: ${error.message}`
+        `Error interno al buscar categorias filtradas por segmento: ${error.message}`
       );
     }
   }
