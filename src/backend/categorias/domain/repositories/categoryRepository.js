@@ -28,6 +28,30 @@ export class CategoryRepository {
       );
     }
   }
+  async getAllCategoriesByFilter(filter) {
+    try {
+      const categoriesFiltered = await this.categoryModel
+        .find(filter)
+        .populate('segmentId');
+
+      if (categoriesFiltered.length === 0) {
+        console.log(
+          'Category Repository: No se encontraron categorías por el filtro'
+        );
+        return null;
+      }
+
+      console.log('Category Repository: Categorías encontrados por el filtro');
+      return categoriesFiltered;
+    } catch (error) {
+      console.error(
+        `Category Repository: Error al buscar todas las categorías por el filtro: ${error.message}`
+      );
+      throw new Error(
+        `Error interno al buscar todas las categorías por el filtro: ${error.message}`
+      );
+    }
+  }
   async getCategory(category) {
     try {
       const { nombre, segmentId } = category;
