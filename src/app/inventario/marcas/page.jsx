@@ -4,14 +4,12 @@ import Link from 'next/link';
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Button } from '@/components/ui/button';
-
 import { DataTableMarcas } from '@/app/inventario/marcas/_components/MarcasTable/data-table.jsx';
 import { columnsMarcas } from '@/app/inventario/marcas/_components/MarcasTable/columns.jsx';
-
 import { sortByUpdateDateDesc } from '@/lib/utils';
-
 import { getAllMarcasRequest } from '@/app/inventario/marcas/_services/requests';
 import { RiInstanceFill } from '@remixicon/react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 export default async function MarcasPage() {
   const { marcas, status } = await getAllMarcasRequest();
@@ -21,12 +19,12 @@ export default async function MarcasPage() {
   const navbarTitles = [
     {
       title: 'Inventario',
-      href: '/inventario/todos',
+      href: '',
       active: false,
     },
     {
       title: 'Marcas',
-      href: '/inventario/productos/todos',
+      href: '',
       active: false,
     },
   ];
@@ -34,23 +32,30 @@ export default async function MarcasPage() {
   return (
     <>
       <NavbarDynamic titles={navbarTitles}>
-        <div className="flex justify-between">
-          <div className="flex items-center gap-2">
-            <RiInstanceFill className="h-9 w-9" />
-            <Label className="sm:text-4xl text-xl font-bold">Marcas</Label>
-          </div>
-          <Link href="/inventario/marcas/nuevo" className="flex justify-end">
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center gap-2">
+              <RiInstanceFill className="h-9 w-9" />
+              <Label className="sm:text-4xl text-xl font-bold">Marcas</Label>
+            </div>
             <Button>
-              <Plus />
-              Agregar Marca
+              <Link
+                href="/inventario/marcas/nuevo"
+                className="flex justify-end"
+              >
+                <Plus />
+                Agregar Marca
+              </Link>
             </Button>
-          </Link>
-        </div>
-        <DataTableMarcas
-          columns={columnsMarcas}
-          data={marcasSorted}
-          status={status}
-        />
+          </CardHeader>
+          <CardContent>
+            <DataTableMarcas
+              columns={columnsMarcas}
+              data={marcasSorted}
+              status={status}
+            />
+          </CardContent>
+        </Card>
       </NavbarDynamic>
     </>
   );
