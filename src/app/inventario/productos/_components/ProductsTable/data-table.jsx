@@ -80,14 +80,18 @@ export function DataTableProducts({ columns, data, status = 200 }) {
   return (
     <div>
       {/* Input */}
-      <div className="flex items-center py-4 w-full">
+      <div className="flex justify-between items-center py-4 w-full">
         <Input
           placeholder="Buscar por nombre"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
         />
-        <DataTableViewOptions table={table} />
+        <div>
+          
+          {/* View options */}
+          <DataTableViewOptions table={table} />
+        </div>
       </div>
       <div className="rounded-md border sm:min-h-[528px] min-h-[528px] w-auto">
         <Table>
