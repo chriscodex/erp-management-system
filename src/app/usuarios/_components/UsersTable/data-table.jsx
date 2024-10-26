@@ -25,7 +25,6 @@ import {
 
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
-import { useIsMobile } from '@/hooks/use-mobile';
 
 export function DataTable({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -79,15 +78,6 @@ export function DataTable({ columns, data, status = 200 }) {
     router.refresh();
   }, [router]);
 
-  /* Mobile */
-  const isMobile = useIsMobile();
-  useEffect(() => {
-    if (isMobile) {
-      table.getColumn('rol').toggleVisibility(false);
-      table.getColumn('estado').toggleVisibility(false);
-    }
-  }, [isMobile, table]);
-
   return (
     <div>
       {/* Input */}
@@ -100,7 +90,7 @@ export function DataTable({ columns, data, status = 200 }) {
         />
         <DataTableViewOptions table={table} />
       </div>
-      <div className="rounded-md border sm:min-h-[528px] min-h-[528px] w-auto">
+      <div className="rounded-md border sm:min-h-[528px] min-h-[528px]">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
