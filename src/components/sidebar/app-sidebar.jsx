@@ -20,6 +20,7 @@ import { NavMain } from '@/components/sidebar/nav-main';
 import { NavAdministracion } from '@/components/sidebar/nav-projects';
 import { NavHome } from '@/components/sidebar/nav-home';
 import { NavUser } from '@/components/sidebar/nav-user';
+import { NavVentas } from '@/components/sidebar/nav-ventas';
 import { TeamSwitcher } from '@/components/sidebar/team-switcher';
 import {
   Sidebar,
@@ -52,6 +53,25 @@ const data = {
     icon: RiHome2Line,
     url: '/',
   },
+  navVentas: [
+    {
+      title: 'Ventas',
+      url: '#',
+      icon: RiBox3Line,
+      items: [
+        {
+          title: 'Motos',
+          url: '/ventas/motos',
+          icon: RiMotorbikeFill,
+        },
+        {
+          title: 'Productos',
+          url: '/ventas/productos/',
+          icon: RiGalleryView2,
+        },
+      ],
+    },
+  ],
   navMain: [
     {
       title: 'Inventario',
@@ -138,6 +158,7 @@ export function AppSidebar({ ...props }) {
 
           <SidebarContent>
             <NavHome home={data.home} />
+            <NavVentas navTitle={'Ventas'} items={data.navVentas} />
             <NavMain navTitle={'Plataforma'} items={data.navMain} />
             <NavAdministracion projects={data.projects} />
           </SidebarContent>
