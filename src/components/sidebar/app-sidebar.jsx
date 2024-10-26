@@ -72,11 +72,11 @@ const data = {
         },
         {
           title: 'Productos',
-          url: '/inventario/productos/todos',
+          url: '/inventario/productos/',
           items: [
             {
               title: 'Todos',
-              url: '/inventario/productos/todos',
+              url: '/inventario/productos/',
               icon: RiDropboxFill,
             },
           ],
