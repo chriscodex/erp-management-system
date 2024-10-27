@@ -19,7 +19,7 @@ export default async function Page() {
     },
     {
       title: 'Nueva Marca',
-      href: '/inventario/marcas',
+      href: '',
       active: false,
     },
   ];

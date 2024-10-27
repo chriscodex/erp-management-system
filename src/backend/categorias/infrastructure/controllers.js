@@ -9,9 +9,25 @@ export async function getAllCategoriesController() {
     const categories = await categoryService.getAllCategories();
     return categories;
   } catch (error) {
-    console.error('Controller: Error fetching categories:', error);
+    console.error('Controller: Error obteniendo todas las categorias:', error);
     throw new Error(
       'Controller: Internal Server Error - getAllCategoriesController'
+    );
+  }
+}
+
+export async function getAllCategoriesByFilterController() {
+  try {
+    await connectDB();
+    const categoriesFiltered = await categoryService.getAllCategoriesByFilter();
+    return categoriesFiltered;
+  } catch (error) {
+    console.error(
+      'Controller: Error obteniendo todas las categorias por filtro:',
+      error
+    );
+    throw new Error(
+      'Controller: Internal Server Error - getAllCategoriesByFilterController'
     );
   }
 }

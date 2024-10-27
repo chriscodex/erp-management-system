@@ -35,29 +35,31 @@ export class CategoryService {
       };
     }
   }
-  async getAllCategoriesByFilter(filter) {
+  async getCategoriesBySegmentId(id) {
     try {
       const categoriesFiltered =
-        await this.categoryRepository.getAllCategoriesByFilter(filter);
+        await this.categoryRepository.getCategoriesBySegmentId(id);
 
       if (!categoriesFiltered) {
         console.log(
-          'Category Service: No se encontraron categorias por el filtro'
+          'Category Service: No se encontraron categorias filtradas por segmento'
         );
         return {
           status: 404,
-          payload: 'No se encontraron categorias por el filtro',
+          payload: 'No se encontraron categorias filtradas por segmento',
         };
       }
 
-      console.log('Category Service: Categorías encontradas por el filtro');
+      console.log(
+        'Category Service: Categorías filtradas por segmento encontradas'
+      );
       return {
         status: 200,
         payload: categoriesFiltered,
       };
     } catch (error) {
       console.error(
-        `Service: Error interno al obtener todas las categorías por el filtro: ${error.message}`
+        `Service: Error interno al obtener categorias filtradas por segmento: ${error.message}`
       );
       return {
         status: 500,
