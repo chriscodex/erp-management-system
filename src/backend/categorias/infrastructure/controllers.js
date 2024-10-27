@@ -16,18 +16,20 @@ export async function getAllCategoriesController() {
   }
 }
 
-export async function getAllCategoriesByFilterController() {
+export async function getCategoriesBySegmentIdController(id) {
   try {
     await connectDB();
-    const categoriesFiltered = await categoryService.getAllCategoriesByFilter();
+    const categoriesFiltered = await categoryService.getCategoriesBySegmentId(
+      id
+    );
     return categoriesFiltered;
   } catch (error) {
     console.error(
-      'Controller: Error obteniendo todas las categorias por filtro:',
+      'Controller: Error obteniendo las categorías filtradas por segmento:',
       error
     );
     throw new Error(
-      'Controller: Internal Server Error - getAllCategoriesByFilterController'
+      'Controller: Internal Server Error - getCategoriesBySegmentIdController'
     );
   }
 }
