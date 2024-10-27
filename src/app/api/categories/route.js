@@ -1,12 +1,24 @@
 import { NextResponse } from 'next/server';
 import {
   getAllCategoriesController,
-  createCategoryController
+  getCategoriesBySegmentIdController,
+  createCategoryController,
 } from '@/backend/categorias/infrastructure/controllers';
 
-export async function GET() {
+export async function GET(request) {
   try {
-    const { payload, status } = await getAllCategoriesController();
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const segmentId = searchParams.get('segmentId');
+
+    let result;
+    if (segmentId !== null) {
+      result = await getCategoriesBySegmentIdController(segmentId);
+    } else {
+      result = await getAllCategoriesController();
+    }
+
+    const { payload, status } = result;
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
