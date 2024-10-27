@@ -30,15 +30,20 @@ export class CategoryRepository {
   }
   async getCategoriesBySegmentId(id) {
     try {
-      const categoriesFiltered = await this.categoryModel.find().populate({
-        path: 'segmentId',
-        match: {
-          $or: [
-            { _id: new mongoose.Types.ObjectId(id) }, // Coincide con el segmentId proporcionado
-            { _id: null }, // O permite segmentId nulo
-          ],
-        },
-      });
+      const categoriesFiltered = await this.categoryModel
+        .find()
+        .populate({
+          path: 'segmentId',
+          match: {
+            $or: [
+              { _id: new mongoose.Types.ObjectId(id) }, // Coincide con el segmentId proporcionado
+              { _id: null }, // O permite segmentId nulo
+            ],
+          },
+        })
+        .then(
+          (results) => results.filter((category) => category.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+        );
 
       if (categoriesFiltered.length === 0) {
         console.log(
