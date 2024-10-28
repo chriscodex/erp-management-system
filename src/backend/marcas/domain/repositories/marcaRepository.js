@@ -27,6 +27,43 @@ export class MarcaRepository {
       );
     }
   }
+  async getMarcaBySegmentId(id) {
+    try {
+      const marcasFiltered = await this.marcaModel
+        .find()
+        .populate({
+          path: 'segmentId',
+          match: {
+            $or: [
+              { _id: new mongoose.Types.ObjectId(id) }, // Coincide con el segmentId proporcionado
+              { _id: null }, // O permite segmentId nulo
+            ],
+          },
+        })
+        .then(
+          (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+        );
+
+      if (marcasFiltered.length === 0) {
+        console.log(
+          'Marca Repository: No se encontraron marcas filtradas por segmento'
+        );
+        return null;
+      }
+
+      console.log(
+        'Marca Repository: Marcas filtradas por segmento encontradas'
+      );
+      return marcasFiltered;
+    } catch (error) {
+      console.error(
+        `Marca Repository: Error al buscar marcas filtradas por segmento: ${error.message}`
+      );
+      throw new Error(
+        `Error interno al buscar marcas filtradas por segmento: ${error.message}`
+      );
+    }
+  }
   async getMarcaById(id) {
     try {
       const marca = await this.marcaModel
