@@ -1,7 +1,5 @@
 import { Schema, model, models } from 'mongoose';
 
-import { ProductUnit } from '@/backend/products/domain/models/productUnit';
-
 // if (models.Product) {
 //   delete models.Product;
 // }
@@ -34,7 +32,19 @@ const productSchema = new Schema(
       ],
       min: [0, 'El stock mínimo no puede ser negativo'],
     },
-    unidades: [ProductUnit],
+    unidades: [
+      {
+        code: {
+          type: String,
+          required: true,
+        },
+        estado: {
+          type: String,
+          required: [true, 'El estado es requerido en el schema de productos'],
+          enum: ['activo', 'inactivo'],
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
