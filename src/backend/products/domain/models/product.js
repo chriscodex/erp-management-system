@@ -81,11 +81,6 @@ const productSchema = new Schema(
       ref: 'Category',
       required: [true, 'categoriaId es requerido en el schema de productos'],
     },
-    empresaId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Empresa',
-      required: [true, 'empresaId es requerido en el schema de productos'],
-    },
     almacenId: {
       type: Schema.Types.ObjectId,
       ref: 'Almacen',
