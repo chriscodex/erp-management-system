@@ -10,6 +10,8 @@ import {
   marcaDataMock,
   empresaDataMock,
   almacenDataMock,
+  proveedorDataMock,
+  productsDataMock,
 } from '@/db/mock-data';
 import { User } from '@/backend/users/domain/models/user';
 import { SearchedUser } from '@/backend/searchedUsers/domain/models/searchedUser';
@@ -18,6 +20,8 @@ import { Category } from '@/backend/categorias/domain/models/category';
 import { Marca } from '@/backend/marcas/domain/models/marca';
 import { Empresa } from '@/backend/empresas/domain/models/empresa';
 import { Almacen } from '@/backend/almacenes/domain/models/almacen';
+import { Proveedor } from '@/backend/proveedores/domain/models/proveedor';
+import { Product } from '@/backend/products/domain/models/product';
 
 export async function seedUsers() {
   try {
@@ -222,6 +226,96 @@ export async function seedAlmacen() {
   }
 }
 
+export async function seedProveedor() {
+  try {
+    if (Proveedor) {
+      delete models.Proveedor;
+    }
+
+    // Eliminar todos los proveedores existentes
+    await Proveedor.deleteMany({});
+    console.log('Proveedores existentes eliminados.');
+
+    // Insertar los nuevos datos
+    await Proveedor.insertMany(proveedorDataMock);
+    console.log('Proveedores poblados a la base de datos');
+  } catch (error) {
+    console.error(
+      'Error al poblar los proveedores en la base de datos:',
+      error
+    );
+  }
+}
+
+export async function seedProducts() {
+  try {
+    if (Product) {
+      delete models.Product;
+    }
+    // Eliminar todos los productos existentes
+    await Product.deleteMany({});
+    console.log('Productos existentes eliminados.');
+
+    // Obtener todos los segmentos, marcas, categorías, almacenes y proveedores
+    const [segments, marcas, categorias, almacenes, proveedores] =
+      await Promise.all([
+        Segment.find({}),
+        Marca.find({}),
+        Category.find({}),
+        Almacen.find({}),
+        Proveedor.find({}),
+      ]);
+
+    if (segments.length === 0)
+      throw new Error('No se encontraron segmentos en la base de datos.');
+    if (marcas.length === 0)
+      throw new Error('No se encontraron marcas en la base de datos.');
+    if (categorias.length === 0)
+      throw new Error('No se encontraron categorías en la base de datos.');
+    if (almacenes.length === 0)
+      throw new Error('No se encontraron almacenes en la base de datos.');
+    if (proveedores.length === 0)
+      throw new Error('No se encontraron proveedores en la base de datos.');
+
+    // Crear mapas para acceder a los datos por nombre
+    const segmentMap = segments.reduce(
+      (map, segment) => ({ ...map, [segment.nombre]: segment._id }),
+      {}
+    );
+    const marcaMap = marcas.reduce(
+      (map, marca) => ({ ...map, [marca.nombre]: marca._id }),
+      {}
+    );
+    const categoriaMap = categorias.reduce(
+      (map, categoria) => ({ ...map, [categoria.nombre]: categoria._id }),
+      {}
+    );
+    const almacenMap = almacenes.reduce(
+      (map, almacen) => ({ ...map, [almacen.nombre]: almacen._id }),
+      {}
+    );
+    const proveedorMap = proveedores.reduce(
+      (map, proveedor) => ({ ...map, [proveedor.nombre]: proveedor._id }),
+      {}
+    );
+
+    // Rellenar los campos vacíos en el mock
+    productsDataMock.forEach((product) => {
+      product.segmentId = segmentMap['Productos'] || '';
+      product.marcaId = marcaMap['Castrol'] || '';
+      product.categoriaId = categoriaMap['Aceites'] || '';
+      product.almacenId = almacenMap['MotoRock Ruta 33'] || '';
+      product.proveedorId = proveedorMap['Motorland SAS'] || '';
+    });
+
+    // Insertar los datos de productos
+    await Product.insertMany(productsDataMock);
+    console.log('Productos poblados en la base de datos.');
+  } catch (error) {
+    console.error('Seed: Error al poblar la base de datos:', error);
+  }
+}
+
 export async function seed() {
   try {
     await connectDB();
@@ -233,6 +327,8 @@ export async function seed() {
     await seedMarcas();
     await seedEmpresa();
     await seedAlmacen();
+    await seedProveedor();
+    await seedProducts();
   } catch (error) {
     console.error('Error al ejecutar el seeding:', error);
   }
