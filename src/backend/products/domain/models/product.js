@@ -45,6 +45,57 @@ const productSchema = new Schema(
         },
       },
     ],
+    precioCompra: {
+      type: Number,
+      required: [
+        true,
+        'El precio de compra es requerido en el schema de productos',
+      ],
+      min: [0, 'El precio de compra no puede ser negativo'],
+    },
+    precioVenta: {
+      type: Number,
+      required: [
+        true,
+        'El precio de venta es requerido en el schema de productos',
+      ],
+      min: [0, 'El precio de venta no puede ser negativo'],
+    },
+    obsequio: {
+      type: String,
+      required: [true, 'El obsequio es requerido en el schema de productos'],
+      enum: ['si', 'no'],
+    },
+    segmentId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Segment',
+      required: [true, 'segmentId es requerido en el schema de productos'],
+    },
+    marcaId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Marca',
+      required: [true, 'marcaId es requerido en el schema de productos'],
+    },
+    categoriaId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Category',
+      required: [true, 'categoriaId es requerido en el schema de productos'],
+    },
+    empresaId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Empresa',
+      required: [true, 'empresaId es requerido en el schema de productos'],
+    },
+    almacenId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Almacen',
+      required: [true, 'almacenId es requerido en el schema de productos'],
+    },
+    proveedorId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Proveedor',
+      required: [true, 'proveedorId es requerido en el schema de productos'],
+    },
   },
   { timestamps: true }
 );
