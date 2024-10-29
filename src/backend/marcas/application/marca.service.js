@@ -35,6 +35,37 @@ export class MarcaService {
       };
     }
   }
+  async getMarcaBySegmentId(id) {
+    try {
+      const marcaFiltered = await this.marcaRepository.getMarcaBySegmentId(id);
+
+      if (!marcaFiltered) {
+        console.log(
+          'Marca Service: No se encontraron marcas filtradas por segmento'
+        );
+        return {
+          status: 404,
+          payload: 'No se encontraron marcas filtradas por segmento',
+        };
+      }
+
+      console.log(
+        'Marca Service: Marcas filtradas por segmento encontradas'
+      );
+      return {
+        status: 200,
+        payload: marcaFiltered,
+      };
+    } catch (error) {
+      console.error(
+        `Service: Error interno al obtener marcas filtradas por segmento: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async getMarca(id) {
     try {
       const marcaFound = await this.marcaRepository.getMarcaById(id);
