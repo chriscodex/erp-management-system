@@ -26,6 +26,9 @@ export async function GET(request) {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Categorias Route: Error interno al obtener todas las categorias: ${error.message}`
+    );
     return NextResponse.json(
       { message: 'Error obteniendo todas las categorías' },
       { status: 500 }
