@@ -41,7 +41,7 @@ const productSchema = new Schema(
         estado: {
           type: String,
           required: [true, 'El estado es requerido en el schema de productos'],
-          enum: ['activo', 'inactivo'],
+          enum: ['disponible', 'dañado', 'desaparecido', 'reparado'],
         },
       },
     ],
