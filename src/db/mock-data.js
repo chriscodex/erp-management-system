@@ -317,11 +317,213 @@ export const almacenDataMock = [
     descripcion: 'Almacen Secundario',
     ubicacion: 'Jr. Los Almendros 123',
     estado: 'inactivo',
-  }
-]
+  },
+];
 
-export const productsMock = [
+export const proveedorDataMock = [
   {
+    nombre: 'Distribuidora DIS S.A.C',
+    ruc: '20123561245',
+    direccion: 'Jr. Perlas 32',
+    telefono: '925623526',
+  },
+  {
+    nombre: 'Euromotors SAS',
+    ruc: '25858595110',
+    direccion: 'Jr. Azules 115',
+    telefono: '932142574',
+  },
+  {
+    nombre: 'Motorland SAS',
+    ruc: '27414152637',
+    direccion: 'Jr. Fortalezas 115',
+    telefono: '984251574',
+  },
+];
 
-  }
-]
+export const productsDataMock = [
+  {
+    code: '12345678',
+    nombre: 'Aceite Motor Honda',
+    descripción: 'Aceite 10W-40 para motores de motos Honda.',
+    stock: 11,
+    stockMinimo: 2,
+    precioCompra: 25,
+    precioVenta: 50.5,
+    obsequio: 'no',
+    unidades: [
+      {
+        code: '212345678001',
+        estado: 'disponible',
+      },
+      {
+        code: '212345678002',
+        estado: 'disponible',
+      },
+      {
+        code: '212345678003',
+        estado: 'desaparecido',
+      },
+      {
+        code: '212345678004',
+        estado: 'disponible',
+      },
+      {
+        code: '212345678005',
+        estado: 'dañado',
+      },
+      {
+        code: '212345678006',
+        estado: 'disponible',
+      },
+      {
+        code: '212345678007',
+        estado: 'disponible',
+      },
+      {
+        code: '212345678008',
+        estado: 'reparado',
+      },
+      {
+        code: '212345678009',
+        estado: 'disponible',
+      },
+      {
+        code: '212345678010',
+        estado: 'disponible',
+      },
+      {
+        code: '212345678011',
+        estado: 'disponible',
+      },
+    ],
+    segmentId: '',
+    marcaId: '',
+    categoriaId: '',
+    almacenId: '',
+    proveedorId: '',
+  },
+  {
+    code: '87654321',
+    nombre: 'Casco Deportivo Harley-Davidson',
+    descripción: 'Casco deportivo con diseño exclusivo de Harley-Davidson.',
+    stock: 11,
+    stockMinimo: 3,
+    precioCompra: 50,
+    precioVenta: 60,
+    obsequio: 'no',
+    unidades: [
+      {
+        code: '287654321001',
+        estado: 'disponible',
+      },
+      {
+        code: '287654321002',
+        estado: 'disponible',
+      },
+      {
+        code: '287654321003',
+        estado: 'desaparecido',
+      },
+      {
+        code: '287654321004',
+        estado: 'disponible',
+      },
+      {
+        code: '287654321005',
+        estado: 'dañado',
+      },
+      {
+        code: '287654321006',
+        estado: 'disponible',
+      },
+      {
+        code: '287654321007',
+        estado: 'disponible',
+      },
+      {
+        code: '287654321008',
+        estado: 'reparado',
+      },
+      {
+        code: '287654321009',
+        estado: 'disponible',
+      },
+      {
+        code: '287654321010',
+        estado: 'disponible',
+      },
+      {
+        code: '287654321011',
+        estado: 'disponible',
+      },
+    ],
+    segmentId: '',
+    marcaId: '',
+    categoriaId: '',
+    almacenId: '',
+    proveedorId: '',
+  },
+  {
+    code: '54212345',
+    nombre: 'Lubricante Castrol 20W-50',
+    descripción:
+      'Lubricante avanzado para motos y vehículos de alto rendimiento.',
+    stock: 11,
+    stockMinimo: 3,
+    precioCompra: 18.5,
+    precioVenta: 25,
+    obsequio: 'si',
+    unidades: [
+      {
+        code: '254212345001',
+        estado: 'disponible',
+      },
+      {
+        code: '254212345002',
+        estado: 'disponible',
+      },
+      {
+        code: '254212345003',
+        estado: 'desaparecido',
+      },
+      {
+        code: '254212345004',
+        estado: 'disponible',
+      },
+      {
+        code: '254212345005',
+        estado: 'dañado',
+      },
+      {
+        code: '254212345006',
+        estado: 'disponible',
+      },
+      {
+        code: '254212345007',
+        estado: 'disponible',
+      },
+      {
+        code: '254212345008',
+        estado: 'reparado',
+      },
+      {
+        code: '254212345009',
+        estado: 'disponible',
+      },
+      {
+        code: '254212345010',
+        estado: 'disponible',
+      },
+      {
+        code: '254212345011',
+        estado: 'disponible',
+      },
+    ],
+    segmentId: '',
+    marcaId: '',
+    categoriaId: '',
+    almacenId: '',
+    proveedorId: '',
+  },
+];
