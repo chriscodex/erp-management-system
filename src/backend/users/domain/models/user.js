@@ -36,6 +36,7 @@ const userSchema = new Schema(
     estado: {
       type: String,
       required: [true, 'Estado is required'],
+      enum: ['activo', 'inactivo'],
     },
     password: {
       type: String,
