@@ -31,6 +31,7 @@ const userSchema = new Schema(
     rol: {
       type: String,
       required: [true, 'Rol is required'],
+      enum: ['Administrador', 'Vendedor', 'Tecnico'],
     },
     estado: {
       type: String,
