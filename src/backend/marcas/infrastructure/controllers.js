@@ -16,6 +16,22 @@ export async function getAllMarcasController() {
   }
 }
 
+export async function getMarcasBySegmentIdController(id) {
+  try {
+    await connectDB();
+    const marcasFiltered = await marcaService.getMarcaBySegmentId(id);
+    return marcasFiltered;
+  } catch (error) {
+    console.error(
+      'Controller: Error obteniendo las marcas filtradas por segmento:',
+      error
+    );
+    throw new Error(
+      'Controller: Internal Server Error - getMarcasBySegmentIdController'
+    );
+  }
+}
+
 export async function getMarcaController(id) {
   try {
     await connectDB();
