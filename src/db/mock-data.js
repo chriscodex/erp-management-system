@@ -85,7 +85,7 @@ export const userMockData = [
     dni: '37451289',
     celular: '912345678',
     direccion: 'Av. La Marina 852',
-    rol: 'Supervisor',
+    rol: 'Administrador',
     password: 'super123',
     estado: 'activo',
   },
@@ -135,7 +135,7 @@ export const userMockData = [
     dni: '41257896',
     celular: '964213785',
     direccion: 'Calle Los Jazmines 209',
-    rol: 'Supervisor',
+    rol: 'Administrador',
     password: 'ricardo789',
     estado: 'activo',
   },
@@ -317,5 +317,11 @@ export const almacenDataMock = [
     descripcion: 'Almacen Secundario',
     ubicacion: 'Jr. Los Almendros 123',
     estado: 'inactivo',
+  }
+]
+
+export const productsMock = [
+  {
+
   }
 ]
