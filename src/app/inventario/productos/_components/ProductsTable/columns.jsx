@@ -36,51 +36,39 @@ export const columnsProducts = [
     },
   },
   {
-    accessorFn: (row) => row?.segmentId?.nombre,
-    id: 'Segmento',
+    accessorKey: 'stock',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Segmento
+          Stock
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      const segment = row?.original?.segmentId?.nombre;
-      return <div className="text-start">{segment}</div>;
+      return <div className="text-start">{row.getValue('stock')}</div>;
     },
   },
   {
-    accessorKey: 'estado',
+    accessorFn: (row) => row?.categoriaId?.nombre,
+    id: 'category',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Estado
+          Categoría
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
     cell: ({ row }) => {
-      return (
-        <div className="text-start">
-          {row.getValue('estado') === 'activo' ? (
-            <Badge variant="successTable" className="text-sm">
-              Activo
-            </Badge>
-          ) : (
-            <Badge variant="error" className="text-sm">
-              Inactivo
-            </Badge>
-          )}
-        </div>
-      );
+      const segment = row?.original?.categoriaId?.nombre;
+      return <div className="text-start">{segment}</div>;
     },
   },
 
@@ -112,7 +100,7 @@ export const columnsProducts = [
               onClick={() => router.push(`/inventario/marcas/${id}`)}
             >
               <RiFileListLine />
-              Detalle
+              Ver
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
@@ -122,13 +110,6 @@ export const columnsProducts = [
               Editar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => setIsOpenDialogDeleteUser(true)}
-            >
-              <RiDeleteBinLine />
-              Eliminar
-            </DropdownMenuItem>
           </DropdownMenuContent>
           {/* Dialog Delete */}
           <DeleteMarcaAlert
