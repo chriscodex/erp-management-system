@@ -1,5 +1,3 @@
-'use client';
-
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
 
@@ -8,8 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { DataTableProducts } from '@/app/inventario/productos/_components/ProductsTable/data-table';
 import { columnsProducts } from '@/app/inventario/productos/_components/ProductsTable/columns';
+import { getAllProductsRequest } from '@/app/inventario/productos/_services/requests';
 
-export default function ProductsPage() {
+export default async function ProductsPage() {
+  const { products, status } = await getAllProductsRequest();
+
   /* Secciones del navbar */
   const navbarTitles = [
     {
@@ -39,10 +40,7 @@ export default function ProductsPage() {
             </Button>
           </CardHeader>
           <CardContent>
-            <DataTableProducts
-              columns={columnsProducts}
-              data={[]}
-            />
+            <DataTableProducts columns={columnsProducts} data={products} />
           </CardContent>
         </Card>
       </div>
