@@ -32,3 +32,10 @@ export function sortByUpdateDateDesc(list) {
   );
   return listSorted;
 }
+
+export function agregarNumeracionTable(array) {
+  return array.map((item, index) => ({
+    ...item,
+    numeracion: index + 1,
+  }));
+}
