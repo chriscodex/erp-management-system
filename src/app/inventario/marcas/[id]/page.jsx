@@ -16,7 +16,7 @@ export default async function Page({ params }) {
 
   const updatedAtFormated = formatDateLong(updatedAt);
 
-  const titles = [
+  const navbarTitles = [
     {
       title: 'Inventario',
       href: '/inventario/todos',
@@ -35,7 +35,7 @@ export default async function Page({ params }) {
   ];
 
   return (
-    <NavbarDynamic titles={titles}>
+    <NavbarDynamic titles={navbarTitles}>
       <DetailContent marcaData={marca} updatedAt={updatedAtFormated} />
     </NavbarDynamic>
   );

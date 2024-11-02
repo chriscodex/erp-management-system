@@ -25,4 +25,4 @@ export const getAlmacenUrl = `${process.env.NEXT_PUBLIC_API_URL}/almacenes`;
 
 /* Products */
 export const getAllProductsUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
-export const getProductById = `${process.env.NEXT_PUBLIC_API_URL}/products`;
+export const getProductByIdUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
