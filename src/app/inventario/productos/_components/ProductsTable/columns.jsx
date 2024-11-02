@@ -15,7 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Badge } from '@/components/ui/badge';
 import { DeleteMarcaAlert } from '@/app/inventario/marcas/_components/Dialogs/DeleteCategoryAlert.jsx';
-import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
+import { RiFileListLine } from '@remixicon/react';
 
 export const columnsProducts = [
   {
@@ -97,7 +97,7 @@ export const columnsProducts = [
             </DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/inventario/marcas/${id}`)}
+              onClick={() => router.push(`/inventario/productos/${id}`)}
             >
               <RiFileListLine />
               Ver
