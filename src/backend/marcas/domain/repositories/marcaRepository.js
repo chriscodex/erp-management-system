@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+
 import { Marca } from '@/backend/marcas/domain/models/marca';
 import { Segment } from '@/backend/segments/domain/models/segment';
 
