@@ -32,4 +32,31 @@ export class ProductService {
       };
     }
   }
+  async getProductById(id) {
+    try {
+      const productFound = await this.productRepository.getProductById(id);
+
+      if (!productFound) {
+        console.log('Product Service: El producto no existe');
+        return {
+          status: 404,
+          payload: 'El producto no existe',
+        };
+      }
+
+      console.log('Product Service: El producto existe');
+      return {
+        status: 200,
+        payload: productFound,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al buscar el producto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
