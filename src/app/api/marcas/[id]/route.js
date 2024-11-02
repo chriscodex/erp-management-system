@@ -17,7 +17,7 @@ export async function GET(request, { params }) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     return NextResponse.json(
-      { message: 'Error obteniendo la marca' },
+      { error: 'Error obteniendo la marca' },
       { status: 500 }
     );
   }
