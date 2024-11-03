@@ -33,7 +33,7 @@ export class SegmentService {
   }
   async getSegmentByFilter(segmentFilter) {
     try {
-      const segmentFiltered = await this.segmentRepository.getSegmentByData(
+      const segmentFiltered = await this.segmentRepository.getSegmentByFilter(
         segmentFilter
       );
 
