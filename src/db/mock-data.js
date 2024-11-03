@@ -345,7 +345,7 @@ export const productsDataMock = [
   {
     code: '12345678',
     nombre: 'Aceite Motor Honda',
-    descripción: 'Aceite 10W-40 para motores de motos Honda.',
+    descripcion: 'Aceite 10W-40 para motores de motos Honda.',
     stock: 11,
     stockMinimo: 2,
     precioCompra: 25,
@@ -406,7 +406,7 @@ export const productsDataMock = [
   {
     code: '87654321',
     nombre: 'Casco Deportivo Harley-Davidson',
-    descripción: 'Casco deportivo con diseño exclusivo de Harley-Davidson.',
+    descripcion: 'Casco deportivo con diseño exclusivo de Harley-Davidson.',
     stock: 11,
     stockMinimo: 3,
     precioCompra: 50,
@@ -467,7 +467,7 @@ export const productsDataMock = [
   {
     code: '54212345',
     nombre: 'Lubricante Castrol 20W-50',
-    descripción:
+    descripcion:
       'Lubricante avanzado para motos y vehículos de alto rendimiento.',
     stock: 11,
     stockMinimo: 3,
