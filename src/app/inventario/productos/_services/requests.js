@@ -1,4 +1,4 @@
-import { getAllProductsUrl } from '@/lib/urls';
+import { getAllProductsUrl} from '@/lib/urls';
 import { fetchData } from '@/lib/fetchData';
 
 export async function getAllProductsRequest() {
