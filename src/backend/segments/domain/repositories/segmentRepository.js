@@ -7,15 +7,15 @@ export class SegmentRepository {
   }
   async getAllSegments() {
     try {
-      const segments = await this.segmentModel.find();
+      const segmentsFound = await this.segmentModel.find();
 
-      if (segments.length === 0) {
+      if (segmentsFound.length === 0) {
         console.log('Segment Repository: No se encontraron segmentos');
         return null;
       }
 
       console.log('Segment Repository: Segmentos encontrados');
-      return segments;
+      return segmentsFound;
     } catch (error) {
       console.log(error);
       throw new Error(
@@ -26,17 +26,36 @@ export class SegmentRepository {
 
   async getSegmentById(id) {
     try {
-      const segment = await this.segmentModel.findOne({
+      const segmentFound = await this.segmentModel.findOne({
         _id: new mongoose.Types.ObjectId(id),
       });
 
-      if (!segment) {
+      if (!segmentFound) {
         console.log('Segment Repository: Segmento no encontrado');
         return null;
       }
 
       console.log('Segment Repository: Segmento encontrado');
-      return segment;
+      return segmentFound;
+    } catch (error) {
+      console.error(
+        `Segment Repository: Error al buscar el segmento: ${error.message}`
+      );
+      throw new Error(`Error al buscar el segmento: ${error.message}`);
+    }
+  }
+
+  async getSegmentByData(segmentData) {
+    try {
+      const segmentFound = await this.segmentModel.findOne(segmentData);
+
+      if (!segmentFound) {
+        console.log('Segment Repository: Segmento no encontrado');
+        return null;
+      }
+
+      console.log('Segment Repository: Segmento encontrado');
+      return segmentFound;
     } catch (error) {
       console.error(
         `Segment Repository: Error al buscar el segmento: ${error.message}`
