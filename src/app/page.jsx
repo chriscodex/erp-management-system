@@ -41,7 +41,7 @@ const inventoryData = [
   { name: 'Rep.', cantidad: 500 },
 ];
 
-export default function DashboardPage() {
+export default function HomePage() {
   return (
     <NavbarSimple title="Inicio">
       <div className="container mx-auto p-4">

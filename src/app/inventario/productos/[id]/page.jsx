@@ -1,27 +1,14 @@
 import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import {
-  DollarSign,
-  Package,
-  Plus,
-} from 'lucide-react';
 
 import { getProductByIdRequest } from './_services/requests';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { formatDateLong } from '@/lib/formateador';
 import { DataTableProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/data-table';
 import { columnsProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/columns';
 import { agregarNumeracionTable } from '@/lib/utils';
-import { Badge } from '@/components/ui/badge';
 import ProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/card';
+import GraphicSingleProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/graphic';
 
 export default async function Page({ params }) {
   const { product, status } = await getProductByIdRequest(params.id);
@@ -31,12 +18,6 @@ export default async function Page({ params }) {
   }
 
   const { nombre: productName, updatedAt, unidades } = product;
-
-  const unidadesEnumeradas = agregarNumeracionTable(unidades);
-
-  console.log(unidadesEnumeradas);
-
-  const updatedAtFormated = formatDateLong(updatedAt);
 
   const navbarTitles = [
     {
@@ -56,46 +37,18 @@ export default async function Page({ params }) {
     },
   ];
 
+  const unidadesEnumeradas = agregarNumeracionTable(unidades);
+
+  console.log(unidadesEnumeradas);
+
+  const updatedAtFormated = formatDateLong(updatedAt);
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <div className="container mx-auto p-6">
+      <div className="container mx-auto p-4">
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-2xl font-bold">
-            <ProductCard product={product}/>
-              <Card className="flex flex-col">
-                <CardHeader>
-                  <div className="flex justify-between items-start gap-2">
-                    <div>
-                      <CardTitle className="text-2xl">{productName}</CardTitle>
-                      <CardDescription>{product?.descripcion}</CardDescription>
-                    </div>
-                    <Badge variant="secondary" className="text-sm">
-                      Código: {product?.code}
-                    </Badge>
-                  </div>
-                </CardHeader>
-                <CardContent className="flex-grow">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-center">
-                      <Package className="h-5 w-5 mr-2 text-muted-foreground" />
-                      <span className="text-sm">
-                        {unidades.length} productos
-                      </span>
-                    </div>
-                    <div className="flex items-center">
-                      <DollarSign className="h-5 w-5 mr-2 text-muted-foreground" />
-                      <span className="text-sm">$8000</span>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </CardTitle>
-            <Button asChild>
-              <Link href="/inventario/productos/nuevo">
-                <Plus className="mr-2 h-4 w-4" /> Agregar Producto
-              </Link>
-            </Button>
+          <CardHeader className="w-full grid grid-cols-1 lg:grid-cols-2 gap-6 pb-2">
+            <ProductCard product={product} />
+            <GraphicSingleProductCard />
           </CardHeader>
           <CardContent>
             <DataTableProduct

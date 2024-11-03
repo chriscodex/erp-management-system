@@ -62,7 +62,7 @@ export default function CompaniesPage() {
                   <Badge variant="secondary" className="text-sm">
                     ID: {company.id}
                   </Badge>
-                </div>
+                </div>X
               </CardHeader>
               <CardContent className="flex-grow">
                 <div className="grid grid-cols-2 gap-4">
