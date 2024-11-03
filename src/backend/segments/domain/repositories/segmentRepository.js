@@ -45,9 +45,9 @@ export class SegmentRepository {
     }
   }
 
-  async getSegmentByData(segmentData) {
+  async getSegmentByFilter(segmentFilter) {
     try {
-      const segmentFound = await this.segmentModel.findOne(segmentData);
+      const segmentFound = await this.segmentModel.findOne(segmentFilter);
 
       if (!segmentFound) {
         console.log('Segment Repository: Segmento no encontrado');
