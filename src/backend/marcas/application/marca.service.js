@@ -49,16 +49,14 @@ export class MarcaService {
         };
       }
 
-      console.log(
-        'Marca Service: Marcas filtradas por segmento encontradas'
-      );
+      console.log('Marca Service: Marcas filtradas por segmento encontradas');
       return {
         status: 200,
         payload: marcaFiltered,
       };
     } catch (error) {
       console.error(
-        `Service: Error interno al obtener marcas filtradas por segmento: ${error.message}`
+        `MarcaService: Error interno al obtener marcas filtradas por segmento: ${error.message}`
       );
       return {
         status: 500,

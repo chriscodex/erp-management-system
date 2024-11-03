@@ -9,21 +9,50 @@ export class SegmentService {
       const categories = await this.segmentRepository.getAllSegments();
 
       if (!categories) {
-        console.log('Category Service: No se encontraron categorias');
+        console.log('Segment Service: No se encontraron segmentos');
         return {
           status: 404,
-          payload: 'No se encontraron categorias',
+          payload: 'No se encontraron segmentos',
         };
       }
 
-      console.log('Category Service: Categorías encontradas');
+      console.log('Segment Service: Segmentos encontradas');
       return {
         status: 200,
         payload: categories,
       };
     } catch (error) {
       console.error(
-        `Service: Error interno al obtener todas las categorías: ${error.message}`
+        `Segment Service: Error interno al obtener todas los segmentos: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async getSegmentByFilter(segmentFilter) {
+    try {
+      const segmentFiltered = await this.segmentRepository.getSegmentByData(
+        segmentFilter
+      );
+
+      if (!segmentFiltered) {
+        console.log('Segment Service: No se encontraron segmentos filtrados');
+        return {
+          status: 404,
+          payload: 'No se encontraron segmentos filtrados',
+        };
+      }
+
+      console.log('Segment Service: Segmentos filtrados encontrados');
+      return {
+        status: 200,
+        payload: segmentFiltered,
+      };
+    } catch (error) {
+      console.error(
+        `Segment Service: Error interno al obtener segmentos filtrados: ${error.message}`
       );
       return {
         status: 500,
