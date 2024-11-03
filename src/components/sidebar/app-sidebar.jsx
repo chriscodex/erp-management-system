@@ -4,7 +4,7 @@ import * as React from 'react';
 import { AudioWaveform, GalleryVerticalEnd, User2Icon } from 'lucide-react';
 import {
   RiBox3Line,
-  RiDropboxFill,
+  RiShoppingCartLine,
   RiMotorbikeFill,
   RiMotorbikeLine,
   RiInstanceFill,
@@ -57,7 +57,7 @@ const data = {
     {
       title: 'Ventas',
       url: '#',
-      icon: RiBox3Line,
+      icon: RiShoppingCartLine,
       items: [
         {
           title: 'Motos',
@@ -93,13 +93,6 @@ const data = {
         {
           title: 'Productos',
           url: '/inventario/productos/',
-          items: [
-            {
-              title: 'Todos',
-              url: '/inventario/productos/',
-              icon: RiDropboxFill,
-            },
-          ],
           icon: RiGalleryView2,
         },
         {
