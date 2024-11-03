@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
+import { RiGalleryView2 } from '@remixicon/react';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -8,10 +9,9 @@ import { DataTableProducts } from '@/app/inventario/productos/_components/Produc
 import { columnsProducts } from '@/app/inventario/productos/_components/ProductsTable/columns';
 import { getAllProductsRequest } from '@/app/inventario/productos/_services/requests';
 import { Label } from '@/components/ui/label';
-import { RiGalleryView2 } from '@remixicon/react';
 
 export default async function ProductsPage() {
-  const { products, status } = await getAllProductsRequest();
+  const { products } = await getAllProductsRequest();
 
   /* Secciones del navbar */
   const navbarTitles = [
