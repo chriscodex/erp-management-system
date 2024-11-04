@@ -15,3 +15,16 @@ export async function getAllSegmentsController() {
     );
   }
 }
+
+export async function getSegmentByFilter(segmentFilter) {
+  try {
+    await connectDB();
+    const segmentsFiltered = await segmentService.getSegmentByFilter(
+      segmentFilter
+    );
+    return segmentsFiltered;
+  } catch (error) {
+    console.error('Controller: Error fetching segments by filter:', error);
+    throw new Error('Controller: Internal Server Error - getSegmentByFilter');
+  }
+}
