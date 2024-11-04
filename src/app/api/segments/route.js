@@ -1,9 +1,25 @@
 import { NextResponse } from 'next/server';
-import { getAllSegmentsController } from '@/backend/segments/infrastructure/controller';
+import {
+  getAllSegmentsController,
+  getSegmentByFilter,
+} from '@/backend/segments/infrastructure/controller';
 
-export async function GET() {
+export async function GET(request) {
   try {
-    const { payload, status } = await getAllSegmentsController();
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const segmentName = searchParams.get('nombre');
+
+    let result;
+    if (segmentName !== null) {
+      result = await getSegmentByFilter({
+        nombre: segmentName,
+      });
+    } else {
+      result = await getAllSegmentsController();
+    }
+
+    const { payload, status } = result;
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
@@ -11,8 +27,11 @@ export async function GET() {
 
     return NextResponse.json({ payload }, { status });
   } catch (error) {
+    console.error(
+      `Segments Route: Error interno al obtener todas los segmentos: ${error.message}`
+    );
     return NextResponse.json(
-      { message: 'Error obteniendo los segmentos' },
+      { error: 'Error obteniendo todas los segmentos' },
       { status: 500 }
     );
   }
