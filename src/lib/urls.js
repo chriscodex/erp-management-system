@@ -31,3 +31,7 @@ export const getProductByIdUrl = `${process.env.NEXT_PUBLIC_API_URL}/products`;
 
 /* Proveedores */
 export const getAllProveedoresServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/proveedores`;
+
+/* Segments */
+export const getAllSegmentsServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/segments`;
+export const getSegmentsByFilterServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/segments`;
