@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 import {
   getAllMarcasController,
-  getMarcasBySegmentIdController,
+  getMarcasBySegmentDataController,
   createMarcaController,
 } from '@/backend/marcas/infrastructure/controllers';
 
@@ -24,10 +24,11 @@ export async function GET(request) {
     }
 
     let result;
-    if (segmentId !== null) {
-      result = await getMarcasBySegmentIdController({ id: segmentId });
-    } else if (segmentName !== null) {
-      result = await getMarcasBySegmentIdController({ nombre: segmentName });
+    if (segmentId !== null || segmentName !== null) {
+      result = await getMarcasBySegmentDataController({
+        id: segmentId,
+        nombre: segmentName,
+      });
     } else {
       result = await getAllMarcasController();
     }
