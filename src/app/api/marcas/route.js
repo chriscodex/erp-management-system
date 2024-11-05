@@ -11,10 +11,23 @@ export async function GET(request) {
     // Extrae los query parameters de la URL
     const { searchParams } = new URL(request.url);
     const segmentId = searchParams.get('segmentId');
+    const segmentName = searchParams.get('segmentName');
+
+    if (segmentId !== null && segmentName !== null) {
+      return NextResponse.json(
+        {
+          error:
+            'No se pueden filtrar por segmentId y segmentName al mismo tiempo',
+        },
+        { status: 400 }
+      );
+    }
 
     let result;
     if (segmentId !== null) {
-      result = await getMarcasBySegmentIdController(segmentId);
+      result = await getMarcasBySegmentIdController({ id: segmentId });
+    } else if (segmentName !== null) {
+      result = await getMarcasBySegmentIdController({ nombre: segmentName });
     } else {
       result = await getAllMarcasController();
     }
