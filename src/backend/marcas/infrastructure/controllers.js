@@ -16,10 +16,10 @@ export async function getAllMarcasController() {
   }
 }
 
-export async function getMarcasBySegmentIdController(id) {
+export async function getMarcasBySegmentDataController(segmentData) {
   try {
     await connectDB();
-    const marcasFiltered = await marcaService.getMarcaBySegmentId(id);
+    const marcasFiltered = await marcaService.getMarcaBySegmentData(segmentData);
     return marcasFiltered;
   } catch (error) {
     console.error(
