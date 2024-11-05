@@ -1,7 +1,7 @@
 import { Schema, model, models } from 'mongoose';
 
 // if (models.Proveedor) {
-//   delete models.Proveedor;
+  delete models.Proveedor;
 // }
 
 const proveedorSchema = new Schema(
@@ -11,7 +11,7 @@ const proveedorSchema = new Schema(
       required: [true, 'nombre es requerido en el schema de marcas'],
     },
     ruc: {
-      type: Number,
+      type: String,
       required: false,
     },
     direccion: {
@@ -19,7 +19,7 @@ const proveedorSchema = new Schema(
       required: false,
     },
     telefono: {
-      type: Number,
+      type: String,
       required: false,
     },
   },

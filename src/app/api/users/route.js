@@ -15,7 +15,7 @@ export async function GET() {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     return NextResponse.json(
-      { message: 'Error fetching users' },
+      { message: 'Error obteniendo los usuarios' },
       { status: 500 }
     );
   }
