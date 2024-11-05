@@ -28,22 +28,44 @@ export class MarcaRepository {
       );
     }
   }
-  async getMarcaBySegmentId(id) {
+  async getMarcaBySegmentData(segmentData) {
     try {
-      const marcasFiltered = await this.marcaModel
-        .find()
-        .populate({
-          path: 'segmentId',
-          match: {
-            $or: [
-              { _id: new mongoose.Types.ObjectId(id) }, // Coincide con el segmentId proporcionado
-              { _id: null }, // O permite segmentId nulo
-            ],
-          },
-        })
-        .then(
-          (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
-        );
+      const { id, nombre } = segmentData;
+
+      let marcasFiltered;
+      if (id) {
+        marcasFiltered = await this.marcaModel
+          .find()
+          .populate({
+            path: 'segmentId',
+            match: {
+              $or: [
+                { _id: new mongoose.Types.ObjectId(id) }, // Coincide con el segmentId proporcionado
+                { _id: null }, // O permite segmentId nulo
+              ],
+            },
+          })
+          .then(
+            (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+          );
+        console.log('Marca Repository: Marcas filtradas por segmentId');
+      } else if (nombre) {
+        marcasFiltered = await this.marcaModel
+          .find()
+          .populate({
+            path: 'segmentId',
+            match: {
+              $or: [
+                { nombre: { $regex: new RegExp(`^${nombre}$`, 'i') } }, // Coincide con el segmentId proporcionado
+                { nombre: null }, // O permite segmentId nulo
+              ],
+            },
+          })
+          .then(
+            (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+          );
+        console.log('Marca Repository: Marcas filtradas por segmentName');
+      }
 
       if (marcasFiltered.length === 0) {
         console.log(
