@@ -6,6 +6,7 @@ export const updateUserUrl = '/api/users';
 export const deleteUserUrl = '/api/users';
 
 /* Categories */
+export const getAllSegmentsUrl = `${process.env.NEXT_PUBLIC_API_URL}/segments`;
 export const getAllCategoriesUrl = `${process.env.NEXT_PUBLIC_API_URL}/categories`;
 export const getAllCategoriesServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/categories`;
 export const createCategoryUrl = '/api/categories';
@@ -16,6 +17,7 @@ export const deleteCategoryUrl = '/api/categories';
 export const getAllMarcasUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
 export const getAllMarcasServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
 export const getMarcaUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
+export const getMarcasBySegmenteIdServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/marcas`;
 export const createMarcaUrl = '/api/marcas';
 export const updateMarcaUrl = '/api/marcas';
 export const deleteMarcaUrl = '/api/marcas';
@@ -33,3 +35,4 @@ export const getAllProveedoresServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/pr
 
 /* Segments */
 export const getAllSegmentsServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/segments`;
+export const getSegmentsByFilterServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/segments`;
