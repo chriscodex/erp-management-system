@@ -8,7 +8,7 @@ const proveedorSchema = new Schema(
   {
     nombre: {
       type: String,
-      required: [true, 'nombre es requerido en el schema de marcas'],
+      required: [true, 'nombre es requerido en el schema de proveedores'],
     },
     ruc: {
       type: String,

@@ -48,7 +48,7 @@ export function FormAddProduct() {
 
   return (
     <div className="container mx-auto p-6">
-      <Card className="w-full max-w-4xl mx-auto">
+      <Card className="w-full max-w-7xl mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl">Agregar Producto</CardTitle>
           <CardDescription>
