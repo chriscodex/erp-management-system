@@ -67,10 +67,10 @@ export class CategoryService {
       };
     }
   }
-  async getCategoryBySegmentData(segmentData) {
+  async getCategoriesBySegmentData(segmentData) {
     try {
       const categoriesFiltered =
-        await this.categoryRepository.getCategoryBySegmentData(segmentData);
+        await this.categoryRepository.getCategoriesBySegmentData(segmentData);
 
       if (!categoriesFiltered) {
         console.log(

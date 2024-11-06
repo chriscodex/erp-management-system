@@ -90,7 +90,7 @@ export class CategoryRepository {
       throw new Error(`Error al buscar una categoría: ${error.message}`);
     }
   }
-  async getCategoryBySegmentData(segmentData) {
+  async getCategoriesBySegmentData(segmentData) {
     try {
       const { id, nombre } = segmentData;
 

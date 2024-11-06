@@ -34,6 +34,24 @@ export async function getCategoriesBySegmentIdController(id) {
   }
 }
 
+export async function getCategoriesBySegmentDataController(segmentData) {
+  try {
+    await connectDB();
+    const marcasFiltered = await categoryService.getCategoriesBySegmentData(
+      segmentData
+    );
+    return marcasFiltered;
+  } catch (error) {
+    console.error(
+      'Controller: Error obteniendo las categorías filtradas por segmento:',
+      error
+    );
+    throw new Error(
+      'Controller: Error interno obteniendo las categorías filtradas por segmento'
+    );
+  }
+}
+
 export async function createCategoryController(categoryData) {
   try {
     await connectDB();
