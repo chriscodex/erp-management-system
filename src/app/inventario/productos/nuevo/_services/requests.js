@@ -1,5 +1,5 @@
 import {
-  getMarcasBySegmenteIdServerUrl,
+  getMarcasBySegmentDataServerUrl,
   getAllProveedoresServerUrl,
 } from '@/lib/urls';
 import { fetchData } from '@/lib/fetchData';
@@ -10,12 +10,12 @@ export async function getMarcasBySegmentDataRequest(segmentData) {
     let response;
     if (segmentName) {
       response = await fetchData(
-        `${getMarcasBySegmenteIdServerUrl}/?segmentName=${segmentName}`
+        `${getMarcasBySegmentDataServerUrl}/?segmentName=${segmentName}`
       );
     }
     if (segmentId) {
       response = await fetchData(
-        `${getMarcasBySegmenteIdServerUrl}/?segmentId=${segmentId}`
+        `${getMarcasBySegmentDataServerUrl}/?segmentId=${segmentId}`
       );
     }
     if (response?.status !== 200) {
