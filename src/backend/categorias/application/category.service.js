@@ -67,6 +67,38 @@ export class CategoryService {
       };
     }
   }
+  async getCategoryBySegmentData(segmentData) {
+    try {
+      const categoriesFiltered =
+        await this.categoryRepository.getCategoryBySegmentData(segmentData);
+
+      if (!categoriesFiltered) {
+        console.log(
+          'Category Service: No se encontraron categorías filtradas por segmento'
+        );
+        return {
+          status: 404,
+          payload: 'No se encontraron categorías filtradas por segmento',
+        };
+      }
+
+      console.log(
+        'Category Service: Categorías filtradas por segmento encontradas'
+      );
+      return {
+        status: 200,
+        payload: categoriesFiltered,
+      };
+    } catch (error) {
+      console.error(
+        `Category Service: Error interno al obtener categorías filtradas por segmento: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async deleteCategory(id) {
     try {
       const categoryDeleted = await this.categoryRepository.deleteCategory(id);

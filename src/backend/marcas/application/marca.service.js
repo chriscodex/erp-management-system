@@ -58,7 +58,7 @@ export class MarcaService {
       };
     } catch (error) {
       console.error(
-        `MarcaService: Error interno al obtener marcas filtradas por segmento: ${error.message}`
+        `Marca Service: Error interno al obtener marcas filtradas por segmento: ${error.message}`
       );
       return {
         status: 500,
