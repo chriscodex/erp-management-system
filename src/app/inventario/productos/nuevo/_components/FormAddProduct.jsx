@@ -13,13 +13,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -33,7 +26,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
-export function FormAddProduct({ marcas }) {
+export function FormAddProduct({ categories, marcas }) {
+  console.log('categorias', categories);
   const addProductForm = useForm({
     resolver: zodResolver(),
     defaultValues: {
@@ -85,6 +79,36 @@ export function FormAddProduct({ marcas }) {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={control}
+              name="categoryId"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Categoría</FormLabel>
+                  <div className="relative">
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione una categoría" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {categories?.map((category) => (
+                          <SelectItem key={category?._id} value={category?._id}>
+                            {category?.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
               name="marcaId"
               render={({ field }) => (
                 <FormItem className="space-y-2">
@@ -113,21 +137,6 @@ export function FormAddProduct({ marcas }) {
                 </FormItem>
               )}
             />
-            <div className="space-y-2">
-              <Label htmlFor="category">Categoría</Label>
-              <Select
-                onValueChange={(value) => handleChange('category', value)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar categoría" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="motos">Motos</SelectItem>
-                  <SelectItem value="repuestos">Repuestos</SelectItem>
-                  <SelectItem value="accesorios">Accesorios</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
 
             <div className="space-y-2">
               <Label htmlFor="brand">Marca</Label>
