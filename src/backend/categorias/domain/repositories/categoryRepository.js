@@ -90,6 +90,61 @@ export class CategoryRepository {
       throw new Error(`Error al buscar una categoría: ${error.message}`);
     }
   }
+  async getCategoryBySegmentData(segmentData) {
+    try {
+      const { id, nombre } = segmentData;
+
+      let categoriesFiltered;
+      if (id) {
+        categoriesFiltered = await this.categoryModel
+          .find()
+          .populate({
+            path: 'segmentId',
+            match: {
+              $or: [{ _id: new mongoose.Types.ObjectId(id) }],
+            },
+          })
+          .then(
+            (results) => results.filter((categoria) => categoria.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+          );
+        console.log('Category Repository: Categorías filtradas por segmentId');
+      } else if (nombre) {
+        categoriesFiltered = await this.categoryModel
+          .find()
+          .populate({
+            path: 'segmentId',
+            match: {
+              $or: [{ nombre: { $regex: new RegExp(`^${nombre}$`, 'i') } }],
+            },
+          })
+          .then(
+            (results) => results.filter((category) => category.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+          );
+        console.log(
+          'Category Repository: Categorías filtradas por segmentName'
+        );
+      }
+
+      if (categoriesFiltered.length === 0) {
+        console.log(
+          'Category Repository: No se encontraron categorías filtradas por segmento'
+        );
+        return null;
+      }
+
+      console.log(
+        'Category Repository: Categorías filtradas por segmento encontradas'
+      );
+      return categoriesFiltered;
+    } catch (error) {
+      console.error(
+        `Category Repository: Error al buscar categorías filtradas por segmento: ${error.message}`
+      );
+      throw new Error(
+        `Error interno al buscar categorías filtradas por segmento: ${error.message}`
+      );
+    }
+  }
   async createCategory(categoryData) {
     try {
       const newCategory = new this.categoryModel(categoryData);

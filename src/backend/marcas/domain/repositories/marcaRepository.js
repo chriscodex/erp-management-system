@@ -41,7 +41,6 @@ export class MarcaRepository {
             match: {
               $or: [
                 { _id: new mongoose.Types.ObjectId(id) }, // Coincide con el segmentId proporcionado
-                { _id: null }, // O permite segmentId nulo
               ],
             },
           })
@@ -55,10 +54,7 @@ export class MarcaRepository {
           .populate({
             path: 'segmentId',
             match: {
-              $or: [
-                { nombre: { $regex: new RegExp(`^${nombre}$`, 'i') } }, // Coincide con el segmentId proporcionado
-                { nombre: null }, // O permite segmentId nulo
-              ],
+              $or: [{ nombre: { $regex: new RegExp(`^${nombre}$`, 'i') } }],
             },
           })
           .then(
