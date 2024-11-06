@@ -1,7 +1,7 @@
 import {
-  getAllCategoriesRequest,
   getAllProveedoresRequest,
   getMarcasBySegmentDataRequest,
+  getCategoriesBySegmentDataRequest,
 } from '@/app/inventario/productos/nuevo/_services/requests';
 import { FormAddProduct } from '@/app/inventario/productos/nuevo/_components/FormAddProduct';
 import {
@@ -13,13 +13,15 @@ import {
 } from '@/components/ui/card';
 
 export default async function AddProductPage() {
-  const [marcasResponse, proveedoresResponse] = await Promise.all([
-    getMarcasBySegmentDataRequest({ segmentName: 'Productos' }),
-    getAllProveedoresRequest(),
-  ]);
+  const [categoriesResponse, marcasResponse, proveedoresResponse] =
+    await Promise.all([
+      getCategoriesBySegmentDataRequest({ segmentName: 'Productos' }),
+      getMarcasBySegmentDataRequest({ segmentName: 'Productos' }),
+      getAllProveedoresRequest(),
+    ]);
 
+  const { categories } = categoriesResponse;
   const { marcas } = marcasResponse;
-  // const { categories } = categoriesResponse;
   const { proveedores } = proveedoresResponse;
 
   return (
@@ -33,8 +35,8 @@ export default async function AddProductPage() {
         </CardHeader>
         <CardContent>
           <FormAddProduct
+            categories={categories}
             marcas={marcas}
-            // categories={categories}
             proveedores={proveedores}
           />
         </CardContent>
