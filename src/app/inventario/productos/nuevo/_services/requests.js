@@ -2,29 +2,21 @@ import {
   getMarcasBySegmentDataServerUrl,
   getCategoriesBySegmentDataServerUrl,
   getAllProveedoresServerUrl,
+  getSegmentsByFilterServerUrl,
 } from '@/lib/urls';
 import { fetchData } from '@/lib/fetchData';
 
-export async function getMarcasBySegmentDataRequest(segmentData) {
+export async function getSegmentByFilterRequest(segmentFilter) {
   try {
-    const { segmentId, segmentName } = segmentData;
-    let response;
-    if (segmentName) {
-      response = await fetchData(
-        `${getMarcasBySegmentDataServerUrl}/?segmentName=${segmentName}`
-      );
-    }
-    if (segmentId) {
-      response = await fetchData(
-        `${getMarcasBySegmentDataServerUrl}/?segmentId=${segmentId}`
-      );
-    }
+    const response = await fetchData(
+      `${getSegmentsByFilterServerUrl}/?nombre=${segmentFilter}`
+    );
     if (response?.status !== 200) {
-      console.log('Error al obtener marcas por segmento');
-      return { marcas: [], status: response?.status };
+      console.log('Error al obtener el segmento filtrado');
+      return { segment: null, status: response?.status };
     }
-    const marcas = response?.data?.payload;
-    return { marcas, status: 200 };
+    const segment = response?.data?.payload;
+    return { segment, status: 200 };
   } catch (error) {
     console.error(error);
   }
@@ -50,6 +42,31 @@ export async function getCategoriesBySegmentDataRequest(segmentData) {
     }
     const categories = response?.data?.payload;
     return { categories, status: 200 };
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+export async function getMarcasBySegmentDataRequest(segmentData) {
+  try {
+    const { segmentId, segmentName } = segmentData;
+    let response;
+    if (segmentName) {
+      response = await fetchData(
+        `${getMarcasBySegmentDataServerUrl}/?segmentName=${segmentName}`
+      );
+    }
+    if (segmentId) {
+      response = await fetchData(
+        `${getMarcasBySegmentDataServerUrl}/?segmentId=${segmentId}`
+      );
+    }
+    if (response?.status !== 200) {
+      console.log('Error al obtener marcas por segmento');
+      return { marcas: [], status: response?.status };
+    }
+    const marcas = response?.data?.payload;
+    return { marcas, status: 200 };
   } catch (error) {
     console.error(error);
   }
