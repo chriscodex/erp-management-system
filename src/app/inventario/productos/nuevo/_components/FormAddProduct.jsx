@@ -27,7 +27,6 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
 export function FormAddProduct({ categories, marcas }) {
-  console.log('categorias', categories);
   const addProductForm = useForm({
     resolver: zodResolver(),
     defaultValues: {
@@ -137,20 +136,6 @@ export function FormAddProduct({ categories, marcas }) {
                 </FormItem>
               )}
             />
-
-            <div className="space-y-2">
-              <Label htmlFor="brand">Marca</Label>
-              <Select onValueChange={(value) => handleChange('brand', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar marca" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="honda">Honda</SelectItem>
-                  <SelectItem value="yamaha">Yamaha</SelectItem>
-                  <SelectItem value="suzuki">Suzuki</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="name">Nombre del Producto</Label>
