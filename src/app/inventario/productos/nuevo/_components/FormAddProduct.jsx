@@ -34,7 +34,7 @@ export function FormAddProduct({
   almacenes,
 }) {
   const addProductForm = useForm({
-    // resolver: zodResolver(createProductSchema),
+    resolver: zodResolver(createProductSchema),
     defaultValues: {
       categoryId: '',
       marcaId: '',
