@@ -1,9 +1,9 @@
 import { fetchData } from '@/lib/fetchData';
-import { getAllAlmacenesUrl } from '@/lib/urls';
+import { getAllAlmacenesServerUrl } from '@/lib/urls';
 
 export async function getAllAlmacenesRequest() {
   try {
-    const response = await fetchData(getAllAlmacenesUrl);
+    const response = await fetchData(getAllAlmacenesServerUrl);
     if (response?.status !== 200) {
       console.log('Error al obtener todos los almacenes');
       return { almacenes: [], status: 500 };
