@@ -35,17 +35,17 @@ export function FormAddProduct({
   const addProductForm = useForm({
     // resolver: zodResolver(),
     defaultValues: {
+      categoryId: '',
+      marcaId: '',
       nombre: '',
       descripcion: '',
       stock: '',
       stockMinimo: '',
       precioCompra: '',
       precioVenta: '',
-      segmentId: segment._id,
-      marcaId: '',
-      categoryId: '',
-      almacenId: '',
       proveedorId: '',
+      almacenId: '',
+      segmentId: segment._id,
     },
   });
 
