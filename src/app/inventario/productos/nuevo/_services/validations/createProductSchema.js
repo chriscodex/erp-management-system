@@ -18,9 +18,23 @@ export const createProductSchema = z.object({
       message: 'El nombre debe tener menos de 50 caracteres',
     }),
   descripcion: z.string().optional(),
-  stock: z.number().min(0, {
-    message: 'El stock debe ser mayor o igual a 0',
-  }),
+  stock: z
+    .union([
+      z.number({
+        required_error: 'Stock es requerido',
+        invalid_type_error: 'Debe ingresar un número válido',
+      }),
+      z
+        .string()
+        .min(1, { message: 'Stock es requerido' }) // Evita cadenas vacías
+        .refine((val) => /^[0-9]+$/.test(val), {
+          message: 'El stock debe contener solo números enteros positivos',
+        }), // Asegura que no haya signos
+    ])
+    .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
+    .refine((val) => Number.isInteger(val) && val >= 1, {
+      message: 'El stock debe ser un número entero mayor o igual a 1',
+    }),
   stockMinimo: z.number().min(0, {
     message: 'El stock minimo debe ser mayor o igual a 0',
   }),
