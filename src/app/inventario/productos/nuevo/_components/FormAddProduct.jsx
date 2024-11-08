@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Package, DollarSign } from 'lucide-react';
+import { Package } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+// import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   Form,
@@ -14,7 +14,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
@@ -26,53 +25,53 @@ import {
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
-export function FormAddProduct({ categories, marcas }) {
+export function FormAddProduct({ categories, marcas, proveedores, segment }) {
+  console.log(segment);
   const addProductForm = useForm({
-    resolver: zodResolver(),
+    // resolver: zodResolver(),
     defaultValues: {
       nombre: '',
       descripcion: '',
       stock: '',
       stockMinimo: '',
-      segmentId: '',
+      precioCompra: '',
+      precioVenta: '',
+      segmentId: segment._id,
       marcaId: '',
-      categoria: '',
+      categoryId: '',
       almacenId: '',
       proveedorId: '',
     },
   });
 
-  const { control, clearErrors, setError } = addProductForm;
+  const { handleSubmit, control, clearErrors, setError } = addProductForm;
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
-  const [product, setProduct] = useState({
-    category: '',
-    brand: '',
-    name: '',
-    description: '',
-    supplier: '',
-    unit: '',
-    stock: '',
-    minStock: '',
-    purchasePrice: '',
-    salePrice: '',
+  const onSubmit = handleSubmit((data) => {
+    // setFormSubmitIsLoading(true);
+
+    console.log(data);
+
+    // Toast promise para buscar una persona
+    // toast.promise(createMarcaRequest(data, setFormSubmitIsLoading, setError), {
+    //   loading: 'Creando...',
+    //   success: () => {
+    //     clearErrors();
+    //     // router.push('/inventario/marcas');
+    //     return `Marca creada exitosamente`;
+    //   },
+    //   error: (error) => {
+    //     setFormSubmitIsLoading(false);
+    //     return error;
+    //   },
+    // });
   });
-
-  const handleChange = (field, value) => {
-    setProduct((prev) => ({ ...prev, [field]: value }));
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Product data:', product);
-    // Here you would typically send the data to your backend
-  };
 
   return (
     <Form {...addProductForm}>
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={onSubmit} className="space-y-8">
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Detalles básicos</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -124,9 +123,196 @@ export function FormAddProduct({ categories, marcas }) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {marcas?.map((segment) => (
-                          <SelectItem key={segment?._id} value={segment?._id}>
-                            {segment?.nombre}
+                        {marcas?.map((marca) => (
+                          <SelectItem key={marca?._id} value={marca?._id}>
+                            {marca?.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="nombre"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Nombre del Producto</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        placeholder="Ingrese el nombre del producto"
+                        className="pl-2"
+                        autoComplete="off"
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="descripcion"
+              render={({ field }) => (
+                <FormItem className="space-y-2 col-span-2">
+                  <FormLabel>Descripción (Opcional)</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Textarea
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                        placeholder="Describa el producto"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Inventario</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={control}
+              name="stock"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Stock</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Cantidad de unidades"
+                        className="pl-2"
+                        autoComplete="off"
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="stockMinimo"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>
+                    Stock mínimo{' '}
+                    <span className="text-xs text-muted-foreground">
+                      (Notificaciones)
+                    </span>
+                  </FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="Stock mínimo"
+                        className="pl-2"
+                        autoComplete="off"
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Precios y proveedor</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={control}
+              name="precioCompra"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Precio de compra</FormLabel>
+                  <div className="relative">
+                    <p className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                      S/.{' '}
+                    </p>
+                    <FormControl>
+                      <Input
+                        placeholder="0.00"
+                        className="pl-10"
+                        autoComplete="off"
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="precioVenta"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Precio de venta</FormLabel>
+                  <div className="relative">
+                    <p className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                      S/.{' '}
+                    </p>
+                    <FormControl>
+                      <Input
+                        type="number"
+                        placeholder="0.00"
+                        className="pl-10"
+                        autoComplete="off"
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="proveedorId"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Proveedor</FormLabel>
+                  <div className="relative">
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un proveedor" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {proveedores?.map((proveedor) => (
+                          <SelectItem
+                            key={proveedor?._id}
+                            value={proveedor?._id}
+                          >
+                            {proveedor?.nombre}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -137,120 +323,9 @@ export function FormAddProduct({ categories, marcas }) {
               )}
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="name">Nombre del Producto</Label>
-            <Input
-              id="name"
-              placeholder="Ingrese el nombre del producto"
-              value={product.name}
-              onChange={(e) => handleChange('name', e.target.value)}
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="description">Descripción</Label>
-            <Textarea
-              id="description"
-              placeholder="Describa el producto"
-              value={product.description}
-              onChange={(e) => handleChange('description', e.target.value)}
-            />
-          </div>
         </div>
 
         <Separator />
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Inventario</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="unit">Unidades</Label>
-              <Select onValueChange={(value) => handleChange('unit', value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccionar unidad" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="unidad">Unidad</SelectItem>
-                  <SelectItem value="par">Par</SelectItem>
-                  <SelectItem value="litro">Litro</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="stock">Stock</Label>
-              <Input
-                id="stock"
-                type="number"
-                placeholder="Cantidad en stock"
-                value={product.stock}
-                onChange={(e) => handleChange('stock', e.target.value)}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="minStock">Stock mínimo</Label>
-              <Input
-                id="minStock"
-                type="number"
-                placeholder="Stock mínimo"
-                value={product.minStock}
-                onChange={(e) => handleChange('minStock', e.target.value)}
-              />
-            </div>
-          </div>
-        </div>
-
-        <Separator />
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Precios y proveedor</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="purchasePrice">Precio de compra</Label>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-                <Input
-                  id="purchasePrice"
-                  type="number"
-                  step="0.01"
-                  placeholder="0.00"
-                  value={product.purchasePrice}
-                  onChange={(e) =>
-                    handleChange('purchasePrice', e.target.value)
-                  }
-                  className="pl-10"
-                />
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="salePrice">Precio de venta</Label>
-              <div className="relative">
-                <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500" />
-                <Input
-                  id="salePrice"
-                  type="number"
-                  step="0.01"
-                  placeholder="0.00"
-                  value={product.salePrice}
-                  onChange={(e) => handleChange('salePrice', e.target.value)}
-                  className="pl-10"
-                />
-              </div>
-            </div>
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="supplier">Proveedor</Label>
-            <Select onValueChange={(value) => handleChange('supplier', value)}>
-              <SelectTrigger>
-                <SelectValue placeholder="Seleccionar proveedor" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="proveedor1">Proveedor 1</SelectItem>
-                <SelectItem value="proveedor2">Proveedor 2</SelectItem>
-                <SelectItem value="proveedor3">Proveedor 3</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
-        </div>
-
         <Button type="submit" className="w-full">
           <Package className="mr-2 h-4 w-4" /> Agregar Producto
         </Button>
