@@ -25,6 +25,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { createProductSchema } from '@/app/inventario/productos/nuevo/_services/validations/createProductSchema';
+import { NumberInputField } from '@/components/formInputs/NumberInputField';
 
 export function FormAddProduct({
   categories,
@@ -189,32 +190,12 @@ export function FormAddProduct({
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Inventario</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
+            <NumberInputField
               control={control}
               name="stock"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Stock</FormLabel>
-                  <div className="relative">
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Cantidad de unidades"
-                        className="pl-2"
-                        autoComplete="off"
-                        disabled={formSubmitIsLoading}
-                        {...field}
-                        onChange={(e) => {
-                          // Filtramos cualquier valor que no sea un número
-                          const value = e.target.value.replace(/[^0-9]/g, '');
-                          field.onChange(value); // Actualizamos el valor del campo
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
+              title="Stock"
+              placeholder="Cantidad de unidades"
+              formSubmitIsLoading={formSubmitIsLoading}
             />
             <FormField
               control={control}
