@@ -3,6 +3,7 @@ import {
   getAllProveedoresRequest,
   getMarcasBySegmentDataRequest,
   getCategoriesBySegmentDataRequest,
+  getAllAlmacenesRequest,
 } from '@/app/inventario/productos/nuevo/_services/requests';
 import { FormAddProduct } from '@/app/inventario/productos/nuevo/_components/FormAddProduct';
 import {
@@ -18,17 +19,20 @@ export default async function AddProductPage() {
     categoriesResponse,
     marcasResponse,
     proveedoresResponse,
+    almacenesResponse,
     segmentResponse,
   ] = await Promise.all([
     getCategoriesBySegmentDataRequest({ segmentName: 'Productos' }),
     getMarcasBySegmentDataRequest({ segmentName: 'Productos' }),
     getAllProveedoresRequest(),
+    getAllAlmacenesRequest(),
     getSegmentByFilterRequest('Productos'),
   ]);
 
   const { categories } = categoriesResponse;
   const { marcas } = marcasResponse;
   const { proveedores } = proveedoresResponse;
+  const { almacenes } = almacenesResponse;
   const { segment } = segmentResponse;
 
   return (
@@ -46,6 +50,7 @@ export default async function AddProductPage() {
             categories={categories}
             marcas={marcas}
             proveedores={proveedores}
+            almacenes={almacenes}
           />
         </CardContent>
       </Card>
