@@ -24,7 +24,7 @@ export const updateMarcaUrl = '/api/marcas';
 export const deleteMarcaUrl = '/api/marcas';
 
 /* Almacen */
-export const getAllAlmacenesUrl = `${process.env.NEXT_PUBLIC_API_URL}/almacenes`;
+export const getAllAlmacenesServerUrl = `${process.env.NEXT_PUBLIC_API_URL}/almacenes`;
 export const getAlmacenUrl = `${process.env.NEXT_PUBLIC_API_URL}/almacenes`;
 
 /* Products */
