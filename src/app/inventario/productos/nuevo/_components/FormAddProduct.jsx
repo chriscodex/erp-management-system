@@ -25,8 +25,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
-export function FormAddProduct({ categories, marcas, proveedores, segment }) {
-  console.log(segment);
+export function FormAddProduct({
+  categories,
+  marcas,
+  proveedores,
+  segment,
+  almacenes,
+}) {
   const addProductForm = useForm({
     // resolver: zodResolver(),
     defaultValues: {
@@ -313,6 +318,36 @@ export function FormAddProduct({ categories, marcas, proveedores, segment }) {
                             value={proveedor?._id}
                           >
                             {proveedor?.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="almacenId"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Almacen</FormLabel>
+                  <div className="relative">
+                    <Select
+                      defaultValue={almacenes[0]?._id}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un proveedor" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {almacenes?.map((almacen) => (
+                          <SelectItem key={almacen?._id} value={almacen?._id}>
+                            {almacen?.nombre}
                           </SelectItem>
                         ))}
                       </SelectContent>
