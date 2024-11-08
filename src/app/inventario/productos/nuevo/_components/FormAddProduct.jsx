@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import { Package } from 'lucide-react';
 import { useForm } from 'react-hook-form';
-// import { zodResolver } from '@hookform/resolvers/zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
   Form,
@@ -24,6 +24,7 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { createProductSchema } from '@/app/inventario/productos/nuevo/_services/validations/createProductSchema';
 
 export function FormAddProduct({
   categories,
@@ -33,7 +34,7 @@ export function FormAddProduct({
   almacenes,
 }) {
   const addProductForm = useForm({
-    // resolver: zodResolver(),
+    // resolver: zodResolver(createProductSchema),
     defaultValues: {
       categoryId: '',
       marcaId: '',
@@ -54,7 +55,7 @@ export function FormAddProduct({
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
-  const onSubmit = handleSubmit((data) => {
+  const onSubmit = handleSubmit(async (data) => {
     // setFormSubmitIsLoading(true);
 
     console.log(data);
@@ -197,12 +198,17 @@ export function FormAddProduct({
                   <div className="relative">
                     <FormControl>
                       <Input
-                        type="number"
+                        type="text"
                         placeholder="Cantidad de unidades"
                         className="pl-2"
                         autoComplete="off"
                         disabled={formSubmitIsLoading}
                         {...field}
+                        onChange={(e) => {
+                          // Filtramos cualquier valor que no sea un número
+                          const value = e.target.value.replace(/[^0-9]/g, '');
+                          field.onChange(value); // Actualizamos el valor del campo
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
