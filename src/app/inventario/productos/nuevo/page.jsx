@@ -1,4 +1,5 @@
 import {
+  getSegmentByFilterRequest,
   getAllProveedoresRequest,
   getMarcasBySegmentDataRequest,
   getCategoriesBySegmentDataRequest,
@@ -13,16 +14,22 @@ import {
 } from '@/components/ui/card';
 
 export default async function AddProductPage() {
-  const [categoriesResponse, marcasResponse, proveedoresResponse] =
-    await Promise.all([
-      getCategoriesBySegmentDataRequest({ segmentName: 'Productos' }),
-      getMarcasBySegmentDataRequest({ segmentName: 'Productos' }),
-      getAllProveedoresRequest(),
-    ]);
+  const [
+    categoriesResponse,
+    marcasResponse,
+    proveedoresResponse,
+    segmentResponse,
+  ] = await Promise.all([
+    getCategoriesBySegmentDataRequest({ segmentName: 'Productos' }),
+    getMarcasBySegmentDataRequest({ segmentName: 'Productos' }),
+    getAllProveedoresRequest(),
+    getSegmentByFilterRequest('Productos'),
+  ]);
 
   const { categories } = categoriesResponse;
   const { marcas } = marcasResponse;
   const { proveedores } = proveedoresResponse;
+  const { segment } = segmentResponse;
 
   return (
     <div className="container mx-auto p-6">
@@ -35,6 +42,7 @@ export default async function AddProductPage() {
         </CardHeader>
         <CardContent>
           <FormAddProduct
+            segment={segment}
             categories={categories}
             marcas={marcas}
             proveedores={proveedores}
