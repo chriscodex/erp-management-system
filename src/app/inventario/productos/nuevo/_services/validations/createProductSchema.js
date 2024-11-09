@@ -57,12 +57,12 @@ export const createProductSchema = z.object({
         required_error: 'Ingrese el precio de compra',
         invalid_type_error: 'Debe ingresar un número válido',
       }),
-      z.string().refine((val) => /^[0-9]+$/.test(val), {
-        message: 'Ingrese el precio de compra',
-      }), // Asegura que no haya signos
+      z.string().refine((val) => /^[0-9]*\.?[0-9]+$/.test(val), {
+        message: 'Ingrese un número válido para el precio de compra',
+      }), // Permite números con decimales
     ])
     .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
-    .refine((val) => Number.isInteger(val) && val >= 0, {
+    .refine((val) => val >= 0, {
       message: 'El precio de compra debe ser un número mayor o igual a 0',
     }),
   precioVenta: z
@@ -71,12 +71,12 @@ export const createProductSchema = z.object({
         required_error: 'Ingrese el precio de venta',
         invalid_type_error: 'Debe ingresar un número válido',
       }),
-      z.string().refine((val) => /^[0-9]+$/.test(val), {
-        message: 'Ingrese el precio de venta',
-      }), // Asegura que no haya signos
+      z.string().refine((val) => /^[0-9]*\.?[0-9]+$/.test(val), {
+        message: 'Ingrese un número válido para el precio de venta',
+      }), // Permite números con decimales
     ])
     .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
-    .refine((val) => Number.isInteger(val) && val >= 0, {
+    .refine((val) => val >= 0, {
       message: 'El precio de venta debe ser un número mayor o igual a 0',
     }),
   proveedorId: z.string().regex(objectIdRegex, {
