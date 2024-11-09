@@ -51,9 +51,20 @@ export const createProductSchema = z.object({
     .refine((val) => Number.isInteger(val) && val >= 0, {
       message: 'El stock debe ser un número mayor o igual a 0',
     }),
-  precioCompra: z.number().min(0, {
-    message: 'El precio de compra debe ser mayor o igual a 0',
-  }),
+  precioCompra: z
+    .union([
+      z.number({
+        required_error: 'Ingrese el precio de compra',
+        invalid_type_error: 'Debe ingresar un número válido',
+      }),
+      z.string().refine((val) => /^[0-9]+$/.test(val), {
+        message: 'Ingrese el precio de compra',
+      }), // Asegura que no haya signos
+    ])
+    .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
+    .refine((val) => Number.isInteger(val) && val >= 0, {
+      message: 'El precio de compra debe ser un número mayor o igual a 0',
+    }),
   precioVenta: z.number().min(0, {
     message: 'El precio de venta debe ser mayor o igual a 0',
   }),
