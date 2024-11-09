@@ -30,7 +30,7 @@ export const createProductSchema = z.object({
           message: 'El stock debe ser un número entero mayor o igual a 1',
         }) // Evita cadenas vacías
         .refine((val) => /^[0-9]+$/.test(val), {
-          message: 'El stock debe contener solo números enteros positivos',
+          message: 'Ingrese el valor del stock',
         }), // Asegura que no haya signos
     ])
     .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
@@ -44,7 +44,7 @@ export const createProductSchema = z.object({
         invalid_type_error: 'Debe ingresar un número válido',
       }),
       z.string().refine((val) => /^[0-9]+$/.test(val), {
-        message: 'El stock minimo debe contener solo números enteros positivos',
+        message: 'Ingrese el valor del stock minimo',
       }), // Asegura que no haya signos
     ])
     .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
@@ -65,9 +65,20 @@ export const createProductSchema = z.object({
     .refine((val) => Number.isInteger(val) && val >= 0, {
       message: 'El precio de compra debe ser un número mayor o igual a 0',
     }),
-  precioVenta: z.number().min(0, {
-    message: 'El precio de venta debe ser mayor o igual a 0',
-  }),
+  precioVenta: z
+    .union([
+      z.number({
+        required_error: 'Ingrese el precio de venta',
+        invalid_type_error: 'Debe ingresar un número válido',
+      }),
+      z.string().refine((val) => /^[0-9]+$/.test(val), {
+        message: 'Ingrese el precio de venta',
+      }), // Asegura que no haya signos
+    ])
+    .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
+    .refine((val) => Number.isInteger(val) && val >= 0, {
+      message: 'El precio de venta debe ser un número mayor o igual a 0',
+    }),
   proveedorId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un proveedor',
   }),
