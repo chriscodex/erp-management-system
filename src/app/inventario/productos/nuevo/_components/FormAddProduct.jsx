@@ -26,6 +26,8 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { createProductSchema } from '@/app/inventario/productos/nuevo/_services/validations/createProductSchema';
 import { NumberInputField } from '@/components/formInputs/NumberInputField';
+import { StringInputField } from '@/components/formInputs/StringInputField';
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
 
 export function FormAddProduct({
   categories,
@@ -142,26 +144,12 @@ export function FormAddProduct({
                 </FormItem>
               )}
             />
-            <FormField
+            <StringInputField
               control={control}
               name="nombre"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Nombre del Producto</FormLabel>
-                  <div className="relative">
-                    <FormControl>
-                      <Input
-                        placeholder="Ingrese el nombre del producto"
-                        className="pl-2"
-                        autoComplete="off"
-                        disabled={formSubmitIsLoading}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
+              title="Nombre del Producto"
+              placeholder="Ingrese el nombre del producto"
+              formSubmitIsLoading={formSubmitIsLoading}
             />
             <FormField
               control={control}
@@ -217,6 +205,16 @@ export function FormAddProduct({
                         autoComplete="off"
                         disabled={formSubmitIsLoading}
                         {...field}
+                        onChange={(e) => {
+                          // Filtramos cualquier valor que no sea un número
+                          const value = e.target.value.replace(/[^0-9]/g, '');
+                          field.onChange(value); // Actualizamos el valor del campo
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                     </FormControl>
                     <FormMessage />
@@ -232,54 +230,17 @@ export function FormAddProduct({
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Precios y proveedor</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
+            <MoneyInputField
               control={control}
               name="precioCompra"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Precio de compra</FormLabel>
-                  <div className="relative">
-                    <p className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                      S/.{' '}
-                    </p>
-                    <FormControl>
-                      <Input
-                        placeholder="0.00"
-                        className="pl-10"
-                        autoComplete="off"
-                        disabled={formSubmitIsLoading}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
+              title="Precio de compra"
+              formSubmitIsLoading={formSubmitIsLoading}
             />
-            <FormField
+            <MoneyInputField
               control={control}
               name="precioVenta"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Precio de venta</FormLabel>
-                  <div className="relative">
-                    <p className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                      S/.{' '}
-                    </p>
-                    <FormControl>
-                      <Input
-                        type="number"
-                        placeholder="0.00"
-                        className="pl-10"
-                        autoComplete="off"
-                        disabled={formSubmitIsLoading}
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
+              title="Precio de venta"
+              formSubmitIsLoading={formSubmitIsLoading}
             />
             <FormField
               control={control}
