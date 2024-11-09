@@ -48,7 +48,7 @@ export function FormAddProduct({
       precioCompra: '',
       precioVenta: '',
       proveedorId: '',
-      almacenId: '',
+      almacenId: almacenes[0]?._id,
       segmentId: segment._id,
     },
   });
@@ -199,7 +199,7 @@ export function FormAddProduct({
                   <div className="relative">
                     <FormControl>
                       <Input
-                        type="number"
+                        type="text"
                         placeholder="Stock mínimo"
                         className="pl-2"
                         autoComplete="off"
