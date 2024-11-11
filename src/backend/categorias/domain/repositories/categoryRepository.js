@@ -28,10 +28,14 @@ export class CategoryRepository {
       );
     }
   }
-  async getCategoryById(id) {
+  async getCategoryByData(categoryData) {
     try {
+      const { id } = categoryData;
+
       const category = await this.categoryModel
-        .findOne({ _id: new mongoose.Types.ObjectId(id) })
+        .findOne({
+          $or: [{ _id: new mongoose.Types.ObjectId(id) }],
+        })
         .populate('segmentId');
 
       if (!category) {
@@ -174,6 +178,32 @@ export class CategoryRepository {
         `Category Repository: Error al eliminar una categoría: ${error.message}`
       );
       throw new Error(`Error al eliminar categoría: ${error.message}`);
+    }
+  }
+  /* Validaciones */
+  async validateCategoryInSegment(segmentId, categoryId) {
+    try {
+      const category = await this.categoryModel
+        .findOne({
+          segmentId: new mongoose.Types.ObjectId(segmentId),
+          _id: new mongoose.Types.ObjectId(categoryId),
+        })
+        .populate('segmentId');
+      if (!category) {
+        console.log(
+          'Category Repository: Categoría no encontrada en el segmento'
+        );
+        return false;
+      }
+      console.log('Category Repository: Categoría encontrada en el segmento');
+      return true;
+    } catch (error) {
+      console.error(
+        `Category Repository: Error al validar categoría en segmento: ${error.message}`
+      );
+      throw new Error(
+        `Error interno al validar categoría en segmento: ${error.message}`
+      );
     }
   }
 }
