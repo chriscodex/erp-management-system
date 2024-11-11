@@ -30,27 +30,38 @@ export class CategoryRepository {
   }
   async getCategoryByData(categoryData) {
     try {
-      const { id } = categoryData;
+      if (!categoryData) {
+        console.log('Category Repository: Categoría no proporcionada');
+        return null;
+      }
 
-      const category = await this.categoryModel
-        .findOne({
-          $or: [{ _id: new mongoose.Types.ObjectId(id) }],
-        })
+      const filter = {};
+
+      if (categoryData.segmentId) {
+        filter.segmentId = new mongoose.Types.ObjectId(categoryData.segmentId);
+      }
+
+      if (categoryData.id) {
+        filter._id = new mongoose.Types.ObjectId(categoryData.id);
+      }
+
+      const categoryFound = await this.categoryModel
+        .findOne(filter)
         .populate('segmentId');
 
-      if (!category) {
+      if (!categoryFound) {
         console.log('Category Repository: Categoría no encontrada');
         return null;
       }
 
       console.log('Category Repository: Categoría encontrada');
-      return category;
+      return categoryFound;
     } catch (error) {
       console.error(
-        `Category Repository: Error al buscar categoría por ID: ${error.message}`
+        `Category Repository: Error al buscar categoría por filtro: ${error.message}`
       );
       throw new Error(
-        `Error interno al buscar categoría por ID: ${error.message}`
+        `Error interno al buscar categoría por filtro: ${error.message}`
       );
     }
   }
@@ -178,32 +189,6 @@ export class CategoryRepository {
         `Category Repository: Error al eliminar una categoría: ${error.message}`
       );
       throw new Error(`Error al eliminar categoría: ${error.message}`);
-    }
-  }
-  /* Validaciones */
-  async validateCategoryInSegment(segmentId, categoryId) {
-    try {
-      const category = await this.categoryModel
-        .findOne({
-          segmentId: new mongoose.Types.ObjectId(segmentId),
-          _id: new mongoose.Types.ObjectId(categoryId),
-        })
-        .populate('segmentId');
-      if (!category) {
-        console.log(
-          'Category Repository: Categoría no encontrada en el segmento'
-        );
-        return false;
-      }
-      console.log('Category Repository: Categoría encontrada en el segmento');
-      return true;
-    } catch (error) {
-      console.error(
-        `Category Repository: Error al validar categoría en segmento: ${error.message}`
-      );
-      throw new Error(
-        `Error interno al validar categoría en segmento: ${error.message}`
-      );
     }
   }
 }
