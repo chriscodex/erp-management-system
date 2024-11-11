@@ -68,4 +68,21 @@ export class ProductRepository {
       throw new Error(`Error al buscar el producto: ${error.message}`);
     }
   }
+  async createProduct(productData) {
+    try {
+      const newProduct = new this.productModel(productData);
+      const savedProduct = await newProduct.save();
+
+      // Populamos el campo segmentId después de guardar
+      const populatedProduct = await savedProduct.populate('segmentId');
+
+      console.log('Product Repository: Product creada correctamente');
+      return populatedProduct;
+    } catch (error) {
+      console.log(
+        `Product Repository: Error al crear el producto: ${error.message}`
+      );
+      throw new Error(`Error al crear el producto: ${error.message}`);
+    }
+  }
 }
