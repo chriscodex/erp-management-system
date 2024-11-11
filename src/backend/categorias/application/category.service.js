@@ -35,38 +35,6 @@ export class CategoryService {
       };
     }
   }
-  async getCategoriesBySegmentId(id) {
-    try {
-      const categoriesFiltered =
-        await this.categoryRepository.getCategoriesBySegmentId(id);
-
-      if (!categoriesFiltered) {
-        console.log(
-          'Category Service: No se encontraron categorias filtradas por segmento'
-        );
-        return {
-          status: 404,
-          payload: 'No se encontraron categorias filtradas por segmento',
-        };
-      }
-
-      console.log(
-        'Category Service: Categorías filtradas por segmento encontradas'
-      );
-      return {
-        status: 200,
-        payload: categoriesFiltered,
-      };
-    } catch (error) {
-      console.error(
-        `Service: Error interno al obtener categorias filtradas por segmento: ${error.message}`
-      );
-      return {
-        status: 500,
-        payload: error.message,
-      };
-    }
-  }
   async getCategoriesBySegmentData(segmentData) {
     try {
       const categoriesFiltered =
@@ -156,7 +124,9 @@ export class CategoryService {
       }
 
       // Validar si una categoría con ese nombre y en el mismo segmento ya existe
-      const categoryFound = await this.categoryRepository.getCategory(category);
+      const categoryFound = await this.categoryRepository.getCategoryByData(
+        category
+      );
       if (categoryFound) {
         console.log(
           'Category Service: La categoría ya existe en este segmento'
@@ -209,7 +179,9 @@ export class CategoryService {
       }
 
       // Validar si una categoría con ese nombre y en el mismo segmento ya existe
-      const categoryFound = await this.categoryRepository.getCategory(category);
+      const categoryFound = await this.categoryRepository.getCategoryByData(
+        category
+      );
       if (categoryFound) {
         console.log(
           'Category Service: Una categoría con el mismo nombre ya existe en el segmento seleccionado'

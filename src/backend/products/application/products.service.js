@@ -110,7 +110,18 @@ export class ProductService {
       }
       console.log('Product Service: La categoría existe');
 
-      
+      // Validar si la marca existe
+      const marcaFound = await this.marcaRepository.getMarcaById(
+        productData.marcaId
+      );
+      if (!marcaFound) {
+        console.log('Product Service: La marca no existe');
+        return {
+          status: 404,
+          payload: 'La marca no existe',
+        };
+      }
+      console.log('Product Service: La marca existe');
     } catch (error) {
       console.error(
         `Product Service: Error interno al crear un producto: ${error.message}`

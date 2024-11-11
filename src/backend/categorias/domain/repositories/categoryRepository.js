@@ -28,71 +28,40 @@ export class CategoryRepository {
       );
     }
   }
-  async getCategoriesBySegmentId(id) {
+  async getCategoryById(id) {
     try {
-      const categoriesFiltered = await this.categoryModel
-        .find()
-        .populate({
-          path: 'segmentId',
-          match: {
-            $or: [
-              { _id: new mongoose.Types.ObjectId(id) }, // Coincide con el segmentId proporcionado
-              { _id: null }, // O permite segmentId nulo
-            ],
-          },
-        })
-        .then(
-          (results) => results.filter((category) => category.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
-        );
+      const category = await this.categoryModel
+        .findOne({ _id: new mongoose.Types.ObjectId(id) })
+        .populate('segmentId');
 
-      if (categoriesFiltered.length === 0) {
-        console.log(
-          'Category Repository: No se encontraron categorías filtradas por segmento'
-        );
-        return null;
-      }
-
-      console.log(
-        'Category Repository: Categorías filtradas por segmento encontradas'
-      );
-      return categoriesFiltered;
-    } catch (error) {
-      console.error(
-        `Category Repository: Error al buscar categorias filtradas por segmento: ${error.message}`
-      );
-      throw new Error(
-        `Error interno al buscar categorias filtradas por segmento: ${error.message}`
-      );
-    }
-  }
-  async getCategory(category) {
-    try {
-      const { nombre, segmentId } = category;
-      const categoryFound = await this.categoryModel.findOne({
-        nombre: { $regex: new RegExp(`^${nombre}$`, 'i') },
-        $or: [
-          { segmentId: new mongoose.Types.ObjectId(segmentId) }, // Coincide con el segmentId proporcionado
-          { segmentId: null }, // O permite segmentId nulo
-        ],
-      });
-
-      if (!categoryFound) {
+      if (!category) {
         console.log('Category Repository: Categoría no encontrada');
         return null;
       }
 
       console.log('Category Repository: Categoría encontrada');
-      return categoryFound;
+      return category;
     } catch (error) {
       console.error(
-        `Category Repository: Error al buscar una categoría: ${error.message}`
+        `Category Repository: Error al buscar categoría por ID: ${error.message}`
       );
-      throw new Error(`Error al buscar una categoría: ${error.message}`);
+      throw new Error(
+        `Error interno al buscar categoría por ID: ${error.message}`
+      );
     }
   }
+
   async getCategoriesBySegmentData(segmentData) {
     try {
       const { id, nombre } = segmentData;
+
+      // Verificar que al menos uno de los parámetros sea enviado
+      if (!id && !nombre) {
+        console.log(
+          'Category Repository: No se proporcionaron parámetros válidos'
+        );
+        return null; // O puedes lanzar un error si prefieres manejarlo así
+      }
 
       let categoriesFiltered;
       if (id) {
