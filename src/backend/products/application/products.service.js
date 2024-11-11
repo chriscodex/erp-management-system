@@ -72,17 +72,17 @@ export class ProductService {
   async createProduct(productData) {
     try {
       // Validar los datos de la marca enviada con el schema
-      const productValidated = createMarcaSchema.safeParse(productData);
+      // const productValidated = createMarcaSchema.safeParse(productData);
 
-      if (!productValidated.success) {
-        console.log(
-          `Product Service: Error de validación de schema de producto al crear ${productValidated}`
-        );
-        return {
-          status: 400,
-          payload: productValidated.error.issues,
-        };
-      }
+      // if (!productValidated.success) {
+      //   console.log(
+      //     `Product Service: Error de validación de schema de producto al crear ${productValidated}`
+      //   );
+      //   return {
+      //     status: 400,
+      //     payload: productValidated.error.issues,
+      //   };
+      // }
 
       // Validar si el segmento existe
       const segmentFound = await this.segmentRepository.getSegmentById(
@@ -95,46 +95,25 @@ export class ProductService {
           payload: 'El segmento no existe',
         };
       }
+      console.log('Product Service: El segmento existe');
 
       // Validar si la categoría existe
-      const marcaFound = await this.segmentRepository.getSegmentById(
-        productData.segmentId
+      const categoryFound = await this.categoryRepository.getCategoryById(
+        productData.categoryId
       );
-      if (!segmentFound) {
-        console.log('Product Service: El segmento no existe');
+      if (!categoryFound) {
+        console.log('Product Service: La categoría no existe');
         return {
           status: 404,
-          payload: 'El segmento no existe',
+          payload: 'El categoría no existe',
         };
       }
+      console.log('Product Service: La categoría existe');
 
-      // Validar si una marca con ese nombre y en el mismo segmento ya existe
-      const marcaFound = await this.marcaRepository.getMarcaByData(marca);
-      if (marcaFound) {
-        console.log('Marca Service: La marca ya existe en este segmento');
-        return {
-          status: 409,
-          payload: 'La marca ya existe en este segmento',
-        };
-      }
-
-      // Crear el objeto de marca que será guardado en la base de datos
-      const marcaObject = {
-        ...marca,
-        estado: 'activo',
-      };
-
-      // Crear la marca
-      const marcaCreated = await this.marcaRepository.createMarca(marcaObject);
-
-      console.log('Marca Service: Marca creada correctamente');
-      return {
-        status: 201,
-        payload: marcaCreated,
-      };
+      
     } catch (error) {
       console.error(
-        `Marca Service: Error interno al crear una marca: ${error.message}`
+        `Product Service: Error interno al crear un producto: ${error.message}`
       );
       return {
         status: 500,
