@@ -28,3 +28,16 @@ export async function getProductByIdController(id) {
     );
   }
 }
+
+export async function createProductController(product) {
+  try {
+    await connectDB();
+    const createdProduct = await productService.createProduct(product);
+    return createdProduct;
+  } catch (error) {
+    console.error('Controller: Error creando el producto:', error);
+    throw new Error(
+      'Controller: Internal Server Error - createProductController'
+    );
+  }
+}
