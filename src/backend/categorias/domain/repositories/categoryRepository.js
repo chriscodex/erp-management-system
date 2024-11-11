@@ -68,48 +68,32 @@ export class CategoryRepository {
 
   async getCategoriesBySegmentData(segmentData) {
     try {
-      const { id, nombre } = segmentData;
-
-      // Verificar que al menos uno de los parámetros sea enviado
-      if (!id && !nombre) {
-        console.log(
-          'Category Repository: No se proporcionaron parámetros válidos'
-        );
-        return null; // O puedes lanzar un error si prefieres manejarlo así
+      if (!segmentData) {
+        console.log('Category Repository: Categoría no proporcionada');
+        return null;
       }
 
-      let categoriesFiltered;
-      if (id) {
-        categoriesFiltered = await this.categoryModel
-          .find()
-          .populate({
-            path: 'segmentId',
-            match: {
-              $or: [{ _id: new mongoose.Types.ObjectId(id) }],
-            },
-          })
-          .then(
-            (results) => results.filter((categoria) => categoria.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
-          );
-        console.log('Category Repository: Categorías filtradas por segmentId');
-      } else if (nombre) {
-        categoriesFiltered = await this.categoryModel
-          .find()
-          .populate({
-            path: 'segmentId',
-            match: {
-              $or: [{ nombre: { $regex: new RegExp(`^${nombre}$`, 'i') } }],
-            },
-          })
-          .then(
-            (results) => results.filter((category) => category.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
-          );
-        console.log(
-          'Category Repository: Categorías filtradas por segmentName'
-        );
+      const filter = {};
+
+      if (segmentData.id) {
+        filter._id = new mongoose.Types.ObjectId(segmentData.id);
       }
 
-      if (categoriesFiltered.length === 0) {
+      if (segmentData.nombre) {
+        filter.nombre = { $regex: new RegExp(`^${segmentData.nombre}$`, 'i') };
+      }
+
+      const categoriesFilteredBySegmentData = await this.categoryModel
+        .find()
+        .populate({
+          path: 'segmentId',
+          match: filter,
+        })
+        .then(
+          (results) => results.filter((category) => category.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+        );
+
+      if (categoriesFilteredBySegmentData.length === 0) {
         console.log(
           'Category Repository: No se encontraron categorías filtradas por segmento'
         );
@@ -119,7 +103,7 @@ export class CategoryRepository {
       console.log(
         'Category Repository: Categorías filtradas por segmento encontradas'
       );
-      return categoriesFiltered;
+      return categoriesFilteredBySegmentData;
     } catch (error) {
       console.error(
         `Category Repository: Error al buscar categorías filtradas por segmento: ${error.message}`
