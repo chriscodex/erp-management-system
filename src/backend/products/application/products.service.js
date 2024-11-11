@@ -10,6 +10,9 @@ export class ProductService {
     this.productRepository = new ProductRepository();
     this.categoryRepository = new CategoryRepository();
     this.marcaRepository = new MarcaRepository();
+    this.almacenRepository = new AlmacenRepository();
+    this.proveedorRepository = new ProveedorRepository();
+    this.segmentRepository = new SegmentRepository();
   }
 
   async getAllProducts() {
