@@ -105,25 +105,25 @@ export class MarcaRepository {
       throw new Error(`Error al buscar la marca: ${error.message}`);
     }
   }
-  async getMarcaByData(marca) {
+  async getMarcaByData(marcaData) {
     try {
-      if (!marca) {
+      if (!marcaData) {
         console.log('Marca Repository: Marca no proporcionada');
         return null;
       }
 
       const filter = {};
 
-      if (marca.segmentId) {
-        filter.segmentId = new mongoose.Types.ObjectId(marca.segmentId);
+      if (marcaData.segmentId) {
+        filter.segmentId = new mongoose.Types.ObjectId(marcaData.segmentId);
       }
 
-      if (marca.id) {
-        filter._id = new mongoose.Types.ObjectId(marca.id);
+      if (marcaData.id) {
+        filter._id = new mongoose.Types.ObjectId(marcaData.id);
       }
 
-      if (marca.nombre) {
-        filter.nombre = { $regex: new RegExp(`^${marca.nombre}$`, 'i') };
+      if (marcaData.nombre) {
+        filter.nombre = { $regex: new RegExp(`^${marcaData.nombre}$`, 'i') };
       }
       const marcaFound = await this.marcaModel
         .findOne(filter)
