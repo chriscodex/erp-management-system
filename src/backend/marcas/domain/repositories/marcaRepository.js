@@ -107,14 +107,27 @@ export class MarcaRepository {
   }
   async getMarcaByData(marca) {
     try {
-      const { nombre, segmentId } = marca;
-      const marcaFound = await this.marcaModel.findOne({
-        nombre: { $regex: new RegExp(`^${nombre}$`, 'i') },
-        $or: [
-          { segmentId: new mongoose.Types.ObjectId(segmentId) }, // Coincide con el segmentId proporcionado
-          { segmentId: null }, // O permite segmentId nulo
-        ],
-      });
+      if (!marca) {
+        console.log('Marca Repository: Marca no proporcionada');
+        return null;
+      }
+
+      const filter = {};
+
+      if (marca.segmentId) {
+        filter.segmentId = new mongoose.Types.ObjectId(marca.segmentId);
+      }
+
+      if (marca.id) {
+        filter._id = new mongoose.Types.ObjectId(marca.id);
+      }
+
+      if (marca.nombre) {
+        filter.nombre = { $regex: new RegExp(`^${marca.nombre}$`, 'i') };
+      }
+      const marcaFound = await this.marcaModel
+        .findOne(filter)
+        .populate('segmentId');
 
       if (!marcaFound) {
         console.log('Marca Repository: Marca no encontrada');
