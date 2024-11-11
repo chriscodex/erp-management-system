@@ -193,4 +193,28 @@ export class MarcaRepository {
       throw new Error(`Error al eliminar la marca: ${error.message}`);
     }
   }
+  /* Validaciones */
+  async validateMarcaInSegment(segmentId, marcaId) {
+    try {
+      const categoryFound = await this.marcaModel
+        .findOne({
+          segmentId: new mongoose.Types.ObjectId(segmentId),
+          _id: new mongoose.Types.ObjectId(marcaId),
+        })
+        .populate('segmentId');
+      if (!categoryFound) {
+        console.log('Marca Repository: Marca no encontrada en el segmento');
+        return false;
+      }
+      console.log('Marca Repository: Marca encontrada en el segmento');
+      return true;
+    } catch (error) {
+      console.error(
+        `Marca Repository: Error al validar marca en segmento: ${error.message}`
+      );
+      throw new Error(
+        `Error interno al validar marca en segmento: ${error.message}`
+      );
+    }
+  }
 }
