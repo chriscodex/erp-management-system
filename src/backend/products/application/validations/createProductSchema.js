@@ -94,6 +94,7 @@ export const createProductSchema = z.object({
       code: z
         .string()
         .length(12, { message: 'El codigo debe ser de 12 dígitos' }),
+      estado: z.literal('disponible'),
     })
   ),
 });
