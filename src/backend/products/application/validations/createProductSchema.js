@@ -3,6 +3,7 @@ import { z } from 'zod';
 const objectIdRegex = /^[a-f\d]{24}$/i; // Expresión regular para el formato de ObjectId
 
 export const createProductSchema = z.object({
+  code: z.string().length(8, { message: 'El codigo debe ser de 8 dígitos' }),
   categoryId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir una categoría',
   }),
@@ -88,4 +89,11 @@ export const createProductSchema = z.object({
   almacenId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un almacen',
   }),
+  unidades: z.array(
+    z.object({
+      code: z
+        .string()
+        .length(12, { message: 'El codigo debe ser de 12 dígitos' }),
+    })
+  ),
 });
