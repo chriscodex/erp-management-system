@@ -125,7 +125,33 @@ export class ProductService {
       }
       console.log('Product Service: La marca existe en el segmento');
 
-      // // Validar si la marca existe
+      // Validar si el almacen existe
+      const almacenFound = await this.almacenRepository.getAlmacenByData({
+        id: productData.almacenId,
+      });
+      if (!almacenFound) {
+        console.log('Product Service: El almacen no existe');
+        return {
+          status: 404,
+          payload: 'El almacen no existe',
+        };
+      }
+      console.log('Product Service: El almacen existe');
+
+      // Validar si el proveedor existe
+      const proveedorFound = await this.proveedorRepository.getProveedorByData({
+        id: productData.proveedorId,
+      });
+      if (!proveedorFound) {
+        console.log('Product Service: El proveedor no existe');
+        return {
+          status: 404,
+          payload: 'El proveedor no existe',
+        };
+      }
+      console.log('Product Service: El proveedor existe');
+
+      // Validar si la marca existe
       // const marcaFound = await this.marcaRepository.getMarcaById(
       //   productData.marcaId
       // );
