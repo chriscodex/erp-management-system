@@ -16,11 +16,11 @@ export async function getAllAlmacenesController() {
   }
 }
 
-export async function getAlmacenByIdController(id) {
+export async function getAlmacenByDataController(almacenData) {
   try {
     await connectDB();
-    const almacenData = await almacenService.getAlmacenById(id);
-    return almacenData;
+    const almacen = await almacenService.getAlmacenByData(almacenData);
+    return almacen;
   } catch (error) {
     console.error('Controller: Error buscando el almacen:', error);
     throw new Error('Controller: Internal Server Error - getAlmacenController');

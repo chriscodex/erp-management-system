@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
 
-import { getAlmacenByIdController } from '@/backend/almacenes/infrastructure/controllers';
+import { getAlmacenByDataController } from '@/backend/almacenes/infrastructure/controllers';
 
 export async function GET(request, { params }) {
   try {
     const { id } = params;
-    const { payload, status } = await getAlmacenByIdController(id);
+    const { payload, status } = await getAlmacenByDataController({ id });
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });

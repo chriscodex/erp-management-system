@@ -31,9 +31,11 @@ export class AlmacenService {
       };
     }
   }
-  async getAlmacenById(id) {
+  async getAlmacenByData(almacenData) {
     try {
-      const almacenFound = await this.almacenRepository.getAlmacenById(id);
+      const almacenFound = await this.almacenRepository.getAlmacenByData(
+        almacenData
+      );
 
       if (!almacenFound) {
         console.log('Almacen Service: La almacen no existe');

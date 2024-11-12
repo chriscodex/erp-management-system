@@ -25,20 +25,36 @@ export class AlmacenRepository {
       );
     }
   }
-  async getAlmacenById(id) {
+  async getAlmacenByData(almacenData) {
     try {
-      const almacen = await this.almacenModel
-        .findOne({
-          _id: new mongoose.Types.ObjectId(id),
-        })
+      if (!almacenData) {
+        console.log('Almacén Repository: Almacen no proporcionada');
+        return null;
+      }
 
-      if (!almacen) {
+      const filter = {};
+
+      if (almacenData.id) {
+        filter._id = new mongoose.Types.ObjectId(almacenData.id);
+      }
+
+      if (almacenData.nombre) {
+        filter.nombre = { $regex: new RegExp(`^${almacenData.nombre}$`, 'i') };
+      }
+
+      if (almacenData.estado) {
+        filter.estado = { $regex: new RegExp(`^${almacenData.estado}$`, 'i') };
+      }
+
+      const almacenFound = await this.almacenModel.findOne(filter);
+
+      if (!almacenFound) {
         console.log('Almacén Repository: Almacén no encontrado');
         return null;
       }
 
       console.log('Almacén Repository: Almacén encontrado');
-      return almacen;
+      return almacenFound;
     } catch (error) {
       console.error(
         `Almacén Repository: Error al buscar el almacen: ${error.message}`
