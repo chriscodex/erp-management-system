@@ -74,12 +74,13 @@ export class ProductRepository {
       const savedProduct = await newProduct.save();
 
       // Populamos el campo segmentId después de guardar
-      const populatedProduct = await savedProduct
-        .populate('segmentId')
-        .populate('marcaId')
-        .populate('categoriaId')
-        .populate('almacenId')
-        .populate('proveedorId');
+      const populatedProduct = await savedProduct.populate([
+        { path: 'segmentId' },
+        { path: 'marcaId' },
+        { path: 'categoryId' },
+        { path: 'almacenId' },
+        { path: 'proveedorId' },
+      ]);
 
       console.log('Product Repository: Product creada correctamente');
       return populatedProduct;
