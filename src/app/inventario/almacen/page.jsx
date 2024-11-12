@@ -45,8 +45,6 @@ const companies = [
 export default async function CompaniesPage() {
   const {almacenes} = await getAllAlmacenesRequest();
 
-  console.log(almacenes);
-
   return (
     <NavbarSimple title="Almacen">
       <div className="container mx-auto p-4">
