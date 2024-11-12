@@ -76,7 +76,7 @@ const productSchema = new Schema(
       ref: 'Marca',
       required: [true, 'marcaId es requerido en el schema de productos'],
     },
-    categoriaId: {
+    categoryId: {
       type: Schema.Types.ObjectId,
       ref: 'Category',
       required: [true, 'categoriaId es requerido en el schema de productos'],
