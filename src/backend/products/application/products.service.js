@@ -4,6 +4,7 @@ import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepos
 import { AlmacenRepository } from '@/backend/almacenes/domain/repositories/almacenRepository';
 import { ProveedorRepository } from '@/backend/proveedores/domain/repositories/proveedorRepository';
 import { SegmentRepository } from '@/backend/segments/domain/repositories/segmentRepository';
+import { createProductSchema } from '@/backend/products/application/validations/createProductSchema';
 
 export class ProductService {
   constructor() {
@@ -71,18 +72,18 @@ export class ProductService {
   }
   async createProduct(productData) {
     try {
-      // Validar los datos de la marca enviada con el schema
-      // const productValidated = createMarcaSchema.safeParse(productData);
+      // Validar los datos del producto enviado con el schema
+      const productValidated = createProductSchema.safeParse(productData);
 
-      // if (!productValidated.success) {
-      //   console.log(
-      //     `Product Service: Error de validación de schema de producto al crear ${productValidated}`
-      //   );
-      //   return {
-      //     status: 400,
-      //     payload: productValidated.error.issues,
-      //   };
-      // }
+      if (!productValidated.success) {
+        console.log(
+          `Product Service: Error de validación de schema de producto al crear ${productValidated}`
+        );
+        return {
+          status: 400,
+          payload: productValidated.error.issues,
+        };
+      }
 
       // Validar si el segmento existe
       const segmentFound = await this.segmentRepository.getSegmentById(
@@ -151,18 +152,15 @@ export class ProductService {
       }
       console.log('Product Service: El proveedor existe');
 
-      // Validar si la marca existe
-      // const marcaFound = await this.marcaRepository.getMarcaById(
-      //   productData.marcaId
-      // );
-      // if (!marcaFound) {
-      //   console.log('Product Service: La marca no existe');
-      //   return {
-      //     status: 404,
-      //     payload: 'La marca no existe',
-      //   };
-      // }
-      // console.log('Product Service: La marca existe');
+      // Crear el producto
+      const productCreated = await this.productRepository.createProduct(
+        productData
+      );
+      console.log('Product Service: Producto creado correctamente');
+      return {
+        status: 201,
+        payload: productCreated,
+      };
     } catch (error) {
       console.error(
         `Product Service: Error interno al crear un producto: ${error.message}`
