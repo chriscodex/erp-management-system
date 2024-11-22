@@ -75,7 +75,7 @@ export function HomeStats() {
               <CardTitle>Ventas Mensuales</CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
+              {/* <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={salesData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
@@ -83,7 +83,7 @@ export function HomeStats() {
                   <Tooltip />
                   <Bar dataKey="ventas" fill="#3b82f6" />
                 </BarChart>
-              </ResponsiveContainer>
+              </ResponsiveContainer> */}
             </CardContent>
           </Card>
 
@@ -92,7 +92,7 @@ export function HomeStats() {
               <CardTitle>Distribución de Inventario</CardTitle>
             </CardHeader>
             <CardContent>
-              <ResponsiveContainer width="100%" height={300}>
+              {/* <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={inventoryData} layout="vertical">
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis type="number" />
@@ -100,7 +100,7 @@ export function HomeStats() {
                   <Tooltip />
                   <Bar dataKey="cantidad" fill="#10b981" />
                 </BarChart>
-              </ResponsiveContainer>
+              </ResponsiveContainer> */}
             </CardContent>
           </Card>
         </div>
