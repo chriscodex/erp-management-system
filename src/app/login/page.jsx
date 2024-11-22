@@ -55,39 +55,40 @@ function LoginPage() {
     setError('');
   };
 
-  /* Manejo de formulario */
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setError('');
     setIsLoading(true);
 
-    const formData = new FormData(e.currentTarget);
+    try {
+      const formData = new FormData(e.currentTarget);
+      const dni = formData.get('dni');
+      const password = formData.get('password');
 
-    if (!formData.get('dni')) {
-      setIsLoading(false);
-      return setError('Ingrese su DNI');
-    }
+      if (!dni) {
+        throw new Error('Ingrese su DNI');
+      }
 
-    if (!formData.get('password')) {
-      setIsLoading(false);
-      return setError('Ingrese su contraseña');
-    }
+      if (!password) {
+        throw new Error('Ingrese su contraseña');
+      }
 
-    const res = await signIn('credentials', {
-      dni: formData.get('dni'),
-      password: formData.get('password'),
-      redirect: false,
-    });
+      const res = await signIn('credentials', {
+        dni,
+        password,
+        redirect: false,
+      });
 
-    if (res?.error) {
-      setIsLoading(false);
-      return setError(res.error);
-    }
+      if (!res?.ok) {
+        throw new Error(res?.error || 'Ocurrió un error inesperado');
+      }
 
-    // Redirección a la pagina de inicio
-    if (res?.ok) {
-      return router.push('/');
+      // Redirección a la página de inicio
+      router.push('/');
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false); // Siempre desactiva el estado de carga
     }
   };
 
