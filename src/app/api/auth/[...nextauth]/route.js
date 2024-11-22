@@ -46,16 +46,16 @@ const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      // // Conectar a la base de datos
-      // await connectDB();
-      // // Verificar si el usuario sigue existiendo en la base de datos
-      // const userExists = await User.findOne({
-      //   dni: token?.user?.dni,
-      //   estado: 'activo',
-      // });
-      // if (!userExists) {
-      //   throw new Error('Usuario invalidado.');
-      // }
+      // Conectar a la base de datos
+      await connectDB();
+      // Verificar si el usuario sigue existiendo en la base de datos
+      const userExists = await User.findOne({
+        dni: token?.user?.dni,
+        estado: 'activo',
+      });
+      if (!userExists) {
+        throw new Error('Usuario invalidado.');
+      }
       delete token?.user?.password;
       session.user = token?.user;
       // console.log(session);
