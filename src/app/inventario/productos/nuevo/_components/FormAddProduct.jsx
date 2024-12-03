@@ -238,13 +238,13 @@ export function FormAddProduct({
             <MoneyInputField
               control={control}
               name="precioCompra"
-              title="Precio de compra"
+              title="Precio de compra por unidad"
               formSubmitIsLoading={formSubmitIsLoading}
             />
             <MoneyInputField
               control={control}
               name="precioVenta"
-              title="Precio de venta"
+              title="Precio de venta por unidad"
               formSubmitIsLoading={formSubmitIsLoading}
             />
             <FormField

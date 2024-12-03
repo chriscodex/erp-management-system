@@ -53,7 +53,7 @@ export function generarUnidadesDelProducto(codigo, stock) {
 
   const result = [];
   for (let i = 1; i <= stock; i++) {
-    const codeNumber = String(i).padStart(3, '0');
+    const codeNumber = String(i).padStart(5, '0');
     result.push({ code: `${codigo}${codeNumber}`, estado: 'disponible' });
   }
   return result;
