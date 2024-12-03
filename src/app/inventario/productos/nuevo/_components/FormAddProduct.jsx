@@ -56,6 +56,7 @@ export function FormAddProduct({
       almacenId: almacenes[0]?._id,
       segmentId: segment?._id,
       obsequio: 'no',
+      importado: 'no',
     },
   });
 
@@ -315,6 +316,32 @@ export function FormAddProduct({
               render={({ field }) => (
                 <FormItem className="flex flex-col items-start space-y-3">
                   <FormLabel>Obsequio</FormLabel>
+                  <div className="flex space-x-2">
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>No</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value === 'si'}
+                        onCheckedChange={(checked) =>
+                          field.onChange(checked ? 'si' : 'no')
+                        }
+                        disabled={formSubmitIsLoading}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Sí</FormLabel>
+                    </div>
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="importado"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-start space-y-3">
+                  <FormLabel>Importado</FormLabel>
                   <div className="flex space-x-2">
                     <div className="space-y-1 leading-none">
                       <FormLabel>No</FormLabel>

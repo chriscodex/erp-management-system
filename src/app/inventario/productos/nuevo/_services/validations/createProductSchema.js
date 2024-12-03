@@ -89,4 +89,5 @@ export const createProductSchema = z.object({
     message: 'Debe elegir un almacen',
   }),
   obsequio: z.enum(['si', 'no']),
+  importado: z.enum(['si', 'no']),
 });
