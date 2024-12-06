@@ -21,3 +21,6 @@ export const createProductClientUrl = '/api/products';
 
 /* UnitProduct */
 export const updateUnitProductClientUrl = '/api/products/unit-product';
+
+/* Gastos */
+export const createGastoClientUrl = '/api/products';
