@@ -5,7 +5,15 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { format } from 'date-fns';
 
+import { Button } from '@/components/ui/button';
+import { Calendar } from '@/components/ui/calendar';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
 import {
   Form,
   FormControl,
@@ -26,6 +34,8 @@ import { addGastoSchema } from '@/app/inventario/productos/[id]/gastos/_services
 import { Textarea } from '@/components/ui/textarea';
 import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
 import { addGastoRequestClient } from '@/app/inventario/productos/[id]/gastos/_services/requests';
+import { CalendarIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export function AddGastoForm({ onClose, productId }) {
   const router = useRouter();
@@ -72,6 +82,8 @@ export function AddGastoForm({ onClose, productId }) {
     );
   });
 
+  const [date, setDate] = useState(new Date());
+
   return (
     <SheetContent>
       <SheetHeader>
@@ -107,6 +119,28 @@ export function AddGastoForm({ onClose, productId }) {
             title="Monto"
             formSubmitIsLoading={formSubmitIsLoading}
           />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant={'outline'}
+                className={cn(
+                  'w-[280px] justify-start text-left font-normal',
+                  !date && 'text-muted-foreground'
+                )}
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {date ? format(date, 'PPP') : <span>Pick a date</span>}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0">
+              <Calendar
+                mode="single"
+                selected={date}
+                onSelect={setDate}
+                initialFocus
+              />
+            </PopoverContent>
+          </Popover>
           <SheetFooter>
             <SheetClose asChild>
               <div
