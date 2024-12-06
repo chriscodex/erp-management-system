@@ -11,9 +11,7 @@ import {
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
-import { ArrowUpDown } from 'lucide-react';
 
-import { TIME_DEBOUNCE } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -23,59 +21,73 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
 import { Button } from '@/components/ui/button';
-import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
-import { SheetUpdateUnitProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/sheetUpdateWrapper';
-import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { ArrowUpDown } from 'lucide-react';
+import { RiFileListLine, RiDeleteBinLine } from '@remixicon/react';
 
-export function DataTableProduct({ productData, unidades, status = 200 }) {
+import { DeleteCategoryAlert } from '@/app/inventario/categorias/_components/dialogs/DeleteCategoryAlert';
+import { CategoryDetail } from '@/app/inventario/categorias/_components/sheets/category-detail';
+import { SheetUpdateWrapper } from '@/app/inventario/categorias/_components/sheets/updateCategory/sheetUpdateWrapper';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { TIME_DEBOUNCE } from '@/lib/utils';
+import { formatDateShort } from '@/lib/formateador';
+
+export function DataTableGastos({ data, segments, status = 200 }) {
+  const router = useRouter();
+
   const columns = [
     {
-      accessorKey: 'numeracion',
+      accessorKey: 'descripcion',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            className="w-1"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            N°
+            Descripcion
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('numeracion')}</div>;
+        return <div className="text-start">{row.getValue('descripcion')}</div>;
       },
     },
     {
-      accessorKey: 'code',
+      accessorKey: 'monto',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            Código
+            Monto
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('code')}</div>;
+        return <div className="text-start">{row.getValue('monto')}</div>;
       },
     },
     {
-      accessorKey: 'estado',
+      accessorKey: 'fecha',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
-            Estado
+            Fecha
             <ArrowUpDown className="ml-2 h-4 w-4" />
           </Button>
         );
@@ -83,34 +95,66 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
       cell: ({ row }) => {
         return (
           <div className="text-start">
-            {row.getValue('estado') === 'disponible' && (
-              <BadgeUnitProduct variant="successTable">
-                Disponible
-              </BadgeUnitProduct>
-            )}
-            {row.getValue('estado') === 'reparado' && (
-              <BadgeUnitProduct variant="blueTable">Reparado</BadgeUnitProduct>
-            )}
-            {row.getValue('estado') === 'desaparecido' && (
-              <BadgeUnitProduct variant="orangeTable">
-                Desaparecido
-              </BadgeUnitProduct>
-            )}
-            {row.getValue('estado') === 'dañado' && (
-              <BadgeUnitProduct variant="redTable">Dañado</BadgeUnitProduct>
-            )}
+            {formatDateShort(row.getValue('fecha'), false)}
           </div>
         );
       },
     },
     {
       id: 'actions',
+      header: 'Acciones',
       cell: ({ row }) => {
+        const categoryData = row.original;
+
+        const [isOpenDialogDeleteCategory, setIsOpenDialogDeleteCategory] =
+          useState(false);
+
         return (
           <div className="flex items-center space-x-3">
-            <SheetUpdateUnitProductWrapper
-              unitProductData={row.original}
-              productData={productData}
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="cursor-pointer flex">
+                    <Sheet>
+                      <SheetTrigger className="text-start">
+                        <RiFileListLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+                      </SheetTrigger>
+                      <CategoryDetail categoryData={categoryData} />
+                    </Sheet>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Detalle</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <SheetUpdateWrapper
+              segments={segments}
+              categoryData={categoryData}
+            />
+
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => setIsOpenDialogDeleteCategory(true)}
+                  >
+                    <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Eliminar</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <DeleteCategoryAlert
+              isOpen={isOpenDialogDeleteCategory}
+              setIsOpen={setIsOpenDialogDeleteCategory}
+              actionAfterComplete="refresh"
+              id={categoryData._id}
             />
           </div>
         );
@@ -118,14 +162,13 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
     },
   ];
 
-  const router = useRouter();
-
   /* Sorting */
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
+  /* Table */
   const table = useReactTable({
-    data: unidades,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -143,7 +186,7 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
   const [searchValue, setSearchValue] = useState('');
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('code')?.setFilterValue(value);
+    table.getColumn('descripcion')?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
@@ -153,7 +196,7 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
   // table.getColumn('rol').getIsVisible();
 
   useEffect(() => {
-    if (status !== 200) {
+    if (status === 500) {
       serverErrorToast();
     }
   }, [status]);
@@ -166,17 +209,14 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
   return (
     <div>
       {/* Input */}
-      <div className="flex justify-between items-center py-4 w-full">
+      <div className="flex items-center py-4 w-full">
         <Input
-          placeholder="Buscar por código"
+          placeholder="Buscar por descripcion"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
         />
-        <div>
-          {/* View options */}
-          <DataTableViewOptions table={table} />
-        </div>
+        <DataTableViewOptions table={table} />
       </div>
       <div className="rounded-md border sm:min-h-[528px] min-h-[528px] w-auto">
         <Table>

@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 
-import { getProductByIdRequestServer } from './_services/requests';
+import { getProductByIdRequestServer } from '@/app/inventario/productos/[id]/_services/requests';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { DataTableProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/data-table';
@@ -37,7 +37,6 @@ export default async function Page({ params }) {
 
   const unidadesEnumeradas = agregarNumeracionTable(unidades);
 
-  // const updatedAtFormated = formatDateLong(updatedAt);
   return (
     <NavbarDynamic titles={navbarTitles}>
       <Card>
