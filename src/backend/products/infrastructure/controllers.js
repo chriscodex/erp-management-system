@@ -74,3 +74,22 @@ export async function updateUnitProductController(request, contextRoute) {
     );
   }
 }
+
+export async function createGastoController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id: productId } = params;
+    const body = await request.json();
+
+    await connectDB();
+
+    const createdCategory = await productService.createGasto(body, productId);
+    return createdCategory;
+  } catch (error) {
+    console.error(
+      'Product Controller: Error interno al crear un gasto:',
+      error.message
+    );
+    throw new Error('Product Controller: Error interno al crear un gasto');
+  }
+}

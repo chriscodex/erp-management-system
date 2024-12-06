@@ -45,6 +45,25 @@ const productSchema = new Schema(
         },
       },
     ],
+    gastos: [
+      {
+        descripcion: {
+          type: String,
+          required: [
+            true,
+            'La descripción es requerida en el schema de productos',
+          ],
+        },
+        monto: {
+          type: Number,
+          required: [true, 'El monto es requerido en el schema de productos'],
+        },
+        fecha: {
+          type: Date,
+          required: [true, 'La fecha es requerida en el schema de productos'],
+        },
+      }
+    ],
     precioCompra: {
       type: Number,
       required: [

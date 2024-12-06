@@ -260,4 +260,36 @@ export class ProductService {
       };
     }
   }
+  async createGasto(gastoData, productId) {
+    try {
+      const updatedMarca = await this.productRepository.createGasto(
+        gastoData,
+        productId
+      );
+
+      if (!updatedMarca) {
+        console.log(
+          'Product Service: Producto no encontrado para agregar gasto'
+        );
+        return {
+          status: 404,
+          payload: 'Producto no encontrado para agregar gasto',
+        };
+      }
+
+      console.log('Product Service: Gasto agregado correctamente');
+      return {
+        status: 201,
+        payload: updatedMarca,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al agregar un gasto al producto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
