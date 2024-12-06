@@ -4,9 +4,9 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
 import { Sheet } from '@/components/ui/sheet';
-import { AddCategory } from '@/app/inventario/categorias/_components/sheets/addCategory/add-category.jsx';
+import { AddCategoryForm } from '@/app/inventario/categorias/_components/sheets/addCategory/add-category.jsx';
 
-export function SheetAddWrapper({ segments }) {
+export function SheetAddCategoryWrapper({ segments }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {
@@ -28,7 +28,7 @@ export function SheetAddWrapper({ segments }) {
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <AddCategory segments={segments} onClose={handleCloseSheet} />
+          <AddCategoryForm segments={segments} onClose={handleCloseSheet} />
         </Sheet>
       )}
     </div>

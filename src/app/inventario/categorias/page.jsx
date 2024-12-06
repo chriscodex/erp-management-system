@@ -8,7 +8,7 @@ import {
   getAllCategoriesRequestServer,
   getAllSegmentsRequestServer,
 } from '@/app/inventario/categorias/_services/requests';
-import { SheetAddWrapper } from '@/app/inventario/categorias/_components/sheets/addCategory/sheetAddWrapper';
+import { SheetAddCategoryWrapper } from '@/app/inventario/categorias/_components/sheets/addCategory/sheetAddWrapper';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default async function CategoriasPage() {
@@ -48,7 +48,7 @@ export default async function CategoriasPage() {
                 Categorías
               </Label>
             </div>
-            <SheetAddWrapper segments={segments} />
+            <SheetAddCategoryWrapper segments={segments} />
           </CardHeader>
           <CardContent>
             <DataTableCategory

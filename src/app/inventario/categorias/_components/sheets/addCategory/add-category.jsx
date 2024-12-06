@@ -34,7 +34,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 
-export function AddCategory({ segments, onClose }) {
+export function AddCategoryForm({ segments, onClose }) {
   const router = useRouter();
 
   const addCategoryForm = useForm({
