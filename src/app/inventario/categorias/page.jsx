@@ -45,7 +45,7 @@ export default async function CategoriasPage() {
             <div className="flex items-center gap-2">
               <RiAppsLine className="h-9 w-9" />
               <Label className="sm:text-4xl text-xl font-bold">
-                Categorías123
+                Categorías
               </Label>
             </div>
             <SheetAddCategoryWrapper segments={segments} />
