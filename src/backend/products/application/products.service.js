@@ -328,4 +328,53 @@ export class ProductService {
       };
     }
   }
+  async updateGasto(gastoId, productId, gastoData) {
+    try {
+      if (!gastoId) {
+        console.log('Product Service: El id del gasto es requerido');
+        return {
+          status: 400,
+          payload: 'El id del gasto es requerido',
+        };
+      }
+
+      if (!productId) {
+        console.log('Product Service: El id del producto es requerido');
+        return {
+          status: 400,
+          payload: 'El id del producto es requerido',
+        };
+      }
+
+      const gastoUpdated = await this.gastoRepository.updateGasto(
+        gastoId,
+        productId,
+        gastoData
+      );
+
+      if (!gastoUpdated) {
+        console.log(
+          'Product Service: Producto no encontrado para ser actualizado'
+        );
+        return {
+          status: 404,
+          payload: 'Producto no encontrado para ser actualizado',
+        };
+      }
+
+      console.log('Product Service: Gasto actualizado correctamente');
+      return {
+        status: 200,
+        payload: gastoUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al actualizar el gasto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }

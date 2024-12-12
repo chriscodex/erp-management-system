@@ -55,4 +55,30 @@ export class GastoRepository {
       );
     }
   }
+  async updateGasto(gastoId, productId, gastoData) {
+    try {
+      const updatedProduct = await this.productModel.findOneAndUpdate(
+        {
+          _id: new mongoose.Types.ObjectId(productId),
+          'gastos._id': new mongoose.Types.ObjectId(gastoId),
+        },
+        { $set: { 'gastos.$': gastoData } }
+      );
+
+      if (!updatedProduct) {
+        console.log('Product Repository: Producto o gasto no encontrado');
+        return null;
+      }
+
+      console.log('Product Repository: Gasto actualizado correctamente');
+      return updatedProduct;
+    } catch (error) {
+      console.error(
+        `Product Repository: Error al actualizar el gasto del producto: ${error.message}`
+      );
+      throw new Error(
+        `Error al actualizar el gasto del producto: ${error.message}`
+      );
+    }
+  }
 }

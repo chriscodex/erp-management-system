@@ -102,10 +102,7 @@ export async function deleteGastoController(contextRoute) {
 
     await connectDB();
 
-    const deletedGasto = await productService.deleteGasto(
-      gastoId,
-      productId
-    );
+    const deletedGasto = await productService.deleteGasto(gastoId, productId);
     return deletedGasto;
   } catch (error) {
     console.error(
@@ -113,5 +110,24 @@ export async function deleteGastoController(contextRoute) {
       error.message
     );
     throw new Error('Product Controller: Error interno al eliminar un gasto');
+  }
+}
+
+export async function updateGastoController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id: productId, gastoId } = params;
+    const body = await request.json();
+
+    await connectDB();
+
+    const result = await productService.updateGasto(gastoId, productId, body);
+    return result;
+  } catch (error) {
+    console.error(
+      'Product Controller: Error interno actualizando el gasto:',
+      error.message
+    );
+    throw new Error('Product Controller: Error interno actualizando el gasto');
   }
 }
