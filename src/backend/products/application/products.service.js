@@ -1,14 +1,17 @@
+import {
+  generarCodigoUnicoDelProducto,
+  generarUnidadesDelProducto,
+} from '@/backend/products/application/helpers';
+
 import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
 import { CategoryRepository } from '@/backend/categorias/domain/repositories/categoryRepository';
 import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
 import { AlmacenRepository } from '@/backend/almacenes/domain/repositories/almacenRepository';
 import { ProveedorRepository } from '@/backend/proveedores/domain/repositories/proveedorRepository';
 import { SegmentRepository } from '@/backend/segments/domain/repositories/segmentRepository';
+import { GastoRepository } from '@/backend/products/domain/repositories/gastoRepository';
+
 import { createProductSchema } from '@/backend/products/application/validations/createProductSchema';
-import {
-  generarCodigoUnicoDelProducto,
-  generarUnidadesDelProducto,
-} from '@/backend/products/application/helpers';
 import { updateUnitProductSchema } from '@/backend/products/application/validations/updateUnitProductSchema';
 
 export class ProductService {
@@ -19,6 +22,7 @@ export class ProductService {
     this.almacenRepository = new AlmacenRepository();
     this.proveedorRepository = new ProveedorRepository();
     this.segmentRepository = new SegmentRepository();
+    this.gastoRepository = new GastoRepository();
   }
 
   async getAllProducts() {
@@ -262,12 +266,12 @@ export class ProductService {
   }
   async createGasto(gastoData, productId) {
     try {
-      const updatedMarca = await this.productRepository.createGasto(
+      const gastoCreated = await this.gastoRepository.createGasto(
         gastoData,
         productId
       );
 
-      if (!updatedMarca) {
+      if (!gastoCreated) {
         console.log(
           'Product Service: Producto no encontrado para agregar gasto'
         );
@@ -280,7 +284,7 @@ export class ProductService {
       console.log('Product Service: Gasto agregado correctamente');
       return {
         status: 201,
-        payload: updatedMarca,
+        payload: gastoCreated,
       };
     } catch (error) {
       console.error(
