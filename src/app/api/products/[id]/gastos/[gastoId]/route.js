@@ -3,7 +3,6 @@ import { deleteGastoController } from '@/backend/products/infrastructure/control
 
 export async function DELETE(_, contextRoute) {
   try {
-    console.log(contextRoute);
     const { payload, status } = await deleteGastoController(contextRoute);
 
     if (status === 204) {
@@ -13,10 +12,10 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Products Route: Error interno buscando el producto: ${error.message}`
+      `Products Route: Error interno eliminando el producto: ${error.message}`
     )
     return NextResponse.json(
-      { error: 'Error obteniendo el producto' },
+      { error: 'Error interno eliminando el producto' },
       { status: 500 }
     );
   }

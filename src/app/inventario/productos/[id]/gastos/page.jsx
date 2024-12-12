@@ -53,7 +53,7 @@ export default async function ProductGastoPage({ params }) {
           <SheetAddGastoWrapper productId={params.id} />
         </CardHeader>
         <CardContent>
-          <DataTableGastos data={gastosSorted} status={status} />
+          <DataTableGastos data={gastosSorted} status={status} productId={params.id} />
         </CardContent>
       </Card>
     </NavbarDynamic>

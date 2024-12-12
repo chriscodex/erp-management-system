@@ -1,5 +1,5 @@
-import { postData } from '@/lib/fetchData';
-import { createGastoClientUrl } from '@/lib/urls';
+import { deleteData, postData } from '@/lib/fetchData';
+import { createGastoClientUrl, deleteGastoClientUrl } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
 // export async function getGastosByProductIdServer(id) {
@@ -47,6 +47,33 @@ export async function addGastoRequestClient(productId, gastoData, setLoading) {
       resolve(response?.response?.data?.payload);
     } catch (error) {
       setLoading(false);
+      reject(error);
+    }
+  });
+}
+
+export async function deleteGastoRequestClient(gastoId, productId) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      console.log(gastoId, productId);
+      // Simular tiempo de retraso
+      await delay();
+
+      const url = `${deleteGastoClientUrl}/${productId}/gastos/${gastoId}`;
+
+      // Obtener los datos de la persona
+      const response = await deleteData(url);
+      if (response?.status !== 204) {
+        reject(
+          'No se pudo eliminar el gasto: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
       reject(error);
     }
   });

@@ -28,7 +28,7 @@ import { Button } from '@/components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import { RiFileListLine, RiDeleteBinLine } from '@remixicon/react';
 
-import { DeleteCategoryAlert } from '@/app/inventario/categorias/_components/dialogs/DeleteCategoryAlert';
+import { DeleteGastoAlert } from '@/app/inventario/productos/[id]/gastos/_components/dialogs/DeleteGastoAlert';
 import { CategoryDetail } from '@/app/inventario/categorias/_components/sheets/category-detail';
 import { SheetUpdateWrapper } from '@/app/inventario/categorias/_components/sheets/updateCategory/sheetUpdateWrapper';
 import {
@@ -41,7 +41,7 @@ import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 import { formatDateShort } from '@/lib/formateador';
 
-export function DataTableGastos({ data, segments, status = 200 }) {
+export function DataTableGastos({ data, segments, status = 200, productId }) {
   const router = useRouter();
 
   const columns = [
@@ -150,11 +150,12 @@ export function DataTableGastos({ data, segments, status = 200 }) {
               </Tooltip>
             </TooltipProvider>
 
-            <DeleteCategoryAlert
+            <DeleteGastoAlert
               isOpen={isOpenDialogDeleteCategory}
               setIsOpen={setIsOpenDialogDeleteCategory}
               actionAfterComplete="refresh"
-              id={categoryData._id}
+              gastoId={categoryData._id}
+              productId={productId}
             />
           </div>
         );
