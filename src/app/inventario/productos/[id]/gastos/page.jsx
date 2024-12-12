@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { getProductByIdRequestServer } from '@/app/inventario/productos/[id]/_services/requests';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { DataTableGastos } from '@/app/inventario/productos/[id]/gastos/_components/gastosTable/data-table';
-import { sortByUpdateDateDesc } from '@/lib/utils';
+import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
 import { SheetAddGastoWrapper } from '@/app/inventario/productos/[id]/gastos/_components/sheets/addGasto/sheetAddGastoWrapper';
 
 export default async function ProductGastoPage({ params }) {
@@ -42,6 +42,7 @@ export default async function ProductGastoPage({ params }) {
     },
   ];
   const gastosSorted = sortByUpdateDateDesc(gastos);
+  const gastosEnumerados = agregarNumeracionTable(gastosSorted);
   return (
     <NavbarDynamic titles={navbarTitles}>
       <Card className="w-full">
@@ -53,7 +54,7 @@ export default async function ProductGastoPage({ params }) {
           <SheetAddGastoWrapper productId={params.id} />
         </CardHeader>
         <CardContent>
-          <DataTableGastos data={gastosSorted} status={status} productId={params.id} />
+          <DataTableGastos data={gastosEnumerados} status={status} productId={params.id} />
         </CardContent>
       </Card>
     </NavbarDynamic>

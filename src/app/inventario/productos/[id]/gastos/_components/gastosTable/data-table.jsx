@@ -29,7 +29,6 @@ import { ArrowUpDown } from 'lucide-react';
 import { RiFileListLine, RiDeleteBinLine } from '@remixicon/react';
 
 import { DeleteGastoAlert } from '@/app/inventario/productos/[id]/gastos/_components/dialogs/DeleteGastoAlert';
-import { CategoryDetail } from '@/app/inventario/categorias/_components/sheets/category-detail';
 import { SheetUpdateWrapper } from '@/app/inventario/categorias/_components/sheets/updateCategory/sheetUpdateWrapper';
 import {
   Tooltip,
@@ -40,11 +39,30 @@ import {
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 import { formatDateShort } from '@/lib/formateador';
+import { GastoDetail } from '../sheets/sheetGastoDetail';
 
 export function DataTableGastos({ data, segments, status = 200, productId }) {
   const router = useRouter();
 
   const columns = [
+    {
+      accessorKey: 'numeracion',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="w-1"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            N°
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <div className="text-start">{row.getValue('numeracion')}</div>;
+      },
+    },
     {
       accessorKey: 'descripcion',
       header: ({ column }) => {
@@ -104,7 +122,7 @@ export function DataTableGastos({ data, segments, status = 200, productId }) {
       id: 'actions',
       header: 'Acciones',
       cell: ({ row }) => {
-        const categoryData = row.original;
+        const gastoData = row.original;
 
         const [isOpenDialogDeleteCategory, setIsOpenDialogDeleteCategory] =
           useState(false);
@@ -119,7 +137,7 @@ export function DataTableGastos({ data, segments, status = 200, productId }) {
                       <SheetTrigger className="text-start">
                         <RiFileListLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                       </SheetTrigger>
-                      <CategoryDetail categoryData={categoryData} />
+                      <GastoDetail gastoData={gastoData} />
                     </Sheet>
                   </div>
                 </TooltipTrigger>
@@ -129,10 +147,7 @@ export function DataTableGastos({ data, segments, status = 200, productId }) {
               </Tooltip>
             </TooltipProvider>
 
-            <SheetUpdateWrapper
-              segments={segments}
-              categoryData={categoryData}
-            />
+            <SheetUpdateWrapper segments={segments} categoryData={gastoData} />
 
             <TooltipProvider delayDuration={0}>
               <Tooltip>
@@ -154,7 +169,7 @@ export function DataTableGastos({ data, segments, status = 200, productId }) {
               isOpen={isOpenDialogDeleteCategory}
               setIsOpen={setIsOpenDialogDeleteCategory}
               actionAfterComplete="refresh"
-              gastoId={categoryData._id}
+              gastoId={gastoData._id}
               productId={productId}
             />
           </div>
