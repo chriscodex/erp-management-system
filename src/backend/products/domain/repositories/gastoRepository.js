@@ -8,7 +8,7 @@ export class GastoRepository {
   }
   async createGasto(gastoData, productId) {
     try {
-      const updatedMarca = await this.productModel.findOneAndUpdate(
+      const gastoCreated = await this.productModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(productId) },
         { $push: { gastos: gastoData } },
         {
@@ -16,13 +16,13 @@ export class GastoRepository {
         }
       );
 
-      if (!updatedMarca) {
+      if (!gastoCreated) {
         console.log('Product Repository: Producto no encontrado');
         return null;
       }
 
       console.log('Product Repository: Gasto agregado correctamente');
-      return updatedMarca;
+      return gastoCreated;
     } catch (error) {
       console.error(
         `Product Repository: Error al agregar un gasto al producto: ${error.message}`
@@ -32,29 +32,26 @@ export class GastoRepository {
       );
     }
   }
-  async createGasto(gastoData, productId) {
+  async deleteGasto(gastoId, productId) {
     try {
-      const updatedMarca = await this.productModel.findOneAndUpdate(
+      const gastoDeleted = await this.productModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(productId) },
-        { $push: { gastos: gastoData } },
-        {
-          new: true,
-        }
+        { $pull: { gastos: { _id: new mongoose.Types.ObjectId(gastoId) } } }
       );
 
-      if (!updatedMarca) {
+      if (!gastoDeleted) {
         console.log('Product Repository: Producto no encontrado');
         return null;
       }
 
-      console.log('Product Repository: Gasto agregado correctamente');
-      return updatedMarca;
+      console.log('Product Repository: Gasto eliminado correctamente');
+      return gastoDeleted;
     } catch (error) {
       console.error(
-        `Product Repository: Error al agregar un gasto al producto: ${error.message}`
+        `Product Repository: Error al eliminar un gasto al producto: ${error.message}`
       );
       throw new Error(
-        `Error al agregar un gasto al producto: ${error.message}`
+        `Error al eliminar un gasto al producto: ${error.message}`
       );
     }
   }

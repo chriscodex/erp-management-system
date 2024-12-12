@@ -93,3 +93,25 @@ export async function createGastoController(request, contextRoute) {
     throw new Error('Product Controller: Error interno al crear un gasto');
   }
 }
+
+export async function deleteGastoController(contextRoute) {
+  try {
+    console.log(contextRoute);
+    const { params } = contextRoute;
+    const { id: productId, gastoId } = params;
+
+    await connectDB();
+
+    const deletedGasto = await productService.deleteGasto(
+      gastoId,
+      productId
+    );
+    return deletedGasto;
+  } catch (error) {
+    console.error(
+      'Product Controller: Error interno al eliminar un gasto:',
+      error.message
+    );
+    throw new Error('Product Controller: Error interno al eliminar un gasto');
+  }
+}

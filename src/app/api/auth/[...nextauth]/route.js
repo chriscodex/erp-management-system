@@ -58,7 +58,7 @@ const authOptions = {
       }
       delete token?.user?.password;
       session.user = token?.user;
-      console.log(session);
+      // console.log(session);
       return session;
     },
   },

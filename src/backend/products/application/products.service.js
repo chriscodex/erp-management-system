@@ -296,4 +296,36 @@ export class ProductService {
       };
     }
   }
+  async deleteGasto(gastoId, productId) {
+    try {
+      const gastoDeleted = await this.gastoRepository.deleteGasto(
+        gastoId,
+        productId
+      );
+
+      if (!gastoDeleted) {
+        console.log(
+          'Product Service: Producto no encontrado para eliminar el gasto'
+        );
+        return {
+          status: 404,
+          payload: 'Producto no encontrado para eliminar el gasto',
+        };
+      }
+
+      console.log('Product Service: Gasto eliminado correctamente');
+      return {
+        status: 204,
+        payload: gastoDeleted,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al eliminar un gasto al producto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
