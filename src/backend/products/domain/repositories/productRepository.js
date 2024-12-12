@@ -165,6 +165,7 @@ export class ProductRepository {
   }
   async createGasto(gastoData, productId) {
     try {
+      console.log(gastoData?.fecha);
       const updatedMarca = await this.productModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(productId) },
         { $push: { gastos: gastoData } },

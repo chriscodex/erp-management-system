@@ -2,10 +2,11 @@
 
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
@@ -40,6 +41,8 @@ import { cn } from '@/lib/utils';
 export function AddGastoForm({ onClose, productId }) {
   const router = useRouter();
 
+  const [date, setDate] = useState(new Date());
+
   const addCategoryForm = useForm({
     resolver: zodResolver(addGastoSchema),
     defaultValues: {
@@ -62,9 +65,14 @@ export function AddGastoForm({ onClose, productId }) {
   const onSubmit = handleSubmit(async (data) => {
     setFormSubmitIsLoading(true);
 
+    const gastoData = {
+      ...data,
+      fecha: new Date(date),
+    };
+
     // Toast promise para buscar una persona
     toast.promise(
-      addGastoRequestClient(productId, data, setFormSubmitIsLoading),
+      addGastoRequestClient(productId, gastoData, setFormSubmitIsLoading),
       {
         loading: 'Creando...',
         success: () => {
@@ -82,7 +90,9 @@ export function AddGastoForm({ onClose, productId }) {
     );
   });
 
-  const [date, setDate] = useState(new Date());
+  useEffect(() => {
+    console.log(typeof date);
+  }, [date]);
 
   return (
     <SheetContent>
@@ -137,6 +147,7 @@ export function AddGastoForm({ onClose, productId }) {
                 mode="single"
                 selected={date}
                 onSelect={setDate}
+                locale={es}
                 initialFocus
               />
             </PopoverContent>

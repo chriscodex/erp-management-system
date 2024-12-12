@@ -33,16 +33,13 @@ export async function addGastoRequestClient(productId, gastoData, setLoading) {
 
       const gastoTest = {
         ...gastoData,
-        fecha: new Date(),
-      }
+      };
 
       // Obtener los datos de la persona
       const response = await postData(url, gastoTest);
       if (response?.status !== 201) {
         setLoading(false);
-        reject(
-          'No se pudo crear el gasto: ' + response.response?.data?.error
-        );
+        reject('No se pudo crear el gasto: ' + response.response?.data?.error);
         return;
       }
 
