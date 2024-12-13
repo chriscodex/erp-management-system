@@ -43,6 +43,9 @@ export function formatHour(date) {
  * @returns {string} La fecha en formato corto
  */
 export function formatDateShort(date, hour = true) {
+  if (!date) {
+    return '';
+  }
   const dateObj = new Date(date);
   const formattedDate = format({
     date: dateObj,
