@@ -8,6 +8,8 @@ import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { DataTableGastos } from '@/app/inventario/productos/[id]/gastos/_components/gastosTable/data-table';
 import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
 import { SheetAddGastoWrapper } from '@/app/inventario/productos/[id]/gastos/_components/sheets/addGasto/sheetAddGastoWrapper';
+import { StatCard } from '@/components/customCards/statCard';
+import { DollarSign } from 'lucide-react';
 
 export default async function ProductGastoPage({ params }) {
   const { product, status } = await getProductByIdRequestServer(params.id);
@@ -52,9 +54,18 @@ export default async function ProductGastoPage({ params }) {
             <Label className="sm:text-4xl text-xl font-bold">Gastos</Label>
           </div>
           <SheetAddGastoWrapper productId={params.id} />
+          <StatCard
+            title="Ingresos Mensuales"
+            value="$123,456"
+            icon={<DollarSign />}
+          />
         </CardHeader>
         <CardContent>
-          <DataTableGastos data={gastosEnumerados} status={status} productId={params.id} />
+          <DataTableGastos
+            data={gastosEnumerados}
+            status={status}
+            productId={params.id}
+          />
         </CardContent>
       </Card>
     </NavbarDynamic>
