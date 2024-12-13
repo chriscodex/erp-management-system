@@ -14,6 +14,9 @@ import {
   RiArchiveLine,
   RiHome2Line,
   RiBuildingLine,
+  RiGroupFill,
+  RiContactsFill,
+  RiTeamFill
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -40,7 +43,7 @@ const data = {
   },
   teams: [
     {
-      name: 'MotoRock Ruta 33',
+      name: 'Moto Rock Ruta 33',
       logo: GalleryVerticalEnd,
     },
     {
@@ -118,6 +121,23 @@ const data = {
           url: '/inventario/modelos',
           items: [],
           icon: RiFundsBoxFill,
+        },
+      ],
+    },
+    {
+      title: 'Contactos',
+      url: '#',
+      icon: RiGroupFill,
+      items: [
+        // {
+        //   title: 'Clientes',
+        //   url: '/ventas/motos',
+        //   icon: RiContactsFill,
+        // },
+        {
+          title: 'Proveedores',
+          url: '/ventas/productos/',
+          icon: RiTeamFill,
         },
       ],
     },
