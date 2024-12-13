@@ -1,6 +1,6 @@
 'use client';
 
-import { MoreHorizontal, ArrowUpDown, Edit } from 'lucide-react';
+import { MoreHorizontal, ArrowUpDown, Edit, Trash2 } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -13,9 +13,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Badge } from '@/components/ui/badge';
-import { DeleteMarcaAlert } from '@/app/inventario/marcas/_components/Dialogs/DeleteCategoryAlert.jsx';
 import { RiFileListLine } from '@remixicon/react';
+import { DeleteProductAlert } from '@/app/inventario/productos/_components/Dialogs/DeleteProductAlert';
 
 export const columnsProducts = [
   {
@@ -110,9 +109,16 @@ export const columnsProducts = [
               Editar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => setIsOpenDialogDeleteUser(true)}
+            >
+              <Trash2 />
+              Eliminar
+            </DropdownMenuItem>
           </DropdownMenuContent>
           {/* Dialog Delete */}
-          <DeleteMarcaAlert
+          <DeleteProductAlert
             isOpen={isOpenDialogDeleteUser}
             setIsOpen={setIsOpenDialogDeleteUser}
             id={id}
