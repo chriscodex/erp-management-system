@@ -213,6 +213,35 @@ export class ProductService {
       };
     }
   }
+  async deleteProduct(id) {
+    try {
+      const productDeleted = await this.productRepository.deleteProduct(id);
+
+      if (!productDeleted) {
+        console.log(
+          'Product Service: Producto no encontrado para ser eliminado'
+        );
+        return {
+          status: 404,
+          payload: 'El producto no existe',
+        };
+      }
+
+      console.log('Product Service: Producto eliminado correctamente');
+      return {
+        status: 204,
+        payload: productDeleted,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al eliminar un producto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async updateUnitProduct(unitProductId, unitProductData) {
     try {
       const unitProductForValidation = {

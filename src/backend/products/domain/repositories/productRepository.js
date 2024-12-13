@@ -163,32 +163,26 @@ export class ProductRepository {
       throw new Error(`Error al actualizar el unitProduct: ${error.message}`);
     }
   }
-  async createGasto(gastoData, productId) {
+  async deleteProduct(id) {
     try {
-      const updatedMarca = await this.productModel.findOneAndUpdate(
-        { _id: new mongoose.Types.ObjectId(productId) },
-        { $push: { gastos: gastoData } },
-        {
-          new: true,
-        }
-      );
+      const deletedProduct = await this.productModel.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(id),
+      });
 
-      if (!updatedMarca) {
+      if (!deletedProduct) {
         console.log(
-          'Product Repository: Producto no encontrado'
+          'Product Repository: Producto no encontrado para ser eliminado'
         );
         return null;
       }
 
-      console.log('Product Repository: Gasto agregado correctamente');
-      return updatedMarca;
+      console.log('Product Repository: Producto encontrado y eliminada');
+      return deletedProduct;
     } catch (error) {
       console.error(
-        `Product Repository: Error al agregar un gasto al producto: ${error.message}`
+        `Product Repository: Error al eliminar un producto: ${error.message}`
       );
-      throw new Error(
-        `Error al agregar un gasto al producto: ${error.message}`
-      );
+      throw new Error(`Error al eliminar producto: ${error.message}`);
     }
   }
 }

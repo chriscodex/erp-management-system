@@ -94,6 +94,27 @@ export async function createGastoController(request, contextRoute) {
   }
 }
 
+export async function deleteProductController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id } = params;
+
+    await connectDB();
+
+    const deletedProduct = await productService.deleteProduct(id);
+
+    return deletedProduct;
+  } catch (error) {
+    console.error(
+      'Product Controller: Error interno al eliminar un producto:',
+      error.message
+    );
+    throw new Error(
+      'Product Controller: Error interno al eliminar un producto'
+    );
+  }
+}
+
 export async function deleteGastoController(contextRoute) {
   try {
     console.log(contextRoute);
