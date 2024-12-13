@@ -9,13 +9,6 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { CalendarIcon } from 'lucide-react';
 
-import { Button } from '@/components/ui/button';
-import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import {
   Form,
   FormControl,
@@ -32,24 +25,30 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import { addGastoSchema } from '@/app/inventario/productos/[id]/gastos/_services/validations/addGastoSchema';
+import { updateGastoSchema } from '@/app/inventario/productos/[id]/gastos/_services/validations/updateGastoSchema';
 import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
 import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
-import { addGastoRequestClient } from '@/app/inventario/productos/[id]/gastos/_services/requests';
-import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import { cn } from '@/lib/utils';
+import { UpdateFormCalendar } from '@/components/calendars/updateFormCalendar';
+import { updateGastoRequestClient } from '@/app/inventario/productos/[id]/gastos/_services/requests';
 
-export function AddGastoForm({ onClose, productId }) {
+export function UpdateGastoForm({ onClose, gastoData, productId }) {
   const router = useRouter();
+  const [date, setDate] = useState(new Date(gastoData?.fecha));
 
-  const [date, setDate] = useState(new Date());
-
-  const addCategoryForm = useForm({
-    resolver: zodResolver(addGastoSchema),
+  const updateCategoryForm = useForm({
+    resolver: zodResolver(updateGastoSchema),
     defaultValues: {
-      descripcion: '',
-      monto: '',
-      fecha: new Date(),
+      descripcion: gastoData?.descripcion,
+      monto: gastoData?.monto,
+      fecha: gastoData?.fecha,
     },
   });
 
@@ -57,31 +56,59 @@ export function AddGastoForm({ onClose, productId }) {
     handleSubmit,
     control,
     clearErrors,
+    watch,
     reset: resetForm,
-  } = addCategoryForm;
+  } = updateCategoryForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   // Manejo de formulario
-  const onSubmit = handleSubmit(async (data) => {
+  const onSubmit = handleSubmit(async (gastoDataForm) => {
     setFormSubmitIsLoading(true);
 
-    const gastoData = {
-      ...data,
-      fecha: new Date(date),
-    };
+    // Obtener los valores actuales del formulario
+    const currentValues = watch();
 
-    // Toast promise para buscar una persona
+    // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
+    const gastoDataToUpdate = Object.keys(currentValues).reduce(
+      (datosCambiados, key) => {
+        if (
+          currentValues[key] !== updateCategoryForm.formState.defaultValues[key]
+        ) {
+          datosCambiados[key] = currentValues[key];
+        }
+        return datosCambiados;
+      },
+      {}
+    );
+    if (new Date(gastoData?.fecha).getTime() !== date.getTime()) {
+      gastoDataToUpdate['fecha'] = date;
+    }
+
+    if (Object.keys(gastoDataToUpdate).length === 0) {
+      toast.error('No se han realizado cambios.');
+      setFormSubmitIsLoading(false);
+      return;
+    }
+    console.log(gastoDataToUpdate);
+
+    gastoDataForm['fecha'] = date;
+
     toast.promise(
-      addGastoRequestClient(productId, gastoData, setFormSubmitIsLoading),
+      updateGastoRequestClient(
+        gastoData?._id,
+        productId,
+        gastoDataForm,
+        setFormSubmitIsLoading
+      ),
       {
-        loading: 'Creando...',
+        loading: 'Actualizando...',
         success: () => {
           clearErrors();
           resetForm();
           onClose();
           router.refresh();
-          return `Gasto creado exitosamente`;
+          return `Gasto actualizado correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);
@@ -94,12 +121,12 @@ export function AddGastoForm({ onClose, productId }) {
   return (
     <SheetContent>
       <SheetHeader>
-        <SheetTitle>Agregar Gasto</SheetTitle>
+        <SheetTitle>Actualizar Gasto</SheetTitle>
         <SheetDescription>
-          Complete los detalles para crear una nuevo gasto.
+          Modifique la información del gasto actual. Luego pulse en actualizar
         </SheetDescription>
       </SheetHeader>
-      <Form {...addCategoryForm}>
+      <Form {...updateCategoryForm}>
         <form onSubmit={onSubmit} className="grid gap-4 py-4">
           <FormField
             control={control}
@@ -134,7 +161,8 @@ export function AddGastoForm({ onClose, productId }) {
                   variant={'outline'}
                   className={cn(
                     'w-[280px] justify-start text-left font-normal',
-                    !date && 'text-muted-foreground'
+                    !date && 'text-muted-foreground',
+                    formSubmitIsLoading ? 'opacity-50 cursor-not-allowed' : ''
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />
@@ -146,15 +174,16 @@ export function AddGastoForm({ onClose, productId }) {
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
-                <AddFormCalendar
+                <UpdateFormCalendar
                   captionLayout="dropdown-buttons"
                   fromYear={2020}
                   toYear={new Date().getFullYear()}
                   mode="single"
+                  defaultMonth={new Date(gastoData?.fecha)}
                   selected={date}
                   onSelect={setDate}
                   locale={es}
-                  calendarDate={date}
+                  calendarDate={gastoData?.fecha}
                   initialFocus
                 />
               </PopoverContent>
@@ -162,15 +191,9 @@ export function AddGastoForm({ onClose, productId }) {
           </div>
           <SheetFooter>
             <SheetClose asChild>
-              <div
-                className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"
-                role="button"
-                type="submit"
-                disabled={formSubmitIsLoading}
-                onClick={onSubmit}
-              >
-                Agregar
-              </div>
+              <Button disabled={formSubmitIsLoading} onClick={onSubmit}>
+                Actualizar
+              </Button>
             </SheetClose>
           </SheetFooter>
         </form>

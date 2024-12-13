@@ -29,7 +29,6 @@ import { ArrowUpDown } from 'lucide-react';
 import { RiFileListLine, RiDeleteBinLine } from '@remixicon/react';
 
 import { DeleteGastoAlert } from '@/app/inventario/productos/[id]/gastos/_components/dialogs/DeleteGastoAlert';
-import { SheetUpdateWrapper } from '@/app/inventario/categorias/_components/sheets/updateCategory/sheetUpdateWrapper';
 import {
   Tooltip,
   TooltipContent,
@@ -39,9 +38,10 @@ import {
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 import { formatDateShort } from '@/lib/formateador';
-import { GastoDetail } from '../sheets/sheetGastoDetail';
+import { GastoDetail } from '@/app/inventario/productos/[id]/gastos/_components/sheets/sheetGastoDetail';
+import { SheetUpdateGastoWrapper } from '@/app/inventario/productos/[id]/gastos/_components/sheets/updateGasto/sheetUpdateGastoWrapper';
 
-export function DataTableGastos({ data, segments, status = 200, productId }) {
+export function DataTableGastos({ data, status = 200, productId }) {
   const router = useRouter();
 
   const columns = [
@@ -94,7 +94,7 @@ export function DataTableGastos({ data, segments, status = 200, productId }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('monto')}</div>;
+        return <div className="text-start">S/. {parseFloat(row.getValue('monto')).toFixed(2)}</div>;
       },
     },
     {
@@ -124,7 +124,7 @@ export function DataTableGastos({ data, segments, status = 200, productId }) {
       cell: ({ row }) => {
         const gastoData = row.original;
 
-        const [isOpenDialogDeleteCategory, setIsOpenDialogDeleteCategory] =
+        const [isOpenDialogDeleteGasto, setIsOpenDialogDeleteGasto] =
           useState(false);
 
         return (
@@ -147,14 +147,17 @@ export function DataTableGastos({ data, segments, status = 200, productId }) {
               </Tooltip>
             </TooltipProvider>
 
-            <SheetUpdateWrapper segments={segments} categoryData={gastoData} />
+            <SheetUpdateGastoWrapper
+              gastoData={gastoData}
+              productId={productId}
+            />
 
             <TooltipProvider delayDuration={0}>
               <Tooltip>
                 <TooltipTrigger asChild>
                   <div
                     className="cursor-pointer"
-                    onClick={() => setIsOpenDialogDeleteCategory(true)}
+                    onClick={() => setIsOpenDialogDeleteGasto(true)}
                   >
                     <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                   </div>
@@ -166,8 +169,8 @@ export function DataTableGastos({ data, segments, status = 200, productId }) {
             </TooltipProvider>
 
             <DeleteGastoAlert
-              isOpen={isOpenDialogDeleteCategory}
-              setIsOpen={setIsOpenDialogDeleteCategory}
+              isOpen={isOpenDialogDeleteGasto}
+              setIsOpen={setIsOpenDialogDeleteGasto}
               actionAfterComplete="refresh"
               gastoId={gastoData._id}
               productId={productId}

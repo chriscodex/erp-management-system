@@ -14,7 +14,7 @@ import {
   SelectTrigger,
 } from '@/components/ui/select';
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
+function UpdateFormCalendar({ className, classNames, showOutsideDays = true, ...props }) {
   return (
     <DayPicker
       locale={es}
@@ -83,7 +83,9 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
                 }}
                 value={props.value?.toString()}
               >
-                <SelectTrigger>{format(currentMonth, 'MMM', { locale: es })}</SelectTrigger>
+                <SelectTrigger>
+                  {format(currentMonth, 'MMM', { locale: es })}
+                </SelectTrigger>
                 <SelectContent>
                   {selectItems.map((selectItem) => (
                     <SelectItem key={selectItem.value} value={selectItem.value}>
@@ -135,6 +137,6 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
     />
   );
 }
-Calendar.displayName = 'Calendar';
+UpdateFormCalendar.displayName = 'UpdateFormCalendar';
 
-export { Calendar };
+export { UpdateFormCalendar };

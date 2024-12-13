@@ -346,10 +346,15 @@ export class ProductService {
         };
       }
 
+      const gastoWithId = {
+        _id: gastoId,
+        ...gastoData,
+      };
+
       const gastoUpdated = await this.gastoRepository.updateGasto(
         gastoId,
         productId,
-        gastoData
+        gastoWithId
       );
 
       if (!gastoUpdated) {

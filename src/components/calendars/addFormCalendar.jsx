@@ -14,7 +14,7 @@ import {
   SelectTrigger,
 } from '@/components/ui/select';
 
-function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
+function AddFormCalendar({ className, classNames, showOutsideDays = true, ...props }) {
   return (
     <DayPicker
       locale={es}
@@ -135,6 +135,6 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }) {
     />
   );
 }
-Calendar.displayName = 'Calendar';
+AddFormCalendar.displayName = 'AddFormCalendar';
 
-export { Calendar };
+export { AddFormCalendar };
