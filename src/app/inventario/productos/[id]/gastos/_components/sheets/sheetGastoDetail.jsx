@@ -18,11 +18,15 @@ export function GastoDetail({ gastoData }) {
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-3 items-center gap-4">
           <label className="col-span-1 text-left font-bold">Monto</label>
-          <p className="col-span-2">{gastoData?.monto}</p>
+          <p className="col-span-2">
+            S/. {parseFloat(gastoData?.monto).toFixed(2)}
+          </p>
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
           <label className="col-span-1 text-left font-bold">Fecha</label>
-          <p className="col-span-2">{formatDateShort(gastoData?.fecha, false)}</p>
+          <p className="col-span-2">
+            {formatDateShort(gastoData?.fecha, false)}
+          </p>
         </div>
       </div>
     </SheetContent>

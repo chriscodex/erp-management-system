@@ -1,4 +1,4 @@
-import { Card, CardContent } from '../ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 export function StatCard({ title, value, icon }) {
   return (
@@ -9,7 +9,7 @@ export function StatCard({ title, value, icon }) {
         </div>
         <div>
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
-          <h3 className="text-2xl font-bold">{value}</h3>
+          <h3 className="text-2xl font-bold">S/. {value}</h3>
         </div>
       </CardContent>
     </Card>

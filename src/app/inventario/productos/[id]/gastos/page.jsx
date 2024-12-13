@@ -45,20 +45,28 @@ export default async function ProductGastoPage({ params }) {
   ];
   const gastosSorted = sortByUpdateDateDesc(gastos);
   const gastosEnumerados = agregarNumeracionTable(gastosSorted);
+  const totalMonto = gastosEnumerados.reduce(
+    (sum, gasto) => sum + gasto.monto,
+    0
+  );
   return (
     <NavbarDynamic titles={navbarTitles}>
       <Card className="w-full">
-        <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-          <div className="flex items-center gap-2">
-            <RiAuctionFill className="h-9 w-9" />
-            <Label className="sm:text-4xl text-xl font-bold">Gastos</Label>
+        <CardHeader className="flex flex-col gap-2">
+          <div className="w-full flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center gap-2">
+              <RiAuctionFill className="h-9 w-9" />
+              <Label className="sm:text-4xl text-xl font-bold">Gastos</Label>
+            </div>
+            <SheetAddGastoWrapper productId={params.id} />
           </div>
-          <SheetAddGastoWrapper productId={params.id} />
-          <StatCard
-            title="Ingresos Mensuales"
-            value="$123,456"
-            icon={<DollarSign />}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <StatCard
+              title="Gastos Totales"
+              value={parseFloat(totalMonto).toFixed(2)}
+              icon={<DollarSign />}
+            />
+          </div>
         </CardHeader>
         <CardContent>
           <DataTableGastos
