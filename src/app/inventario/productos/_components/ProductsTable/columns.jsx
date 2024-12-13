@@ -78,7 +78,7 @@ export const columnsProducts = [
 
       const router = useRouter();
 
-      /* Manejar estado de eliminar marca */
+      /* Manejar estado de eliminar */
       const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] =
         useState(false);
 

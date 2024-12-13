@@ -366,7 +366,7 @@ export function FormAddProduct({
         </div>
 
         <Separator />
-        <Button type="submit" className="w-full">
+        <Button disabled={formSubmitIsLoading} type="submit" className="w-full">
           <Package className="mr-2 h-4 w-4" /> Agregar Producto
         </Button>
       </form>

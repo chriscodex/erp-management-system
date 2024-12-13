@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -15,8 +17,12 @@ import {
   Gift,
   Truck,
   ExternalLink,
+  Trash,
+  Edit2,
 } from 'lucide-react';
 import Link from 'next/link';
+import { DeleteProductAlert } from '@/app/inventario/productos/_components/Dialogs/DeleteProductAlert';
+import { useState } from 'react';
 
 export default function ProductCard({ product }) {
   const availableUnits = product.unidades.filter(
@@ -24,8 +30,12 @@ export default function ProductCard({ product }) {
   ).length;
   const stockStatus = product.stock < product.stockMinimo ? 'low' : 'normal';
 
+  /* Manejar estado de eliminar el producto */
+  const [isOpenDialogDeleteProduct, setIsOpenDialogDeleteProduct] =
+    useState(false);
+
   return (
-    <Card className="w-full">
+    <Card className="w-full max-w-7xl">
       <CardHeader>
         <div className="flex justify-start items-start">
           <div>
@@ -91,14 +101,34 @@ export default function ProductCard({ product }) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="flex justify-between">
-        <Button variant="outline">Editar</Button>
-        <Link href={`/inventario/productos/${product?._id}/gastos`}>
-          <Button>
+      <CardFooter className="grid grid-cols-2 gap-4">
+        <Button
+          className="w-full col-span-1 bg-destructive text-destructive-foreground hover:bg-destructive/90"
+          onClick={() => setIsOpenDialogDeleteProduct(true)}
+        >
+          <Trash className="h-4 w-4" />
+          Eliminar
+        </Button>
+        <Button className="w-full col-span-1" variant="outline">
+          <Edit2 className="h-4 w-4 mr-2" />
+          Editar
+        </Button>
+        <Link
+          className="col-span-2 w-full"
+          href={`/inventario/productos/${product?._id}/gastos`}
+        >
+          <Button className="w-full">
             Ver Gastos <ExternalLink className="h-4 w-4" />
           </Button>
         </Link>
       </CardFooter>
+      {/* Dialog Delete */}
+      <DeleteProductAlert
+        isOpen={isOpenDialogDeleteProduct}
+        setIsOpen={setIsOpenDialogDeleteProduct}
+        id={product?._id}
+        actionAfterComplete="push"
+      />
     </Card>
   );
 }
