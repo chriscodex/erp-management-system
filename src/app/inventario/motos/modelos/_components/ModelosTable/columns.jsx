@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { RiFileListLine } from '@remixicon/react';
-import { DeleteProductAlert } from '@/app/inventario/productos/_components/Dialogs/DeleteProductAlert';
+import { DeleteModeloAlert } from '../Dialogs/DeleteModeloAlert';
 
 export const columnsModelos = [
   {
@@ -58,7 +58,7 @@ export const columnsModelos = [
     id: 'actions',
     header: 'Acciones',
     cell: ({ row }) => {
-      const { _id: id } = row.original;
+      const { _id: modeloId } = row.original;
 
       const router = useRouter();
 
@@ -80,14 +80,14 @@ export const columnsModelos = [
             </DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/inventario/productos/${id}`)}
+              onClick={() => router.push(`/inventario/productos/${modeloId}`)}
             >
               <RiFileListLine />
               Ver
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/inventario/marcas/${id}/edit`)}
+              onClick={() => router.push(`/inventario/marcas/${modeloId}/edit`)}
             >
               <Edit />
               Editar
@@ -102,10 +102,10 @@ export const columnsModelos = [
             </DropdownMenuItem>
           </DropdownMenuContent>
           {/* Dialog Delete */}
-          <DeleteProductAlert
+          <DeleteModeloAlert
             isOpen={isOpenDialogDeleteUser}
             setIsOpen={setIsOpenDialogDeleteUser}
-            id={id}
+            id={modeloId}
             actionAfterComplete="refresh"
           />
         </DropdownMenu>

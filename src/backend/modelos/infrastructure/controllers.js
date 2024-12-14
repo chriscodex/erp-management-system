@@ -23,11 +23,11 @@ export async function createModeloController(request) {
 export async function deleteModeloController(contextRoute) {
   try {
     const { params } = contextRoute;
-    const { id } = params;
+    const { modeloId } = params;
 
     await connectDB();
 
-    const deletedModelo = await modeloService.deleteModelo(id);
+    const deletedModelo = await modeloService.deleteModelo(modeloId);
 
     return deletedModelo;
   } catch (error) {

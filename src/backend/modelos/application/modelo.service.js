@@ -167,6 +167,7 @@ export class ModeloService {
   }
   async deleteModelo(id) {
     try {
+      console.log('id', id);
       const modeloDeleted = await this.modeloRepository.deleteModelo(id);
 
       if (!modeloDeleted) {

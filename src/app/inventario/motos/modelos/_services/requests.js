@@ -1,6 +1,8 @@
 import { ModeloService } from '@/backend/modelos/application/modelo.service';
 import { connectDB } from '@/db/mongodb';
-import { simplificadorParaClientComponent } from '@/lib/utils';
+import { deleteData } from '@/lib/fetchData';
+import { deleteModeloClientUrl } from '@/lib/urls';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 export async function getAllModelosRequestServer() {
   try {
@@ -21,4 +23,30 @@ export async function getAllModelosRequestServer() {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function deleteModeloRequestClient(modeloId) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      // Simular tiempo de retraso
+      await delay();
+
+      const url = `${deleteModeloClientUrl}/${modeloId}`;
+
+      // Obtener los datos de la persona
+      const response = await deleteData(url);
+      if (response?.status !== 204) {
+        reject(
+          'No se pudo eliminar el modelo: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }
