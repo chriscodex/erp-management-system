@@ -16,6 +16,33 @@ export class ModeloService {
     this.almacenRepository = new AlmacenRepository();
     this.proveedorRepository = new ProveedorRepository();
   }
+  async getAllModelos() {
+    try {
+      const modelos = await this.modeloRepository.getAllModelos();
+
+      if (modelos.length === 0) {
+        console.log('Modelo Service: No se encontraron modelos');
+        return {
+          status: 200,
+          payload: [],
+        };
+      }
+
+      console.log('Modelo Service: Modelos encontrados');
+      return {
+        status: 200,
+        payload: modelos,
+      };
+    } catch (error) {
+      console.error(
+        `Modelo Service: Error interno al buscar todos los modelos: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async createModelo(modeloData) {
     try {
       // Validar los datos del modelo enviado con el schema

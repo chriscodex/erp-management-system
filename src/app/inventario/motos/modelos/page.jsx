@@ -8,9 +8,10 @@ import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import { DataTableModelos } from '@/app/inventario/motos/modelos/_components/ModelosTable/data-table';
 import { columnsModelos } from '@/app/inventario/motos/modelos/_components/ModelosTable/columns';
+import { getAllModelosRequestServer } from '@/app/inventario/motos/modelos/_services/requests';
 
 export async function MotosModelosPage() {
-  // const { products } = await getAllProductsRequestServer();
+  const { modelos } = await getAllModelosRequestServer();
 
   const titles = [
     {
@@ -46,7 +47,7 @@ export async function MotosModelosPage() {
             </Button>
           </CardHeader>
           <CardContent>
-            {/* <DataTableModelos columns={columnsModelos} data={products} /> */}
+            <DataTableModelos columns={columnsModelos} data={modelos} />
           </CardContent>
         </Card>
       </NavbarDynamic>

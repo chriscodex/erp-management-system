@@ -7,6 +7,33 @@ export class ModeloRepository {
     this.modeloModel = Modelo;
   }
 
+  async getAllModelos() {
+    try {
+      const modelos = await this.modeloModel
+        .find()
+        .populate('segmentId')
+        .populate('marcaId')
+        .populate('categoryId')
+        .populate('almacenId')
+        .populate('proveedorId');
+
+      if (modelos.length === 0) {
+        console.log('Modelo Repository: No se encontraron modelos');
+        return [];
+      }
+
+      console.log('Modelo Repository: Modelos encontrados');
+      return modelos;
+    } catch (error) {
+      console.error(
+        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`
+      );
+      throw new Error(
+        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`
+      );
+    }
+  }
+
   async getModeloByData(modeloData) {
     try {
       if (!modeloData) {
