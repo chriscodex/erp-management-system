@@ -1,7 +1,6 @@
 'use client';
 
 import { useState } from 'react';
-import { Package } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
@@ -15,7 +14,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Switch } from '@/components/ui/switch';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
@@ -28,12 +26,11 @@ import {
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { createProductSchema } from '@/app/inventario/productos/nuevo/_services/validations/createProductSchema';
-import { NumberInputField } from '@/components/formInputs/NumberInputField';
 import { StringInputField } from '@/components/formInputs/StringInputField';
-import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
 import { createProductRequestClient } from '@/app/inventario/productos/nuevo/_services/requests';
+import { RiMotorbikeFill } from '@remixicon/react';
 
-export function FormAddProduct({
+export function FormAddModel({
   categories,
   marcas,
   proveedores,
@@ -73,8 +70,8 @@ export function FormAddProduct({
       loading: 'Creando...',
       success: () => {
         clearErrors();
-        router.push('/inventario/productos');
-        return `Producto creado exitosamente`;
+        router.push('/inventario/motos/modelos');
+        return `Modelo creado exitosamente`;
       },
       error: (error) => {
         setFormSubmitIsLoading(false);
@@ -152,8 +149,8 @@ export function FormAddProduct({
             <StringInputField
               control={control}
               name="nombre"
-              title="Nombre del Producto"
-              placeholder="Ingrese el nombre del producto"
+              title="Nombre del Modelo"
+              placeholder="Ingrese el nombre del modelo"
               formSubmitIsLoading={formSubmitIsLoading}
             />
             <FormField
@@ -167,7 +164,7 @@ export function FormAddProduct({
                       <Textarea
                         disabled={formSubmitIsLoading}
                         {...field}
-                        placeholder="Describa el producto"
+                        placeholder="Describa el modelo"
                       />
                     </FormControl>
                     <FormMessage />
@@ -181,72 +178,8 @@ export function FormAddProduct({
         <Separator />
 
         <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Inventario</h3>
+          <h3 className="text-lg font-semibold">Proveedor</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <NumberInputField
-              control={control}
-              name="stock"
-              title="Stock"
-              placeholder="Cantidad de unidades"
-              formSubmitIsLoading={formSubmitIsLoading}
-            />
-            <FormField
-              control={control}
-              name="stockMinimo"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>
-                    Stock mínimo{' '}
-                    <span className="text-xs text-muted-foreground">
-                      (Notificaciones)
-                    </span>
-                  </FormLabel>
-                  <div className="relative">
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Stock mínimo"
-                        className="pl-2"
-                        autoComplete="off"
-                        disabled={formSubmitIsLoading}
-                        {...field}
-                        onChange={(e) => {
-                          // Filtramos cualquier valor que no sea un número
-                          const value = e.target.value.replace(/[^0-9]/g, '');
-                          field.onChange(value); // Actualizamos el valor del campo
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter') {
-                            e.preventDefault();
-                          }
-                        }}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-
-        <Separator />
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Precios y proveedor</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <MoneyInputField
-              control={control}
-              name="precioCompra"
-              title="Precio de compra por unidad"
-              formSubmitIsLoading={formSubmitIsLoading}
-            />
-            <MoneyInputField
-              control={control}
-              name="precioVenta"
-              title="Precio de venta por unidad"
-              formSubmitIsLoading={formSubmitIsLoading}
-            />
             <FormField
               control={control}
               name="proveedorId"
@@ -310,64 +243,50 @@ export function FormAddProduct({
                 </FormItem>
               )}
             />
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Alertas</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <FormField
               control={control}
-              name="obsequio"
+              name="stockMinimo"
               render={({ field }) => (
-                <FormItem className="flex flex-col items-start space-y-3">
-                  <FormLabel>Obsequio</FormLabel>
-                  <div className="flex space-x-2">
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>No</FormLabel>
-                    </div>
+                <FormItem className="space-y-2">
+                  <FormLabel>Stock mínimo</FormLabel>
+                  <div className="relative">
                     <FormControl>
-                      <Switch
-                        checked={field.value === 'si'}
-                        onCheckedChange={(checked) =>
-                          field.onChange(checked ? 'si' : 'no')
-                        }
+                      <Input
+                        type="text"
+                        placeholder="Stock mínimo"
+                        className="pl-2"
+                        autoComplete="off"
                         disabled={formSubmitIsLoading}
+                        {...field}
+                        onChange={(e) => {
+                          // Filtramos cualquier valor que no sea un número
+                          const value = e.target.value.replace(/[^0-9]/g, '');
+                          field.onChange(value); // Actualizamos el valor del campo
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter') {
+                            e.preventDefault();
+                          }
+                        }}
                       />
                     </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>Sí</FormLabel>
-                    </div>
-                  </div>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="importado"
-              render={({ field }) => (
-                <FormItem className="flex flex-col items-start space-y-3">
-                  <FormLabel>Importado</FormLabel>
-                  <div className="flex space-x-2">
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>No</FormLabel>
-                    </div>
-                    <FormControl>
-                      <Switch
-                        checked={field.value === 'si'}
-                        onCheckedChange={(checked) =>
-                          field.onChange(checked ? 'si' : 'no')
-                        }
-                        disabled={formSubmitIsLoading}
-                      />
-                    </FormControl>
-                    <div className="space-y-1 leading-none">
-                      <FormLabel>Sí</FormLabel>
-                    </div>
+                    <FormMessage />
                   </div>
                 </FormItem>
               )}
             />
           </div>
         </div>
-
-        <Separator />
         <Button disabled={formSubmitIsLoading} type="submit" className="w-full">
-          <Package className="mr-2 h-4 w-4" /> Agregar Producto
+          <RiMotorbikeFill className="mr-2 h-4 w-4" /> Agregar Modelo
         </Button>
       </form>
     </Form>

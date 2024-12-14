@@ -15,8 +15,8 @@ import {
   RiHome2Line,
   RiBuildingLine,
   RiGroupFill,
-  RiContactsFill,
-  RiTeamFill
+  RiTeamFill,
+  RiRidingLine,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -88,10 +88,15 @@ const data = {
             {
               title: 'Modelos',
               url: '/inventario/motos/modelos',
-              icon: RiMotorbikeLine,
+              icon: RiMotorbikeFill,
+            },
+            {
+              title: 'Todas',
+              url: '/inventario/motos/modelos',
+              icon: RiRidingLine,
             },
           ],
-          icon: RiMotorbikeFill,
+          icon: RiMotorbikeLine,
         },
         {
           title: 'Productos',

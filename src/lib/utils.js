@@ -76,3 +76,7 @@ export function simplificadorParaClientComponent(input) {
   // Si el input no es un array, simplifica el único objeto
   return JSON.parse(JSON.stringify(input));
 }
+
+export function generarNumeroAleatorioOchoDigitos() {
+  return Math.floor(10000000 + Math.random() * 90000000);
+}

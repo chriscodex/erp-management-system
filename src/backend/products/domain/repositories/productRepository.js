@@ -45,7 +45,7 @@ export class ProductRepository {
   async getProductByData(productData) {
     try {
       if (!productData) {
-        console.log('Proveedor Repository: Proveedor no proporcionado');
+        console.log('Producto Repository: Producto no proporcionado');
         return null;
       }
 

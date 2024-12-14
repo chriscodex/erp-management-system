@@ -1,6 +1,4 @@
-function generarNumeroAleatorioOchoDigitos() {
-  return Math.floor(10000000 + Math.random() * 90000000);
-}
+import { generarNumeroAleatorioOchoDigitos } from '@/lib/utils';
 
 /**
  * Genera un código único de 8 dígitos para un producto, con la siguiente estructura:
