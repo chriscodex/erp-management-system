@@ -6,10 +6,12 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Plus } from 'lucide-react';
-import { DataTableProducts } from '../../productos/_components/ProductsTable/data-table';
+import { DataTableModelos } from '@/app/inventario/motos/modelos/_components/ModelosTable/data-table';
+import { columnsModelos } from '@/app/inventario/motos/modelos/_components/ModelosTable/columns';
 
+export async function MotosModelosPage() {
+  // const { products } = await getAllProductsRequestServer();
 
-function MotosModelosPage() {
   const titles = [
     {
       title: 'Inventario',
@@ -44,7 +46,7 @@ function MotosModelosPage() {
             </Button>
           </CardHeader>
           <CardContent>
-            {/* <DataTableProducts columns={columnsProducts} data={products} /> */}
+            {/* <DataTableModelos columns={columnsModelos} data={products} /> */}
           </CardContent>
         </Card>
       </NavbarDynamic>
