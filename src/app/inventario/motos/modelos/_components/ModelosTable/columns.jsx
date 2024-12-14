@@ -80,7 +80,9 @@ export const columnsModelos = [
             </DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/inventario/productos/${modeloId}`)}
+              onClick={() =>
+                router.push(`/inventario/motos/modelos/${modeloId}`)
+              }
             >
               <RiFileListLine />
               Ver

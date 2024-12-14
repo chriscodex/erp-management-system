@@ -1,5 +1,9 @@
 'use client';
 
+import { useState } from 'react';
+import { Package, Truck, ExternalLink, Trash, Edit2 } from 'lucide-react';
+import Link from 'next/link';
+
 import {
   Card,
   CardContent,
@@ -10,24 +14,11 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import {
-  Package,
-  DollarSign,
-  ShoppingCart,
-  Gift,
-  Truck,
-  ExternalLink,
-  Trash,
-  Edit2,
-} from 'lucide-react';
-import Link from 'next/link';
-import { DeleteProductAlert } from '@/app/inventario/productos/_components/Dialogs/DeleteProductAlert';
-import { useState } from 'react';
+import { DeleteModeloAlert } from '@/app/inventario/motos/modelos/_components/Dialogs/DeleteModeloAlert';
 
-export default function ProductCard({ product }) {
-
+export function ModeloCard({ modelo }) {
   /* Manejar estado de eliminar el producto */
-  const [isOpenDialogDeleteProduct, setIsOpenDialogDeleteProduct] =
+  const [isOpenDialogDeleteModelo, setIsOpenDialogDeleteModelo] =
     useState(false);
 
   return (
@@ -36,63 +27,40 @@ export default function ProductCard({ product }) {
         <div className="flex justify-start items-start">
           <div>
             <CardTitle className="text-xl font-bold">
-              {product?.nombre}
+              {modelo?.nombre}
             </CardTitle>
-            <CardDescription>{product?.code}</CardDescription>
+            <CardDescription>{modelo?.code}</CardDescription>
           </div>
         </div>
       </CardHeader>
       <CardContent className="space-y-4 max-w-lg">
-        {product?.descripcion && (
-          <p className="text-sm text-muted-foreground">
-            {product?.descripcion}
-          </p>
+        {modelo?.descripcion && (
+          <p className="text-sm text-muted-foreground">{modelo?.descripcion}</p>
         )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-center">
             <Package className="h-4 w-4 mr-2 text-muted-foreground" />
-            <span className="text-sm">Marca: {product?.marcaId?.nombre}</span>
+            <span className="text-sm">Marca: {modelo?.marcaId?.nombre}</span>
           </div>
           <div className="flex items-center">
             <Package className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
-              Categoría: {product?.categoryId?.nombre}
+              Categoría: {modelo?.categoryId?.nombre}
             </span>
           </div>
           <div className="flex items-center">
             <Package className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
-              Almacen: {product?.almacenId?.nombre}
+              Almacen: {modelo?.almacenId?.nombre}
             </span>
           </div>
         </div>
         <Separator />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex items-center">
-            <Gift className="h-4 w-4 mr-2 text-muted-foreground" />
-            <span className="text-sm">
-              Obsequio: {product.obsequio === 'si' ? 'Si' : 'No'}
-            </span>
-          </div>
           <div className="flex items-center">
             <Truck className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
-              Proveedor: {product.proveedorId?.nombre || 'Proveedor'}
-            </span>
-          </div>
-        </div>
-        <Separator />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="flex items-center">
-            <DollarSign className="h-4 w-4 mr-2 text-muted-foreground" />
-            <span className="text-sm">
-              Compra: S/. {product.precioCompra.toFixed(2)}
-            </span>
-          </div>
-          <div className="flex items-center">
-            <ShoppingCart className="h-4 w-4 mr-2 text-muted-foreground" />
-            <span className="text-sm">
-              Venta: S/. {product.precioVenta.toFixed(2)}
+              Proveedor: {modelo?.proveedorId?.nombre || 'Proveedor'}
             </span>
           </div>
         </div>
@@ -100,7 +68,7 @@ export default function ProductCard({ product }) {
       <CardFooter className="grid grid-cols-2 gap-4">
         <Button
           className="w-full col-span-1 bg-destructive text-destructive-foreground hover:bg-destructive/90"
-          onClick={() => setIsOpenDialogDeleteProduct(true)}
+          onClick={() => setIsOpenDialogDeleteModelo(true)}
         >
           <Trash className="h-4 w-4" />
           Eliminar
@@ -111,7 +79,7 @@ export default function ProductCard({ product }) {
         </Button>
         <Link
           className="col-span-2 w-full"
-          href={`/inventario/productos/${product?._id}/gastos`}
+          href={`/inventario/productos/${modelo?._id}/gastos`}
         >
           <Button className="w-full">
             Ver Gastos <ExternalLink className="h-4 w-4" />
@@ -119,10 +87,10 @@ export default function ProductCard({ product }) {
         </Link>
       </CardFooter>
       {/* Dialog Delete */}
-      <DeleteProductAlert
-        isOpen={isOpenDialogDeleteProduct}
-        setIsOpen={setIsOpenDialogDeleteProduct}
-        id={product?._id}
+      <DeleteModeloAlert
+        isOpen={isOpenDialogDeleteModelo}
+        setIsOpen={setIsOpenDialogDeleteModelo}
+        id={modelo?._id}
         actionAfterComplete="push"
       />
     </Card>

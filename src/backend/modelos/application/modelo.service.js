@@ -43,6 +43,35 @@ export class ModeloService {
       };
     }
   }
+  async getModeloByData(modeloData) {
+    try {
+      const modeloFound = await this.modeloRepository.getModeloByData(
+        modeloData
+      );
+
+      if (!modeloFound) {
+        console.log('Modelo Service: El modelo no existe');
+        return {
+          status: 200,
+          payload: null,
+        };
+      }
+
+      console.log('Modelo Service: El modelo existe');
+      return {
+        status: 200,
+        payload: modeloFound,
+      };
+    } catch (error) {
+      console.error(
+        `Modelo Service: Error interno al buscar el modelo: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async createModelo(modeloData) {
     try {
       // Validar los datos del modelo enviado con el schema
