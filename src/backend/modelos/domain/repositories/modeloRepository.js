@@ -123,4 +123,26 @@ export class ModeloRepository {
       throw new Error(`Error al crear el modelo: ${error.message}`);
     }
   }
+  async deleteModelo(id) {
+    try {
+      const modeloDeleted = await this.modeloModel.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(id),
+      });
+
+      if (!modeloDeleted) {
+        console.log(
+          'Modelo Repository: Modelo no encontrado para ser eliminado'
+        );
+        return null;
+      }
+
+      console.log('Modelo Repository: Modelo encontrado y eliminado');
+      return modeloDeleted;
+    } catch (error) {
+      console.error(
+        `Modelo Repository: Error al eliminar el modelo: ${error.message}`
+      );
+      throw new Error(`Error al eliminar el modelo: ${error.message}`);
+    }
+  }
 }

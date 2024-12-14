@@ -176,7 +176,7 @@ export class ProductRepository {
         return null;
       }
 
-      console.log('Product Repository: Producto encontrado y eliminada');
+      console.log('Product Repository: Producto encontrado y eliminado');
       return deletedProduct;
     } catch (error) {
       console.error(

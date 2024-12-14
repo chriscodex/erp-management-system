@@ -165,4 +165,31 @@ export class ModeloService {
       };
     }
   }
+  async deleteModelo(id) {
+    try {
+      const modeloDeleted = await this.modeloRepository.deleteModelo(id);
+
+      if (!modeloDeleted) {
+        console.log('Modelo Service: Modelo no encontrado para ser eliminado');
+        return {
+          status: 404,
+          payload: 'El modelo no existe',
+        };
+      }
+
+      console.log('Modelo Service: Modelo eliminado correctamente');
+      return {
+        status: 204,
+        payload: modeloDeleted,
+      };
+    } catch (error) {
+      console.error(
+        `Modelo Service: Error interno al eliminar un modelo: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }

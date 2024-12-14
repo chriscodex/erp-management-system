@@ -19,3 +19,22 @@ export async function createModeloController(request) {
     throw new Error('Modelo Controller: Error interno al crear el modelo');
   }
 }
+
+export async function deleteModeloController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id } = params;
+
+    await connectDB();
+
+    const deletedModelo = await modeloService.deleteModelo(id);
+
+    return deletedModelo;
+  } catch (error) {
+    console.error(
+      'Modelo Controller: Error interno al eliminar un modelo:',
+      error.message
+    );
+    throw new Error('Modelo Controller: Error interno al eliminar un modelo');
+  }
+}
