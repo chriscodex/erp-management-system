@@ -25,10 +25,10 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { createProductSchema } from '@/app/inventario/productos/nuevo/_services/validations/createProductSchema';
 import { StringInputField } from '@/components/formInputs/StringInputField';
-import { createProductRequestClient } from '@/app/inventario/productos/nuevo/_services/requests';
 import { RiMotorbikeFill } from '@remixicon/react';
+import { createModeloRequestClient } from '@/app/inventario/motos/modelos/nuevo/_services/requests';
+import { createModeloFormSchema } from '@/app/inventario/motos/modelos/nuevo/_services/validations/createModeloSchema';
 
 export function FormAddModel({
   categories,
@@ -39,21 +39,16 @@ export function FormAddModel({
 }) {
   const router = useRouter();
   const addProductForm = useForm({
-    resolver: zodResolver(createProductSchema),
+    resolver: zodResolver(createModeloFormSchema),
     defaultValues: {
       categoryId: '',
       marcaId: '',
       nombre: '',
       descripcion: '',
-      stock: '',
       stockMinimo: '',
-      precioCompra: '',
-      precioVenta: '',
       proveedorId: '',
       almacenId: almacenes[0]?._id,
       segmentId: segment?._id,
-      obsequio: 'no',
-      importado: 'no',
     },
   });
 
@@ -66,7 +61,7 @@ export function FormAddModel({
     setFormSubmitIsLoading(true);
 
     // Toast promise para crear
-    toast.promise(createProductRequestClient(data, setFormSubmitIsLoading), {
+    toast.promise(createModeloRequestClient(data, setFormSubmitIsLoading), {
       loading: 'Creando...',
       success: () => {
         clearErrors();

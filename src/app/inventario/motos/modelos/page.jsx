@@ -39,7 +39,7 @@ function MotosModelosPage() {
             </div>
             <Button asChild>
               <Link href="/inventario/motos/modelos/nuevo">
-                <Plus className="h-4 w-4" /> Agregar Producto
+                <Plus className="h-4 w-4" /> Agregar Modelo
               </Link>
             </Button>
           </CardHeader>

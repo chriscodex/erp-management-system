@@ -50,16 +50,16 @@ export default async function AddModeloMotoPage() {
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
     getCategoriesBySegmentDataRequestServer({
-      segmentName: 'Productos',
+      segmentName: 'Motos',
       categoryEstado: 'activo',
     }),
     getMarcasBySegmentDataRequestServer({
-      nombre: 'Productos',
+      nombre: 'Motos',
       marcaEstado: 'activo',
     }),
     getAllProveedoresRequestServer(),
     getAllAlmacenesRequestServer(),
-    getSegmentByDataRequestServer('Productos'),
+    getSegmentByDataRequestServer('Motos'),
   ]);
 
   const { categories } = categoriesProductResponse;

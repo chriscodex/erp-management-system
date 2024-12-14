@@ -27,3 +27,6 @@ export const updateUnitProductClientUrl = '/api/products/unit-product';
 export const createGastoClientUrl = '/api/products';
 export const deleteGastoClientUrl = '/api/products';
 export const updateGastoClientUrl = '/api/products';
+
+/* Modelos */
+export const createModeloClientUrl = '/api/modelos';
