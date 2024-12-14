@@ -105,6 +105,7 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
     },
     {
       id: 'actions',
+      header: 'Acciones',
       cell: ({ row }) => {
         return (
           <div className="flex items-center space-x-3">

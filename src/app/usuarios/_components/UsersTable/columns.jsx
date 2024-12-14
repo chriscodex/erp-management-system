@@ -100,6 +100,7 @@ export const columns = [
   },
   {
     id: 'actions',
+    header: 'Acciones',
     cell: ({ row }) => {
       const { _id: userId } = row.original;
 

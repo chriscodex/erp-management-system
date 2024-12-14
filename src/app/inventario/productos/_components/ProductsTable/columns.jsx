@@ -73,6 +73,7 @@ export const columnsProducts = [
 
   {
     id: 'actions',
+    header: 'Acciones',
     cell: ({ row }) => {
       const { _id: id } = row.original;
 
