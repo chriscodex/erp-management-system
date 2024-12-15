@@ -33,9 +33,7 @@ import { createModeloFormSchema } from '@/app/inventario/motos/modelos/nuevo/_se
 export function FormAddModel({
   categories,
   marcas,
-  proveedores,
   segment,
-  almacenes,
 }) {
   const router = useRouter();
   const addProductForm = useForm({
@@ -46,8 +44,6 @@ export function FormAddModel({
       nombre: '',
       descripcion: '',
       stockMinimo: '',
-      proveedorId: '',
-      almacenId: almacenes[0]?._id,
       segmentId: segment?._id,
     },
   });
@@ -162,77 +158,6 @@ export function FormAddModel({
                         placeholder="Describa el modelo"
                       />
                     </FormControl>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-
-        <Separator />
-
-        <div className="space-y-4">
-          <h3 className="text-lg font-semibold">Proveedor</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField
-              control={control}
-              name="proveedorId"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Proveedor</FormLabel>
-                  <div className="relative">
-                    <Select
-                      defaultValue={field.value}
-                      onValueChange={field.onChange}
-                      disabled={formSubmitIsLoading}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full pl-2">
-                          <SelectValue placeholder="Seleccione un proveedor" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {proveedores?.map((proveedor) => (
-                          <SelectItem
-                            key={proveedor?._id}
-                            value={proveedor?._id}
-                          >
-                            {proveedor?.nombre}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </div>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="almacenId"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Almacen</FormLabel>
-                  <div className="relative">
-                    <Select
-                      defaultValue={almacenes[0]?._id}
-                      onValueChange={field.onChange}
-                      disabled={formSubmitIsLoading}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full pl-2">
-                          <SelectValue placeholder="Seleccione un proveedor" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {almacenes?.map((almacen) => (
-                          <SelectItem key={almacen?._id} value={almacen?._id}>
-                            {almacen?.nombre}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
                     <FormMessage />
                   </div>
                 </FormItem>

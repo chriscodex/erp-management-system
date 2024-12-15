@@ -29,7 +29,7 @@ export default async function AddProductPage() {
       active: true,
     },
     {
-      title: 'Nuevo Producto',
+      title: 'Agregar Producto',
       href: '',
       active: false,
     },

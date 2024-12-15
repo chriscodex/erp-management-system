@@ -1,0 +1,223 @@
+'use client';
+
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { createProductSchema } from '@/app/inventario/productos/nuevo/_services/validations/createProductSchema';
+import { StringInputField } from '@/components/formInputs/StringInputField';
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
+import { createProductRequestClient } from '@/app/inventario/productos/nuevo/_services/requests';
+import { RiMotorbikeFill } from '@remixicon/react';
+
+export function FormAddUnidadMoto({ proveedores, almacenes }) {
+  const router = useRouter();
+  const addProductForm = useForm({
+    resolver: zodResolver(createProductSchema),
+    defaultValues: {
+      nombre: '',
+      descripcion: '',
+      stock: '',
+      stockMinimo: '',
+      precioCompra: '',
+      precioVenta: '',
+      importado: 'no',
+    },
+  });
+
+  const { handleSubmit, control, clearErrors } = addProductForm;
+
+  // Estados de carga
+  const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
+
+  const onSubmit = handleSubmit(async (data) => {
+    setFormSubmitIsLoading(true);
+
+    // Toast promise para crear
+    toast.promise(createProductRequestClient(data, setFormSubmitIsLoading), {
+      loading: 'Creando...',
+      success: () => {
+        clearErrors();
+        router.push('/inventario/productos');
+        return `Moto creada exitosamente`;
+      },
+      error: (error) => {
+        setFormSubmitIsLoading(false);
+        return error;
+      },
+    });
+  });
+
+  return (
+    <Form {...addProductForm}>
+      <form onSubmit={onSubmit} className="space-y-8 mt-4">
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Detalles Básicos</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <StringInputField
+              control={control}
+              name="nombre"
+              title="Nombre"
+              placeholder="Ingrese el nombre"
+              formSubmitIsLoading={formSubmitIsLoading}
+            />
+            <FormField
+              control={control}
+              name="descripcion"
+              render={({ field }) => (
+                <FormItem className="space-y-2 col-span-2">
+                  <FormLabel>Descripción (Opcional)</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Textarea
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                        placeholder="Describa la unidad"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Precios y proveedor</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <MoneyInputField
+              control={control}
+              name="precioCompra"
+              title="Precio de compra"
+              formSubmitIsLoading={formSubmitIsLoading}
+            />
+            <MoneyInputField
+              control={control}
+              name="precioVenta"
+              title="Precio de venta"
+              formSubmitIsLoading={formSubmitIsLoading}
+            />
+            <FormField
+              control={control}
+              name="proveedorId"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Proveedor</FormLabel>
+                  <div className="relative">
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un proveedor" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {proveedores?.map((proveedor) => (
+                          <SelectItem
+                            key={proveedor?._id}
+                            value={proveedor?._id}
+                          >
+                            {proveedor?.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="almacenId"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Almacen</FormLabel>
+                  <div className="relative">
+                    <Select
+                      defaultValue={almacenes[0]?._id}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un proveedor" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {almacenes?.map((almacen) => (
+                          <SelectItem key={almacen?._id} value={almacen?._id}>
+                            {almacen?.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="importado"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-start space-y-3">
+                  <FormLabel>Importado</FormLabel>
+                  <div className="flex space-x-2">
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>No</FormLabel>
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value === 'si'}
+                        onCheckedChange={(checked) =>
+                          field.onChange(checked ? 'si' : 'no')
+                        }
+                        disabled={formSubmitIsLoading}
+                      />
+                    </FormControl>
+                    <div className="space-y-1 leading-none">
+                      <FormLabel>Sí</FormLabel>
+                    </div>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <Separator />
+        <Button disabled={formSubmitIsLoading} type="submit" className="w-full">
+          <RiMotorbikeFill className="mr-2 h-4 w-4" /> Agregar Unidad
+        </Button>
+      </form>
+    </Form>
+  );
+}

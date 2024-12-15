@@ -1,9 +1,7 @@
 import {
   getSegmentByDataRequestServer,
-  getAllProveedoresRequestServer,
   getMarcasBySegmentDataRequestServer,
   getCategoriesBySegmentDataRequestServer,
-  getAllAlmacenesRequestServer,
 } from '@/app/inventario/productos/nuevo/_services/requests';
 import {
   Card,
@@ -44,8 +42,6 @@ export default async function AddModeloMotoPage() {
   const [
     categoriesProductResponse,
     marcasProductResponse,
-    proveedoresResponse,
-    almacenesResponse,
     segmentResponse,
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
@@ -57,15 +53,11 @@ export default async function AddModeloMotoPage() {
       nombre: 'Motos',
       marcaEstado: 'activo',
     }),
-    getAllProveedoresRequestServer(),
-    getAllAlmacenesRequestServer(),
     getSegmentByDataRequestServer('Motos'),
   ]);
 
   const { categories } = categoriesProductResponse;
   const { marcas } = marcasProductResponse;
-  const { proveedores } = proveedoresResponse;
-  const { almacenes } = almacenesResponse;
   const { segment } = segmentResponse;
 
   return (
@@ -85,8 +77,6 @@ export default async function AddModeloMotoPage() {
             segment={segment}
             categories={categories}
             marcas={marcas}
-            proveedores={proveedores}
-            almacenes={almacenes}
           />
         </CardContent>
       </Card>
