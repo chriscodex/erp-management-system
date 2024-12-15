@@ -1,4 +1,4 @@
-import { Schema, model, models } from 'mongoose';
+import mongoose, { Schema, model, models } from 'mongoose';
 
 // if (models.Product) {
 //   delete models.Product;
@@ -6,6 +6,11 @@ import { Schema, model, models } from 'mongoose';
 
 const productSchema = new Schema(
   {
+    estado: {
+      type: String,
+      required: [true, 'Estado es requerido en el schema de categoría'],
+      enum: ['activo', 'inactivo'],
+    },
     code: {
       type: String,
       required: true,

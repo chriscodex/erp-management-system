@@ -192,6 +192,7 @@ export class ProductService {
       const productObject = {
         ...productData,
         code: productCode,
+        estado: 'activo',
         unidades,
       };
       // Crear el producto
