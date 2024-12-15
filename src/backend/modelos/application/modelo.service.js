@@ -2,7 +2,6 @@ import { ModeloRepository } from '@/backend/modelos/domain/repositories/modeloRe
 import { SegmentRepository } from '@/backend/segments/domain/repositories/segmentRepository';
 import { CategoryRepository } from '@/backend/categorias/domain/repositories/categoryRepository';
 import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
-import { AlmacenRepository } from '@/backend/almacenes/domain/repositories/almacenRepository';
 import { ProveedorRepository } from '@/backend/proveedores/domain/repositories/proveedorRepository';
 import { generarCodigoUnicoDelModelo } from '@/backend/modelos/application/helpers';
 import { createModeloSchema } from '@/backend/modelos/application/validations/createModeloSchema';
@@ -13,7 +12,6 @@ export class ModeloService {
     this.segmentRepository = new SegmentRepository();
     this.categoryRepository = new CategoryRepository();
     this.marcaRepository = new MarcaRepository();
-    this.almacenRepository = new AlmacenRepository();
     this.proveedorRepository = new ProveedorRepository();
   }
   async getAllModelos() {
@@ -141,19 +139,6 @@ export class ModeloService {
       }
       console.log('Modelo Service: La marca existe en el segmento');
 
-      // Validar si el almacen existe
-      const almacenFound = await this.almacenRepository.getAlmacenByData({
-        id: modeloData.almacenId,
-      });
-      if (!almacenFound) {
-        console.log('Modelo Service: El almacen no existe');
-        return {
-          status: 404,
-          payload: 'El almacen no existe',
-        };
-      }
-      console.log('Modelo Service: El almacen existe');
-
       // Validar si el proveedor existe
       const proveedorFound = await this.proveedorRepository.getProveedorByData({
         id: modeloData.proveedorId,
@@ -196,7 +181,6 @@ export class ModeloService {
   }
   async deleteModelo(id) {
     try {
-      console.log('id', id);
       const modeloDeleted = await this.modeloRepository.deleteModelo(id);
 
       if (!modeloDeleted) {

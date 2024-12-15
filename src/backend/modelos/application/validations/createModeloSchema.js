@@ -35,9 +35,6 @@ export const createModeloSchema = z.object({
   categoryId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir una categoría',
   }),
-  almacenId: z.string().regex(objectIdRegex, {
-    message: 'Debe elegir un almacen',
-  }),
   proveedorId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un proveedor',
   }),

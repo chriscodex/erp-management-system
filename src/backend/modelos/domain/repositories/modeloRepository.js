@@ -14,7 +14,6 @@ export class ModeloRepository {
         .populate('segmentId')
         .populate('marcaId')
         .populate('categoryId')
-        .populate('almacenId')
         .populate('proveedorId');
 
       if (modelos.length === 0) {
@@ -57,10 +56,6 @@ export class ModeloRepository {
 
       if (modeloData.categoryId) {
         filter.categoryId = new mongoose.Types.ObjectId(modeloData.categoryId);
-      }
-
-      if (modeloData.almacenId) {
-        filter.almacenId = new mongoose.Types.ObjectId(modeloData.almacenId);
       }
 
       if (modeloData.proveedorId) {
@@ -110,7 +105,6 @@ export class ModeloRepository {
         { path: 'segmentId' },
         { path: 'marcaId' },
         { path: 'categoryId' },
-        { path: 'almacenId' },
         { path: 'proveedorId' },
       ]);
 

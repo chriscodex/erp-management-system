@@ -43,11 +43,6 @@ const modeloSchema = new Schema(
       ref: 'Category',
       required: [true, 'categoriaId es requerido en el schema de productos'],
     },
-    almacenId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Almacen',
-      required: [true, 'almacenId es requerido en el schema de productos'],
-    },
     proveedorId: {
       type: Schema.Types.ObjectId,
       ref: 'Proveedor',
