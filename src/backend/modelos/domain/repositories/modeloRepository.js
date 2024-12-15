@@ -14,7 +14,6 @@ export class ModeloRepository {
         .populate('segmentId')
         .populate('marcaId')
         .populate('categoryId')
-        .populate('proveedorId');
 
       if (modelos.length === 0) {
         console.log('Modelo Repository: No se encontraron modelos');
@@ -58,12 +57,6 @@ export class ModeloRepository {
         filter.categoryId = new mongoose.Types.ObjectId(modeloData.categoryId);
       }
 
-      if (modeloData.proveedorId) {
-        filter.proveedorId = new mongoose.Types.ObjectId(
-          modeloData.proveedorId
-        );
-      }
-
       if (modeloData.code) {
         filter.code = { $regex: new RegExp(`^${modeloData.code}$`, 'i') };
       }
@@ -77,8 +70,6 @@ export class ModeloRepository {
         .populate('segmentId')
         .populate('marcaId')
         .populate('categoryId')
-        .populate('almacenId')
-        .populate('proveedorId');
 
       if (!modeloFound) {
         console.log('Modelo Repository: Modelo no encontrado');
@@ -105,7 +96,6 @@ export class ModeloRepository {
         { path: 'segmentId' },
         { path: 'marcaId' },
         { path: 'categoryId' },
-        { path: 'proveedorId' },
       ]);
 
       console.log('Modelo Repository: Modelo creado correctamente');

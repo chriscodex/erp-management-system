@@ -43,11 +43,6 @@ const modeloSchema = new Schema(
       ref: 'Category',
       required: [true, 'categoriaId es requerido en el schema de productos'],
     },
-    proveedorId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Proveedor',
-      required: [true, 'proveedorId es requerido en el schema de productos'],
-    },
   },
   {
     timestamps: true,

@@ -2,7 +2,6 @@ import { ModeloRepository } from '@/backend/modelos/domain/repositories/modeloRe
 import { SegmentRepository } from '@/backend/segments/domain/repositories/segmentRepository';
 import { CategoryRepository } from '@/backend/categorias/domain/repositories/categoryRepository';
 import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
-import { ProveedorRepository } from '@/backend/proveedores/domain/repositories/proveedorRepository';
 import { generarCodigoUnicoDelModelo } from '@/backend/modelos/application/helpers';
 import { createModeloSchema } from '@/backend/modelos/application/validations/createModeloSchema';
 
@@ -12,7 +11,6 @@ export class ModeloService {
     this.segmentRepository = new SegmentRepository();
     this.categoryRepository = new CategoryRepository();
     this.marcaRepository = new MarcaRepository();
-    this.proveedorRepository = new ProveedorRepository();
   }
   async getAllModelos() {
     try {
@@ -139,19 +137,7 @@ export class ModeloService {
       }
       console.log('Modelo Service: La marca existe en el segmento');
 
-      // Validar si el proveedor existe
-      const proveedorFound = await this.proveedorRepository.getProveedorByData({
-        id: modeloData.proveedorId,
-      });
-      if (!proveedorFound) {
-        console.log('Modelo Service: El proveedor no existe');
-        return {
-          status: 404,
-          payload: 'El proveedor no existe',
-        };
-      }
-      console.log('Modelo Service: El proveedor existe');
-
+      // Generar el codigo unico
       const modeloCode = await generarCodigoUnicoDelModelo(
         this.modeloRepository
       );
