@@ -62,7 +62,7 @@ const productSchema = new Schema(
           type: Date,
           required: [true, 'La fecha es requerida en el schema de productos'],
         },
-      }
+      },
     ],
     precioCompra: {
       type: Number,
@@ -83,6 +83,14 @@ const productSchema = new Schema(
     obsequio: {
       type: String,
       required: [true, 'El obsequio es requerido en el schema de productos'],
+      enum: ['si', 'no'],
+    },
+    importado: {
+      type: String,
+      required: [
+        true,
+        'Indicar si es importado es requerido en el schema de productos',
+      ],
       enum: ['si', 'no'],
     },
     segmentId: {

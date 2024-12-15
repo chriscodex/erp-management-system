@@ -79,6 +79,8 @@ export const createProductSchema = z.object({
     .refine((val) => val >= 0, {
       message: 'El precio de venta debe ser un número mayor o igual a 0',
     }),
+  obsequio: z.enum(['si', 'no']),
+  importado: z.enum(['si', 'no']),
   proveedorId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un proveedor',
   }),

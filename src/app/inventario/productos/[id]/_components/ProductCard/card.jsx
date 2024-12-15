@@ -25,7 +25,6 @@ import { DeleteProductAlert } from '@/app/inventario/productos/_components/Dialo
 import { useState } from 'react';
 
 export default function ProductCard({ product }) {
-
   /* Manejar estado de eliminar el producto */
   const [isOpenDialogDeleteProduct, setIsOpenDialogDeleteProduct] =
     useState(false);
@@ -71,13 +70,19 @@ export default function ProductCard({ product }) {
           <div className="flex items-center">
             <Gift className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
-              Obsequio: {product.obsequio === 'si' ? 'Si' : 'No'}
+              Obsequio: {product?.obsequio === 'si' ? 'Si' : 'No'}
             </span>
           </div>
           <div className="flex items-center">
+            <Gift className="h-4 w-4 mr-2 text-muted-foreground" />
+            <span className="text-sm">
+              Importado: {product?.importado === 'si' ? 'Si' : 'No'}
+            </span>
+          </div>
+          <div className="flex items-center col-span-2">
             <Truck className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
-              Proveedor: {product.proveedorId?.nombre || 'Proveedor'}
+              Proveedor: {product?.proveedorId?.nombre || 'Proveedor'}
             </span>
           </div>
         </div>

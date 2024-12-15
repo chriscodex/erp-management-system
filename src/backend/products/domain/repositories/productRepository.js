@@ -85,6 +85,10 @@ export class ProductRepository {
         filter.nombre = { $regex: new RegExp(`^${productData.nombre}$`, 'i') };
       }
 
+      if (productData.importado) {
+        filter.importado = productData.importado;
+      }
+
       const productFound = await this.productModel
         .findOne(filter)
         .populate('segmentId')
