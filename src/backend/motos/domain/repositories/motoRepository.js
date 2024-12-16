@@ -6,6 +6,63 @@ export class MotoRepository {
   constructor() {
     this.motoModel = Moto;
   }
+  async getMotoByData(motoData) {
+    try {
+      if (!motoData) {
+        console.log('Moto Repository: Moto no proporcionado');
+        return null;
+      }
+
+      const filter = {};
+
+      if (motoData.id) {
+        filter._id = new mongoose.Types.ObjectId(motoData.id);
+      }
+
+      if (motoData.modeloId) {
+        filter.modeloId = new mongoose.Types.ObjectId(motoData.modeloId);
+      }
+
+      if (motoData.almacenId) {
+        filter.almacenId = new mongoose.Types.ObjectId(motoData.almacenId);
+      }
+
+      if (motoData.proveedorId) {
+        filter.proveedorId = new mongoose.Types.ObjectId(motoData.proveedorId);
+      }
+
+      if (motoData.code) {
+        filter.code = { $regex: new RegExp(`^${motoData.code}$`, 'i') };
+      }
+
+      if (motoData.nombre) {
+        filter.nombre = { $regex: new RegExp(`^${motoData.nombre}$`, 'i') };
+      }
+
+      if (motoData.importado) {
+        filter.importado = motoData.importado;
+      }
+
+      const motoFound = await this.motoModel
+        .findOne(filter)
+        .populate('modeloId')
+        .populate('almacenId')
+        .populate('proveedorId');
+
+      if (!motoFound) {
+        console.log('Moto Repository: Moto no encontrada');
+        return null;
+      }
+
+      console.log('Moto Repository: Moto encontrado');
+      return motoFound;
+    } catch (error) {
+      console.error(
+        `Moto Repository: Error al buscar la moto: ${error.message}`
+      );
+      throw new Error(`Error al buscar la moto: ${error.message}`);
+    }
+  }
   async createMoto(motoData) {
     try {
       const newMoto = new this.motoModel(motoData);
