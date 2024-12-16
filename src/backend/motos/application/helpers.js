@@ -18,5 +18,5 @@ export async function generarCodigoUnicoDeMoto(modeloCode, motoRepository) {
   }
 
   console.log('Moto Service: El código generado no existe');
-  return modeloCode;
+  return motoCode;
 }

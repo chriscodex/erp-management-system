@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import { RiMotorbikeFill } from '@remixicon/react';
 
 import {
   Form,
@@ -25,41 +26,42 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
-import { createProductSchema } from '@/app/inventario/productos/nuevo/_services/validations/createProductSchema';
 import { StringInputField } from '@/components/formInputs/StringInputField';
 import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
-import { createProductRequestClient } from '@/app/inventario/productos/nuevo/_services/requests';
-import { RiMotorbikeFill } from '@remixicon/react';
+import { createUnidadMotoSchema } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/validations/createUnidadMotoSchema';
+import { createUnidadMotoRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests';
 
-export function FormAddUnidadMoto({ proveedores, almacenes }) {
+export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
   const router = useRouter();
-  const addProductForm = useForm({
-    resolver: zodResolver(createProductSchema),
+  const addUnidadMotoForm = useForm({
+    resolver: zodResolver(createUnidadMotoSchema),
     defaultValues: {
       nombre: '',
       descripcion: '',
-      stock: '',
-      stockMinimo: '',
       precioCompra: '',
       precioVenta: '',
+      proveedorId: '',
+      almacenId: almacenes[0]?._id,
+      modeloId,
       importado: 'no',
     },
   });
 
-  const { handleSubmit, control, clearErrors } = addProductForm;
+  const { handleSubmit, control, clearErrors } = addUnidadMotoForm;
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
+    console.log(data);
     setFormSubmitIsLoading(true);
 
     // Toast promise para crear
-    toast.promise(createProductRequestClient(data, setFormSubmitIsLoading), {
+    toast.promise(createUnidadMotoRequestClient(data, setFormSubmitIsLoading), {
       loading: 'Creando...',
       success: () => {
         clearErrors();
-        router.push('/inventario/productos');
+        router.push(`/inventario/motos/modelos/${modeloId}`);
         return `Moto creada exitosamente`;
       },
       error: (error) => {
@@ -70,7 +72,7 @@ export function FormAddUnidadMoto({ proveedores, almacenes }) {
   });
 
   return (
-    <Form {...addProductForm}>
+    <Form {...addUnidadMotoForm}>
       <form onSubmit={onSubmit} className="space-y-8 mt-4">
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Detalles Básicos</h3>

@@ -79,7 +79,11 @@ export default async function Page({ params }) {
           <ModeloDataCard modelo={modelo} />
         </CardHeader>
         <CardContent>
-          <FormAddUnidadMoto proveedores={proveedores} almacenes={almacenes} />
+          <FormAddUnidadMoto
+            proveedores={proveedores}
+            almacenes={almacenes}
+            modeloId={modeloId}
+          />
         </CardContent>
       </Card>
     </NavbarDynamic>
