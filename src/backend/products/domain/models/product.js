@@ -1,4 +1,4 @@
-import mongoose, { Schema, model, models } from 'mongoose';
+import { Schema, model, models } from 'mongoose';
 
 // if (models.Product) {
 //   delete models.Product;
@@ -124,7 +124,9 @@ const productSchema = new Schema(
       required: [true, 'proveedorId es requerido en el schema de productos'],
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 // Index para mejorar búsquedas por nombre

@@ -1,0 +1,92 @@
+import { Schema, model, models } from 'mongoose';
+
+// Eliminar el modelo en caso no considere los cambios
+// if (models.motoSchema) {
+//   delete models.motoSchema;
+// }
+
+const motoSchema = new Schema(
+  {
+    code: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+    nombre: {
+      type: String,
+      unique: true,
+      required: [true, 'El nombre es requerido en el schema de moto'],
+    },
+    descripcion: {
+      type: String,
+      required: false,
+    },
+    gastos: [
+      {
+        descripcion: {
+          type: String,
+          required: [
+            true,
+            'La descripción es requerida en el schema de productos',
+          ],
+        },
+        monto: {
+          type: Number,
+          required: [true, 'El monto es requerido en el schema de productos'],
+        },
+        fecha: {
+          type: Date,
+          required: [true, 'La fecha es requerida en el schema de productos'],
+        },
+      },
+    ],
+    precioCompra: {
+      type: Number,
+      required: [
+        true,
+        'El precio de compra es requerido en el schema de productos',
+      ],
+      min: [0, 'El precio de compra no puede ser negativo'],
+    },
+    precioVenta: {
+      type: Number,
+      required: [
+        true,
+        'El precio de venta es requerido en el schema de productos',
+      ],
+      min: [0, 'El precio de venta no puede ser negativo'],
+    },
+    importado: {
+      type: String,
+      required: [
+        true,
+        'Indicar si es importado es requerido en el schema de productos',
+      ],
+      enum: ['si', 'no'],
+    },
+    modeloId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Modelo',
+      required: [true, 'modeloId es requerido en el schema de motos'],
+    },
+    proveedorId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Proveedor',
+      required: [true, 'proveedorId es requerido en el schema de productos'],
+    },
+    almacenId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Almacen',
+      required: [true, 'almacenId es requerido en el schema de productos'],
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+// Index para mejorar búsquedas por nombre y modelo
+motoSchema.index({ code: 1 });
+motoSchema.index({ nombre: 1 });
+
+export const Moto = models?.Moto || model('Moto', motoSchema);

@@ -33,8 +33,6 @@ export default async function Page({ params }) {
   const proveedores = results[0].value?.proveedores;
   const almacenes = results[1].value?.almacenes;
 
-  console.log('resultssss', results);
-
   const navbarTitles = [
     {
       title: 'Inventario',

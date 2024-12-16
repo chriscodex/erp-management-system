@@ -14,6 +14,7 @@ const modeloSchema = new Schema(
     },
     nombre: {
       type: String,
+      unique: true,
       required: [true, 'El nombre es requerido en el schema de modelos'],
     },
     descripcion: {
