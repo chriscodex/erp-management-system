@@ -7,14 +7,16 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { DataTableProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/data-table';
 import { agregarNumeracionTable } from '@/lib/utils';
 import GraphicSingleProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/graphic';
-import { getModeloByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/_services/requests';
+import { getAllMotosByModeloIdRequestServer, getModeloByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/_services/requests';
 import { ModeloCard } from '@/app/inventario/motos/modelos/[modeloId]/_components/modeloCard/modeloCard';
 import { RiMotorbikeFill } from '@remixicon/react';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
+import { DataTableModelo } from '@/app/inventario/motos/modelos/[modeloId]/_components/modeloTable/data-table';
 
 export default async function ModelosPage({ params }) {
   const { modelo, status } = await getModeloByIdRequestServer(params.modeloId);
+  const { motosByModeloId } = await getAllMotosByModeloIdRequestServer(params.modeloId);
 
   if (!modelo) {
     notFound();
@@ -45,7 +47,7 @@ export default async function ModelosPage({ params }) {
     },
   ];
 
-  // const unidadesEnumeradas = agregarNumeracionTable(unidades);
+  const motosEnumeradas = agregarNumeracionTable(motosByModeloId);
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -68,11 +70,11 @@ export default async function ModelosPage({ params }) {
           {/* <GraphicSingleProductCard unidades={unidades} /> */}
         </CardHeader>
         <CardContent>
-          {/* <DataTableModelo
+          <DataTableModelo
             productData={modeloName}
-            unidades={unidadesEnumeradas}
+            motos={motosEnumeradas}
             status={status}
-          /> */}
+          />
         </CardContent>
       </Card>
     </NavbarDynamic>

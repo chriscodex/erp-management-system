@@ -6,6 +6,36 @@ export class MotoRepository {
   constructor() {
     this.motoModel = Moto;
   }
+  async getAllMotosByModeloId(modeloId) {
+    try {
+      const filter = {};
+
+      if (modeloId) {
+        filter.modeloId = new mongoose.Types.ObjectId(modeloId);
+      }
+
+      const motos = await this.motoModel
+        .find(filter)
+        .populate('modeloId')
+        .populate('almacenId')
+        .populate('proveedorId');
+
+      if (motos.length === 0) {
+        console.log('Moto Repository: No se encontraron motos con ese modelo');
+        return [];
+      }
+
+      console.log('Moto Repository: Motos encontradas');
+      return motos;
+    } catch (error) {
+      console.error(
+        `Moto Repository: Error al buscar todas las motos de un modelo: ${error.message}`
+      );
+      throw new Error(
+        `Moto Repository: Error al buscar todas las motos de un modelo: ${error.message}`
+      );
+    }
+  }
   async getMotoByData(motoData) {
     try {
       if (!motoData) {

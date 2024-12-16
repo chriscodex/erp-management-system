@@ -81,5 +81,5 @@ export function generarNumeroAleatorioOchoDigitos() {
   return Math.floor(10000000 + Math.random() * 90000000);
 }
 export function generarNumeroAleatorioSeisDigitos() {
-  return Math.floor(10000000 + Math.random() * 70000000);
+  return Math.floor(100000 + Math.random() * 900000);
 }

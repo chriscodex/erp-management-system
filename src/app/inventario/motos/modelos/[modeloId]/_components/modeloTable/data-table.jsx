@@ -30,7 +30,7 @@ import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/ba
 import { SheetUpdateUnitProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/sheetUpdateWrapper';
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
 
-export function DataTableModelo({ productData, unidades, status = 200 }) {
+export function DataTableModelo({ productData, motos, status = 200 }) {
   const columns = [
     {
       accessorKey: 'numeracion',
@@ -126,7 +126,7 @@ export function DataTableModelo({ productData, unidades, status = 200 }) {
   const [columnFilters, setColumnFilters] = useState([]);
 
   const table = useReactTable({
-    data: unidades,
+    data: motos,
     columns,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),

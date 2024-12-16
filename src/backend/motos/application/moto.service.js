@@ -12,6 +12,37 @@ export class MotoService {
     this.almacenRepository = new AlmacenRepository();
     this.proveedorRepository = new ProveedorRepository();
   }
+  async getAllMotosByModeloId(modeloId) {
+    try {
+      const motosFiltered = await this.motoRepository.getAllMotosByModeloId(
+        modeloId
+      );
+
+      if (!motosFiltered) {
+        console.log(
+          'Moto Service: No se encontraron motos filtradas por modeloId'
+        );
+        return {
+          status: 404,
+          payload: 'No se encontraron motos filtradas por modeloId',
+        };
+      }
+
+      console.log('Moto Service: Motos filtradas por modeloId encontradas');
+      return {
+        status: 200,
+        payload: motosFiltered,
+      };
+    } catch (error) {
+      console.error(
+        `Moto Service: Error interno al obtener las motos filtradas por modeloId: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async createMoto(motoData) {
     try {
       const motoValidated = createMotoSchema.safeParse(motoData);
@@ -85,7 +116,7 @@ export class MotoService {
       const motoObject = {
         ...motoData,
         code: motoCode,
-        estado: 'activo',
+        estado: 'disponible',
       };
 
       const motoCreated = await this.motoRepository.createMoto(motoObject);

@@ -7,6 +7,11 @@ import { Schema, model, models } from 'mongoose';
 
 const motoSchema = new Schema(
   {
+    estado: {
+      type: String,
+      required: [true, 'El estado es requerido en el schema de motos'],
+      enum: ['disponible', 'dañado', 'reparado'],
+    },
     code: {
       type: String,
       required: true,
@@ -25,18 +30,15 @@ const motoSchema = new Schema(
       {
         descripcion: {
           type: String,
-          required: [
-            true,
-            'La descripción es requerida en el schema de productos',
-          ],
+          required: [true, 'La descripción es requerida en el schema de motos'],
         },
         monto: {
           type: Number,
-          required: [true, 'El monto es requerido en el schema de productos'],
+          required: [true, 'El monto es requerido en el schema de motos'],
         },
         fecha: {
           type: Date,
-          required: [true, 'La fecha es requerida en el schema de productos'],
+          required: [true, 'La fecha es requerida en el schema de motos'],
         },
       },
     ],
@@ -44,23 +46,20 @@ const motoSchema = new Schema(
       type: Number,
       required: [
         true,
-        'El precio de compra es requerido en el schema de productos',
+        'El precio de compra es requerido en el schema de motos',
       ],
       min: [0, 'El precio de compra no puede ser negativo'],
     },
     precioVenta: {
       type: Number,
-      required: [
-        true,
-        'El precio de venta es requerido en el schema de productos',
-      ],
+      required: [true, 'El precio de venta es requerido en el schema de motos'],
       min: [0, 'El precio de venta no puede ser negativo'],
     },
     importado: {
       type: String,
       required: [
         true,
-        'Indicar si es importado es requerido en el schema de productos',
+        'Indicar si es importado es requerido en el schema de motos',
       ],
       enum: ['si', 'no'],
     },
@@ -72,12 +71,12 @@ const motoSchema = new Schema(
     proveedorId: {
       type: Schema.Types.ObjectId,
       ref: 'Proveedor',
-      required: [true, 'proveedorId es requerido en el schema de productos'],
+      required: [true, 'proveedorId es requerido en el schema de motos'],
     },
     almacenId: {
       type: Schema.Types.ObjectId,
       ref: 'Almacen',
-      required: [true, 'almacenId es requerido en el schema de productos'],
+      required: [true, 'almacenId es requerido en el schema de motos'],
     },
   },
   {

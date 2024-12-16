@@ -1,13 +1,14 @@
 import { ModeloService } from '@/backend/modelos/application/modelo.service';
+import { MotoService } from '@/backend/motos/application/moto.service';
 import { connectDB } from '@/db/mongodb';
 import { simplificadorParaClientComponent } from '@/lib/utils';
 
-export async function getModeloByIdRequestServer(id) {
+export async function getModeloByIdRequestServer(modelId) {
   try {
     await connectDB();
     const modeloService = new ModeloService();
 
-    const response = await modeloService.getModeloByData({ id });
+    const response = await modeloService.getModeloByData({ modelId });
 
     if (response?.status !== 200) {
       console.log('Error al obtener el modelo desde el cliente');
@@ -15,6 +16,27 @@ export async function getModeloByIdRequestServer(id) {
     }
     const modelo = response?.payload;
     return { modelo: simplificadorParaClientComponent(modelo), status: 200 };
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+export async function getAllMotosByModeloIdRequestServer(modelId) {
+  try {
+    await connectDB();
+    const motoService = new MotoService();
+
+    const response = await motoService.getAllMotosByModeloId(modelId);
+
+    if (response?.status !== 200) {
+      console.log('Error al obtener las motos por modelo desde el cliente');
+      return { motosByModeloId: null, status: 500 };
+    }
+    const motosByModeloId = response?.payload;
+    return {
+      motosByModeloId: simplificadorParaClientComponent(motosByModeloId),
+      status: 200,
+    };
   } catch (error) {
     console.log(error);
   }
