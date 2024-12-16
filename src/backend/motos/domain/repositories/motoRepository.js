@@ -10,6 +10,11 @@ export class MotoRepository {
     try {
       const filter = {};
 
+      if (!modeloId) {
+        console.log('Moto Repository: Modelo no proporcionado');
+        return [];
+      }
+
       if (modeloId) {
         filter.modeloId = new mongoose.Types.ObjectId(modeloId);
       }

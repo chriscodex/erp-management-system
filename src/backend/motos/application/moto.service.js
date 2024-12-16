@@ -43,6 +43,33 @@ export class MotoService {
       };
     }
   }
+  async getMotoByData(motoData) {
+    try {
+      const motoFound = await this.motoRepository.getMotoByData(motoData);
+
+      if (!motoFound) {
+        console.log('Moto Service: La moto no existe');
+        return {
+          status: 200,
+          payload: null,
+        };
+      }
+
+      console.log('Moto Service: La moto existe');
+      return {
+        status: 200,
+        payload: motoFound,
+      };
+    } catch (error) {
+      console.error(
+        `Moto Service: Error interno al buscar la moto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async createMoto(motoData) {
     try {
       const motoValidated = createMotoSchema.safeParse(motoData);
