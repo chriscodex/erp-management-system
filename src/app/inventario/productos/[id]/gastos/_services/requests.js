@@ -68,7 +68,7 @@ export async function deleteGastoRequestClient(gastoId, productId) {
 export async function updateGastoRequestClient(
   gastoId,
   productId,
-  categoryData,
+  productData,
   setLoading
 ) {
   /* eslint-disable */
@@ -82,7 +82,7 @@ export async function updateGastoRequestClient(
       const updateCategoryUrl = `${updateGastoClientUrl}/${productId}/gastos/${gastoId}`;
 
       // Obtener los datos de la persona
-      const response = await patchData(updateCategoryUrl, categoryData);
+      const response = await patchData(updateCategoryUrl, productData);
       if (response?.status !== 200) {
         setLoading(false);
         reject(

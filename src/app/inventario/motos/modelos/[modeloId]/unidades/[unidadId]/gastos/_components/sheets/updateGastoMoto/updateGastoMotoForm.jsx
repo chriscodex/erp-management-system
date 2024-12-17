@@ -25,7 +25,6 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import { updateGastoSchema } from '@/app/inventario/productos/[id]/gastos/_services/validations/updateGastoSchema';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
@@ -37,14 +36,15 @@ import {
 } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
 import { UpdateFormCalendar } from '@/components/calendars/updateFormCalendar';
-import { updateGastoRequestClient } from '@/app/inventario/productos/[id]/gastos/_services/requests';
+import { updateGastoMotoSchema } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_services/validations/updateGastoMotoSchema';
+import { updateGastoMotoRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_services/requests';
 
-export function UpdateGastoForm({ onClose, gastoData, productId }) {
+export function UpdateGastoMotoForm({ onClose, gastoData, motoId }) {
   const router = useRouter();
   const [date, setDate] = useState(new Date(gastoData?.fecha));
 
-  const updateGastoProductoForm = useForm({
-    resolver: zodResolver(updateGastoSchema),
+  const updateForm = useForm({
+    resolver: zodResolver(updateGastoMotoSchema),
     defaultValues: {
       descripcion: gastoData?.descripcion,
       monto: gastoData?.monto,
@@ -58,7 +58,7 @@ export function UpdateGastoForm({ onClose, gastoData, productId }) {
     clearErrors,
     watch,
     reset: resetForm,
-  } = updateGastoProductoForm;
+  } = updateForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
@@ -72,9 +72,7 @@ export function UpdateGastoForm({ onClose, gastoData, productId }) {
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
     const gastoDataToUpdate = Object.keys(currentValues).reduce(
       (datosCambiados, key) => {
-        if (
-          currentValues[key] !== updateGastoProductoForm.formState.defaultValues[key]
-        ) {
+        if (currentValues[key] !== updateForm.formState.defaultValues[key]) {
           datosCambiados[key] = currentValues[key];
         }
         return datosCambiados;
@@ -95,9 +93,9 @@ export function UpdateGastoForm({ onClose, gastoData, productId }) {
     gastoDataForm['fecha'] = date;
 
     toast.promise(
-      updateGastoRequestClient(
+      updateGastoMotoRequestClient(
         gastoData?._id,
-        productId,
+        motoId,
         gastoDataForm,
         setFormSubmitIsLoading
       ),
@@ -126,7 +124,7 @@ export function UpdateGastoForm({ onClose, gastoData, productId }) {
           Modifique la información del gasto actual. Luego pulse en actualizar
         </SheetDescription>
       </SheetHeader>
-      <Form {...updateGastoProductoForm}>
+      <Form {...updateForm}>
         <form onSubmit={onSubmit} className="grid gap-4 py-4">
           <FormField
             control={control}

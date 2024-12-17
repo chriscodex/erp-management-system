@@ -38,8 +38,8 @@ import {
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 import { formatDateShort } from '@/lib/formateador';
-import { SheetUpdateGastoWrapper } from '@/app/inventario/productos/[id]/gastos/_components/sheets/updateGasto/sheetUpdateGastoWrapper';
 import { SheetGastoMotoDetail } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/sheets/sheetGastoMotoDetail';
+import { SheetUpdateGastoMotoWrapper } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/sheets/updateGastoMoto/sheetUpdateGastoMotoWrapper';
 
 export function DataTableGastosMoto({ data, status = 200, unidadId }) {
   const router = useRouter();
@@ -151,9 +151,9 @@ export function DataTableGastosMoto({ data, status = 200, unidadId }) {
               </Tooltip>
             </TooltipProvider>
 
-            <SheetUpdateGastoWrapper
+            <SheetUpdateGastoMotoWrapper
               gastoData={gastoData}
-              productId={unidadId}
+              motoId={unidadId}
             />
 
             <TooltipProvider delayDuration={0}>

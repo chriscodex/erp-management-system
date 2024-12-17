@@ -6,7 +6,7 @@ export class GastoMotoRepository {
   constructor() {
     this.motoModel = Moto;
   }
-  async createGasto(gastoData, motoId) {
+  async createGastoMoto(gastoData, motoId) {
     try {
       const gastoCreated = await this.motoModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(motoId) },
@@ -30,7 +30,7 @@ export class GastoMotoRepository {
       throw new Error(`Error al agregar un gasto a la moto: ${error.message}`);
     }
   }
-  async deleteGasto(gastoId, motoId) {
+  async deleteGastoMoto(gastoId, motoId) {
     try {
       const gastoDeleted = await this.motoModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(motoId) },
@@ -51,9 +51,9 @@ export class GastoMotoRepository {
       throw new Error(`Error al eliminar un gasto a la moto: ${error.message}`);
     }
   }
-  async updateGasto(gastoId, motoId, gastoData) {
+  async updateGastoMoto(gastoId, motoId, gastoData) {
     try {
-      const updatedProduct = await this.productModel.findOneAndUpdate(
+      const updatedProduct = await this.motoModel.findOneAndUpdate(
         {
           _id: new mongoose.Types.ObjectId(motoId),
           'gastos._id': new mongoose.Types.ObjectId(gastoId),

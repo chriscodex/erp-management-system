@@ -28,7 +28,7 @@ export async function createGastoMotoController(request, contextRoute) {
 
     await connectDB();
 
-    const gastoCreated = await motoService.createGasto(body, motoId);
+    const gastoCreated = await motoService.createGastoMoto(body, motoId);
     return gastoCreated;
   } catch (error) {
     console.error(
@@ -46,7 +46,7 @@ export async function deleteGastoMotoController(contextRoute) {
 
     await connectDB();
 
-    const deletedGasto = await motoService.deleteGasto(gastoId, motoId);
+    const deletedGasto = await motoService.deleteGastoMoto(gastoId, motoId);
     return deletedGasto;
   } catch (error) {
     console.error(
@@ -65,7 +65,7 @@ export async function updateGastoMotoController(request, contextRoute) {
 
     await connectDB();
 
-    const result = await motoService.updateGasto(gastoId, motoId, body);
+    const result = await motoService.updateGastoMoto(gastoId, motoId, body);
     return result;
   } catch (error) {
     console.error(

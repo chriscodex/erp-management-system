@@ -165,9 +165,9 @@ export class MotoService {
       };
     }
   }
-  async createGasto(gastoData, moto) {
+  async createGastoMoto(gastoData, moto) {
     try {
-      const gastoCreated = await this.gastoMotoRepository.createGasto(
+      const gastoCreated = await this.gastoMotoRepository.createGastoMoto(
         gastoData,
         moto
       );
@@ -195,9 +195,9 @@ export class MotoService {
       };
     }
   }
-  async deleteGasto(gastoId, motoId) {
+  async deleteGastoMoto(gastoId, motoId) {
     try {
-      const gastoDeleted = await this.gastoMotoRepository.deleteGasto(
+      const gastoDeleted = await this.gastoMotoRepository.deleteGastoMoto(
         gastoId,
         motoId
       );
@@ -225,7 +225,7 @@ export class MotoService {
       };
     }
   }
-  async updateGasto(gastoId, motoId, gastoData) {
+  async updateGastoMoto(gastoId, motoId, gastoData) {
     try {
       if (!gastoId) {
         console.log('Moto Service: El id del gasto es requerido');
@@ -248,7 +248,7 @@ export class MotoService {
         ...gastoData,
       };
 
-      const gastoUpdated = await this.gastoRepository.updateGasto(
+      const gastoUpdated = await this.gastoMotoRepository.updateGastoMoto(
         gastoId,
         motoId,
         gastoWithId
