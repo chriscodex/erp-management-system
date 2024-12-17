@@ -123,4 +123,24 @@ export class MotoRepository {
       throw new Error(`Error al crear la moto: ${error.message}`);
     }
   }
+  async deleteMoto(motoId) {
+    try {
+      const deletedMoto = await this.motoModel.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(motoId),
+      });
+
+      if (!deletedMoto) {
+        console.log('Moto Repository: Moto no encontrado para ser eliminado');
+        return null;
+      }
+
+      console.log('Moto Repository: Moto encontrado y eliminado');
+      return deletedMoto;
+    } catch (error) {
+      console.error(
+        `Moto Repository: Error al eliminar una moto: ${error.message}`
+      );
+      throw new Error(`Error al eliminar una moto: ${error.message}`);
+    }
+  }
 }

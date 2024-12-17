@@ -37,6 +37,7 @@ import { Button } from '@/components/ui/button';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { RiFileListLine } from '@remixicon/react';
+import { DeleteMotoAlert } from '@/app/inventario/motos/modelos/[modeloId]/_components/dialogs/deleteUnidadMotoAlert';
 
 export function DataTableModelo({ modeloId, motos, status = 200 }) {
   const columns = [
@@ -137,8 +138,7 @@ export function DataTableModelo({ modeloId, motos, status = 200 }) {
         const router = useRouter();
 
         /* Manejar estado de eliminar */
-        const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] =
-          useState(false);
+        const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
         return (
           <DropdownMenu>
@@ -155,7 +155,9 @@ export function DataTableModelo({ modeloId, motos, status = 200 }) {
               <DropdownMenuItem
                 className="cursor-pointer"
                 onClick={() =>
-                  router.push(`/inventario/motos/modelos/${modeloId}/unidades/${unidadMotoId}`)
+                  router.push(
+                    `/inventario/motos/modelos/${modeloId}/unidades/${unidadMotoId}`
+                  )
                 }
               >
                 <RiFileListLine />
@@ -173,19 +175,20 @@ export function DataTableModelo({ modeloId, motos, status = 200 }) {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => setIsOpenDialogDeleteUser(true)}
+                onClick={() => setIsOpenDialogDelete(true)}
               >
                 <Trash2 />
                 Eliminar
               </DropdownMenuItem>
             </DropdownMenuContent>
             {/* Dialog Delete */}
-            {/* <DeleteModeloAlert
-              isOpen={isOpenDialogDeleteUser}
-              setIsOpen={setIsOpenDialogDeleteUser}
-              id={modeloId}
+            <DeleteMotoAlert
+              isOpen={isOpenDialogDelete}
+              setIsOpen={setIsOpenDialogDelete}
+              motoId={unidadMotoId}
+              modelo={modeloId}
               actionAfterComplete="refresh"
-            /> */}
+            />
           </DropdownMenu>
         );
       },

@@ -3,30 +3,39 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
-  BikeIcon as Motorcycle,
+  BikeIcon,
   Package,
   DollarSign,
   TrendingUp,
-  Trash2,
-  Pencil,
   FileText,
   Receipt,
 } from 'lucide-react';
 import Link from 'next/link';
 import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
+import { notFound } from 'next/navigation';
+import { DetailButtons } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_components/detailButtons';
 
 export default async function MotoDetailPage({ params }) {
   const { moto } = await getMotoByIdRequestServer(params.unidadId);
 
-  const margenValue =
-    ((moto?.precioVenta - moto?.precioCompra) / moto?.precioCompra) * 100;
+  if (!moto) {
+    notFound();
+  }
 
-  const totalGastos = moto?.gastos?.reduce(
-    (total, gasto) => total + gasto.monto,
-    0
-  );
+  const {
+    precioVenta,
+    precioCompra,
+    gastos,
+    nombre,
+    modeloId: modeloData,
+    almacenId: almacenData,
+  } = moto;
 
-  const cantidadGastos = moto?.gastos?.length;
+  const margenValue = ((precioVenta - precioCompra) / precioCompra) * 100;
+
+  const totalGastos = gastos?.reduce((total, gasto) => total + gasto?.monto, 0);
+
+  const cantidadGastos = gastos?.length;
 
   const navbarTitles = [
     {
@@ -45,18 +54,16 @@ export default async function MotoDetailPage({ params }) {
       active: true,
     },
     {
-      title: moto?.modeloId?.nombre,
-      href: `/inventario/motos/modelos/${moto?.modeloId?._id}`,
+      title: modeloData?.nombre,
+      href: `/inventario/motos/modelos/${modeloData?._id}`,
       active: true,
     },
     {
-      title: `Moto ${moto?.nombre}`,
+      title: `Moto ${nombre}`,
       href: '',
       active: false,
     },
   ];
-
-  console.log(moto);
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -75,7 +82,7 @@ export default async function MotoDetailPage({ params }) {
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
-                  <Motorcycle className="mr-2" />
+                  <BikeIcon className="mr-2" />
                   Detalles del Modelo
                 </CardTitle>
               </CardHeader>
@@ -86,7 +93,7 @@ export default async function MotoDetailPage({ params }) {
                       Marca:
                     </span>
                     <span className="font-medium">
-                      {moto?.modeloId?.marcaId?.nombre}
+                      {modeloData?.marcaId?.nombre}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -94,7 +101,7 @@ export default async function MotoDetailPage({ params }) {
                       Categoría:
                     </span>
                     <span className="font-medium">
-                      {moto?.modeloId?.categoryId?.nombre}
+                      {modeloData?.categoryId?.nombre}
                     </span>
                   </div>
                 </div>
@@ -128,9 +135,7 @@ export default async function MotoDetailPage({ params }) {
                     <span className="text-gray-500 dark:text-gray-400">
                       Almacén:
                     </span>
-                    <span className="font-medium">
-                      {moto?.almacenId?.nombre}
-                    </span>
+                    <span className="font-medium">{almacenData?.nombre}</span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500 dark:text-gray-400">
@@ -166,10 +171,7 @@ export default async function MotoDetailPage({ params }) {
                       Precio de Compra
                     </p>
                     <p className="text-2xl font-bold">
-                      S/.{' '}
-                      {parseFloat(moto?.precioCompra)
-                        .toFixed(2)
-                        .toLocaleString()}
+                      S/. {parseFloat(precioCompra).toFixed(2).toLocaleString()}
                     </p>
                   </div>
                   <div>
@@ -177,10 +179,7 @@ export default async function MotoDetailPage({ params }) {
                       Precio de Venta
                     </p>
                     <p className="text-2xl font-bold">
-                      S/.{' '}
-                      {parseFloat(moto?.precioVenta)
-                        .toFixed(2)
-                        .toLocaleString()}
+                      S/. {parseFloat(precioVenta).toFixed(2).toLocaleString()}
                     </p>
                   </div>
                   <div>
@@ -230,7 +229,7 @@ export default async function MotoDetailPage({ params }) {
                 </div>
                 <Link
                   className="flex justify-end"
-                  href={`/inventario/motos/modelos/${moto?.modeloId?._id}/unidades/${moto?._id}/gastos`}
+                  href={`/inventario/motos/modelos/${modeloData?._id}/unidades/${moto?._id}/gastos`}
                   passHref
                 >
                   <Button className="flex items-center">
@@ -242,19 +241,8 @@ export default async function MotoDetailPage({ params }) {
             </Card>
           </div>
 
-          <div className="mt-8 flex justify-between">
-            <div className="flex space-x-4">
-              <Link href={`/motorcycle/edit`} passHref>
-                <Button variant="outline" className="flex items-center">
-                  <Pencil className="mr-2 h-4 w-4" />
-                  Editar
-                </Button>
-              </Link>
-              <Button variant="destructive" className="flex items-center">
-                <Trash2 className="mr-2 h-4 w-4" />
-                Eliminar
-              </Button>
-            </div>
+          <div className="mt-8">
+            <DetailButtons motoId={moto?._id} modeloId={modeloData?._id} />
           </div>
         </div>
       </div>

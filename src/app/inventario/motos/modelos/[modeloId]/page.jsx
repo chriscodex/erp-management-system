@@ -4,7 +4,6 @@ import { Plus } from 'lucide-react';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { DataTableProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/data-table';
 import { agregarNumeracionTable } from '@/lib/utils';
 import GraphicSingleProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/graphic';
 import { getAllMotosByModeloIdRequestServer, getModeloByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/_services/requests';
@@ -62,7 +61,7 @@ export default async function ModelosPage({ params }) {
             </div>
             <Button asChild>
               <Link href={`/inventario/motos/modelos/${modeloId}/nuevo`}>
-                <Plus className="h-4 w-4" /> Agregar Unidad
+                <Plus className="h-4 w-4" /> Agregar Moto
               </Link>
             </Button>
           </div>

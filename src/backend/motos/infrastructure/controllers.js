@@ -20,6 +20,25 @@ export async function createMotoController(request) {
   }
 }
 
+export async function deleteMotoController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { motoId } = params;
+
+    await connectDB();
+
+    const deletedMoto = await motoService.deleteMoto(motoId);
+
+    return deletedMoto;
+  } catch (error) {
+    console.error(
+      'Moto Controller: Error interno al eliminar una moto:',
+      error.message
+    );
+    throw new Error('Moto Controller: Error interno al eliminar una moto');
+  }
+}
+
 export async function createGastoMotoController(request, contextRoute) {
   try {
     const { params } = contextRoute;
@@ -50,10 +69,10 @@ export async function deleteGastoMotoController(contextRoute) {
     return deletedGasto;
   } catch (error) {
     console.error(
-      'Product Controller: Error interno al eliminar un gasto:',
+      'Moto Controller: Error interno al eliminar un gasto:',
       error.message
     );
-    throw new Error('Product Controller: Error interno al eliminar un gasto');
+    throw new Error('Moto Controller: Error interno al eliminar un gasto');
   }
 }
 
@@ -69,9 +88,9 @@ export async function updateGastoMotoController(request, contextRoute) {
     return result;
   } catch (error) {
     console.error(
-      'Product Controller: Error interno actualizando el gasto:',
+      'Moto Controller: Error interno actualizando el gasto:',
       error.message
     );
-    throw new Error('Product Controller: Error interno actualizando el gasto');
+    throw new Error('Moto Controller: Error interno actualizando el gasto');
   }
 }

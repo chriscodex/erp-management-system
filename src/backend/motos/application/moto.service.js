@@ -165,6 +165,33 @@ export class MotoService {
       };
     }
   }
+  async deleteMoto(motoId) {
+    try {
+      const motoDeleted = await this.motoRepository.deleteMoto(motoId);
+
+      if (!motoDeleted) {
+        console.log('Moto Service: Moto no encontrado para ser eliminado');
+        return {
+          status: 404,
+          payload: 'La moto no existe',
+        };
+      }
+
+      console.log('Moto Service: Moto eliminado correctamente');
+      return {
+        status: 204,
+        payload: motoDeleted,
+      };
+    } catch (error) {
+      console.error(
+        `Moto Service: Error interno al eliminar una moto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async createGastoMoto(gastoData, moto) {
     try {
       const gastoCreated = await this.gastoMotoRepository.createGastoMoto(
