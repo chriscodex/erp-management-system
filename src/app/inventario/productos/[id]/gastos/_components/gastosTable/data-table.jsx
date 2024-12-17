@@ -41,7 +41,7 @@ import { formatDateShort } from '@/lib/formateador';
 import { GastoDetail } from '@/app/inventario/productos/[id]/gastos/_components/sheets/sheetGastoDetail';
 import { SheetUpdateGastoWrapper } from '@/app/inventario/productos/[id]/gastos/_components/sheets/updateGasto/sheetUpdateGastoWrapper';
 
-export function DataTableGastos({ data, status = 200, productId }) {
+export function DataTableGastos({ data, status = 200, unidadId }) {
   const router = useRouter();
 
   const columns = [
@@ -149,7 +149,7 @@ export function DataTableGastos({ data, status = 200, productId }) {
 
             <SheetUpdateGastoWrapper
               gastoData={gastoData}
-              productId={productId}
+              productId={unidadId}
             />
 
             <TooltipProvider delayDuration={0}>
@@ -173,7 +173,7 @@ export function DataTableGastos({ data, status = 200, productId }) {
               setIsOpen={setIsOpenDialogDeleteGasto}
               actionAfterComplete="refresh"
               gastoId={gastoData._id}
-              productId={productId}
+              productId={unidadId}
             />
           </div>
         );

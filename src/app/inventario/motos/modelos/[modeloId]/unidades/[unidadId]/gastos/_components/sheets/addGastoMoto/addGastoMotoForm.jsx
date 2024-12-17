@@ -32,20 +32,20 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import { addGastoSchema } from '@/app/inventario/productos/[id]/gastos/_services/validations/addGastoSchema';
 import { Textarea } from '@/components/ui/textarea';
 import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
-import { addGastoRequestClient } from '@/app/inventario/productos/[id]/gastos/_services/requests';
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
+import { addGastoMotoSchema } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_services/validations/addGastoMotoSchema';
+import { addGastoMotoRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_services/requests';
 
-export function AddGastoForm({ onClose, productId }) {
+export function AddGastoMotoForm({ onClose, motoId }) {
   const router = useRouter();
 
   const [date, setDate] = useState(new Date());
 
-  const addGastoProductoForm = useForm({
-    resolver: zodResolver(addGastoSchema),
+  const addGastoMotoForm = useForm({
+    resolver: zodResolver(addGastoMotoSchema),
     defaultValues: {
       descripcion: '',
       monto: '',
@@ -58,7 +58,7 @@ export function AddGastoForm({ onClose, productId }) {
     control,
     clearErrors,
     reset: resetForm,
-  } = addGastoProductoForm;
+  } = addGastoMotoForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
@@ -73,7 +73,7 @@ export function AddGastoForm({ onClose, productId }) {
 
     // Toast promise para buscar una persona
     toast.promise(
-      addGastoRequestClient(productId, gastoData, setFormSubmitIsLoading),
+      addGastoMotoRequestClient(motoId, gastoData, setFormSubmitIsLoading),
       {
         loading: 'Creando...',
         success: () => {
@@ -99,7 +99,7 @@ export function AddGastoForm({ onClose, productId }) {
           Complete los detalles para crear una nuevo gasto.
         </SheetDescription>
       </SheetHeader>
-      <Form {...addGastoProductoForm}>
+      <Form {...addGastoMotoForm}>
         <form onSubmit={onSubmit} className="grid gap-4 py-4">
           <FormField
             control={control}

@@ -34,3 +34,6 @@ export const deleteModeloClientUrl = '/api/modelos';
 
 /* Moto Unidad */
 export const createMotoClientUrl = '/api/motos';
+
+/* Gastos Moto Unidad */
+export const createGastoMotoClientUrl = '/api/motos';
