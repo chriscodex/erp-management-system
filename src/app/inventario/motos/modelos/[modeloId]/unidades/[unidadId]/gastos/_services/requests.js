@@ -1,5 +1,9 @@
-import { patchData, postData } from '@/lib/fetchData';
-import { createGastoMotoClientUrl, updateGastoMotoClientUrl } from '@/lib/urls';
+import { deleteData, patchData, postData } from '@/lib/fetchData';
+import {
+  createGastoMotoClientUrl,
+  deleteGastoMotoClientUrl,
+  updateGastoMotoClientUrl,
+} from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
 export async function addGastoMotoRequestClient(motoId, gastoData, setLoading) {
@@ -64,6 +68,33 @@ export async function updateGastoMotoRequestClient(
       resolve(response?.response?.data?.payload);
     } catch (error) {
       setLoading(false);
+      reject(error);
+    }
+  });
+}
+
+export async function deleteGastoMotoRequestClient(gastoId, motoId) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      console.log(gastoId, motoId);
+      // Simular tiempo de retraso
+      await delay();
+
+      const url = `${deleteGastoMotoClientUrl}/${motoId}/gastos/${gastoId}`;
+
+      // Obtener los datos de la persona
+      const response = await deleteData(url);
+      if (response?.status !== 204) {
+        reject(
+          'No se pudo eliminar el gasto: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
       reject(error);
     }
   });

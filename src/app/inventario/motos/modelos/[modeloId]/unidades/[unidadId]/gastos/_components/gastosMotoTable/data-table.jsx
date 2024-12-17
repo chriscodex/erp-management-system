@@ -28,7 +28,6 @@ import { Button } from '@/components/ui/button';
 import { ArrowUpDown } from 'lucide-react';
 import { RiFileListLine, RiDeleteBinLine } from '@remixicon/react';
 
-import { DeleteGastoAlert } from '@/app/inventario/productos/[id]/gastos/_components/dialogs/DeleteGastoAlert';
 import {
   Tooltip,
   TooltipContent,
@@ -40,6 +39,7 @@ import { TIME_DEBOUNCE } from '@/lib/utils';
 import { formatDateShort } from '@/lib/formateador';
 import { SheetGastoMotoDetail } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/sheets/sheetGastoMotoDetail';
 import { SheetUpdateGastoMotoWrapper } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/sheets/updateGastoMoto/sheetUpdateGastoMotoWrapper';
+import { DeleteGastoMotoAlert } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/dialogs/deleteGastoMotoAlert';
 
 export function DataTableGastosMoto({ data, status = 200, unidadId }) {
   const router = useRouter();
@@ -172,12 +172,12 @@ export function DataTableGastosMoto({ data, status = 200, unidadId }) {
               </Tooltip>
             </TooltipProvider>
 
-            <DeleteGastoAlert
+            <DeleteGastoMotoAlert
               isOpen={isOpenDialogDeleteGasto}
               setIsOpen={setIsOpenDialogDeleteGasto}
               actionAfterComplete="refresh"
               gastoId={gastoData._id}
-              productId={unidadId}
+              motoId={unidadId}
             />
           </div>
         );
