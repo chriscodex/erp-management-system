@@ -230,7 +230,7 @@ export default async function MotoDetailPage({ params }) {
                 </div>
                 <Link
                   className="flex justify-end"
-                  href={`/motorcycle/expenses`}
+                  href={`/inventario/motos/modelos/${moto?.modeloId?._id}/unidades/${moto?._id}/gastos`}
                   passHref
                 >
                   <Button className="flex items-center">
