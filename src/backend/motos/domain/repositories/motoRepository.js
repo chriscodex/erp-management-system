@@ -80,7 +80,13 @@ export class MotoRepository {
 
       const motoFound = await this.motoModel
         .findOne(filter)
-        .populate('modeloId')
+        .populate({
+          path: 'modeloId',
+          populate: [
+            { path: 'marcaId' }, // Popula marcaId dentro de modeloId
+            { path: 'categoryId' }, // Popula categoryId dentro de modeloId
+          ],
+        })
         .populate('almacenId')
         .populate('proveedorId');
 

@@ -71,7 +71,7 @@ export default async function ModelosPage({ params }) {
         </CardHeader>
         <CardContent>
           <DataTableModelo
-            productData={modeloName}
+            modeloId={modeloId}
             motos={motosEnumeradas}
             status={status}
           />

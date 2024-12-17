@@ -11,8 +11,16 @@ import {
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
-import { ArrowUpDown } from 'lucide-react';
+import { ArrowUpDown, Edit, MoreHorizontal, Trash2 } from 'lucide-react';
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import {
@@ -27,10 +35,10 @@ import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
 import { Button } from '@/components/ui/button';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
-import { SheetUpdateUnitProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/sheetUpdateWrapper';
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { RiFileListLine } from '@remixicon/react';
 
-export function DataTableModelo({ productData, motos, status = 200 }) {
+export function DataTableModelo({ modeloId, motos, status = 200 }) {
   const columns = [
     {
       accessorKey: 'numeracion',
@@ -124,13 +132,61 @@ export function DataTableModelo({ productData, motos, status = 200 }) {
       id: 'actions',
       header: 'Acciones',
       cell: ({ row }) => {
+        const { _id: unidadMotoId } = row.original;
+
+        const router = useRouter();
+
+        /* Manejar estado de eliminar */
+        const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] =
+          useState(false);
+
         return (
-          <div className="flex items-center space-x-3">
-            <SheetUpdateUnitProductWrapper
-              unitProductData={row.original}
-              productData={productData}
-            />
-          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="h-8 w-8 p-0">
+                <span className="sr-only">Abrir menu</span>
+                <MoreHorizontal className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="center">
+              <DropdownMenuLabel className="select-none">
+                Acciones
+              </DropdownMenuLabel>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() =>
+                  router.push(`/inventario/motos/modelos/${modeloId}/unidades/${unidadMotoId}`)
+                }
+              >
+                <RiFileListLine />
+                Ver
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() =>
+                  router.push(`/inventario/motos/modelos/${modeloId}/unidades`)
+                }
+              >
+                <Edit />
+                Editar
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => setIsOpenDialogDeleteUser(true)}
+              >
+                <Trash2 />
+                Eliminar
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+            {/* Dialog Delete */}
+            {/* <DeleteModeloAlert
+              isOpen={isOpenDialogDeleteUser}
+              setIsOpen={setIsOpenDialogDeleteUser}
+              id={modeloId}
+              actionAfterComplete="refresh"
+            /> */}
+          </DropdownMenu>
         );
       },
     },

@@ -2,35 +2,31 @@ import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
 import {
   BikeIcon as Motorcycle,
   Package,
-  Warehouse,
   DollarSign,
   TrendingUp,
-  Truck,
   Trash2,
   Pencil,
   FileText,
+  Receipt,
 } from 'lucide-react';
 import Link from 'next/link';
+import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
 
-export default function MotorcycleDetail() {
-  // Esta información vendría de tu base de datos o API
-  const motorcycle = {
-    name: 'Yamaha YZF-R6',
-    code: 'YAM-R6-2023',
-    brand: 'Yamaha',
-    category: 'Deportiva',
-    warehouse: 'Almacén Central',
-    imported: true,
-    supplier: 'Yamaha Motor Co., Ltd.',
-    purchasePrice: 12000,
-    salePrice: 15999,
-    description:
-      'La Yamaha YZF-R6 es una motocicleta deportiva de alto rendimiento diseñada para ofrecer una experiencia de conducción emocionante tanto en la calle como en la pista. Con su motor de 599cc y su chasis ligero, la R6 ofrece una combinación perfecta de potencia y agilidad.',
-  };
+export default async function MotoDetailPage({ params }) {
+  const { moto } = await getMotoByIdRequestServer(params.unidadId);
+
+  const margenValue =
+    ((moto?.precioVenta - moto?.precioCompra) / moto?.precioCompra) * 100;
+
+  const totalGastos = moto?.gastos?.reduce(
+    (total, gasto) => total + gasto.monto,
+    0
+  );
+
+  const cantidadGastos = moto?.gastos?.length;
 
   const navbarTitles = [
     {
@@ -49,11 +45,18 @@ export default function MotorcycleDetail() {
       active: true,
     },
     {
-      title: 'xd',
+      title: moto?.modeloId?.nombre,
+      href: `/inventario/motos/modelos/${moto?.modeloId?._id}`,
+      active: true,
+    },
+    {
+      title: `Moto ${moto?.nombre}`,
       href: '',
       active: false,
     },
   ];
+
+  console.log(moto);
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -61,10 +64,10 @@ export default function MotorcycleDetail() {
         <div className="max-w-7xl mx-auto">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-              {motorcycle.name}
+              {moto?.nombre}
             </h1>
             <Badge variant="outline" className="text-lg px-3 py-1">
-              {motorcycle.code}
+              {moto?.code}
             </Badge>
           </div>
 
@@ -82,13 +85,17 @@ export default function MotorcycleDetail() {
                     <span className="text-gray-500 dark:text-gray-400">
                       Marca:
                     </span>
-                    <span className="font-medium">{motorcycle.brand}</span>
+                    <span className="font-medium">
+                      {moto?.modeloId?.marcaId?.nombre}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500 dark:text-gray-400">
                       Categoría:
                     </span>
-                    <span className="font-medium">{motorcycle.category}</span>
+                    <span className="font-medium">
+                      {moto?.modeloId?.categoryId?.nombre}
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -103,7 +110,7 @@ export default function MotorcycleDetail() {
               </CardHeader>
               <CardContent>
                 <p className="text-gray-700 dark:text-gray-300">
-                  {motorcycle.description}
+                  {moto?.descripcion}
                 </p>
               </CardContent>
             </Card>
@@ -121,74 +128,123 @@ export default function MotorcycleDetail() {
                     <span className="text-gray-500 dark:text-gray-400">
                       Almacén:
                     </span>
-                    <span className="font-medium">{motorcycle.warehouse}</span>
+                    <span className="font-medium">
+                      {moto?.almacenId?.nombre}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500 dark:text-gray-400">
                       Importado:
                     </span>
-                    <Badge
-                      variant={motorcycle.imported ? 'default' : 'secondary'}
-                    >
-                      {motorcycle.imported ? 'Sí' : 'No'}
+                    <Badge variant="default">
+                      {moto?.importado === 'si' ? 'Sí' : 'No'}
                     </Badge>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-gray-500 dark:text-gray-400">
                       Proveedor:
                     </span>
-                    <span className="font-medium">{motorcycle.supplier}</span>
+                    <span className="font-medium">
+                      {moto?.proveedorId?.nombre}
+                    </span>
                   </div>
                 </div>
               </CardContent>
             </Card>
-          </div>
 
-          <Card className="mt-8">
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <DollarSign className="mr-2" />
-                Información de Precios
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex justify-between items-center">
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">
-                    Precio de Compra
-                  </p>
-                  <p className="text-2xl font-bold">
-                    ${motorcycle.purchasePrice.toLocaleString()}
-                  </p>
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <DollarSign className="mr-2" />
+                  Información de Precios
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Precio de Compra
+                    </p>
+                    <p className="text-2xl font-bold">
+                      S/.{' '}
+                      {parseFloat(moto?.precioCompra)
+                        .toFixed(2)
+                        .toLocaleString()}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Precio de Venta
+                    </p>
+                    <p className="text-2xl font-bold">
+                      S/.{' '}
+                      {parseFloat(moto?.precioVenta)
+                        .toFixed(2)
+                        .toLocaleString()}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400">Margen</p>
+                    <p
+                      className={`text-2xl font-bold ${
+                        margenValue.toFixed(2) >= 0
+                          ? 'text-green-600'
+                          : 'text-red-600'
+                      }`}
+                    >
+                      {margenValue >= 0
+                        ? `+${margenValue.toFixed(2)}`
+                        : `-${margenValue.toFixed(2)}`}
+                      %
+                    </p>
+                  </div>
                 </div>
-                <Separator orientation="vertical" className="h-12" />
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">
-                    Precio de Venta
-                  </p>
-                  <p className="text-2xl font-bold">
-                    ${motorcycle.salePrice.toLocaleString()}
-                  </p>
+              </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <Receipt className="mr-2" />
+                  Resumen de Gastos
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Total de Gastos
+                    </p>
+                    <p className="text-2xl font-bold">
+                      S/. {totalGastos?.toLocaleString()}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Cantidad de Gastos
+                    </p>
+                    <p className="text-2xl font-bold">
+                      {cantidadGastos?.toLocaleString()}
+                    </p>
+                  </div>
                 </div>
-                <Separator orientation="vertical" className="h-12" />
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Margen</p>
-                  <p className="text-2xl font-bold text-green-600">
-                    {(
-                      ((motorcycle.salePrice - motorcycle.purchasePrice) /
-                        motorcycle.purchasePrice) *
-                      100
-                    ).toFixed(2)}
-                    %
-                  </p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                <Link
+                  className="flex justify-end"
+                  href={`/motorcycle/expenses`}
+                  passHref
+                >
+                  <Button className="flex items-center">
+                    <TrendingUp className="mr-2" />
+                    Ver Gastos
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          </div>
 
           <div className="mt-8 flex justify-between">
             <div className="flex space-x-4">
-              <Link href={`/motorcycle/${motorcycle.id}/edit`} passHref>
+              <Link href={`/motorcycle/edit`} passHref>
                 <Button variant="outline" className="flex items-center">
                   <Pencil className="mr-2 h-4 w-4" />
                   Editar
@@ -199,12 +255,6 @@ export default function MotorcycleDetail() {
                 Eliminar
               </Button>
             </div>
-            <Link href={`/motorcycle/${motorcycle.code}/expenses`} passHref>
-              <Button className="flex items-center">
-                <TrendingUp className="mr-2" />
-                Ver Gastos
-              </Button>
-            </Link>
           </div>
         </div>
       </div>
