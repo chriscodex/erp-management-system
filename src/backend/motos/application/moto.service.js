@@ -1,9 +1,11 @@
+import { generarCodigoUnicoDeMoto } from '@/backend/motos/application/helpers';
 import { createMotoSchema } from '@/backend/motos/application/validations/createMotoSchema';
+
 import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
 import { ModeloRepository } from '@/backend/modelos/domain/repositories/modeloRepository';
 import { AlmacenRepository } from '@/backend/almacenes/domain/repositories/almacenRepository';
 import { ProveedorRepository } from '@/backend/proveedores/domain/repositories/proveedorRepository';
-import { generarCodigoUnicoDeMoto } from '@/backend/motos/application/helpers';
+import { GastoMotoRepository } from '@/backend/motos/domain/repositories/gastoMotoRepository';
 
 export class MotoService {
   constructor() {
@@ -11,6 +13,7 @@ export class MotoService {
     this.modeloRepository = new ModeloRepository();
     this.almacenRepository = new AlmacenRepository();
     this.proveedorRepository = new ProveedorRepository();
+    this.gastoMotoRepository = new GastoMotoRepository();
   }
   async getAllMotosByModeloId(modeloId) {
     try {
@@ -155,6 +158,118 @@ export class MotoService {
     } catch (error) {
       console.error(
         `Moto Service: Error interno al crear la moto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async createGasto(gastoData, moto) {
+    try {
+      const gastoCreated = await this.gastoMotoRepository.createGasto(
+        gastoData,
+        moto
+      );
+
+      if (!gastoCreated) {
+        console.log('Moto Service: Moto no encontrada para agregar gasto');
+        return {
+          status: 404,
+          payload: 'Moto no encontrada para agregar gasto',
+        };
+      }
+
+      console.log('Moto Service: Gasto agregado correctamente');
+      return {
+        status: 201,
+        payload: gastoCreated,
+      };
+    } catch (error) {
+      console.error(
+        `Moto Service: Error interno al agregar un gasto a la moto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async deleteGasto(gastoId, motoId) {
+    try {
+      const gastoDeleted = await this.gastoMotoRepository.deleteGasto(
+        gastoId,
+        motoId
+      );
+
+      if (!gastoDeleted) {
+        console.log('Moto Service: Moto no encontrada para eliminar el gasto');
+        return {
+          status: 404,
+          payload: 'Moto no encontrada para eliminar el gasto',
+        };
+      }
+
+      console.log('Moto Service: Gasto eliminado correctamente');
+      return {
+        status: 204,
+        payload: gastoDeleted,
+      };
+    } catch (error) {
+      console.error(
+        `Moto Service: Error interno al eliminar un gasto a la moto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async updateGasto(gastoId, motoId, gastoData) {
+    try {
+      if (!gastoId) {
+        console.log('Moto Service: El id del gasto es requerido');
+        return {
+          status: 400,
+          payload: 'El id del gasto es requerido',
+        };
+      }
+
+      if (!motoId) {
+        console.log('Moto Service: El id de la moto es requerido');
+        return {
+          status: 400,
+          payload: 'El id de la moto es requerido',
+        };
+      }
+
+      const gastoWithId = {
+        _id: gastoId,
+        ...gastoData,
+      };
+
+      const gastoUpdated = await this.gastoRepository.updateGasto(
+        gastoId,
+        motoId,
+        gastoWithId
+      );
+
+      if (!gastoUpdated) {
+        console.log('Moto Service: Moto no encontrada para ser actualizada');
+        return {
+          status: 404,
+          payload: 'Moto no encontrada para ser actualizado',
+        };
+      }
+
+      console.log('Moto Service: Gasto actualizado correctamente');
+      return {
+        status: 200,
+        payload: gastoUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Moto Service: Error interno al actualizar el gasto: ${error.message}`
       );
       return {
         status: 500,
