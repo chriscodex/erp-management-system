@@ -37,3 +37,5 @@ export const createMotoClientUrl = '/api/motos';
 
 /* Gastos Moto Unidad */
 export const createGastoMotoClientUrl = '/api/motos';
+export const deleteGastoMotoClientUrl = '/api/motos';
+export const updateGastoMotoClientUrl = '/api/motos';

@@ -15,10 +15,10 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Gasto Route: Error interno eliminando el producto: ${error.message}`
+      `Gasto Route: Error interno eliminando el gasto del producto: ${error.message}`
     );
     return NextResponse.json(
-      { error: 'Error interno eliminando el producto' },
+      { error: 'Error interno eliminando el gasto del producto' },
       { status: 500 }
     );
   }
@@ -38,10 +38,10 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Gasto Route: Error interno al actualizar el gasto: ${error.message}`
+      `Gasto Route: Error interno al actualizar el gasto del producto: ${error.message}`
     );
     return NextResponse.json(
-      { message: 'Error interno al actualizar el gasto' },
+      { message: 'Error interno al actualizar el gasto del producto' },
       { status: 500 }
     );
   }

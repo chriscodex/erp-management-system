@@ -42,7 +42,7 @@ export async function createGastoMotoController(request, contextRoute) {
 export async function deleteGastoMotoController(contextRoute) {
   try {
     const { params } = contextRoute;
-    const { id: motoId, gastoId } = params;
+    const { motoId, gastoId } = params;
 
     await connectDB();
 
@@ -60,7 +60,7 @@ export async function deleteGastoMotoController(contextRoute) {
 export async function updateGastoMotoController(request, contextRoute) {
   try {
     const { params } = contextRoute;
-    const { id: motoId, gastoId } = params;
+    const { motoId, gastoId } = params;
     const body = await request.json();
 
     await connectDB();

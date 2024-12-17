@@ -4,12 +4,12 @@ import { RiAuctionFill } from '@remixicon/react';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { DataTableGastos } from '@/app/inventario/productos/[id]/gastos/_components/gastosTable/data-table';
 import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
 import { StatCard } from '@/components/customCards/statCard';
 import { DollarSign } from 'lucide-react';
 import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
 import { SheetAddGastoMotoWrapper } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/sheets/addGastoMoto/sheetAddGastoMotoWrapper';
+import { DataTableGastosMoto } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/gastosMotoTable/data-table';
 
 export default async function ProductGastoPage({ params }) {
   const unidadId = params.unidadId;
@@ -80,7 +80,7 @@ export default async function ProductGastoPage({ params }) {
           </div>
         </CardHeader>
         <CardContent>
-          <DataTableGastos
+          <DataTableGastosMoto
             data={gastosEnumerados}
             status={status}
             unidadId={unidadId}

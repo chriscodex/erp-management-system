@@ -38,10 +38,10 @@ import {
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 import { formatDateShort } from '@/lib/formateador';
-import { GastoDetail } from '@/app/inventario/productos/[id]/gastos/_components/sheets/sheetGastoDetail';
 import { SheetUpdateGastoWrapper } from '@/app/inventario/productos/[id]/gastos/_components/sheets/updateGasto/sheetUpdateGastoWrapper';
+import { SheetGastoMotoDetail } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/sheets/sheetGastoMotoDetail';
 
-export function DataTableGastos({ data, status = 200, productId }) {
+export function DataTableGastosMoto({ data, status = 200, unidadId }) {
   const router = useRouter();
 
   const columns = [
@@ -94,7 +94,11 @@ export function DataTableGastos({ data, status = 200, productId }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">S/. {parseFloat(row.getValue('monto')).toFixed(2)}</div>;
+        return (
+          <div className="text-start">
+            S/. {parseFloat(row.getValue('monto')).toFixed(2)}
+          </div>
+        );
       },
     },
     {
@@ -137,7 +141,7 @@ export function DataTableGastos({ data, status = 200, productId }) {
                       <SheetTrigger className="text-start">
                         <RiFileListLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                       </SheetTrigger>
-                      <GastoDetail gastoData={gastoData} />
+                      <SheetGastoMotoDetail gastoData={gastoData} />
                     </Sheet>
                   </div>
                 </TooltipTrigger>
@@ -149,7 +153,7 @@ export function DataTableGastos({ data, status = 200, productId }) {
 
             <SheetUpdateGastoWrapper
               gastoData={gastoData}
-              productId={productId}
+              productId={unidadId}
             />
 
             <TooltipProvider delayDuration={0}>
@@ -173,7 +177,7 @@ export function DataTableGastos({ data, status = 200, productId }) {
               setIsOpen={setIsOpenDialogDeleteGasto}
               actionAfterComplete="refresh"
               gastoId={gastoData._id}
-              productId={productId}
+              productId={unidadId}
             />
           </div>
         );
