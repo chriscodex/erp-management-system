@@ -22,10 +22,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import { updateCategorySchema } from '@/app/inventario/categorias/_services/validations/updateCategorySchema';
 import { Input } from '@/components/ui/input';
-import { updateCategoryRequestClient } from '@/app/inventario/categorias/_services/requests';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
@@ -34,17 +31,24 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
+import { updateProveedorFormSchema } from '@/app/contactos/proveedores/_services/validations/updateProveedorFormSchema';
+import { updateProveedorRequestClient } from '@/app/contactos/proveedores/_services/requests';
+import {
+  onChangeCelular,
+  onChangeNumero,
+} from '@/components/formInputs/onChange';
 
-export function UpdateCategoryForm({ segments, onClose, categoryData }) {
+export function UpdateProveedorForm({ onClose, proveedorData }) {
   const router = useRouter();
 
   const updateForm = useForm({
-    resolver: zodResolver(updateCategorySchema),
+    resolver: zodResolver(updateProveedorFormSchema),
     defaultValues: {
-      nombre: categoryData?.nombre,
-      descripcion: categoryData?.descripcion,
-      estado: categoryData?.estado,
-      segmentId: categoryData?.segmentId?._id,
+      nombre: proveedorData?.nombre,
+      ruc: proveedorData?.ruc,
+      direccion: proveedorData?.direccion,
+      celular: proveedorData?.celular,
+      estado: proveedorData?.estado,
     },
   });
 
@@ -66,11 +70,9 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
     const currentValues = watch();
 
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
-    const categoryDataToUpdate = Object.keys(currentValues).reduce(
+    const proveedorDataToUpdate = Object.keys(currentValues).reduce(
       (datosCambiados, key) => {
-        if (
-          currentValues[key] !== updateForm.formState.defaultValues[key]
-        ) {
+        if (currentValues[key] !== updateForm.formState.defaultValues[key]) {
           datosCambiados[key] = currentValues[key];
         }
         return datosCambiados;
@@ -78,9 +80,7 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
       {}
     );
 
-    categoryDataToUpdate.segmentId = watch('segmentId');
-
-    if (Object.keys(categoryDataToUpdate).length === 0) {
+    if (Object.keys(proveedorDataToUpdate).length === 0) {
       toast.error('No se han realizado cambios.');
       setFormSubmitIsLoading(false);
       return;
@@ -88,9 +88,9 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateCategoryRequestClient(
-        categoryData?._id,
-        categoryDataToUpdate,
+      updateProveedorRequestClient(
+        proveedorData?._id,
+        proveedorDataToUpdate,
         setFormSubmitIsLoading
       ),
       {
@@ -100,7 +100,7 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
           resetForm();
           onClose();
           router.refresh();
-          return `Categoría actualizada exitosamente`;
+          return `Proveedor actualizado correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);
@@ -113,9 +113,9 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
   return (
     <SheetContent>
       <SheetHeader>
-        <SheetTitle>{categoryData?.nombre}</SheetTitle>
+        <SheetTitle>{proveedorData?.nombre}</SheetTitle>
         <SheetDescription>
-          Modifique la información de la categoría actual. Luego pulse en
+          Modifique la información del proveedor actual. Luego pulse en
           actualizar
         </SheetDescription>
       </SheetHeader>
@@ -143,16 +143,20 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
           />
           <FormField
             control={control}
-            name="descripcion"
+            name="ruc"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel>Descripción (Opcional)</FormLabel>
+                <FormLabel>RUC</FormLabel>
                 <div className="relative">
                   <FormControl>
-                    <Textarea
+                    <Input
+                      placeholder="12345678910"
+                      autoComplete="off"
                       disabled={formSubmitIsLoading}
                       {...field}
-                      placeholder="Escribe la descripción aquí."
+                      onChange={(e) => {
+                        onChangeNumero(e, field);
+                      }}
                     />
                   </FormControl>
                   <FormMessage />
@@ -162,29 +166,43 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
           />
           <FormField
             control={control}
-            name="segmentId"
+            name="direccion"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel>Segmento</FormLabel>
+                <FormLabel>Dirección</FormLabel>
                 <div className="relative">
-                  <Select
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                    disabled={formSubmitIsLoading}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full pl-2">
-                        <SelectValue placeholder="Seleccione un segmento" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {segments?.map((segment) => (
-                        <SelectItem key={segment?._id} value={segment?._id}>
-                          {segment?.nombre}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <FormControl>
+                    <Input
+                      placeholder="Dirección"
+                      className="pl-2"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="celular"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Celular</FormLabel>
+                <div className="relative">
+                  <FormControl>
+                    <Input
+                      placeholder="987654321"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                      onChange={(e) => {
+                        onChangeCelular(e, field);
+                      }}
+                    />
+                  </FormControl>
                   <FormMessage />
                 </div>
               </FormItem>
@@ -198,7 +216,7 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
                 <FormLabel>Estado</FormLabel>
                 <div className="relative">
                   <Select
-                    defaultValue={categoryData?.estado}
+                    defaultValue={proveedorData?.estado}
                     onValueChange={field.onChange}
                     disabled={formSubmitIsLoading}
                   >

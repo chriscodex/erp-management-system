@@ -39,6 +39,7 @@ import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 import { ProveedorDetail } from '@/app/contactos/proveedores/_components/sheets/proveedorDetail';
 import { DeleteProveedorAlert } from '@/app/contactos/proveedores/_components/dialogs/deleteProveedorAlert';
+import { SheetUpdateProveedorWrapper } from '@/app/contactos/proveedores/_components/sheets/updateProveedor/sheetUpdateProveedorWrapper';
 
 export function DataTableProveedores({ data, status = 200 }) {
   const router = useRouter();
@@ -118,9 +119,7 @@ export function DataTableProveedores({ data, status = 200 }) {
               </Tooltip>
             </TooltipProvider>
 
-            {/* <SheetUpdateWrapper
-              proveedorData={proveedorData}
-            /> */}
+            <SheetUpdateProveedorWrapper proveedorData={proveedorData} />
 
             <TooltipProvider delayDuration={0}>
               <Tooltip>
