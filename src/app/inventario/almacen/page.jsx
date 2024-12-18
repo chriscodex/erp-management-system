@@ -18,6 +18,7 @@ import {
   getAllMotosByAlmacenIdRequestServer,
   getAllProductsByAlmacenIdRequestServer,
 } from '@/app/inventario/almacen/_services/requests.js';
+import { SheetAddAlmacenWrapper } from '@/app/inventario/almacen/_components/sheets/addAlmacen/sheetAddAlmacenWrapper';
 
 export default async function CompaniesPage() {
   const { almacenes } = await getAllAlmacenesRequestServer();
@@ -68,11 +69,7 @@ export default async function CompaniesPage() {
               Administra y supervisa tus almacenes
             </p>
           </div>
-          <Button asChild>
-            <Link href="/inventario/productos/nuevo">
-              <Plus className="h-4 w-4" /> Agregar Almacén
-            </Link>
-          </Button>
+          <SheetAddAlmacenWrapper />
         </CardHeader>
 
         <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">

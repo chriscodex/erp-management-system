@@ -26,5 +26,4 @@ export const createAlmacenSchema = z.object({
     .max(50, {
       message: 'La dirección debe tener menos de 50 caracteres',
     }),
-  obsequio: z.enum(['activo', 'inactivo']),
 });
