@@ -135,11 +135,11 @@ export class CategoryRepository {
       throw new Error(`Error al crear categoría: ${error.message}`);
     }
   }
-  async updateCategory(categoryId, category) {
+  async updateCategory(categoryId, categoryData) {
     try {
       const updatedCategory = await this.categoryModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(categoryId) },
-        category,
+        categoryData,
         {
           new: true,
         }
@@ -156,9 +156,9 @@ export class CategoryRepository {
       return updatedCategory;
     } catch (error) {
       console.error(
-        `Category Repository: Error al actualizar categoría: ${error.message}`
+        `Category Repository: Error al actualizar la categoría: ${error.message}`
       );
-      throw new Error(`Error al actualizar categoría: ${error.message}`);
+      throw new Error(`Error al actualizar la categoría: ${error.message}`);
     }
   }
   async deleteCategory(id) {

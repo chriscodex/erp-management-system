@@ -1,5 +1,8 @@
 'use client';
 
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
+
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,8 +14,6 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { deleteCategoryRequestClient } from '@/app/inventario/categorias/_services/requests';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 
 export function DeleteCategoryAlert({
   isOpen,

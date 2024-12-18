@@ -1,5 +1,6 @@
 import { ProveedorRepository } from '@/backend/proveedores/domain/repositories/proveedorRepository';
 import { createProveedorSchema } from '@/backend/proveedores/application/validations/createProveedorSchema';
+import { updateProveedorSchema } from '@/backend/proveedores/application/validations/updateProveedorSchema';
 
 export class ProveedorService {
   constructor() {
@@ -77,6 +78,63 @@ export class ProveedorService {
     } catch (error) {
       console.error(
         `Proveedor Service: Error interno al crear el proveedor: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async updateProveedor(proveedorId, proveedorData) {
+    try {
+      const proveedorValidated = updateProveedorSchema.safeParse(proveedorData);
+
+      if (!proveedorValidated.success) {
+        console.log(
+          'Proveedor Service: Error de validación de schema de proveedor al actualizar'
+        );
+        return {
+          status: 400,
+          payload: proveedorValidated.error.issues,
+        };
+      }
+
+      // Validar si una marca con ese nombre y en el mismo segmento ya existe
+      if (proveedorData.nombre) {
+        const proveedorFound =
+          await this.proveedorRepository.getProveedorByData(proveedorData);
+        if (proveedorFound && proveedorFound?._id !== proveedorId) {
+          console.log(
+            'Proveedor Service: Un proveedor con el mismo nombre ya existe'
+          );
+          return {
+            status: 409,
+            payload: 'Un proveedor con el mismo nombre ya existe',
+          };
+        }
+      }
+
+      const proveedorUpdated = await this.proveedorRepository.updateProveedor(
+        proveedorId,
+        proveedorData
+      );
+
+      if (!proveedorUpdated) {
+        console.log('Proveedor Service: El proveedor no existe');
+        return {
+          status: 404,
+          payload: 'El proveedor no existe',
+        };
+      }
+
+      console.log('Proveedor Service: Proveedor actualizado correctamente');
+      return {
+        status: 200,
+        payload: proveedorUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Proveedor Service: Error interno al actualizar un proveedor: ${error.message}`
       );
       return {
         status: 500,

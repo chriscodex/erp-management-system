@@ -79,6 +79,32 @@ export class ProveedorRepository {
       throw new Error(`Error al crear el proveedor: ${error.message}`);
     }
   }
+  async updateProveedor(proveedorId, proveedorData) {
+    try {
+      const updatedProveedor = await this.proveedorModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(proveedorId) },
+        proveedorData,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedProveedor) {
+        console.log(
+          'Proveedor Repository: Proveedor no encontrado para ser actualizada'
+        );
+        return null;
+      }
+
+      console.log('Proveedor Repository: Proveedor actualizado correctamente');
+      return updatedProveedor;
+    } catch (error) {
+      console.error(
+        `Proveedor Repository: Error al actualizar el proveedor: ${error.message}`
+      );
+      throw new Error(`Error al actualizar el proveedor: ${error.message}`);
+    }
+  }
   async deleteProveedor(proveedorId) {
     try {
       const deletedProveedor = await this.proveedorModel.findOneAndDelete({
