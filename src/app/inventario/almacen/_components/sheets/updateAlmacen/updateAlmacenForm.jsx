@@ -23,7 +23,6 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
-import { updateCategoryRequestClient } from '@/app/inventario/categorias/_services/requests';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
@@ -34,6 +33,7 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { updateAlmacenSchema } from '@/app/inventario/almacen/_services/validations/updateAlmacenSchema';
+import { updateAlmacenRequestClient } from '@/app/inventario/almacen/_services/requests';
 
 export function UpdateAlmacenForm({ onClose, almacenData }) {
   const router = useRouter();
@@ -84,7 +84,7 @@ export function UpdateAlmacenForm({ onClose, almacenData }) {
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateCategoryRequestClient(
+      updateAlmacenRequestClient(
         almacenData?._id,
         dataToUpdate,
         setFormSubmitIsLoading

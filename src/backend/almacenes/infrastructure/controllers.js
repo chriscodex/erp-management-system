@@ -53,3 +53,24 @@ export async function createAlmacenController(request) {
     throw new Error('Almacen Controller: Error interno al crear el almacen');
   }
 }
+
+export async function updateAlmacenController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id } = params;
+    const body = await request.json();
+
+    await connectDB();
+
+    const updatedAlmacen = await almacenService.updateAlmacen(id, body);
+    return updatedAlmacen;
+  } catch (error) {
+    console.error(
+      'Almacen Controller: Error interno al actualizar el almacén:',
+      error.message
+    );
+    throw new Error(
+      'Almacen Controller: Error interno al actualizar el almacén'
+    );
+  }
+}

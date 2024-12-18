@@ -76,4 +76,30 @@ export class AlmacenRepository {
       throw new Error(`Error al crear el almacen: ${error.message}`);
     }
   }
+  async updateAlmacen(almacenId, almacenData) {
+    try {
+      const updatedAlmacen = await this.almacenModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(almacenId) },
+        almacenData,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedAlmacen) {
+        console.log(
+          'Almacen Repository: Almacen no encontrado para ser actualizada'
+        );
+        return null;
+      }
+
+      console.log('Almacen Repository: Almacen actualizado correctamente');
+      return updatedAlmacen;
+    } catch (error) {
+      console.error(
+        `Almacen Repository: Error al actualizar el almacen: ${error.message}`
+      );
+      throw new Error(`Error al actualizar el almacen: ${error.message}`);
+    }
+  }
 }
