@@ -74,3 +74,22 @@ export async function updateAlmacenController(request, contextRoute) {
     );
   }
 }
+
+export async function deleteAlmacenController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id } = params;
+
+    await connectDB();
+
+    const deletedAlmacen = await almacenService.deleteAlmacen(id);
+
+    return deletedAlmacen;
+  } catch (error) {
+    console.error(
+      'Delete Almacen: Error interno al eliminar el almacén:',
+      error.message
+    );
+    throw new Error('Delete Almacen: Error interno al eliminar el almacén');
+  }
+}

@@ -116,7 +116,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
       cell: ({ row }) => {
         const categoryData = row.original;
 
-        const [isOpenDialogDeleteCategory, setIsOpenDialogDeleteCategory] =
+        const [isOpenDialogDelete, setIsOpenDialogDelete] =
           useState(false);
 
         return (
@@ -149,7 +149,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
                 <TooltipTrigger asChild>
                   <div
                     className="cursor-pointer"
-                    onClick={() => setIsOpenDialogDeleteCategory(true)}
+                    onClick={() => setIsOpenDialogDelete(true)}
                   >
                     <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                   </div>
@@ -161,8 +161,8 @@ export function DataTableCategory({ data, segments, status = 200 }) {
             </TooltipProvider>
 
             <DeleteCategoryAlert
-              isOpen={isOpenDialogDeleteCategory}
-              setIsOpen={setIsOpenDialogDeleteCategory}
+              isOpen={isOpenDialogDelete}
+              setIsOpen={setIsOpenDialogDelete}
               actionAfterComplete="refresh"
               id={categoryData._id}
             />

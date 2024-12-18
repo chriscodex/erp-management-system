@@ -4,7 +4,7 @@ import {
   RiFileListLine,
   RiMotorbikeFill,
 } from '@remixicon/react';
-import { Package, DollarSign, ExternalLink, Edit } from 'lucide-react';
+import { Package, DollarSign, ExternalLink } from 'lucide-react';
 
 import {
   Card,
@@ -29,6 +29,19 @@ import { SheetUpdateAlmacenWrapper } from '@/app/inventario/almacen/_components/
 
 export default async function CompaniesPage() {
   const { almacenes } = await getAllAlmacenesRequestServer();
+
+  const titles = [
+    {
+      title: 'Inventario',
+      href: '',
+      active: false,
+    },
+    {
+      title: 'Almacén',
+      href: '',
+      active: false,
+    },
+  ];
 
   // eslint-disable-next-line no-undef
   await Promise.all(
@@ -64,7 +77,7 @@ export default async function CompaniesPage() {
   );
 
   return (
-    <NavbarDynamic title="Almacén">
+    <NavbarDynamic titles={titles}>
       <Card>
         <CardHeader className="mb-8 flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
           <div>

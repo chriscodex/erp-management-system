@@ -102,4 +102,26 @@ export class AlmacenRepository {
       throw new Error(`Error al actualizar el almacen: ${error.message}`);
     }
   }
+  async deleteAlmacen(almacenId) {
+    try {
+      const deletedAlmacen = await this.almacenModel.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(almacenId),
+      });
+
+      if (!deletedAlmacen) {
+        console.log(
+          'Almacen Repository: Almacén no encontrado para ser eliminado'
+        );
+        return null;
+      }
+
+      console.log('Almacen Repository: Almacén encontrado y eliminado');
+      return deletedAlmacen;
+    } catch (error) {
+      console.error(
+        `Almacen Repository: Error al eliminar el almacén: ${error.message}`
+      );
+      throw new Error(`Error al eliminar el almacén: ${error.message}`);
+    }
+  }
 }

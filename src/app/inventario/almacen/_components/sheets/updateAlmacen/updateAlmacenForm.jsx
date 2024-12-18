@@ -34,6 +34,8 @@ import {
 import { Button } from '@/components/ui/button';
 import { updateAlmacenFormSchema } from '@/app/inventario/almacen/_services/validations/updateAlmacenSchema';
 import { updateAlmacenRequestClient } from '@/app/inventario/almacen/_services/requests';
+import { DeleteAlmacenAlert } from '@/app/inventario/almacen/_components/dialogs/deleteAlmacenAlert';
+import { Edit, Trash2 } from 'lucide-react';
 
 export function UpdateAlmacenForm({ onClose, almacenData }) {
   const router = useRouter();
@@ -105,6 +107,8 @@ export function UpdateAlmacenForm({ onClose, almacenData }) {
       }
     );
   });
+
+  const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
   return (
     <SheetContent>
@@ -205,12 +209,29 @@ export function UpdateAlmacenForm({ onClose, almacenData }) {
           <SheetFooter>
             <SheetClose asChild>
               <Button disabled={formSubmitIsLoading} onClick={onSubmit}>
+                <Edit />
                 Actualizar
               </Button>
             </SheetClose>
           </SheetFooter>
         </form>
       </Form>
+      <div className="w-full flex justify-end">
+        <Button
+          variant="destructive"
+          disabled={formSubmitIsLoading}
+          onClick={() => setIsOpenDialogDelete(true)}
+        >
+          <Trash2 />
+          Eliminar
+        </Button>
+      </div>
+      <DeleteAlmacenAlert
+        isOpen={isOpenDialogDelete}
+        setIsOpen={setIsOpenDialogDelete}
+        actionAfterComplete="refresh"
+        almacenId={almacenData?._id}
+      />
     </SheetContent>
   );
 }

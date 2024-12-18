@@ -15,12 +15,12 @@ export default async function CategoriasPage() {
   const titles = [
     {
       title: 'Inventario',
-      href: '/inventario/todos',
+      href: '',
       active: false,
     },
     {
       title: 'Categorías',
-      href: '/inventario/categorias',
+      href: '',
       active: false,
     },
   ];

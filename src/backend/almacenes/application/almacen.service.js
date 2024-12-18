@@ -116,7 +116,7 @@ export class AlmacenService {
   }
   async updateAlmacen(almacenId, almacenData) {
     try {
-      console.log('Almacen Data',almacenData);
+      console.log('Almacen Data', almacenData);
       // Validar los datos enviados con el schema
       const almacenValidated = updateAlmacenSchema.safeParse(almacenData);
 
@@ -167,6 +167,37 @@ export class AlmacenService {
     } catch (error) {
       console.error(
         `Almacen Service: Error interno al actualizar el almacén: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async deleteAlmacen(almacenId) {
+    try {
+      const almacenDeleted = await this.almacenRepository.deleteAlmacen(
+        almacenId
+      );
+
+      if (!almacenDeleted) {
+        console.log(
+          'Almacen Service: Almacén no encontrado para ser eliminado'
+        );
+        return {
+          status: 404,
+          payload: 'El almacén no existe',
+        };
+      }
+
+      console.log('Almacen Service: Almacén eliminado correctamente');
+      return {
+        status: 204,
+        payload: almacenDeleted,
+      };
+    } catch (error) {
+      console.error(
+        `Almacen Service: Error interno al eliminar el almacén: ${error.message}`
       );
       return {
         status: 500,

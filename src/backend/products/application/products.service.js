@@ -243,9 +243,9 @@ export class ProductService {
       };
     }
   }
-  async deleteProduct(id) {
+  async deleteProduct(productId) {
     try {
-      const productDeleted = await this.productRepository.deleteProduct(id);
+      const productDeleted = await this.productRepository.deleteProduct(productId);
 
       if (!productDeleted) {
         console.log(
@@ -264,7 +264,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al eliminar un producto: ${error.message}`
+        `Product Service: Error interno al eliminar el producto: ${error.message}`
       );
       return {
         status: 500,

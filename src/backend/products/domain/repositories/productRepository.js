@@ -236,10 +236,10 @@ export class ProductRepository {
       throw new Error(`Error al actualizar el unitProduct: ${error.message}`);
     }
   }
-  async deleteProduct(id) {
+  async deleteProduct(productId) {
     try {
       const deletedProduct = await this.productModel.findOneAndDelete({
-        _id: new mongoose.Types.ObjectId(id),
+        _id: new mongoose.Types.ObjectId(productId),
       });
 
       if (!deletedProduct) {

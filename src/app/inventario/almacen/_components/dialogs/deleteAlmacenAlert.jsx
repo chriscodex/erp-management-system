@@ -10,14 +10,14 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
-import { deleteCategoryRequestClient } from '@/app/inventario/categorias/_services/requests';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { deleteAlmacenRequestClient } from '@/app/inventario/almacen/_services/requests';
 
-export function DeleteCategoryAlert({
+export function DeleteAlmacenAlert({
   isOpen,
   setIsOpen,
-  categoryId,
+  almacenId,
   actionAfterComplete,
 }) {
   const router = useRouter();
@@ -25,16 +25,16 @@ export function DeleteCategoryAlert({
   const handleConfirmationDelete = async () => {
     try {
       setIsOpen(false);
-      toast.promise(deleteCategoryRequestClient(categoryId), {
+      toast.promise(deleteAlmacenRequestClient(almacenId), {
         loading: 'Eliminando...',
         success: () => {
           if (actionAfterComplete === 'refresh') {
             router.refresh();
-            return `Categoría eliminada exitosamente`;
+            return `Almacén eliminado correctamente`;
           }
           if (actionAfterComplete === 'push') {
             router.push('/inventario/categorias');
-            return `Categoría eliminado exitosamente`;
+            return `Almacén eliminado correctamente`;
           }
         },
         error: (error) => {
@@ -51,8 +51,8 @@ export function DeleteCategoryAlert({
           <AlertDialogHeader>
             <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esta categoría será
-              permanentemente eliminada y no podrás recuperar sus datos.
+              Esta acción no se puede deshacer. Este almacén será
+              permanentemente eliminado y no podrás recuperar sus datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

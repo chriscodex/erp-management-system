@@ -4,8 +4,12 @@ import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 import { AlmacenService } from '@/backend/almacenes/application/almacen.service';
 import { MotoService } from '@/backend/motos/application/moto.service';
 import { ProductService } from '@/backend/products/application/products.service';
-import { patchData, postData } from '@/lib/fetchData';
-import { createAlmacenClientUrl, updateAlmacenClientUrl } from '@/lib/urls';
+import { deleteData, patchData, postData } from '@/lib/fetchData';
+import {
+  createAlmacenClientUrl,
+  deleteAlmacenClientUrl,
+  updateAlmacenClientUrl,
+} from '@/lib/urls';
 
 export async function getAllAlmacenesRequestServer() {
   try {
@@ -127,6 +131,32 @@ export async function updateAlmacenRequestClient(
       resolve(response?.response?.data?.payload);
     } catch (error) {
       setLoading(false);
+      reject(error);
+    }
+  });
+}
+
+export async function deleteAlmacenRequestClient(almacenId) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      // Simular tiempo de retraso
+      await delay();
+
+      const url = `${deleteAlmacenClientUrl}/${almacenId}`;
+
+      // Obtener los datos de la persona
+      const response = await deleteData(url);
+      if (response?.status !== 204) {
+        reject(
+          'No se pudo eliminar el almacén: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
       reject(error);
     }
   });

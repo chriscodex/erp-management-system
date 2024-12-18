@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import {
+  deleteAlmacenController,
   getAlmacenController,
   updateAlmacenController,
 } from '@/backend/almacenes/infrastructure/controllers';
@@ -44,6 +45,27 @@ export async function PATCH(request, contextRoute) {
     );
     return NextResponse.json(
       { message: 'Error interno actualizando el almacén' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(_, contextRoute) {
+  try {
+    const { payload, status } = await deleteAlmacenController(contextRoute);
+
+    if (status === 204) {
+      return new NextResponse(null, { status });
+    }
+
+    return NextResponse.json({ error: payload }, { status });
+  } catch (error) {
+    console.error(
+      'Almacen Route: Error interno eliminar el almacén:',
+      error.message
+    );
+    return NextResponse.json(
+      { error: 'Error eliminando el almacen' },
       { status: 500 }
     );
   }
