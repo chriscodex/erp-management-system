@@ -141,7 +141,7 @@ const data = {
         // },
         {
           title: 'Proveedores',
-          url: '/ventas/productos/',
+          url: '/contactos/proveedores/',
           icon: RiTeamFill,
         },
       ],
