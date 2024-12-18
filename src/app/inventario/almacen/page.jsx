@@ -88,11 +88,29 @@ export default async function CompaniesPage() {
                     <CardTitle className="text-2xl">
                       {almacen?.nombre}
                     </CardTitle>
-                    <CardDescription>{almacen?.descripcion}</CardDescription>
+                    <CardDescription className="flex flex-col">
+                      <p>{almacen?.descripcion}</p>
+                    </CardDescription>
                   </div>
-                  <Badge variant="secondary" className="text-sm">
-                    ID: {almacen?._id}
-                  </Badge>
+                  <div className="flex flex-col gap-2">
+                    <p>
+                      {almacen?.estado === 'activo' ? (
+                        <Badge
+                          variant="successTable"
+                          className="text-sm flex justify-center"
+                        >
+                          Activo
+                        </Badge>
+                      ) : (
+                        <Badge variant="error" className="text-sm">
+                          Inactivo
+                        </Badge>
+                      )}
+                    </p>
+                    <Badge variant="secondary" className="text-sm">
+                      ID: {almacen?._id}
+                    </Badge>
+                  </div>
                 </div>
               </CardHeader>
               <CardContent className="flex-grow">

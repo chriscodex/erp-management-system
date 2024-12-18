@@ -32,14 +32,14 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { updateAlmacenSchema } from '@/app/inventario/almacen/_services/validations/updateAlmacenSchema';
+import { updateAlmacenFormSchema } from '@/app/inventario/almacen/_services/validations/updateAlmacenSchema';
 import { updateAlmacenRequestClient } from '@/app/inventario/almacen/_services/requests';
 
 export function UpdateAlmacenForm({ onClose, almacenData }) {
   const router = useRouter();
 
   const updateForm = useForm({
-    resolver: zodResolver(updateAlmacenSchema),
+    resolver: zodResolver(updateAlmacenFormSchema),
     defaultValues: {
       nombre: almacenData?.nombre,
       descripcion: almacenData?.descripcion,
