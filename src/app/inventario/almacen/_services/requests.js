@@ -4,8 +4,8 @@ import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 import { AlmacenService } from '@/backend/almacenes/application/almacen.service';
 import { MotoService } from '@/backend/motos/application/moto.service';
 import { ProductService } from '@/backend/products/application/products.service';
-import { postData } from '@/lib/fetchData';
-import { createAlmacenClientUrl } from '@/lib/urls';
+import { patchData, postData } from '@/lib/fetchData';
+import { createAlmacenClientUrl, updateAlmacenClientUrl } from '@/lib/urls';
 
 export async function getAllAlmacenesRequestServer() {
   try {
@@ -85,6 +85,40 @@ export async function createAlmacenRequestClient(almacenData, setLoading) {
         setLoading(false);
         reject(
           'No se pudo crear el almacén: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      setLoading(false);
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
+      setLoading(false);
+      reject(error);
+    }
+  });
+}
+
+export async function updateAlmacenRequestClient(
+  almacenId,
+  almacenData,
+  setLoading
+) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      setLoading(true);
+      // Simular tiempo de retraso
+      await delay();
+
+      const updateAlmacenUrl = `${updateAlmacenClientUrl}/${almacenId}`;
+
+      // Obtener los datos de la persona
+      const response = await patchData(updateAlmacenUrl, almacenData);
+      if (response?.status !== 200) {
+        setLoading(false);
+        reject(
+          'No se pudo actualizar el almacén: ' + response.response?.data?.error
         );
         return;
       }

@@ -44,3 +44,4 @@ export const updateGastoMotoClientUrl = '/api/motos';
 /* Almacen */
 export const createAlmacenClientUrl = '/api/almacenes';
 export const deleteAlmacenClientUrl = '/api/almacenes';
+export const updateAlmacenClientUrl = '/api/almacenes';

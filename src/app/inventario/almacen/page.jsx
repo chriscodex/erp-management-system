@@ -1,6 +1,10 @@
 import Link from 'next/link';
-import { RiArchiveLine, RiMotorbikeFill } from '@remixicon/react';
-import { Package, DollarSign, ExternalLink, Plus } from 'lucide-react';
+import {
+  RiArchiveLine,
+  RiFileListLine,
+  RiMotorbikeFill,
+} from '@remixicon/react';
+import { Package, DollarSign, ExternalLink, Edit } from 'lucide-react';
 
 import {
   Card,
@@ -12,13 +16,16 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { NavbarSimple } from '@/components/navbar/NavbarSimple';
 import {
   getAllAlmacenesRequestServer,
   getAllMotosByAlmacenIdRequestServer,
   getAllProductsByAlmacenIdRequestServer,
 } from '@/app/inventario/almacen/_services/requests.js';
 import { SheetAddAlmacenWrapper } from '@/app/inventario/almacen/_components/sheets/addAlmacen/sheetAddAlmacenWrapper';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { AlmacenDetail } from '@/app/inventario/almacen/_components/sheets/almacenDetail';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
+import { SheetUpdateAlmacenWrapper } from '@/app/inventario/almacen/_components/sheets/updateAlmacen/sheetUpdateAlmacenWrapper';
 
 export default async function CompaniesPage() {
   const { almacenes } = await getAllAlmacenesRequestServer();
@@ -57,7 +64,7 @@ export default async function CompaniesPage() {
   );
 
   return (
-    <NavbarSimple title="Almacén">
+    <NavbarDynamic title="Almacén">
       <Card>
         <CardHeader className="mb-8 flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
           <div>
@@ -76,7 +83,7 @@ export default async function CompaniesPage() {
           {almacenes?.map((almacen) => (
             <Card key={almacen?._id} className="flex flex-col">
               <CardHeader>
-                <div className="flex justify-between items-start">
+                <div className="flex lg:flex-row flex-col gap-2 justify-between items-start">
                   <div>
                     <CardTitle className="text-2xl">
                       {almacen?.nombre}
@@ -119,13 +126,26 @@ export default async function CompaniesPage() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="outline" asChild>
-                  <Link href={`/empresas/${almacen?._id}`}>Ver Detalles</Link>
-                </Button>
-                <Button variant="default" asChild>
+              <CardFooter className="grid lg:grid-cols-2 grid-cols-1 gap-4">
+                <SheetUpdateAlmacenWrapper almacenData={almacen} />
+                <div className="col-start-1">
+                  <Sheet>
+                    <SheetTrigger className="flex items-center justify-start">
+                      <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-2">
+                        <RiFileListLine />
+                        Ver Detalles
+                      </div>
+                    </SheetTrigger>
+                    <AlmacenDetail almacenData={almacen} />
+                  </Sheet>
+                </div>
+                <Button
+                  className="lg:col-start-2 col-start-1"
+                  variant="default"
+                  asChild
+                >
                   <Link href={`/empresas/${almacen?._id}/dashboard`}>
-                    Ir al Dashboard
+                    Movimientos
                     <ExternalLink className="ml-2 h-4 w-4" />
                   </Link>
                 </Button>
@@ -134,6 +154,6 @@ export default async function CompaniesPage() {
           ))}
         </CardContent>
       </Card>
-    </NavbarSimple>
+    </NavbarDynamic>
   );
 }
