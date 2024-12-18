@@ -25,6 +25,35 @@ export class AlmacenRepository {
       );
     }
   }
+  async getAllAlmacenesByData(almacenData) {
+    try {
+      if (!almacenData) {
+        console.log('Almacén Repository: Datos no proporcionados');
+        return null;
+      }
+
+      const filter = {};
+
+      if (almacenData.estado) {
+        filter.estado = { $regex: new RegExp(`^${almacenData.estado}$`, 'i') };
+      }
+
+      const almacenesFound = await this.almacenModel.find(filter);
+
+      if (almacenesFound.length === 0) {
+        console.log('Almacén Repository: Almaces no encontrados');
+        return null;
+      }
+
+      console.log('Almacén Repository: Almaces encontrados');
+      return almacenesFound;
+    } catch (error) {
+      console.error(
+        `Almacén Repository: Error al buscar los almacenes: ${error.message}`
+      );
+      throw new Error(`Error al buscar los almacenes: ${error.message}`);
+    }
+  }
   async getAlmacenByData(almacenData) {
     try {
       if (!almacenData) {

@@ -74,12 +74,12 @@ export async function getMarcasBySegmentDataRequestServer(marcaAndSegmentData) {
   }
 }
 
-export async function getAllAlmacenesRequestServer() {
+export async function getAllAlmacenesByDataRequestServer(almacenData) {
   try {
     await connectDB();
     const almacenService = new AlmacenService();
 
-    const response = await almacenService.getAllAlmacenes();
+    const response = await almacenService.getAllAlmacenesByData(almacenData);
 
     if (response?.status !== 200) {
       console.log('Error al obtener todos los almacenes');

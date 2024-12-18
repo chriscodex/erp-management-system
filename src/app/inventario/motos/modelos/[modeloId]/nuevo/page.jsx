@@ -12,8 +12,10 @@ import { RiMotorbikeFill } from '@remixicon/react';
 import { Label } from '@/components/ui/label';
 import { ModeloDataCard } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_components/modeloDataCard/modeloDataCard';
 import { FormAddUnidadMoto } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_components/formAddUnidadMoto';
-import { getAllProveedoresRequestServer } from '@/app/inventario/productos/nuevo/_services/requests';
-import { getAllAlmacenesRequestServer } from '@/app/inventario/almacen/_services/requests';
+import {
+  getAllAlmacenesByDataRequestServer,
+  getAllProveedoresRequestServer,
+} from '@/app/inventario/productos/nuevo/_services/requests';
 import { sortByUpdateDateAsc } from '@/lib/utils';
 
 export default async function Page({ params }) {
@@ -28,7 +30,7 @@ export default async function Page({ params }) {
   // eslint-disable-next-line no-undef
   const results = await Promise.allSettled([
     getAllProveedoresRequestServer(),
-    getAllAlmacenesRequestServer(),
+    getAllAlmacenesByDataRequestServer({ estado: 'activo' }),
   ]);
 
   const proveedores = results[0].value?.proveedores;

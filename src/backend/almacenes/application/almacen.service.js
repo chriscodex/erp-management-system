@@ -33,6 +33,35 @@ export class AlmacenService {
       };
     }
   }
+  async getAllAlmacenesByData(almacenData) {
+    try {
+      const almacenes = await this.almacenRepository.getAllAlmacenesByData(
+        almacenData
+      );
+
+      if (almacenes.length === 0) {
+        console.log('Almacen Service: No se encontraron almacenes');
+        return {
+          status: 200,
+          payload: [],
+        };
+      }
+
+      console.log('Almacen Service: almacenes encontrados');
+      return {
+        status: 200,
+        payload: almacenes,
+      };
+    } catch (error) {
+      console.error(
+        `Almacen Service: Error interno al buscar todas los almacenes: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async getAlmacenByData(almacenData) {
     try {
       const almacenFound = await this.almacenRepository.getAlmacenByData(

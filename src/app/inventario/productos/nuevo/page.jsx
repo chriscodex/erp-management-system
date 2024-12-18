@@ -3,7 +3,7 @@ import {
   getAllProveedoresRequestServer,
   getMarcasBySegmentDataRequestServer,
   getCategoriesBySegmentDataRequestServer,
-  getAllAlmacenesRequestServer,
+  getAllAlmacenesByDataRequestServer,
 } from '@/app/inventario/productos/nuevo/_services/requests';
 import { FormAddProduct } from '@/app/inventario/productos/nuevo/_components/FormAddProduct';
 import {
@@ -14,6 +14,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { sortByUpdateDateAsc } from '@/lib/utils';
 
 export default async function AddProductPage() {
   /* Secciones del navbar */
@@ -52,7 +53,7 @@ export default async function AddProductPage() {
       marcaEstado: 'activo',
     }),
     getAllProveedoresRequestServer(),
-    getAllAlmacenesRequestServer(),
+    getAllAlmacenesByDataRequestServer({ estado: 'activo' }),
     getSegmentByDataRequestServer('Productos'),
   ]);
 
@@ -61,6 +62,8 @@ export default async function AddProductPage() {
   const { proveedores } = proveedoresResponse;
   const { almacenes } = almacenesResponse;
   const { segment } = segmentResponse;
+
+  const almacenesOrderedByCreation = sortByUpdateDateAsc(almacenes);
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -77,7 +80,7 @@ export default async function AddProductPage() {
             categories={categories}
             marcas={marcas}
             proveedores={proveedores}
-            almacenes={almacenes}
+            almacenes={almacenesOrderedByCreation}
           />
         </CardContent>
       </Card>
