@@ -1,5 +1,5 @@
-import { postData } from '@/lib/fetchData';
-import { createProveedorClientUrl } from '@/lib/urls';
+import { deleteData, postData } from '@/lib/fetchData';
+import { createProveedorClientUrl, deleteProveedorClientUrl } from '@/lib/urls';
 import { ProveedorService } from '@/backend/proveedores/application/proveedor.service';
 import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 import { connectDB } from '@/db/mongodb';
@@ -47,6 +47,32 @@ export async function createProveedorRequestClient(proveedorData, setLoading) {
       resolve(response?.response?.data?.payload);
     } catch (error) {
       setLoading(false);
+      reject(error);
+    }
+  });
+}
+
+export async function deleteProveedorRequestClient(proveedorId) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      // Simular tiempo de retraso
+      await delay();
+
+      const url = `${deleteProveedorClientUrl}/${proveedorId}`;
+
+      // Obtener los datos de la persona
+      const response = await deleteData(url);
+      if (response?.status !== 204) {
+        reject(
+          'No se pudo eliminar el proveedor: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
       reject(error);
     }
   });

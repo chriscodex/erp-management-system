@@ -164,7 +164,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
               isOpen={isOpenDialogDelete}
               setIsOpen={setIsOpenDialogDelete}
               actionAfterComplete="refresh"
-              id={categoryData._id}
+              categoryId={categoryData._id}
             />
           </div>
         );

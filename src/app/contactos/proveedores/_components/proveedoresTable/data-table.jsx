@@ -29,7 +29,6 @@ import { ArrowUpDown } from 'lucide-react';
 import { RiFileListLine, RiDeleteBinLine } from '@remixicon/react';
 import { Badge } from '@/components/ui/badge';
 
-import { DeleteCategoryAlert } from '@/app/inventario/categorias/_components/dialogs/DeleteCategoryAlert';
 import {
   Tooltip,
   TooltipContent,
@@ -39,6 +38,7 @@ import {
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 import { ProveedorDetail } from '@/app/contactos/proveedores/_components/sheets/proveedorDetail';
+import { DeleteProveedorAlert } from '@/app/contactos/proveedores/_components/dialogs/deleteProveedorAlert';
 
 export function DataTableProveedores({ data, status = 200 }) {
   const router = useRouter();
@@ -138,11 +138,11 @@ export function DataTableProveedores({ data, status = 200 }) {
               </Tooltip>
             </TooltipProvider>
 
-            <DeleteCategoryAlert
+            <DeleteProveedorAlert
               isOpen={isOpenDialogDelete}
               setIsOpen={setIsOpenDialogDelete}
               actionAfterComplete="refresh"
-              id={proveedorData._id}
+              proveedorId={proveedorData._id}
             />
           </div>
         );
