@@ -65,4 +65,18 @@ export class ProveedorRepository {
       throw new Error(`Error al buscar al proveedor: ${error.message}`);
     }
   }
+  async createProveedor(proveedorData) {
+    try {
+      const newProveedor = new this.proveedorModel(proveedorData);
+      const savedProveedor = await newProveedor.save();
+
+      console.log('Proveedor Repository: Proveedor creado correctamente');
+      return savedProveedor;
+    } catch (error) {
+      console.log(
+        `Proveedor Repository: Error al crear el proveedor: ${error.message}`
+      );
+      throw new Error(`Error al crear el proveedor: ${error.message}`);
+    }
+  }
 }
