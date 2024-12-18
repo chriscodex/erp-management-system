@@ -3,13 +3,10 @@ import { RiTeamFill } from '@remixicon/react';
 import { sortByUpdateDateDesc } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { DataTableCategory } from '@/app/inventario/categorias/_components/categoriesTable/data-table';
-import {
-  getAllCategoriesRequestServer,
-  getAllSegmentsRequestServer,
-} from '@/app/inventario/categorias/_services/requests';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { SheetAddProveedorWrapper } from '@/app/contactos/proveedores/_components/sheets/addProveedor/sheetAddProveedorWrapper';
+import { getAllProveedoresRequestServer } from '@/app/contactos/proveedores/_services/requests';
+import { DataTableProveedores } from '@/app/contactos/proveedores/_components/proveedoresTable/data-table';
 
 export default async function ProveedoresPage() {
   const titles = [
@@ -26,16 +23,13 @@ export default async function ProveedoresPage() {
   ];
 
   // eslint-disable-next-line no-undef
-  const [categoriesResponse, segmentsResponse] = await Promise.all([
-    getAllCategoriesRequestServer(),
-    getAllSegmentsRequestServer(),
+  const [proveedoresResponse] = await Promise.all([
+    getAllProveedoresRequestServer(),
   ]);
 
-  const { categories, status } = categoriesResponse;
+  const { proveedores, status } = proveedoresResponse;
 
-  const { segments } = segmentsResponse;
-
-  const categoriesSorted = sortByUpdateDateDesc(categories);
+  const proveedoresSorted = sortByUpdateDateDesc(proveedores);
 
   return (
     <>
@@ -51,11 +45,7 @@ export default async function ProveedoresPage() {
             <SheetAddProveedorWrapper />
           </CardHeader>
           <CardContent>
-            <DataTableCategory
-              data={categoriesSorted}
-              segments={segments}
-              status={status}
-            />
+            <DataTableProveedores data={proveedoresSorted} status={status} />
           </CardContent>
         </Card>
       </NavbarDynamic>

@@ -1,6 +1,28 @@
 import { postData } from '@/lib/fetchData';
 import { createProveedorClientUrl } from '@/lib/urls';
-import { delay } from '@/lib/utils';
+import { ProveedorService } from '@/backend/proveedores/application/proveedor.service';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
+import { connectDB } from '@/db/mongodb';
+
+export async function getAllProveedoresRequestServer() {
+  try {
+    await connectDB();
+    const proveedorService = new ProveedorService();
+
+    const response = await proveedorService.getAllProveedores();
+    if (response?.status !== 200) {
+      console.log('Error al obtener todas los proveedores');
+      return { proveedores: [], status: response?.status };
+    }
+    const proveedores = response?.payload;
+    return {
+      proveedores: simplificadorParaClientComponent(proveedores),
+      status: 200,
+    };
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export async function createProveedorRequestClient(proveedorData, setLoading) {
   /* eslint-disable */
