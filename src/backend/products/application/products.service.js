@@ -52,6 +52,35 @@ export class ProductService {
       };
     }
   }
+  async getAllProductsByData(productData) {
+    try {
+      const productFound = await this.productRepository.getAllProductsByData(
+        productData
+      );
+
+      if (!productFound) {
+        console.log('Product Service: Ningún producto coincide con los datos');
+        return {
+          status: 200,
+          payload: null,
+        };
+      }
+
+      console.log('Product Service: Los productos existen');
+      return {
+        status: 200,
+        payload: productFound,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al buscar los productos: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async getProductByData(productData) {
     try {
       const productFound = await this.productRepository.getProductByData(

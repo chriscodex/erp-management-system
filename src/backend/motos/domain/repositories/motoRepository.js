@@ -6,17 +6,21 @@ export class MotoRepository {
   constructor() {
     this.motoModel = Moto;
   }
-  async getAllMotosByModeloId(modeloId) {
+  async getAllMotosByData(motoData) {
     try {
       const filter = {};
 
-      if (!modeloId) {
+      if (!motoData) {
         console.log('Moto Repository: Modelo no proporcionado');
         return [];
       }
 
-      if (modeloId) {
-        filter.modeloId = new mongoose.Types.ObjectId(modeloId);
+      if (motoData.modeloId) {
+        filter.modeloId = new mongoose.Types.ObjectId(motoData.modeloId);
+      }
+
+      if (motoData.almacenId) {
+        filter.almacenId = new mongoose.Types.ObjectId(motoData.almacenId);
       }
 
       const motos = await this.motoModel

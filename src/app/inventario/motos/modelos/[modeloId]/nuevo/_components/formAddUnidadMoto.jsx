@@ -32,6 +32,7 @@ import { createUnidadMotoSchema } from '@/app/inventario/motos/modelos/[modeloId
 import { createUnidadMotoRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests';
 
 export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
+  console.log(almacenes);
   const router = useRouter();
   const addUnidadMotoForm = useForm({
     resolver: zodResolver(createUnidadMotoSchema),
@@ -217,7 +218,7 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
 
         <Separator />
         <Button disabled={formSubmitIsLoading} type="submit" className="w-full">
-          <RiMotorbikeFill className="mr-2 h-4 w-4" /> Agregar Unidad
+          <RiMotorbikeFill className="mr-2 h-4 w-4" /> Agregar Moto
         </Button>
       </form>
     </Form>

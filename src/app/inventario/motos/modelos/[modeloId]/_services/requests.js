@@ -21,16 +21,16 @@ export async function getModeloByIdRequestServer(modelId) {
   }
 }
 
-export async function getAllMotosByModeloIdRequestServer(modelId) {
+export async function getAllMotosByModeloIdRequestServer(modeloId) {
   try {
     await connectDB();
     const motoService = new MotoService();
 
-    const response = await motoService.getAllMotosByModeloId(modelId);
+    const response = await motoService.getAllMotosByData({ modeloId });
 
     if (response?.status !== 200) {
       console.log('Error al obtener las motos por modelo desde el cliente');
-      return { motosByModeloId: null, status: 500 };
+      return { motosByModeloId: [], status: 500 };
     }
     const motosByModeloId = response?.payload;
     return {

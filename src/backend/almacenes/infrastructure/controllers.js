@@ -36,3 +36,20 @@ export async function getAlmacenController(contextRoute) {
     throw new Error('Almacen Controller: Error interno al obtener el almacen');
   }
 }
+
+export async function createAlmacenController(request) {
+  try {
+    const body = await request.json();
+
+    await connectDB();
+
+    const almacenCreated = await almacenService.createAlmacen(body);
+    return almacenCreated;
+  } catch (error) {
+    console.error(
+      'Almacen Controller: Error interno al crear el almacen:',
+      error.message
+    );
+    throw new Error('Almacen Controller: Error interno al crear el almacen');
+  }
+}

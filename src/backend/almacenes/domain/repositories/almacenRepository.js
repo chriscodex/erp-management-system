@@ -62,4 +62,18 @@ export class AlmacenRepository {
       throw new Error(`Error al buscar el almacen: ${error.message}`);
     }
   }
+  async createAlmacen(almacenData) {
+    try {
+      const newAlmacen = new this.almacenModel(almacenData);
+      const almacenSaved = await newAlmacen.save();
+
+      console.log('Almacen Repository: Almacen creado correctamente');
+      return almacenSaved;
+    } catch (error) {
+      console.log(
+        `Almacen Repository: Error al crear el almacen: ${error.message}`
+      );
+      throw new Error(`Error al crear el almacen: ${error.message}`);
+    }
+  }
 }

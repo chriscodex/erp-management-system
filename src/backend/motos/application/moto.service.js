@@ -15,10 +15,10 @@ export class MotoService {
     this.proveedorRepository = new ProveedorRepository();
     this.gastoMotoRepository = new GastoMotoRepository();
   }
-  async getAllMotosByModeloId(modeloId) {
+  async getAllMotosByData(motoData) {
     try {
-      const motosFiltered = await this.motoRepository.getAllMotosByModeloId(
-        modeloId
+      const motosFiltered = await this.motoRepository.getAllMotosByData(
+        motoData
       );
 
       if (!motosFiltered) {

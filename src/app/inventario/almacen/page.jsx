@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { RiArchiveLine } from '@remixicon/react';
+import { RiArchiveLine, RiMotorbikeFill } from '@remixicon/react';
+import { Package, DollarSign, ExternalLink, Plus } from 'lucide-react';
 
 import {
   Card,
@@ -11,27 +12,70 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Package, DollarSign, ExternalLink } from 'lucide-react';
 import { NavbarSimple } from '@/components/navbar/NavbarSimple';
-import { getAllAlmacenesRequestServer } from '@/app/inventario/almacen/_services/requests.js';
+import {
+  getAllAlmacenesRequestServer,
+  getAllMotosByAlmacenIdRequestServer,
+  getAllProductsByAlmacenIdRequestServer,
+} from '@/app/inventario/almacen/_services/requests.js';
 
 export default async function CompaniesPage() {
   const { almacenes } = await getAllAlmacenesRequestServer();
 
-  return (
-    <NavbarSimple title="Almacen">
-      <div className="container mx-auto p-4">
-        <header className="mb-8">
-          <div className="flex items-center space-x-2">
-            <RiArchiveLine className="h-9 w-9 text-muted-foreground" />
-            <h1 className="text-3xl font-bold">Almacén</h1>
-          </div>
-          <p className="text-muted-foreground mt-2">
-            Administra y supervisa tus almacenes
-          </p>
-        </header>
+  // eslint-disable-next-line no-undef
+  await Promise.all(
+    almacenes.map(async (almacen) => {
+      const motosByAlmacen = await getAllMotosByAlmacenIdRequestServer(
+        almacen._id
+      );
+      const productsByAlmacen = await getAllProductsByAlmacenIdRequestServer(
+        almacen._id
+      );
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      const totalProductos = productsByAlmacen?.products?.reduce(
+        (acumulador, producto) => {
+          return acumulador + producto?.stock;
+        },
+        0
+      );
+
+      const totalPrecioCompraProductos = productsByAlmacen?.products?.reduce(
+        (acumulador, producto) => {
+          return acumulador + producto?.stock * producto?.precioCompra;
+        },
+        0
+      );
+
+      const totalTiposProductos = productsByAlmacen?.products?.length;
+
+      almacen.totalMotos = motosByAlmacen?.motos?.length;
+      almacen.totalProducts = totalProductos;
+      almacen.totalTiposProductos = totalTiposProductos;
+      almacen.totalPrecioCompraProductos = totalPrecioCompraProductos;
+    })
+  );
+
+  return (
+    <NavbarSimple title="Almacén">
+      <Card>
+        <CardHeader className="mb-8 flex flex-row items-center justify-between space-y-0 pb-2 gap-2">
+          <div>
+            <div className="flex items-center space-x-2">
+              <RiArchiveLine className="h-9 w-9 text-muted-foreground" />
+              <h1 className="text-3xl font-bold">Almacén</h1>
+            </div>
+            <p className="text-muted-foreground mt-2">
+              Administra y supervisa tus almacenes
+            </p>
+          </div>
+          <Button asChild>
+            <Link href="/inventario/productos/nuevo">
+              <Plus className="h-4 w-4" /> Agregar Almacén
+            </Link>
+          </Button>
+        </CardHeader>
+
+        <CardContent className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {almacenes?.map((almacen) => (
             <Card key={almacen?._id} className="flex flex-col">
               <CardHeader>
@@ -49,13 +93,32 @@ export default async function CompaniesPage() {
               </CardHeader>
               <CardContent className="flex-grow">
                 <div className="grid grid-cols-2 gap-4">
+                  <div className="col-span-2 grid grid-cols-2 gap-4 border rounded-xl py-4 px-1">
+                    <div className="flex items-center">
+                      <Package className="h-5 w-5 mr-2 text-muted-foreground" />
+                      <span className="text-sm">
+                        {almacen?.totalTiposProductos} tipos de productos
+                      </span>
+                    </div>
+                    <div className="flex items-center">
+                      <Package className="h-5 w-5 mr-2 text-muted-foreground" />
+                      <span className="text-sm">
+                        {almacen?.totalProducts} unidades
+                      </span>
+                    </div>
+                  </div>
                   <div className="flex items-center">
-                    <Package className="h-5 w-5 mr-2 text-muted-foreground" />
-                    <span className="text-sm">150 productos</span>
+                    <RiMotorbikeFill className="h-5 w-5 mr-2 text-muted-foreground" />
+                    <span className="text-sm">{almacen?.totalMotos} motos</span>
                   </div>
                   <div className="flex items-center">
                     <DollarSign className="h-5 w-5 mr-2 text-muted-foreground" />
-                    <span className="text-sm">$180,000</span>
+                    <span className="text-sm">
+                      P.C Total: S/.{' '}
+                      {parseFloat(almacen?.totalPrecioCompraProductos).toFixed(
+                        2
+                      )}
+                    </span>
                   </div>
                 </div>
               </CardContent>
@@ -72,8 +135,8 @@ export default async function CompaniesPage() {
               </CardFooter>
             </Card>
           ))}
-        </div>
-      </div>
+        </CardContent>
+      </Card>
     </NavbarSimple>
   );
 }

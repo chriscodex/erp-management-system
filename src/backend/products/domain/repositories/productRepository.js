@@ -42,6 +42,75 @@ export class ProductRepository {
       );
     }
   }
+  async getAllProductsByData(productData) {
+    try {
+      if (!productData) {
+        console.log('Product Repository: Producto no proporcionado');
+        return null;
+      }
+
+      const filter = {};
+
+      if (productData.id) {
+        filter._id = new mongoose.Types.ObjectId(productData.id);
+      }
+
+      if (productData.segmentId) {
+        filter.segmentId = new mongoose.Types.ObjectId(productData.segmentId);
+      }
+
+      if (productData.marcaId) {
+        filter.marcaId = new mongoose.Types.ObjectId(productData.marcaId);
+      }
+
+      if (productData.categoryId) {
+        filter.categoryId = new mongoose.Types.ObjectId(productData.categoryId);
+      }
+
+      if (productData.almacenId) {
+        filter.almacenId = new mongoose.Types.ObjectId(productData.almacenId);
+      }
+
+      if (productData.proveedorId) {
+        filter.proveedorId = new mongoose.Types.ObjectId(
+          productData.proveedorId
+        );
+      }
+
+      if (productData.code) {
+        filter.code = { $regex: new RegExp(`^${productData.code}$`, 'i') };
+      }
+
+      if (productData.nombre) {
+        filter.nombre = { $regex: new RegExp(`^${productData.nombre}$`, 'i') };
+      }
+
+      if (productData.importado) {
+        filter.importado = productData.importado;
+      }
+
+      const productFound = await this.productModel
+        .find(filter)
+        .populate('segmentId')
+        .populate('marcaId')
+        .populate('categoryId')
+        .populate('almacenId')
+        .populate('proveedorId');
+
+      if (!productFound) {
+        console.log('Product Repository: Productos no encontrados');
+        return null;
+      }
+
+      console.log('Product Repository: Productos encontrados');
+      return productFound;
+    } catch (error) {
+      console.error(
+        `Product Repository: Error al buscar los productos: ${error.message}`
+      );
+      throw new Error(`Error al buscar los productos: ${error.message}`);
+    }
+  }
   async getProductByData(productData) {
     try {
       if (!productData) {

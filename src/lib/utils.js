@@ -26,6 +26,13 @@ export function sortByUpdateDateDesc(list) {
   return listSorted;
 }
 
+export function sortByUpdateDateAsc(list) {
+  const listSorted = list.sort(
+    (a, b) => new Date(a.updatedAt) - new Date(b.updatedAt)
+  );
+  return listSorted;
+}
+
 export function agregarNumeracionTable(array) {
   return array.map((item, index) => ({
     ...item,
