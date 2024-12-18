@@ -3,10 +3,12 @@ import { z } from 'zod';
 const estados = ['activo', 'inactivo'];
 
 export const updateCategorySchema = z.object({
-  nombre: z.string().min(1, { message: 'El nombre es requerido' }),
+  nombre: z.string().min(1, { message: 'El nombre es requerido' }).optional(),
   descripcion: z.string().optional(),
-  estado: z.enum(estados, {
-    errorMap: () => ({ message: 'Seleccione un estado' }),
-  }),
-  segmentId: z.string(),
+  estado: z
+    .enum(estados, {
+      errorMap: () => ({ message: 'Seleccione un estado' }),
+    })
+    .optional(),
+  segmentId: z.string().optional(),
 });

@@ -68,17 +68,13 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
     const categoryDataToUpdate = Object.keys(currentValues).reduce(
       (datosCambiados, key) => {
-        if (
-          currentValues[key] !== updateForm.formState.defaultValues[key]
-        ) {
+        if (currentValues[key] !== updateForm.formState.defaultValues[key]) {
           datosCambiados[key] = currentValues[key];
         }
         return datosCambiados;
       },
       {}
     );
-
-    categoryDataToUpdate.segmentId = watch('segmentId');
 
     if (Object.keys(categoryDataToUpdate).length === 0) {
       toast.error('No se han realizado cambios.');
