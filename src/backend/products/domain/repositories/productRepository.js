@@ -253,9 +253,9 @@ export class ProductRepository {
       return deletedProduct;
     } catch (error) {
       console.error(
-        `Product Repository: Error al eliminar un producto: ${error.message}`
+        `Product Repository: Error al eliminar el producto: ${error.message}`
       );
-      throw new Error(`Error al eliminar producto: ${error.message}`);
+      throw new Error(`Error al eliminar el producto: ${error.message}`);
     }
   }
 }

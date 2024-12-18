@@ -21,3 +21,26 @@ export async function createProveedorController(request) {
     );
   }
 }
+
+export async function deleteProveedorController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { proveedorId } = params;
+
+    await connectDB();
+
+    const deletedProveedor = await proveedorService.deleteProveedor(
+      proveedorId
+    );
+
+    return deletedProveedor;
+  } catch (error) {
+    console.error(
+      'Proveedor Controller: Error interno al eliminar un proveedor:',
+      error.message
+    );
+    throw new Error(
+      'Proveedor Controller: Error interno al eliminar un proveedor'
+    );
+  }
+}

@@ -84,4 +84,35 @@ export class ProveedorService {
       };
     }
   }
+  async deleteProveedor(proveedorId) {
+    try {
+      const proveedorDeleted = await this.proveedorRepository.deleteProveedor(
+        proveedorId
+      );
+
+      if (!proveedorDeleted) {
+        console.log(
+          'Proveedor Service: Proveedor no encontrado para ser eliminado'
+        );
+        return {
+          status: 404,
+          payload: 'El proveedor no existe',
+        };
+      }
+
+      console.log('Proveedor Service: Proveedor eliminado correctamente');
+      return {
+        status: 204,
+        payload: proveedorDeleted,
+      };
+    } catch (error) {
+      console.error(
+        `Proveedor Service: Error interno al eliminar el proveedor: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }

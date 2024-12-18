@@ -79,4 +79,26 @@ export class ProveedorRepository {
       throw new Error(`Error al crear el proveedor: ${error.message}`);
     }
   }
+  async deleteProveedor(proveedorId) {
+    try {
+      const deletedProveedor = await this.proveedorModel.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(proveedorId),
+      });
+
+      if (!deletedProveedor) {
+        console.log(
+          'Proveedor Repository: Proveedor no encontrado para ser eliminado'
+        );
+        return null;
+      }
+
+      console.log('Proveedor Repository: Proveedor encontrado y eliminado');
+      return deletedProveedor;
+    } catch (error) {
+      console.error(
+        `Proveedor Repository: Error al eliminar el proveedor: ${error.message}`
+      );
+      throw new Error(`Error al eliminar el proveedor: ${error.message}`);
+    }
+  }
 }

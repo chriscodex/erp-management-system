@@ -15,11 +15,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      'Categorias Route: Error interno eliminar la categoría:',
+      'Categorias Route: Error interno al eliminar la categoría:',
       error.message
     );
     return NextResponse.json(
-      { message: 'Error interno eliminando la categoría' },
+      { message: 'Error interno al eliminar la categoría' },
       { status: 500 }
     );
   }
