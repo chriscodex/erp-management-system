@@ -92,7 +92,7 @@ const data = {
             },
             {
               title: 'Todas',
-              url: '/inventario/motos/modelos',
+              url: '/inventario/motos/todas',
               icon: RiRidingLine,
             },
           ],
