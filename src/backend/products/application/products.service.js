@@ -52,6 +52,25 @@ export class ProductService {
       };
     }
   }
+  async countAllProducts() {
+    try {
+      const totalProducts = await this.productRepository.countAllProducts();
+
+      console.log('Product Service: Productos contados');
+      return {
+        status: 200,
+        payload: totalProducts,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al contar todos los productos: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async getAllProductsByData(productData) {
     try {
       const productFound = await this.productRepository.getAllProductsByData(
@@ -245,7 +264,9 @@ export class ProductService {
   }
   async deleteProduct(productId) {
     try {
-      const productDeleted = await this.productRepository.deleteProduct(productId);
+      const productDeleted = await this.productRepository.deleteProduct(
+        productId
+      );
 
       if (!productDeleted) {
         console.log(

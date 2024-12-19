@@ -41,6 +41,21 @@ export class ProductRepository {
       );
     }
   }
+  async countAllProducts() {
+    try {
+      const totalProducts = await this.productModel.countDocuments();
+
+      console.log('Product Repository: Productos contados');
+      return totalProducts;
+    } catch (error) {
+      console.error(
+        `Product Repository: Error al contar todas los productos: ${error.message}`
+      );
+      throw new Error(
+        `Product Repository: Error al contar todas los productos: ${error.message}`
+      );
+    }
+  }
   async getAllProductsByData(productData) {
     try {
       if (!productData) {
