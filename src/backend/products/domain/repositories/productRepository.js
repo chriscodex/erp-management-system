@@ -20,7 +20,6 @@ export class ProductRepository {
     try {
       const products = await this.productModel
         .find()
-        .populate('segmentId')
         .populate('marcaId')
         .populate('categoryId')
         .populate('almacenId')
@@ -55,10 +54,6 @@ export class ProductRepository {
         filter._id = new mongoose.Types.ObjectId(productData.id);
       }
 
-      if (productData.segmentId) {
-        filter.segmentId = new mongoose.Types.ObjectId(productData.segmentId);
-      }
-
       if (productData.marcaId) {
         filter.marcaId = new mongoose.Types.ObjectId(productData.marcaId);
       }
@@ -91,7 +86,6 @@ export class ProductRepository {
 
       const productFound = await this.productModel
         .find(filter)
-        .populate('segmentId')
         .populate('marcaId')
         .populate('categoryId')
         .populate('almacenId')
@@ -122,10 +116,6 @@ export class ProductRepository {
 
       if (productData.id) {
         filter._id = new mongoose.Types.ObjectId(productData.id);
-      }
-
-      if (productData.segmentId) {
-        filter.segmentId = new mongoose.Types.ObjectId(productData.segmentId);
       }
 
       if (productData.marcaId) {
@@ -160,7 +150,6 @@ export class ProductRepository {
 
       const productFound = await this.productModel
         .findOne(filter)
-        .populate('segmentId')
         .populate('marcaId')
         .populate('categoryId')
         .populate('almacenId')
@@ -187,7 +176,6 @@ export class ProductRepository {
 
       // Populamos el campo segmentId después de guardar
       const populatedProduct = await savedProduct.populate([
-        { path: 'segmentId' },
         { path: 'marcaId' },
         { path: 'categoryId' },
         { path: 'almacenId' },

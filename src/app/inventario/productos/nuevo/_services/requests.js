@@ -1,29 +1,6 @@
 import { createProductClientUrl } from '@/lib/urls';
 import { postData } from '@/lib/fetchData';
-import { delay, simplificadorParaClientComponent } from '@/lib/utils';
-
-import { connectDB } from '@/db/mongodb';
-import { SegmentService } from '@/backend/segments/application/segments.service';
-
-export async function getSegmentByDataRequestServer(segmentFilter) {
-  try {
-    await connectDB();
-    const segmentService = new SegmentService();
-
-    const response = await segmentService.getSegmentByData({
-      nombre: segmentFilter,
-    });
-
-    if (response?.status !== 200) {
-      console.log('Error al obtener el segmento filtrado');
-      return { segment: null, status: response?.status };
-    }
-    const segment = response?.payload;
-    return { segment: simplificadorParaClientComponent(segment), status: 200 };
-  } catch (error) {
-    console.error(error);
-  }
-}
+import { delay } from '@/lib/utils';
 
 export async function createProductRequestClient(product, setLoading) {
   /* eslint-disable */

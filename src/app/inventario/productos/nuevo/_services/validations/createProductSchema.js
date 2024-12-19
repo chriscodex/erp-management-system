@@ -82,9 +82,6 @@ export const createProductSchema = z.object({
   proveedorId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un proveedor',
   }),
-  segmentId: z.string().regex(objectIdRegex, {
-    message: 'Debe elegir un segmento',
-  }),
   almacenId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un almacen',
   }),

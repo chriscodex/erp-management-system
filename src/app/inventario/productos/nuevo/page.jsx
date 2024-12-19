@@ -1,6 +1,3 @@
-import {
-  getSegmentByDataRequestServer,
-} from '@/app/inventario/productos/nuevo/_services/requests';
 import { FormAddProduct } from '@/app/inventario/productos/nuevo/_components/FormAddProduct';
 import {
   Card,
@@ -38,7 +35,6 @@ export default async function AddProductPage() {
     marcasProductResponse,
     proveedoresResponse,
     almacenesResponse,
-    segmentResponse,
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
     getCategoriesBySegmentDataForProductsRequestServer({
@@ -50,15 +46,13 @@ export default async function AddProductPage() {
       marcaEstado: 'activo',
     }),
     getAllProveedoresByDataForProductsRequestServer({ estado: 'activo' }),
-    getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' }),
-    getSegmentByDataRequestServer('Productos'),
+    getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' })
   ]);
 
   const { categories } = categoriesProductResponse;
   const { marcas } = marcasProductResponse;
   const { proveedores } = proveedoresResponse;
   const { almacenes } = almacenesResponse;
-  const { segment } = segmentResponse;
 
   const almacenesOrderedByCreation = sortByUpdateDateAsc(almacenes);
 
@@ -73,7 +67,6 @@ export default async function AddProductPage() {
         </CardHeader>
         <CardContent>
           <FormAddProduct
-            segment={segment}
             categories={categories}
             marcas={marcas}
             proveedores={proveedores}

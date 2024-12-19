@@ -84,19 +84,7 @@ export const createProductSchema = z.object({
   proveedorId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un proveedor',
   }),
-  segmentId: z.string().regex(objectIdRegex, {
-    message: 'Debe elegir un segmento',
-  }),
   almacenId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un almacen',
   }),
-  // code: z.string().length(8, { message: 'El codigo debe ser de 8 dígitos' }),
-  // unidades: z.array(
-  //   z.object({
-  //     code: z
-  //       .string()
-  //       .length(12, { message: 'El codigo debe ser de 12 dígitos' }),
-  //     estado: z.literal('disponible'),
-  //   })
-  // ),
 });

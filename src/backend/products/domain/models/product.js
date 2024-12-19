@@ -98,11 +98,6 @@ const productSchema = new Schema(
       ],
       enum: ['si', 'no'],
     },
-    segmentId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Segment',
-      required: [true, 'segmentId es requerido en el schema de productos'],
-    },
     marcaId: {
       type: Schema.Types.ObjectId,
       ref: 'Marca',

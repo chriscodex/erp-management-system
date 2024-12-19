@@ -37,7 +37,6 @@ export function FormAddProduct({
   categories,
   marcas,
   proveedores,
-  segment,
   almacenes,
 }) {
   const router = useRouter();
@@ -54,7 +53,6 @@ export function FormAddProduct({
       precioVenta: '',
       proveedorId: '',
       almacenId: almacenes[0]?._id,
-      segmentId: segment?._id,
       obsequio: 'no',
       importado: 'no',
     },
