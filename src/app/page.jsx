@@ -1,10 +1,8 @@
-import { HomeStats } from '@/app/home/_components/HomeStats';
+import { Home } from '@/app/home/_components/Home';
 
-export default function Home() {
+export default function HomePage() {
   return (
-      // <HomeStats />
-      <div>
-        En desarrollo
-      </div>
+    // <HomeStats />
+    <Home />
   );
 }
