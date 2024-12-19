@@ -1,9 +1,5 @@
 import {
   getSegmentByDataRequestServer,
-  getMarcasBySegmentDataForProductsRequestServer,
-  getCategoriesBySegmentDataRequestServer,
-  getAllProveedoresByDataForProductsRequestServer,
-  getAllAlmacenesByDataForProductsRequestServer,
 } from '@/app/inventario/productos/nuevo/_services/requests';
 import { FormAddProduct } from '@/app/inventario/productos/nuevo/_components/FormAddProduct';
 import {
@@ -15,6 +11,7 @@ import {
 } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { sortByUpdateDateAsc } from '@/lib/utils';
+import { getAllAlmacenesByDataForProductsRequestServer, getAllProveedoresByDataForProductsRequestServer, getCategoriesBySegmentDataForProductsRequestServer, getMarcasBySegmentDataForProductsRequestServer } from '@/app/inventario/productos/_services/requests';
 
 export default async function AddProductPage() {
   /* Secciones del navbar */
@@ -44,7 +41,7 @@ export default async function AddProductPage() {
     segmentResponse,
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
-    getCategoriesBySegmentDataRequestServer({
+    getCategoriesBySegmentDataForProductsRequestServer({
       segmentName: 'Productos',
       categoryEstado: 'activo',
     }),
