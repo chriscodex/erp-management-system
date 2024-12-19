@@ -191,7 +191,7 @@ export class CategoryService {
         }
       }
 
-      // Validar si una marca con ese nombre y en el mismo segmento ya existe
+      // Validar si una categoría con ese nombre y en el mismo segmento ya existe
       if (categoryData.nombre) {
         const categoryFound = await this.categoryRepository.getCategoryByData(
           categoryData

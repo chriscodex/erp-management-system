@@ -4,6 +4,7 @@ import { CategoryRepository } from '@/backend/categorias/domain/repositories/cat
 import { MarcaRepository } from '@/backend/marcas/domain/repositories/marcaRepository';
 import { generarCodigoUnicoDelModelo } from '@/backend/modelos/application/helpers';
 import { createModeloSchema } from '@/backend/modelos/application/validations/createModeloSchema';
+import { updateModeloSchema } from '@/backend/modelos/application/validations/updateModeloSchema';
 
 export class ModeloService {
   constructor() {
@@ -158,6 +159,79 @@ export class ModeloService {
     } catch (error) {
       console.error(
         `Modelo Service: Error interno al crear un modelo: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async updateModelo(modeloId, modeloData) {
+    try {
+      const modeloValidated = updateModeloSchema.safeParse(modeloData);
+
+      if (!modeloValidated.success) {
+        console.log(
+          'Modelo Service: Error de validación de schema de modelo al actualizar'
+        );
+        return {
+          status: 400,
+          payload: modeloValidated.error.issues,
+        };
+      }
+
+      // Validar si el segmento enviado existe
+      if (modeloData.segmentId) {
+        const segmentFound = await this.segmentRepository.getSegmentByData({
+          id: modeloData.segmentId,
+        });
+        if (!segmentFound) {
+          console.log('Modelo Service: El segmento no existe');
+          return {
+            status: 404,
+            payload: 'El segmento no existe',
+          };
+        }
+      }
+
+      // Validar si un modelo con ese nombre ya existe
+      if (modeloData.nombre) {
+        const modeloFound = await this.modeloRepository.getModeloByData(
+          modeloData
+        );
+        if (modeloFound && modeloFound?._id !== modeloId) {
+          console.log(
+            'Modelo Service: Un modelo con el mismo nombre ya existe en el segmento seleccionado'
+          );
+          return {
+            status: 409,
+            payload:
+              'Un modelo con el mismo nombre ya existe en el segmento seleccionado',
+          };
+        }
+      }
+
+      const modeloUpdated = await this.modeloRepository.updateModelo(
+        modeloId,
+        modeloData
+      );
+
+      if (!modeloUpdated) {
+        console.log('Modelo Service: El modelo no existe');
+        return {
+          status: 404,
+          payload: 'El modelo no existe',
+        };
+      }
+
+      console.log('Modelo Service: Modelo actualizado correctamente');
+      return {
+        status: 200,
+        payload: modeloUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Modelo Service: Error interno al actualizar un modelo: ${error.message}`
       );
       return {
         status: 500,

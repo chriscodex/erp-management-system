@@ -13,7 +13,7 @@ export class ModeloRepository {
         .find()
         .populate('segmentId')
         .populate('marcaId')
-        .populate('categoryId')
+        .populate('categoryId');
 
       if (modelos.length === 0) {
         console.log('Modelo Repository: No se encontraron modelos');
@@ -69,7 +69,7 @@ export class ModeloRepository {
         .findOne(filter)
         .populate('segmentId')
         .populate('marcaId')
-        .populate('categoryId')
+        .populate('categoryId');
 
       if (!modeloFound) {
         console.log('Modelo Repository: Modelo no encontrado');
@@ -105,6 +105,32 @@ export class ModeloRepository {
         `Modelo Repository: Error al crear el modelo: ${error.message}`
       );
       throw new Error(`Error al crear el modelo: ${error.message}`);
+    }
+  }
+  async updateModelo(modeloId, modeloData) {
+    try {
+      const updatedModelo = await this.modeloModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(modeloId) },
+        modeloData,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedModelo) {
+        console.log(
+          'Modelo Repository: Modelo no encontrado para ser actualizado'
+        );
+        return null;
+      }
+
+      console.log('Modelo Repository: Modelo actualizado correctamente');
+      return updatedModelo;
+    } catch (error) {
+      console.error(
+        `Modelo Repository: Error al actualizar el modelo: ${error.message}`
+      );
+      throw new Error(`Error al actualizar el modelo: ${error.message}`);
     }
   }
   async deleteModelo(id) {
