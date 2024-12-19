@@ -33,6 +33,34 @@ export class ProveedorService {
       };
     }
   }
+  async getAllProveedoresByData(proveedorData) {
+    try {
+      const proveedores =
+        await this.proveedorRepository.getAllProveedoresByData(proveedorData);
+
+      if (proveedores.length === 0) {
+        console.log('Proveedor Service: No se encontraron proveedores');
+        return {
+          status: 200,
+          payload: [],
+        };
+      }
+
+      console.log('Proveedor Service: proveedores encontrados');
+      return {
+        status: 200,
+        payload: proveedores,
+      };
+    } catch (error) {
+      console.error(
+        `Proveedor Service: Error interno al buscar los proveedores: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async createProveedor(proveedorData) {
     try {
       const proveedorValidated = createProveedorSchema.safeParse(proveedorData);

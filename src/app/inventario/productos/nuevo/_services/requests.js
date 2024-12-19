@@ -95,12 +95,14 @@ export async function getAllAlmacenesByDataRequestServer(almacenData) {
   }
 }
 
-export async function getAllProveedoresRequestServer() {
+export async function getAllProveedoresByDataRequestServer(proveedorData) {
   try {
     await connectDB();
     const proveedorService = new ProveedorService();
 
-    const response = await proveedorService.getAllProveedores();
+    const response = await proveedorService.getAllProveedoresByData(
+      proveedorData
+    );
     if (response?.status !== 200) {
       console.log('Error al obtener todas los proveedores');
       return { proveedores: [], status: response?.status };

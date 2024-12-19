@@ -28,7 +28,7 @@ export class AlmacenRepository {
   async getAllAlmacenesByData(almacenData) {
     try {
       if (!almacenData) {
-        console.log('Almacén Repository: Datos no proporcionados');
+        console.log('Almacén Repository: Datos del almacén no proporcionados');
         return null;
       }
 

@@ -26,6 +26,39 @@ export class ProveedorRepository {
       );
     }
   }
+  async getAllProveedoresByData(proveedorData) {
+    try {
+      if (!proveedorData) {
+        console.log(
+          'Proveedor Repository: Datos del proveedor no proporcionados'
+        );
+        return null;
+      }
+
+      const filter = {};
+
+      if (proveedorData.estado) {
+        filter.estado = {
+          $regex: new RegExp(`^${proveedorData.estado}$`, 'i'),
+        };
+      }
+
+      const proveedoresFound = await this.proveedorModel.find(filter);
+
+      if (proveedoresFound.length === 0) {
+        console.log('Proveedor Repository: Proveedores no encontrados');
+        return null;
+      }
+
+      console.log('Proveedor Repository: Proveedores encontrados');
+      return proveedoresFound;
+    } catch (error) {
+      console.error(
+        `Proveedor Repository: Error al buscar los proveedores: ${error.message}`
+      );
+      throw new Error(`Error al buscar los proveedores: ${error.message}`);
+    }
+  }
   async getProveedorByData(proveedorData) {
     try {
       if (!proveedorData) {
