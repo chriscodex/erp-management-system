@@ -33,7 +33,6 @@ import { createModeloFormSchema } from '@/app/inventario/motos/modelos/nuevo/_se
 export function FormAddModel({
   categories,
   marcas,
-  segment,
 }) {
   const router = useRouter();
   const addProductForm = useForm({
@@ -44,7 +43,6 @@ export function FormAddModel({
       nombre: '',
       descripcion: '',
       stockMinimo: '',
-      segmentId: segment?._id,
     },
   });
 

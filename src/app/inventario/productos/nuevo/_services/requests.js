@@ -54,7 +54,7 @@ export async function getCategoriesBySegmentDataRequestServer(
   }
 }
 
-export async function getMarcasBySegmentDataRequestServer(marcaAndSegmentData) {
+export async function getMarcasBySegmentDataForProductsRequestServer(marcaAndSegmentData) {
   try {
     await connectDB();
     const marcaService = new MarcaService();

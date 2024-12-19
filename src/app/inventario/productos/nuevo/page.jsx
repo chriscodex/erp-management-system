@@ -1,6 +1,6 @@
 import {
   getSegmentByDataRequestServer,
-  getMarcasBySegmentDataRequestServer,
+  getMarcasBySegmentDataForProductsRequestServer,
   getCategoriesBySegmentDataRequestServer,
   getAllProveedoresByDataForProductsRequestServer,
   getAllAlmacenesByDataForProductsRequestServer,
@@ -48,7 +48,7 @@ export default async function AddProductPage() {
       segmentName: 'Productos',
       categoryEstado: 'activo',
     }),
-    getMarcasBySegmentDataRequestServer({
+    getMarcasBySegmentDataForProductsRequestServer({
       nombre: 'Productos',
       marcaEstado: 'activo',
     }),

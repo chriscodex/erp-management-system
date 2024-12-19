@@ -35,10 +35,10 @@ export class MarcaService {
       };
     }
   }
-  async getMarcasBySegmentData(segmentData) {
+  async getMarcasBySegmentData(marcaAndSegmentData) {
     try {
       const marcasFiltered = await this.marcaRepository.getMarcasBySegmentData(
-        segmentData
+        marcaAndSegmentData
       );
 
       if (marcasFiltered.length === 0) {

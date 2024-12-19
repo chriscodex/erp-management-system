@@ -1,7 +1,8 @@
-import { ModeloService } from '@/backend/modelos/application/modelo.service';
-import { MotoService } from '@/backend/motos/application/moto.service';
 import { connectDB } from '@/db/mongodb';
 import { simplificadorParaClientComponent } from '@/lib/utils';
+
+import { ModeloService } from '@/backend/modelos/application/modelo.service';
+import { MotoService } from '@/backend/motos/application/moto.service';
 
 export async function getModeloByIdRequestServer(modelId) {
   try {

@@ -1,9 +1,4 @@
 import {
-  getSegmentByDataRequestServer,
-  getMarcasBySegmentDataRequestServer,
-  getCategoriesBySegmentDataRequestServer,
-} from '@/app/inventario/productos/nuevo/_services/requests';
-import {
   Card,
   CardContent,
   CardDescription,
@@ -13,6 +8,10 @@ import {
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { RiMotorbikeFill } from '@remixicon/react';
 import { FormAddModel } from '@/app/inventario/motos/modelos/nuevo/_components/FormAddModel';
+import {
+  getCategoriesBySegmentDataForModelosRequestServer,
+  getMarcasBySegmentDataForModelosRequestServer,
+} from '@/app/inventario/motos/modelos/_services/requests';
 
 export default async function AddModeloMotoPage() {
   /* Secciones del navbar */
@@ -42,23 +41,20 @@ export default async function AddModeloMotoPage() {
   const [
     categoriesProductResponse,
     marcasProductResponse,
-    segmentResponse,
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
-    getCategoriesBySegmentDataRequestServer({
+    getCategoriesBySegmentDataForModelosRequestServer({
       segmentName: 'Motos',
       categoryEstado: 'activo',
     }),
-    getMarcasBySegmentDataRequestServer({
+    getMarcasBySegmentDataForModelosRequestServer({
       nombre: 'Motos',
       marcaEstado: 'activo',
     }),
-    getSegmentByDataRequestServer('Motos'),
   ]);
 
   const { categories } = categoriesProductResponse;
   const { marcas } = marcasProductResponse;
-  const { segment } = segmentResponse;
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -73,11 +69,7 @@ export default async function AddModeloMotoPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <FormAddModel
-            segment={segment}
-            categories={categories}
-            marcas={marcas}
-          />
+          <FormAddModel categories={categories} marcas={marcas} />
         </CardContent>
       </Card>
     </NavbarDynamic>

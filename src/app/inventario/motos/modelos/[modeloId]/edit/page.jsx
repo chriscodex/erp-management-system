@@ -4,13 +4,37 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { getModeloByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/_services/requests';
 import { UpdateFormModelo } from '@/app/inventario/motos/modelos/[modeloId]/edit/_components/updateFormModelo';
+import {
+  getCategoriesBySegmentDataForModelosRequestServer,
+  getMarcasBySegmentDataForModelosRequestServer,
+} from '@/app/inventario/motos/modelos/_services/requests';
 
 export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }) {
   const { modelo } = await getModeloByIdRequestServer(params.modeloId);
 
-  console.log('modelo', modelo);
+  if (!modelo) {
+    notFound();
+  }
+
+  const [
+    categoriesProductResponse,
+    marcasProductResponse,
+    // eslint-disable-next-line no-undef
+  ] = await Promise.all([
+    getCategoriesBySegmentDataForModelosRequestServer({
+      segmentName: 'Motos',
+      categoryEstado: 'activo',
+    }),
+    getMarcasBySegmentDataForModelosRequestServer({
+      nombre: 'Motos',
+      marcaEstado: 'activo',
+    }),
+  ]);
+
+  const { categories } = categoriesProductResponse;
+  const { marcas } = marcasProductResponse;
 
   if (!modelo) {
     notFound();
@@ -53,7 +77,11 @@ export default async function Page({ params }) {
           <CardTitle className="text-3xl font-bold">Editar</CardTitle>
         </CardHeader>
         <CardContent>
-          <UpdateFormModelo modeloData={modelo} marcas={[]} categories={[]} />
+          <UpdateFormModelo
+            modeloData={modelo}
+            marcas={marcas}
+            categories={categories}
+          />
         </CardContent>
       </Card>
     </NavbarDynamic>
