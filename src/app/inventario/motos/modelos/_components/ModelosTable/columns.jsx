@@ -89,7 +89,9 @@ export const columnsModelos = [
             </DropdownMenuItem>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/inventario/marcas/${modeloId}/edit`)}
+              onClick={() =>
+                router.push(`/inventario/motos/modelos/${modeloId}/edit`)
+              }
             >
               <Edit />
               Editar

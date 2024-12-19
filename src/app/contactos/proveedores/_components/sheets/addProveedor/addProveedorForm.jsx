@@ -60,7 +60,7 @@ export function AddProveedorForm({ onClose }) {
         resetForm();
         onClose();
         router.refresh();
-        return `Proveedor creado exitosamente`;
+        return `Proveedor creado correctamente`;
       },
       error: (error) => {
         setFormSubmitIsLoading(false);

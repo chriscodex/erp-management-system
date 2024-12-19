@@ -67,7 +67,7 @@ export function AddCategoryForm({ segments, onClose }) {
         resetForm();
         onClose();
         router.refresh();
-        return `Categoría creada exitosamente`;
+        return `Categoría creada correctamente`;
       },
       error: (error) => {
         setFormSubmitIsLoading(false);

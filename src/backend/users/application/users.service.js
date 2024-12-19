@@ -103,7 +103,7 @@ export class UsersService {
       const userCreatedObject = userCreated.toObject();
       delete userCreatedObject.password;
 
-      console.log('User Service: Usuario creado exitosamente');
+      console.log('User Service: Usuario creado correctamente');
       return {
         status: 201,
         payload: userCreatedObject,
@@ -164,7 +164,7 @@ export class UsersService {
         };
       }
 
-      console.log('User Service: Usuario actualizado exitosamente');
+      console.log('User Service: Usuario actualizado correctamente');
       return {
         status: 200,
         payload: userUpdated,
@@ -191,7 +191,7 @@ export class UsersService {
         };
       }
 
-      console.log('User Service: Usuario eliminado exitosamente');
+      console.log('User Service: Usuario eliminado correctamente');
       return {
         status: 204,
         payload: userDeleted,

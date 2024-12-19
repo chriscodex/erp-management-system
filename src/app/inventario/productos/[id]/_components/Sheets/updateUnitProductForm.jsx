@@ -100,7 +100,7 @@ export function UpdateUnitProductForm({
           resetForm();
           onClose();
           router.refresh();
-          return `Unidad de producto actualizada exitosamente`;
+          return `Unidad de producto actualizada correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);

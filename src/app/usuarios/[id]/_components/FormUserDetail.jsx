@@ -128,7 +128,7 @@ function FormUserDetail({ userDetail }) {
           clearErrorsUserUpdate();
           setIsEditUserOpen(false);
           router.refresh();
-          return `Datos del usuario actualizados exitosamente`;
+          return `Datos del usuario actualizados correctamente`;
         },
         error: (error) => {
           setFormUpdateUserSubmitIsLoading(false);
@@ -176,7 +176,7 @@ function FormUserDetail({ userDetail }) {
           clearPasswordErrors();
           resetPasswordForm();
           router.refresh();
-          return `Contraseña actualizada exitosamente`;
+          return `Contraseña actualizada correctamente`;
         },
         error: (error) => {
           resetPasswordForm();

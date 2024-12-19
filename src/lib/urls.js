@@ -31,6 +31,7 @@ export const updateGastoClientUrl = '/api/products';
 /* Modelos */
 export const createModeloClientUrl = '/api/modelos';
 export const deleteModeloClientUrl = '/api/modelos';
+export const updateModeloClientUrl = '/api/modelos';
 
 /* Moto Unidad */
 export const createMotoClientUrl = '/api/motos';

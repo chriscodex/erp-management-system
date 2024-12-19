@@ -96,7 +96,7 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
           resetForm();
           onClose();
           router.refresh();
-          return `Categoría actualizada exitosamente`;
+          return `Categoría actualizada correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);

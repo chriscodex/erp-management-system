@@ -85,7 +85,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
           clearErrors();
           // router.refresh();
           router.back();
-          return `Marca actualizada exitosamente`;
+          return `Marca actualizada correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);

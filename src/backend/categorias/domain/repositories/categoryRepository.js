@@ -126,7 +126,7 @@ export class CategoryRepository {
       const newCategory = new this.categoryModel(categoryData);
       const savedCategory = await newCategory.save();
 
-      console.log('Category Repository: Categoría creada exitosamente');
+      console.log('Category Repository: Categoría creada correctamente');
       return savedCategory;
     } catch (error) {
       console.log(

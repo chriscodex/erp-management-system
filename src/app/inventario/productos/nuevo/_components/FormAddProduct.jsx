@@ -72,7 +72,7 @@ export function FormAddProduct({
       success: () => {
         clearErrors();
         router.push('/inventario/productos');
-        return `Producto creado exitosamente`;
+        return `Producto creado correctamente`;
       },
       error: (error) => {
         setFormSubmitIsLoading(false);

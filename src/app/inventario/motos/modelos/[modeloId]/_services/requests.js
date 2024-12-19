@@ -4,12 +4,12 @@ import { simplificadorParaClientComponent } from '@/lib/utils';
 import { ModeloService } from '@/backend/modelos/application/modelo.service';
 import { MotoService } from '@/backend/motos/application/moto.service';
 
-export async function getModeloByIdRequestServer(modelId) {
+export async function getModeloByIdRequestServer(modeloId) {
   try {
     await connectDB();
     const modeloService = new ModeloService();
 
-    const response = await modeloService.getModeloByData({ modelId });
+    const response = await modeloService.getModeloByData({ id: modeloId });
 
     if (response?.status !== 200) {
       console.log('Error al obtener el modelo desde el cliente');

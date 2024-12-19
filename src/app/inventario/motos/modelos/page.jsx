@@ -9,6 +9,7 @@ import { Plus } from 'lucide-react';
 import { DataTableModelos } from '@/app/inventario/motos/modelos/_components/ModelosTable/data-table';
 import { columnsModelos } from '@/app/inventario/motos/modelos/_components/ModelosTable/columns';
 import { getAllModelosRequestServer } from '@/app/inventario/motos/modelos/_services/requests';
+import { sortByUpdateDateDesc } from '@/lib/utils';
 
 export async function MotosModelosPage() {
   const { modelos } = await getAllModelosRequestServer();
@@ -31,6 +32,8 @@ export async function MotosModelosPage() {
     },
   ];
 
+  const modelosSorted = sortByUpdateDateDesc(modelos);
+
   return (
     <>
       <NavbarDynamic titles={titles}>
@@ -47,7 +50,7 @@ export async function MotosModelosPage() {
             </Button>
           </CardHeader>
           <CardContent>
-            <DataTableModelos columns={columnsModelos} data={modelos} />
+            <DataTableModelos columns={columnsModelos} data={modelosSorted} />
           </CardContent>
         </Card>
       </NavbarDynamic>

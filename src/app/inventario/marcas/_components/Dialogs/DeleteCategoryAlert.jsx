@@ -42,11 +42,11 @@ export function DeleteMarcaAlert({
         success: () => {
           if (actionAfterComplete === 'refresh') {
             router.refresh();
-            return `Marca eliminada exitosamente`;
+            return `Marca eliminada correctamente`;
           }
           if (actionAfterComplete === 'push') {
             router.push('/inventario/marcas');
-            return `Marca eliminada exitosamente`;
+            return `Marca eliminada correctamente`;
           }
         },
         error: (error) => {

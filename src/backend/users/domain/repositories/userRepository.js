@@ -59,7 +59,7 @@ export class UserRepository {
       const newUser = new User(user);
       const savedUser = await newUser.save();
 
-      console.log('User Repository: Usuario creado exitosamente');
+      console.log('User Repository: Usuario creado correctamente');
       return savedUser;
     } catch (error) {
       console.log(`User Repository: Error al crear usuario: ${error.message}`);
@@ -83,7 +83,7 @@ export class UserRepository {
         return null;
       }
 
-      console.log('User Repository: Usuario actualizado exitosamente');
+      console.log('User Repository: Usuario actualizado correctamente');
       return updatedUser;
     } catch (error) {
       console.error(

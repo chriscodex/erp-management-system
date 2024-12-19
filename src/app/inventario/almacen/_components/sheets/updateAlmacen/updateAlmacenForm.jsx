@@ -98,7 +98,7 @@ export function UpdateAlmacenForm({ onClose, almacenData }) {
           resetForm();
           onClose();
           router.refresh();
-          return `Almacén actualizada exitosamente`;
+          return `Almacén actualizada correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);

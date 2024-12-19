@@ -55,7 +55,7 @@ export function CreateFormMarca({ segments }) {
       success: () => {
         clearErrors();
         router.push('/inventario/marcas');
-        return `Marca creada exitosamente`;
+        return `Marca creada correctamente`;
       },
       error: (error) => {
         setFormSubmitIsLoading(false);

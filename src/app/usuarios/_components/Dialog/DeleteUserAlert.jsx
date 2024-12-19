@@ -37,11 +37,11 @@ function DeleteUserAlert({ isOpen, setIsOpen, userId, actionAfterComplete }) {
         success: () => {
           if (actionAfterComplete === 'refresh') {
             router.refresh();
-            return `Usuario eliminado exitosamente`;
+            return `Usuario eliminado correctamente`;
           }
           if (actionAfterComplete === 'push') {
             router.push('/usuarios');
-            return `Usuario eliminado exitosamente`;
+            return `Usuario eliminado correctamente`;
           }
         },
         error: (error) => {

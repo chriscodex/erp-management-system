@@ -25,15 +25,15 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { updateMarcaSchema } from '@/app/inventario/marcas/[id]/edit/_services/validations/updateMarcaSchema';
 import { Textarea } from '@/components/ui/textarea';
-import { updateMarcaRequestClient } from '@/app/inventario/marcas/[id]/_services/requests.js';
+import { updateModeloRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/edit/_services/requests';
+import { updateModeloFormSchema } from '@/app/inventario/motos/modelos/[modeloId]/edit/_services/validations/updateModeloFormSchema';
 
 export function UpdateFormModelo({ modeloData, marcas, categories }) {
   const router = useRouter();
 
   const updateForm = useForm({
-    resolver: zodResolver(updateMarcaSchema),
+    resolver: zodResolver(updateModeloFormSchema),
     defaultValues: {
       nombre: modeloData?.nombre,
       descripcion: modeloData?.descripcion,
@@ -74,7 +74,7 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateMarcaRequestClient(
+      updateModeloRequestClient(
         modeloData?._id,
         DataToUpdate,
         setFormSubmitIsLoading
@@ -85,7 +85,7 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
           clearErrors();
           // router.refresh();
           router.back();
-          return `Modelo actualizado exitosamente`;
+          return `Modelo actualizado correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);
@@ -167,7 +167,7 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
             </FormItem>
           )}
         />
-        <div className='grid grid-cols-2 gap-4'>
+        <div className="grid grid-cols-2 gap-4">
           <FormField
             control={control}
             name="marcaId"

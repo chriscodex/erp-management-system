@@ -31,11 +31,11 @@ export function DeleteCategoryAlert({
         success: () => {
           if (actionAfterComplete === 'refresh') {
             router.refresh();
-            return `Categoría eliminada exitosamente`;
+            return `Categoría eliminada correctamente`;
           }
           if (actionAfterComplete === 'push') {
             router.push('/inventario/categorias');
-            return `Categoría eliminado exitosamente`;
+            return `Categoría eliminado correctamente`;
           }
         },
         error: (error) => {

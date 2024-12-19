@@ -90,7 +90,7 @@ function FormNewUser() {
       success: () => {
         clearErrors();
         router.push('/usuarios');
-        return `Usuario creado exitosamente`;
+        return `Usuario creado correctamente`;
       },
       error: (error) => {
         setFormSubmitIsLoading(false);

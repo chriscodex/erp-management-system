@@ -63,7 +63,7 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
       success: () => {
         clearErrors();
         router.push(`/inventario/motos/modelos/${modeloId}`);
-        return `Moto creada exitosamente`;
+        return `Moto creada correctamente`;
       },
       error: (error) => {
         setFormSubmitIsLoading(false);

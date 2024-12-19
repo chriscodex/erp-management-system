@@ -60,7 +60,7 @@ export function FormAddModel({
       success: () => {
         clearErrors();
         router.push('/inventario/motos/modelos');
-        return `Modelo creado exitosamente`;
+        return `Modelo creado correctamente`;
       },
       error: (error) => {
         setFormSubmitIsLoading(false);

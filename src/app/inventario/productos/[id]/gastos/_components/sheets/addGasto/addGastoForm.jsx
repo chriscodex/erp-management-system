@@ -81,7 +81,7 @@ export function AddGastoForm({ onClose, productId }) {
           resetForm();
           onClose();
           router.refresh();
-          return `Gasto creado exitosamente`;
+          return `Gasto creado correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);
