@@ -48,12 +48,12 @@ export class MotoService {
   }
   async countAllMotos() {
     try {
-      const count = await this.motoRepository.countAllMotos();
+      const totalMotos = await this.motoRepository.countAllMotos();
 
       console.log('Moto Service: Motos contadas');
       return {
         status: 200,
-        payload: count,
+        payload: totalMotos,
       };
     } catch (error) {
       console.error(

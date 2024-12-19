@@ -47,10 +47,10 @@ export class MotoRepository {
   }
   async countAllMotos() {
     try {
-      const count = await this.motoModel.countDocuments();
+      const totalMotos = await this.motoModel.countDocuments();
 
       console.log('Moto Repository: Motos contadas');
-      return count;
+      return totalMotos;
     } catch (error) {
       console.error(
         `Moto Repository: Error al contar todas las motos: ${error.message}`
