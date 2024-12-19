@@ -12,6 +12,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { DeleteModeloAlert } from '@/app/inventario/motos/modelos/_components/Dialogs/DeleteModeloAlert';
+import Link from 'next/link';
 
 export function ModeloCard({ modelo }) {
   /* Manejar estado de eliminar el producto */
@@ -52,10 +53,12 @@ export function ModeloCard({ modelo }) {
           <Trash className="h-4 w-4" />
           Eliminar
         </Button>
-        <Button className="w-full col-span-1" variant="outline">
-          <Edit2 className="h-4 w-4 mr-2" />
-          Editar
-        </Button>
+        <Link href={`/inventario/motos/modelos/${modelo?._id}/edit`}>
+          <Button className="w-full col-span-1" variant="outline">
+            <Edit2 className="h-4 w-4 mr-2" />
+            Editar
+          </Button>
+        </Link>
       </CardFooter>
       {/* Dialog Delete */}
       <DeleteModeloAlert

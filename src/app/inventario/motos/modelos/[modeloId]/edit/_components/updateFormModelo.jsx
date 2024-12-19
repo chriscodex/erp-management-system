@@ -29,20 +29,22 @@ import { updateMarcaSchema } from '@/app/inventario/marcas/[id]/edit/_services/v
 import { Textarea } from '@/components/ui/textarea';
 import { updateMarcaRequestClient } from '@/app/inventario/marcas/[id]/_services/requests.js';
 
-export function UpdateFormMarca({ segments, marcaData }) {
+export function UpdateFormModelo({ modeloData, marcas, categories }) {
   const router = useRouter();
 
-  const updateMarcaForm = useForm({
+  const updateForm = useForm({
     resolver: zodResolver(updateMarcaSchema),
     defaultValues: {
-      nombre: marcaData?.nombre,
-      descripcion: marcaData?.descripcion,
-      estado: marcaData?.estado,
-      segmentId: marcaData?.segmentId?._id,
+      nombre: modeloData?.nombre,
+      descripcion: modeloData?.descripcion,
+      stockMinimo: modeloData?.stockMinimo,
+      estado: modeloData?.estado,
+      marcaId: modeloData?.marcaId?._id,
+      categoryId: modeloData?.categoryId?._id,
     },
   });
 
-  const { handleSubmit, control, clearErrors, watch } = updateMarcaForm;
+  const { handleSubmit, control, clearErrors, watch } = updateForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
@@ -54,11 +56,9 @@ export function UpdateFormMarca({ segments, marcaData }) {
     const currentValues = watch();
 
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
-    const marcaDataToUpdate = Object.keys(currentValues).reduce(
+    const DataToUpdate = Object.keys(currentValues).reduce(
       (datosCambiados, key) => {
-        if (
-          currentValues[key] !== updateMarcaForm.formState.defaultValues[key]
-        ) {
+        if (currentValues[key] !== updateForm.formState.defaultValues[key]) {
           datosCambiados[key] = currentValues[key];
         }
         return datosCambiados;
@@ -66,7 +66,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
       {}
     );
 
-    if (Object.keys(marcaDataToUpdate).length === 0) {
+    if (Object.keys(DataToUpdate).length === 0) {
       toast.error('No se han realizado cambios.');
       setFormSubmitIsLoading(false);
       return;
@@ -75,8 +75,8 @@ export function UpdateFormMarca({ segments, marcaData }) {
     // Toast promise para buscar una persona
     toast.promise(
       updateMarcaRequestClient(
-        marcaData?._id,
-        marcaDataToUpdate,
+        modeloData?._id,
+        DataToUpdate,
         setFormSubmitIsLoading
       ),
       {
@@ -85,7 +85,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
           clearErrors();
           // router.refresh();
           router.back();
-          return `Marca actualizada exitosamente`;
+          return `Modelo actualizado exitosamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);
@@ -96,7 +96,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
   });
 
   return (
-    <Form {...updateMarcaForm}>
+    <Form {...updateForm}>
       <form onSubmit={onSubmit} className="space-y-8">
         <FormField
           control={control}
@@ -135,7 +135,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
                   <Textarea
                     disabled={formSubmitIsLoading}
                     {...field}
-                    placeholder="Escribe una descripción para la marca aquí."
+                    placeholder="Escribe una descripción para el modelo aquí."
                   />
                 </FormControl>
                 <FormMessage />
@@ -145,37 +145,96 @@ export function UpdateFormMarca({ segments, marcaData }) {
         />
         <FormField
           control={control}
-          name="segmentId"
+          name="stockMinimo"
           render={({ field }) => (
             <FormItem className="space-y-2">
               <div className="flex items-center space-x-2 text-muted-foreground">
-                <Tag className="h-5 w-5" />
-                <FormLabel>Segmento</FormLabel>
+                <RiInstanceFill className="h-5 w-5" />
+                <FormLabel>Stock Mínimo</FormLabel>
               </div>
               <div className="relative">
-                <Select
-                  defaultValue={field.value}
-                  onValueChange={field.onChange}
-                  disabled={formSubmitIsLoading}
-                >
-                  <FormControl>
-                    <SelectTrigger className="w-full pl-2">
-                      <SelectValue placeholder="Seleccione un segmento" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {segments?.map((segment) => (
-                      <SelectItem key={segment?._id} value={segment?._id}>
-                        {segment?.nombre}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <FormControl>
+                  <Input
+                    className="pl-2"
+                    autoComplete="off"
+                    type="number"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
                 <FormMessage />
               </div>
             </FormItem>
           )}
         />
+        <div className='grid grid-cols-2 gap-4'>
+          <FormField
+            control={control}
+            name="marcaId"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <Tag className="h-5 w-5" />
+                  <FormLabel>Marca</FormLabel>
+                </div>
+                <div className="relative">
+                  <Select
+                    defaultValue={field.value}
+                    onValueChange={field.onChange}
+                    disabled={formSubmitIsLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Seleccione una marca" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {marcas?.map((marca) => (
+                        <SelectItem key={marca?._id} value={marca?._id}>
+                          {marca?.nombre}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="categoryId"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <Tag className="h-5 w-5" />
+                  <FormLabel>Categoría</FormLabel>
+                </div>
+                <div className="relative">
+                  <Select
+                    defaultValue={field.value}
+                    onValueChange={field.onChange}
+                    disabled={formSubmitIsLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Seleccione una categoría" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {categories?.map((category) => (
+                        <SelectItem key={category?._id} value={category?._id}>
+                          {category?.nombre}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={control}
           name="estado"
@@ -187,7 +246,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
               </div>
               <div className="relative">
                 <Select
-                  defaultValue={marcaData?.estado}
+                  defaultValue={modeloData?.estado}
                   onValueChange={field.onChange}
                   disabled={formSubmitIsLoading}
                 >

@@ -146,6 +146,7 @@ export class ModeloService {
       const modeloObject = {
         ...modeloData,
         code: modeloCode,
+        estado: 'activo',
       };
       // Crear el modelo
       const modeloCreated = await this.modeloRepository.createModelo(

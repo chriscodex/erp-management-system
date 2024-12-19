@@ -29,6 +29,11 @@ const modeloSchema = new Schema(
       ],
       min: [0, 'El stock mínimo no puede ser negativo'],
     },
+    estado: {
+      type: String,
+      required: [true, 'Estado es requerido en el schema de proveedores'],
+      enum: ['activo', 'inactivo'],
+    },
     segmentId: {
       type: Schema.Types.ObjectId,
       ref: 'Segment',
