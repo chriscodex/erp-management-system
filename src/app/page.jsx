@@ -12,10 +12,14 @@ import { Label } from '@/components/ui/label';
 import { QuickAccessCard } from '@/app/home/_components/quickAccesCard';
 import { StatHomeCard } from '@/app/home/_components/statCard';
 import { Card, CardContent } from '@/components/ui/card';
-import { getTotalMotosRequestServer } from '@/app/home/_services/requests';
+import {
+  getTotalMotosRequestServer,
+  getTotalTiposProductosRequestServer,
+} from '@/app/home/_services/requests';
 
 export default async function HomePage() {
   const { totalMotos } = await getTotalMotosRequestServer();
+  const { totalTiposProductos } = await getTotalTiposProductosRequestServer();
 
   return (
     <NavbarSimple title="Inicio">
@@ -26,7 +30,11 @@ export default async function HomePage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
-          <StatHomeCard title="Total Motos" value={totalMotos} icon={<Bike />} />
+          <StatHomeCard
+            title="Total Motos"
+            value={totalMotos}
+            icon={<Bike />}
+          />
           <StatHomeCard
             title="Productos en Stock"
             value="5,678"
@@ -34,7 +42,7 @@ export default async function HomePage() {
           />
           <StatHomeCard
             title="Tipos Productos"
-            value="12"
+            value={totalTiposProductos}
             icon={<RiGalleryView2 />}
           />
           <Card className="col-span-1 md:col-span-2">
