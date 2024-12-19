@@ -74,7 +74,7 @@ export async function getMarcasBySegmentDataRequestServer(marcaAndSegmentData) {
   }
 }
 
-export async function getAllAlmacenesByDataRequestServer(almacenData) {
+export async function getAllAlmacenesByDataForProductsRequestServer(almacenData) {
   try {
     await connectDB();
     const almacenService = new AlmacenService();
@@ -95,7 +95,7 @@ export async function getAllAlmacenesByDataRequestServer(almacenData) {
   }
 }
 
-export async function getAllProveedoresByDataRequestServer(proveedorData) {
+export async function getAllProveedoresByDataForProductsRequestServer(proveedorData) {
   try {
     await connectDB();
     const proveedorService = new ProveedorService();

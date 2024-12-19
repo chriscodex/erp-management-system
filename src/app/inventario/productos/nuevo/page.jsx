@@ -2,8 +2,8 @@ import {
   getSegmentByDataRequestServer,
   getMarcasBySegmentDataRequestServer,
   getCategoriesBySegmentDataRequestServer,
-  getAllAlmacenesByDataRequestServer,
-  getAllProveedoresByDataRequestServer,
+  getAllProveedoresByDataForProductsRequestServer,
+  getAllAlmacenesByDataForProductsRequestServer,
 } from '@/app/inventario/productos/nuevo/_services/requests';
 import { FormAddProduct } from '@/app/inventario/productos/nuevo/_components/FormAddProduct';
 import {
@@ -52,8 +52,8 @@ export default async function AddProductPage() {
       nombre: 'Productos',
       marcaEstado: 'activo',
     }),
-    getAllProveedoresByDataRequestServer({ estado: 'activo' }),
-    getAllAlmacenesByDataRequestServer({ estado: 'activo' }),
+    getAllProveedoresByDataForProductsRequestServer({ estado: 'activo' }),
+    getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' }),
     getSegmentByDataRequestServer('Productos'),
   ]);
 
