@@ -13,6 +13,8 @@ import { QuickAccessCard } from '@/app/home/_components/quickAccesCard';
 import { StatHomeCard } from '@/app/home/_components/statCard';
 import { Card, CardContent } from '@/components/ui/card';
 import {
+  getAllMotosForHomeRequestServer,
+  getAllProductsForHomeRequestServer,
   getTotalMotosRequestServer,
   getTotalTiposProductosRequestServer,
 } from '@/app/home/_services/requests';
@@ -20,6 +22,23 @@ import {
 export default async function HomePage() {
   const { totalMotos } = await getTotalMotosRequestServer();
   const { totalTiposProductos } = await getTotalTiposProductosRequestServer();
+  const { products } = await getAllProductsForHomeRequestServer();
+  const { motos } = await getAllMotosForHomeRequestServer();
+
+  const totalProductsStock = products.reduce((acc, product) => {
+    return acc + product?.stock;
+  }, 0);
+
+  const totalValorInventarioProducts = products.reduce((acc, product) => {
+    return acc + product?.stock * product?.precioCompra;
+  }, 0);
+
+  const totalValorInventarioMotos = motos.reduce((acc, motos) => {
+    return acc + motos?.precioCompra;
+  }, 0);
+
+  const totalValorInventario =
+    totalValorInventarioProducts + totalValorInventarioMotos;
 
   return (
     <NavbarSimple title="Inicio">
@@ -37,7 +56,7 @@ export default async function HomePage() {
           />
           <StatHomeCard
             title="Productos en Stock"
-            value="5,678"
+            value={totalProductsStock}
             icon={<Package />}
           />
           <StatHomeCard
@@ -54,7 +73,9 @@ export default async function HomePage() {
                 <p className="text-sm font-medium text-muted-foreground">
                   Valor Total de Inventario
                 </p>
-                <h3 className="text-2xl font-bold">S/. 123,456.00</h3>
+                <h3 className="text-2xl font-bold">
+                  S/. {parseFloat(totalValorInventario).toFixed(2)}
+                </h3>
               </div>
             </CardContent>
           </Card>

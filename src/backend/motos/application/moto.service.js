@@ -15,6 +15,33 @@ export class MotoService {
     this.proveedorRepository = new ProveedorRepository();
     this.gastoMotoRepository = new GastoMotoRepository();
   }
+  async getAllMotos() {
+    try {
+      const motos = await this.motoRepository.getAllMotos();
+
+      if (motos.length === 0) {
+        console.log('Moto Service: No se encontraron motos');
+        return {
+          status: 200,
+          payload: 'No se encontraron motos',
+        };
+      }
+
+      console.log('Moto Service: Motos encontradas');
+      return {
+        status: 200,
+        payload: motos,
+      };
+    } catch (error) {
+      console.error(
+        `Moto Service: Error interno al obtener las motos: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async getAllMotosByData(motoData) {
     try {
       const motosFiltered = await this.motoRepository.getAllMotosByData(
@@ -26,7 +53,7 @@ export class MotoService {
           'Moto Service: No se encontraron motos filtradas por modeloId'
         );
         return {
-          status: 404,
+          status: 200,
           payload: 'No se encontraron motos filtradas por modeloId',
         };
       }

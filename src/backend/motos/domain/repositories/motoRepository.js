@@ -6,12 +6,33 @@ export class MotoRepository {
   constructor() {
     this.motoModel = Moto;
   }
+  async getAllMotos() {
+    try {
+      const motos = await this.motoModel
+        .find()
+
+      if (motos.length === 0) {
+        console.log('Moto Repository: No se encontraron motos');
+        return [];
+      }
+
+      console.log('Moto Repository: Motos encontradas');
+      return motos;
+    } catch (error) {
+      console.error(
+        `Moto Repository: Error al buscar todas las motos: ${error.message}`
+      );
+      throw new Error(
+        `Moto Repository: Error al buscar todas las motos: ${error.message}`
+      );
+    }
+  }
   async getAllMotosByData(motoData) {
     try {
       const filter = {};
 
       if (!motoData) {
-        console.log('Moto Repository: Modelo no proporcionado');
+        console.log('Moto Repository: Datos no proporcionados');
         return [];
       }
 
