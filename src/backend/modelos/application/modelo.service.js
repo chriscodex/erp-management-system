@@ -84,19 +84,6 @@ export class ModeloService {
         };
       }
 
-      // Validar si el segmento existe
-      const segmentFound = await this.segmentRepository.getSegmentByData({
-        id: modeloData.segmentId,
-      });
-      if (!segmentFound) {
-        console.log('Modelo Service: El segmento no existe');
-        return {
-          status: 404,
-          payload: 'El segmento no existe',
-        };
-      }
-      console.log('Modelo Service: El segmento existe');
-
       // Validar si un modelo con ese nombre y en el mismo segmento ya existe
       const modeloFound = await this.modeloRepository.getModeloByData(
         modeloData
@@ -109,34 +96,6 @@ export class ModeloService {
         };
       }
       console.log('Modelo Service: No hay duplicados');
-
-      // Validar si la categoría existe en el segmento
-      const categoryExists = await this.categoryRepository.getCategoryByData({
-        segmentId: modeloData.segmentId,
-        id: modeloData.categoryId,
-      });
-      if (!categoryExists) {
-        console.log('Modelo Service: La categoría no existe en el segmento');
-        return {
-          status: 404,
-          payload: 'El categoría no existe en el segmento',
-        };
-      }
-      console.log('Modelo Service: La categoría existe en el segmento');
-
-      // Validar si la marca existe en el segmento
-      const marcaExists = await this.marcaRepository.getMarcaByData({
-        segmentId: modeloData.segmentId,
-        id: modeloData.marcaId,
-      });
-      if (!marcaExists) {
-        console.log('Modelo Service: La marca no existe en el segmento');
-        return {
-          status: 404,
-          payload: 'El marca no existe en el segmento',
-        };
-      }
-      console.log('Modelo Service: La marca existe en el segmento');
 
       // Generar el codigo unico
       const modeloCode = await generarCodigoUnicoDelModelo(
@@ -181,20 +140,6 @@ export class ModeloService {
         };
       }
 
-      // Validar si el segmento enviado existe
-      if (modeloData.segmentId) {
-        const segmentFound = await this.segmentRepository.getSegmentByData({
-          id: modeloData.segmentId,
-        });
-        if (!segmentFound) {
-          console.log('Modelo Service: El segmento no existe');
-          return {
-            status: 404,
-            payload: 'El segmento no existe',
-          };
-        }
-      }
-
       // Validar si un modelo con ese nombre ya existe
       if (modeloData.nombre) {
         const modeloFound = await this.modeloRepository.getModeloByData(
@@ -202,12 +147,12 @@ export class ModeloService {
         );
         if (modeloFound && modeloFound?._id !== modeloId) {
           console.log(
-            'Modelo Service: Un modelo con el mismo nombre ya existe en el segmento seleccionado'
+            'Modelo Service: Un modelo con el mismo nombre ya existe'
           );
           return {
             status: 409,
             payload:
-              'Un modelo con el mismo nombre ya existe en el segmento seleccionado',
+              'Un modelo con el mismo nombre ya existe',
           };
         }
       }

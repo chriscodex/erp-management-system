@@ -28,12 +28,6 @@ export const updateModeloSchema = z.object({
       message: 'El stock debe ser un número mayor o igual a 0',
     })
     .optional(),
-  segmentId: z
-    .string()
-    .regex(objectIdRegex, {
-      message: 'Debe elegir un segmento',
-    })
-    .optional(),
   marcaId: z
     .string()
     .regex(objectIdRegex, {

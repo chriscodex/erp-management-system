@@ -34,11 +34,6 @@ const modeloSchema = new Schema(
       required: [true, 'Estado es requerido en el schema de proveedores'],
       enum: ['activo', 'inactivo'],
     },
-    segmentId: {
-      type: Schema.Types.ObjectId,
-      ref: 'Segment',
-      required: [true, 'segmentId es requerido en el schema de productos'],
-    },
     marcaId: {
       type: Schema.Types.ObjectId,
       ref: 'Marca',

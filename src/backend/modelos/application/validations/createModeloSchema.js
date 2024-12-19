@@ -26,9 +26,6 @@ export const createModeloSchema = z.object({
     .refine((val) => Number.isInteger(val) && val >= 0, {
       message: 'El stock debe ser un número mayor o igual a 0',
     }),
-  segmentId: z.string().regex(objectIdRegex, {
-    message: 'Debe elegir un segmento',
-  }),
   marcaId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir una marca',
   }),

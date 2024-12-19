@@ -9,6 +9,7 @@ import { DataTableProducts } from '@/app/inventario/productos/_components/Produc
 import { columnsProducts } from '@/app/inventario/productos/_components/ProductsTable/columns';
 import { getAllProductsRequestServer } from '@/app/inventario/productos/_services/requests';
 import { Label } from '@/components/ui/label';
+import { sortByUpdateDateDesc } from '@/lib/utils';
 
 export default async function ProductsPage() {
   const { products } = await getAllProductsRequestServer();
@@ -27,6 +28,8 @@ export default async function ProductsPage() {
     },
   ];
 
+  const productsSorted = sortByUpdateDateDesc(products);
+
   return (
     <NavbarDynamic titles={navbarTitles}>
       <Card>
@@ -44,7 +47,7 @@ export default async function ProductsPage() {
         <CardContent>
           <DataTableProducts
             columns={columnsProducts}
-            data={products}
+            data={productsSorted}
           />
         </CardContent>
       </Card>

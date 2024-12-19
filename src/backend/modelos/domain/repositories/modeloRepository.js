@@ -11,7 +11,6 @@ export class ModeloRepository {
     try {
       const modelos = await this.modeloModel
         .find()
-        .populate('segmentId')
         .populate('marcaId')
         .populate('categoryId');
 
@@ -45,10 +44,6 @@ export class ModeloRepository {
         filter._id = new mongoose.Types.ObjectId(modeloData.id);
       }
 
-      if (modeloData.segmentId) {
-        filter.segmentId = new mongoose.Types.ObjectId(modeloData.segmentId);
-      }
-
       if (modeloData.marcaId) {
         filter.marcaId = new mongoose.Types.ObjectId(modeloData.marcaId);
       }
@@ -67,7 +62,6 @@ export class ModeloRepository {
 
       const modeloFound = await this.modeloModel
         .findOne(filter)
-        .populate('segmentId')
         .populate('marcaId')
         .populate('categoryId');
 
@@ -93,7 +87,6 @@ export class ModeloRepository {
 
       // Populamos el campo segmentId después de guardar
       const populatedModelo = await savedModelo.populate([
-        { path: 'segmentId' },
         { path: 'marcaId' },
         { path: 'categoryId' },
       ]);
