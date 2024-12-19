@@ -46,6 +46,25 @@ export class MotoService {
       };
     }
   }
+  async countAllMotos() {
+    try {
+      const count = await this.motoRepository.countAllMotos();
+
+      console.log('Moto Service: Motos contadas');
+      return {
+        status: 200,
+        payload: count,
+      };
+    } catch (error) {
+      console.error(
+        `Moto Service: Error interno al contar todas las motos: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async getMotoByData(motoData) {
     try {
       const motoFound = await this.motoRepository.getMotoByData(motoData);

@@ -20,6 +20,8 @@ import { StatHomeCard } from '@/app/home/_components/statCard';
 import { Card, CardContent } from '@/components/ui/card';
 
 export default function HomePage() {
+  
+  
   return (
     <NavbarSimple title="Inicio">
       <div className="container mx-auto p-4">
@@ -36,7 +38,7 @@ export default function HomePage() {
             icon={<Package />}
           />
           <StatHomeCard
-            title="Tipos de Productos"
+            title="Tipos Productos"
             value="12"
             icon={<RiGalleryView2 />}
           />

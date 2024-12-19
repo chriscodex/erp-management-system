@@ -45,6 +45,21 @@ export class MotoRepository {
       );
     }
   }
+  async countAllMotos() {
+    try {
+      const count = await this.motoModel.countDocuments();
+
+      console.log('Moto Repository: Motos contadas');
+      return count;
+    } catch (error) {
+      console.error(
+        `Moto Repository: Error al contar todas las motos: ${error.message}`
+      );
+      throw new Error(
+        `Moto Repository: Error al contar todas las motos: ${error.message}`
+      );
+    }
+  }
   async getMotoByData(motoData) {
     try {
       if (!motoData) {
