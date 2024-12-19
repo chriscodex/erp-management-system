@@ -116,8 +116,8 @@ const data = {
           icon: RiAppsLine,
         },
         {
-          title: 'Almacén',
-          url: '/inventario/almacen',
+          title: 'Almacenes',
+          url: '/inventario/almacenes',
           items: [],
           icon: RiArchiveLine,
         },

@@ -20,12 +20,12 @@ import {
   getAllAlmacenesRequestServer,
   getAllMotosByAlmacenIdRequestServer,
   getAllProductsByAlmacenIdRequestServer,
-} from '@/app/inventario/almacen/_services/requests.js';
-import { SheetAddAlmacenWrapper } from '@/app/inventario/almacen/_components/sheets/addAlmacen/sheetAddAlmacenWrapper';
+} from '@/app/inventario/almacenes/_services/requests.js';
+import { SheetAddAlmacenWrapper } from '@/app/inventario/almacenes/_components/sheets/addAlmacen/sheetAddAlmacenWrapper';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { AlmacenDetail } from '@/app/inventario/almacen/_components/sheets/almacenDetail';
+import { AlmacenDetail } from '@/app/inventario/almacenes/_components/sheets/almacenDetail';
 import { Sheet, SheetTrigger } from '@/components/ui/sheet';
-import { SheetUpdateAlmacenWrapper } from '@/app/inventario/almacen/_components/sheets/updateAlmacen/sheetUpdateAlmacenWrapper';
+import { SheetUpdateAlmacenWrapper } from '@/app/inventario/almacenes/_components/sheets/updateAlmacen/sheetUpdateAlmacenWrapper';
 
 export default async function CompaniesPage() {
   const { almacenes } = await getAllAlmacenesRequestServer();
@@ -106,7 +106,7 @@ export default async function CompaniesPage() {
                     </CardDescription>
                   </div>
                   <div className="flex flex-col gap-2">
-                    <p>
+                    <div>
                       {almacen?.estado === 'activo' ? (
                         <Badge
                           variant="successTable"
@@ -119,7 +119,7 @@ export default async function CompaniesPage() {
                           Inactivo
                         </Badge>
                       )}
-                    </p>
+                    </div>
                     <Badge variant="secondary" className="text-sm">
                       ID: {almacen?._id}
                     </Badge>

@@ -5,6 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { Edit, Trash2 } from 'lucide-react';
 
 import {
   Form,
@@ -32,10 +33,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { updateAlmacenFormSchema } from '@/app/inventario/almacen/_services/validations/updateAlmacenSchema';
-import { updateAlmacenRequestClient } from '@/app/inventario/almacen/_services/requests';
-import { DeleteAlmacenAlert } from '@/app/inventario/almacen/_components/dialogs/deleteAlmacenAlert';
-import { Edit, Trash2 } from 'lucide-react';
+import { updateAlmacenFormSchema } from '@/app/inventario/almacenes/_services/validations/updateAlmacenSchema';
+import { updateAlmacenRequestClient } from '@/app/inventario/almacenes/_services/requests';
+import { DeleteAlmacenAlert } from '@/app/inventario/almacenes/_components/dialogs/deleteAlmacenAlert';
 
 export function UpdateAlmacenForm({ onClose, almacenData }) {
   const router = useRouter();

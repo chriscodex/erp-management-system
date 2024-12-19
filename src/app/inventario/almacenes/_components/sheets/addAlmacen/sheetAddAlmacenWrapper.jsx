@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
 import { Sheet } from '@/components/ui/sheet';
-import { AddAlmacenForm } from '@/app/inventario/almacen/_components/sheets/addAlmacen/addAlmacenForm';
+import { AddAlmacenForm } from '@/app/inventario/almacenes/_components/sheets/addAlmacen/addAlmacenForm';
 
 export function SheetAddAlmacenWrapper() {
   const [isSheetOpen, setIsSheetOpen] = useState(false);

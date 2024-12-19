@@ -46,6 +46,13 @@ export function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <QuickAccessCard
+            title="Inventario de Motos"
+            description="Gestiona el inventario de motos"
+            icon={<Bike className="h-6 w-6" />}
+            linkText="Ver Inventario"
+            linkHref="/inventario/motos"
+          />
+          <QuickAccessCard
             title="Gestión de Usuarios"
             description="Administra usuarios y permisos"
             icon={<Users className="h-6 w-6" />}
@@ -65,13 +72,6 @@ export function Home() {
             icon={<Tag className="h-6 w-6" />}
             linkText="Gestionar"
             linkHref="/inventario/marcas"
-          />
-          <QuickAccessCard
-            title="Inventario de Motos"
-            description="Gestiona el inventario de motos"
-            icon={<Bike className="h-6 w-6" />}
-            linkText="Ver Inventario"
-            linkHref="/inventario/motos"
           />
           <QuickAccessCard
             title="Productos Generales"

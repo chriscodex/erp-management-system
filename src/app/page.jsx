@@ -13,6 +13,7 @@ import { RiHome2Line } from '@remixicon/react';
 import { Card, CardContent } from '@/components/ui/card';
 import { NavbarSimple } from '@/components/navbar/NavbarSimple';
 import { Label } from '@/components/ui/label';
+import { QuickAccessCard } from '@/app/home/_components/quickAccesCard';
 
 export default function HomePage() {
   return (
@@ -44,27 +45,6 @@ export default function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <QuickAccessCard
-            title="Gestión de Usuarios"
-            description="Administra usuarios y permisos"
-            icon={<Users className="h-6 w-6" />}
-            linkText="Ver Usuarios"
-            linkHref="/usuarios"
-          />
-          <QuickAccessCard
-            title="Empresas"
-            description="Gestiona las sub empresas"
-            icon={<Building className="h-6 w-6" />}
-            linkText="Sub Empresas"
-            linkHref="/empresas"
-          />
-          <QuickAccessCard
-            title="Marcas"
-            description="Administra las marcas de los productos"
-            icon={<Tag className="h-6 w-6" />}
-            linkText="Gestionar"
-            linkHref="/inventario/marcas"
-          />
-          <QuickAccessCard
             title="Inventario de Motos"
             description="Gestiona el inventario de motos"
             icon={<Bike className="h-6 w-6" />}
@@ -72,11 +52,32 @@ export default function HomePage() {
             linkHref="/inventario/motos"
           />
           <QuickAccessCard
-            title="Productos Generales"
+            title="Gestión de Usuarios"
+            description="Administra usuarios y permisos"
+            icon={<Users className="h-6 w-6" />}
+            linkText="Ver Usuarios"
+            linkHref="/usuarios"
+          />
+          <QuickAccessCard
+            title="Almacenes"
+            description="Gestiona los almacenes"
+            icon={<Building className="h-6 w-6" />}
+            linkText="Ver Almacenes"
+            linkHref="/inventario/almacenes"
+          />
+          <QuickAccessCard
+            title="Inventario de Productos Generales"
             description="Administra otros productos y accesorios"
             icon={<Package className="h-6 w-6" />}
             linkText="Ver Productos"
             linkHref="/inventario/productos"
+          />
+          <QuickAccessCard
+            title="Marcas"
+            description="Administra las marcas de los productos"
+            icon={<Tag className="h-6 w-6" />}
+            linkText="Gestionar"
+            linkHref="/inventario/marcas"
           />
           <QuickAccessCard
             title="Movimientos de Inventario"
@@ -102,28 +103,6 @@ function StatCard({ title, value, icon }) {
           <p className="text-sm font-medium text-muted-foreground">{title}</p>
           <h3 className="text-2xl font-bold">{value}</h3>
         </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-function QuickAccessCard({ title, description, icon, linkText, linkHref }) {
-  return (
-    <Card>
-      <CardContent className="p-6">
-        <div className="flex items-center mb-4">
-          <div className="text-primary p-2 bg-primary/10 rounded-full mr-3">
-            {icon}
-          </div>
-          <h3 className="font-semibold">{title}</h3>
-        </div>
-        <p className="text-sm text-muted-foreground mb-4">{description}</p>
-        <a
-          href={linkHref}
-          className="text-sm font-medium text-primary hover:underline"
-        >
-          {linkText} →
-        </a>
       </CardContent>
     </Card>
   );

@@ -24,8 +24,8 @@ import {
 } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { addAlmacenSchema } from '@/app/inventario/almacen/_services/validations/addAlmacenSchema';
-import { createAlmacenRequestClient } from '@/app/inventario/almacen/_services/requests';
+import { addAlmacenSchema } from '@/app/inventario/almacenes/_services/validations/addAlmacenSchema';
+import { createAlmacenRequestClient } from '@/app/inventario/almacenes/_services/requests';
 import { Button } from '@/components/ui/button';
 
 export function AddAlmacenForm({ onClose }) {

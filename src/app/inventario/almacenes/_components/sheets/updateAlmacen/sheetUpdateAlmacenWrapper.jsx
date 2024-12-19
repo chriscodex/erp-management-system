@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import { Edit } from 'lucide-react';
 import { Sheet } from '@/components/ui/sheet';
-import { UpdateAlmacenForm } from '@/app/inventario/almacen/_components/sheets/updateAlmacen/updateAlmacenForm';
+import { UpdateAlmacenForm } from '@/app/inventario/almacenes/_components/sheets/updateAlmacen/updateAlmacenForm';
 
 export function SheetUpdateAlmacenWrapper({ almacenData }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);

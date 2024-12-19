@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { deleteAlmacenRequestClient } from '@/app/inventario/almacen/_services/requests';
+
+import { deleteAlmacenRequestClient } from '@/app/inventario/almacenes/_services/requests';
 
 export function DeleteAlmacenAlert({
   isOpen,
