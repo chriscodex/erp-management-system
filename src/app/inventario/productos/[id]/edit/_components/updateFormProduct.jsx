@@ -7,7 +7,9 @@ import {
   RiInstanceFill,
   RiPulseLine,
   RiNotification2Line,
-  RiMotorbikeFill,
+  RiBox3Line,
+  RiCoupon2Fill,
+  RiCoupon2Line,
 } from '@remixicon/react';
 import { Info, Save } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -36,18 +38,21 @@ import { Textarea } from '@/components/ui/textarea';
 import { updateModeloRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/edit/_services/requests';
 import { updateModeloFormSchema } from '@/app/inventario/motos/modelos/[modeloId]/edit/_services/validations/updateModeloFormSchema';
 
-export function UpdateFormModelo({ modeloData, marcas, categories }) {
+export function UpdateFormProduct({ productData, marcas, categories }) {
+  console.log(productData);
   const router = useRouter();
 
   const updateForm = useForm({
     resolver: zodResolver(updateModeloFormSchema),
     defaultValues: {
-      nombre: modeloData?.nombre,
-      descripcion: modeloData?.descripcion,
-      stockMinimo: modeloData?.stockMinimo,
-      estado: modeloData?.estado,
-      marcaId: modeloData?.marcaId?._id,
-      categoryId: modeloData?.categoryId?._id,
+      nombre: productData?.nombre,
+      descripcion: productData?.descripcion,
+      precioCompra: productData?.precioCompra,
+      precioVenta: productData?.precioVenta,
+      stockMinimo: productData?.stockMinimo,
+      estado: productData?.estado,
+      marcaId: productData?.marcaId?._id,
+      categoryId: productData?.categoryId?._id,
     },
   });
 
@@ -82,7 +87,7 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
     // Toast promise para buscar una persona
     toast.promise(
       updateModeloRequestClient(
-        modeloData?._id,
+        productData?._id,
         DataToUpdate,
         setFormSubmitIsLoading
       ),
@@ -111,7 +116,7 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
           render={({ field }) => (
             <FormItem className="space-y-2">
               <div className="flex items-center space-x-2 text-muted-foreground">
-                <RiMotorbikeFill className="h-5 w-5" />
+                <RiBox3Line className="h-5 w-5" />
                 <FormLabel>Nombre</FormLabel>
               </div>
               <div className="relative">
@@ -150,30 +155,56 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
             </FormItem>
           )}
         />
-        <FormField
-          control={control}
-          name="stockMinimo"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <div className="flex items-center space-x-2 text-muted-foreground">
-                <RiNotification2Line className="h-5 w-5" />
-                <FormLabel>Stock Mínimo</FormLabel>
-              </div>
-              <div className="relative">
-                <FormControl>
-                  <Input
-                    className="pl-2"
-                    autoComplete="off"
-                    type="number"
-                    disabled={formSubmitIsLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
+        <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
+          <FormField
+            control={control}
+            name="precioCompra"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <RiCoupon2Fill className="h-5 w-5" />
+                  <FormLabel>Precio de compra por unidad</FormLabel>
+                </div>
+                <div className="relative">
+                  <FormControl>
+                    <Input
+                      className="pl-2"
+                      autoComplete="off"
+                      type="number"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="precioVenta"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <RiCoupon2Line className="h-5 w-5" />
+                  <FormLabel>Precio de venta por unidad</FormLabel>
+                </div>
+                <div className="relative">
+                  <FormControl>
+                    <Input
+                      className="pl-2"
+                      autoComplete="off"
+                      type="number"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={control}
@@ -253,7 +284,7 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
               </div>
               <div className="relative">
                 <Select
-                  defaultValue={modeloData?.estado}
+                  defaultValue={productData?.estado}
                   onValueChange={field.onChange}
                   disabled={formSubmitIsLoading}
                 >
@@ -267,6 +298,30 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
                     <SelectItem value="inactivo">Inactivo</SelectItem>
                   </SelectContent>
                 </Select>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="stockMinimo"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <div className="flex items-center space-x-2 text-muted-foreground">
+                <RiNotification2Line className="h-5 w-5" />
+                <FormLabel>Stock Mínimo (Notificaciones)</FormLabel>
+              </div>
+              <div className="relative">
+                <FormControl>
+                  <Input
+                    className="pl-2"
+                    autoComplete="off"
+                    type="number"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
                 <FormMessage />
               </div>
             </FormItem>

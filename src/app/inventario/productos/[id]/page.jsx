@@ -20,7 +20,7 @@ export default async function Page({ params }) {
   const navbarTitles = [
     {
       title: 'Inventario',
-      href: '/inventario/todos',
+      href: '',
       active: false,
     },
     {

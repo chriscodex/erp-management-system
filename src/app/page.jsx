@@ -15,15 +15,24 @@ import { Card, CardContent } from '@/components/ui/card';
 import {
   getAllMotosForHomeRequestServer,
   getAllProductsForHomeRequestServer,
-  getTotalMotosRequestServer,
-  getTotalTiposProductosRequestServer,
 } from '@/app/home/_services/requests';
 
 export default async function HomePage() {
-  const { totalMotos } = await getTotalMotosRequestServer();
-  const { totalTiposProductos } = await getTotalTiposProductosRequestServer();
-  const { products } = await getAllProductsForHomeRequestServer();
-  const { motos } = await getAllMotosForHomeRequestServer();
+  const [
+    productsResponse,
+    motosResponse,
+    // eslint-disable-next-line no-undef
+  ] = await Promise.all([
+    getAllProductsForHomeRequestServer(),
+    getAllMotosForHomeRequestServer(),
+  ]);
+
+  const { products } = productsResponse;
+  const { motos } = motosResponse;
+
+  const totalMotos = motos?.length;
+
+  const totalTiposProductos = products?.length;
 
   const totalProductsStock = products.reduce((acc, product) => {
     return acc + product?.stock;
@@ -115,7 +124,7 @@ export default async function HomePage() {
             description="Administra los proveedores"
             icon={<RiTeamFill className="h-6 w-6" />}
             linkText="Ver Proveedores"
-            linkHref="/inventario/marcas"
+            linkHref="/contactos/proveedores"
           />
           <QuickAccessCard
             title="Salidas de Inventario"
