@@ -40,7 +40,7 @@ export default async function Page({ params }) {
   return (
     <NavbarDynamic titles={navbarTitles}>
       <Card>
-        <CardHeader className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 pb-2">
+        <CardHeader className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 space-y-0">
           <ProductCard product={product} />
           <GraphicSingleProductCard unidades={unidades} />
         </CardHeader>
