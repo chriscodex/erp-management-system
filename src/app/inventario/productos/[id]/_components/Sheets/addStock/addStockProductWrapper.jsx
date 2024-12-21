@@ -11,12 +11,9 @@ import {
 } from '@/components/ui/tooltip';
 import { Sheet } from '@/components/ui/sheet';
 
-import { UpdateUnitProductForm } from '@/app/inventario/productos/[id]/_components/Sheets/updateUnitProductForm';
+import { AddStockProductForm } from '@/app/inventario/productos/[id]/_components/Sheets/addStock/addStockProductForm';
 
-export function SheetUpdateUnitProductWrapper({
-  productData,
-  unitProductData,
-}) {
+export function SheetAddStockProductWrapper({ productData, unitProductData }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {
@@ -44,7 +41,7 @@ export function SheetUpdateUnitProductWrapper({
 
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <UpdateUnitProductForm
+          <AddStockProductForm
             unitProductData={unitProductData}
             productData={productData}
             onClose={handleCloseSheet}

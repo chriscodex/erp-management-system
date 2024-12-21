@@ -27,7 +27,7 @@ import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
 import { Button } from '@/components/ui/button';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
-import { SheetUpdateUnitProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/sheetUpdateWrapper';
+import { SheetUpdateUnitProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/updateUnitProduct/sheetUpdateWrapper';
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
 
 export function DataTableProduct({ productData, unidades, status = 200 }) {
