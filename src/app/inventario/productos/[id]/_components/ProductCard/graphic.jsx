@@ -24,8 +24,9 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { Button } from '@/components/ui/button';
+import { generateExcelFileForProductsCode } from '@/app/inventario/productos/[id]/_services/helpers';
 
-export default function GraphicSingleProductCard({ unidades }) {
+export default function GraphicSingleProductCard({ unidades, product }) {
   const totalUnidades = unidades?.length;
 
   const {
@@ -81,7 +82,10 @@ export default function GraphicSingleProductCard({ unidades }) {
               <RiIndeterminateCircleLine className="h-5 w-5" />
               Disminuir Stock
             </Button>
-            <Button variant="default">
+            <Button
+              variant="default"
+              onClick={() => generateExcelFileForProductsCode(product)}
+            >
               <RiDownload2Line className="h-5 w-5" />
               Descargar Códigos
             </Button>

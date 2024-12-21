@@ -42,7 +42,7 @@ export default async function Page({ params }) {
       <Card>
         <CardHeader className="w-full grid grid-cols-1 lg:grid-cols-2 gap-4 space-y-0">
           <ProductCard product={product} />
-          <GraphicSingleProductCard unidades={unidades} />
+          <GraphicSingleProductCard unidades={unidades} product={product} />
         </CardHeader>
         <CardContent>
           <DataTableProduct
