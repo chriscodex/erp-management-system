@@ -2,18 +2,12 @@
 
 import { useState } from 'react';
 
-import { Edit } from 'lucide-react';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip';
 import { Sheet } from '@/components/ui/sheet';
-
+import { Button } from '@/components/ui/button';
+import { RiAddCircleLine } from '@remixicon/react';
 import { AddStockProductForm } from '@/app/inventario/productos/[id]/_components/Sheets/addStock/addStockProductForm';
 
-export function SheetAddStockProductWrapper({ productData, unitProductData }) {
+export function SheetAddStockProductWrapper({ productData }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {
@@ -26,23 +20,14 @@ export function SheetAddStockProductWrapper({ productData, unitProductData }) {
 
   return (
     <div className="cursor-pointer">
-      <TooltipProvider delayDuration={0}>
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <div onClick={handleOpenSheet}>
-              <Edit className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-            </div>
-          </TooltipTrigger>
-          <TooltipContent>
-            <p>Editar</p>
-          </TooltipContent>
-        </Tooltip>
-      </TooltipProvider>
+      <Button variant="outline" onClick={handleOpenSheet}>
+        <RiAddCircleLine className="h-5 w-5" />
+        Aumentar Stock
+      </Button>
 
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
           <AddStockProductForm
-            unitProductData={unitProductData}
             productData={productData}
             onClose={handleCloseSheet}
           />

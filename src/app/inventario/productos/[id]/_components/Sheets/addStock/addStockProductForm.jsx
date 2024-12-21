@@ -22,75 +22,45 @@ import {
   SheetHeader,
   SheetTitle,
 } from '@/components/ui/sheet';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { updateUnitProductFormSchema } from '@/app/inventario/productos/[id]/_services/validations/updateUnitProductSchema';
-import { updateUnitProductRequestClient } from '@/app/inventario/productos/[id]/_services/requests';
+import { addUnitProductRequestClient } from '@/app/inventario/productos/[id]/_services/requests';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
+import { onChangeNumero } from '@/components/formInputs/onChange';
+import { addStockFormSchema } from '@/app/inventario/productos/[id]/_services/validations/addStockFormSchema';
 
-export function AddStockProductForm({
-  unitProductData,
-  productData,
-  onClose,
-}) {
+export function AddStockProductForm({ productData, onClose }) {
   const router = useRouter();
 
-  const updateUnitProductForm = useForm({
-    resolver: zodResolver(updateUnitProductFormSchema),
-    defaultValues: {
-      estado: unitProductData?.estado,
-    },
+  const addUnitsForm = useForm({
+    resolver: zodResolver(addStockFormSchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-    clearErrors,
-    watch,
-    reset: resetForm,
-  } = updateUnitProductForm;
+  const { handleSubmit, control, clearErrors, reset: resetForm } = addUnitsForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   // Manejo de formulario
-  const onSubmit = handleSubmit(async () => {
+  const onSubmit = handleSubmit(async (data) => {
+    console.log('xddd');
     setFormSubmitIsLoading(true);
 
     // Obtener los valores actuales del formulario
-    const currentValues = watch();
+    const cantidadAAgregar = parseInt(data.cantidad);
 
-    // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
-    const unitProductDataToUpdate = Object.keys(currentValues).reduce(
-      (datosCambiados, key) => {
-        if (
-          currentValues[key] !==
-          updateUnitProductForm.formState.defaultValues[key]
-        ) {
-          datosCambiados[key] = currentValues[key];
-        }
-        return datosCambiados;
-      },
-      {}
-    );
+    console.log('Cantidad a agregar:', data);
 
-    if (Object.keys(unitProductDataToUpdate).length === 0) {
-      toast.error('No se han realizado cambios.');
+    if (cantidadAAgregar <= 0) {
+      toast.error('La cantidad debe ser mayor a 0');
       setFormSubmitIsLoading(false);
       return;
     }
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateUnitProductRequestClient(
-        unitProductData?._id,
-        unitProductDataToUpdate,
+      addUnitProductRequestClient(
+        productData?._id,
+        cantidadAAgregar,
         setFormSubmitIsLoading
       ),
       {
@@ -100,7 +70,7 @@ export function AddStockProductForm({
           resetForm();
           onClose();
           router.refresh();
-          return `Unidad de producto actualizada correctamente`;
+          return `Cantidad agregada correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);
@@ -110,58 +80,43 @@ export function AddStockProductForm({
     );
   });
 
-  console.log(productData);
-
   return (
     <SheetContent>
       <SheetHeader>
-        <SheetTitle>{productData?.nombre}</SheetTitle>
-        <SheetDescription>{productData?.descripcion}</SheetDescription>
+        <SheetTitle>Aumentar Stock</SheetTitle>
+        <SheetDescription>Ingrese la cantidad a aumentar</SheetDescription>
       </SheetHeader>
-      <Separator />
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label className="col-span-1 text-left font-bold">Código: </Label>
+          <Label className="col-span-1 text-left">Código del producto: </Label>
           <p className="col-span-2">{productData?.code}</p>
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label className="col-span-1 text-left font-bold">Marca: </Label>
-          <p className="col-span-2">{productData?.marcaId?.nombre}</p>
+          <Label className="col-span-1 text-left">Stock actual: </Label>
+          <p className="col-span-2">{productData?.stock}</p>
         </div>
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label className="col-span-1 text-left font-bold">Categoría: </Label>
-          <p className="col-span-2">{productData?.categoryId?.nombre}</p>
-        </div>
-        <Form {...updateUnitProductForm}>
+        <Form {...addUnitsForm}>
           <form onSubmit={onSubmit} className="grid gap-4">
             <FormField
               control={control}
-              name="estado"
+              name="cantidad"
               render={({ field }) => (
                 <FormItem className="space-y-2">
-                  <FormLabel className="col-span-1 text-left font-bold">
-                    Estado
-                  </FormLabel>
+                  <FormLabel>Cantidad</FormLabel>
                   <div className="relative">
-                    <Select
-                      defaultValue={unitProductData?.estado}
-                      onValueChange={field.onChange}
-                      disabled={formSubmitIsLoading}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="w-full pl-2">
-                          <SelectValue placeholder="Seleccione un estado" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="disponible">Disponible</SelectItem>
-                        <SelectItem value="dañado">Dañado</SelectItem>
-                        <SelectItem value="reparado">Reparado</SelectItem>
-                        <SelectItem value="desaparecido">
-                          Desaparecido
-                        </SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <Input
+                        placeholder="Cantidad a aumentar"
+                        className="pl-2"
+                        autoComplete="off"
+                        type="text"
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                        onChange={(e) => {
+                          onChangeNumero(e, field);
+                        }}
+                      />
+                    </FormControl>
                     <FormMessage />
                   </div>
                 </FormItem>
@@ -170,7 +125,7 @@ export function AddStockProductForm({
             <SheetFooter>
               <SheetClose asChild>
                 <Button disabled={formSubmitIsLoading} onClick={onSubmit}>
-                  Actualizar
+                  Aumentar
                 </Button>
               </SheetClose>
             </SheetFooter>

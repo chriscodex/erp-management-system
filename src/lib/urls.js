@@ -19,6 +19,7 @@ export const deleteMarcaClientUrl = '/api/marcas';
 /* Products */
 export const createProductClientUrl = '/api/products';
 export const deleteProductClientUrl = '/api/products';
+export const addUnitProductClientUrl = '/api/products';
 
 /* UnitProduct */
 export const updateUnitProductClientUrl = '/api/products/unit-product';
