@@ -24,7 +24,10 @@ import {
   ChartTooltipContent,
 } from '@/components/ui/chart';
 import { Button } from '@/components/ui/button';
-import { generateExcelFileForProductsCode } from '@/app/inventario/productos/[id]/_services/helpers';
+import {
+  aumentarStock,
+  generateExcelFileForProductsCode,
+} from '@/app/inventario/productos/[id]/_services/helpers';
 
 export default function GraphicSingleProductCard({ unidades, product }) {
   const totalUnidades = unidades?.length;
@@ -74,7 +77,7 @@ export default function GraphicSingleProductCard({ unidades, product }) {
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="w-full flex-col">
           <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-6">
-            <Button variant="outline">
+            <Button variant="outline" onClick={() => aumentarStock(product, 3)}>
               <RiAddCircleLine className="h-5 w-5" />
               Aumentar Stock
             </Button>

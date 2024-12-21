@@ -10,6 +10,7 @@ import GraphicSingleProductCard from '@/app/inventario/productos/[id]/_component
 
 export default async function Page({ params }) {
   const { product, status } = await getProductByIdRequestServer(params.id);
+  console.log(product);
 
   if (!product) {
     notFound();

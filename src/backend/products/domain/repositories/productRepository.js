@@ -261,4 +261,54 @@ export class ProductRepository {
       throw new Error(`Error al eliminar el producto: ${error.message}`);
     }
   }
+  async addUnitsToProduct(productId, cantidadAAgregar) {
+    try {
+      // Buscar el producto
+      const product = await this.productModel.findById(productId);
+
+      if (!product) {
+        console.log('Product Repository: Producto no encontrado');
+        throw new Error(`Producto con ID ${productId} no encontrado.`);
+      }
+
+      // Obtener el último código de las unidades existentes
+      const ultimoCodigo =
+        product.unidades.length > 0
+          ? product.unidades[product.unidades.length - 1].code
+          : `${product.code}00000`;
+
+      // Generar las nuevas unidades
+      const numeroBase = parseInt(ultimoCodigo.slice(-5), 10);
+      const nuevasUnidades = [];
+
+      for (let i = 1; i <= cantidadAAgregar; i++) {
+        const nuevoNumero = (numeroBase + i).toString().padStart(5, '0'); // Mantener 5 dígitos
+        const nuevoCodigo = `${product.code}${nuevoNumero}`;
+        nuevasUnidades.push({
+          code: nuevoCodigo,
+          estado: 'disponible',
+        });
+      }
+
+      // Realizar el push de las nuevas unidades
+      const productoActualizado = await this.productModel.findByIdAndUpdate(
+        productId,
+        {
+          $push: { unidades: { $each: nuevasUnidades } },
+          $inc: { stock: cantidadAAgregar }, // Incrementar el stock
+        },
+        { new: true, runValidators: true } // Retornar el documento actualizado
+      );
+
+      console.log(
+        'Product Repository: Unidades agregadas correctamente al producto'
+      );
+      return productoActualizado; // Devolver el producto actualizado
+    } catch (error) {
+      console.error(
+        `Product Repository: Error al agregar unidades: ${error.message}`
+      );
+      throw new Error(`Error al agregar unidades: ${error.message}`);
+    }
+  }
 }
