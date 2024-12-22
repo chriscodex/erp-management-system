@@ -23,8 +23,11 @@ import {
 import Link from 'next/link';
 import { DeleteProductAlert } from '@/app/inventario/productos/_components/Dialogs/DeleteProductAlert';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 export default function ProductCard({ product }) {
+  const router = useRouter();
+  
   /* Manejar estado de eliminar el producto */
   const [isOpenDialogDeleteProduct, setIsOpenDialogDeleteProduct] =
     useState(false);
@@ -125,7 +128,7 @@ export default function ProductCard({ product }) {
           <Trash className="h-4 w-4" />
           Eliminar
         </Button>
-        <Button className="w-full col-span-1" variant="outline">
+        <Button className="w-full col-span-1" variant="outline" onClick={() => router.push(`/inventario/productos/${product?._id}/edit`)}>
           <Edit2 className="h-4 w-4 mr-2" />
           Editar
         </Button>
