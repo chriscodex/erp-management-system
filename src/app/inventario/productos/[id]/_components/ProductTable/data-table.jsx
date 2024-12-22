@@ -13,6 +13,12 @@ import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
 import { ArrowUpDown } from 'lucide-react';
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 import { Input } from '@/components/ui/input';
 import {
@@ -29,6 +35,8 @@ import { Button } from '@/components/ui/button';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 import { SheetUpdateUnitProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/updateUnitProduct/sheetUpdateWrapper';
 import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { RiDeleteBinLine } from '@remixicon/react';
+import { DeleteUnitProductAlert } from '@/app/inventario/productos/[id]/_components/dialogs/deleteUnitProductAlert';
 
 export function DataTableProduct({ productData, unidades, status = 200 }) {
   const columns = [
@@ -107,11 +115,37 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
       id: 'actions',
       header: 'Acciones',
       cell: ({ row }) => {
+        const unitProductData = row.original;
+
+        const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
+
         return (
           <div className="flex items-center space-x-3">
             <SheetUpdateUnitProductWrapper
               unitProductData={row.original}
               productData={productData}
+            />
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => setIsOpenDialogDelete(true)}
+                  >
+                    <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Eliminar</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <DeleteUnitProductAlert
+              isOpen={isOpenDialogDelete}
+              setIsOpen={setIsOpenDialogDelete}
+              actionAfterComplete="refresh"
+              unitProductId={unitProductData._id}
+              productId={productData._id}
             />
           </div>
         );

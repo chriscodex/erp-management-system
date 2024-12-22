@@ -24,6 +24,7 @@ export const reduceUnitProductClientUrl = '/api/products';
 
 /* UnitProduct */
 export const updateUnitProductClientUrl = '/api/products';
+export const deleteUnitFromProductClientUrl = '/api/products';
 
 /* Gastos */
 export const createGastoClientUrl = '/api/products';

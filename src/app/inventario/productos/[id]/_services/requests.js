@@ -1,9 +1,10 @@
 import { connectDB } from '@/db/mongodb';
 import { ProductService } from '@/backend/products/application/products.service';
 import { delay, simplificadorParaClientComponent } from '@/lib/utils';
-import { patchData } from '@/lib/fetchData';
+import { deleteData, patchData } from '@/lib/fetchData';
 import {
   addUnitProductClientUrl,
+  deleteUnitFromProductClientUrl,
   reduceUnitProductClientUrl,
   updateUnitProductClientUrl,
 } from '@/lib/urls';
@@ -46,7 +47,8 @@ export async function updateUnitProductRequestClient(
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar la unidad de producto: ' + response.response?.data?.error
+          'No se pudo actualizar la unidad de producto: ' +
+            response.response?.data?.error
         );
         return;
       }
@@ -131,6 +133,32 @@ export async function reduceUnitProductRequestClient(
       resolve(response?.response?.data?.payload);
     } catch (error) {
       setLoading(false);
+      reject(error);
+    }
+  });
+}
+
+export async function deleteUnitProductRequestClient(productId, unitProductId) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      // Simular tiempo de retraso
+      await delay();
+
+      const url = `${deleteUnitFromProductClientUrl}/${productId}/unit-product/${unitProductId}`;
+
+      // Obtener los datos de la persona
+      const response = await deleteData(url);
+      if (response?.status !== 204) {
+        reject(
+          'No se pudo eliminar la categoría: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
       reject(error);
     }
   });
