@@ -75,16 +75,24 @@ export async function updateUnitProductController(request, contextRoute) {
   }
 }
 
-export async function addUnitsToProductController(request, contextRoute) {
+export async function addOrReduceUnitsToProductController(
+  request,
+  contextRoute
+) {
   try {
     const { params } = contextRoute;
     const { id } = params;
     const body = await request.json();
 
     await connectDB();
-
-    const result = await productService.addUnitsToProduct(id, body);
-    return result;
+    if (body.type === 'add') {
+      const result = await productService.addUnitsToProduct(id, body);
+      return result;
+    }
+    if (body.type === 'reduce') {
+      const result = await productService.removeUnitsToProduct(id, body);
+      return result;
+    }
   } catch (error) {
     console.error(
       'Product Controller: Error interno agregando unidades al producto:',

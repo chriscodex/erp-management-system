@@ -384,6 +384,46 @@ export class ProductService {
       };
     }
   }
+  async removeUnitsToProduct(productId, { cantidadADisminuir }) {
+    try {
+      if (cantidadADisminuir <= 0 || isNaN(cantidadADisminuir)) {
+        console.log(
+          'Product Service: La cantidad de unidades a eliminar debe ser mayor que 0'
+        );
+        return {
+          status: 400,
+          payload: 'La cantidad de unidades a eliminar debe ser mayor que 0',
+        };
+      }
+      const productFound = await this.productRepository.getProductByData({
+        id: productId,
+      });
+      if (!productFound) {
+        console.log('Product Service: Producto no encontrado');
+        return {
+          status: 404,
+          payload: 'El producto no existe',
+        };
+      }
+      const productUpdated = await this.productRepository.removeUnitsToProduct(
+        productId,
+        cantidadADisminuir
+      );
+      console.log('Product Service: Unidades disminuidas correctamente');
+      return {
+        status: 201,
+        payload: productUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al disminuir unidades al producto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async createGasto(gastoData, productId) {
     try {
       const gastoCreated = await this.gastoRepository.createGasto(

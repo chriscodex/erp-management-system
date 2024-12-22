@@ -76,7 +76,10 @@ export async function addUnitProductRequestClient(
       const addUnitProductUrl = `${addUnitProductClientUrl}/${productId}`;
 
       // Obtener los datos de la persona
-      const response = await patchData(addUnitProductUrl, { cantidadAAgregar });
+      const response = await patchData(addUnitProductUrl, {
+        cantidadAAgregar,
+        type: 'add',
+      });
       if (response?.status !== 201) {
         setLoading(false);
         reject(
@@ -112,6 +115,7 @@ export async function reduceUnitProductRequestClient(
 
       // Obtener los datos de la persona
       const response = await patchData(reduceUnitProductUrl, {
+        type: 'reduce',
         cantidadADisminuir,
       });
       if (response?.status !== 201) {

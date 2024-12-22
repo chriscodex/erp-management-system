@@ -311,4 +311,42 @@ export class ProductRepository {
       throw new Error(`Error al agregar unidades: ${error.message}`);
     }
   }
+  async removeUnitsToProduct(productId, cantidadARemover) {
+    try {
+      // Encuentra el producto actual
+      const product = await this.productModel.findById(productId);
+
+      if (!product) {
+        throw new Error(`Producto con ID ${productId} no encontrado`);
+      }
+
+      // Verifica si el stock actual es suficiente para eliminar
+      if (product.unidades.length < cantidadARemover) {
+        throw new Error(
+          `No hay suficientes unidades para eliminar. Stock actual: ${product.unidades.length}`
+        );
+      }
+
+      // Elimina las unidades desde el final
+      const remainingUnits = product.unidades.slice(
+        0,
+        product.unidades.length - cantidadARemover
+      );
+
+      // Actualiza el producto en la base de datos
+      const updatedProduct = await this.productModel.findByIdAndUpdate(
+        productId,
+        {
+          $set: { unidades: remainingUnits },
+          $inc: { stock: -cantidadARemover }, // Actualiza el stock
+        },
+        { new: true }
+      );
+
+      return updatedProduct;
+    } catch (error) {
+      console.error(`Error al eliminar unidades: ${error.message}`);
+      throw new Error(`Error al eliminar unidades: ${error.message}`);
+    }
+  }
 }

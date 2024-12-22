@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import {
-  addUnitsToProductController,
+  addOrReduceUnitsToProductController,
   deleteProductController,
   getProductByDataController,
 } from '@/backend/products/infrastructure/controllers';
@@ -25,7 +25,7 @@ export async function GET(_, contextRoute) {
 
 export async function PATCH(request, contextRoute) {
   try {
-    const { payload, status } = await addUnitsToProductController(
+    const { payload, status } = await addOrReduceUnitsToProductController(
       request,
       contextRoute
     );
