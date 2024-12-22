@@ -57,12 +57,12 @@ export async function createProductController(request) {
 export async function updateUnitProductController(request, contextRoute) {
   try {
     const { params } = contextRoute;
-    const { id } = params;
+    const { unitId } = params;
     const body = await request.json();
 
     await connectDB();
 
-    const result = await productService.updateUnitProduct(id, body);
+    const result = await productService.updateUnitProduct(unitId, body);
     return result;
   } catch (error) {
     console.error(
@@ -121,6 +121,32 @@ export async function deleteProductController(contextRoute) {
     );
     throw new Error(
       'Product Controller: Error interno al eliminar un producto'
+    );
+  }
+}
+
+export async function deleteSingleUnitFromProductController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id: productId, unitId } = params;
+
+    console.log(params);
+
+    await connectDB();
+
+    const deletedProduct = await productService.deleteSingleUnitFromProduct(
+      productId,
+      unitId
+    );
+
+    return deletedProduct;
+  } catch (error) {
+    console.error(
+      'Product Controller: Error interno al eliminar una unidad del producto:',
+      error.message
+    );
+    throw new Error(
+      'Product Controller: Error interno al eliminar una unidad del producto'
     );
   }
 }

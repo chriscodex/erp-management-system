@@ -13,6 +13,7 @@ import { GastoRepository } from '@/backend/products/domain/repositories/gastoRep
 
 import { createProductSchema } from '@/backend/products/application/validations/createProductSchema';
 import { updateUnitProductSchema } from '@/backend/products/application/validations/updateUnitProductSchema';
+import { generarNumeroAleatorio } from '@/lib/utils';
 
 export class ProductService {
   constructor() {
@@ -232,9 +233,7 @@ export class ProductService {
 
       // Generar las unidades del producto
       const stock = productData.stock;
-      const unidades = await generarUnidadesDelProducto(
-        parseInt(stock)
-      );
+      const unidades = await generarUnidadesDelProducto(parseInt(stock));
 
       const productObject = {
         ...productData,
@@ -345,15 +344,32 @@ export class ProductService {
   }
   async addUnitsToProduct(productId, { cantidadAAgregar }) {
     try {
-      if (cantidadAAgregar <= 0 || isNaN(cantidadAAgregar)) {
+      // Validación de la cantidad
+      if (
+        cantidadAAgregar <= 0 ||
+        isNaN(cantidadAAgregar) ||
+        !Number.isInteger(cantidadAAgregar)
+      ) {
         console.log(
-          'Product Service: La cantidad de unidades a agregar debe ser mayor que 0'
+          'Product Service: La cantidad de unidades debe ser un número entero mayor que 0'
         );
         return {
           status: 400,
-          payload: 'La cantidad de unidades a agregar debe ser mayor que 0',
+          payload:
+            'La cantidad de unidades debe ser un número entero mayor que 0',
         };
       }
+
+      // Validación del ID del producto
+      if (!productId || productId.length !== 24) {
+        console.log('Product Service: El ID del producto es inválido');
+        return {
+          status: 400,
+          payload: 'El ID del producto debe ser válido y tener 24 caracteres',
+        };
+      }
+
+      // Comprobar que el producto existe
       const productFound = await this.productRepository.getProductByData({
         id: productId,
       });
@@ -364,8 +380,18 @@ export class ProductService {
           payload: 'El producto no existe',
         };
       }
+
+      // Generar las unidades a agregar
+      const nuevasUnidades = [];
+      for (let i = 0; i < cantidadAAgregar; i++) {
+        const nuevoCodigo = `2${generarNumeroAleatorio(12)}`;
+        nuevasUnidades.push({ code: nuevoCodigo, estado: 'disponible' });
+      }
+
+      // Llamar al repositorio para actualizar el producto
       const productUpdated = await this.productRepository.addUnitsToProduct(
         productId,
+        nuevasUnidades,
         cantidadAAgregar
       );
       console.log('Product Service: Unidades agregadas correctamente');
@@ -375,7 +401,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al agregar unidades al producto: ${error.message}`
+        `Product Service: Error interno al agregar unidades: ${error.message}`
       );
       return {
         status: 500,
@@ -385,15 +411,32 @@ export class ProductService {
   }
   async removeUnitsToProduct(productId, { cantidadADisminuir }) {
     try {
-      if (cantidadADisminuir <= 0 || isNaN(cantidadADisminuir)) {
+      // Validación de la cantidad
+      if (
+        cantidadADisminuir <= 0 ||
+        isNaN(cantidadADisminuir) ||
+        !Number.isInteger(cantidadADisminuir)
+      ) {
         console.log(
-          'Product Service: La cantidad de unidades a eliminar debe ser mayor que 0'
+          'Product Service: La cantidad de unidades a eliminar debe ser un número entero mayor que 0'
         );
         return {
           status: 400,
-          payload: 'La cantidad de unidades a eliminar debe ser mayor que 0',
+          payload:
+            'La cantidad de unidades a eliminar debe ser un número entero mayor que 0',
         };
       }
+
+      // Validación del ID del producto
+      if (!productId || productId.length !== 24) {
+        console.log('Product Service: El ID del producto es inválido');
+        return {
+          status: 400,
+          payload: 'El ID del producto debe ser válido y tener 24 caracteres',
+        };
+      }
+
+      // Verificar si el producto existe
       const productFound = await this.productRepository.getProductByData({
         id: productId,
       });
@@ -404,6 +447,19 @@ export class ProductService {
           payload: 'El producto no existe',
         };
       }
+
+      // Verificar si hay suficiente stock para eliminar
+      if (productFound.unidades.length < cantidadADisminuir) {
+        console.log(
+          `Product Service: Stock insuficiente para eliminar. Stock actual: ${productFound.unidades.length}`
+        );
+        return {
+          status: 400,
+          payload: `No hay suficientes unidades para eliminar. Stock actual: ${productFound.unidades.length}`,
+        };
+      }
+
+      // Llamar al repositorio para eliminar las unidades
       const productUpdated = await this.productRepository.removeUnitsToProduct(
         productId,
         cantidadADisminuir
@@ -415,7 +471,51 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al disminuir unidades al producto: ${error.message}`
+        `Product Service: Error interno al disminuir unidades: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async deleteSingleUnitFromProduct(productId, unitId) {
+    try {
+      // Validación del unitId
+      if (!unitId) {
+        console.log('Product Service: El ID de la unidad es inválido');
+        return {
+          status: 400,
+          payload: 'El ID de la unidad debe ser válido',
+        };
+      }
+
+      // Verificar si el producto existe
+      const productFound = await this.productRepository.getProductByData({
+        id: productId,
+      });
+      if (!productFound) {
+        console.log('Product Service: Producto no encontrado');
+        return {
+          status: 404,
+          payload: 'El producto no existe',
+        };
+      }
+
+      // Llamar al repositorio para eliminar la unidad
+      const productUpdated =
+        await this.productRepository.deleteSingleUnitFromProduct(
+          productId,
+          unitId
+        );
+      console.log('Product Service: Unidad eliminada correctamente');
+      return {
+        status: 204,
+        payload: productUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error al eliminar la unidad: ${error.message}`
       );
       return {
         status: 500,

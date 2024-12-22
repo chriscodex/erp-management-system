@@ -6,7 +6,6 @@ import { Category } from '@/backend/categorias/domain/models/category';
 import { Marca } from '@/backend/marcas/domain/models/marca';
 import { Almacen } from '@/backend/almacenes/domain/models/almacen';
 import { Proveedor } from '@/backend/proveedores/domain/models/proveedor';
-import { generarNumeroAleatorio } from '@/lib/utils';
 
 export class ProductRepository {
   constructor() {
@@ -262,36 +261,20 @@ export class ProductRepository {
       throw new Error(`Error al eliminar el producto: ${error.message}`);
     }
   }
-  async addUnitsToProduct(productId, cantidadAAgregar) {
+  async addUnitsToProduct(productId, nuevasUnidades, cantidadAAgregar) {
     try {
-      // Buscar el producto
+      // Validar que el producto exista antes de actualizar
       const product = await this.productModel.findById(productId);
-
       if (!product) {
         console.log('Product Repository: Producto no encontrado');
         throw new Error(`Producto con ID ${productId} no encontrado.`);
       }
 
-      // Generar las nuevas unidades
-      // eslint-disable-next-line no-undef
-      const nuevasUnidades = new Set(); // Usamos un Set para evitar códigos duplicados
-
-      while (nuevasUnidades.size < cantidadAAgregar) {
-        const nuevoCodigo = `2${generarNumeroAleatorio(12)}`;
-        nuevasUnidades.add({
-          code: nuevoCodigo,
-          estado: 'disponible',
-        });
-      }
-
-      // Convertir el Set a un array
-      const unidadesParaAgregar = Array.from(nuevasUnidades);
-
-      // Realizar el push de las nuevas unidades
+      // Actualizar el producto con las nuevas unidades y el stock
       const productoActualizado = await this.productModel.findByIdAndUpdate(
         productId,
         {
-          $push: { unidades: { $each: unidadesParaAgregar } },
+          $push: { unidades: { $each: nuevasUnidades } },
           $inc: { stock: cantidadAAgregar }, // Incrementar el stock
         },
         { new: true, runValidators: true } // Retornar el documento actualizado
@@ -300,7 +283,7 @@ export class ProductRepository {
       console.log(
         'Product Repository: Unidades agregadas correctamente al producto'
       );
-      return productoActualizado; // Devolver el producto actualizado
+      return productoActualizado;
     } catch (error) {
       console.error(
         `Product Repository: Error al agregar unidades: ${error.message}`
@@ -311,40 +294,82 @@ export class ProductRepository {
 
   async removeUnitsToProduct(productId, cantidadARemover) {
     try {
-      // Encuentra el producto actual
+      // Buscar el producto en la base de datos
       const product = await this.productModel.findById(productId);
-
       if (!product) {
-        throw new Error(`Producto con ID ${productId} no encontrado`);
+        console.log('Product Repository: Producto no encontrado');
+        throw new Error(`Producto con ID ${productId} no encontrado.`);
       }
 
-      // Verifica si el stock actual es suficiente para eliminar
-      if (product.unidades.length < cantidadARemover) {
-        throw new Error(
-          `No hay suficientes unidades para eliminar. Stock actual: ${product.unidades.length}`
-        );
-      }
-
-      // Elimina las unidades desde el final
+      // Eliminar las unidades necesarias desde el final
       const remainingUnits = product.unidades.slice(
         0,
         product.unidades.length - cantidadARemover
       );
 
-      // Actualiza el producto en la base de datos
+      // Actualizar el producto en la base de datos
       const updatedProduct = await this.productModel.findByIdAndUpdate(
         productId,
         {
           $set: { unidades: remainingUnits },
-          $inc: { stock: -cantidadARemover }, // Actualiza el stock
+          $inc: { stock: -cantidadARemover }, // Reducir el stock
         },
-        { new: true }
+        { new: true, runValidators: true } // Retornar el producto actualizado
       );
 
+      console.log(
+        'Product Repository: Unidades eliminadas correctamente del producto'
+      );
       return updatedProduct;
     } catch (error) {
-      console.error(`Error al eliminar unidades: ${error.message}`);
+      console.error(
+        `Product Repository: Error al eliminar unidades: ${error.message}`
+      );
       throw new Error(`Error al eliminar unidades: ${error.message}`);
+    }
+  }
+  async deleteSingleUnitFromProduct(productId, unitId) {
+    try {
+      // Buscar el producto en la base de datos
+      const product = await this.productModel.findById(productId);
+      if (!product) {
+        console.log('Product Repository: Producto no encontrado');
+        throw new Error(`Producto con ID ${productId} no encontrado.`);
+      }
+
+      // Buscar la unidad con el _id proporcionado
+      const unitIndex = product.unidades.findIndex(
+        (unit) => unit._id.toString() === unitId.toString()
+      );
+      if (unitIndex === -1) {
+        console.log('Product Repository: Unidad no encontrada');
+        throw new Error(
+          `Unidad con ID ${unitId} no encontrada en el producto.`
+        );
+      }
+
+      // Eliminar la unidad del array de unidades
+      product.unidades.splice(unitIndex, 1); // Eliminar la unidad
+
+      // Actualizar el stock (decrementar en 1)
+      const updatedProduct = await this.productModel.findByIdAndUpdate(
+        productId,
+        {
+          $set: { unidades: product.unidades },
+          $inc: { stock: -1 }, // Reducir el stock en 1
+        },
+        { new: true, runValidators: true }
+      );
+
+      console.log(
+        'Product Repository: Unidad eliminada correctamente del producto'
+      );
+      return updatedProduct;
+    } catch (error) {
+      console.error(
+        `Product Repository: Error al eliminar unidad: ${error.message}`
+      );
+      throw new Error(`Error al eliminar unidad: ${error.message}`);
     }
   }
 }

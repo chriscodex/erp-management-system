@@ -39,14 +39,14 @@ export async function updateUnitProductRequestClient(
       // Simular tiempo de retraso
       await delay();
 
-      const updateUnitProductoUrl = `${updateUnitProductClientUrl}/${unitProductId}`;
+      const updateUnitProductoUrl = `${updateUnitProductClientUrl}/1/unit-product/${unitProductId}`;
 
       // Obtener los datos de la persona
       const response = await patchData(updateUnitProductoUrl, unitProductData);
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar la marca: ' + response.response?.data?.error
+          'No se pudo actualizar la unidad de producto: ' + response.response?.data?.error
         );
         return;
       }
