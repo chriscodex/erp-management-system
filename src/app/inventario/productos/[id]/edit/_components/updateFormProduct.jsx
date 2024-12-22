@@ -10,8 +10,9 @@ import {
   RiBox3Line,
   RiCoupon2Fill,
   RiCoupon2Line,
+  RiImportFill,
 } from '@remixicon/react';
-import { Info, Save } from 'lucide-react';
+import { Gift, Info, Package, Save, Truck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -36,15 +37,21 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { updateModeloRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/edit/_services/requests';
-import { updateModeloFormSchema } from '@/app/inventario/motos/modelos/[modeloId]/edit/_services/validations/updateModeloFormSchema';
 import { Switch } from '@/components/ui/switch';
+import { updateProductFormSchema } from '@/app/inventario/productos/[id]/edit/_services/validations/updateProductFormSchema';
 
-export function UpdateFormProduct({ productData, marcas, categories }) {
+export function UpdateFormProduct({
+  productData,
+  marcas,
+  categories,
+  proveedores,
+  almacenes,
+}) {
   console.log(productData);
   const router = useRouter();
 
   const updateForm = useForm({
-    resolver: zodResolver(updateModeloFormSchema),
+    resolver: zodResolver(updateProductFormSchema),
     defaultValues: {
       nombre: productData?.nombre,
       descripcion: productData?.descripcion,
@@ -56,6 +63,8 @@ export function UpdateFormProduct({ productData, marcas, categories }) {
       categoryId: productData?.categoryId?._id,
       obsequio: productData?.obsequio,
       importado: productData?.importado,
+      proveedorId: productData?.proveedorId?._id,
+      almacenId: productData?.almacenId?._id,
     },
   });
 
@@ -276,67 +285,140 @@ export function UpdateFormProduct({ productData, marcas, categories }) {
             )}
           />
         </div>
-        <FormField
-          control={control}
-          name="estado"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <div className="flex items-center space-x-2 text-muted-foreground">
-                <RiPulseLine className="h-5 w-5" />
-                <FormLabel>Estado</FormLabel>
-              </div>
-              <div className="relative">
-                <Select
-                  defaultValue={productData?.estado}
-                  onValueChange={field.onChange}
-                  disabled={formSubmitIsLoading}
-                >
-                  <FormControl>
-                    <SelectTrigger className="w-full pl-2">
-                      <SelectValue placeholder="Seleccione un estado" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="activo">Activo</SelectItem>
-                    <SelectItem value="inactivo">Inactivo</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="stockMinimo"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <div className="flex items-center space-x-2 text-muted-foreground">
-                <RiNotification2Line className="h-5 w-5" />
-                <FormLabel>Stock Mínimo (Notificaciones)</FormLabel>
-              </div>
-              <div className="relative">
-                <FormControl>
-                  <Input
-                    className="pl-2"
-                    autoComplete="off"
-                    type="number"
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={control}
+            name="proveedorId"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <Truck className="h-5 w-5" />
+                  <FormLabel>Proveedor</FormLabel>
+                </div>
+                <div className="relative">
+                  <Select
+                    defaultValue={field.value}
+                    onValueChange={field.onChange}
                     disabled={formSubmitIsLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Seleccione un proveedor" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {proveedores?.map((proveedor) => (
+                        <SelectItem key={proveedor?._id} value={proveedor?._id}>
+                          {proveedor?.nombre}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="almacenId"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <Package className="h-5 w-5" />
+                  <FormLabel>Almacen</FormLabel>
+                </div>
+                <div className="relative">
+                  <Select
+                    defaultValue={almacenes[0]?._id}
+                    onValueChange={field.onChange}
+                    disabled={formSubmitIsLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Seleccione un proveedor" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {almacenes?.map((almacen) => (
+                        <SelectItem key={almacen?._id} value={almacen?._id}>
+                          {almacen?.nombre}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={control}
+            name="estado"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <RiPulseLine className="h-5 w-5" />
+                  <FormLabel>Estado</FormLabel>
+                </div>
+                <div className="relative">
+                  <Select
+                    defaultValue={productData?.estado}
+                    onValueChange={field.onChange}
+                    disabled={formSubmitIsLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Seleccione un estado" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="activo">Activo</SelectItem>
+                      <SelectItem value="inactivo">Inactivo</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="stockMinimo"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <RiNotification2Line className="h-5 w-5" />
+                  <FormLabel>Stock Mínimo (Notificaciones)</FormLabel>
+                </div>
+                <div className="relative">
+                  <FormControl>
+                    <Input
+                      className="pl-2"
+                      autoComplete="off"
+                      type="number"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={control}
             name="obsequio"
             render={({ field }) => (
               <FormItem className="flex flex-col items-start space-y-3">
-                <FormLabel>Obsequio</FormLabel>
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <Gift className="h-5 w-5" />
+                  <FormLabel>Obsequio</FormLabel>
+                </div>
                 <div className="flex space-x-2">
                   <div className="space-y-1 leading-none">
                     <FormLabel>No</FormLabel>
@@ -362,7 +444,10 @@ export function UpdateFormProduct({ productData, marcas, categories }) {
             name="importado"
             render={({ field }) => (
               <FormItem className="flex flex-col items-start space-y-3">
-                <FormLabel>Importado</FormLabel>
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <RiImportFill className="h-5 w-5" />
+                  <FormLabel>Importado</FormLabel>
+                </div>
                 <div className="flex space-x-2">
                   <div className="space-y-1 leading-none">
                     <FormLabel>No</FormLabel>

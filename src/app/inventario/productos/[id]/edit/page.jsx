@@ -8,6 +8,11 @@ import {
 } from '@/app/inventario/motos/modelos/_services/requests';
 import { getProductByIdRequestServer } from '@/app/inventario/productos/[id]/_services/requests';
 import { UpdateFormProduct } from '@/app/inventario/productos/[id]/edit/_components/updateFormProduct';
+import {
+  getAllAlmacenesByDataForProductsRequestServer,
+  getAllProveedoresByDataForProductsRequestServer,
+} from '@/app/inventario/productos/_services/requests';
+import { sortByUpdateDateAsc } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -23,6 +28,8 @@ export default async function Page({ params }) {
   const [
     categoriesProductResponse,
     marcasProductResponse,
+    proveedoresResponse,
+    almacenesResponse,
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
     getCategoriesBySegmentDataForModelosRequestServer({
@@ -33,10 +40,16 @@ export default async function Page({ params }) {
       nombre: 'Productos',
       marcaEstado: 'activo',
     }),
+    getAllProveedoresByDataForProductsRequestServer({ estado: 'activo' }),
+    getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' }),
   ]);
 
   const { categories } = categoriesProductResponse;
   const { marcas } = marcasProductResponse;
+  const { proveedores } = proveedoresResponse;
+  const { almacenes } = almacenesResponse;
+
+  const almacenesOrderedByCreation = sortByUpdateDateAsc(almacenes);
 
   const navbarTitles = [
     {
@@ -72,6 +85,8 @@ export default async function Page({ params }) {
             productData={product}
             marcas={marcas}
             categories={categories}
+            proveedores={proveedores}
+            almacenes={almacenesOrderedByCreation}
           />
         </CardContent>
       </Card>

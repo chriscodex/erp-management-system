@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { DeleteProductAlert } from '@/app/inventario/productos/_components/Dialogs/DeleteProductAlert';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { RiImportFill } from '@remixicon/react';
 
 export default function ProductCard({ product }) {
   const router = useRouter();
@@ -92,7 +93,7 @@ export default function ProductCard({ product }) {
             </span>
           </div>
           <div className="flex items-center">
-            <Gift className="h-4 w-4 mr-2 text-muted-foreground" />
+            <RiImportFill className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
               Importado: {product?.importado === 'si' ? 'Si' : 'No'}
             </span>
