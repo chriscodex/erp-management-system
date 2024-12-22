@@ -8,7 +8,7 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from 'recharts';
-import { RiIndeterminateCircleLine, RiDownload2Line } from '@remixicon/react';
+import { RiDownload2Line } from '@remixicon/react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { contarEstadoDeUnidades } from '@/lib/utils';
@@ -21,7 +21,8 @@ import {
 } from '@/components/ui/chart';
 import { Button } from '@/components/ui/button';
 import { generateExcelFileForProductsCode } from '@/app/inventario/productos/[id]/_services/helpers';
-import { SheetAddStockProductWrapper } from '../Sheets/addStock/addStockProductWrapper';
+import { SheetAddStockProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/addStock/addStockProductWrapper';
+import { SheetReduceStockProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/reduceStock/reduceStockProductWrapper';
 
 export default function GraphicSingleProductCard({ unidades, product }) {
   const totalUnidades = unidades?.length;
@@ -72,10 +73,7 @@ export default function GraphicSingleProductCard({ unidades, product }) {
         <CardTitle className="w-full flex-col">
           <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-6">
             <SheetAddStockProductWrapper productData={product} />
-            <Button variant="outline">
-              <RiIndeterminateCircleLine className="h-5 w-5" />
-              Disminuir Stock
-            </Button>
+            <SheetReduceStockProductWrapper productData={product} />
             <Button
               variant="default"
               onClick={() => generateExcelFileForProductsCode(product)}

@@ -27,16 +27,21 @@ import { addUnitProductRequestClient } from '@/app/inventario/productos/[id]/_se
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { onChangeNumero } from '@/components/formInputs/onChange';
-import { addStockFormSchema } from '@/app/inventario/productos/[id]/_services/validations/addStockFormSchema';
+import { reduceStockFormSchema } from '@/app/inventario/productos/[id]/_services/validations/reduceStockFormSchema';
 
-export function AddStockProductForm({ productData, onClose }) {
+export function ReduceStockProductForm({ productData, onClose }) {
   const router = useRouter();
 
-  const addUnitsForm = useForm({
-    resolver: zodResolver(addStockFormSchema),
+  const reduceStockForm = useForm({
+    resolver: zodResolver(reduceStockFormSchema),
   });
 
-  const { handleSubmit, control, clearErrors, reset: resetForm } = addUnitsForm;
+  const {
+    handleSubmit,
+    control,
+    clearErrors,
+    reset: resetForm,
+  } = reduceStockForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
@@ -45,9 +50,9 @@ export function AddStockProductForm({ productData, onClose }) {
     setFormSubmitIsLoading(true);
 
     // Obtener los valores actuales del formulario
-    const cantidadAAgregar = parseInt(data.cantidad);
+    const cantidadADisminuir = parseInt(data.cantidad);
 
-    if (cantidadAAgregar <= 0) {
+    if (cantidadADisminuir <= 0) {
       toast.error('La cantidad debe ser mayor a 0');
       setFormSubmitIsLoading(false);
       return;
@@ -57,7 +62,7 @@ export function AddStockProductForm({ productData, onClose }) {
     toast.promise(
       addUnitProductRequestClient(
         productData?._id,
-        cantidadAAgregar,
+        cantidadADisminuir,
         setFormSubmitIsLoading
       ),
       {
@@ -80,8 +85,8 @@ export function AddStockProductForm({ productData, onClose }) {
   return (
     <SheetContent>
       <SheetHeader>
-        <SheetTitle>Aumentar Stock</SheetTitle>
-        <SheetDescription>Ingrese la cantidad a aumentar</SheetDescription>
+        <SheetTitle>Disminuir Stock</SheetTitle>
+        <SheetDescription>Ingrese la cantidad a disminuir</SheetDescription>
       </SheetHeader>
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-3 items-center gap-4">
@@ -92,7 +97,7 @@ export function AddStockProductForm({ productData, onClose }) {
           <Label className="col-span-1 text-left">Stock actual</Label>
           <p className="col-span-2">{productData?.stock}</p>
         </div>
-        <Form {...addUnitsForm}>
+        <Form {...reduceStockForm}>
           <form onSubmit={onSubmit} className="grid gap-4">
             <FormField
               control={control}
@@ -103,7 +108,7 @@ export function AddStockProductForm({ productData, onClose }) {
                   <div className="relative col-span-2">
                     <FormControl>
                       <Input
-                        placeholder="Cantidad a aumentar"
+                        placeholder="Cantidad a disminuir"
                         className="pl-2"
                         autoComplete="off"
                         type="text"
@@ -122,7 +127,7 @@ export function AddStockProductForm({ productData, onClose }) {
             <SheetFooter>
               <SheetClose asChild>
                 <Button disabled={formSubmitIsLoading} onClick={onSubmit}>
-                  Aumentar
+                  Disminuir
                 </Button>
               </SheetClose>
             </SheetFooter>
