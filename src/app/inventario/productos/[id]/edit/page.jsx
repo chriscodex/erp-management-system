@@ -12,13 +12,13 @@ import { UpdateFormProduct } from '@/app/inventario/productos/[id]/edit/_compone
 export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }) {
-  const { product, status } = await getProductByIdRequestServer(params.id);
+  const { product } = await getProductByIdRequestServer(params.id);
 
   if (!product) {
     notFound();
   }
 
-  const { nombre: productName, unidades } = product;
+  const { nombre: productName } = product;
 
   const [
     categoriesProductResponse,

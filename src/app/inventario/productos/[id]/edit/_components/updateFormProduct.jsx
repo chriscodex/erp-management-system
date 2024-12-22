@@ -37,6 +37,7 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { updateModeloRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/edit/_services/requests';
 import { updateModeloFormSchema } from '@/app/inventario/motos/modelos/[modeloId]/edit/_services/validations/updateModeloFormSchema';
+import { Switch } from '@/components/ui/switch';
 
 export function UpdateFormProduct({ productData, marcas, categories }) {
   console.log(productData);
@@ -53,6 +54,8 @@ export function UpdateFormProduct({ productData, marcas, categories }) {
       estado: productData?.estado,
       marcaId: productData?.marcaId?._id,
       categoryId: productData?.categoryId?._id,
+      obsequio: productData?.obsequio,
+      importado: productData?.importado,
     },
   });
 
@@ -327,6 +330,60 @@ export function UpdateFormProduct({ productData, marcas, categories }) {
             </FormItem>
           )}
         />
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={control}
+            name="obsequio"
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-start space-y-3">
+                <FormLabel>Obsequio</FormLabel>
+                <div className="flex space-x-2">
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>No</FormLabel>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value === 'si'}
+                      onCheckedChange={(checked) =>
+                        field.onChange(checked ? 'si' : 'no')
+                      }
+                      disabled={formSubmitIsLoading}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Sí</FormLabel>
+                  </div>
+                </div>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="importado"
+            render={({ field }) => (
+              <FormItem className="flex flex-col items-start space-y-3">
+                <FormLabel>Importado</FormLabel>
+                <div className="flex space-x-2">
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>No</FormLabel>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value === 'si'}
+                      onCheckedChange={(checked) =>
+                        field.onChange(checked ? 'si' : 'no')
+                      }
+                      disabled={formSubmitIsLoading}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Sí</FormLabel>
+                  </div>
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
         <div className="space-y-4">
           <div className="flex justify-end space-x-2 mt-4">
             <div className="flex space-x-2">

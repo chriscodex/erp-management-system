@@ -22,7 +22,7 @@ export async function createProductRequestClient(product, setLoading) {
       }
 
       setLoading(false);
-      resolve(response?.response?.data?.payload);
+      resolve(response?.data?.payload);
     } catch (error) {
       setLoading(false);
       reject(error);

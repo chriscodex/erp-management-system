@@ -69,9 +69,9 @@ export function FormAddProduct({
     // Toast promise para crear
     toast.promise(createProductRequestClient(data, setFormSubmitIsLoading), {
       loading: 'Creando...',
-      success: () => {
+      success: (response) => {
         clearErrors();
-        router.push('/inventario/productos');
+        router.push(`/inventario/productos/${response._id}`);
         return `Producto creado correctamente`;
       },
       error: (error) => {
