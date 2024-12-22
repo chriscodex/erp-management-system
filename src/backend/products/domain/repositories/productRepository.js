@@ -6,6 +6,7 @@ import { Category } from '@/backend/categorias/domain/models/category';
 import { Marca } from '@/backend/marcas/domain/models/marca';
 import { Almacen } from '@/backend/almacenes/domain/models/almacen';
 import { Proveedor } from '@/backend/proveedores/domain/models/proveedor';
+import { generarNumeroAleatorio } from '@/lib/utils';
 
 export class ProductRepository {
   constructor() {
@@ -271,30 +272,26 @@ export class ProductRepository {
         throw new Error(`Producto con ID ${productId} no encontrado.`);
       }
 
-      // Obtener el último código de las unidades existentes
-      const ultimoCodigo =
-        product.unidades.length > 0
-          ? product.unidades[product.unidades.length - 1].code
-          : `${product.code}00000`;
-
       // Generar las nuevas unidades
-      const numeroBase = parseInt(ultimoCodigo.slice(-5), 10);
-      const nuevasUnidades = [];
+      // eslint-disable-next-line no-undef
+      const nuevasUnidades = new Set(); // Usamos un Set para evitar códigos duplicados
 
-      for (let i = 1; i <= cantidadAAgregar; i++) {
-        const nuevoNumero = (numeroBase + i).toString().padStart(5, '0'); // Mantener 5 dígitos
-        const nuevoCodigo = `${product.code}${nuevoNumero}`;
-        nuevasUnidades.push({
+      while (nuevasUnidades.size < cantidadAAgregar) {
+        const nuevoCodigo = `2${generarNumeroAleatorio(12)}`;
+        nuevasUnidades.add({
           code: nuevoCodigo,
           estado: 'disponible',
         });
       }
 
+      // Convertir el Set a un array
+      const unidadesParaAgregar = Array.from(nuevasUnidades);
+
       // Realizar el push de las nuevas unidades
       const productoActualizado = await this.productModel.findByIdAndUpdate(
         productId,
         {
-          $push: { unidades: { $each: nuevasUnidades } },
+          $push: { unidades: { $each: unidadesParaAgregar } },
           $inc: { stock: cantidadAAgregar }, // Incrementar el stock
         },
         { new: true, runValidators: true } // Retornar el documento actualizado
@@ -311,6 +308,7 @@ export class ProductRepository {
       throw new Error(`Error al agregar unidades: ${error.message}`);
     }
   }
+
   async removeUnitsToProduct(productId, cantidadARemover) {
     try {
       // Encuentra el producto actual

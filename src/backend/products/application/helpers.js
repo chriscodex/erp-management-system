@@ -1,4 +1,4 @@
-import { generarNumeroAleatorioOchoDigitos } from '@/lib/utils';
+import { generarNumeroAleatorio } from '@/lib/utils';
 
 /**
  * Genera un código único de 8 dígitos para un producto, con la siguiente estructura:
@@ -9,7 +9,7 @@ import { generarNumeroAleatorioOchoDigitos } from '@/lib/utils';
  * @returns {Promise<string>} - Código único del producto
  */
 export async function generarCodigoUnicoDelProducto(productRepository) {
-  const numericCode = generarNumeroAleatorioOchoDigitos();
+  const numericCode = generarNumeroAleatorio(12);
   const productCode = `2${numericCode}`;
 
   // Validar si el código ya existe
@@ -39,20 +39,17 @@ export async function generarCodigoUnicoDelProducto(productRepository) {
  * @throws {Error} - Si el código no tiene una longitud de 9 caracteres o el
  * stock no es un número entero positivo
  */
-export function generarUnidadesDelProducto(codigo, stock) {
-  if (codigo.length !== 9) {
-    console.log('producto', codigo);
-    console.error('El codigo debe tener una longitud de 9 caracteres.');
-    throw new Error('El codigo debe tener una longitud de 9 caracteres.');
-  }
+export function generarUnidadesDelProducto(stock) {
   if (stock <= 0 || !Number.isInteger(stock)) {
     throw new Error('El parámetro stock debe ser un número entero positivo.');
   }
 
-  const result = [];
-  for (let i = 1; i <= stock; i++) {
-    const codeNumber = String(i).padStart(5, '0');
-    result.push({ code: `${codigo}${codeNumber}`, estado: 'disponible' });
+  // eslint-disable-next-line no-undef
+  const result = new Set(); // Usamos un Set para evitar duplicados
+  while (result.size < stock) {
+    const codigoAleatorio = `2${generarNumeroAleatorio(12)}`;
+    result.add({ code: codigoAleatorio, estado: 'disponible' });
   }
-  return result;
+
+  return Array.from(result); // Convertimos el Set en un array
 }

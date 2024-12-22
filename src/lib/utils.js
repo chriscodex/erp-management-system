@@ -90,3 +90,14 @@ export function generarNumeroAleatorioOchoDigitos() {
 export function generarNumeroAleatorioSeisDigitos() {
   return Math.floor(100000 + Math.random() * 900000);
 }
+
+export function generarNumeroAleatorio(cantidadDigitos) {
+  if (cantidadDigitos < 1) {
+    throw new Error('La cantidad de dígitos debe ser mayor o igual a 1');
+  }
+
+  const min = Math.pow(10, cantidadDigitos - 1); // Número mínimo con la cantidad de dígitos
+  const max = Math.pow(10, cantidadDigitos) - 1; // Número máximo con la cantidad de dígitos
+
+  return Math.floor(min + Math.random() * (max - min + 1));
+}

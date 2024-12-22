@@ -233,7 +233,6 @@ export class ProductService {
       // Generar las unidades del producto
       const stock = productData.stock;
       const unidades = await generarUnidadesDelProducto(
-        productCode,
         parseInt(stock)
       );
 
