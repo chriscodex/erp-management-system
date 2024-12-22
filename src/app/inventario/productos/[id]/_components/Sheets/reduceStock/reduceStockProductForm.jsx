@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
 
 import {
   Form,
@@ -23,27 +22,22 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
-import { addUnitProductRequestClient } from '@/app/inventario/productos/[id]/_services/requests';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
 import { onChangeNumero } from '@/components/formInputs/onChange';
 import { reduceStockFormSchema } from '@/app/inventario/productos/[id]/_services/validations/reduceStockFormSchema';
+import { ReduceStockProductAlert } from '@/app/inventario/productos/[id]/_components/dialogs/reduceStockProductAlert';
 
 export function ReduceStockProductForm({ productData, onClose }) {
-  const router = useRouter();
-
   const reduceStockForm = useForm({
     resolver: zodResolver(reduceStockFormSchema),
   });
 
-  const {
-    handleSubmit,
-    control,
-    clearErrors,
-    reset: resetForm,
-  } = reduceStockForm;
+  const { handleSubmit, control } = reduceStockForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
+
+  const [isOpenDialog, setIsOpenDialog] = useState(false);
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
@@ -51,35 +45,23 @@ export function ReduceStockProductForm({ productData, onClose }) {
 
     // Obtener los valores actuales del formulario
     const cantidadADisminuir = parseInt(data.cantidad);
+    console.log('Cantidad a disminuir:', cantidadADisminuir);
 
     if (cantidadADisminuir <= 0) {
+      console.log(true);
       toast.error('La cantidad debe ser mayor a 0');
       setFormSubmitIsLoading(false);
       return;
     }
 
-    // Toast promise para buscar una persona
-    toast.promise(
-      addUnitProductRequestClient(
-        productData?._id,
-        cantidadADisminuir,
-        setFormSubmitIsLoading
-      ),
-      {
-        loading: 'Procesando...',
-        success: () => {
-          clearErrors();
-          resetForm();
-          onClose();
-          router.refresh();
-          return `Cantidad agregada correctamente`;
-        },
-        error: (error) => {
-          setFormSubmitIsLoading(false);
-          return error;
-        },
-      }
-    );
+    if (cantidadADisminuir > productData?.stock) {
+      toast.error('La cantidad a disminuir no puede ser mayor al stock actual');
+      setFormSubmitIsLoading(false);
+      return;
+    }
+
+    setIsOpenDialog(true);
+    setFormSubmitIsLoading(false);
   });
 
   return (
@@ -133,6 +115,16 @@ export function ReduceStockProductForm({ productData, onClose }) {
             </SheetFooter>
           </form>
         </Form>
+        {/* Dialog Delete */}
+        <ReduceStockProductAlert
+          isOpenDialog={isOpenDialog}
+          setIsOpenDialog={setIsOpenDialog}
+          productId={productData?._id}
+          cantidadADisminuir={parseInt(reduceStockForm.getValues('cantidad'))}
+          setFormSubmitIsLoading={setFormSubmitIsLoading}
+          onClose={onClose}
+          stock={productData?.stock}
+        />
       </div>
     </SheetContent>
   );
