@@ -110,8 +110,6 @@ export function UpdateUnitProductForm({
     );
   });
 
-  console.log(productData);
-
   return (
     <SheetContent>
       <SheetHeader>

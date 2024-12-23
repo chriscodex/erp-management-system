@@ -36,9 +36,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { updateModeloRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/edit/_services/requests';
 import { Switch } from '@/components/ui/switch';
 import { updateProductFormSchema } from '@/app/inventario/productos/[id]/edit/_services/validations/updateProductFormSchema';
+import { updateProductRequestClient } from '@/app/inventario/productos/[id]/edit/_services/requests';
 
 export function UpdateFormProduct({
   productData,
@@ -47,7 +47,6 @@ export function UpdateFormProduct({
   proveedores,
   almacenes,
 }) {
-  console.log(productData);
   const router = useRouter();
 
   const updateForm = useForm({
@@ -98,7 +97,7 @@ export function UpdateFormProduct({
 
     // Toast promise para buscar una persona
     toast.promise(
-      updateModeloRequestClient(
+      updateProductRequestClient(
         productData?._id,
         DataToUpdate,
         setFormSubmitIsLoading
@@ -107,9 +106,9 @@ export function UpdateFormProduct({
         loading: 'Actualizando...',
         success: () => {
           clearErrors();
-          // router.refresh();
+          router.refresh();
           router.back();
-          return `Modelo actualizado correctamente`;
+          return `Producto actualizado correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);

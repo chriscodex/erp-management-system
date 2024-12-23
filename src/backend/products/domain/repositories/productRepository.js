@@ -206,6 +206,32 @@ export class ProductRepository {
       throw new Error(`Error al crear el producto: ${error.message}`);
     }
   }
+  async updateProduct(productId, productData) {
+    try {
+      const updatedProduct = await this.productModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(productId) },
+        productData,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedProduct) {
+        console.log(
+          'Product Repository: Producto no encontrado para ser actualizado'
+        );
+        return null;
+      }
+
+      console.log('Product Repository: Producto actualizado correctamento');
+      return updatedProduct;
+    } catch (error) {
+      console.error(
+        `Product Repository: Error al actualizar la producto: ${error.message}`
+      );
+      throw new Error(`Error al actualizar el producto: ${error.message}`);
+    }
+  }
   async updateUnitProduct(unitProductId, unitProductData) {
     try {
       const filter = {};

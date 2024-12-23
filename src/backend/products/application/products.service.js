@@ -14,6 +14,7 @@ import { GastoRepository } from '@/backend/products/domain/repositories/gastoRep
 import { createProductSchema } from '@/backend/products/application/validations/createProductSchema';
 import { updateUnitProductSchema } from '@/backend/products/application/validations/updateUnitProductSchema';
 import { generarNumeroAleatorio } from '@/lib/utils';
+import { updateProductSchema } from '@/backend/products/application/validations/updateProductSchema';
 
 export class ProductService {
   constructor() {
@@ -253,6 +254,73 @@ export class ProductService {
     } catch (error) {
       console.error(
         `Product Service: Error interno al crear un producto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async updateProduct(productId, productData) {
+    try {
+      console.log('productData', productData);
+      if (!productId) {
+        console.log('Product Service: ProductId no enviado');
+        return {
+          status: 400,
+          payload: 'ProductId no enviado',
+        };
+      }
+      // Validar los datos del usuario enviado con el schema
+      const productValidated = updateProductSchema.safeParse(productData);
+
+      if (!productValidated.success) {
+        console.log(
+          'Product Service: Error de validación de schema de producto al actualizar'
+        );
+        return {
+          status: 400,
+          payload: productValidated.error.issues,
+        };
+      }
+
+      // Validar si un producto con ese nombre y en el mismo segmento ya existe
+      if (productData.nombre) {
+        const productFound = await this.productRepository.getProductByData({
+          nombre: productData.nombre,
+        });
+        if (productFound && productFound?._id !== productId) {
+          console.log(
+            'Product Service: Un producto con el mismo nombre ya existe'
+          );
+          return {
+            status: 409,
+            payload: 'Un producto con el mismo nombre ya existe',
+          };
+        }
+      }
+
+      const productUpdated = await this.productRepository.updateProduct(
+        productId,
+        productData
+      );
+
+      if (!productUpdated) {
+        console.log('Product Service: El producto no existe');
+        return {
+          status: 404,
+          payload: 'El producto no existe',
+        };
+      }
+
+      console.log('Product Service: Producto actualizado correctamente');
+      return {
+        status: 200,
+        payload: productUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Product Service: Error interno al actualizar un producto: ${error.message}`
       );
       return {
         status: 500,

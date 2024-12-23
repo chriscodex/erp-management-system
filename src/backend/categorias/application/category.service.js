@@ -164,6 +164,13 @@ export class CategoryService {
   }
   async updateCategory(categoryId, categoryData) {
     try {
+      if (!categoryId) {
+        console.log('Category Service: CategoryId no enviada');
+        return {
+          status: 404,
+          payload: 'CategoryId no enviada',
+        };
+      }
       // Validar los datos del usuario enviado con el schema
       const categoryValidated = updateCategorySchema.safeParse(categoryData);
 
@@ -203,7 +210,7 @@ export class CategoryService {
           return {
             status: 409,
             payload:
-              'Una mategoría con el mismo nombre ya existe en el segmento seleccionado',
+              'Una categoría con el mismo nombre ya existe en el segmento seleccionado',
           };
         }
       }

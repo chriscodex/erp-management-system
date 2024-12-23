@@ -28,7 +28,7 @@ import { RiImportFill } from '@remixicon/react';
 
 export default function ProductCard({ product }) {
   const router = useRouter();
-  
+
   /* Manejar estado de eliminar el producto */
   const [isOpenDialogDeleteProduct, setIsOpenDialogDeleteProduct] =
     useState(false);
@@ -41,7 +41,9 @@ export default function ProductCard({ product }) {
             <CardTitle className="text-xl font-bold">
               {product?.nombre}
             </CardTitle>
-            <CardDescription>{product?.code}</CardDescription>
+            {product?.descripcion && (
+              <CardDescription>{product?.descripcion}</CardDescription>
+            )}
           </div>
           {/* Estado */}
           <div className="flex items-center space-x-2">
@@ -61,11 +63,6 @@ export default function ProductCard({ product }) {
         </div>
       </CardHeader>
       <CardContent className="space-y-4 max-w-lg">
-        {product?.descripcion && (
-          <p className="text-sm text-muted-foreground">
-            {product?.descripcion}
-          </p>
-        )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="flex items-center">
             <Package className="h-4 w-4 mr-2 text-muted-foreground" />
@@ -129,7 +126,13 @@ export default function ProductCard({ product }) {
           <Trash className="h-4 w-4" />
           Eliminar
         </Button>
-        <Button className="w-full col-span-1" variant="outline" onClick={() => router.push(`/inventario/productos/${product?._id}/edit`)}>
+        <Button
+          className="w-full col-span-1"
+          variant="outline"
+          onClick={() =>
+            router.push(`/inventario/productos/${product?._id}/edit`)
+          }
+        >
           <Edit2 className="h-4 w-4 mr-2" />
           Editar
         </Button>

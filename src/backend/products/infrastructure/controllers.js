@@ -75,7 +75,7 @@ export async function updateUnitProductController(request, contextRoute) {
   }
 }
 
-export async function addOrReduceUnitsToProductController(
+export async function updateOrAddOrReduceUnitsToProductController(
   request,
   contextRoute
 ) {
@@ -92,6 +92,11 @@ export async function addOrReduceUnitsToProductController(
     if (body.type === 'reduce') {
       const result = await productService.removeUnitsToProduct(id, body);
       return result;
+    }
+    if (body.type === 'update') {
+      delete body.type;
+      const updatedProduct = await productService.updateProduct(id, body);
+      return updatedProduct;
     }
   } catch (error) {
     console.error(

@@ -1,9 +1,9 @@
 import { NextResponse } from 'next/server';
 
 import {
-  addOrReduceUnitsToProductController,
   deleteProductController,
   getProductByDataController,
+  updateOrAddOrReduceUnitsToProductController,
 } from '@/backend/products/infrastructure/controllers';
 
 export async function GET(_, contextRoute) {
@@ -25,10 +25,8 @@ export async function GET(_, contextRoute) {
 
 export async function PATCH(request, contextRoute) {
   try {
-    const { payload, status } = await addOrReduceUnitsToProductController(
-      request,
-      contextRoute
-    );
+    const { payload, status } =
+      await updateOrAddOrReduceUnitsToProductController(request, contextRoute);
 
     if (status !== 201) {
       return NextResponse.json({ error: payload }, { status });
@@ -37,10 +35,10 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Unit Product Route: Error interno al actualizar el unitProduct: ${error.message}`
+      `Product Route: Error interno al actualizar el producto: ${error.message}`
     );
     return NextResponse.json(
-      { message: 'Error interno al actualizar el unitProduct' },
+      { message: 'Error interno al actualizar el producto' },
       { status: 500 }
     );
   }
