@@ -50,4 +50,8 @@ export const createUnidadMotoSchema = z.object({
     message: 'El modeloId es requerido',
   }),
   importado: z.enum(['si', 'no']),
+  estadoTitle: z.string().min(1, {
+    message: 'El estado es requerido',
+  }),
+  observacionesEstado: z.string().optional(),
 });

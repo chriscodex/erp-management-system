@@ -30,9 +30,9 @@ import { StringInputField } from '@/components/formInputs/StringInputField';
 import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
 import { createUnidadMotoSchema } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/validations/createUnidadMotoSchema';
 import { createUnidadMotoRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests';
+import { estadosMotos } from '@/app/inventario/motos/_services/helpers';
 
 export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
-  console.log(almacenes);
   const router = useRouter();
   const addUnidadMotoForm = useForm({
     resolver: zodResolver(createUnidadMotoSchema),
@@ -45,6 +45,8 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
       almacenId: almacenes[0]?._id,
       modeloId,
       importado: 'no',
+      estadoTitle: estadosMotos[0]?.id,
+      observacionesEstado: '',
     },
   });
 
@@ -54,7 +56,6 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
-    console.log(data);
     setFormSubmitIsLoading(true);
 
     // Toast promise para crear
@@ -209,6 +210,63 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
                     <div className="space-y-1 leading-none">
                       <FormLabel>Sí</FormLabel>
                     </div>
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
+        </div>
+
+        <Separator />
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Estado</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField
+              control={control}
+              name="estadoTitle"
+              render={({ field }) => (
+                <FormItem className="space-y-2 col-span-1">
+                  <FormLabel>Estado</FormLabel>
+                  <div className="relative">
+                    <Select
+                      defaultValue={estadosMotos[0]?.id}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un estado" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {estadosMotos?.map((estado) => (
+                          <SelectItem key={estado?.id} value={estado?.id}>
+                            {estado?.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="observacionesEstado"
+              render={({ field }) => (
+                <FormItem className="space-y-2 col-span-2">
+                  <FormLabel>Observaciones</FormLabel>
+                  <div className="relative">
+                    <FormControl>
+                      <Textarea
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                        placeholder="Observaciones con respecto al estado de la moto"
+                      />
+                    </FormControl>
+                    <FormMessage />
                   </div>
                 </FormItem>
               )}

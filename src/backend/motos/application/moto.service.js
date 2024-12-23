@@ -192,7 +192,6 @@ export class MotoService {
       const motoObject = {
         ...motoData,
         code: motoCode,
-        estado: 'disponible',
       };
 
       const motoCreated = await this.motoRepository.createMoto(motoObject);

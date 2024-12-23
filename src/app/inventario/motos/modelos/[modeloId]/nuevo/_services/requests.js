@@ -14,7 +14,19 @@ export async function createUnidadMotoRequestClient(motoData, setLoading) {
       // Simular tiempo de retraso para pruebas en la UI
       await delay();
 
-      const response = await postData(createMotoClientUrl, motoData);
+      const motoObj = {
+        ...motoData,
+        estado: {
+          titulo: motoData?.estadoTitle,
+          observaciones: motoData?.observacionesEstado,
+        }
+      }
+      delete motoObj?.estadoTitle;
+      delete motoObj?.estadoObservaciones;
+
+      console.log('createUnidadMotoRequestClient: motoObj', motoObj);
+
+      const response = await postData(createMotoClientUrl, motoObj);
       if (response?.status !== 201) {
         setLoading(false);
         reject('No se pudo crear la moto: ' + response.response?.data?.error);

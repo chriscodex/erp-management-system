@@ -8,9 +8,16 @@ import { Schema, model, models } from 'mongoose';
 const motoSchema = new Schema(
   {
     estado: {
-      type: String,
-      required: [true, 'El estado es requerido en el schema de motos'],
-      enum: ['disponible', 'dañado', 'reparado'],
+      titulo: {
+        type: String,
+        required: [true, 'El estado es requerido en el schema de motos'],
+        enum: ['disponible', 'dañado', 'reparado', 'desarmado'],
+      },
+      observaciones: {
+        type: String,
+        required: false,
+        maxlength: [500, 'La observación no puede tener más de 500 caracteres'],
+      },
     },
     code: {
       type: String,
