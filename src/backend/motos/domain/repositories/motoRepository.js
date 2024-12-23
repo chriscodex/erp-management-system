@@ -10,6 +10,8 @@ export class MotoRepository {
     try {
       const motos = await this.motoModel
         .find()
+        .populate('modeloId')
+        .populate('almacenId');
 
       if (motos.length === 0) {
         console.log('Moto Repository: No se encontraron motos');
