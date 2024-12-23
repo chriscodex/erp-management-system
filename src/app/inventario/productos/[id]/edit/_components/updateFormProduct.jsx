@@ -49,6 +49,8 @@ export function UpdateFormProduct({
 }) {
   const router = useRouter();
 
+  console.log(productData?.almacenId?._id);
+
   const updateForm = useForm({
     resolver: zodResolver(updateProductFormSchema),
     defaultValues: {
@@ -329,7 +331,7 @@ export function UpdateFormProduct({
                 </div>
                 <div className="relative">
                   <Select
-                    defaultValue={almacenes[0]?._id}
+                    defaultValue={field.value}
                     onValueChange={field.onChange}
                     disabled={formSubmitIsLoading}
                   >

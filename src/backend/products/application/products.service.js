@@ -1,5 +1,4 @@
 import {
-  generarCodigoUnicoDelProducto,
   generarUnidadesDelProducto,
 } from '@/backend/products/application/helpers';
 
@@ -228,17 +227,12 @@ export class ProductService {
       }
       console.log('Product Service: El proveedor existe');
 
-      const productCode = await generarCodigoUnicoDelProducto(
-        this.productRepository
-      );
-
       // Generar las unidades del producto
       const stock = productData.stock;
       const unidades = await generarUnidadesDelProducto(parseInt(stock));
 
       const productObject = {
         ...productData,
-        code: productCode,
         estado: 'activo',
         unidades,
       };

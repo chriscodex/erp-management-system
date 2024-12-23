@@ -33,7 +33,6 @@ import { Button } from '@/components/ui/button';
 import { updateUnitProductFormSchema } from '@/app/inventario/productos/[id]/_services/validations/updateUnitProductSchema';
 import { updateUnitProductRequestClient } from '@/app/inventario/productos/[id]/_services/requests';
 import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
 
 export function UpdateUnitProductForm({
   unitProductData,
@@ -116,18 +115,17 @@ export function UpdateUnitProductForm({
         <SheetTitle>{productData?.nombre}</SheetTitle>
         <SheetDescription>{productData?.descripcion}</SheetDescription>
       </SheetHeader>
-      <Separator />
       <div className="grid gap-4 py-4">
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label className="col-span-1 text-left font-bold">Código: </Label>
-          <p className="col-span-2">{productData?.code}</p>
+          <Label className="col-span-1">Código: </Label>
+          <p className="col-span-2">{unitProductData?.code}</p>
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label className="col-span-1 text-left font-bold">Marca: </Label>
+          <Label className="col-span-1">Marca: </Label>
           <p className="col-span-2">{productData?.marcaId?.nombre}</p>
         </div>
         <div className="grid grid-cols-3 items-center gap-4">
-          <Label className="col-span-1 text-left font-bold">Categoría: </Label>
+          <Label className="col-span-1">Categoría: </Label>
           <p className="col-span-2">{productData?.categoryId?.nombre}</p>
         </div>
         <Form {...updateUnitProductForm}>
@@ -136,11 +134,9 @@ export function UpdateUnitProductForm({
               control={control}
               name="estado"
               render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel className="col-span-1 text-left font-bold">
-                    Estado
-                  </FormLabel>
-                  <div className="relative">
+                <FormItem className="space-y-2 grid grid-cols-3">
+                  <FormLabel className="col-span-1 flex items-center">Estado</FormLabel>
+                  <div className="relative w-full col-span-2">
                     <Select
                       defaultValue={unitProductData?.estado}
                       onValueChange={field.onChange}

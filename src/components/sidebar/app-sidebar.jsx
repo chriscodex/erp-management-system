@@ -24,7 +24,6 @@ import { NavAdministracion } from '@/components/sidebar/nav-projects';
 import { NavHome } from '@/components/sidebar/nav-home';
 import { NavUser } from '@/components/sidebar/nav-user';
 import { NavVentas } from '@/components/sidebar/nav-ventas';
-import { TeamSwitcher } from '@/components/sidebar/team-switcher';
 import {
   Sidebar,
   SidebarContent,
@@ -171,7 +170,8 @@ export function AppSidebar({ ...props }) {
       {!isLoginPage && (
         <Sidebar collapsible="icon" {...props}>
           <SidebarHeader>
-            <TeamSwitcher teams={data.teams} />
+            <img src="/logoB.jpeg" alt="logo" className='w-full rounded-xl object-contain' />
+            {/* <TeamSwitcher teams={data.teams} /> */}
           </SidebarHeader>
 
           <SidebarContent>

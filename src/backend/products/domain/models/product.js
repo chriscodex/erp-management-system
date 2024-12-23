@@ -11,11 +11,6 @@ const productSchema = new Schema(
       required: [true, 'Estado es requerido en el schema de categoría'],
       enum: ['activo', 'inactivo'],
     },
-    code: {
-      type: String,
-      required: true,
-      unique: true,
-    },
     nombre: {
       type: String,
       required: [true, 'El nombre es requerido en el schema de productos'],
