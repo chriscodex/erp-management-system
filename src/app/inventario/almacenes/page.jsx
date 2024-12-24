@@ -1,10 +1,9 @@
-import Link from 'next/link';
 import {
   RiArchiveLine,
   RiFileListLine,
   RiMotorbikeFill,
 } from '@remixicon/react';
-import { Package, DollarSign, ExternalLink } from 'lucide-react';
+import { Package, DollarSign } from 'lucide-react';
 
 import {
   Card,
@@ -14,7 +13,6 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
   getAllAlmacenesRequestServer,
@@ -159,7 +157,7 @@ export default async function CompaniesPage() {
               </CardContent>
               <CardFooter className="grid lg:grid-cols-2 grid-cols-1 gap-4">
                 <SheetUpdateAlmacenWrapper almacenData={almacen} />
-                <div className="col-start-1">
+                <div>
                   <Sheet>
                     <SheetTrigger className="flex items-center justify-start">
                       <div className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground p-2">
@@ -170,7 +168,7 @@ export default async function CompaniesPage() {
                     <AlmacenDetail almacenData={almacen} />
                   </Sheet>
                 </div>
-                <Button
+                {/* <Button
                   className="lg:col-start-2 col-start-1"
                   variant="default"
                   asChild
@@ -179,7 +177,7 @@ export default async function CompaniesPage() {
                     Movimientos
                     <ExternalLink className="ml-2 h-4 w-4" />
                   </Link>
-                </Button>
+                </Button> */}
               </CardFooter>
             </Card>
           ))}
