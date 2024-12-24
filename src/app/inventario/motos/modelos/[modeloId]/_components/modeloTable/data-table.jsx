@@ -107,22 +107,23 @@ export function DataTableModelo({ modeloId, motos, status = 200 }) {
         );
       },
       cell: ({ row }) => {
+        console.log(row.getValue('estado'));
         return (
           <div className="text-start">
-            {row.getValue('estado') === 'disponible' && (
+            {row.getValue('estado')?.titulo === 'disponible' && (
               <BadgeUnitProduct variant="successTable">
                 Disponible
               </BadgeUnitProduct>
             )}
-            {row.getValue('estado') === 'reparado' && (
+            {row.getValue('estado')?.titulo === 'reparado' && (
               <BadgeUnitProduct variant="blueTable">Reparado</BadgeUnitProduct>
             )}
-            {row.getValue('estado') === 'desaparecido' && (
+            {row.getValue('estado')?.titulo === 'desarmado' && (
               <BadgeUnitProduct variant="orangeTable">
-                Desaparecido
+                Desarmado
               </BadgeUnitProduct>
             )}
-            {row.getValue('estado') === 'dañado' && (
+            {row.getValue('estado')?.titulo === 'dañado' && (
               <BadgeUnitProduct variant="redTable">Dañado</BadgeUnitProduct>
             )}
           </div>

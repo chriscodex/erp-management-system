@@ -4,7 +4,7 @@ import { Plus } from 'lucide-react';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { agregarNumeracionTable } from '@/lib/utils';
+import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
 import GraphicSingleProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/graphic';
 import { getAllMotosByModeloIdRequestServer, getModeloByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/_services/requests';
 import { ModeloCard } from '@/app/inventario/motos/modelos/[modeloId]/_components/modeloCard/modeloCard';
@@ -48,6 +48,7 @@ export default async function ModelosPage({ params }) {
   ];
 
   const motosEnumeradas = agregarNumeracionTable(motosByModeloId);
+  const motosSorted = sortByUpdateDateDesc(motosEnumeradas);
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -72,7 +73,7 @@ export default async function ModelosPage({ params }) {
         <CardContent>
           <DataTableModelo
             modeloId={modeloId}
-            motos={motosEnumeradas}
+            motos={motosSorted}
             status={status}
           />
         </CardContent>

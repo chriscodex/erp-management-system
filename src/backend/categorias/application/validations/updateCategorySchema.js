@@ -11,7 +11,10 @@ export const updateCategorySchema = z.object({
       errorMap: () => ({ message: 'Seleccione un estado' }),
     })
     .optional(),
-  segmentId: z.string().regex(objectIdRegex, {
-    message: 'El id debe ser un ObjectId válido',
-  }),
+  segmentId: z
+    .string()
+    .regex(objectIdRegex, {
+      message: 'El id debe ser un ObjectId válido',
+    })
+    .optional(),
 });

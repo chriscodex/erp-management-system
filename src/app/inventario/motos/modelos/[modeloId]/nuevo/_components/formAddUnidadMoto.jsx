@@ -122,7 +122,7 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
             <MoneyInputField
               control={control}
               name="precioVenta"
-              title="Precio de venta"
+              title="Precio estimado de venta"
               formSubmitIsLoading={formSubmitIsLoading}
             />
             <FormField

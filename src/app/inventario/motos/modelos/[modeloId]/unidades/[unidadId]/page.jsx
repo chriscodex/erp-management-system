@@ -78,7 +78,7 @@ export default async function MotoDetailPage({ params }) {
             </Badge>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -122,7 +122,7 @@ export default async function MotoDetailPage({ params }) {
               </CardContent>
             </Card>
 
-            <Card className="md:col-span-2">
+            <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <Package className="mr-2" />
@@ -157,7 +157,7 @@ export default async function MotoDetailPage({ params }) {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="md:col-span-2">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <DollarSign className="mr-2" />
