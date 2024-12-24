@@ -20,6 +20,24 @@ export async function createMotoController(request) {
   }
 }
 
+export async function updateMotoController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { motoId } = params;
+    const body = await request.json();
+
+    await connectDB();
+    const updatedMoto = await motoService.updateMoto(motoId, body);
+    return updatedMoto;
+  } catch (error) {
+    console.error(
+      'Moto Controller: Error interno actualizando la moto:',
+      error.message
+    );
+    throw new Error('Moto Controller: Error interno actualizando la moto');
+  }
+}
+
 export async function deleteMotoController(contextRoute) {
   try {
     const { params } = contextRoute;

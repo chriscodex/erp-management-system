@@ -6,6 +6,7 @@ import { ModeloRepository } from '@/backend/modelos/domain/repositories/modeloRe
 import { AlmacenRepository } from '@/backend/almacenes/domain/repositories/almacenRepository';
 import { ProveedorRepository } from '@/backend/proveedores/domain/repositories/proveedorRepository';
 import { GastoMotoRepository } from '@/backend/motos/domain/repositories/gastoMotoRepository';
+import { updateMotoSchema } from '@/backend/motos/application/validations/updateMotoSchema';
 
 export class MotoService {
   constructor() {
@@ -203,6 +204,70 @@ export class MotoService {
     } catch (error) {
       console.error(
         `Moto Service: Error interno al crear la moto: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async updateMoto(motoId, motoData) {
+    try {
+      if (!motoId) {
+        console.log('Moto Service: MotoId no enviado');
+        return {
+          status: 400,
+          payload: 'MotoId no enviado',
+        };
+      }
+      // Validar los datos del usuario enviado con el schema
+      const motoValidated = updateMotoSchema.safeParse(motoData);
+
+      if (!motoValidated.success) {
+        console.log(
+          'Moto Service: Error de validación de schema de moto al actualizar'
+        );
+        return {
+          status: 400,
+          payload: motoValidated.error.issues,
+        };
+      }
+
+      // Validar si una moto con ese nombre ya existe
+      if (motoData.nombre) {
+        const motoFound = await this.motoRepository.getMotoByData({
+          nombre: motoData.nombre,
+        });
+        if (motoFound && motoFound?._id !== motoId) {
+          console.log('Moto Service: Una moto con el mismo nombre ya existe');
+          return {
+            status: 409,
+            payload: 'Una moto con el mismo nombre ya existe',
+          };
+        }
+      }
+
+      const motoUpdated = await this.motoRepository.updateMoto(
+        motoId,
+        motoData
+      );
+
+      if (!motoUpdated) {
+        console.log('Moto Service: La moto no existe');
+        return {
+          status: 404,
+          payload: 'La moto no existe',
+        };
+      }
+
+      console.log('Moto Service: Moto actualizada correctamente');
+      return {
+        status: 200,
+        payload: motoUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Moto Service: Error interno al actualizar una moto: ${error.message}`
       );
       return {
         status: 500,

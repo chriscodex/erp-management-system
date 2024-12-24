@@ -165,6 +165,30 @@ export class MotoRepository {
       throw new Error(`Error al crear la moto: ${error.message}`);
     }
   }
+  async updateMoto(motoId, motoData) {
+    try {
+      const updatedMoto = await this.motoModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(motoId) },
+        motoData,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedMoto) {
+        console.log('Moto Repository: Moto no encontrada para ser actualizado');
+        return null;
+      }
+
+      console.log('Moto Repository: Moto actualizada correctamente');
+      return updatedMoto;
+    } catch (error) {
+      console.error(
+        `Moto Repository: Error al actualizar la moto: ${error.message}`
+      );
+      throw new Error(`Error al actualizar la moto: ${error.message}`);
+    }
+  }
   async deleteMoto(motoId) {
     try {
       const deletedMoto = await this.motoModel.findOneAndDelete({

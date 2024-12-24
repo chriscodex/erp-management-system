@@ -257,7 +257,6 @@ export class ProductService {
   }
   async updateProduct(productId, productData) {
     try {
-      console.log('productData', productData);
       if (!productId) {
         console.log('Product Service: ProductId no enviado');
         return {

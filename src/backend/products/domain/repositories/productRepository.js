@@ -223,11 +223,11 @@ export class ProductRepository {
         return null;
       }
 
-      console.log('Product Repository: Producto actualizado correctamento');
+      console.log('Product Repository: Producto actualizado correctamente');
       return updatedProduct;
     } catch (error) {
       console.error(
-        `Product Repository: Error al actualizar la producto: ${error.message}`
+        `Product Repository: Error al actualizar el producto: ${error.message}`
       );
       throw new Error(`Error al actualizar el producto: ${error.message}`);
     }

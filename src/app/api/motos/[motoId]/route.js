@@ -1,6 +1,9 @@
 import { NextResponse } from 'next/server';
 
-import { deleteMotoController } from '@/backend/motos/infrastructure/controllers';
+import {
+  deleteMotoController,
+  updateMotoController,
+} from '@/backend/motos/infrastructure/controllers';
 
 export async function DELETE(_, contextRoute) {
   try {
@@ -18,6 +21,30 @@ export async function DELETE(_, contextRoute) {
     );
     return NextResponse.json(
       { error: 'Error eliminando el producto' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(request, contextRoute) {
+  try {
+    const { payload, status } = await updateMotoController(
+      request,
+      contextRoute
+    );
+
+    if (status !== 200) {
+      return NextResponse.json({ error: payload }, { status });
+    }
+
+    return NextResponse.json({ payload }, { status });
+  } catch (error) {
+    console.error(
+      'Moto Route: Error interno actualizar la moto:',
+      error.message
+    );
+    return NextResponse.json(
+      { message: 'Error interno actualizando la moto' },
       { status: 500 }
     );
   }
