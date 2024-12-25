@@ -10,7 +10,7 @@ import {
   RiImportFill,
   RiMotorbikeFill,
 } from '@remixicon/react';
-import { Gift, Info, Package, Save, Truck } from 'lucide-react';
+import { Info, Package, Save, Truck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -35,9 +35,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
-import { updateProductRequestClient } from '@/app/inventario/productos/[id]/edit/_services/requests';
 import { estadosMotos } from '@/app/inventario/motos/_services/helpers';
 import { updateMotoFormSchema } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/validations/updateMotoFormSchema';
+import { updateMotoRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/requests';
 
 export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
   const router = useRouter();
@@ -49,7 +49,7 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
       descripcion: motoData?.descripcion,
       precioCompra: motoData?.precioCompra,
       precioVenta: motoData?.precioVenta,
-      estado: motoData?.estado?.titulo,
+      estadoTitle: motoData?.estado?.titulo,
       observacionesEstado: motoData?.estado?.observaciones,
       importado: motoData?.importado,
       modeloId: motoData?.modeloId?._id,
@@ -86,11 +86,21 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
       return;
     }
 
-    // Toast promise para buscar una persona
+    delete DataToUpdate?.estadoTitle;
+    delete DataToUpdate?.observacionesEstado;
+
+    const objectForUpdate = {
+      ...DataToUpdate,
+      estado: {
+        titulo: currentValues?.estadoTitle,
+        observaciones: currentValues?.observacionesEstado,
+      },
+    };
+
     toast.promise(
-      updateProductRequestClient(
+      updateMotoRequestClient(
         motoData?._id,
-        DataToUpdate,
+        objectForUpdate,
         setFormSubmitIsLoading
       ),
       {
@@ -201,7 +211,7 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
           <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
             <FormField
               control={control}
-              name="estado"
+              name="estadoTitle"
               render={({ field }) => (
                 <FormItem className="space-y-2 md:col-span-1 col-span-2">
                   <div className="flex items-center space-x-2 text-muted-foreground">
@@ -237,7 +247,10 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
               name="observacionesEstado"
               render={({ field }) => (
                 <FormItem className="space-y-2 col-span-2">
-                  <FormLabel>Observaciones</FormLabel>
+                  <div className="flex items-center space-x-2 text-muted-foreground">
+                    <Info className="h-5 w-5" />
+                    <FormLabel>Observaciones</FormLabel>
+                  </div>
                   <div className="relative">
                     <FormControl>
                       <Textarea
@@ -380,35 +393,6 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={control}
-            name="obsequio"
-            render={({ field }) => (
-              <FormItem className="flex flex-col items-start space-y-3">
-                <div className="flex items-center space-x-2 text-muted-foreground">
-                  <Gift className="h-5 w-5" />
-                  <FormLabel>Obsequio</FormLabel>
-                </div>
-                <div className="flex space-x-2">
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>No</FormLabel>
-                  </div>
-                  <FormControl>
-                    <Switch
-                      checked={field.value === 'si'}
-                      onCheckedChange={(checked) =>
-                        field.onChange(checked ? 'si' : 'no')
-                      }
-                      disabled={formSubmitIsLoading}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>Sí</FormLabel>
-                  </div>
-                </div>
-              </FormItem>
-            )}
-          />
           <FormField
             control={control}
             name="importado"

@@ -3,6 +3,12 @@ import { z } from 'zod';
 const objectIdRegex = /^[a-f\d]{24}$/i; // Expresión regular para el formato de ObjectId
 
 export const updateMotoFormSchema = z.object({
+  modeloId: z
+    .string()
+    .regex(objectIdRegex, {
+      message: 'El modeloId es requerido',
+    })
+    .optional(),
   nombre: z
     .string()
     .min(1, {
@@ -10,8 +16,13 @@ export const updateMotoFormSchema = z.object({
     })
     .max(50, {
       message: 'El nombre debe tener menos de 50 caracteres',
-    }),
+    })
+    .optional(),
   descripcion: z.string().optional(),
+  estadoTitle: z.string().min(1, {
+    message: 'El estado es requerido',
+  }).optional(),
+  observacionesEstado: z.string().optional(),
   precioCompra: z
     .union([
       z.number({
@@ -25,7 +36,7 @@ export const updateMotoFormSchema = z.object({
     .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
     .refine((val) => val >= 0, {
       message: 'El precio de compra debe ser un número mayor o igual a 0',
-    }),
+    }).optional(),
   precioVenta: z
     .union([
       z.number({
@@ -39,19 +50,12 @@ export const updateMotoFormSchema = z.object({
     .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
     .refine((val) => val >= 0, {
       message: 'El precio de venta debe ser un número mayor o igual a 0',
-    }),
+    }).optional(),
   proveedorId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un proveedor',
-  }),
+  }).optional(),
   almacenId: z.string().regex(objectIdRegex, {
     message: 'Debe elegir un almacen',
-  }),
-  modeloId: z.string().regex(objectIdRegex, {
-    message: 'El modeloId es requerido',
-  }),
+  }).optional(),
   importado: z.enum(['si', 'no']),
-  estadoTitle: z.string().min(1, {
-    message: 'El estado es requerido',
-  }),
-  observacionesEstado: z.string().optional(),
 });
