@@ -42,9 +42,6 @@ import { updateMotoFormSchema } from '@/app/inventario/motos/modelos/[modeloId]/
 export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
   const router = useRouter();
 
-  console.log('motoData', motoData);
-  console.log('mdelos', modelos);
-
   const updateForm = useForm({
     resolver: zodResolver(updateMotoFormSchema),
     defaultValues: {
@@ -115,240 +112,273 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
   return (
     <Form {...updateForm}>
       <form onSubmit={onSubmit} className="space-y-8">
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={control}
-            name="modeloId"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <div className="flex items-center space-x-2 text-muted-foreground">
-                  <RiMotorbikeFill className="h-5 w-5" />
-                  <FormLabel>Modelo</FormLabel>
-                </div>
-                <div className="relative">
-                  <Select
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                    disabled={formSubmitIsLoading}
-                  >
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold">Detalles Básicos</h3>
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            <FormField
+              control={control}
+              name="modeloId"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <div className="flex items-center space-x-2 text-muted-foreground">
+                    <RiMotorbikeFill className="h-5 w-5" />
+                    <FormLabel>Modelo</FormLabel>
+                  </div>
+                  <div className="relative">
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un modelo" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {modelos?.map((modelo) => (
+                          <SelectItem key={modelo?._id} value={modelo?._id}>
+                            {modelo?.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="nombre"
+              render={({ field }) => (
+                <FormItem className="space-y-2 col-start-1">
+                  <div className="flex items-center space-x-2 text-muted-foreground">
+                    <RiBox3Line className="h-5 w-5" />
+                    <FormLabel>Nombre</FormLabel>
+                  </div>
+                  <div className="relative">
                     <FormControl>
-                      <SelectTrigger className="w-full pl-2">
-                        <SelectValue placeholder="Seleccione un modelo" />
-                      </SelectTrigger>
+                      <Input
+                        className="pl-2"
+                        autoComplete="off"
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                      />
                     </FormControl>
-                    <SelectContent>
-                      {modelos?.map((modelo) => (
-                        <SelectItem key={modelo?._id} value={modelo?._id}>
-                          {modelo?.nombre}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-        </div>
-        <FormField
-          control={control}
-          name="nombre"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <div className="flex items-center space-x-2 text-muted-foreground">
-                <RiBox3Line className="h-5 w-5" />
-                <FormLabel>Nombre</FormLabel>
-              </div>
-              <div className="relative">
-                <FormControl>
-                  <Input
-                    className="pl-2"
-                    autoComplete="off"
-                    disabled={formSubmitIsLoading}
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={control}
-          name="descripcion"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <div className="flex items-center space-x-2 text-muted-foreground">
-                <Info className="h-5 w-5" />
-                <FormLabel>Descripción (Opcional)</FormLabel>
-              </div>
-              <div className="relative">
-                <FormControl>
-                  <Textarea
-                    disabled={formSubmitIsLoading}
-                    {...field}
-                    placeholder="Escribe una descripción para el modelo aquí."
-                  />
-                </FormControl>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
-        <div className="grid sm:grid-cols-2 grid-cols-1 gap-4">
-          <FormField
-            control={control}
-            name="precioCompra"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <div className="flex items-center space-x-2 text-muted-foreground">
-                  <RiCoupon2Fill className="h-5 w-5" />
-                  <FormLabel>Precio de compra por unidad</FormLabel>
-                </div>
-                <div className="relative">
-                  <FormControl>
-                    <Input
-                      className="pl-2"
-                      autoComplete="off"
-                      type="number"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="precioVenta"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <div className="flex items-center space-x-2 text-muted-foreground">
-                  <RiCoupon2Line className="h-5 w-5" />
-                  <FormLabel>Precio de venta por unidad</FormLabel>
-                </div>
-                <div className="relative">
-                  <FormControl>
-                    <Input
-                      className="pl-2"
-                      autoComplete="off"
-                      type="number"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="descripcion"
+              render={({ field }) => (
+                <FormItem className="space-y-2 col-start-1 md:col-span-2">
+                  <div className="flex items-center space-x-2 text-muted-foreground">
+                    <Info className="h-5 w-5" />
+                    <FormLabel>Descripción (Opcional)</FormLabel>
+                  </div>
+                  <div className="relative">
+                    <FormControl>
+                      <Textarea
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                        placeholder="Escribe una descripción para el modelo aquí."
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={control}
-            name="proveedorId"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <div className="flex items-center space-x-2 text-muted-foreground">
-                  <Truck className="h-5 w-5" />
-                  <FormLabel>Proveedor</FormLabel>
-                </div>
-                <div className="relative">
-                  <Select
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                    disabled={formSubmitIsLoading}
-                  >
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold col-span-2">Estado</h3>
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            <FormField
+              control={control}
+              name="estado"
+              render={({ field }) => (
+                <FormItem className="space-y-2 md:col-span-1 col-span-2">
+                  <div className="flex items-center space-x-2 text-muted-foreground">
+                    <RiPulseLine className="h-5 w-5" />
+                    <FormLabel>Estado</FormLabel>
+                  </div>
+                  <div className="relative">
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un estado" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {estadosMotos.map((estado) => (
+                          <SelectItem key={estado.id} value={estado.id}>
+                            {estado.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="observacionesEstado"
+              render={({ field }) => (
+                <FormItem className="space-y-2 col-span-2">
+                  <FormLabel>Observaciones</FormLabel>
+                  <div className="relative">
                     <FormControl>
-                      <SelectTrigger className="w-full pl-2">
-                        <SelectValue placeholder="Seleccione un proveedor" />
-                      </SelectTrigger>
+                      <Textarea
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                        placeholder="Observaciones con respecto al estado de la moto"
+                      />
                     </FormControl>
-                    <SelectContent>
-                      {proveedores?.map((proveedor) => (
-                        <SelectItem key={proveedor?._id} value={proveedor?._id}>
-                          {proveedor?.nombre}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="almacenId"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <div className="flex items-center space-x-2 text-muted-foreground">
-                  <Package className="h-5 w-5" />
-                  <FormLabel>Almacen</FormLabel>
-                </div>
-                <div className="relative">
-                  <Select
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                    disabled={formSubmitIsLoading}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full pl-2">
-                        <SelectValue placeholder="Seleccione un proveedor" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {almacenes?.map((almacen) => (
-                        <SelectItem key={almacen?._id} value={almacen?._id}>
-                          {almacen?.nombre}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
-        <div className="grid grid-cols-2 gap-4">
-          <FormField
-            control={control}
-            name="estado"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <div className="flex items-center space-x-2 text-muted-foreground">
-                  <RiPulseLine className="h-5 w-5" />
-                  <FormLabel>Estado</FormLabel>
-                </div>
-                <div className="relative">
-                  <Select
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                    disabled={formSubmitIsLoading}
-                  >
+
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold col-span-2">
+            Precios y Proveedor
+          </h3>
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4">
+            <FormField
+              control={control}
+              name="precioCompra"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <div className="flex items-center space-x-2 text-muted-foreground">
+                    <RiCoupon2Fill className="h-5 w-5" />
+                    <FormLabel>Precio de compra por unidad</FormLabel>
+                  </div>
+                  <div className="relative">
                     <FormControl>
-                      <SelectTrigger className="w-full pl-2">
-                        <SelectValue placeholder="Seleccione un estado" />
-                      </SelectTrigger>
+                      <Input
+                        className="pl-2"
+                        autoComplete="off"
+                        type="number"
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                      />
                     </FormControl>
-                    <SelectContent>
-                      {estadosMotos.map((estado) => (
-                        <SelectItem key={estado.id} value={estado.id}>
-                          {estado.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="precioVenta"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <div className="flex items-center space-x-2 text-muted-foreground">
+                    <RiCoupon2Line className="h-5 w-5" />
+                    <FormLabel>Precio de venta por unidad</FormLabel>
+                  </div>
+                  <div className="relative">
+                    <FormControl>
+                      <Input
+                        className="pl-2"
+                        autoComplete="off"
+                        type="number"
+                        disabled={formSubmitIsLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="proveedorId"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <div className="flex items-center space-x-2 text-muted-foreground">
+                    <Truck className="h-5 w-5" />
+                    <FormLabel>Proveedor</FormLabel>
+                  </div>
+                  <div className="relative">
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un proveedor" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {proveedores?.map((proveedor) => (
+                          <SelectItem
+                            key={proveedor?._id}
+                            value={proveedor?._id}
+                          >
+                            {proveedor?.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="almacenId"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <div className="flex items-center space-x-2 text-muted-foreground">
+                    <Package className="h-5 w-5" />
+                    <FormLabel>Almacen</FormLabel>
+                  </div>
+                  <div className="relative">
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione un proveedor" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {almacenes?.map((almacen) => (
+                          <SelectItem key={almacen?._id} value={almacen?._id}>
+                            {almacen?.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+          </div>
         </div>
+
         <div className="grid grid-cols-2 gap-4">
           <FormField
             control={control}
