@@ -7,12 +7,15 @@ import { Button } from '@/components/ui/button';
 import { DeleteMotoAlert } from '@/app/inventario/motos/modelos/[modeloId]/_components/dialogs/deleteUnidadMotoAlert';
 import { useState } from 'react';
 
-export function DetailButtons({ motoId, modeloId }) {
+export function DetailButtons({ motoId, modeloData }) {
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
   return (
     <>
       <div className="flex space-x-4">
-        <Link href={`/motorcycle/edit`} passHref>
+        <Link
+          href={`/inventario/motos/modelos/${modeloData?._id}/unidades/${motoId}/edit`}
+          passHref
+        >
           <Button variant="outline" className="flex items-center">
             <Pencil className="mr-2 h-4 w-4" />
             Editar
@@ -32,7 +35,7 @@ export function DetailButtons({ motoId, modeloId }) {
         isOpen={isOpenDialogDelete}
         setIsOpen={setIsOpenDialogDelete}
         motoId={motoId}
-        modeloId={modeloId}
+        modeloId={modeloData?._id}
         actionAfterComplete="push"
       />
     </>

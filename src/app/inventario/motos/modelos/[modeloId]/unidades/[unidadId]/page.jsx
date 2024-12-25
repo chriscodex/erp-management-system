@@ -242,7 +242,7 @@ export default async function MotoDetailPage({ params }) {
           </div>
 
           <div className="mt-8">
-            <DetailButtons motoId={moto?._id} modeloId={modeloData?._id} />
+            <DetailButtons motoId={moto?._id} modeloData={modeloData} />
           </div>
         </div>
       </div>
