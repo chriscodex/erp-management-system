@@ -14,7 +14,6 @@ import { Button } from '@/components/ui/button';
 import { DataTableModelo } from '@/app/inventario/motos/modelos/[modeloId]/_components/modeloTable/data-table';
 
 export default async function ModelosPage({ params }) {
-  console.log('params', params.modeloId);
   const { modelo, status } = await getModeloByIdRequestServer(params.modeloId);
   const { motosByModeloId } = await getAllMotosByModeloIdRequestServer(params.modeloId);
 

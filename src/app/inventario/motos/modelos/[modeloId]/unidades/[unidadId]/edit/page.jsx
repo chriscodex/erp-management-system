@@ -9,6 +9,7 @@ import {
 import { sortByUpdateDateAsc } from '@/lib/utils';
 import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
 import { UpdateMotoForm } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_components/updateMotoForm';
+import { getAllModelosForUpdateMotoFormRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/requests';
 
 export default async function Page({ params }) {
   const { moto } = await getMotoByIdRequestServer(params?.unidadId);
@@ -19,20 +20,20 @@ export default async function Page({ params }) {
     notFound();
   }
 
-  const {
-    nombre,
-    modeloId: modeloData,
-  } = moto;
+  const { nombre, modeloId: modeloData } = moto;
 
   const [
+    modelosResponse,
     proveedoresResponse,
     almacenesResponse,
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
+    getAllModelosForUpdateMotoFormRequestServer(),
     getAllProveedoresByDataForProductsRequestServer({ estado: 'activo' }),
     getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' }),
   ]);
 
+  const { modelos } = modelosResponse;
   const { proveedores } = proveedoresResponse;
   const { almacenes } = almacenesResponse;
 
@@ -80,6 +81,7 @@ export default async function Page({ params }) {
         <CardContent>
           <UpdateMotoForm
             motoData={moto}
+            modelos={modelos}
             proveedores={proveedores}
             almacenes={almacenesOrderedByCreation}
           />

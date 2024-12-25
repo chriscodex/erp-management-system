@@ -3,11 +3,12 @@
 import { useState } from 'react';
 import {
   RiArrowLeftLine,
-  RiPulseLine, 
+  RiPulseLine,
   RiBox3Line,
   RiCoupon2Fill,
   RiCoupon2Line,
   RiImportFill,
+  RiMotorbikeFill,
 } from '@remixicon/react';
 import { Gift, Info, Package, Save, Truck } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -38,10 +39,11 @@ import { updateProductRequestClient } from '@/app/inventario/productos/[id]/edit
 import { estadosMotos } from '@/app/inventario/motos/_services/helpers';
 import { updateMotoFormSchema } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/validations/updateMotoFormSchema';
 
-export function UpdateMotoForm({ motoData, proveedores, almacenes }) {
+export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
   const router = useRouter();
 
   console.log('motoData', motoData);
+  console.log('mdelos', modelos);
 
   const updateForm = useForm({
     resolver: zodResolver(updateMotoFormSchema),
@@ -113,6 +115,41 @@ export function UpdateMotoForm({ motoData, proveedores, almacenes }) {
   return (
     <Form {...updateForm}>
       <form onSubmit={onSubmit} className="space-y-8">
+        <div className="grid grid-cols-2 gap-4">
+          <FormField
+            control={control}
+            name="modeloId"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <div className="flex items-center space-x-2 text-muted-foreground">
+                  <RiMotorbikeFill className="h-5 w-5" />
+                  <FormLabel>Modelo</FormLabel>
+                </div>
+                <div className="relative">
+                  <Select
+                    defaultValue={field.value}
+                    onValueChange={field.onChange}
+                    disabled={formSubmitIsLoading}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Seleccione un modelo" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {modelos?.map((modelo) => (
+                        <SelectItem key={modelo?._id} value={modelo?._id}>
+                          {modelo?.nombre}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </div>
+              </FormItem>
+            )}
+          />
+        </div>
         <FormField
           control={control}
           name="nombre"

@@ -40,6 +40,33 @@ export class ModeloService {
       };
     }
   }
+  async getAllModelosUnpopulated() {
+    try {
+      const modelos = await this.modeloRepository.getAllModelosUnpopulated();
+
+      if (modelos.length === 0) {
+        console.log('Modelo Service: No se encontraron modelos');
+        return {
+          status: 200,
+          payload: [],
+        };
+      }
+
+      console.log('Modelo Service: Modelos encontrados');
+      return {
+        status: 200,
+        payload: modelos,
+      };
+    } catch (error) {
+      console.error(
+        `Modelo Service: Error interno al buscar todos los modelos: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async getModeloByData(modeloData) {
     try {
       const modeloFound = await this.modeloRepository.getModeloByData(
@@ -151,8 +178,7 @@ export class ModeloService {
           );
           return {
             status: 409,
-            payload:
-              'Un modelo con el mismo nombre ya existe',
+            payload: 'Un modelo con el mismo nombre ya existe',
           };
         }
       }
