@@ -12,7 +12,7 @@ export class CategoryRepository {
     try {
       const categories = await this.categoryModel.find().populate('segmentId');
 
-      if (categories.length === 0) {
+      if (categories?.length === 0) {
         console.log('Category Repository: No se encontraron categorías');
         return [];
       }
@@ -101,7 +101,7 @@ export class CategoryRepository {
           (results) => results.filter((category) => category.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
         );
 
-      if (categoriesFilteredBySegmentData.length === 0) {
+      if (categoriesFilteredBySegmentData?.length === 0) {
         console.log(
           'Category Repository: No se encontraron categorías filtradas por segmento'
         );

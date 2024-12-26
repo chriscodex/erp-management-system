@@ -8,7 +8,7 @@ export class SegmentService {
     try {
       const segments = await this.segmentRepository.getAllSegments();
 
-      if (segments.length === 0) {
+      if (segments?.length === 0) {
         console.log('Segment Service: No se encontraron segmentos');
         return {
           status: 200,

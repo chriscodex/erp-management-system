@@ -25,7 +25,7 @@ export class ProductRepository {
         .populate('almacenId')
         .populate('proveedorId');
 
-      if (products.length === 0) {
+      if (products?.length === 0) {
         console.log('Product Repository: No se encontraron products');
         return [];
       }
@@ -330,7 +330,7 @@ export class ProductRepository {
       // Eliminar las unidades necesarias desde el final
       const remainingUnits = product.unidades.slice(
         0,
-        product.unidades.length - cantidadARemover
+        product?.unidades?.length - cantidadARemover
       );
 
       // Actualizar el producto en la base de datos

@@ -13,7 +13,7 @@ export class MotoRepository {
         .populate('modeloId')
         .populate('almacenId');
 
-      if (motos.length === 0) {
+      if (motos?.length === 0) {
         console.log('Moto Repository: No se encontraron motos');
         return [];
       }
@@ -52,7 +52,7 @@ export class MotoRepository {
         .populate('almacenId')
         .populate('proveedorId');
 
-      if (motos.length === 0) {
+      if (motos?.length === 0) {
         console.log('Moto Repository: No se encontraron motos con ese modelo');
         return [];
       }

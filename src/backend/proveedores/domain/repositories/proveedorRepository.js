@@ -10,7 +10,7 @@ export class ProveedorRepository {
     try {
       const proveedores = await this.proveedorModel.find();
 
-      if (proveedores.length === 0) {
+      if (proveedores?.length === 0) {
         console.log('Proveedor Repository: No se encontraron proveedores');
         return [];
       }
@@ -45,7 +45,7 @@ export class ProveedorRepository {
 
       const proveedoresFound = await this.proveedorModel.find(filter);
 
-      if (proveedoresFound.length === 0) {
+      if (proveedoresFound?.length === 0) {
         console.log('Proveedor Repository: Proveedores no encontrados');
         return null;
       }

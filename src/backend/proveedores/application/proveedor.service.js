@@ -10,7 +10,7 @@ export class ProveedorService {
     try {
       const proveedores = await this.proveedorRepository.getAllProveedores();
 
-      if (proveedores.length === 0) {
+      if (proveedores?.length === 0) {
         console.log('Proveedor Service: No se encontraron proveedores');
         return {
           status: 200,
@@ -38,7 +38,7 @@ export class ProveedorService {
       const proveedores =
         await this.proveedorRepository.getAllProveedoresByData(proveedorData);
 
-      if (proveedores.length === 0) {
+      if (proveedores?.length === 0) {
         console.log('Proveedor Service: No se encontraron proveedores');
         return {
           status: 200,

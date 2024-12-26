@@ -7,7 +7,7 @@ export class UserRepository {
     try {
       const users = await User.find();
 
-      if (users.length === 0) {
+      if (users?.length === 0) {
         console.log('User Repository: No se encontraron usuarios');
         return [];
       }

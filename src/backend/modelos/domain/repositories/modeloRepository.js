@@ -14,7 +14,7 @@ export class ModeloRepository {
         .populate('marcaId')
         .populate('categoryId');
 
-      if (modelos.length === 0) {
+      if (modelos?.length === 0) {
         console.log('Modelo Repository: No se encontraron modelos');
         return [];
       }
@@ -35,7 +35,7 @@ export class ModeloRepository {
       const modelos = await this.modeloModel
         .find()
 
-      if (modelos.length === 0) {
+      if (modelos?.length === 0) {
         console.log('Modelo Repository: No se encontraron modelos');
         return [];
       }

@@ -9,7 +9,7 @@ export class AlmacenRepository {
     try {
       const almacenes = await this.almacenModel.find();
 
-      if (almacenes.length === 0) {
+      if (almacenes?.length === 0) {
         console.log('Almacén Repository: No se encontraron almacenes');
         return [];
       }
@@ -40,7 +40,7 @@ export class AlmacenRepository {
 
       const almacenesFound = await this.almacenModel.find(filter);
 
-      if (almacenesFound.length === 0) {
+      if (almacenesFound?.length === 0) {
         console.log('Almacén Repository: Almaces no encontrados');
         return null;
       }

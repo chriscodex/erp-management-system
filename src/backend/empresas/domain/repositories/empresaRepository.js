@@ -8,7 +8,7 @@ export class EmpresaRepository {
     try {
       const empresas = await this.empresaModel.find();
 
-      if (empresas.length === 0) {
+      if (empresas?.length === 0) {
         console.log('Empresa Repository: No se encontraron empresas');
         return [];
       }

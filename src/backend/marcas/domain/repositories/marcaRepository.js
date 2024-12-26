@@ -12,7 +12,7 @@ export class MarcaRepository {
     try {
       const marcas = await this.marcaModel.find({}).populate('segmentId');
 
-      if (marcas.length === 0) {
+      if (marcas?.length === 0) {
         console.log('Marca Repository: No se encontraron marcas');
         return [];
       }
@@ -62,7 +62,7 @@ export class MarcaRepository {
           (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
         );
 
-      if (marcasFiltered.length === 0) {
+      if (marcasFiltered?.length === 0) {
         console.log(
           'Marca Repository: No se encontraron marcas filtradas por segmento'
         );

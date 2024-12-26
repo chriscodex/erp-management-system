@@ -9,7 +9,7 @@ export class SegmentRepository {
     try {
       const segmentsFound = await this.segmentModel.find();
 
-      if (segmentsFound.length === 0) {
+      if (segmentsFound?.length === 0) {
         console.log('Segment Repository: No se encontraron segmentos');
         return [];
       }

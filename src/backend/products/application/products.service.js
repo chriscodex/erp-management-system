@@ -30,7 +30,7 @@ export class ProductService {
     try {
       const products = await this.productRepository.getAllProducts();
 
-      if (products.length === 0) {
+      if (products?.length === 0) {
         console.log('Product Service: No se encontraron productos');
         return {
           status: 200,
@@ -422,7 +422,7 @@ export class ProductService {
       }
 
       // Validación del ID del producto
-      if (!productId || productId.length !== 24) {
+      if (!productId) {
         console.log('Product Service: El ID del producto es inválido');
         return {
           status: 400,
@@ -489,7 +489,7 @@ export class ProductService {
       }
 
       // Validación del ID del producto
-      if (!productId || productId.length !== 24) {
+      if (!productId) {
         console.log('Product Service: El ID del producto es inválido');
         return {
           status: 400,
@@ -510,13 +510,13 @@ export class ProductService {
       }
 
       // Verificar si hay suficiente stock para eliminar
-      if (productFound.unidades.length < cantidadADisminuir) {
+      if (productFound?.unidades?.length < cantidadADisminuir) {
         console.log(
-          `Product Service: Stock insuficiente para eliminar. Stock actual: ${productFound.unidades.length}`
+          `Product Service: Stock insuficiente para eliminar. Stock actual: ${productFound?.unidades?.length}`
         );
         return {
           status: 400,
-          payload: `No hay suficientes unidades para eliminar. Stock actual: ${productFound.unidades.length}`,
+          payload: `No hay suficientes unidades para eliminar. Stock actual: ${productFound?.unidades?.length}`,
         };
       }
 

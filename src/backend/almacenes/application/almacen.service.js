@@ -10,7 +10,7 @@ export class AlmacenService {
     try {
       const almacenes = await this.almacenRepository.getAllAlmacenes();
 
-      if (almacenes.length === 0) {
+      if (almacenes?.length === 0) {
         console.log('Almacen Service: No se encontraron almacenes');
         return {
           status: 200,

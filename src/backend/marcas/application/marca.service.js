@@ -12,7 +12,7 @@ export class MarcaService {
     try {
       const marcas = await this.marcaRepository.getAllMarcas();
 
-      if (marcas.length === 0) {
+      if (marcas?.length === 0) {
         console.log('Marca Service: No se encontraron marcas');
         return {
           status: 200,
@@ -41,7 +41,7 @@ export class MarcaService {
         marcaAndSegmentData
       );
 
-      if (marcasFiltered.length === 0) {
+      if (marcasFiltered?.length === 0) {
         console.log(
           'Marca Service: No se encontraron marcas filtradas por segmento'
         );

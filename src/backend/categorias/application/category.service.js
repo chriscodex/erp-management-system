@@ -11,7 +11,7 @@ export class CategoryService {
   async getAllCategories() {
     try {
       const categories = await this.categoryRepository.getAllCategories();
-      if (categories.length === 0) {
+      if (categories?.length === 0) {
         console.log('Category Service: No se encontraron categorias');
         return {
           status: 200,

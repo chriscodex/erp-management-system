@@ -20,7 +20,7 @@ export class MotoService {
     try {
       const motos = await this.motoRepository.getAllMotos();
 
-      if (motos.length === 0) {
+      if (motos?.length === 0) {
         console.log('Moto Service: No se encontraron motos');
         return {
           status: 200,

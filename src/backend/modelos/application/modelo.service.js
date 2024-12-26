@@ -17,7 +17,7 @@ export class ModeloService {
     try {
       const modelos = await this.modeloRepository.getAllModelos();
 
-      if (modelos.length === 0) {
+      if (modelos?.length === 0) {
         console.log('Modelo Service: No se encontraron modelos');
         return {
           status: 200,
@@ -44,7 +44,7 @@ export class ModeloService {
     try {
       const modelos = await this.modeloRepository.getAllModelosUnpopulated();
 
-      if (modelos.length === 0) {
+      if (modelos?.length === 0) {
         console.log('Modelo Service: No se encontraron modelos');
         return {
           status: 200,
