@@ -9,6 +9,7 @@ import {
   TrendingUp,
   FileText,
   Receipt,
+  AlertCircle,
 } from 'lucide-react';
 import Link from 'next/link';
 import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
@@ -78,7 +79,7 @@ export default async function MotoDetailPage({ params }) {
             </Badge>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 grid-cols-1 gap-8">
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -108,7 +109,7 @@ export default async function MotoDetailPage({ params }) {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="md:col-span-2 col-span-1">
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <FileText className="mr-2" />
@@ -157,45 +158,36 @@ export default async function MotoDetailPage({ params }) {
               </CardContent>
             </Card>
 
-            <Card className="md:col-span-2">
+            <Card className="md:col-span-2 col-span-1">
               <CardHeader>
-                <CardTitle className="flex items-center">
-                  <DollarSign className="mr-2" />
-                  Información de Precios
+                <CardTitle className="h-auto flex items-center">
+                  <AlertCircle className="mr-2" />
+                  <p>Estado de la Moto</p>
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
+                <div className="space-y-4">
                   <div>
                     <p className="text-gray-500 dark:text-gray-400">
-                      Precio de Compra
+                      Estado Actual
                     </p>
-                    <p className="text-2xl font-bold">
-                      S/. {parseFloat(precioCompra).toFixed(2).toLocaleString()}
+                    <p className="text-xl font-bold">
+                      {moto?.estado?.titulo === 'disponible'
+                        ? 'Disponible'
+                        : moto?.estado?.titulo === 'dañado'
+                        ? 'Dañado'
+                        : moto?.estado?.titulo === 'reparado'
+                        ? 'Reparado'
+                        : moto?.estado?.titulo === 'desarmado'
+                        ? 'Desarmado'
+                        : moto?.estado?.titulo}
                     </p>
                   </div>
                   <div>
                     <p className="text-gray-500 dark:text-gray-400">
-                      Precio de Venta
+                      Observaciones
                     </p>
-                    <p className="text-2xl font-bold">
-                      S/. {parseFloat(precioVenta).toFixed(2).toLocaleString()}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-500 dark:text-gray-400">Margen</p>
-                    <p
-                      className={`text-2xl font-bold ${
-                        margenValue.toFixed(2) >= 0
-                          ? 'text-green-600'
-                          : 'text-red-600'
-                      }`}
-                    >
-                      {margenValue >= 0
-                        ? `+${margenValue.toFixed(2)}`
-                        : `-${margenValue.toFixed(2)}`}
-                      %
-                    </p>
+                    <p>{moto?.estado?.observaciones}</p>
                   </div>
                 </div>
               </CardContent>
@@ -239,9 +231,53 @@ export default async function MotoDetailPage({ params }) {
                 </Link>
               </CardContent>
             </Card>
+
+            <Card className="md:col-span-2">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <DollarSign className="mr-2" />
+                  Información de Precios
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid md:grid-cols-3 grid-cols-1 gap-4">
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Precio de Compra
+                    </p>
+                    <p className="text-2xl font-bold">
+                      S/. {parseFloat(precioCompra).toFixed(2).toLocaleString()}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400">
+                      Precio de Venta
+                    </p>
+                    <p className="text-2xl font-bold">
+                      S/. {parseFloat(precioVenta).toFixed(2).toLocaleString()}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-gray-500 dark:text-gray-400">Margen</p>
+                    <p
+                      className={`text-2xl font-bold ${
+                        margenValue.toFixed(2) >= 0
+                          ? 'text-green-600'
+                          : 'text-red-600'
+                      }`}
+                    >
+                      {margenValue >= 0
+                        ? `+${margenValue.toFixed(2)}`
+                        : `-${margenValue.toFixed(2)}`}
+                      %
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          <div className="mt-8">
+          <div className="mt-4">
             <DetailButtons motoId={moto?._id} modeloData={modeloData} />
           </div>
         </div>

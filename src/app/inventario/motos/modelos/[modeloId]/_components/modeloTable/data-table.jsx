@@ -107,7 +107,6 @@ export function DataTableModelo({ modeloId, motos, status = 200 }) {
         );
       },
       cell: ({ row }) => {
-        console.log(row.getValue('estado'));
         return (
           <div className="text-start">
             {row.getValue('estado')?.titulo === 'disponible' && (
@@ -167,7 +166,9 @@ export function DataTableModelo({ modeloId, motos, status = 200 }) {
               <DropdownMenuItem
                 className="cursor-pointer"
                 onClick={() =>
-                  router.push(`/inventario/motos/modelos/${modeloId}/unidades`)
+                  router.push(
+                    `/inventario/motos/modelos/${modeloId}/unidades/${unidadMotoId}/edit`
+                  )
                 }
               >
                 <Edit />

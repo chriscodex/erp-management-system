@@ -19,7 +19,7 @@ export function DetailButtons({ motoId, modeloData }) {
 
   return (
     <>
-      <div className="flex space-x-4">
+      <div className="flex justify-end space-x-4">
         <Link
           href={`/inventario/motos/modelos/${modeloData?._id}/unidades/${motoId}/edit`}
           passHref
