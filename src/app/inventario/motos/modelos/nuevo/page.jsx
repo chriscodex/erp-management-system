@@ -56,6 +56,16 @@ export default async function AddModeloMotoPage() {
   const { categories } = categoriesProductResponse;
   const { marcas } = marcasProductResponse;
 
+  let categoriesToRender = []
+  if (Array.isArray(categories)) {
+    categoriesToRender = categories
+  }
+
+  let marcasToRender = []
+  if (Array.isArray(marcas)) {
+    marcasToRender = marcas
+  }
+
   return (
     <NavbarDynamic titles={navbarTitles}>
       <Card className="w-full max-w-7xl mx-auto">
@@ -69,7 +79,7 @@ export default async function AddModeloMotoPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <FormAddModel categories={categories} marcas={marcas} />
+          <FormAddModel categories={categoriesToRender} marcas={marcasToRender} />
         </CardContent>
       </Card>
     </NavbarDynamic>
