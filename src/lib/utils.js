@@ -21,14 +21,15 @@ export async function delay() {
 
 export function sortByUpdateDateDesc(list) {
   if (!Array.isArray(list)) return [];
-  const listSorted = list.sort(
+  const listSorted = list?.sort(
     (a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)
   );
   return listSorted;
 }
 
 export function sortByUpdateDateAsc(list) {
-  const listSorted = list.sort(
+  if (!Array.isArray(list)) return [];
+  const listSorted = list?.sort(
     (a, b) => new Date(a.updatedAt) - new Date(b.updatedAt)
   );
   return listSorted;

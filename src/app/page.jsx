@@ -34,15 +34,15 @@ export default async function HomePage() {
 
   const totalTiposProductos = products?.length;
 
-  const totalProductsStock = products.reduce((acc, product) => {
+  const totalProductsStock = products?.reduce((acc, product) => {
     return acc + product?.stock;
   }, 0);
 
-  const totalValorInventarioProducts = products.reduce((acc, product) => {
+  const totalValorInventarioProducts = products?.reduce((acc, product) => {
     return acc + product?.stock * product?.precioCompra;
   }, 0);
 
-  const totalValorInventarioMotos = motos.reduce((acc, motos) => {
+  const totalValorInventarioMotos = motos?.reduce((acc, motos) => {
     return acc + motos?.precioCompra;
   }, 0);
 
