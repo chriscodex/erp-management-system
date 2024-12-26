@@ -19,8 +19,8 @@ import {
 
 export default async function HomePage() {
   const [
-    productsResponse,
-    motosResponse,
+    productsResponse = {},
+    motosResponse = {},
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
     getAllProductsForHomeRequestServer(),
@@ -31,14 +31,18 @@ export default async function HomePage() {
   const { motos } = motosResponse;
 
   let totalMotos = 0;
-  if (motos) {
+  let totalValorInventarioMotos = 0;
+  if (Array.isArray(motos)) {
     totalMotos = motos?.length;
+    totalValorInventarioMotos = motos?.reduce((acc, motos) => {
+      return acc + motos?.precioCompra;
+    }, 0);
   }
 
   let totalTiposProductos = 0;
   let totalProductsStock = 0;
   let totalValorInventarioProducts = 0;
-  let totalValorInventarioMotos = 0;
+
   let totalValorInventario = 0;
   if (products) {
     totalTiposProductos = products?.length;
@@ -48,12 +52,10 @@ export default async function HomePage() {
     totalValorInventarioProducts = products?.reduce((acc, product) => {
       return acc + product?.stock * product?.precioCompra;
     }, 0);
-    totalValorInventarioMotos = motos?.reduce((acc, motos) => {
-      return acc + motos?.precioCompra;
-    }, 0);
-    totalValorInventario =
-      totalValorInventarioProducts + totalValorInventarioMotos;
   }
+
+  totalValorInventario =
+    totalValorInventarioProducts + totalValorInventarioMotos;
 
   return (
     <NavbarSimple title="Inicio">
