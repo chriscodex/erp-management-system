@@ -30,16 +30,18 @@ export default async function HomePage() {
   const { products } = productsResponse;
   const { motos } = motosResponse;
 
-  const totalMotos = motos?.length;
+  let totalMotos = 0;
+  if (motos) {
+    totalMotos = motos?.length;
+  }
 
-  const totalTiposProductos = products?.length;
-
+  let totalTiposProductos = 0;
   let totalProductsStock = 0;
   let totalValorInventarioProducts = 0;
   let totalValorInventarioMotos = 0;
   let totalValorInventario = 0;
-
   if (products) {
+    totalTiposProductos = products?.length;
     totalProductsStock = products?.reduce((acc, product) => {
       return acc + product?.stock;
     }, 0);
