@@ -31,8 +31,8 @@ import { createModeloRequestClient } from '@/app/inventario/motos/modelos/nuevo/
 import { createModeloFormSchema } from '@/app/inventario/motos/modelos/nuevo/_services/validations/createModeloSchema';
 
 export function FormAddModel({
-  categories,
-  marcas,
+  categories = [],
+  marcas = [],
 }) {
   const router = useRouter();
   const addProductForm = useForm({
