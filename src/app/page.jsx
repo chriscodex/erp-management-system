@@ -34,20 +34,24 @@ export default async function HomePage() {
 
   const totalTiposProductos = products?.length;
 
-  const totalProductsStock = products?.reduce((acc, product) => {
-    return acc + product?.stock;
-  }, 0);
+  let totalProductsStock = 0;
+  let totalValorInventarioProducts = 0;
+  let totalValorInventarioMotos = 0;
+  let totalValorInventario = 0;
 
-  const totalValorInventarioProducts = products?.reduce((acc, product) => {
-    return acc + product?.stock * product?.precioCompra;
-  }, 0);
-
-  const totalValorInventarioMotos = motos?.reduce((acc, motos) => {
-    return acc + motos?.precioCompra;
-  }, 0);
-
-  const totalValorInventario =
-    totalValorInventarioProducts + totalValorInventarioMotos;
+  if (products) {
+    totalProductsStock = products?.reduce((acc, product) => {
+      return acc + product?.stock;
+    }, 0);
+    totalValorInventarioProducts = products?.reduce((acc, product) => {
+      return acc + product?.stock * product?.precioCompra;
+    }, 0);
+    totalValorInventarioMotos = motos?.reduce((acc, motos) => {
+      return acc + motos?.precioCompra;
+    }, 0);
+    totalValorInventario =
+      totalValorInventarioProducts + totalValorInventarioMotos;
+  }
 
   return (
     <NavbarSimple title="Inicio">
