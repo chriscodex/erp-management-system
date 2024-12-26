@@ -44,7 +44,7 @@ export class CategoryService {
           'Category Service: No se encontraron categorías filtradas por segmento'
         );
         return {
-          status: 404,
+          status: 200,
           payload: 'No se encontraron categorías filtradas por segmento',
         };
       }
