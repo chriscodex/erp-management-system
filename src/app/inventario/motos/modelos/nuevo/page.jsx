@@ -53,18 +53,8 @@ export default async function AddModeloMotoPage() {
     }),
   ]);
 
-  const { categories } = categoriesProductResponse;
-  const { marcas } = marcasProductResponse;
-
-  let categoriesToRender = []
-  if (Array.isArray(categories)) {
-    categoriesToRender = categories
-  }
-
-  let marcasToRender = []
-  if (Array.isArray(marcas)) {
-    marcasToRender = marcas
-  }
+  const { categories = [] } = categoriesProductResponse;
+  const { marcas = [] } = marcasProductResponse;
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -79,7 +69,7 @@ export default async function AddModeloMotoPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <FormAddModel categories={categoriesToRender} marcas={marcasToRender} />
+          <FormAddModel categories={categories} marcas={marcas} />
         </CardContent>
       </Card>
     </NavbarDynamic>
