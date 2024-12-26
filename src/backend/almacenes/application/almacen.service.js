@@ -39,7 +39,7 @@ export class AlmacenService {
         almacenData
       );
 
-      if (almacenes.length === 0) {
+      if (almacenes?.length === 0) {
         console.log('Almacen Service: No se encontraron almacenes');
         return {
           status: 200,
