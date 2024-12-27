@@ -59,7 +59,7 @@ export async function POST() {
   } catch (error) {
     console.error('Error al verificar/crear superusuario o segmentos:', error);
     return NextResponse.json(
-      { error: 'Error interno del servidor' },
+      { error: 'Error interno del servidor al verificar/crear superusuario o segmentos' },
       { status: 500 }
     );
   }
