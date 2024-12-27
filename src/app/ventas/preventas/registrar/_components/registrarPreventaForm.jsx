@@ -3,7 +3,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { Save } from 'lucide-react';
+import { IdCardIcon, Loader2, Save, SearchIcon, User } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RiArrowLeftLine } from '@remixicon/react';
@@ -29,12 +29,18 @@ import { Button } from '@/components/ui/button';
 import { createMarcaSchema } from '@/app/inventario/marcas/nuevo/_services/validations/createMarcaSchema';
 import { createMarcaRequestClient } from '@/app/inventario/marcas/nuevo/_services/requests.js';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
+import { onChangeNumero } from '@/components/formInputs/onChange';
 
 export function RegistrarPreventaForm({ segments }) {
   const router = useRouter();
-
-  const [clientType, setClientType] = useState('persona');
 
   const form = useForm({
     resolver: zodResolver(createMarcaSchema),
@@ -46,10 +52,13 @@ export function RegistrarPreventaForm({ segments }) {
     },
   });
 
-  const { handleSubmit, control, clearErrors, setError } = form;
+  const { handleSubmit, watch, control, clearErrors, setError } = form;
+
+  const formData = watch();
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
+  const [searchByDniIsLoading, setSearchByDniIsLoading] = useState(false);
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
@@ -73,41 +82,199 @@ export function RegistrarPreventaForm({ segments }) {
     );
   });
 
+  // Busqueda por DNI
+  const handleSearchByDni = async (e) => {
+    e.preventDefault();
+    try {
+      setSearchByDniIsLoading(true);
+
+      const dni = formData.dni;
+      if (!dni || dni.length !== 8) {
+        setSearchByDniIsLoading(false);
+        toast.warning('Por favor, ingrese un DNI válido', {
+          description: 'El DNI debe tener 8 dígitos',
+        });
+        return;
+      }
+
+      // Toast promise para buscar una persona
+      // toast.promise(buscarPorDniClientRequest(dni, setSearchByDniIsLoading), {
+      //   loading: 'Buscando...',
+      //   success: (persona) => {
+      //     setValue('apellidos', persona?.apellidos);
+      //     setValue('nombres', persona?.nombres);
+      //     clearErrors('apellidos');
+      //     clearErrors('nombres');
+      //     return `Persona encontrada`;
+      //   },
+      //   error: (error) => {
+      //     setSearchByDniIsLoading(false);
+      //     return error;
+      //   },
+      // });
+    } catch (error) {
+      setSearchByDniIsLoading(false);
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
+    }
+  };
+
   return (
     <>
       <Form {...form}>
         <form onSubmit={onSubmit} className="grid gap-4 py-4">
-          <FormField
-            control={form.control}
-            name="tipo"
-            render={({ field }) => (
-              <FormItem className="space-y-3">
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                    className="flex flex-row space-x-4"
-                  >
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Información del Cliente</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <FormField
+                control={control}
+                name="tipo"
+                render={({ field }) => (
+                  <FormItem className="mb-3">
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-row space-x-4"
+                      >
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="persona" id="persona" />
+                          </FormControl>
+                          <FormLabel className="font-normal">
+                            Persona Natural
+                          </FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="empresa" id="empresa" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Empresa</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="dni"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>
+                      {watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
+                    </FormLabel>
+                    <div className="relative">
+                      <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                       <FormControl>
-                        <RadioGroupItem value="persona" id="persona" />
+                        <Input
+                          type="text"
+                          placeholder={
+                            watch('tipo') === 'persona' ? 'DNI' : 'RUC'
+                          }
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={searchByDniIsLoading || formSubmitIsLoading}
+                          {...field}
+                          onChange={(e) => {
+                            onChangeNumero(e, field);
+                          }}
+                        />
                       </FormControl>
-                      <FormLabel className="font-normal">
-                        Persona Natural
-                      </FormLabel>
-                    </FormItem>
-                    <FormItem className="flex items-center space-x-3 space-y-0">
+                      <FormMessage />
+                      <div
+                        className={cn(
+                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
+                          searchByDniIsLoading
+                            ? 'opacity-75 pointer-events-none'
+                            : 'cursor-pointer'
+                        )}
+                        onClick={handleSearchByDni}
+                      >
+                        {searchByDniIsLoading ? (
+                          <>
+                            <Loader2 className="h-6 w-6 animate-spin " />
+                          </>
+                        ) : (
+                          <TooltipProvider delayDuration={0}>
+                            <Tooltip>
+                              <TooltipTrigger>
+                                <SearchIcon className="h-6 w-6" />
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Busca por DNI</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )}
+                      </div>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
+                name="apellidos"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Apellidos</FormLabel>
+                    <div className="relative">
+                      {searchByDniIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
                       <FormControl>
-                        <RadioGroupItem value="empresa" id="empresa" />
+                        <Input
+                          placeholder="Apellidos"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={searchByDniIsLoading || formSubmitIsLoading}
+                          {...field}
+                        />
                       </FormControl>
-                      <FormLabel className="font-normal">Empresa</FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={control}
+                name="nombres"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Nombres</FormLabel>
+                    <div className="relative">
+                      {searchByDniIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
+                      <FormControl>
+                        <Input
+                          placeholder="Nombres"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={searchByDniIsLoading || formSubmitIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
           <FormField
             control={control}
             name="nombre"
