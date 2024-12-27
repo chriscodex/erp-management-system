@@ -30,10 +30,7 @@ import { RiMotorbikeFill } from '@remixicon/react';
 import { createModeloRequestClient } from '@/app/inventario/motos/modelos/nuevo/_services/requests';
 import { createModeloFormSchema } from '@/app/inventario/motos/modelos/nuevo/_services/validations/createModeloSchema';
 
-export function FormAddModel({
-  categories = [],
-  marcas = [],
-}) {
+export function FormAddModel({ categories = [], marcas = [] }) {
   const router = useRouter();
   const addProductForm = useForm({
     resolver: zodResolver(createModeloFormSchema),
@@ -93,11 +90,15 @@ export function FormAddModel({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories?.map((category) => (
-                          <SelectItem key={category?._id} value={category?._id}>
-                            {category?.nombre}
-                          </SelectItem>
-                        ))}
+                        {Array.isArray(categories) &&
+                          categories.map((category) => (
+                            <SelectItem
+                              key={category?._id}
+                              value={category?._id}
+                            >
+                              {category?.nombre}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -123,11 +124,12 @@ export function FormAddModel({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {marcas?.map((marca) => (
-                          <SelectItem key={marca?._id} value={marca?._id}>
-                            {marca?.nombre}
-                          </SelectItem>
-                        ))}
+                        {Array.isArray(marcas) &&
+                          marcas.map((marca) => (
+                            <SelectItem key={marca?._id} value={marca?._id}>
+                              {marca?.nombre}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

@@ -53,8 +53,8 @@ export default async function AddModeloMotoPage() {
     }),
   ]);
 
-  const { categories = [] } = categoriesProductResponse;
-  const { marcas = [] } = marcasProductResponse;
+  const { categories = [] } = categoriesProductResponse || {};
+  const { marcas = [] } = marcasProductResponse || {};
 
   return (
     <NavbarDynamic titles={navbarTitles}>

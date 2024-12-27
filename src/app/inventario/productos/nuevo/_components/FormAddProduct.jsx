@@ -34,10 +34,10 @@ import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
 import { createProductRequestClient } from '@/app/inventario/productos/nuevo/_services/requests';
 
 export function FormAddProduct({
-  categories,
-  marcas,
-  proveedores,
-  almacenes,
+  categories = [],
+  marcas = [],
+  proveedores = [],
+  almacenes = [],
 }) {
   const router = useRouter();
   const addProductForm = useForm({
@@ -105,11 +105,15 @@ export function FormAddProduct({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {categories?.map((category) => (
-                          <SelectItem key={category?._id} value={category?._id}>
-                            {category?.nombre}
-                          </SelectItem>
-                        ))}
+                        {Array.isArray(categories) &&
+                          categories.map((category) => (
+                            <SelectItem
+                              key={category?._id}
+                              value={category?._id}
+                            >
+                              {category?.nombre}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -135,11 +139,12 @@ export function FormAddProduct({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {marcas?.map((marca) => (
-                          <SelectItem key={marca?._id} value={marca?._id}>
-                            {marca?.nombre}
-                          </SelectItem>
-                        ))}
+                        {Array.isArray(marcas) &&
+                          marcas.map((marca) => (
+                            <SelectItem key={marca?._id} value={marca?._id}>
+                              {marca?.nombre}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -263,14 +268,15 @@ export function FormAddProduct({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {proveedores?.map((proveedor) => (
-                          <SelectItem
-                            key={proveedor?._id}
-                            value={proveedor?._id}
-                          >
-                            {proveedor?.nombre}
-                          </SelectItem>
-                        ))}
+                        {Array.isArray(proveedores) &&
+                          proveedores.map((proveedor) => (
+                            <SelectItem
+                              key={proveedor?._id}
+                              value={proveedor?._id}
+                            >
+                              {proveedor?.nombre}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -296,11 +302,12 @@ export function FormAddProduct({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {almacenes?.map((almacen) => (
-                          <SelectItem key={almacen?._id} value={almacen?._id}>
-                            {almacen?.nombre}
-                          </SelectItem>
-                        ))}
+                        {Array.isArray(almacenes) &&
+                          almacenes.map((almacen) => (
+                            <SelectItem key={almacen?._id} value={almacen?._id}>
+                              {almacen?.nombre}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                     <FormMessage />

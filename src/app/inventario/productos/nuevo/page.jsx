@@ -49,10 +49,10 @@ export default async function AddProductPage() {
     getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' })
   ]);
 
-  const { categories } = categoriesProductResponse;
-  const { marcas } = marcasProductResponse;
-  const { proveedores } = proveedoresResponse;
-  const { almacenes } = almacenesResponse;
+  const { categories = [] } = categoriesProductResponse || {};
+  const { marcas = [] } = marcasProductResponse || {};
+  const { proveedores = [] } = proveedoresResponse || {};
+  const { almacenes = [] } = almacenesResponse || {};
 
   const almacenesOrderedByCreation = sortByUpdateDateAsc(almacenes);
 
