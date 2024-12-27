@@ -21,7 +21,8 @@ services:
       - '3000:3000'
     environment:
       # MONGODB_URI: mongodb://admin:qweasdzxc@mongodb:27017/motorock?authSource=admin
-      MONGODB_URI: mongodb://ec2-15-229-117-127.sa-east-1.compute.amazonaws.com:27017
+      # MONGODB_URI: mongodb://ec2-15-229-117-127.sa-east-1.compute.amazonaws.com:27017
+      MONGODB_URI: mongodb+srv://admin-chris:Lascosascomoson2c-@motorock-test.e9ujs.mongodb.net/?retryWrites=true&w=majority&appName=MotoRock-Test
       NEXTAUTH_URL: http://localhost:3000
       NEXTAUTH_SECRET: N1ouTYi6isl2sz6
       NEXT_PUBLIC_API_URL: http://localhost:3000/api

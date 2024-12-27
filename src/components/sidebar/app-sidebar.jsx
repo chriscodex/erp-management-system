@@ -61,14 +61,14 @@ const data = {
       icon: RiShoppingCartLine,
       items: [
         {
-          title: 'Motos',
-          url: '/ventas/motos',
-          icon: RiMotorbikeFill,
-        },
-        {
-          title: 'Productos',
+          title: 'Pre-ventas',
           url: '/ventas/productos/',
           icon: RiGalleryView2,
+        },
+        {
+          title: 'Registrar Pre-venta',
+          url: '/ventas/motos',
+          icon: RiMotorbikeFill,
         },
       ],
     },
@@ -163,7 +163,11 @@ export function AppSidebar({ ...props }) {
       {!isLoginPage && (
         <Sidebar collapsible="icon" {...props}>
           <SidebarHeader>
-            <img src="/logoB.jpeg" alt="logo" className='w-full rounded-xl object-contain' />
+            <img
+              src="/logoB.jpeg"
+              alt="logo"
+              className="w-full rounded-xl object-contain"
+            />
             {/* <TeamSwitcher teams={data.teams} /> */}
           </SidebarHeader>
 

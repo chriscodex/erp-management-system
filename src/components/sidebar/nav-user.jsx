@@ -101,10 +101,10 @@ export function NavUser() {
                   </>
                 )}
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
+              {/* <DropdownMenuItem className="cursor-pointer">
                 <Settings />
                 Configuración
-              </DropdownMenuItem>
+              </DropdownMenuItem> */}
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem

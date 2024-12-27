@@ -104,7 +104,7 @@ export default async function HomePage() {
             description="Gestiona el inventario de motos"
             icon={<RiMotorbikeFill className="h-6 w-6" />}
             linkText="Ver Inventario"
-            linkHref="/inventario/motos"
+            linkHref="/inventario/motos/todas"
           />
           <QuickAccessCard
             title="Gestión de Usuarios"
