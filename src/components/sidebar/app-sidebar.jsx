@@ -173,7 +173,7 @@ export function AppSidebar({ ...props }) {
 
           <SidebarContent>
             <NavHome home={data.home} />
-            <NavVentas navTitle={'Ventas'} items={data.navVentas} />
+            {/* <NavVentas navTitle={'Ventas'} items={data.navVentas} /> */}
             <NavMain navTitle={'Plataforma'} items={data.navMain} />
             <NavAdministracion projects={data.projects} />
           </SidebarContent>
