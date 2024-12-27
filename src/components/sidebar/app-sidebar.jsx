@@ -16,6 +16,8 @@ import {
   RiGroupFill,
   RiTeamFill,
   RiRidingLine,
+  RiBankCardLine,
+  RiShoppingBag3Line,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -61,14 +63,14 @@ const data = {
       icon: RiShoppingCartLine,
       items: [
         {
-          title: 'Pre-ventas',
-          url: '/ventas/productos/',
-          icon: RiGalleryView2,
+          title: 'Pre-Ventas',
+          url: '/ventas/preventas/',
+          icon: RiShoppingBag3Line,
         },
         {
           title: 'Registrar Pre-venta',
           url: '/ventas/motos',
-          icon: RiMotorbikeFill,
+          icon: RiBankCardLine,
         },
       ],
     },
@@ -173,7 +175,7 @@ export function AppSidebar({ ...props }) {
 
           <SidebarContent>
             <NavHome home={data.home} />
-            {/* <NavVentas navTitle={'Ventas'} items={data.navVentas} /> */}
+            <NavVentas navTitle={'Ventas'} items={data.navVentas} />
             <NavMain navTitle={'Plataforma'} items={data.navMain} />
             <NavAdministracion projects={data.projects} />
           </SidebarContent>
