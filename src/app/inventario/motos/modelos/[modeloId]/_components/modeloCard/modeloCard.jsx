@@ -22,9 +22,24 @@ export function ModeloCard({ modelo }) {
   return (
     <Card className="w-full max-w-7xl">
       <CardHeader>
-        <div className="flex justify-start items-start">
+        <div className="flex justify-between items-start">
           <div>
             <CardDescription>Código: {modelo?.code}</CardDescription>
+          </div>
+          {/* Estado */}
+          <div className="flex items-center space-x-2">
+            <div
+              className={`h-2 w-2 rounded-full ${
+                modelo?.estado === 'activo' ? 'bg-green-500' : 'bg-red-500'
+              }`}
+            />
+            <span
+              className={`text-sm ${
+                modelo?.estado === 'activo' ? 'text-green-600' : 'text-red-500'
+              }`}
+            >
+              {modelo?.estado === 'activo' ? 'Activo' : 'Inactivo'}
+            </span>
           </div>
         </div>
       </CardHeader>
