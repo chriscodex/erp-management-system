@@ -50,6 +50,7 @@ export const columnsModelos = [
       );
     },
     cell: ({ row }) => {
+      console.log(row.original);
       const marca = row?.original?.marcaId?.nombre;
       return <div className="text-start">{marca}</div>;
     },
@@ -71,6 +72,7 @@ export const columnsModelos = [
     cell: ({ row }) => {
       const category = row?.original?.categoryId?.nombre;
       return <div className="text-start">{category}</div>;
+<<<<<<< HEAD
     },
   },
   {
@@ -104,6 +106,8 @@ export const columnsModelos = [
           )}
         </div>
       );
+=======
+>>>>>>> e4ed9ad (marcas modelos table added)
     },
   },
   {
