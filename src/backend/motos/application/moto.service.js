@@ -1,4 +1,4 @@
-import { generarCodigoUnicoDeMoto } from '@/backend/motos/application/helpers';
+import { generarCodigoMoto } from '@/backend/motos/application/helpers';
 import { createMotoSchema } from '@/backend/motos/application/validations/createMotoSchema';
 
 import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
@@ -149,7 +149,6 @@ export class MotoService {
       const modeloFound = await this.modeloRepository.getModeloByData({
         id: motoData.modeloId,
       });
-      const { code: modeloCode } = modeloFound;
       if (!modeloFound) {
         console.log('Moto Service: El modelo no existe');
         return {
@@ -185,10 +184,7 @@ export class MotoService {
       }
       console.log('Moto Service: El proveedor existe');
 
-      const motoCode = await generarCodigoUnicoDeMoto(
-        modeloCode,
-        this.motoRepository
-      );
+      const motoCode = await generarCodigoMoto();
 
       const motoObject = {
         ...motoData,
