@@ -3,6 +3,31 @@ import { connectDB } from '@/db/mongodb';
 
 const motoService = new MotoService();
 
+export async function getMotoByDataController(request) {
+  try {
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const motoCode = searchParams.get('code');
+
+    await connectDB();
+
+    if (motoCode !== null) {
+      const product = await motoService.getMotoByData({
+        code: motoCode,
+      });
+      return product;
+    }
+    const motos = await motoService.getAllMotos();
+    return motos;
+  } catch (error) {
+    console.error(
+      'Moto Controller: Error interno al obtener las motos:',
+      error.message
+    );
+    throw new Error('Moto Controller: Error interno al obtener las motos');
+  }
+}
+
 export async function createMotoController(request) {
   try {
     const body = await request.json();

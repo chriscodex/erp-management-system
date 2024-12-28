@@ -58,4 +58,5 @@ export const deleteProveedorClientUrl = '/api/proveedores';
 export const updateProveedorClientUrl = '/api/proveedores';
 
 /* Ventas */
-export const getProductByIdClientUrl = '/api/products';
+export const getProductByCodeClientUrl = '/api/products';
+export const getMotoByCodeClientUrl = '/api/motos';

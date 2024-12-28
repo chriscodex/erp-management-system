@@ -1,12 +1,9 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { getAllSegmentsRequestServer } from '@/app/inventario/marcas/nuevo/_services/requests';
 import { RiShoppingBag3Line } from '@remixicon/react';
 import { RegistrarPreventaForm } from '@/app/ventas/preventas/registrar/_components/registrarPreventaForm';
 
 export default async function RegistrarPreventaPage() {
-  const { segments } = await getAllSegmentsRequestServer();
-
   const titles = [
     {
       title: 'Ventas',
@@ -34,7 +31,7 @@ export default async function RegistrarPreventaPage() {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <RegistrarPreventaForm segments={segments} />
+          <RegistrarPreventaForm />
         </CardContent>
       </Card>
     </NavbarDynamic>

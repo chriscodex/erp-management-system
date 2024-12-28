@@ -8,7 +8,7 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ArrowUpDown, Plus } from 'lucide-react';
 
 import {
@@ -28,9 +28,11 @@ import {
 } from '@/components/ui/table';
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { Button } from '@/components/ui/button';
-import { RiDeleteBinLine } from '@remixicon/react';
+import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
 import { getProductByIdClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
 import { toast } from 'sonner';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
+import { UnitProductDetailForPreventa } from '@/app/ventas/preventas/registrar/_components/sheets/unitProductDetail';
 
 export function ProductsPreventaTable({}) {
   const columns = [
@@ -100,7 +102,7 @@ export function ProductsPreventaTable({}) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('code')}</div>;
+        return <div className="text-start">{row.getValue('cantidad')}</div>;
       },
     },
     {
@@ -113,6 +115,26 @@ export function ProductsPreventaTable({}) {
 
         return (
           <div className="flex items-center space-x-3">
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="cursor-pointer flex">
+                    <Sheet>
+                      <SheetTrigger className="text-start">
+                        <RiFileListLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+                      </SheetTrigger>
+                      <UnitProductDetailForPreventa
+                        unitProductData={unitProductData}
+                      />
+                    </Sheet>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Detalle</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
             <TooltipProvider delayDuration={0}>
               <Tooltip>
                 <TooltipTrigger asChild>
@@ -158,8 +180,6 @@ export function ProductsPreventaTable({}) {
   /* Search */
   const [searchValue, setSearchValue] = useState('');
 
-  // table.getColumn('rol').getIsVisible();
-
   /* Agregar Producto */
   const [searchProductIsLoading, setSearchProductIsLoading] = useState(false);
   const handleAgregarProducto = async () => {
@@ -180,15 +200,17 @@ export function ProductsPreventaTable({}) {
       {
         loading: 'Buscando...',
         success: (response) => {
-          console.log(response);
+          console.log('RESPONSE', response);
           setProductsVenta([
             ...productsVenta,
             {
-              code: '1',
-              nombre: 'Producto 1',
+              ...response,
               cantidad: 1,
+              code: searchValue,
+              numeracion: productsVenta.length + 1,
             },
           ]);
+          console.log(productsVenta);
           return `Producto agregado a la lista correctamente`;
         },
         error: (error) => {
@@ -198,6 +220,10 @@ export function ProductsPreventaTable({}) {
       }
     );
   };
+
+  useEffect(() => {
+    console.log(productsVenta);
+  }, [productsVenta]);
 
   return (
     <div>

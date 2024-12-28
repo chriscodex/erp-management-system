@@ -1,8 +1,8 @@
 import { fetchData } from '@/lib/fetchData';
-import { getProductByIdClientUrl } from '@/lib/urls';
+import { getMotoByCodeClientUrl, getProductByCodeClientUrl } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
-export function getProductByIdClientRequest(unitProductId, setLoading) {
+export function getProductByIdClientRequest(code, setLoading) {
   // eslint-disable-next-line
   return new Promise(async (resolve, reject) => {
     try {
@@ -11,18 +11,28 @@ export function getProductByIdClientRequest(unitProductId, setLoading) {
 
       await delay();
 
-      const response = await fetchData(
-        `${getProductByIdClientUrl}/?unit-code=${unitProductId}`
+      const responseProduct = await fetchData(
+        `${getProductByCodeClientUrl}/?unit-code=${code}`
       );
 
-      if (response?.status !== 200) {
+      if (responseProduct?.status === 200 && responseProduct?.data?.payload) {
         setLoading(false);
-        reject('No se ha encontrado un producto con ese código');
+        resolve(responseProduct?.data?.payload);
+        return;
+      }
+
+      const responseMoto = await fetchData(
+        `${getMotoByCodeClientUrl}/?code=${code}`
+      );
+
+      if (responseMoto?.status === 200 && responseMoto?.data?.payload) {
+        setLoading(false);
+        resolve(responseMoto?.data?.payload);
         return;
       }
 
       setLoading(false);
-      resolve(response?.data?.payload);
+      reject('No se ha encontrado un producto o moto con ese código');
     } catch (error) {
       setLoading(false);
       reject(error);
