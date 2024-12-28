@@ -56,3 +56,6 @@ export const updateAlmacenClientUrl = '/api/almacenes';
 export const createProveedorClientUrl = '/api/proveedores';
 export const deleteProveedorClientUrl = '/api/proveedores';
 export const updateProveedorClientUrl = '/api/proveedores';
+
+/* Ventas */
+export const getProductByIdClientUrl = '/api/products';

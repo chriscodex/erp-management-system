@@ -151,8 +151,8 @@ export class ProductRepository {
         );
       }
 
-      if (productData.code) {
-        filter.code = { $regex: new RegExp(`^${productData.code}$`, 'i') };
+      if (productData.unitCode) {
+        filter.code = { 'unidades.code': productData.unitCode };
       }
 
       if (productData.nombre) {

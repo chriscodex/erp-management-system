@@ -3,7 +3,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { IdCardIcon, Loader2, Save, SearchIcon, User } from 'lucide-react';
+import {
+  IdCardIcon,
+  Loader2,
+  Phone,
+  Save,
+  SearchIcon,
+  User,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RiArrowLeftLine } from '@remixicon/react';
@@ -17,14 +24,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { createMarcaSchema } from '@/app/inventario/marcas/nuevo/_services/validations/createMarcaSchema';
 import { createMarcaRequestClient } from '@/app/inventario/marcas/nuevo/_services/requests.js';
@@ -37,9 +36,13 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
-import { onChangeNumero } from '@/components/formInputs/onChange';
+import {
+  onChangeCelular,
+  onChangeNumero,
+} from '@/components/formInputs/onChange';
+import { ProductsPreventaTable } from '@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table';
 
-export function RegistrarPreventaForm({ segments }) {
+export function RegistrarPreventaForm() {
   const router = useRouter();
 
   const form = useForm({
@@ -215,56 +218,121 @@ export function RegistrarPreventaForm({ segments }) {
                   </FormItem>
                 )}
               />
+              {watch('tipo') === 'persona' ? (
+                <>
+                  <FormField
+                    control={control}
+                    name="apellidos"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel>Apellidos</FormLabel>
+                        <div className="relative">
+                          {searchByDniIsLoading ? (
+                            <>
+                              <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                            </>
+                          ) : (
+                            <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          )}
+                          <FormControl>
+                            <Input
+                              placeholder="Apellidos"
+                              className="pl-8"
+                              autoComplete="off"
+                              disabled={
+                                searchByDniIsLoading || formSubmitIsLoading
+                              }
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="nombres"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel>Nombres</FormLabel>
+                        <div className="relative">
+                          {searchByDniIsLoading ? (
+                            <>
+                              <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                            </>
+                          ) : (
+                            <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          )}
+                          <FormControl>
+                            <Input
+                              placeholder="Nombres"
+                              className="pl-8"
+                              autoComplete="off"
+                              disabled={
+                                searchByDniIsLoading || formSubmitIsLoading
+                              }
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </>
+              ) : (
+                <>
+                  <FormField
+                    control={control}
+                    name="razonSocial"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel>Razón Social</FormLabel>
+                        <div className="relative">
+                          {searchByDniIsLoading ? (
+                            <>
+                              <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                            </>
+                          ) : (
+                            <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          )}
+                          <FormControl>
+                            <Input
+                              placeholder="Razón Social"
+                              className="pl-8"
+                              autoComplete="off"
+                              disabled={
+                                searchByDniIsLoading || formSubmitIsLoading
+                              }
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                </>
+              )}
               <FormField
                 control={control}
-                name="apellidos"
+                name="celular"
                 render={({ field }) => (
                   <FormItem className="space-y-2">
-                    <FormLabel>Apellidos</FormLabel>
+                    <FormLabel>Celular</FormLabel>
                     <div className="relative">
-                      {searchByDniIsLoading ? (
-                        <>
-                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
-                        </>
-                      ) : (
-                        <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                      )}
+                      <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                       <FormControl>
                         <Input
-                          placeholder="Apellidos"
+                          placeholder="Celular"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={searchByDniIsLoading || formSubmitIsLoading}
+                          disabled={formSubmitIsLoading}
                           {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={control}
-                name="nombres"
-                render={({ field }) => (
-                  <FormItem className="space-y-2">
-                    <FormLabel>Nombres</FormLabel>
-                    <div className="relative">
-                      {searchByDniIsLoading ? (
-                        <>
-                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
-                        </>
-                      ) : (
-                        <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                      )}
-                      <FormControl>
-                        <Input
-                          placeholder="Nombres"
-                          className="pl-8"
-                          autoComplete="off"
-                          disabled={searchByDniIsLoading || formSubmitIsLoading}
-                          {...field}
+                          onChange={(e) => {
+                            onChangeCelular(e, field);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -275,76 +343,14 @@ export function RegistrarPreventaForm({ segments }) {
             </CardContent>
           </Card>
 
-          <FormField
-            control={control}
-            name="nombre"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel>Nombre</FormLabel>
-                <div className="relative">
-                  <FormControl>
-                    <Input
-                      placeholder="Nombre"
-                      className="pl-2"
-                      autoComplete="off"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="descripcion"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel>Descripción (Opcional)</FormLabel>
-                <div className="relative">
-                  <FormControl>
-                    <Textarea
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                      placeholder="Escribe la descripción aquí."
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="segmentId"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel>Segmento</FormLabel>
-                <div className="relative">
-                  <Select
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                    disabled={formSubmitIsLoading}
-                  >
-                    <FormControl>
-                      <SelectTrigger className="w-full pl-2">
-                        <SelectValue placeholder="Seleccione un segmento" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {segments?.map((segment) => (
-                        <SelectItem key={segment?._id} value={segment?._id}>
-                          {segment?.nombre}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Productos</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <ProductsPreventaTable />
+            </CardContent>
+          </Card>
           <div className="flex items-center justify-end space-x-2">
             <Button
               variant="outline"
