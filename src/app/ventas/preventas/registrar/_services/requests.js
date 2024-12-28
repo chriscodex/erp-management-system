@@ -2,7 +2,7 @@ import { fetchData } from '@/lib/fetchData';
 import { getProductByIdClientUrl } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
-export function getProductByIdClientRequest(productId, setLoading) {
+export function getProductByIdClientRequest(unitProductId, setLoading) {
   // eslint-disable-next-line
   return new Promise(async (resolve, reject) => {
     try {
@@ -12,7 +12,7 @@ export function getProductByIdClientRequest(productId, setLoading) {
       await delay();
 
       const response = await fetchData(
-        `${getProductByIdClientUrl}/${productId}`
+        `${getProductByIdClientUrl}/?unit-code=${unitProductId}`
       );
 
       if (response?.status !== 200) {

@@ -152,7 +152,7 @@ export class ProductRepository {
       }
 
       if (productData.unitCode) {
-        filter.code = { 'unidades.code': productData.unitCode };
+        filter['unidades.code'] = productData.unitCode;
       }
 
       if (productData.nombre) {
