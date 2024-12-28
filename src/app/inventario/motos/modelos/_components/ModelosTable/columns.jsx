@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { RiFileListLine } from '@remixicon/react';
 import { DeleteModeloAlert } from '../Dialogs/DeleteModeloAlert';
+import { Badge } from '@/components/ui/badge';
 
 export const columnsModelos = [
   {
@@ -49,7 +50,6 @@ export const columnsModelos = [
       );
     },
     cell: ({ row }) => {
-      console.log(row.original);
       const marca = row?.original?.marcaId?.nombre;
       return <div className="text-start">{marca}</div>;
     },
@@ -71,6 +71,39 @@ export const columnsModelos = [
     cell: ({ row }) => {
       const category = row?.original?.categoryId?.nombre;
       return <div className="text-start">{category}</div>;
+    },
+  },
+  {
+    accessorFn: (row) => row?.estado,
+    id: 'estado',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Estado
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="text-start">
+          {row.getValue('estado') === 'activo' ? (
+            <Badge
+              variant="successTable"
+              className="text-sm w-[71px] flex justify-center"
+            >
+              Activo
+            </Badge>
+          ) : (
+            <Badge variant="error" className="text-sm">
+              Inactivo
+            </Badge>
+          )}
+        </div>
+      );
     },
   },
   {
