@@ -35,6 +35,26 @@ export const columnsModelos = [
     },
   },
   {
+    accessorFn: (row) => row?.marcaId?.nombre,
+    id: 'marca',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Marca
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      console.log(row.original);
+      const marca = row?.original?.marcaId?.nombre;
+      return <div className="text-start">{marca}</div>;
+    },
+  },
+  {
     accessorFn: (row) => row?.categoryId?.nombre,
     id: 'category',
     header: ({ column }) => {
@@ -49,11 +69,10 @@ export const columnsModelos = [
       );
     },
     cell: ({ row }) => {
-      const segment = row?.original?.categoryId?.nombre;
-      return <div className="text-start">{segment}</div>;
+      const category = row?.original?.categoryId?.nombre;
+      return <div className="text-start">{category}</div>;
     },
   },
-
   {
     id: 'actions',
     header: 'Acciones',
