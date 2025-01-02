@@ -10,6 +10,9 @@ import {
 import { SheetAddCategoryWrapper } from '@/app/inventario/categorias/_components/sheets/addCategory/sheetAddWrapper';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { DataTablePreventas } from '@/app/ventas/preventas/_components/preventasTable/data-table';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
+import Link from 'next/link';
 
 export default async function PreventasPage() {
   const titles = [
@@ -48,7 +51,12 @@ export default async function PreventasPage() {
                 Pre-Ventas
               </Label>
             </div>
-            <SheetAddCategoryWrapper segments={segments} />
+            <Link href="/ventas/preventas/registrar">
+              <Button variant="default">
+                <Plus />
+                Registrar Pre-Venta
+              </Button>
+            </Link>
           </CardHeader>
           <CardContent>
             <DataTablePreventas

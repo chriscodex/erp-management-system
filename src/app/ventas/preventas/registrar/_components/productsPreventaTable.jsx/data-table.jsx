@@ -1,5 +1,10 @@
 'use client';
 
+import { useEffect, useState } from 'react';
+import { ArrowUpDown, Edit, Plus } from 'lucide-react';
+import { toast } from 'sonner';
+import { RiDeleteBinLine } from '@remixicon/react';
+
 import {
   flexRender,
   getCoreRowModel,
@@ -8,9 +13,6 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from '@tanstack/react-table';
-import { useEffect, useState } from 'react';
-import { ArrowUpDown, Plus } from 'lucide-react';
-
 import {
   Tooltip,
   TooltipContent,
@@ -26,15 +28,37 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { DataTablePagination } from '@/components/ui/table-pagination';
 import { Button } from '@/components/ui/button';
-import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
-import { getProductByIdClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
-import { toast } from 'sonner';
-import { Sheet, SheetTrigger } from '@/components/ui/sheet';
-import { UnitProductDetailForPreventa } from '@/app/ventas/preventas/registrar/_components/sheets/unitProductDetail';
+import { getProductByCodeClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { formatMoney, generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
+import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
+import { Label } from '@/components/ui/label';
 
-export function ProductsPreventaTable({}) {
+export function ProductsPreventaTable() {
+  const [productsVenta, setProductsVenta] = useState([]);
+
+  const updateRowValue = (internalId, key, value) => {
+    setProductsVenta((prevData) =>
+      prevData.map((row) =>
+        row.internalId === internalId ? { ...row, [key]: value } : row
+      )
+    );
+  };
+
+  const deleteProduct = (internalId) => {
+    setProductsVenta((prevData) =>
+      prevData.filter((row) => row.internalId !== internalId)
+    );
+  };
+
   const columns = [
     {
       accessorKey: 'numeracion',
@@ -106,12 +130,44 @@ export function ProductsPreventaTable({}) {
       },
     },
     {
+      accessorKey: 'precioVenta',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Precio de Venta
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const precioVenta = row.getValue('precioVenta');
+        return <div className="text-start">S/. {formatMoney(precioVenta)}</div>;
+      },
+    },
+    {
       id: 'actions',
       header: 'Acciones',
       cell: ({ row }) => {
-        const unitProductData = row.original;
+        const productData = row.original;
 
-        const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
+        const [tempPrice, setTempPrice] = useState(productData.precioVenta);
+
+        // Función para manejar el cambio del input sin actualizar el estado global
+        const handleTempPriceChange = (event) => {
+          setTempPrice(event.target.value);
+        };
+
+        // Función para aplicar el cambio al estado global
+        const handleApplyChange = () => {
+          updateRowValue(
+            productData.internalId,
+            'precioVenta',
+            parseFloat(tempPrice)
+          );
+        };
 
         return (
           <div className="flex items-center space-x-3">
@@ -121,16 +177,252 @@ export function ProductsPreventaTable({}) {
                   <div className="cursor-pointer flex">
                     <Sheet>
                       <SheetTrigger className="text-start">
-                        <RiFileListLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+                        <Edit className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                       </SheetTrigger>
-                      <UnitProductDetailForPreventa
-                        unitProductData={unitProductData}
-                      />
+                      {row?.original?.modeloId ? (
+                        <SheetContent>
+                          <SheetHeader>
+                            <SheetTitle>Moto {productData?.nombre}</SheetTitle>
+                            <SheetDescription>
+                              {productData?.code}
+                            </SheetDescription>
+                          </SheetHeader>
+                          <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Nombre
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.nombre}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Descripción
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.descripcion}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Modelo
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.modeloId?.nombre}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Marca
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.modeloId?.marcaId?.nombre}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Categoría
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.modeloId?.categoryId?.nombre}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Importado
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.importado === 'si' ? 'Si' : 'No'}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Almacén
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.almacenId?.nombre}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Estado
+                              </label>
+                              <div className="col-span-2">
+                                {productData?.estado?.titulo ===
+                                  'disponible' && (
+                                  <BadgeUnitProduct variant="successTable">
+                                    Disponible
+                                  </BadgeUnitProduct>
+                                )}
+                                {productData?.estado?.titulo === 'reparado' && (
+                                  <BadgeUnitProduct variant="blueTable">
+                                    Reparado
+                                  </BadgeUnitProduct>
+                                )}
+                                {productData?.estado?.titulo ===
+                                  'desarmado' && (
+                                  <BadgeUnitProduct variant="orangeTable">
+                                    Desarmado
+                                  </BadgeUnitProduct>
+                                )}
+                                {productData?.estado?.titulo === 'dañado' && (
+                                  <BadgeUnitProduct variant="redTable">
+                                    Dañado
+                                  </BadgeUnitProduct>
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <label className="col-span-1 text-left font-bold">
+                                Precio de venta
+                              </label>
+                              <div className="relative mt-1">
+                                <p className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                                  S/.
+                                </p>
+                                <Input
+                                  id="sale-price"
+                                  type="number"
+                                  value={tempPrice}
+                                  onChange={handleTempPriceChange}
+                                  onKeyDown={(event) => {
+                                    if (event.key === 'Enter') {
+                                      handleApplyChange(); // Llama a la función que guarda el cambio
+                                    }
+                                  }}
+                                  className="pl-9"
+                                  min={0}
+                                  step={0.1}
+                                />
+                              </div>
+                            </div>
+                            <div className="flex justify-end">
+                              <Button
+                                variant="default"
+                                onClick={handleApplyChange}
+                              >
+                                Guardar
+                              </Button>
+                            </div>
+                          </div>
+                        </SheetContent>
+                      ) : (
+                        <SheetContent>
+                          <SheetHeader>
+                            <SheetTitle>
+                              Producto {productData?.nombre}
+                            </SheetTitle>
+                            <SheetDescription>
+                              {productData?.code}
+                            </SheetDescription>
+                          </SheetHeader>
+                          <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Nombre
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.nombre}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Descripción
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.descripcion}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Marca
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.marcaId?.nombre}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Categoría
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.categoryId?.nombre}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Importado
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.importado === 'si' ? 'Si' : 'No'}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Almacén
+                              </label>
+                              <p className="col-span-2">
+                                {productData?.almacenId?.nombre}
+                              </p>
+                            </div>
+                            <div className="grid grid-cols-3 items-center gap-4">
+                              <label className="col-span-1 text-left font-bold">
+                                Estado
+                              </label>
+                              <div className="col-span-2">
+                                {productData?.estado === 'activo' && (
+                                  <BadgeUnitProduct variant="successTable">
+                                    Activo
+                                  </BadgeUnitProduct>
+                                )}
+                                {productData?.estado === 'inactivo' && (
+                                  <BadgeUnitProduct variant="error">
+                                    Inactivo
+                                  </BadgeUnitProduct>
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <label className="col-span-1 text-left font-bold">
+                                Precio de venta
+                              </label>
+                              <div className="relative mt-1">
+                                <p className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                                  S/.
+                                </p>
+                                <Input
+                                  id="sale-price"
+                                  type="number"
+                                  value={tempPrice}
+                                  onChange={handleTempPriceChange}
+                                  onKeyDown={(event) => {
+                                    if (event.key === 'Enter') {
+                                      handleApplyChange(); // Llama a la función que guarda el cambio
+                                    }
+                                  }}
+                                  className="pl-9"
+                                  min={0}
+                                  step={0.1}
+                                />
+                              </div>
+                            </div>
+                            <div className="flex justify-end">
+                              <Button
+                                variant="default"
+                                onClick={handleApplyChange}
+                              >
+                                Guardar
+                              </Button>
+                            </div>
+                          </div>
+                        </SheetContent>
+                      )}
                     </Sheet>
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Detalle</p>
+                  <p>Editar</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
@@ -140,9 +432,9 @@ export function ProductsPreventaTable({}) {
                 <TooltipTrigger asChild>
                   <div
                     className="cursor-pointer"
-                    onClick={() => setIsOpenDialogDelete(true)}
+                    onClick={() => deleteProduct(productData?.internalId)}
                   >
-                    <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+                    <RiDeleteBinLine className="w-5 h-5 text-red-500 hover:text-foreground" />
                   </div>
                 </TooltipTrigger>
                 <TooltipContent>
@@ -155,8 +447,6 @@ export function ProductsPreventaTable({}) {
       },
     },
   ];
-
-  const [productsVenta, setProductsVenta] = useState([]);
 
   /* Sorting */
   const [sorting, setSorting] = useState([]);
@@ -182,7 +472,9 @@ export function ProductsPreventaTable({}) {
 
   /* Agregar Producto */
   const [searchProductIsLoading, setSearchProductIsLoading] = useState(false);
-  const handleAgregarProducto = async () => {
+  const handleAgregarProducto = async (event) => {
+    event.preventDefault();
+
     if (!searchValue) {
       toast.error('Ingrese el codigo del producto');
       return;
@@ -192,11 +484,19 @@ export function ProductsPreventaTable({}) {
       return;
     }
 
+    const duplicado = productsVenta.some(
+      (product) => product?.code === searchValue.trim()
+    );
+    if (duplicado) {
+      toast.error('El producto ya se encuentra en la lista');
+      return;
+    }
+
     setSearchProductIsLoading(true);
 
-    // Toast promise para crear
+    // Toast para buscar producto
     toast.promise(
-      getProductByIdClientRequest(searchValue, setSearchProductIsLoading),
+      getProductByCodeClientRequest(searchValue, setSearchProductIsLoading),
       {
         loading: 'Buscando...',
         success: (response) => {
@@ -208,9 +508,9 @@ export function ProductsPreventaTable({}) {
               cantidad: 1,
               code: searchValue,
               numeracion: productsVenta.length + 1,
+              internalId: generarNumeroAleatorioSeisDigitos(),
             },
           ]);
-          console.log(productsVenta);
           return `Producto agregado a la lista correctamente`;
         },
         error: (error) => {
@@ -221,8 +521,14 @@ export function ProductsPreventaTable({}) {
     );
   };
 
+  const [totalPrecioVenta, setTotalPrecioVenta] = useState(0);
+
   useEffect(() => {
     console.log(productsVenta);
+    const total = productsVenta.reduce((acc, product) => {
+      return acc + product.precioVenta;
+    }, 0);
+    setTotalPrecioVenta(total);
   }, [productsVenta]);
 
   return (
@@ -230,22 +536,29 @@ export function ProductsPreventaTable({}) {
       {/* Input */}
       <div className="flex gap-2 items-center py-4 w-full">
         <Input
-          placeholder="Ingrese el código"
+          placeholder="Ingrese el código del producto o moto"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              handleAgregarProducto(event);
+            }
+          }}
         />
         <div>
           <Button
+            type="button"
             disabled={searchProductIsLoading}
-            onClick={handleAgregarProducto}
+            onClick={(event) => handleAgregarProducto(event)}
           >
             Agregar
             <Plus className="h-4 w-4" />
           </Button>
         </div>
       </div>
-      <div className="rounded-md border sm:min-h-[528px] min-h-[528px] w-auto">
+      <div className="rounded-md border w-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -288,14 +601,18 @@ export function ProductsPreventaTable({}) {
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Sin resultados.
+                  Sin productos.
                 </TableCell>
               </TableRow>
             )}
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <div className="w-full flex justify-end mt-4">
+        <Label className="font-bold">
+          Total: S/. {formatMoney(totalPrecioVenta)}
+        </Label>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,397 @@
+'use client';
+
+import { useState } from 'react';
+import { ArrowUpDown, Plus } from 'lucide-react';
+import { toast } from 'sonner';
+import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
+
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+} from '@tanstack/react-table';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
+import { Input } from '@/components/ui/input';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { getProductByCodeClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
+import { generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
+import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
+
+export function ObsequiosPreventaTable() {
+  const [obsequiosPreventa, setObsequiosPreventa] = useState([]);
+
+  const deleteObsequio = (internalId) => {
+    setObsequiosPreventa((prevData) =>
+      prevData.filter((row) => row.internalId !== internalId)
+    );
+  };
+
+  const columns = [
+    {
+      accessorKey: 'numeracion',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            className="w-1"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            N°
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <div className="text-start">{row.getValue('numeracion')}</div>;
+      },
+    },
+    {
+      accessorKey: 'code',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Código
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <div className="text-start">{row.getValue('code')}</div>;
+      },
+    },
+    {
+      accessorKey: 'nombre',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Nombre
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <div className="text-start">{row.getValue('nombre')}</div>;
+      },
+    },
+    {
+      accessorKey: 'cantidad',
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          >
+            Cantidad
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        return <div className="text-start">{row.getValue('cantidad')}</div>;
+      },
+    },
+    {
+      id: 'actions',
+      header: 'Acciones',
+      cell: ({ row }) => {
+        const obsequioData = row.original;
+
+        return (
+          <div className="flex items-center space-x-3">
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="cursor-pointer flex">
+                    <Sheet>
+                      <SheetTrigger className="text-start">
+                        <RiFileListLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+                      </SheetTrigger>
+                      <SheetContent>
+                        <SheetHeader>
+                          <SheetTitle>
+                            Obsequio {obsequioData?.nombre}
+                          </SheetTitle>
+                          <SheetDescription>
+                            {obsequioData?.code}
+                          </SheetDescription>
+                        </SheetHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Nombre
+                            </label>
+                            <p className="col-span-2">{obsequioData?.nombre}</p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Descripción
+                            </label>
+                            <p className="col-span-2">
+                              {obsequioData?.descripcion}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Marca
+                            </label>
+                            <p className="col-span-2">
+                              {obsequioData?.marcaId?.nombre}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Categoría
+                            </label>
+                            <p className="col-span-2">
+                              {obsequioData?.categoryId?.nombre}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Importado
+                            </label>
+                            <p className="col-span-2">
+                              {obsequioData?.importado === 'si' ? 'Si' : 'No'}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Almacén
+                            </label>
+                            <p className="col-span-2">
+                              {obsequioData?.almacenId?.nombre}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Estado
+                            </label>
+                            <div className="col-span-2">
+                              {obsequioData?.estado === 'activo' && (
+                                <BadgeUnitProduct variant="successTable">
+                                  Activo
+                                </BadgeUnitProduct>
+                              )}
+                              {obsequioData?.estado === 'inactivo' && (
+                                <BadgeUnitProduct variant="error">
+                                  Inactivo
+                                </BadgeUnitProduct>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </SheetContent>
+                    </Sheet>
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Detalle</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    className="cursor-pointer"
+                    onClick={() => deleteObsequio(obsequioData?.internalId)}
+                  >
+                    <RiDeleteBinLine className="w-5 h-5 text-red-500 hover:text-foreground" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Eliminar</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
+        );
+      },
+    },
+  ];
+
+  /* Sorting */
+  const [sorting, setSorting] = useState([]);
+  const [columnFilters, setColumnFilters] = useState([]);
+
+  const table = useReactTable({
+    data: obsequiosPreventa,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
+    onColumnFiltersChange: setColumnFilters,
+    getFilteredRowModel: getFilteredRowModel(),
+    state: {
+      sorting,
+      columnFilters,
+    },
+  });
+
+  /* Search */
+  const [searchValue, setSearchValue] = useState('');
+
+  /* Agregar Producto */
+  const [searchProductIsLoading, setSearchProductIsLoading] = useState(false);
+  const handleAgregarProducto = async (event) => {
+    event.preventDefault();
+
+    if (!searchValue) {
+      toast.error('Ingrese el codigo del producto');
+      return;
+    }
+    if (searchValue.length < 13) {
+      toast.error('El codigo debe tener 13 caracteres');
+      return;
+    }
+
+    const duplicado = obsequiosPreventa.some(
+      (obsequio) => obsequio?.code === searchValue.trim()
+    );
+    if (duplicado) {
+      toast.error('El obsequios ya se encuentra en la lista');
+      return;
+    }
+
+    setSearchProductIsLoading(true);
+
+    // Toast para buscar producto
+    toast.promise(
+      getProductByCodeClientRequest(searchValue, setSearchProductIsLoading),
+      {
+        loading: 'Buscando...',
+        success: (response) => {
+          console.log('RESPONSE', response);
+          setObsequiosPreventa([
+            ...obsequiosPreventa,
+            {
+              ...response,
+              cantidad: 1,
+              code: searchValue,
+              numeracion: obsequiosPreventa.length + 1,
+              internalId: generarNumeroAleatorioSeisDigitos(),
+            },
+          ]);
+          console.log(obsequiosPreventa);
+          return `Obsequio agregado a la lista correctamente`;
+        },
+        error: (error) => {
+          setSearchProductIsLoading(false);
+          return error;
+        },
+      }
+    );
+  };
+
+  return (
+    <div>
+      {/* Input */}
+      <div className="flex gap-2 items-center py-4 w-full">
+        <Input
+          placeholder="Ingrese el código del obsequio"
+          value={searchValue}
+          onChange={(e) => setSearchValue(e.target.value)}
+          className="max-w-sm"
+          onKeyDown={(event) => {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              handleAgregarProducto(event);
+            }
+          }}
+        />
+        <div>
+          <Button
+            type="button"
+            disabled={searchProductIsLoading}
+            onClick={(event) => handleAgregarProducto(event)}
+          >
+            Agregar
+            <Plus className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+      <div className="rounded-md border w-auto">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && 'selected'}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  Sin productos.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}

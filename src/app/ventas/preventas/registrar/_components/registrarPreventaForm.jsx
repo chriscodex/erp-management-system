@@ -41,6 +41,8 @@ import {
   onChangeNumero,
 } from '@/components/formInputs/onChange';
 import { ProductsPreventaTable } from '@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table';
+import { searchClientePorDniOrRucClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
+import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table';
 
 export function RegistrarPreventaForm() {
   const router = useRouter();
@@ -48,6 +50,7 @@ export function RegistrarPreventaForm() {
   const form = useForm({
     resolver: zodResolver(createMarcaSchema),
     defaultValues: {
+      identificador: '',
       tipo: 'persona',
       segmentId: '',
       nombre: '',
@@ -55,13 +58,15 @@ export function RegistrarPreventaForm() {
     },
   });
 
-  const { handleSubmit, watch, control, clearErrors, setError } = form;
+  const { handleSubmit, watch, setValue, control, clearErrors, setError } =
+    form;
 
   const formData = watch();
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
-  const [searchByDniIsLoading, setSearchByDniIsLoading] = useState(false);
+  const [searchByDniOrRucIsLoading, setSearchByDniOrRucIsLoading] =
+    useState(false);
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
@@ -85,38 +90,78 @@ export function RegistrarPreventaForm() {
     );
   });
 
-  // Busqueda por DNI
-  const handleSearchByDni = async (e) => {
+  // Busqueda por DNI o RUC
+  const handleSearchByDniOrRuc = async (e) => {
     e.preventDefault();
     try {
-      setSearchByDniIsLoading(true);
+      setSearchByDniOrRucIsLoading(true);
 
-      const dni = formData.dni;
-      if (!dni || dni.length !== 8) {
-        setSearchByDniIsLoading(false);
-        toast.warning('Por favor, ingrese un DNI válido', {
-          description: 'El DNI debe tener 8 dígitos',
-        });
-        return;
+      const tipo = formData.tipo;
+      const identificador = formData.identificador;
+
+      if (tipo === 'persona') {
+        if (!identificador || identificador.length !== 8) {
+          setSearchByDniOrRucIsLoading(false);
+          toast.warning('Por favor, ingrese un DNI válido', {
+            description: 'El DNI debe tener 8 dígitos',
+          });
+          return;
+        }
+        toast.promise(
+          searchClientePorDniOrRucClientRequest(
+            identificador,
+            setSearchByDniOrRucIsLoading
+          ),
+          {
+            loading: 'Buscando...',
+            success: (persona) => {
+              setValue('apellidos', persona?.apellidos);
+              setValue('nombres', persona?.nombres);
+              setValue('celular', persona?.celular);
+              clearErrors('apellidos');
+              clearErrors('nombres');
+              clearErrors('celular');
+              return `Persona encontrada`;
+            },
+            error: (error) => {
+              setSearchByDniOrRucIsLoading(false);
+              return error;
+            },
+          }
+        );
       }
 
-      // Toast promise para buscar una persona
-      // toast.promise(buscarPorDniClientRequest(dni, setSearchByDniIsLoading), {
-      //   loading: 'Buscando...',
-      //   success: (persona) => {
-      //     setValue('apellidos', persona?.apellidos);
-      //     setValue('nombres', persona?.nombres);
-      //     clearErrors('apellidos');
-      //     clearErrors('nombres');
-      //     return `Persona encontrada`;
-      //   },
-      //   error: (error) => {
-      //     setSearchByDniIsLoading(false);
-      //     return error;
-      //   },
-      // });
+      if (tipo === 'empresa') {
+        if (!identificador || identificador.length !== 11) {
+          setSearchByDniOrRucIsLoading(false);
+          toast.warning('Por favor, ingrese un RUC válido', {
+            description: 'El RUC debe tener 11 dígitos',
+          });
+          return;
+        }
+        toast.promise(
+          searchClientePorDniOrRucClientRequest(
+            identificador,
+            setSearchByDniOrRucIsLoading
+          ),
+          {
+            loading: 'Buscando...',
+            success: (empresa) => {
+              setValue('razonSocial', empresa?.razonSocial);
+              setValue('celular', empresa?.celular);
+              clearErrors('razonSocial');
+              clearErrors('celular');
+              return `Empresa encontrada`;
+            },
+            error: (error) => {
+              setSearchByDniOrRucIsLoading(false);
+              return error;
+            },
+          }
+        );
+      }
     } catch (error) {
-      setSearchByDniIsLoading(false);
+      setSearchByDniOrRucIsLoading(false);
       toast.error('Error al buscar persona por DNI');
       console.error('Error al buscar persona por DNI:', error);
     }
@@ -125,7 +170,7 @@ export function RegistrarPreventaForm() {
   return (
     <>
       <Form {...form}>
-        <form onSubmit={onSubmit} className="grid gap-4 py-4">
+        <form onSubmit={onSubmit} className="gap-4 py-4">
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Información del Cliente</CardTitle>
@@ -138,7 +183,19 @@ export function RegistrarPreventaForm() {
                   <FormItem className="mb-3">
                     <FormControl>
                       <RadioGroup
-                        onValueChange={field.onChange}
+                        onValueChange={(value) => {
+                          field.onChange(value);
+                          setValue('identificador', '');
+                          clearErrors('identificador');
+                          clearErrors('apellidos');
+                          clearErrors('nombres');
+                          clearErrors('razonSocial');
+                          clearErrors('celular');
+                          setValue('apellidos', '');
+                          setValue('nombres', '');
+                          setValue('razonSocial', '');
+                          setValue('celular', '');
+                        }}
                         defaultValue={field.value}
                         className="flex flex-row space-x-4"
                       >
@@ -164,7 +221,7 @@ export function RegistrarPreventaForm() {
               />
               <FormField
                 control={control}
-                name="dni"
+                name="identificador"
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>
@@ -180,7 +237,9 @@ export function RegistrarPreventaForm() {
                           }
                           className="pl-8"
                           autoComplete="off"
-                          disabled={searchByDniIsLoading || formSubmitIsLoading}
+                          disabled={
+                            searchByDniOrRucIsLoading || formSubmitIsLoading
+                          }
                           {...field}
                           onChange={(e) => {
                             onChangeNumero(e, field);
@@ -191,13 +250,13 @@ export function RegistrarPreventaForm() {
                       <div
                         className={cn(
                           'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
-                          searchByDniIsLoading
+                          searchByDniOrRucIsLoading
                             ? 'opacity-75 pointer-events-none'
                             : 'cursor-pointer'
                         )}
-                        onClick={handleSearchByDni}
+                        onClick={handleSearchByDniOrRuc}
                       >
-                        {searchByDniIsLoading ? (
+                        {searchByDniOrRucIsLoading ? (
                           <>
                             <Loader2 className="h-6 w-6 animate-spin " />
                           </>
@@ -208,7 +267,7 @@ export function RegistrarPreventaForm() {
                                 <SearchIcon className="h-6 w-6" />
                               </TooltipTrigger>
                               <TooltipContent>
-                                <p>Busca por DNI</p>
+                                <p>Buscar</p>
                               </TooltipContent>
                             </Tooltip>
                           </TooltipProvider>
@@ -227,7 +286,7 @@ export function RegistrarPreventaForm() {
                       <FormItem className="space-y-2">
                         <FormLabel>Apellidos</FormLabel>
                         <div className="relative">
-                          {searchByDniIsLoading ? (
+                          {searchByDniOrRucIsLoading ? (
                             <>
                               <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
                             </>
@@ -240,7 +299,7 @@ export function RegistrarPreventaForm() {
                               className="pl-8"
                               autoComplete="off"
                               disabled={
-                                searchByDniIsLoading || formSubmitIsLoading
+                                searchByDniOrRucIsLoading || formSubmitIsLoading
                               }
                               {...field}
                             />
@@ -257,7 +316,7 @@ export function RegistrarPreventaForm() {
                       <FormItem className="space-y-2">
                         <FormLabel>Nombres</FormLabel>
                         <div className="relative">
-                          {searchByDniIsLoading ? (
+                          {searchByDniOrRucIsLoading ? (
                             <>
                               <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
                             </>
@@ -270,7 +329,7 @@ export function RegistrarPreventaForm() {
                               className="pl-8"
                               autoComplete="off"
                               disabled={
-                                searchByDniIsLoading || formSubmitIsLoading
+                                searchByDniOrRucIsLoading || formSubmitIsLoading
                               }
                               {...field}
                             />
@@ -290,7 +349,7 @@ export function RegistrarPreventaForm() {
                       <FormItem className="space-y-2">
                         <FormLabel>Razón Social</FormLabel>
                         <div className="relative">
-                          {searchByDniIsLoading ? (
+                          {searchByDniOrRucIsLoading ? (
                             <>
                               <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
                             </>
@@ -303,7 +362,7 @@ export function RegistrarPreventaForm() {
                               className="pl-8"
                               autoComplete="off"
                               disabled={
-                                searchByDniIsLoading || formSubmitIsLoading
+                                searchByDniOrRucIsLoading || formSubmitIsLoading
                               }
                               {...field}
                             />
@@ -351,12 +410,22 @@ export function RegistrarPreventaForm() {
               <ProductsPreventaTable />
             </CardContent>
           </Card>
+
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Obsequios</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <ObsequiosPreventaTable />
+            </CardContent>
+          </Card>
+
           <div className="flex items-center justify-end space-x-2">
             <Button
               variant="outline"
               onClick={(e) => {
                 e.preventDefault();
-                router.push('/inventario/marcas');
+                router.back();
               }}
               disabled={formSubmitIsLoading}
             >
@@ -369,7 +438,7 @@ export function RegistrarPreventaForm() {
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />
-                  Crear Marca
+                  Registrar Pre-Venta
                 </>
               )}
             </Button>
