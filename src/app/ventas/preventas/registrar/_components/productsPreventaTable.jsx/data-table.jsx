@@ -42,8 +42,7 @@ import { formatMoney, generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 import { Label } from '@/components/ui/label';
 
-export function ProductsPreventaTable() {
-  const [productsVenta, setProductsVenta] = useState([]);
+export function ProductsPreventaTable({productsVenta, setProductsVenta}) {
 
   const updateRowValue = (internalId, key, value) => {
     setProductsVenta((prevData) =>

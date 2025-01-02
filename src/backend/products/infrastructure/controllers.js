@@ -8,8 +8,17 @@ export async function getProductsController(request) {
     // Extrae los query parameters de la URL
     const { searchParams } = new URL(request.url);
     const productUnitCode = searchParams.get('unit-code');
+    const obsequioCode = searchParams.get('obsequio-code');
 
     await connectDB();
+
+    if (obsequioCode !== null) {
+      const product = await productService.getProductByData({
+        unitCode: obsequioCode,
+        obsequio: 'si',
+      });
+      return product;
+    }
 
     if (productUnitCode !== null) {
       const product = await productService.getProductByData({

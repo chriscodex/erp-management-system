@@ -163,6 +163,12 @@ export class ProductRepository {
         filter.importado = productData.importado;
       }
 
+      if (productData.obsequio) {
+        filter.obsequio = {
+          $regex: new RegExp(`^${productData.obsequio}$`, 'i'),
+        };
+      }
+
       const productFound = await this.productModel
         .findOne(filter)
         .populate('marcaId')

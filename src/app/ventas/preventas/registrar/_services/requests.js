@@ -93,3 +93,43 @@ export function getProductByCodeClientRequest(code, setLoading) {
     }
   });
 }
+
+export function getObsequioByCodeClientRequest(code, setLoading) {
+  // eslint-disable-next-line
+  return new Promise(async (resolve, reject) => {
+    try {
+      setLoading(true);
+      // Simular tiempo de retraso
+
+      await delay();
+
+      const responseProduct = await fetchData(
+        `${getProductByCodeClientUrl}/?obsequio-code=${code}`
+      );
+
+      if (responseProduct?.status === 200 && responseProduct?.data?.payload) {
+        setLoading(false);
+        resolve(responseProduct?.data?.payload);
+        return;
+      } else {
+        const responseProduct = await fetchData(
+          `${getProductByCodeClientUrl}/?unit-code=${code}`
+        );
+
+        if (responseProduct?.status === 200 && responseProduct?.data?.payload) {
+          setLoading(false);
+          reject(
+            'Se ha encontrado el producto, pero no está marcado como obsequio'
+          );
+          return;
+        }
+      }
+
+      setLoading(false);
+      reject('No se ha encontrado un producto con ese código');
+    } catch (error) {
+      setLoading(false);
+      reject(error);
+    }
+  });
+}

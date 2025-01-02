@@ -29,7 +29,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
-import { getProductByCodeClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
+import { getObsequioByCodeClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
 import {
   Sheet,
   SheetContent,
@@ -41,9 +41,10 @@ import {
 import { generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 
-export function ObsequiosPreventaTable() {
-  const [obsequiosPreventa, setObsequiosPreventa] = useState([]);
-
+export function ObsequiosPreventaTable({
+  obsequiosPreventa,
+  setObsequiosPreventa,
+}) {
   const deleteObsequio = (internalId) => {
     setObsequiosPreventa((prevData) =>
       prevData.filter((row) => row.internalId !== internalId)
@@ -281,7 +282,7 @@ export function ObsequiosPreventaTable() {
       (obsequio) => obsequio?.code === searchValue.trim()
     );
     if (duplicado) {
-      toast.error('El obsequios ya se encuentra en la lista');
+      toast.error('El obsequio ya se encuentra en la lista');
       return;
     }
 
@@ -289,7 +290,7 @@ export function ObsequiosPreventaTable() {
 
     // Toast para buscar producto
     toast.promise(
-      getProductByCodeClientRequest(searchValue, setSearchProductIsLoading),
+      getObsequioByCodeClientRequest(searchValue, setSearchProductIsLoading),
       {
         loading: 'Buscando...',
         success: (response) => {

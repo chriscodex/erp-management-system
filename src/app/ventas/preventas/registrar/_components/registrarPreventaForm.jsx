@@ -43,6 +43,7 @@ import {
 import { ProductsPreventaTable } from '@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table';
 import { searchClientePorDniOrRucClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
 import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table';
+import { Textarea } from '@/components/ui/textarea';
 
 export function RegistrarPreventaForm() {
   const router = useRouter();
@@ -166,6 +167,9 @@ export function RegistrarPreventaForm() {
       console.error('Error al buscar persona por DNI:', error);
     }
   };
+
+  const [obsequiosPreventa, setObsequiosPreventa] = useState([]);
+  const [productsPreventa, setProductsPreventa] = useState([]);
 
   return (
     <>
@@ -407,7 +411,10 @@ export function RegistrarPreventaForm() {
               <CardTitle>Productos</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <ProductsPreventaTable />
+              <ProductsPreventaTable
+                productsVenta={productsPreventa}
+                setProductsVenta={setProductsPreventa}
+              />
             </CardContent>
           </Card>
 
@@ -416,7 +423,37 @@ export function RegistrarPreventaForm() {
               <CardTitle>Obsequios</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
-              <ObsequiosPreventaTable />
+              <ObsequiosPreventaTable
+                obsequiosPreventa={obsequiosPreventa}
+                setObsequiosPreventa={setObsequiosPreventa}
+              />
+            </CardContent>
+          </Card>
+
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Comentarios</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <FormField
+                control={control}
+                name="comentarios"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <div className="relative">
+                      <FormControl>
+                        <Textarea
+                          disabled={formSubmitIsLoading}
+                          {...field}
+                          placeholder="Escriba sus comentarios aquí."
+                          className="min-h-20"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
             </CardContent>
           </Card>
 
