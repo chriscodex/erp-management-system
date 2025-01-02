@@ -19,6 +19,14 @@ export async function delay() {
   }
 }
 
+export function formatMoney(amount) {
+  if (typeof amount !== 'number') {
+    return null;
+  }
+
+  return amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 export function sortByUpdateDateDesc(list) {
   if (!Array.isArray(list)) return [];
   const listSorted = list?.sort(

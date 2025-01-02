@@ -9,16 +9,25 @@ const searchedUserSchema = new Schema({
   dni: {
     type: String,
     unique: true,
-    required: [true, 'DNI is required'],
+    required: false,
   },
   apellidos: {
     type: String,
-    required: [true, 'Apellidos is required'],
+    required: false,
   },
   nombres: {
     type: String,
-    required: [true, 'Nombres is required'],
+    required: false,
   },
+  ruc: {
+    type: String,
+    unique: true,
+    required: false,
+  },
+  razonSocial: {
+    type: String,
+    required: false,
+  }
 });
 
 const SearchedUser =

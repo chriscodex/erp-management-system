@@ -60,3 +60,8 @@ export const updateProveedorClientUrl = '/api/proveedores';
 /* Ventas */
 export const getProductByCodeClientUrl = '/api/products';
 export const getMotoByCodeClientUrl = '/api/motos';
+
+/* Clientes */
+export const searchClienteClientUrl = '/api/clientes';
+export const getClientByDniOrRucClientUrl = '/api/clientes';
+export const createClienteClientUrl = '/api/clientes';
