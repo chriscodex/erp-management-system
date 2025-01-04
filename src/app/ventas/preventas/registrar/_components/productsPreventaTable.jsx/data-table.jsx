@@ -42,8 +42,7 @@ import { formatMoney, generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 import { Label } from '@/components/ui/label';
 
-export function ProductsPreventaTable({productsVenta, setProductsVenta}) {
-
+export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
   const updateRowValue = (internalId, key, value) => {
     setProductsVenta((prevData) =>
       prevData.map((row) =>
@@ -151,6 +150,17 @@ export function ProductsPreventaTable({productsVenta, setProductsVenta}) {
       header: 'Acciones',
       cell: ({ row }) => {
         const productData = row.original;
+
+        let estadoProducto = '';
+        if (productData?.tipo === 'producto') {
+          const unitProduct = productData?.unidades?.find(
+            (unidad) => unidad?.code === productData?.code
+          );
+
+          if (unitProduct) {
+            estadoProducto = unitProduct?.estado;
+          }
+        }
 
         const [tempPrice, setTempPrice] = useState(productData.precioVenta);
 
@@ -370,14 +380,24 @@ export function ProductsPreventaTable({productsVenta, setProductsVenta}) {
                                 Estado
                               </label>
                               <div className="col-span-2">
-                                {productData?.estado === 'activo' && (
+                                {estadoProducto === 'disponible' && (
                                   <BadgeUnitProduct variant="successTable">
-                                    Activo
+                                    Disponible
                                   </BadgeUnitProduct>
                                 )}
-                                {productData?.estado === 'inactivo' && (
-                                  <BadgeUnitProduct variant="error">
-                                    Inactivo
+                                {estadoProducto === 'reparado' && (
+                                  <BadgeUnitProduct variant="blueTable">
+                                    Reparado
+                                  </BadgeUnitProduct>
+                                )}
+                                {estadoProducto === 'desaparecido' && (
+                                  <BadgeUnitProduct variant="orangeTable">
+                                    Desaparecido
+                                  </BadgeUnitProduct>
+                                )}
+                                {estadoProducto === 'dañado' && (
+                                  <BadgeUnitProduct variant="redTable">
+                                    Dañado
                                   </BadgeUnitProduct>
                                 )}
                               </div>
@@ -500,10 +520,17 @@ export function ProductsPreventaTable({productsVenta, setProductsVenta}) {
         loading: 'Buscando...',
         success: (response) => {
           console.log('RESPONSE', response);
+          let tipo = '';
+          if (response.modeloId) {
+            tipo = 'moto';
+          } else {
+            tipo = 'producto';
+          }
           setProductsVenta([
             ...productsVenta,
             {
               ...response,
+              tipo: tipo,
               cantidad: 1,
               code: searchValue,
               numeracion: productsVenta.length + 1,

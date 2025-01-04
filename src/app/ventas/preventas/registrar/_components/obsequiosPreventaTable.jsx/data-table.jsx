@@ -127,6 +127,15 @@ export function ObsequiosPreventaTable({
       cell: ({ row }) => {
         const obsequioData = row.original;
 
+        let estadoObsequio = '';
+        const unitProduct = obsequioData?.unidades?.find(
+          (unidad) => unidad?.code === obsequioData?.code
+        );
+
+        if (unitProduct) {
+          estadoObsequio = unitProduct?.estado;
+        }
+
         return (
           <div className="flex items-center space-x-3">
             <TooltipProvider delayDuration={0}>
@@ -198,14 +207,24 @@ export function ObsequiosPreventaTable({
                               Estado
                             </label>
                             <div className="col-span-2">
-                              {obsequioData?.estado === 'activo' && (
+                              {estadoObsequio === 'disponible' && (
                                 <BadgeUnitProduct variant="successTable">
-                                  Activo
+                                  Disponible
                                 </BadgeUnitProduct>
                               )}
-                              {obsequioData?.estado === 'inactivo' && (
-                                <BadgeUnitProduct variant="error">
-                                  Inactivo
+                              {estadoObsequio === 'reparado' && (
+                                <BadgeUnitProduct variant="blueTable">
+                                  Reparado
+                                </BadgeUnitProduct>
+                              )}
+                              {estadoObsequio === 'desaparecido' && (
+                                <BadgeUnitProduct variant="orangeTable">
+                                  Desaparecido
+                                </BadgeUnitProduct>
+                              )}
+                              {estadoObsequio === 'dañado' && (
+                                <BadgeUnitProduct variant="redTable">
+                                  Dañado
                                 </BadgeUnitProduct>
                               )}
                             </div>
@@ -386,7 +405,7 @@ export function ObsequiosPreventaTable({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  Sin productos.
+                  Sin obsequios.
                 </TableCell>
               </TableRow>
             )}

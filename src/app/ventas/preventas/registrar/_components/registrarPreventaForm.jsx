@@ -25,8 +25,6 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { createMarcaSchema } from '@/app/inventario/marcas/nuevo/_services/validations/createMarcaSchema';
-import { createMarcaRequestClient } from '@/app/inventario/marcas/nuevo/_services/requests.js';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -41,26 +39,34 @@ import {
   onChangeNumero,
 } from '@/components/formInputs/onChange';
 import { ProductsPreventaTable } from '@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table';
-import { searchClientePorDniOrRucClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
+import {
+  createPreventaRequestClient,
+  searchClientePorDniOrRucClientRequest,
+} from '@/app/ventas/preventas/registrar/_services/requests';
 import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table';
 import { Textarea } from '@/components/ui/textarea';
+import { createPreventaSchemaForm } from '@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm';
 
 export function RegistrarPreventaForm() {
   const router = useRouter();
 
+  const [obsequiosPreventa, setObsequiosPreventa] = useState([]);
+  const [productsPreventa, setProductsPreventa] = useState([]);
+
   const form = useForm({
-    resolver: zodResolver(createMarcaSchema),
+    resolver: zodResolver(createPreventaSchemaForm),
     defaultValues: {
       identificador: '',
       tipo: 'persona',
-      segmentId: '',
-      nombre: '',
-      descripcion: '',
+      nombres: '',
+      apellidos: '',
+      razonSocial: '',
+      celular: '',
+      comentarios: '',
     },
   });
 
-  const { handleSubmit, watch, setValue, control, clearErrors, setError } =
-    form;
+  const { handleSubmit, watch, setValue, control, clearErrors } = form;
 
   const formData = watch();
 
@@ -71,17 +77,21 @@ export function RegistrarPreventaForm() {
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
-    setFormSubmitIsLoading(true);
+    const createPreventaObject = {
+      ...data,
+      productos: productsPreventa,
+      obsequios: obsequiosPreventa,
+    };
 
     // Toast promise para buscar una persona
     toast.promise(
-      createMarcaRequestClient(data, setFormSubmitIsLoading, setError),
+      createPreventaRequestClient(createPreventaObject, setFormSubmitIsLoading),
       {
-        loading: 'Creando...',
+        loading: 'Registrando...',
         success: () => {
           clearErrors();
-          router.push('/inventario/marcas');
-          return `Marca creada correctamente`;
+          router.push('/ventas/preventas');
+          return `Pre-venta registrada correctamente`;
         },
         error: (error) => {
           setFormSubmitIsLoading(false);
@@ -167,9 +177,6 @@ export function RegistrarPreventaForm() {
       console.error('Error al buscar persona por DNI:', error);
     }
   };
-
-  const [obsequiosPreventa, setObsequiosPreventa] = useState([]);
-  const [productsPreventa, setProductsPreventa] = useState([]);
 
   return (
     <>

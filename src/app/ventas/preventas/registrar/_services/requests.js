@@ -1,5 +1,6 @@
-import { fetchData } from '@/lib/fetchData';
+import { fetchData, postData } from '@/lib/fetchData';
 import {
+  createPreventaClientUrl,
   getMotoByCodeClientUrl,
   getProductByCodeClientUrl,
   searchClienteClientUrl,
@@ -127,6 +128,115 @@ export function getObsequioByCodeClientRequest(code, setLoading) {
 
       setLoading(false);
       reject('No se ha encontrado un producto con ese código');
+    } catch (error) {
+      setLoading(false);
+      reject(error);
+    }
+  });
+}
+
+export async function createPreventaRequestClient(preventaData, setLoading) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      setLoading(true);
+      // Simular tiempo de retraso
+      await delay();
+
+      let productsFormated = [];
+      let obsequiosFormated = [];
+      // Formatear los productos
+      if (preventaData?.productos?.length > 0) {
+        productsFormated = preventaData?.productos?.map((producto) => {
+          if (producto.tipo === 'moto') {
+            const motoObject = {
+              ...producto,
+              almacenId: producto?.almacenId?._id,
+              proveedorId: producto?.proveedorId?._id,
+              marcaId: producto?.modeloId?.marcaId?._id,
+              categoryId: producto?.modeloId?.categoryId?._id,
+              modeloId: producto?.modeloId?._id,
+            };
+
+            delete motoObject?.internalId;
+            delete motoObject?.numeracion;
+
+            return motoObject;
+          } else {
+            const unitProducto = producto?.unidades?.find(
+              (unit) => unit?.code === producto?.code
+            );
+            const productoObject = {
+              ...producto,
+              almacenId: producto?.almacenId?._id,
+              categoryId: producto?.categoryId?._id,
+              marcaId: producto?.marcaId?._id,
+              proveedorId: producto?.proveedorId?._id,
+              estado: unitProducto?.estado,
+            };
+
+            delete productoObject?.unidades;
+            delete productoObject?.internalId;
+            delete productoObject?.numeracion;
+            delete productoObject?.stock;
+            delete productoObject?.stockMinimo;
+
+            return productoObject;
+          }
+        });
+      }
+
+      // Formatear los obsequios
+      if (preventaData?.obsequios?.length > 0) {
+        obsequiosFormated = preventaData?.obsequios?.map((obsequio) => {
+          const unitObsequio = obsequio?.unidades?.find(
+            (unit) => unit?.code === obsequio?.code
+          );
+
+          const obsequioObject = {
+            ...obsequio,
+            almacenId: obsequio?.almacenId?._id,
+            categoryId: obsequio?.categoryId?._id,
+            marcaId: obsequio?.marcaId?._id,
+            proveedorId: obsequio?.proveedorId?._id,
+            estado: unitObsequio?.estado,
+          };
+
+          delete obsequioObject?.unidades;
+          delete obsequioObject?.internalId;
+          delete obsequioObject?.numeracion;
+          delete obsequioObject?.precioVenta;
+          delete obsequioObject?.stock;
+          delete obsequioObject?.stockMinimo;
+
+          return obsequioObject;
+        });
+      }
+
+      const preventaDataFormated = {
+        ...preventaData,
+        productos: productsFormated,
+        obsequios: obsequiosFormated,
+      };
+
+      console.log('preventaDataFormated', preventaDataFormated);
+
+      // Obtener los datos de la persona
+      // const response = await postData(createPreventaClientUrl, preventaData);
+      // if (response?.status === 409) {
+      //   setLoading(false);
+      //   reject('No se pudo crear la marca: ' + response.response?.data?.error);
+      //   return;
+      // }
+      // if (response?.status !== 201) {
+      //   setLoading(false);
+      //   reject('No se pudo crear la marca: ' + response.response?.data?.error);
+      //   return;
+      // }
+
+      setLoading(false);
+      // resolve(response?.response?.data?.payload);
     } catch (error) {
       setLoading(false);
       reject(error);

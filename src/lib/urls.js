@@ -60,6 +60,7 @@ export const updateProveedorClientUrl = '/api/proveedores';
 /* Ventas */
 export const getProductByCodeClientUrl = '/api/products';
 export const getMotoByCodeClientUrl = '/api/motos';
+export const createPreventaClientUrl = '/api/preventas';
 
 /* Clientes */
 export const searchClienteClientUrl = '/api/clientes';
