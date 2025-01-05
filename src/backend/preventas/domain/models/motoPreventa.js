@@ -1,15 +1,16 @@
 import { Schema } from 'mongoose';
 
-export const productoVendidoSchema = new Schema(
+export const motoPreventaSchema = new Schema(
   {
     estado: {
       titulo: {
         type: String,
-        required: [true, 'El estado es requerido'],
+        required: [true, 'El estado es requerido en el schema de motos'],
       },
       observaciones: {
         type: String,
         required: false,
+        maxlength: [500, 'La observación no puede tener más de 500 caracteres'],
       },
     },
     code: {
@@ -20,7 +21,7 @@ export const productoVendidoSchema = new Schema(
     nombre: {
       type: String,
       unique: true,
-      required: [true, 'El nombre es requerido'],
+      required: [true, 'El nombre es requerido en el schema de moto'],
     },
     descripcion: {
       type: String,
@@ -30,15 +31,15 @@ export const productoVendidoSchema = new Schema(
       {
         descripcion: {
           type: String,
-          required: [true, 'La descripción es requerida'],
+          required: [true, 'La descripción es requerida en el schema de motos'],
         },
         monto: {
           type: Number,
-          required: [true, 'El monto es requerido'],
+          required: [true, 'El monto es requerido en el schema de motos'],
         },
         fecha: {
           type: Date,
-          required: [true, 'La fecha es requerida'],
+          required: [true, 'La fecha es requerida en el schema de motos'],
         },
       },
     ],
@@ -46,22 +47,26 @@ export const productoVendidoSchema = new Schema(
       type: Number,
       required: [
         true,
-        'El precio de compra es requerido',
+        'El precio de compra es requerido en el schema de motos',
       ],
       min: [0, 'El precio de compra no puede ser negativo'],
     },
     precioVenta: {
       type: Number,
-      required: [true, 'El precio de venta es requerido'],
+      required: [true, 'El precio de venta es requerido en el schema de motos'],
       min: [0, 'El precio de venta no puede ser negativo'],
     },
     importado: {
       type: String,
       required: [
         true,
-        'Indicar si es importado es requerido',
+        'Indicar si es importado es requerido en el schema de motos',
       ],
       enum: ['si', 'no'],
+    },
+    modeloNombre: {
+      type: String,
+      required: false,
     },
     marcaNombre: {
       type: String,

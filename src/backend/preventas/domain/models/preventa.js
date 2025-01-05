@@ -1,0 +1,77 @@
+import { Schema, model, models } from 'mongoose';
+import { motoPreventaSchema } from '@/backend/preventas/domain/models/motoPreventa';
+import { productoPreventaSchema } from '@/backend/preventas/domain/models/productPreventa';
+
+// // Esquema base para los elementos del array de productos
+// const productoPreventaBaseSchema = new Schema(
+//   {
+//     tipo: {
+//       type: String,
+//       required: true,
+//       enum: ['moto', 'producto'],
+//     },
+//   },
+//   { discriminatorKey: 'tipo', _id: false }
+// );
+
+const preventaSchema = new Schema(
+  {
+    estado: {
+      type: String,
+      required: [true, 'Estado es requerido en el schema de preventas'],
+    },
+    code: {
+      type: String,
+      required: [true, 'El code es requerido en el schema de preventas'],
+    },
+    fecha: {
+      type: Date,
+      required: [true, 'La fecha es requerida en el schema de preventas'],
+    },
+    cliente: {
+      tipo: {
+        type: String,
+        required: [true, 'El tipo es requerido en el schema de preventas'],
+        enum: ['persona', 'empresa'],
+      },
+      datos: {
+        type: Schema.Types.Mixed,
+        required: [true, 'Los datos son requeridos en el schema de preventas'],
+      }
+    },
+    productosPreventa: [
+      {
+        type: Schema.Types.Mixed,
+        required: [true, 'Los productos son requeridos en el schema de preventas'],
+      }
+    ],
+    obsequiosPreventa: [
+      {
+        type: Schema.Types.Mixed,
+        required: false,
+      }
+    ]
+  },
+  {
+    timestamps: true,
+  }
+);
+
+// // Crear el modelo base para productos
+// export const ProductoPreventaBase =
+//   models?.ProductoPreventaBase ||
+//   model('ProductoPreventaBase', productoPreventaBaseSchema);
+
+// // Agregar discriminadores
+// export const MotoPreventa =
+//   models.MotoPreventa ||
+//   ProductoPreventaBase.discriminator('MotoPreventa', motoPreventaSchema);
+
+// export const ProductoPreventa =
+//   models.ProductoPreventa ||
+//   ProductoPreventaBase.discriminator(
+//     'ProductoPreventa',
+//     productoPreventaSchema
+//   );
+
+export const Preventa = models?.Preventa || model('Preventa', preventaSchema);

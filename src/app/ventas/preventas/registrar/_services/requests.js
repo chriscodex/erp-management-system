@@ -222,21 +222,38 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
 
       console.log('preventaDataFormated', preventaDataFormated);
 
+      let clienteData = {};
+      if (preventaData?.tipo === 'persona') {
+        clienteData = {
+          dni: preventaData?.identificador,
+          nombres: preventaData?.nombres,
+          apellidos: preventaData?.apellidos,
+          celular: preventaData?.celular,
+        };
+      }
+
+      const preventaObject = {
+        fecha: new Date().toISOString(),
+        cliente: {
+          tipo: preventaData?.tipo,
+          datos: clienteData,
+        },
+        productosPreventa: productsFormated,
+        obsequiosPreventa: obsequiosFormated,
+      };
+
       // Obtener los datos de la persona
-      // const response = await postData(createPreventaClientUrl, preventaData);
-      // if (response?.status === 409) {
-      //   setLoading(false);
-      //   reject('No se pudo crear la marca: ' + response.response?.data?.error);
-      //   return;
-      // }
-      // if (response?.status !== 201) {
-      //   setLoading(false);
-      //   reject('No se pudo crear la marca: ' + response.response?.data?.error);
-      //   return;
-      // }
+      const response = await postData(createPreventaClientUrl, preventaObject);
+      if (response?.status !== 201) {
+        setLoading(false);
+        reject(
+          'No se pudo crear la preventa: ' + response.response?.data?.error
+        );
+        return;
+      }
 
       setLoading(false);
-      // resolve(response?.response?.data?.payload);
+      resolve(response?.response?.data?.payload);
     } catch (error) {
       setLoading(false);
       reject(error);

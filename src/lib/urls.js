@@ -57,7 +57,7 @@ export const createProveedorClientUrl = '/api/proveedores';
 export const deleteProveedorClientUrl = '/api/proveedores';
 export const updateProveedorClientUrl = '/api/proveedores';
 
-/* Ventas */
+/* Preventas */
 export const getProductByCodeClientUrl = '/api/products';
 export const getMotoByCodeClientUrl = '/api/motos';
 export const createPreventaClientUrl = '/api/preventas';

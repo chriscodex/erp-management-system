@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { ArrowUpDown, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
@@ -45,6 +45,8 @@ export function ObsequiosPreventaTable({
   obsequiosPreventa,
   setObsequiosPreventa,
 }) {
+  const searchObsequiosInputRef = useRef(null);
+
   const deleteObsequio = (internalId) => {
     setObsequiosPreventa((prevData) =>
       prevData.filter((row) => row.internalId !== internalId)
@@ -324,6 +326,10 @@ export function ObsequiosPreventaTable({
               internalId: generarNumeroAleatorioSeisDigitos(),
             },
           ]);
+          setSearchValue('');
+          if (searchObsequiosInputRef.current) {
+            searchObsequiosInputRef.current.focus();
+          }
           console.log(obsequiosPreventa);
           return `Obsequio agregado a la lista correctamente`;
         },
@@ -338,26 +344,41 @@ export function ObsequiosPreventaTable({
   return (
     <div>
       {/* Input */}
-      <div className="flex gap-2 items-center py-4 w-full">
-        <Input
-          placeholder="Ingrese el código del obsequio"
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          className="max-w-sm"
-          onKeyDown={(event) => {
-            if (event.key === 'Enter') {
-              event.preventDefault();
-              handleAgregarProducto(event);
-            }
-          }}
-        />
+      <div className="w-full flex justify-between py-4">
+        <div className="flex gap-2 items-center w-full">
+          <Input
+            ref={searchObsequiosInputRef}
+            placeholder="Ingrese el código del obsequio"
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            className="max-w-sm"
+            onKeyDown={(event) => {
+              if (event.key === 'Enter') {
+                event.preventDefault();
+                handleAgregarProducto(event);
+              }
+            }}
+          />
+          <div>
+            <Button
+              type="button"
+              disabled={searchProductIsLoading}
+              onClick={(event) => handleAgregarProducto(event)}
+            >
+              Agregar
+              <Plus className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
         <div>
           <Button
             type="button"
+            variant="outline"
+            className="border border-dashed"
             disabled={searchProductIsLoading}
             onClick={(event) => handleAgregarProducto(event)}
           >
-            Agregar
+            Agregar SOAT
             <Plus className="h-4 w-4" />
           </Button>
         </div>

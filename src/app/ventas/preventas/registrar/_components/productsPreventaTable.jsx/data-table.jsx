@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { ArrowUpDown, Edit, Plus } from 'lucide-react';
 import { toast } from 'sonner';
 import { RiDeleteBinLine } from '@remixicon/react';
@@ -43,6 +43,8 @@ import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/ba
 import { Label } from '@/components/ui/label';
 
 export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
+  const searchProductsInputRef = useRef(null);
+
   const updateRowValue = (internalId, key, value) => {
     setProductsVenta((prevData) =>
       prevData.map((row) =>
@@ -537,6 +539,11 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
               internalId: generarNumeroAleatorioSeisDigitos(),
             },
           ]);
+          setSearchValue('');
+          if (searchProductsInputRef.current) {
+            searchProductsInputRef.current.focus();
+          }
+          setSearchProductIsLoading(false);
           return `Producto agregado a la lista correctamente`;
         },
         error: (error) => {
@@ -562,6 +569,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
       {/* Input */}
       <div className="flex gap-2 items-center py-4 w-full">
         <Input
+          ref={searchProductsInputRef}
           placeholder="Ingrese el código del producto o moto"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
