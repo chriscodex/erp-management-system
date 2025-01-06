@@ -6,6 +6,35 @@ export class PreventaService {
   constructor() {
     this.preventaRepository = new PreventaRepository();
   }
+  async getPreventaByData(preventaData) {
+    try {
+      const preventaFound = await this.preventaRepository.getPreventaByData(
+        preventaData
+      );
+
+      if (!preventaFound) {
+        console.log('Preventa Service: La preventa no existe');
+        return {
+          status: 200,
+          payload: null,
+        };
+      }
+
+      console.log('Preventa Service: La preventa existe');
+      return {
+        status: 200,
+        payload: preventaFound,
+      };
+    } catch (error) {
+      console.error(
+        `Preventa Service: Error interno al buscar la preventa: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async createPreventa(preventaData) {
     try {
       // Validar los datos del producto enviado con el schema
