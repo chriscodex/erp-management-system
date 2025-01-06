@@ -374,7 +374,6 @@ export function ObsequiosPreventaTable({
           <Button
             type="button"
             variant="outline"
-            className="border border-dashed"
             disabled={searchProductIsLoading}
             onClick={(event) => handleAgregarProducto(event)}
           >

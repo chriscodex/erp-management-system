@@ -32,7 +32,7 @@ export default function DetailContent({ marcaData, updatedAt }) {
 
   useEffect(() => {
     router.refresh();
-  }, []);
+  }, [router]);
 
   return (
     <Card className="w-full max-w-7xl mx-auto">

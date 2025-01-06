@@ -13,7 +13,7 @@ export async function getMarcaRequestServer(id) {
     const response = await marcaService.getMarcaByData({ id });
 
     if (response?.status !== 200) {
-      console.log('Error al obtener el usuario desde el cliente');
+      console.log('Error al obtener la marca desde el servidor');
       return { marca: null, status: response?.status };
     }
     const marca = response?.payload;

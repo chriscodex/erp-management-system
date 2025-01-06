@@ -88,9 +88,10 @@ export function RegistrarPreventaForm() {
       createPreventaRequestClient(createPreventaObject, setFormSubmitIsLoading),
       {
         loading: 'Registrando...',
-        success: () => {
+        success: (response) => {
+          console.log(response);
           clearErrors();
-          router.push('/ventas/preventas');
+          router.push(`/ventas/preventas/${response._id}`);
           return `Pre-venta registrada correctamente`;
         },
         error: (error) => {

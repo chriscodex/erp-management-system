@@ -231,6 +231,13 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           celular: preventaData?.celular,
         };
       }
+      if (preventaData?.tipo === 'empresa') {
+        clienteData = {
+          ruc: preventaData?.identificador,
+          razonSocial: preventaData?.razonSocial,
+          celular: preventaData?.celular,
+        };
+      }
 
       const preventaObject = {
         fecha: new Date().toISOString(),
@@ -253,7 +260,8 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
       }
 
       setLoading(false);
-      resolve(response?.response?.data?.payload);
+      console.log('response', response);
+      resolve(response?.data?.payload);
     } catch (error) {
       setLoading(false);
       reject(error);
