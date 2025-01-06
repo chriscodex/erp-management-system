@@ -83,4 +83,25 @@ export class VentaRepository {
       );
     }
   }
+
+  async deleteVenta(ventaId) {
+    try {
+      const deletedVenta = await this.ventaModel.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(ventaId),
+      });
+
+      if (!deletedVenta) {
+        console.log('Venta Repository: Venta no encontrada para ser eliminada');
+        return null;
+      }
+
+      console.log('Venta Repository: Venta encontrada y eliminada');
+      return deletedVenta;
+    } catch (error) {
+      console.error(
+        `Venta Repository: Error al eliminar una venta: ${error.message}`
+      );
+      throw new Error(`Error al eliminar la venta: ${error.message}`);
+    }
+  }
 }

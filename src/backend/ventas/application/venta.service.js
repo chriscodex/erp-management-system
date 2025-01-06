@@ -105,4 +105,32 @@ export class VentaService {
       };
     }
   }
+
+  async deleteVenta(ventaId) {
+    try {
+      const deletedVenta = await this.ventaRepository.deleteVenta(ventaId);
+
+      if (!deletedVenta) {
+        console.log('Venta Service: La venta no existe');
+        return {
+          status: 200,
+          payload: 'La venta no existe',
+        };
+      }
+
+      console.log('Venta Service: La venta eliminada correctamente');
+      return {
+        status: 204,
+        payload: deletedVenta,
+      };
+    } catch (error) {
+      console.error(
+        `Venta Service: Error interno al eliminar la venta: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
