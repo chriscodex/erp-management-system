@@ -76,6 +76,33 @@ export class PreventaRepository {
     }
   }
 
+  async updatePreventa(preventaId, preventaData) {
+    try {
+      const updatedPreventa = await this.preventaModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(preventaId) },
+        preventaData,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedPreventa) {
+        console.log(
+          'Preventa Repository: Preventa no encontrada para ser actualizada'
+        );
+        return null;
+      }
+
+      console.log('Preventa Repository: Preventa actualizada correctamente');
+      return updatedPreventa;
+    } catch (error) {
+      console.error(
+        `Preventa Repository: Error al actualizar la preventa: ${error.message}`
+      );
+      throw new Error(`Error al actualizar la preventa: ${error.message}`);
+    }
+  }
+
   async deletePreventa(preventaId) {
     try {
       const deletedPreventa = await this.preventaModel.findOneAndDelete({
