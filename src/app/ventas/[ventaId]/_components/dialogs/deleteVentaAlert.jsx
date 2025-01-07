@@ -12,29 +12,37 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { createVentaRequestClient } from '@/app/ventas/preventas/[preventaId]/_services/requests';
+import { deleteVentaRequestClient } from '@/app/ventas/[ventaId]/_services/requests';
 
-export function GenerarVentaAlert({
+/**
+ * @description Un dialog de confirmación de eliminación de una marca.
+ *
+ * @param {boolean} isOpen - Indica si el diálogo está abierto o no.
+ * @param {(isOpen: boolean) => void} setIsOpen - Función que se llama para cambiar el estado de apertura del dialog.
+ * @param {string} id - ID de la marca a eliminar.
+ * @param {'refresh' | 'push'} actionAfterComplete - Acción a realizar después de eliminar la marca:
+ * - 'refresh': Refrescar la página actual.
+ * - 'push': Redirigir a la ruta '/inventario/marcas'.
+ *
+ * @returns Un JSX con el diálogo de confirmación de eliminación de una marca.
+ */
+export function DeleteVentaAlert({
   isOpen,
   setIsOpen,
-  preventaId,
+  ventaId,
   actionAfterComplete = 'refresh',
 }) {
   const router = useRouter();
 
-  const handleCreateVenta = async () => {
+  const handleConfirmationDeleteProduct = async () => {
     try {
       setIsOpen(false);
-      toast.promise(createVentaRequestClient(preventaId), {
-        loading: 'Creando Venta...',
-        success: (response) => {
-          if (actionAfterComplete === 'refresh') {
-            router.refresh();
-            return `Venta creada correctamente`;
-          }
+      toast.promise(deleteVentaRequestClient(ventaId), {
+        loading: 'Eliminando...',
+        success: () => {
           if (actionAfterComplete === 'push') {
-            router.push(`/ventas/${response?._id}`);
-            return `Venta creada correctamente`;
+            router.push(`/ventas`);
+            return `Preventa eliminada correctamente`;
           }
         },
         error: (error) => {
@@ -49,11 +57,10 @@ export function GenerarVentaAlert({
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirmar Generación de Venta</AlertDialogTitle>
+            <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
             <AlertDialogDescription>
-              Estás a punto de transformar esta preventa en una venta. Al
-              continuar, la preventa será eliminada y el registro se moverá al
-              apartado de ventas. ¿Estás seguro de que deseas continuar?
+              Esta acción no se puede deshacer. Esta venta será
+              permanentemente eliminada y no podrás recuperar sus datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -65,7 +72,7 @@ export function GenerarVentaAlert({
             </AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={handleCreateVenta}
+              onClick={handleConfirmationDeleteProduct}
             >
               Continuar
             </AlertDialogAction>

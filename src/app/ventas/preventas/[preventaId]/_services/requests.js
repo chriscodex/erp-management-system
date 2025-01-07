@@ -1,7 +1,7 @@
 import { delay } from '@/lib/utils';
 
-import { deletePreventaClientUrl } from '@/lib/urls';
-import { deleteData } from '@/lib/fetchData';
+import { createVentaClientUrl, deletePreventaClientUrl } from '@/lib/urls';
+import { deleteData, postData } from '@/lib/fetchData';
 
 export async function deletePreventaRequestClient(preventaId) {
   /* eslint-disable */
@@ -23,6 +23,27 @@ export async function deletePreventaRequestClient(preventaId) {
       }
 
       resolve(response?.response?.data?.payload);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export async function createVentaRequestClient(preventaId) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      // Simular tiempo de retraso
+      await delay();
+
+      const response = await postData(createVentaClientUrl, { id: preventaId });
+      if (response?.status !== 201) {
+        reject('No se pudo crear la venta: ' + response.response?.data?.error);
+        return;
+      }
+
+      resolve(response?.data?.payload);
     } catch (error) {
       reject(error);
     }

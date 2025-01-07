@@ -1,26 +1,48 @@
-import { PreventaService } from '@/backend/preventas/application/preventa.service';
+import { VentaService } from '@/backend/ventas/application/venta.service';
 import { connectDB } from '@/db/mongodb';
 import { simplificadorParaClientComponent } from '@/lib/utils';
 
-export async function getPreventaRequestServer(preventaId) {
+export async function getVentaRequestServer(ventaId) {
   try {
     await connectDB();
-    const preventaService = new PreventaService();
+    const ventaService = new VentaService();
 
-    const response = await preventaService.getPreventaByData({
-      id: preventaId,
+    const response = await ventaService.getVentaByData({
+      id: ventaId,
     });
 
     if (response?.status !== 200) {
-      console.log('Error al obtener la preventa desde el servidor');
-      return { preventa: null, status: response?.status };
+      console.log('Error al obtener la venta desde el servidor');
+      return { venta: null, status: response?.status };
     }
-    const preventa = response?.payload;
+    const venta = response?.payload;
     return {
-      preventa: simplificadorParaClientComponent(preventa),
+      venta: simplificadorParaClientComponent(venta),
       status: 200,
     };
   } catch (error) {
     console.log(error);
+  }
+}
+
+export async function getAllVentasRequestServer() {
+  try {
+    await connectDB();
+    const ventaService = new VentaService();
+
+    const response = await ventaService.getAllVentas();
+
+    if (response?.status !== 200) {
+      console.log('Error al obtener todas las ventas');
+      return { ventas: [], status: 500 };
+    }
+    const ventas = response?.payload;
+
+    return {
+      ventas: simplificadorParaClientComponent(ventas),
+      status: 200,
+    };
+  } catch (error) {
+    console.error(error);
   }
 }

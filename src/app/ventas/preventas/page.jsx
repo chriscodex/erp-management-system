@@ -17,8 +17,6 @@ export default async function PreventasPage() {
 
   const preventasSorted = sortByUpdateDateDesc(preventas);
 
-  console.log(preventasSorted);
-
   const titles = [
     {
       title: 'Ventas',

@@ -3,13 +3,12 @@
 import { Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { RiEditFill } from '@remixicon/react';
 
 import { Button } from '@/components/ui/button';
 
-import { DeletePreventaAlert } from '@/app/ventas/preventas/[preventaId]/_components/dialogs/deletePreventaAlert';
+import { DeleteVentaAlert } from '@/app/ventas/[ventaId]/_components/dialogs/deleteVentaAlert';
 
-export function DetailPreventaButtons({ preventaId }) {
+export function DetailVentaButtons({ ventaId }) {
   const router = useRouter();
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
@@ -22,16 +21,6 @@ export function DetailPreventaButtons({ preventaId }) {
     <>
       <div className="flex justify-end space-x-4">
         <Button
-          onClick={() => {
-            router.push(`/ventas/preventas/${preventaId}/edit`);
-          }}
-          variant="outline"
-          className="flex items-center"
-        >
-          <RiEditFill className="mr-2 h-4 w-4" />
-          Editar
-        </Button>
-        <Button
           variant="destructive"
           className="flex items-center"
           onClick={() => setIsOpenDialogDelete(true)}
@@ -41,10 +30,10 @@ export function DetailPreventaButtons({ preventaId }) {
         </Button>
       </div>
       {/* Dialog Delete */}
-      <DeletePreventaAlert
+      <DeleteVentaAlert
         isOpen={isOpenDialogDelete}
         setIsOpen={setIsOpenDialogDelete}
-        preventaId={preventaId}
+        ventaId={ventaId}
         actionAfterComplete="push"
       />
     </>

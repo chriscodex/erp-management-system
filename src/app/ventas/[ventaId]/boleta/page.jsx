@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { getPreventaRequestServer } from '@/app/ventas/preventas/_services/requests';
-import { DetailPreventaContent } from '@/app/ventas/preventas/[preventaId]/_components/detailPreventaContent';
+import { getVentaRequestServer } from '@/app/ventas/_services/requests';
+import { DetailVentaContent } from './_components/detailVentaContent';
 
 export default async function Page({ params }) {
-  const { preventa } = await getPreventaRequestServer(params.preventaId);
+  const { preventa } = await getVentaRequestServer(params.preventaId);
 
   if (!preventa) {
     notFound();
@@ -23,11 +23,6 @@ export default async function Page({ params }) {
       active: false,
     },
     {
-      title: 'Preventas',
-      href: '/ventas/preventas',
-      active: true,
-    },
-    {
       title: preventa?.code,
       href: '',
       active: false,
@@ -36,7 +31,7 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailPreventaContent preventaData={preventa} />
+      <DetailVentaContent ventaData={preventa} />
     </NavbarDynamic>
   );
 }
