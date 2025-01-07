@@ -67,16 +67,16 @@ const preventaSchema = new Schema(
       type: String,
       required: false,
     },
-    productosPreventa: [
+    productos: [
       {
         type: Schema.Types.Mixed,
         required: [
-          true,
+          false,
           'Los productos son requeridos en el schema de preventas',
         ],
       },
     ],
-    obsequiosPreventa: [
+    obsequios: [
       {
         type: Schema.Types.Mixed,
         required: false,
