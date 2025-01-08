@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { getPreventaRequestServer } from '@/app/ventas/preventas/[preventaId]/_services/requests';
-import DetailPreventaContent from '@/app/ventas/preventas/[preventaId]/_components/detailPreventaContent';
+import { DetailPreventaContent } from '@/app/ventas/preventas/[preventaId]/_components/detailPreventaContent';
 
 export default async function Page({ params }) {
   const { preventa } = await getPreventaRequestServer(params.preventaId);
