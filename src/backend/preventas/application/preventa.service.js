@@ -102,6 +102,45 @@ export class PreventaService {
     }
   }
 
+  async updatePreventa(preventaId, preventaData) {
+    try {
+      if (!preventaId) {
+        console.log('Preventa Service: PreventaId no enviado');
+        return {
+          status: 400,
+          payload: 'PreventaId no enviado',
+        };
+      }
+
+      const preventaUpdated = await this.preventaRepository.updatePreventa(
+        preventaId,
+        preventaData
+      );
+
+      if (!preventaUpdated) {
+        console.log('Preventa Service: La preventa no existe');
+        return {
+          status: 404,
+          payload: 'La preventa no existe',
+        };
+      }
+
+      console.log('Preventa Service: Preventa actualizada correctamente');
+      return {
+        status: 200,
+        payload: preventaUpdated,
+      };
+    } catch (error) {
+      console.error(
+        `Preventa Service: Error interno al actualizar la preventa: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+
   async deletePreventa(preventaId) {
     try {
       const deletedPreventa = await this.preventaRepository.deletePreventa(
