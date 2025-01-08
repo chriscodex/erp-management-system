@@ -68,3 +68,7 @@ export const updatePreventaClientUrl = '/api/preventas';
 export const searchClienteClientUrl = '/api/clientes';
 export const getClientByDniOrRucClientUrl = '/api/clientes';
 export const createClienteClientUrl = '/api/clientes';
+
+/* Ventas */
+export const createVentaClientUrl = '/api/ventas';
+export const deleteVentaClientUrl = '/api/ventas';

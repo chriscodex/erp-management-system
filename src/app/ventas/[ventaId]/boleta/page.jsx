@@ -2,7 +2,6 @@ import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { getVentaRequestServer } from '@/app/ventas/_services/requests';
-import { DetailVentaContent } from './_components/detailVentaContent';
 
 export default async function Page({ params }) {
   const { preventa } = await getVentaRequestServer(params.preventaId);
@@ -31,7 +30,7 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailVentaContent ventaData={preventa} />
+      {/* <DetailVentaContent ventaData={preventa} /> */}
     </NavbarDynamic>
   );
 }
