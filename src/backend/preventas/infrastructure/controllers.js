@@ -20,6 +20,27 @@ export async function createPreventaController(request) {
   }
 }
 
+export async function updatePreventaController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { preventaId } = params;
+    const body = await request.json();
+
+    await connectDB();
+
+    const result = await preventaService.updatePreventa(preventaId, body);
+    return result;
+  } catch (error) {
+    console.error(
+      'Preventa Controller: Error interno actualizando la Preventa:',
+      error.message
+    );
+    throw new Error(
+      'Preventa Controller: Error interno actualizando la Preventa'
+    );
+  }
+}
+
 export async function deletePreventaController(contextRoute) {
   try {
     const { params } = contextRoute;
