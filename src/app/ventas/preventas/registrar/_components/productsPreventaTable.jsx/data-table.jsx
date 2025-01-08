@@ -54,9 +54,16 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
   };
 
   const deleteProduct = (internalId) => {
-    setProductsVenta((prevData) =>
-      prevData.filter((row) => row.internalId !== internalId)
-    );
+    setProductsVenta((prevData) => {
+      // Filtra el producto a eliminar
+      const updatedData = prevData.filter((row) => row.internalId !== internalId);
+  
+      // Reasigna la numeración
+      return updatedData.map((row, index) => ({
+        ...row,
+        numeracion: index + 1, // Actualiza la numeración basada en el índice
+      }));
+    });
   };
 
   const columns = [

@@ -38,7 +38,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
+import { generarNumeroAleatorio, generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 
 export function ObsequiosPreventaTable({
@@ -48,9 +48,16 @@ export function ObsequiosPreventaTable({
   const searchObsequiosInputRef = useRef(null);
 
   const deleteObsequio = (internalId) => {
-    setObsequiosPreventa((prevData) =>
-      prevData.filter((row) => row.internalId !== internalId)
-    );
+    setObsequiosPreventa((prevData) => {
+      // Filtra el producto a eliminar
+      const updatedData = prevData.filter((row) => row.internalId !== internalId);
+  
+      // Reasigna la numeración
+      return updatedData.map((row, index) => ({
+        ...row,
+        numeracion: index + 1, // Actualiza la numeración basada en el índice
+      }));
+    });
   };
 
   const columns = [
@@ -285,9 +292,10 @@ export function ObsequiosPreventaTable({
   /* Search */
   const [searchValue, setSearchValue] = useState('');
 
-  /* Agregar Producto */
+  /* Agregar Obsequio */
   const [searchProductIsLoading, setSearchProductIsLoading] = useState(false);
-  const handleAgregarProducto = async (event) => {
+
+  const handleAgregarObsequio = async (event) => {
     event.preventDefault();
 
     if (!searchValue) {
@@ -341,6 +349,30 @@ export function ObsequiosPreventaTable({
     );
   };
 
+  const handleAgregarSOAT = async () => {
+    const duplicado = obsequiosPreventa.some(
+      (obsequio) => obsequio?.nombre === 'SOAT'
+    );
+    if (duplicado) {
+      toast.error('El obsequio ya se encuentra en la lista');
+      return;
+    }
+
+    const soatCode = generarNumeroAleatorio(13)
+
+    setObsequiosPreventa([
+      ...obsequiosPreventa,
+      {
+        cantidad: 1,
+        code: soatCode,
+        nombre: 'SOAT',
+        numeracion: obsequiosPreventa.length + 1,
+      },
+    ]);
+
+    toast.success('SOAT agregado a la lista correctamente');
+  };
+
   return (
     <div>
       {/* Input */}
@@ -355,7 +387,7 @@ export function ObsequiosPreventaTable({
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
                 event.preventDefault();
-                handleAgregarProducto(event);
+                handleAgregarObsequio(event);
               }
             }}
           />
@@ -363,7 +395,7 @@ export function ObsequiosPreventaTable({
             <Button
               type="button"
               disabled={searchProductIsLoading}
-              onClick={(event) => handleAgregarProducto(event)}
+              onClick={(event) => handleAgregarObsequio(event)}
             >
               Agregar
               <Plus className="h-4 w-4" />
@@ -375,7 +407,7 @@ export function ObsequiosPreventaTable({
             type="button"
             variant="outline"
             disabled={searchProductIsLoading}
-            onClick={(event) => handleAgregarProducto(event)}
+            onClick={(event) => handleAgregarSOAT(event)}
           >
             Agregar SOAT
             <Plus className="h-4 w-4" />
