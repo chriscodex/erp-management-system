@@ -254,8 +254,8 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           apellidos: preventaData?.user?.apellidos,
         },
         comentarios: preventaData?.comentarios,
-        productosPreventa: productsFormated,
-        obsequiosPreventa: obsequiosFormated,
+        productos: productsFormated,
+        obsequios: obsequiosFormated,
       };
 
       // Obtener los datos de la persona

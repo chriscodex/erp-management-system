@@ -20,7 +20,7 @@ import { GenerarVentaButton } from '@/app/ventas/preventas/[preventaId]/_compone
 import { formatMoney } from '@/lib/utils';
 
 export function DetailPreventaContent({ preventaData }) {
-  const precioTotal = preventaData?.productosPreventa.reduce((acc, product) => {
+  const precioTotal = preventaData?.productos?.reduce((acc, product) => {
     return acc + product.precioVenta;
   }, 0);
   return (
@@ -123,7 +123,7 @@ export function DetailPreventaContent({ preventaData }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {preventaData?.productosPreventa.map((producto) => {
+                {preventaData?.productos?.map((producto) => {
                   return (
                     <TableRow key={producto?.code}>
                       <TableCell className="font-medium">
@@ -192,7 +192,7 @@ export function DetailPreventaContent({ preventaData }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {preventaData?.obsequiosPreventa.map((obsequio) => (
+                {preventaData?.obsequios?.map((obsequio) => (
                   <TableRow key={obsequio?.code}>
                     <TableCell className="font-medium">
                       {obsequio?.code}
@@ -232,21 +232,21 @@ export function DetailPreventaContent({ preventaData }) {
               <div className="space-y-2">
                 <p>
                   <strong>Total de Productos:</strong>{' '}
-                  {preventaData?.productosPreventa?.reduce(
+                  {preventaData?.productos?.reduce(
                     (acc, producto) => acc + producto?.cantidad,
                     0
                   )}
                 </p>
                 <p>
                   <strong>Total de Obsequios:</strong>{' '}
-                  {preventaData?.obsequiosPreventa?.reduce(
+                  {preventaData?.obsequios?.reduce(
                     (acc, obsequio) => acc + obsequio?.cantidad,
                     0
                   )}
                 </p>
                 <p>
                   <strong>Monto Total:</strong> S/.
-                  {preventaData?.productosPreventa
+                  {preventaData?.productos
                     .reduce(
                       (acc, producto) =>
                         acc + producto?.precioVenta * producto?.cantidad,

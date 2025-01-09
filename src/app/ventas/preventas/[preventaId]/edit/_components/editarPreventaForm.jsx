@@ -45,23 +45,17 @@ import { searchClientePorDniOrRucClientRequest } from '@/app/ventas/preventas/re
 import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table';
 import { Textarea } from '@/components/ui/textarea';
 import { createPreventaSchemaForm } from '@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm';
+import { updatePreventaRequestClient } from '../_services/requests';
 
 export function EditarPreventaForm({ preventaData }) {
   const router = useRouter();
 
   const [obsequiosPreventa, setObsequiosPreventa] = useState(
-    agregarNumeracionTable(preventaData?.obsequiosPreventa) || []
+    agregarNumeracionTable(preventaData?.obsequios) || []
   );
   const [productsPreventa, setProductsPreventa] = useState(
-    agregarNumeracionTable(preventaData?.productosPreventa) || []
+    agregarNumeracionTable(preventaData?.productos) || []
   );
-
-  const productsPreventaOriginal =
-    agregarNumeracionTable(preventaData?.productosPreventa) || [];
-  const obsequiosPreventaOriginal =
-    agregarNumeracionTable(preventaData?.obsequiosPreventa) || [];
-
-  const preventaOriginal = {...preventaData};
 
   const form = useForm({
     resolver: zodResolver(createPreventaSchemaForm),
@@ -91,19 +85,19 @@ export function EditarPreventaForm({ preventaData }) {
   // Manejo de formulario
   const onSubmit = handleSubmit(async () => {
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
-    const DataToUpdate = Object.keys(formData).reduce((datosCambiados, key) => {
+    const dataToUpdate = Object.keys(formData).reduce((datosCambiados, key) => {
       if (formData[key] !== form.formState.defaultValues[key]) {
         datosCambiados[key] = formData[key];
       }
       return datosCambiados;
     }, {});
 
-    if (Object.keys(DataToUpdate).length === 0) {
+    if (Object.keys(dataToUpdate).length === 0) {
       if (
         JSON.stringify(obsequiosPreventa) ===
-          JSON.stringify(obsequiosPreventaOriginal) &&
+          JSON.stringify(agregarNumeracionTable(preventaData?.obsequios)) &&
         JSON.stringify(productsPreventa) ===
-          JSON.stringify(productsPreventaOriginal)
+          JSON.stringify(agregarNumeracionTable(preventaData?.productos))
       ) {
         toast.error('No se han realizado cambios.');
         setFormSubmitIsLoading(false);
@@ -111,46 +105,58 @@ export function EditarPreventaForm({ preventaData }) {
       }
     }
 
-    let updatePreventaObject = {};
-
-    updatePreventaObject = {
-      ...DataToUpdate,
+    let updateObject = {
+      ...preventaData,
     };
 
-    if (
-      JSON.stringify(obsequiosPreventa) !==
-      JSON.stringify(obsequiosPreventaOriginal)
-    ) {
-      updatePreventaObject['obsequiosPreventa'] = obsequiosPreventa;
+    if (preventaData?.cliente?.tipo === 'persona') {
+      updateObject['cliente'] = {
+        tipo: formData?.tipo,
+        datos: {
+          dni: formData?.identificador,
+          nombres: formData?.nombres,
+          apellidos: formData?.apellidos,
+          celular: formData?.celular,
+        },
+      };
     }
 
-    if (
-      JSON.stringify(productsPreventa) !==
-      JSON.stringify(productsPreventaOriginal)
-    ) {
-      updatePreventaObject['productosPreventa'] = productsPreventa;
+    if (preventaData?.cliente?.tipo === 'empresa') {
+      updateObject['cliente'] = {
+        tipo: formData?.tipo,
+        datos: {
+          ruc: formData?.identificador,
+          razonSocial: formData?.razonSocial,
+          celular: formData?.celular,
+        },
+      };
     }
 
-    console.log(updatePreventaObject);
-    return;
+    updateObject['productos'] = productsPreventa;
+    updateObject['obsequios'] = obsequiosPreventa;
 
-    // // Toast promise para buscar una persona
-    // toast.promise(
-    //   createPreventaRequestClient(createPreventaObject, setFormSubmitIsLoading),
-    //   {
-    //     loading: 'Editando...',
-    //     success: (response) => {
-    //       console.log(response);
-    //       clearErrors();
-    //       router.push(`/ventas/preventas/${response._id}`);
-    //       return `Pre-venta editando correctamente`;
-    //     },
-    //     error: (error) => {
-    //       setFormSubmitIsLoading(false);
-    //       return error;
-    //     },
-    //   }
-    // );
+    updateObject['comentarios'] = formData?.comentarios;
+
+    delete updateObject.createdAt;
+    delete updateObject.updatedAt;
+
+    // Toast promise para buscar una persona
+    toast.promise(
+      updatePreventaRequestClient(updateObject, setFormSubmitIsLoading),
+      {
+        loading: 'Editando...',
+        success: (response) => {
+          console.log(response);
+          clearErrors();
+          router.push(`/ventas/preventas/${preventaData._id}`);
+          return `Pre-venta actualizada correctamente`;
+        },
+        error: (error) => {
+          setFormSubmitIsLoading(false);
+          return error;
+        },
+      }
+    );
   });
 
   // Busqueda por DNI o RUC
