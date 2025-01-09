@@ -152,11 +152,11 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           if (producto.tipo === 'moto') {
             const motoObject = {
               ...producto,
-              almacenId: producto?.almacenId?._id,
-              proveedorId: producto?.proveedorId?._id,
-              marcaId: producto?.modeloId?.marcaId?._id,
-              categoryId: producto?.modeloId?.categoryId?._id,
-              modeloId: producto?.modeloId?._id,
+              almacen: producto?.almacenId?.nombre,
+              proveedor: producto?.proveedorId?.nombre,
+              marca: producto?.modeloId?.marcaId?.nombre,
+              category: producto?.modeloId?.categoryId?.nombre,
+              modelo: producto?.modeloId?.nombre,
             };
 
             delete motoObject?.internalId;
@@ -169,10 +169,10 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
             );
             const productoObject = {
               ...producto,
-              almacenId: producto?.almacenId?._id,
-              categoryId: producto?.categoryId?._id,
-              marcaId: producto?.marcaId?._id,
-              proveedorId: producto?.proveedorId?._id,
+              almacen: producto?.almacenId?.nombre,
+              category: producto?.categoryId?.nombre,
+              marca: producto?.marcaId?.nombre,
+              proveedor: producto?.proveedorId?.nombre,
               estado: unitProducto?.estado,
             };
 
@@ -196,11 +196,12 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
 
           const obsequioObject = {
             ...obsequio,
-            almacenId: obsequio?.almacenId?._id,
-            categoryId: obsequio?.categoryId?._id,
-            marcaId: obsequio?.marcaId?._id,
-            proveedorId: obsequio?.proveedorId?._id,
-            estado: unitObsequio?.estado,
+            almacen: obsequio?.almacenId?._id,
+            category: obsequio?.categoryId?._id,
+            marca: obsequio?.marcaId?._id,
+            proveedor: obsequio?.proveedorId?._id,
+            estado:
+              obsequio?.nombre === 'SOAT' ? 'Disponible' : unitObsequio?.estado,
           };
 
           delete obsequioObject?.unidades;

@@ -366,6 +366,8 @@ export function ObsequiosPreventaTable({
         cantidad: 1,
         code: soatCode,
         nombre: 'SOAT',
+        descripcion: 'Seguro Obligatorio de Accidentes de Tránsito',
+        estado: 'disponible',
         numeracion: obsequiosPreventa.length + 1,
       },
     ]);

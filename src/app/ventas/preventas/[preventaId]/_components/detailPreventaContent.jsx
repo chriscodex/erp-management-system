@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { RiFileListLine } from '@remixicon/react';
+import { DetailProductPreventaDetailSheet } from './sheets/detailProductPreventaDetailSheet';
 
 export function DetailPreventaContent({ preventaData }) {
   return (
@@ -22,7 +23,7 @@ export function DetailPreventaContent({ preventaData }) {
         <div className="flex items-center gap-2">
           <RiFileListLine className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">
-            Detalle de Preventa
+            Detalle de la Preventa
           </Label>
         </div>
         <Link href="/usuarios/nuevo" className="flex justify-end">
@@ -122,6 +123,7 @@ export function DetailPreventaContent({ preventaData }) {
                   <TableHead>Precio</TableHead>
                   <TableHead>Cantidad</TableHead>
                   <TableHead>Total</TableHead>
+                  <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -149,6 +151,11 @@ export function DetailPreventaContent({ preventaData }) {
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
                           2
                         )}
+                      </TableCell>
+                      <TableCell>
+                        <DetailProductPreventaDetailSheet
+                          productPreventa={producto}
+                        />
                       </TableCell>
                     </TableRow>
                   );
@@ -178,16 +185,16 @@ export function DetailPreventaContent({ preventaData }) {
               </TableHeader>
               <TableBody>
                 {preventaData?.obsequiosPreventa.map((obsequio) => (
-                  <TableRow key={obsequio.code}>
+                  <TableRow key={obsequio?.code}>
                     <TableCell className="font-medium">
-                      {obsequio.code}
+                      {obsequio?.code}
                     </TableCell>
-                    <TableCell>{obsequio.nombre}</TableCell>
-                    <TableCell>{obsequio.descripcion}</TableCell>
+                    <TableCell>{obsequio?.nombre}</TableCell>
+                    <TableCell>{obsequio?.descripcion}</TableCell>
                     <TableCell>
-                      <Badge variant="outline">{obsequio.estado}</Badge>
+                      <Badge variant="outline">{obsequio?.estado}</Badge>
                     </TableCell>
-                    <TableCell>{obsequio.cantidad}</TableCell>
+                    <TableCell>{obsequio?.cantidad}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

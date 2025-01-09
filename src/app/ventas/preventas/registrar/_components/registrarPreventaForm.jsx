@@ -479,7 +479,7 @@ export function RegistrarPreventaForm() {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                'Creando...'
+                'Registrando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />
