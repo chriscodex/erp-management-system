@@ -19,3 +19,23 @@ export async function createPreventaController(request) {
     throw new Error('Preventa Controller: Error interno al crear la preventa');
   }
 }
+
+export async function deletePreventaController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { preventaId } = params;
+
+    await connectDB();
+
+    const deletedPreventa = await preventaService.deletePreventa(preventaId);
+    return deletedPreventa;
+  } catch (error) {
+    console.error(
+      'Preventa Controller: Error interno al eliminar la preventa:',
+      error.message
+    );
+    throw new Error(
+      'Preventa Controller: Error interno al eliminar la preventa'
+    );
+  }
+}

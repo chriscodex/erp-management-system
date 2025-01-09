@@ -54,4 +54,27 @@ export class PreventaRepository {
       throw new Error(`Error al crear preventa: ${error.message}`);
     }
   }
+
+  async deletePreventa(preventaId) {
+    try {
+      const deletedPreventa = await this.preventaModel.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(preventaId),
+      });
+
+      if (!deletedPreventa) {
+        console.log(
+          'Preventa Repository: Preventa no encontrada para ser eliminada'
+        );
+        return null;
+      }
+
+      console.log('Preventa Repository: Preventa encontrada y eliminada');
+      return deletedPreventa;
+    } catch (error) {
+      console.error(
+        `Preventa Repository: Error al eliminar una preventa: ${error.message}`
+      );
+      throw new Error(`Error al eliminar la preventa: ${error.message}`);
+    }
+  }
 }

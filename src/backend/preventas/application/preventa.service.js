@@ -73,4 +73,34 @@ export class PreventaService {
       };
     }
   }
+
+  async deletePreventa(preventaId) {
+    try {
+      const deletedPreventa = await this.preventaRepository.deletePreventa(
+        preventaId
+      );
+
+      if (!deletedPreventa) {
+        console.log('Preventa Service: La preventa no existe');
+        return {
+          status: 200,
+          payload: 'La preventa no existe',
+        };
+      }
+
+      console.log('Preventa Service: Preventa eliminada correctamente');
+      return {
+        status: 204,
+        payload: deletedPreventa,
+      };
+    } catch (error) {
+      console.error(
+        `Preventa Service: Error interno al eliminar la preventa: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
