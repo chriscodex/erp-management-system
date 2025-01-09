@@ -62,6 +62,7 @@ export const getProductByCodeClientUrl = '/api/products';
 export const getMotoByCodeClientUrl = '/api/motos';
 export const createPreventaClientUrl = '/api/preventas';
 export const deletePreventaClientUrl = '/api/preventas';
+export const updatePreventaClientUrl = '/api/preventas';
 
 /* Clientes */
 export const searchClienteClientUrl = '/api/clientes';

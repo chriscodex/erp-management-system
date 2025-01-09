@@ -44,6 +44,7 @@ export function sortByUpdateDateAsc(list) {
 }
 
 export function agregarNumeracionTable(array) {
+  if (!Array.isArray(array)) return [];
   return array.map((item, index) => ({
     ...item,
     numeracion: index + 1,
