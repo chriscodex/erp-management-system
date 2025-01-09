@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { RiFileListLine } from '@remixicon/react';
 import { DetailProductPreventaDetailSheet } from './sheets/detailProductPreventaDetailSheet';
+import { DetailPreventaButtons } from '@/app/ventas/preventas/[preventaId]/_components/buttons/detailPreventaButtons';
 
 export function DetailPreventaContent({ preventaData }) {
   return (
@@ -238,6 +239,9 @@ export function DetailPreventaContent({ preventaData }) {
             </div>
           </CardContent>
         </Card>
+        <div className="mt-4">
+          <DetailPreventaButtons preventaId={preventaData._id} />
+        </div>
       </CardContent>
     </Card>
   );
