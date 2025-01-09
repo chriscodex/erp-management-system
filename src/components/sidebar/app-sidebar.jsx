@@ -17,6 +17,7 @@ import {
   RiTeamFill,
   RiRidingLine,
   RiShoppingBag3Line,
+  RiVipDiamondLine,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -51,6 +52,11 @@ const adminData = {
           title: 'Pre-Ventas',
           url: '/ventas/preventas/',
           icon: RiShoppingBag3Line,
+        },
+        {
+          title: 'Ventas',
+          url: '/ventas/',
+          icon: RiVipDiamondLine,
         },
       ],
     },
