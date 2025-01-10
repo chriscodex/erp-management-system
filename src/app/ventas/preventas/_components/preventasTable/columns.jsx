@@ -32,13 +32,12 @@ export const columnsPreventas = [
       );
     },
     cell: ({ row }) => {
+      const cliente = row?.original?.cliente;
       return (
         <div className="text-start">
-          {row.getValue('cliente')?.tipo === 'empresa'
-            ? row.getValue('cliente')?.datos?.razonSocial
-            : row.getValue('cliente')?.datos?.nombres +
-              ' ' +
-              row.getValue('cliente')?.datos?.apellidos}
+          {cliente?.tipo === 'empresa'
+            ? cliente?.datos?.razonSocial
+            : cliente?.datos?.nombres + ' ' + cliente?.datos?.apellidos}
         </div>
       );
     },
@@ -57,17 +56,33 @@ export const columnsPreventas = [
       );
     },
     cell: ({ row }) => {
+      const cliente = row?.original?.cliente;
       return (
         <div className="text-start flex">
           <p className="font-light mr-2 text-[0.8rem] border rounded-md px-1">
-            {row.getValue('cliente')?.tipo === 'empresa' ? 'RUC' : 'DNI'}
+            {cliente?.tipo === 'empresa' ? 'RUC' : 'DNI'}
           </p>
           <p>
-            {row.getValue('cliente')?.tipo === 'empresa'
-              ? row.getValue('cliente')?.datos?.ruc
-              : row.getValue('cliente')?.datos?.dni}
+            {cliente?.tipo === 'empresa'
+              ? cliente?.datos?.ruc
+              : cliente?.datos?.dni}
           </p>
         </div>
+      );
+    },
+    // Configuramos el valor de filtro personalizado
+    accessorFn: (row) => {
+      return row.cliente?.tipo === 'empresa'
+        ? row.cliente?.datos?.ruc
+        : row.cliente?.datos?.dni;
+    },
+    filterFn: (row, columnId, filterValue) => {
+      const identificador = row.getValue(columnId);
+      const codigo = row.original.code;
+
+      return (
+        identificador?.toLowerCase().includes(filterValue.toLowerCase()) ||
+        codigo?.toLowerCase().includes(filterValue.toLowerCase())
       );
     },
   },
@@ -90,6 +105,29 @@ export const columnsPreventas = [
     },
   },
   {
+    accessorKey: 'usuario',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Responsable
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return (
+        <div className="text-start">
+          {row.getValue('usuario')?.nombres +
+            ' ' +
+            row.getValue('usuario')?.apellidos}
+        </div>
+      );
+    },
+  },
+  {
     accessorFn: (row) => row?.code,
     id: 'Código',
     header: ({ column }) => {
@@ -106,6 +144,18 @@ export const columnsPreventas = [
     cell: ({ row }) => {
       const code = row?.original?.code;
       return <div className="text-start">{code}</div>;
+    },
+    filterFn: (row, columnId, filterValue) => {
+      const codigo = row.getValue(columnId);
+      const identificador =
+        row.original.cliente?.tipo === 'empresa'
+          ? row.original.cliente?.datos?.ruc
+          : row.original.cliente?.datos?.dni;
+
+      return (
+        codigo?.toLowerCase().includes(filterValue.toLowerCase()) ||
+        identificador?.toLowerCase().includes(filterValue.toLowerCase())
+      );
     },
   },
   {

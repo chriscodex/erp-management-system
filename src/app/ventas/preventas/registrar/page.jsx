@@ -12,7 +12,7 @@ export default async function RegistrarPreventaPage() {
     },
     {
       title: 'Pre-Ventas',
-      href: '/inventario/marcas',
+      href: '/ventas/preventas',
       active: true,
     },
     {

@@ -53,7 +53,7 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
   const [searchValue, setSearchValue] = useState('');
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('nombre')?.setFilterValue(value);
+    table.getColumn('cliente')?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
@@ -78,7 +78,7 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
       {/* Input */}
       <div className="flex items-center py-4 w-full">
         <Input
-          placeholder="Buscar por nombre"
+          placeholder="Buscar por identificador"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"

@@ -37,20 +37,51 @@ const preventaSchema = new Schema(
       datos: {
         type: Schema.Types.Mixed,
         required: [true, 'Los datos son requeridos en el schema de preventas'],
-      }
+      },
+    },
+    usuario: {
+      id: {
+        type: Schema.Types.ObjectId,
+        required: [true, 'El id es requerido en el schema de preventas'],
+      },
+      dni: {
+        type: String,
+        required: [true, 'El dni es requerido en el schema de preventas'],
+      },
+      rol: {
+        type: String,
+        required: [true, 'El rol es requerido en el schema de preventas'],
+      },
+      nombres: {
+        type: String,
+        required: [
+          true,
+          'Los nombres son requeridos en el schema de preventas',
+        ],
+      },
+      apellidos: {
+        type: String,
+        required: [
+          true,
+          'Los apellidos son requeridos en el schema de preventas',
+        ],
+      },
     },
     productosPreventa: [
       {
         type: Schema.Types.Mixed,
-        required: [true, 'Los productos son requeridos en el schema de preventas'],
-      }
+        required: [
+          true,
+          'Los productos son requeridos en el schema de preventas',
+        ],
+      },
     ],
     obsequiosPreventa: [
       {
         type: Schema.Types.Mixed,
         required: false,
-      }
-    ]
+      },
+    ],
   },
   {
     timestamps: true,

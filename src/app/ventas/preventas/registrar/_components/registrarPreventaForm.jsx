@@ -14,6 +14,7 @@ import {
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RiArrowLeftLine } from '@remixicon/react';
+import { useSession } from 'next-auth/react';
 
 import {
   Form,
@@ -48,6 +49,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { createPreventaSchemaForm } from '@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm';
 
 export function RegistrarPreventaForm() {
+  const { data: session } = useSession();
+  console.log('Sessión', session);
+  
   const router = useRouter();
 
   const [obsequiosPreventa, setObsequiosPreventa] = useState([]);
@@ -79,6 +83,7 @@ export function RegistrarPreventaForm() {
   const onSubmit = handleSubmit(async (data) => {
     const createPreventaObject = {
       ...data,
+      user: session?.user,
       productos: productsPreventa,
       obsequios: obsequiosPreventa,
     };

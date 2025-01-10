@@ -246,6 +246,13 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           tipo: preventaData?.tipo,
           datos: clienteData,
         },
+        usuario: {
+          id: preventaData?.user?._id,
+          dni: preventaData?.user?.dni,
+          rol: preventaData?.user?.rol,
+          nombres: preventaData?.user?.nombres,
+          apellidos: preventaData?.user?.apellidos,
+        },
         productosPreventa: productsFormated,
         obsequiosPreventa: obsequiosFormated,
       };
