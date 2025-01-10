@@ -76,15 +76,6 @@ export const columnsPreventas = [
         ? row.cliente?.datos?.ruc
         : row.cliente?.datos?.dni;
     },
-    filterFn: (row, columnId, filterValue) => {
-      const identificador = row.getValue(columnId);
-      const codigo = row.original.code;
-
-      return (
-        identificador?.toLowerCase().includes(filterValue.toLowerCase()) ||
-        codigo?.toLowerCase().includes(filterValue.toLowerCase())
-      );
-    },
   },
   {
     accessorKey: 'fecha',
@@ -144,18 +135,6 @@ export const columnsPreventas = [
     cell: ({ row }) => {
       const code = row?.original?.code;
       return <div className="text-start">{code}</div>;
-    },
-    filterFn: (row, columnId, filterValue) => {
-      const codigo = row.getValue(columnId);
-      const identificador =
-        row.original.cliente?.tipo === 'empresa'
-          ? row.original.cliente?.datos?.ruc
-          : row.original.cliente?.datos?.dni;
-
-      return (
-        codigo?.toLowerCase().includes(filterValue.toLowerCase()) ||
-        identificador?.toLowerCase().includes(filterValue.toLowerCase())
-      );
     },
   },
   {

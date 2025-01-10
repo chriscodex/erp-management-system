@@ -31,7 +31,7 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
 
   /* Sorting */
   const [sorting, setSorting] = useState([]);
-  const [columnFilters, setColumnFilters] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   /* Table */
   const table = useReactTable({
@@ -41,11 +41,25 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
-      columnFilters,
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: (row, columnId, filterValue) => {
+      // Filtrar por identificador (RUC/DNI) o código
+      const identificador =
+        row.original.cliente?.tipo === 'empresa'
+          ? row.original.cliente?.datos?.ruc
+          : row.original.cliente?.datos?.dni;
+
+      const codigo = row.original.code;
+
+      return (
+        identificador?.toLowerCase().includes(filterValue.toLowerCase()) ||
+        codigo?.toLowerCase().includes(filterValue.toLowerCase())
+      );
     },
   });
 
@@ -53,7 +67,7 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
   const [searchValue, setSearchValue] = useState('');
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('cliente')?.setFilterValue(value);
+    setGlobalFilter(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
@@ -78,7 +92,7 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
       {/* Input */}
       <div className="flex items-center py-4 w-full">
         <Input
-          placeholder="Buscar por identificador"
+          placeholder="Buscar por DNI/RUC o código"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
