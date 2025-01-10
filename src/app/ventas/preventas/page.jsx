@@ -1,20 +1,24 @@
 import { RiShoppingBag3Line } from '@remixicon/react';
+import { Plus } from 'lucide-react';
+import Link from 'next/link';
 
 import { sortByUpdateDateDesc } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import {
-  getAllCategoriesRequestServer,
-  getAllSegmentsRequestServer,
-} from '@/app/inventario/categorias/_services/requests';
-import { SheetAddCategoryWrapper } from '@/app/inventario/categorias/_components/sheets/addCategory/sheetAddWrapper';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { DataTablePreventas } from '@/app/ventas/preventas/_components/preventasTable/data-table';
 import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import Link from 'next/link';
+
+import { DataTablePreventas } from '@/app/ventas/preventas/_components/preventasTable/data-table';
+import { getAllPreventasRequestServer } from '@/app/ventas/preventas/_services/requests';
+import { columnsPreventas } from '@/app/ventas/preventas/_components/preventasTable/columns';
 
 export default async function PreventasPage() {
+  const { preventas, status } = await getAllPreventasRequestServer();
+
+  const preventasSorted = sortByUpdateDateDesc(preventas);
+
+  console.log(preventasSorted);
+
   const titles = [
     {
       title: 'Inventario',
@@ -27,18 +31,6 @@ export default async function PreventasPage() {
       active: false,
     },
   ];
-
-  // eslint-disable-next-line no-undef
-  const [categoriesResponse, segmentsResponse] = await Promise.all([
-    getAllCategoriesRequestServer(),
-    getAllSegmentsRequestServer(),
-  ]);
-
-  const { categories, status } = categoriesResponse;
-
-  const { segments } = segmentsResponse;
-
-  const categoriesSorted = sortByUpdateDateDesc(categories);
 
   return (
     <>
@@ -60,8 +52,8 @@ export default async function PreventasPage() {
           </CardHeader>
           <CardContent>
             <DataTablePreventas
-              data={categoriesSorted}
-              segments={segments}
+              columns={columnsPreventas}
+              data={preventasSorted}
               status={status}
             />
           </CardContent>

@@ -7,6 +7,27 @@ export class PreventaRepository {
     this.preventaModel = Preventa;
   }
 
+  async getAllPreventas() {
+    try {
+      const preventas = await this.preventaModel.find({});
+
+      if (preventas?.length === 0) {
+        console.log('Preventa Repository: No se encontraron preventas');
+        return [];
+      }
+
+      console.log('Preventa Repository: Preventas encontradas');
+      return preventas;
+    } catch (error) {
+      console.error(
+        `Preventa Repository: Error al buscar todas las preventas: ${error}`
+      );
+      throw new Error(
+        `Preventa Repository: Error al buscar todas las preventas: ${error}`
+      );
+    }
+  }
+
   async getPreventaByData(preventaData) {
     try {
       if (!preventaData) {

@@ -1,11 +1,11 @@
 'use client';
 
-import { Pencil, Trash2 } from 'lucide-react';
-import Link from 'next/link';
+import { Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
+
 import { DeletePreventaAlert } from '@/app/ventas/preventas/[preventaId]/_components/dialogs/deletePreventaAlert';
 
 export function DetailPreventaButtons({ preventaId }) {
@@ -20,12 +20,6 @@ export function DetailPreventaButtons({ preventaId }) {
   return (
     <>
       <div className="flex justify-end space-x-4">
-        <Link href={`/inventario/motos/modelos/${preventaId}/edit`} passHref>
-          <Button variant="outline" className="flex items-center">
-            <Pencil className="mr-2 h-4 w-4" />
-            Editar
-          </Button>
-        </Link>
         <Button
           variant="destructive"
           className="flex items-center"

@@ -6,6 +6,35 @@ export class PreventaService {
   constructor() {
     this.preventaRepository = new PreventaRepository();
   }
+
+  async getAllPreventas() {
+    try {
+      const preventas = await this.preventaRepository.getAllPreventas();
+
+      if (preventas?.length === 0) {
+        console.log('Preventa Service: No se encontraron preventas');
+        return {
+          status: 200,
+          payload: [],
+        };
+      }
+
+      console.log('Preventa Service: Preventas encontradas');
+      return {
+        status: 200,
+        payload: preventas,
+      };
+    } catch (error) {
+      console.error(
+        `Preventa Service: Error interno al buscar todas las preventas: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+
   async getPreventaByData(preventaData) {
     try {
       const preventaFound = await this.preventaRepository.getPreventaByData(
