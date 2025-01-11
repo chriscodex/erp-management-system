@@ -19,6 +19,7 @@ import { RiExternalLinkLine } from '@remixicon/react';
 
 export default async function MotoDetailPage({ params }) {
   const { moto } = await getMotoByIdRequestServer(params.unidadId);
+  console.log(moto);
 
   if (!moto) {
     notFound();

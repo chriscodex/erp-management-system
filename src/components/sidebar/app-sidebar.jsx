@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { AudioWaveform, GalleryVerticalEnd, User2Icon } from 'lucide-react';
+import { User2Icon } from 'lucide-react';
 import {
   RiBox3Line,
   RiShoppingCartLine,
@@ -16,7 +16,6 @@ import {
   RiGroupFill,
   RiTeamFill,
   RiRidingLine,
-  RiBankCardLine,
   RiShoppingBag3Line,
 } from '@remixicon/react';
 
@@ -33,24 +32,10 @@ import {
 } from '@/components/ui/sidebar';
 
 import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 // This is sample data.
-const data = {
-  user: {
-    name: 'Josué Rubina',
-    email: 'Administrador',
-    avatar: '/avatars/avatar-default.jpg',
-  },
-  teams: [
-    {
-      name: 'Moto Rock Ruta 33',
-      logo: GalleryVerticalEnd,
-    },
-    {
-      name: 'MotoRock Store',
-      logo: AudioWaveform,
-    },
-  ],
+const adminData = {
   home: {
     name: 'Inicio',
     icon: RiHome2Line,
@@ -67,15 +52,10 @@ const data = {
           url: '/ventas/preventas/',
           icon: RiShoppingBag3Line,
         },
-        {
-          title: 'Registrar Pre-venta',
-          url: '/ventas/motos',
-          icon: RiBankCardLine,
-        },
       ],
     },
   ],
-  navMain: [
+  navPlataforma: [
     {
       title: 'Inventario',
       url: '#',
@@ -141,7 +121,7 @@ const data = {
       ],
     },
   ],
-  projects: [
+  navAdministracion: [
     {
       name: 'Usuarios',
       url: '/usuarios',
@@ -157,6 +137,7 @@ const data = {
 
 export function AppSidebar({ ...props }) {
   const pathname = usePathname();
+  const { data: session } = useSession();
 
   const isLoginPage = pathname === '/login';
 
@@ -174,10 +155,19 @@ export function AppSidebar({ ...props }) {
           </SidebarHeader>
 
           <SidebarContent>
-            <NavHome home={data.home} />
-            <NavVentas navTitle={'Ventas'} items={data.navVentas} />
-            <NavMain navTitle={'Plataforma'} items={data.navMain} />
-            <NavAdministracion projects={data.projects} />
+            {session?.user?.rol === 'Administrador' && (
+              <NavHome home={adminData.home} />
+            )}
+            <NavVentas navTitle={'Ventas'} items={adminData.navVentas} />
+            {session?.user?.rol === 'Administrador' && (
+              <NavMain
+                navTitle={'Plataforma'}
+                items={adminData.navPlataforma}
+              />
+            )}
+            {session?.user?.rol === 'Administrador' && (
+              <NavAdministracion projects={adminData.navAdministracion} />
+            )}
           </SidebarContent>
 
           <SidebarFooter>

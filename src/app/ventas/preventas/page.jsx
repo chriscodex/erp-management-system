@@ -21,7 +21,7 @@ export default async function PreventasPage() {
 
   const titles = [
     {
-      title: 'Inventario',
+      title: 'Ventas',
       href: '',
       active: false,
     },

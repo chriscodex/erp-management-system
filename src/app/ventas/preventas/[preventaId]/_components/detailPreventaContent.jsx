@@ -1,3 +1,6 @@
+import { User, Package, Gift, Calendar, Hash, FileText } from 'lucide-react';
+import { RiFileListLine } from '@remixicon/react';
+
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -8,14 +11,12 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { User, Package, Gift, Calendar, Hash } from 'lucide-react';
 import { formatDateLong } from '@/lib/formateador';
 import { Label } from '@/components/ui/label';
-import Link from 'next/link';
-import { Button } from '@/components/ui/button';
-import { RiFileListLine } from '@remixicon/react';
-import { DetailProductPreventaDetailSheet } from './sheets/detailProductPreventaDetailSheet';
+
+import { DetailProductPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet';
 import { DetailPreventaButtons } from '@/app/ventas/preventas/[preventaId]/_components/buttons/detailPreventaButtons';
+import { GenerarVentaButton } from '@/app/ventas/preventas/[preventaId]/_components/buttons/generarVentaButton';
 
 export function DetailPreventaContent({ preventaData }) {
   return (
@@ -27,9 +28,7 @@ export function DetailPreventaContent({ preventaData }) {
             Detalle de la Preventa
           </Label>
         </div>
-        <Link href="/usuarios/nuevo" className="flex justify-end">
-          <Button>Generar Venta</Button>
-        </Link>
+        <GenerarVentaButton preventaId={preventaData._id} />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -203,42 +202,54 @@ export function DetailPreventaContent({ preventaData }) {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center">
-              <Calendar className="mr-2" />
-              Resumen
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2">
-              <p>
-                <strong>Total de Productos:</strong>{' '}
-                {preventaData?.productosPreventa?.reduce(
-                  (acc, producto) => acc + producto?.cantidad,
-                  0
-                )}
-              </p>
-              <p>
-                <strong>Total de Obsequios:</strong>{' '}
-                {preventaData?.obsequiosPreventa?.reduce(
-                  (acc, obsequio) => acc + obsequio?.cantidad,
-                  0
-                )}
-              </p>
-              <p>
-                <strong>Monto Total:</strong> S/.
-                {preventaData?.productosPreventa
-                  .reduce(
-                    (acc, producto) =>
-                      acc + producto?.precioVenta * producto?.cantidad,
+        <div className="grid md:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <FileText className="mr-2" />
+                Comentarios
+              </CardTitle>
+            </CardHeader>
+            <CardContent>{preventaData?.comentarios}</CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Calendar className="mr-2" />
+                Resumen
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-2">
+                <p>
+                  <strong>Total de Productos:</strong>{' '}
+                  {preventaData?.productosPreventa?.reduce(
+                    (acc, producto) => acc + producto?.cantidad,
                     0
-                  )
-                  .toFixed(2)}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+                  )}
+                </p>
+                <p>
+                  <strong>Total de Obsequios:</strong>{' '}
+                  {preventaData?.obsequiosPreventa?.reduce(
+                    (acc, obsequio) => acc + obsequio?.cantidad,
+                    0
+                  )}
+                </p>
+                <p>
+                  <strong>Monto Total:</strong> S/.
+                  {preventaData?.productosPreventa
+                    .reduce(
+                      (acc, producto) =>
+                        acc + producto?.precioVenta * producto?.cantidad,
+                      0
+                    )
+                    .toFixed(2)}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
         <div className="mt-4">
           <DetailPreventaButtons preventaId={preventaData._id} />
         </div>

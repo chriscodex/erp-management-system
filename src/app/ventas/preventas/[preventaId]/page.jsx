@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { getPreventaRequestServer } from '@/app/ventas/preventas/[preventaId]/_services/requests';
+import { getPreventaRequestServer } from '@/app/ventas/_services/requests';
 import { DetailPreventaContent } from '@/app/ventas/preventas/[preventaId]/_components/detailPreventaContent';
 
 export default async function Page({ params }) {
@@ -10,7 +10,7 @@ export default async function Page({ params }) {
   if (!preventa) {
     notFound();
   }
-  console.log(preventa);
+
   const navbarTitles = [
     {
       title: 'Inventario',

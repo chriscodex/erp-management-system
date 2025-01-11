@@ -67,6 +67,10 @@ const preventaSchema = new Schema(
         ],
       },
     },
+    comentarios: {
+      type: String,
+      required: false,
+    },
     productosPreventa: [
       {
         type: Schema.Types.Mixed,

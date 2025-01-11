@@ -48,24 +48,32 @@ import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_compon
 import { Textarea } from '@/components/ui/textarea';
 import { createPreventaSchemaForm } from '@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm';
 
-export function RegistrarPreventaForm() {
+export function RegistrarVentaForm({ preventaData }) {
+  console.log(preventaData);
   const { data: session } = useSession();
-  
+
   const router = useRouter();
 
-  const [obsequiosPreventa, setObsequiosPreventa] = useState([]);
-  const [productsPreventa, setProductsPreventa] = useState([]);
+  const [obsequiosPreventa, setObsequiosPreventa] = useState(
+    preventaData?.obsequiosPreventa || []
+  );
+  const [productsPreventa, setProductsPreventa] = useState(
+    preventaData?.productosPreventa || []
+  );
 
   const form = useForm({
     resolver: zodResolver(createPreventaSchemaForm),
     defaultValues: {
-      identificador: '',
-      tipo: 'persona',
-      nombres: '',
-      apellidos: '',
-      razonSocial: '',
-      celular: '',
-      comentarios: '',
+      identificador:
+        preventaData?.cliente?.datos?.dni ||
+        preventaData?.cliente?.datos?.ruc ||
+        '',
+      tipo: preventaData?.cliente?.tipo || 'persona',
+      nombres: preventaData?.cliente?.datos?.nombres || '',
+      apellidos: preventaData?.cliente?.datos?.apellidos || '',
+      razonSocial: preventaData?.cliente?.datos?.razonSocial || '',
+      celular: preventaData?.cliente?.datos?.celular || '',
+      comentarios: preventaData?.comentarios || '',
     },
   });
 
@@ -420,6 +428,33 @@ export function RegistrarPreventaForm() {
 
           <Card className="mb-6">
             <CardHeader>
+              <CardTitle>Comentarios</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <FormField
+                control={control}
+                name="comentarios"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <div className="relative">
+                      <FormControl>
+                        <Textarea
+                          disabled={formSubmitIsLoading}
+                          {...field}
+                          placeholder="Escriba sus comentarios de la venta aquí."
+                          className="min-h-20"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+            </CardContent>
+          </Card>
+
+          <Card className="mb-6">
+            <CardHeader>
               <CardTitle>Productos</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -442,33 +477,6 @@ export function RegistrarPreventaForm() {
             </CardContent>
           </Card>
 
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Comentarios</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <FormField
-                control={control}
-                name="comentarios"
-                render={({ field }) => (
-                  <FormItem className="space-y-2">
-                    <div className="relative">
-                      <FormControl>
-                        <Textarea
-                          disabled={formSubmitIsLoading}
-                          {...field}
-                          placeholder="Escriba sus comentarios aquí."
-                          className="min-h-20"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </div>
-                  </FormItem>
-                )}
-              />
-            </CardContent>
-          </Card>
-
           <div className="flex items-center justify-end space-x-2">
             <Button
               variant="outline"
@@ -487,7 +495,7 @@ export function RegistrarPreventaForm() {
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />
-                  Registrar Pre-Venta
+                  Registrar Venta
                 </>
               )}
             </Button>
