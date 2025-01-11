@@ -3,7 +3,7 @@ import { RiEditFill } from '@remixicon/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 
-import { getPreventaRequestServer } from '@/app/ventas/_services/requests';
+import { getPreventaRequestServer } from '@/app/ventas/preventas/_services/requests';
 import { EditarPreventaForm } from '@/app/ventas/preventas/[preventaId]/edit/_components/editarPreventaForm';
 
 export default async function EditarPreventaPage({ params }) {

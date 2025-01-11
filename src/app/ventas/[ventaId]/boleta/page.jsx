@@ -2,11 +2,12 @@ import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { getVentaRequestServer } from '@/app/ventas/_services/requests';
+import { DetailBoletaContent } from '@/app/ventas/[ventaId]/boleta/_components/detailBoletaContent';
 
 export default async function Page({ params }) {
-  const { preventa } = await getVentaRequestServer(params.preventaId);
+  const { venta } = await getVentaRequestServer(params.ventaId);
 
-  if (!preventa) {
+  if (!venta) {
     notFound();
   }
 
@@ -22,7 +23,12 @@ export default async function Page({ params }) {
       active: false,
     },
     {
-      title: preventa?.code,
+      title: venta?.code,
+      href: `/ventas/${params.ventaId}`,
+      active: true,
+    },
+    {
+      title: 'Boleta',
       href: '',
       active: false,
     },
@@ -30,7 +36,7 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      {/* <DetailVentaContent ventaData={preventa} /> */}
+      <DetailBoletaContent ventaData={venta} />
     </NavbarDynamic>
   );
 }

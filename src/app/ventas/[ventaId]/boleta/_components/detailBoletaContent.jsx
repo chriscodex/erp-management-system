@@ -1,7 +1,6 @@
-import { User, Package, Gift, Calendar, Hash, FileText } from 'lucide-react';
-import { RiFileListLine } from '@remixicon/react';
+import { User, Package, Gift, Hash } from 'lucide-react';
+import { RiInfoCardFill, RiPrinterFill } from '@remixicon/react';
 
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -14,23 +13,24 @@ import {
 import { formatDateLong } from '@/lib/formateador';
 import { Label } from '@/components/ui/label';
 
-import { DetailProductPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet';
-import { DetailVentaButtons } from '@/app/ventas/[ventaId]/_components/buttons/detailVentaButtons';
-import { EmitirComprobanteVentaButton } from '@/app/ventas/[ventaId]/_components/buttons/emitirComprobanteVentaButton';
+import { DetailBoletaButtons } from '@/app/ventas/[ventaId]/boleta/_components/buttons/detailBoletaButtons';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
 
-export function DetailVentaContent({ ventaData }) {
-  console.log(ventaData);
+export function DetailBoletaContent({ ventaData }) {
+  console.log('ventaData', ventaData);
 
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
         <div className="flex items-center gap-2">
-          <RiFileListLine className="h-9 w-9" />
-          <Label className="sm:text-4xl text-xl font-bold">
-            Detalle de la Venta
-          </Label>
+          <RiInfoCardFill className="h-9 w-9" />
+          <Label className="sm:text-4xl text-xl font-bold">Boleta</Label>
         </div>
-        <EmitirComprobanteVentaButton ventaData={ventaData} />
+        <Button variant="default" className="flex items-center gap-2 ">
+          <RiPrinterFill className="h-4 w-4" />
+          <p>Imprimir</p>
+        </Button>
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -42,8 +42,8 @@ export function DetailVentaContent({ ventaData }) {
                 Información del Cliente
               </CardTitle>
             </CardHeader>
-            {ventaData?.cliente?.tipo === 'persona' ? (
-              <CardContent>
+            <CardContent>
+              {ventaData?.cliente?.tipo === 'persona' ? (
                 <div className="space-y-2">
                   <p>
                     <strong>Nombre:</strong>{' '}
@@ -58,9 +58,7 @@ export function DetailVentaContent({ ventaData }) {
                     {ventaData?.cliente?.datos?.celular}
                   </p>
                 </div>
-              </CardContent>
-            ) : (
-              <CardContent>
+              ) : (
                 <div className="space-y-2">
                   <p>
                     <strong>Razon Social:</strong>{' '}
@@ -74,8 +72,8 @@ export function DetailVentaContent({ ventaData }) {
                     {ventaData?.cliente?.datos?.celular}
                   </p>
                 </div>
-              </CardContent>
-            )}
+              )}
+            </CardContent>
           </Card>
 
           <Card>
@@ -90,10 +88,16 @@ export function DetailVentaContent({ ventaData }) {
                 <p>
                   <strong>Código:</strong> {ventaData?.code}
                 </p>
-                <div className="flex items-center">
+                <p>
                   <strong>Fecha:</strong>{' '}
-                  <p>{formatDateLong(ventaData?.fecha, true)}</p>
-                </div>
+                  {formatDateLong(ventaData?.fecha, true)}
+                </p>
+                <p>
+                  <strong>Vendedor:</strong>{' '}
+                  {ventaData?.usuario?.nombres +
+                    ' ' +
+                    ventaData?.usuario?.apellidos}{' '}
+                </p>
               </div>
             </CardContent>
           </Card>
@@ -113,11 +117,9 @@ export function DetailVentaContent({ ventaData }) {
                   <TableHead>Código</TableHead>
                   <TableHead>Nombre</TableHead>
                   <TableHead>Descripción</TableHead>
-                  <TableHead>Estado</TableHead>
                   <TableHead>Precio</TableHead>
                   <TableHead>Cantidad</TableHead>
                   <TableHead>Total</TableHead>
-                  <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -130,13 +132,6 @@ export function DetailVentaContent({ ventaData }) {
                       <TableCell>{producto?.nombre}</TableCell>
                       <TableCell>{producto?.descripcion}</TableCell>
                       <TableCell>
-                        <Badge variant="outline">
-                          {producto?.tipo === 'moto'
-                            ? producto?.estado?.titulo
-                            : producto?.estado}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
                         S/. {producto?.precioVenta.toFixed(2)}
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
@@ -146,16 +141,44 @@ export function DetailVentaContent({ ventaData }) {
                           2
                         )}
                       </TableCell>
-                      <TableCell>
-                        <DetailProductPreventaDetailSheet
-                          productPreventa={producto}
-                        />
-                      </TableCell>
                     </TableRow>
                   );
                 })}
               </TableBody>
             </Table>
+            <Separator className="my-4" />
+            <div className="text-right">
+              <strong>Subtotal:</strong> S/.
+              {0.82 *
+                ventaData?.productos
+                  .reduce(
+                    (acc, producto) =>
+                      acc + producto?.precioVenta * producto?.cantidad,
+                    0
+                  )
+                  .toFixed(2)}
+            </div>
+            <div className="mt-2 text-right">
+              <strong>IGV:</strong> S/.
+              {0.18 *
+                ventaData?.productos
+                  .reduce(
+                    (acc, producto) =>
+                      acc + producto?.precioVenta * producto?.cantidad,
+                    0
+                  )
+                  .toFixed(2)}
+            </div>
+            <div className="mt-2 text-right">
+              <strong>Total a Pagar:</strong> S/.
+              {ventaData?.productos
+                .reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+                .toFixed(2)}
+            </div>
           </CardContent>
         </Card>
 
@@ -173,7 +196,6 @@ export function DetailVentaContent({ ventaData }) {
                   <TableHead>Código</TableHead>
                   <TableHead>Nombre</TableHead>
                   <TableHead>Descripción</TableHead>
-                  <TableHead>Estado</TableHead>
                   <TableHead>Cantidad</TableHead>
                 </TableRow>
               </TableHeader>
@@ -185,9 +207,6 @@ export function DetailVentaContent({ ventaData }) {
                     </TableCell>
                     <TableCell>{obsequio?.nombre}</TableCell>
                     <TableCell>{obsequio?.descripcion}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{obsequio?.estado}</Badge>
-                    </TableCell>
                     <TableCell>{obsequio?.cantidad}</TableCell>
                   </TableRow>
                 ))}
@@ -195,57 +214,8 @@ export function DetailVentaContent({ ventaData }) {
             </Table>
           </CardContent>
         </Card>
-
-        <div className="grid md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <FileText className="mr-2" />
-                Comentarios
-              </CardTitle>
-            </CardHeader>
-            <CardContent>{ventaData?.comentarios}</CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center">
-                <Calendar className="mr-2" />
-                Resumen
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-2">
-                <p>
-                  <strong>Total de Productos:</strong>{' '}
-                  {ventaData?.productos?.reduce(
-                    (acc, producto) => acc + producto?.cantidad,
-                    0
-                  )}
-                </p>
-                <p>
-                  <strong>Total de Obsequios:</strong>{' '}
-                  {ventaData?.obsequios?.reduce(
-                    (acc, obsequio) => acc + obsequio?.cantidad,
-                    0
-                  )}
-                </p>
-                <p>
-                  <strong>Monto Total:</strong> S/.
-                  {ventaData?.productos
-                    .reduce(
-                      (acc, producto) =>
-                        acc + producto?.precioVenta * producto?.cantidad,
-                      0
-                    )
-                    .toFixed(2)}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
         <div className="mt-4">
-          <DetailVentaButtons ventaId={ventaData._id} />
+          <DetailBoletaButtons ventaId={ventaData._id} />
         </div>
       </CardContent>
     </Card>

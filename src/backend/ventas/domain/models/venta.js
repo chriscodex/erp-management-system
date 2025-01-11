@@ -47,19 +47,19 @@ const ventaSchema = new Schema(
       type: String,
       required: false,
     },
-    productosPreventa: [
+    productos: [
       {
         type: Schema.Types.Mixed,
         required: [true, 'Los productos son requeridos en el schema de ventas'],
       },
     ],
-    obsequiosPreventa: [
+    obsequios: [
       {
         type: Schema.Types.Mixed,
         required: false,
       },
     ],
-    estadoVenta: {
+    estado: {
       type: String,
       required: true,
     },
