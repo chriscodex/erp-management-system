@@ -25,7 +25,7 @@ export function DetailPreventaContent({ preventaData }) {
         <div className="flex items-center gap-2">
           <RiFileListLine className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">
-            Detalle de la Preventa
+            Detalle de la Pre-Venta
           </Label>
         </div>
         <GenerarVentaButton preventaId={preventaData._id} />
@@ -88,14 +88,6 @@ export function DetailPreventaContent({ preventaData }) {
                 <p>
                   <strong>Código:</strong> {preventaData?.code}
                 </p>
-                <div>
-                  <strong>Estado:</strong>{' '}
-                  <Badge>
-                    {preventaData?.estado === 'pendiente'
-                      ? 'Pendiente'
-                      : 'Finalizada'}
-                  </Badge>
-                </div>
                 <p>
                   <strong>Fecha:</strong>{' '}
                   {formatDateLong(preventaData?.fecha, true)}

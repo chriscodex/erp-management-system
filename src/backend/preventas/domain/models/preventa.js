@@ -16,10 +16,6 @@ import { productoPreventaSchema } from '@/backend/preventas/domain/models/produc
 
 const preventaSchema = new Schema(
   {
-    estado: {
-      type: String,
-      required: [true, 'Estado es requerido en el schema de preventas'],
-    },
     code: {
       type: String,
       required: [true, 'El code es requerido en el schema de preventas'],

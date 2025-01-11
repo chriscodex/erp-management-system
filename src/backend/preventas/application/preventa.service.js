@@ -81,7 +81,6 @@ export class PreventaService {
 
       const preventaObject = {
         ...preventaData,
-        estado: 'pendiente',
         code: generarNumeroAleatorio(13),
       };
       const newPreventa = await this.preventaRepository.createPreventa(
