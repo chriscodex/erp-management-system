@@ -3,6 +3,7 @@
 import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -13,9 +14,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { DeleteMarcaAlert } from '@/app/inventario/marcas/_components/Dialogs/DeleteCategoryAlert.jsx';
-import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
+
 import { formatDateShort } from '@/lib/formateador';
+import { DeletePreventaAlert } from '@/app/ventas/preventas/[preventaId]/_components/dialogs/deletePreventaAlert';
 
 export const columnsPreventas = [
   {
@@ -146,8 +147,7 @@ export const columnsPreventas = [
       const router = useRouter();
 
       /* Manejar estado de eliminar marca */
-      const [isOpenDialogDeleteUser, setIsOpenDialogDeleteUser] =
-        useState(false);
+      const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
       return (
         <DropdownMenu>
@@ -171,17 +171,17 @@ export const columnsPreventas = [
             <DropdownMenuSeparator />
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => setIsOpenDialogDeleteUser(true)}
+              onClick={() => setIsOpenDialogDelete(true)}
             >
               <RiDeleteBinLine />
               Eliminar
             </DropdownMenuItem>
           </DropdownMenuContent>
           {/* Dialog Delete */}
-          <DeleteMarcaAlert
-            isOpen={isOpenDialogDeleteUser}
-            setIsOpen={setIsOpenDialogDeleteUser}
-            id={id}
+          <DeletePreventaAlert
+            isOpen={isOpenDialogDelete}
+            setIsOpen={setIsOpenDialogDelete}
+            preventaId={id}
             actionAfterComplete="refresh"
           />
         </DropdownMenu>

@@ -1,0 +1,49 @@
+import { RiEditFill } from '@remixicon/react';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+
+import { getPreventaRequestServer } from '@/app/ventas/_services/requests';
+import { EditarPreventaForm } from '@/app/ventas/preventas/[preventaId]/edit/_components/editarPreventaForm';
+
+export default async function EditarPreventaPage({ params }) {
+  const { preventa } = await getPreventaRequestServer(params.preventaId);
+
+  const titles = [
+    {
+      title: 'Ventas',
+      href: '',
+      active: false,
+    },
+    {
+      title: 'Pre-Ventas',
+      href: '/ventas/preventas',
+      active: true,
+    },
+    {
+      title: preventa?.code,
+      href: `/ventas/preventas/${params.preventaId}`,
+      active: true,
+    },
+    {
+      title: 'Editar',
+      href: '',
+      active: false,
+    },
+  ];
+  return (
+    <NavbarDynamic titles={titles}>
+      <Card className="w-full max-w-7xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl flex items-center gap-2">
+            <RiEditFill className="md:h-7 h-5 md:w-7 w-5" />
+            Editar Pre-Venta
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <EditarPreventaForm preventaData={preventa} />
+        </CardContent>
+      </Card>
+    </NavbarDynamic>
+  );
+}

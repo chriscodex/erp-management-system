@@ -45,7 +45,7 @@ export function GenerarVentaAlert({
             return `Preventa eliminada correctamente`;
           }
           if (actionAfterComplete === 'push') {
-            router.push(`/ventas/preventas`);
+            router.push(`/ventas/${preventaId}`);
             return `Preventa eliminada correctamente`;
           }
         },
@@ -54,6 +54,10 @@ export function GenerarVentaAlert({
         },
       });
     } catch (error) {}
+  };
+
+  const handleGenerarVenta = async () => {
+    router.push(`/ventas/${preventaId}`);
   };
 
   return (
@@ -77,7 +81,7 @@ export function GenerarVentaAlert({
             </AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={handleConfirmationDeleteProduct}
+              onClick={handleGenerarVenta}
             >
               Continuar
             </AlertDialogAction>

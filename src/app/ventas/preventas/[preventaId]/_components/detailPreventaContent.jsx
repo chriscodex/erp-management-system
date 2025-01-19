@@ -17,8 +17,12 @@ import { Label } from '@/components/ui/label';
 import { DetailProductPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet';
 import { DetailPreventaButtons } from '@/app/ventas/preventas/[preventaId]/_components/buttons/detailPreventaButtons';
 import { GenerarVentaButton } from '@/app/ventas/preventas/[preventaId]/_components/buttons/generarVentaButton';
+import { formatMoney } from '@/lib/utils';
 
 export function DetailPreventaContent({ preventaData }) {
+  const precioTotal = preventaData?.productosPreventa.reduce((acc, product) => {
+    return acc + product.precioVenta;
+  }, 0);
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
@@ -135,14 +139,11 @@ export function DetailPreventaContent({ preventaData }) {
                         </Badge>
                       </TableCell>
                       <TableCell>
-                        S/. {producto?.precioVenta.toFixed(2)}
+                        S/.{formatMoney(producto?.precioVenta)}
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{' '}
-                        {(producto?.precioVenta * producto?.cantidad).toFixed(
-                          2
-                        )}
+                        S/.{formatMoney(producto?.precioVenta)}
                       </TableCell>
                       <TableCell>
                         <DetailProductPreventaDetailSheet
@@ -152,6 +153,21 @@ export function DetailPreventaContent({ preventaData }) {
                     </TableRow>
                   );
                 })}
+                <TableRow>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell></TableCell>
+                  <TableCell>
+                    <span className="font-bold text-lg">Total:</span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="font-bold text-lg">
+                      S/.{formatMoney(precioTotal)}
+                    </span>
+                  </TableCell>
+                </TableRow>
               </TableBody>
             </Table>
           </CardContent>
