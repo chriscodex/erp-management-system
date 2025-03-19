@@ -5,10 +5,6 @@ import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
-
-import { newUserSchema } from '@/app/usuarios/nuevo/_validations/newUserSchema';
-import { createUserRequestClient } from '@/app/usuarios/nuevo/_services/requests';
-import { cn } from '@/lib/utils';
 import {
   Loader2,
   User,
@@ -19,6 +15,10 @@ import {
   IdCardIcon,
   SearchIcon,
 } from 'lucide-react';
+
+import { newUserSchema } from '@/app/usuarios/nuevo/_validations/newUserSchema';
+import { createUserRequestClient } from '@/app/usuarios/nuevo/_services/requests';
+import { cn } from '@/lib/utils';
 import {
   Form,
   FormControl,

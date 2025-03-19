@@ -46,7 +46,6 @@ const authOptions = {
       return token;
     },
     async session({ session, token }) {
-      console.log(token);
       // Conectar a la base de datos
       await connectDB();
       // Verificar si el usuario sigue existiendo en la base de datos

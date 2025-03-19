@@ -50,7 +50,5 @@ const modeloSchema = new Schema(
   }
 );
 
-// Index para mejorar búsquedas por nombre
-modeloSchema.index({ nombre: 1 });
 
 export const Modelo = models?.Modelo || model('Modelo', modeloSchema);

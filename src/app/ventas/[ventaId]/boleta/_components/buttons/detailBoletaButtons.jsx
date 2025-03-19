@@ -3,12 +3,14 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RiLock2Fill } from '@remixicon/react';
+import { PDFViewer } from '@react-pdf/renderer';
 
 import { Button } from '@/components/ui/button';
 
 import { FinalizarVentaAlert } from '@/app/ventas/[ventaId]/_components/dialogs/finalizarVentaAlert';
+import { PdfBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta';
 
-export function DetailBoletaButtons({ ventaId }) {
+export function DetailBoletaButtons({ ventaId, ventaData }) {
   const router = useRouter();
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
@@ -28,6 +30,11 @@ export function DetailBoletaButtons({ ventaId }) {
           <RiLock2Fill className="mr-1 h-4 w-4" />
           Finalizar Venta
         </Button>
+      </div>
+      <div className="mt-8">
+        <PDFViewer width="100%" height="600px">
+          <PdfBoleta ventaData={ventaData} />
+        </PDFViewer>
       </div>
       {/* Dialog Delete */}
       <FinalizarVentaAlert

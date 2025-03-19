@@ -1,5 +1,5 @@
 import { User, Package, Gift, Hash } from 'lucide-react';
-import { RiInfoCardFill, RiPrinterFill } from '@remixicon/react';
+import { RiInfoCardFill } from '@remixicon/react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -12,10 +12,10 @@ import {
 } from '@/components/ui/table';
 import { formatDateLong } from '@/lib/formateador';
 import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
 import { DetailBoletaButtons } from '@/app/ventas/[ventaId]/boleta/_components/buttons/detailBoletaButtons';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+import { ImprimirBoletaButton } from '@/app/ventas/[ventaId]/boleta/_components/buttons/imprimirButton';
 
 export function DetailBoletaContent({ ventaData }) {
   console.log('ventaData', ventaData);
@@ -27,10 +27,7 @@ export function DetailBoletaContent({ ventaData }) {
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Boleta</Label>
         </div>
-        <Button variant="default" className="flex items-center gap-2 ">
-          <RiPrinterFill className="h-4 w-4" />
-          <p>Imprimir</p>
-        </Button>
+        <ImprimirBoletaButton ventaData={ventaData} />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -215,7 +212,7 @@ export function DetailBoletaContent({ ventaData }) {
           </CardContent>
         </Card>
         <div className="mt-4">
-          <DetailBoletaButtons ventaId={ventaData._id} />
+          <DetailBoletaButtons ventaId={ventaData._id} ventaData={ventaData} />
         </div>
       </CardContent>
     </Card>
