@@ -139,7 +139,7 @@ function FormNewUser() {
   return (
     <Card className="w-full max-w-7xl mr-auto">
       <CardHeader>
-        <CardTitle className="text-2xl">Crear Nuevo Usuario</CardTitle>
+        <CardTitle className="text-2xl">Crear Usuario</CardTitle>
         <CardDescription>
           Ingrese los datos del nuevo usuario para el sistema.
         </CardDescription>
