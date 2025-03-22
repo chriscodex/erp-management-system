@@ -3,8 +3,10 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
 import { zodResolver } from '@hookform/resolvers/zod';
-
+import { format } from "date-fns"; //Calendar
+import { es } from "date-fns/locale"; //Calendar
 import {
   User,
   Shield,
@@ -14,7 +16,9 @@ import {
   ActivityIcon,
   IdCardIcon,
   Trash,
+  CalendarIcon, //Calendar
 } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -46,20 +50,31 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-
-import { CrearFullName } from '@/lib/formateador';
-import { updateUserSchema } from '@/app/usuarios/[id]/_validations/updateUserSchema';
-import { updatePasswordSchema } from '@/app/usuarios/[id]/_validations/updatePasswordSchema';
-import { updateUserRequestClient } from '@/app/usuarios/[id]/_services/requests';
-import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
-import { useRouter } from 'next/navigation';
 import {
   onChangeCelular,
   onChangeNumero,
 } from '@/components/formInputs/onChange';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { UpdateFormCalendar } from '@/components/calendars/updateFormCalendar';
+
+import { formatDateLong, CrearFullName } from '@/lib/formateador';
+import { updateUserSchema } from '@/app/usuarios/[id]/_validations/updateUserSchema';
+import { updatePasswordSchema } from '@/app/usuarios/[id]/_validations/updatePasswordSchema';
+import { updateUserRequestClient } from '@/app/usuarios/[id]/_services/requests';
+import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
+import { cn } from '@/lib/utils';
+
+
 
 function FormUserDetail({ userDetail }) {
   const router = useRouter();
+
+  const [date, setDate] = useState(new Date(userDetail?.fechaIngreso)); //Date Calendar
+  const [open, setOpen] = useState(false); //Close calendar
 
   const [isEditUserOpen, setIsEditUserOpen] = useState(false);
 
@@ -73,6 +88,7 @@ function FormUserDetail({ userDetail }) {
     estado: userDetail?.estado,
     password: '',
     confirmPassword: '',
+    fechaIngreso: userDetail?.fechaIngreso,
   };
   /* Formulario Setup */
   const formUserUpdate = useForm({
@@ -88,8 +104,7 @@ function FormUserDetail({ userDetail }) {
     watch,
   } = formUserUpdate;
 
-  const [formUpdateUserSubmitIsLoading, setFormUpdateUserSubmitIsLoading] =
-    useState(false);
+  const [formUpdateUserSubmitIsLoading, setFormUpdateUserSubmitIsLoading] = useState(false);
 
   // Manejo de formulario
   const onUpdateUserSubmit = handleSubmitUserUpdate(async () => {
@@ -109,12 +124,17 @@ function FormUserDetail({ userDetail }) {
       {}
     );
 
+    if (new Date(userDetail?.fechaIngreso).getTime() !== date.getTime()) {
+      userDataToUpdate['fechaIngreso'] = date;
+    }
+
     if (Object.keys(userDataToUpdate).length === 0) {
       toast.error('No se han realizado cambios.');
       setFormUpdateUserSubmitIsLoading(false);
       return;
     }
 
+    console.log(userDetail);
     // Toast promise para buscar una persona
     toast.promise(
       updateUserRequestClient(
@@ -213,9 +233,9 @@ function FormUserDetail({ userDetail }) {
                 />
                 <AvatarFallback>
                   {userDetail?.nombres
-                    .split(' ')
+                    .split(" ")
                     .map((n) => n[0])
-                    .join('')}
+                    .join("")}
                 </AvatarFallback>
               </Avatar>
               <div>
@@ -482,6 +502,68 @@ function FormUserDetail({ userDetail }) {
                           </FormItem>
                         )}
                       />
+
+                      <FormField
+                        control={controlUserUpdate}
+                        name="fechaIngreso"
+                        render={({ field }) => (
+                          <FormItem className="grid grid-cols-4 items-center gap-x-4">
+                            <div className="flex gap-2 items-center justify-start">
+                            <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                            <FormLabel className="text-left font-semibold text-base">
+                              Fecha de ingreso
+                            </FormLabel>
+                            </div>
+                            <FormControl>
+                              <Popover open={open} onOpenChange={setOpen}>
+                                <PopoverTrigger asChild>
+                                  <Button
+                                    variant={"outline"}
+                                    className={cn(
+                                      "w-auto px-2 justify-start text-left font-normal",
+                                      !date && "text-muted-foreground",
+                                      formUpdateUserSubmitIsLoading
+                                        ? "opacity-50 cursor-not-allowed"
+                                        : ""
+                                    )}
+                                  >
+                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                    {date ? (
+                                      format(date, "PPP", { locale: es })
+                                    ) : (
+                                      <span>Selecciona una fecha</span>
+                                    )}
+                                  </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0">
+                                  <UpdateFormCalendar
+                                    captionLayout="dropdown-buttons"
+                                    fromYear={2020}
+                                    toYear={new Date().getFullYear()}
+                                    mode="single"
+                                    defaultMonth={
+                                      new Date(userDetail?.fechaIngreso)
+                                    }
+                                    selected={date}
+                                    onSelect={(selectedDate) => {
+                                      if (selectedDate) {
+                                        field.onChange(selectedDate); // Actualiza el valor en el formulario
+                                        setDate(selectedDate); // Guarda la fecha seleccionada
+                                        setOpen(false); // Cierra el Popover
+                                      }
+                                    }}
+                                    locale={es}
+                                    calendarDate={userDetail?.fechaIngreso}
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
                       <div className="flex justify-end space-x-2">
                         <Button
                           type="submit"
@@ -504,33 +586,40 @@ function FormUserDetail({ userDetail }) {
                   <div className="space-y-8 mt-4">
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">Apellidos:</span>{' '}
+                      <span className="font-semibold">Apellidos:</span>{" "}
                       <span>{userDetail?.apellidos}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold gap">Nombres:</span>{' '}
+                      <span className="font-semibold gap">Nombres:</span>{" "}
                       <span>{userDetail?.nombres}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <IdCardIcon className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">DNI:</span>{' '}
+                      <span className="font-semibold">DNI:</span>{" "}
                       <span>{userDetail?.dni}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Phone className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">Celular:</span>{' '}
+                      <span className="font-semibold">Celular:</span>{" "}
                       <span>{userDetail?.celular}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">Dirección:</span>{' '}
+                      <span className="font-semibold">Dirección:</span>{" "}
                       <span>{userDetail?.direccion}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Shield className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">Rol:</span>{' '}
+                      <span className="font-semibold">Rol:</span>{" "}
                       <span>{userDetail?.rol}</span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <CalendarIcon className="h-4 w-4 text-muted-foreground" />
+                      <span className="font-semibold">
+                        Fecha de ingreso:
+                      </span>{" "}
+                      <span>{formatDateLong(userDetail?.fechaIngreso, false)}</span>
                     </div>
                     <Button
                       onClick={() => setIsEditUserOpen(true)}
@@ -551,7 +640,7 @@ function FormUserDetail({ userDetail }) {
                         Estado de la cuenta:
                       </span>
                     </div>
-                    {userDetail?.estado === 'activo' ? (
+                    {userDetail?.estado === "activo" ? (
                       <Badge
                         variant="secondary"
                         className="mt-1 bg-green-600 text-white hover:bg-green-600"
