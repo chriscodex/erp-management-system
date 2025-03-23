@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Document,
   Text,
@@ -12,8 +14,9 @@ import { formatDateLong } from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesBoleta);
 
-export function PdfBoleta({ ventaData }) {
+export function PdfBoleta({ ventaData, counterBoleta }) {
   console.log('ventaData', ventaData);
+  console.log('counterBoleta', counterBoleta);
   const currentTime = formatDateLong(new Date().toISOString());
 
   return (
@@ -48,7 +51,7 @@ export function PdfBoleta({ ventaData }) {
         </View>
         <View style={styles.container}>
           <Text style={styles.boletaTitle}>
-            Boleta N° {ventaData?.cliente?.code}
+            Boleta N° {counterBoleta}
           </Text>
           <Text style={styles.fechaEmision}>Fecha Emisión: {currentTime}</Text>
         </View>

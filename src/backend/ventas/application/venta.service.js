@@ -1,10 +1,12 @@
 import { PreventaRepository } from '@/backend/preventas/domain/repositories/preventaRepository';
 import { VentaRepository } from '@/backend/ventas/domain/repositories/ventaRepository.js';
+import { CounterRepository } from '@/backend/counters/domain/repositories/counterRepository';
 
 export class VentaService {
   constructor() {
     this.ventaRepository = new VentaRepository();
     this.preventaRepository = new PreventaRepository();
+    this.counterRepository = new CounterRepository();
   }
 
   async getAllVentas() {
@@ -126,6 +128,24 @@ export class VentaService {
     } catch (error) {
       console.error(
         `Venta Service: Error interno al eliminar la venta: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+
+  async getCounterBoleta() {
+    try {
+      const counter = await this.counterRepository.getCounterByType('boletas');
+      return {
+        status: 200,
+        payload: counter,
+      };
+    } catch (error) {
+      console.error(
+        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`
       );
       return {
         status: 500,

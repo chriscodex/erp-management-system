@@ -1,11 +1,15 @@
 import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { getVentaRequestServer } from '@/app/ventas/_services/requests';
+import {
+  getVentaRequestServer,
+  getCounterBoletaRequestServer,
+} from '@/app/ventas/_services/requests';
 import { DetailBoletaContent } from '@/app/ventas/[ventaId]/boleta/_components/detailBoletaContent';
 
 export default async function Page({ params }) {
   const { venta } = await getVentaRequestServer(params.ventaId);
+  const { counterBoleta } = await getCounterBoletaRequestServer();
 
   if (!venta) {
     notFound();
@@ -36,7 +40,7 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailBoletaContent ventaData={venta} />
+      <DetailBoletaContent ventaData={venta} counterBoleta={counterBoleta} />
     </NavbarDynamic>
   );
 }

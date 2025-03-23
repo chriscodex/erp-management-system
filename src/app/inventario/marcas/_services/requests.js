@@ -34,7 +34,6 @@ export async function deleteMarcaRequestClient(marcaId) {
 
       const url = `${deleteMarcaClientUrl}/${marcaId}`;
 
-      // Obtener los datos de la persona
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(

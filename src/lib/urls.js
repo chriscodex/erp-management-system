@@ -72,3 +72,6 @@ export const createClienteClientUrl = '/api/clientes';
 /* Ventas */
 export const createVentaClientUrl = '/api/ventas';
 export const deleteVentaClientUrl = '/api/ventas';
+
+/* Boleta */
+export const getCurrentCounterBoletaClientUrl = '/api/counters';

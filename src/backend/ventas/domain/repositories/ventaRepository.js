@@ -7,6 +7,12 @@ export class VentaRepository {
     this.ventaModel = Venta;
   }
 
+  /**
+   * Obtiene todas las ventas almacenadas en la base de datos
+   * @async
+   * @returns {Promise<Array>} Retorna un array con todas las ventas encontradas
+   * @throws {Error} Si ocurre un error al buscar las ventas en la base de datos
+   */
   async getAllVentas() {
     try {
       const ventas = await this.ventaModel.find({});

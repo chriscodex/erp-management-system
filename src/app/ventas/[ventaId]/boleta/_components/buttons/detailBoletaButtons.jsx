@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { FinalizarVentaAlert } from '@/app/ventas/[ventaId]/_components/dialogs/finalizarVentaAlert';
 import { PdfBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta';
 
-export function DetailBoletaButtons({ ventaId, ventaData }) {
+export function DetailBoletaButtons({ ventaId, ventaData, counterBoleta }) {
   const router = useRouter();
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
@@ -33,7 +33,7 @@ export function DetailBoletaButtons({ ventaId, ventaData }) {
       </div>
       <div className="mt-8">
         <PDFViewer width="100%" height="600px">
-          <PdfBoleta ventaData={ventaData} />
+          <PdfBoleta ventaData={ventaData} counterBoleta={counterBoleta} />
         </PDFViewer>
       </div>
       {/* Dialog Delete */}

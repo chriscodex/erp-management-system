@@ -17,7 +17,7 @@ import { Separator } from '@/components/ui/separator';
 import { DetailBoletaButtons } from '@/app/ventas/[ventaId]/boleta/_components/buttons/detailBoletaButtons';
 import { ImprimirBoletaButton } from '@/app/ventas/[ventaId]/boleta/_components/buttons/imprimirButton';
 
-export function DetailBoletaContent({ ventaData }) {
+export function DetailBoletaContent({ ventaData, counterBoleta }) {
   console.log('ventaData', ventaData);
 
   return (
@@ -27,7 +27,7 @@ export function DetailBoletaContent({ ventaData }) {
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Boleta</Label>
         </div>
-        <ImprimirBoletaButton ventaData={ventaData} />
+        <ImprimirBoletaButton ventaData={ventaData} counterBoleta={counterBoleta} />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -212,7 +212,7 @@ export function DetailBoletaContent({ ventaData }) {
           </CardContent>
         </Card>
         <div className="mt-4">
-          <DetailBoletaButtons ventaId={ventaData._id} ventaData={ventaData} />
+          <DetailBoletaButtons ventaId={ventaData._id} ventaData={ventaData} counterBoleta={counterBoleta} />
         </div>
       </CardContent>
     </Card>
