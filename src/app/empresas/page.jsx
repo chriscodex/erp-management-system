@@ -1,112 +1,57 @@
+import { Building, Plus } from 'lucide-react';
 import Link from 'next/link';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+
+import { Label } from '@/components/ui/label';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import {
-  Users,
-  Package,
-  DollarSign,
-  TrendingUp,
-  ExternalLink,
-} from 'lucide-react';
-import { NavbarSimple } from '@/components/navbar/NavbarSimple';
+import { DataTableMarcas } from '@/app/empresas/_components/empresasTable/data-table.jsx';
+import { columnsEmpresas } from '@/app/empresas/_components/empresasTable/columns.jsx';
+import { sortByUpdateDateDesc } from '@/lib/utils';
+import { getAllEmpresasRequestServer } from '@/app/empresas/_services/requests';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
-const companies = [
-  {
-    id: 1,
-    name: 'Motorock ruta 33',
-    description: 'Sucursal principal en la ruta 33',
-    employees: 25,
-    inventory: 150,
-    monthlyRevenue: 75000,
-    growthRate: 5.2,
-  },
-  {
-    id: 2,
-    name: 'Motorock store',
-    description: 'Tienda online de accesorios y repuestos',
-    employees: 10,
-    inventory: 500,
-    monthlyRevenue: 45000,
-    growthRate: 8.7,
-  },
-];
+export default async function EmpresasPage() {
+  const { empresas, status } = await getAllEmpresasRequestServer();
 
-export default function CompaniesPage() {
+  const empresasSorted = sortByUpdateDateDesc(empresas);
+
+  /* Secciones del navbar */
+  const navbarTitles = [
+    {
+      title: 'Empresas',
+      href: '',
+      active: false,
+    },
+  ];
+
   return (
-    <NavbarSimple title="Empresas">
-      <div className="container mx-auto p-4">
-        <header className="mb-8">
-          <h1 className="text-3xl font-bold">Gestión de Empresas</h1>
-          <p className="text-muted-foreground mt-2">
-            Administra y supervisa tus empresas desde un solo lugar
-          </p>
-        </header>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {companies.map((company) => (
-            <Card key={company.id} className="flex flex-col">
-              <CardHeader>
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="text-2xl">{company.name}</CardTitle>
-                    <CardDescription>{company.description}</CardDescription>
-                  </div>
-                  <Badge variant="secondary" className="text-sm">
-                    ID: {company.id}
-                  </Badge>
-                </div>X
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="flex items-center">
-                    <Users className="h-5 w-5 mr-2 text-muted-foreground" />
-                    <span className="text-sm">
-                      {company.employees} empleados
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <Package className="h-5 w-5 mr-2 text-muted-foreground" />
-                    <span className="text-sm">
-                      {company.inventory} productos
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <DollarSign className="h-5 w-5 mr-2 text-muted-foreground" />
-                    <span className="text-sm">
-                      ${company.monthlyRevenue.toLocaleString()} / mes
-                    </span>
-                  </div>
-                  <div className="flex items-center">
-                    <TrendingUp className="h-5 w-5 mr-2 text-muted-foreground" />
-                    <span className="text-sm">
-                      {company.growthRate}% crecimiento
-                    </span>
-                  </div>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="outline" asChild>
-                  <Link href={`/empresas/${company.id}`}>Ver Detalles</Link>
-                </Button>
-                <Button variant="default" asChild>
-                  <Link href={`/empresas/${company.id}/dashboard`}>
-                    Ir al Dashboard
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      </div>
-    </NavbarSimple>
+    <>
+      <NavbarDynamic titles={navbarTitles}>
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <div className="flex items-center gap-2">
+              <Building className="h-9 w-9" />
+              <Label className="sm:text-4xl text-xl font-bold">Empresas</Label>
+            </div>
+            <Button>
+              <Link
+                href="/empresas/nuevo"
+                className="flex justify-end items-center gap-2"
+              >
+                <Plus />
+                <span>Agregar Empresa</span>
+              </Link>
+            </Button>
+          </CardHeader>
+          <CardContent>
+            <DataTableMarcas
+              columns={columnsEmpresas}
+              data={empresasSorted}
+              status={status}
+            />
+          </CardContent>
+        </Card>
+      </NavbarDynamic>
+    </>
   );
 }

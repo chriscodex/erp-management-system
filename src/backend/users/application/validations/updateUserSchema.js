@@ -58,5 +58,5 @@ export const updateUserSchema = z.object({
       const today = new Date();
       const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       return inputDate <= todayDate;
-  }, { message: "La fecha debe ser anterior o igual a la fecha actual" }),
+  }, { message: "La fecha debe ser anterior o igual a la fecha actual" }).optional(),
 });
