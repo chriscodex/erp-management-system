@@ -6,6 +6,11 @@ export const createUserClientUrl = '/api/users';
 export const updateUserClientUrl = '/api/users';
 export const deleteUserClientUrl = '/api/users';
 
+/* Empresas */
+export const createEmpresaClientUrl = '/api/empresas';
+export const updateEmpresaClientUrl = '/api/empresas';
+export const deleteEmpresaClientUrl = '/api/empresas';
+
 /* Categories */
 export const createCategoryClientUrl = '/api/categories';
 export const updateCategoryClientUrl = '/api/categories';
