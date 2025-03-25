@@ -14,7 +14,7 @@ export async function getAllEmpresasRequestServer() {
 
     if (response?.status !== 200) {
       console.log('Error al obtener todas las empresas');
-      return { marcas: [], status: 500 };
+      return { empresas: [], status: 500 };
     }
     const empresas = response?.payload;
 

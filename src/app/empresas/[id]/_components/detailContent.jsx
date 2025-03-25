@@ -2,9 +2,6 @@
 
 import {
   Calendar,
-  CheckCircle,
-  XCircle,
-  ActivityIcon,
   Phone,
   MapPin,
   Mail,
@@ -15,7 +12,6 @@ import {
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { DetailDropdown } from "@/app/empresas/[id]/_components/detailDropdown";
@@ -31,10 +27,7 @@ export default function DetailContent({ empresaData, updatedAt }) {
     direccion,
     telefono,
     email,
-    estado,
   } = empresaData;
-
-  const isActive = estado === "activo";
 
   useEffect(() => {
     router.refresh();
@@ -83,26 +76,13 @@ export default function DetailContent({ empresaData, updatedAt }) {
           <p>{email}</p>
           <Separator />
           <div className="flex items-center space-x-2">
-            <ActivityIcon className="h-5 w-5 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">Estado:</span>
-            <Badge variant={isActive ? "success" : "error"}>
-              {isActive ? (
-                <CheckCircle className="mr-1 h-4 w-4" />
-              ) : (
-                <XCircle className="mr-1 h-4 w-4" />
-              )}
-              {isActive ? "Activo" : "Inactivo"}
-            </Badge>
-          </div>
-          <Separator />
-          <div className="flex items-center space-x-2">
             <Calendar className="h-5 w-5 text-muted-foreground" />
             <span className="text-sm text-muted-foreground">
               Última fecha de actualización:
             </span>
           </div>
           <p>{updatedAt}</p>
-          {/* <Button onClick={() => setIsEditUserOpen(true)} className="mt-4">
+          {/* <Button onClick={() => setIsEditEmpresaOpen(true)} className="mt-4">
             <Edit2 className="h-4 w-4 mr-2" />
             Editar Información
           </Button> */}

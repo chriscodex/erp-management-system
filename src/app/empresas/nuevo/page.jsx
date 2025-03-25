@@ -21,7 +21,7 @@ export default async function Page() {
       <Card className="w-full max-w-7xl mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl font-bold">
-            Agregar Marca
+            Agregar Empresa
           </CardTitle>
         </CardHeader>
         <CardContent>

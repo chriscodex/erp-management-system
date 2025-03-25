@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-const estados = ['activo', 'inactivo'];
-
 export const updateEmpresaSchema = z.object({
   ruc: z.string().length(11, 'El RUC debe tener 11 dígitos').optional(),
   nombre: z
@@ -32,8 +30,4 @@ export const updateEmpresaSchema = z.object({
     .string()
     .min(4, { message: 'El teléfono debe tener al menos 4 dígitos' }).optional(),
   email: z.string().email({message: 'Ingrese un correo válido' }).optional(),
-  estado: z
-    .enum(estados, {
-      errorMap: () => ({ message: 'Seleccione un estado' }),
-    }).optional(),
 });
