@@ -28,11 +28,6 @@ const empresaSchema = new Schema(
       type: String,
       required: false,
     },
-    estado: {
-      type: String,
-      required: [true, 'Estado is required'],
-      enum: ['activo', 'inactivo'],
-    },
   },
   {
     timestamps: true,

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { RiArrowLeftLine} from '@remixicon/react';
-import { Tag, Building, Text, MapPin, IdCardIcon, Phone, Mail, Save} from 'lucide-react';
+import {  Building, Text, MapPin, IdCardIcon, Phone, Mail, Save} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,13 +16,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { updateEmpresaSchema } from '@/app/empresas/[id]/edit/_services/validations/updateEmpresaSchema';
@@ -232,36 +225,6 @@ export function UpdateFormEmpresa({ empresaData }) {
               </FormItem>
             )}
           />
-          <FormField
-          control={control}
-          name="estado"
-          render={({ field }) => (
-            <FormItem className="space-y-2">
-              <div className="flex items-center space-x-2 text-muted-foreground">
-                <Tag className="h-5 w-5" />
-                <FormLabel>Estado</FormLabel>
-              </div>
-              <div className="relative">
-                <Select
-                  defaultValue={empresaData?.estado}
-                  onValueChange={field.onChange}
-                  disabled={formSubmitIsLoading}
-                >
-                  <FormControl>
-                    <SelectTrigger className="w-full pl-2">
-                      <SelectValue placeholder="Seleccione un estado" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="activo">Activo</SelectItem>
-                    <SelectItem value="inactivo">Inactivo</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </div>
-            </FormItem>
-          )}
-        />
         <div className="space-y-4">
           <div className="flex justify-end space-x-2 mt-4">
             <div className="flex space-x-2">
