@@ -6,8 +6,8 @@ const empresaService = new EmpresaService();
 export async function getEmpresasController() {
   try {
     await connectDB();
-    const users = await empresaService.getAllEmpresas();
-    return users;
+    const empresas = await empresaService.getAllEmpresas();
+    return empresas;
   } catch (error) {
     console.error(
       "Empresas Controller: Error interno al obtener todos las empresas:",
