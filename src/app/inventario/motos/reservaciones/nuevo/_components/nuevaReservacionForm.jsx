@@ -113,12 +113,6 @@ export function NuevaReservacionForm() {
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
 
-
-    console.log("Formulario enviado con datos:", data);
-
-
-    console.log(form.getValues());
-
     toast.promise(
       createReservacionRequestClient(data, setFormSubmitIsLoading, setError),
       {

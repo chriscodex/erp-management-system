@@ -80,7 +80,7 @@ export async function createReservacionRequestClient(reservacionData, setLoading
         clienteData = {
           ruc: reservacionData?.identificador,
           nombre: reservacionData?.cliente.datos.nombre,
-          celular: reservacionData?.cliente.datos.telefono,
+          celular: reservacionData?.cliente.datos.celular,
           email: reservacionData?.cliente.datos.email,
         };
       }
@@ -105,6 +105,7 @@ export async function createReservacionRequestClient(reservacionData, setLoading
         }
       };
 
+      console.log('Lo que queremos ver jejeje', reservacionObject);
   
       const response = await postData(createReservacionClientUrl, reservacionObject);
       if (response?.status !== 201) {

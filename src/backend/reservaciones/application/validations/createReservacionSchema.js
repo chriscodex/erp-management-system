@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const createReservacionSchema = z.object({
+  
   pagoInicial: z
     .number()
     .refine((pago) => pago > 0, { message: "El monto debe ser mayor a 0" }),
@@ -36,6 +37,7 @@ export const createReservacionSchema = z.object({
     z.object({
       tipo: z.literal("persona"),
       datos: z.object({
+        // dni: z.string(),
         nombres: z
           .string()
           .min(3, "Los nombres deben tener al menos 3 caracteres")
@@ -46,27 +48,22 @@ export const createReservacionSchema = z.object({
           .max(250, "Máximo 250 caracteres"),
         celular: z
           .string()
-          .regex(/^9\d{8}$/, {
-            message:
-              "El número de celular debe tener 9 dígitos y comenzar con 9",
-          }),
-        email: z.string().email({ message: "Ingrese un correo válido" }),
+          .optional(),
+        email: z.string().email({ message: "Ingrese un correo válido" }).optional(),
       }),
     }),
     z.object({
       tipo: z.literal("empresa"),
       datos: z.object({
+        // ruc: z.string(),
         nombre: z
           .string()
           .min(3, "El nombre de la empresadebe tener al menos 3 caracteres")
           .max(100, "Máximo 100 caracteres"),
         celular: z
           .string()
-          .regex(/^9\d{8}$/, {
-            message:
-              "El número de celular debe tener 9 dígitos y comenzar con 9",
-          }),
-        email: z.string().email({ message: "Ingrese un correo válido" }),
+          .optional(),
+        email: z.string().email({ message: "Ingrese un correo válido" }).optional(),
       }),
     }),
   ]),
