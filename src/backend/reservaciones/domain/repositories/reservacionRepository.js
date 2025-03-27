@@ -33,9 +33,9 @@ export class ReservacionRepository {
 
       const filter = {};
 
-      if (reservacionData.pagoInicial) {
-        filter._pagoInicial = new mongoose.Types.ObjectId(
-          reservacionData.pagoInicial
+      if (reservacionData.id) {
+        filter._id = new mongoose.Types.ObjectId(
+          reservacionData.id
         );
       }
 

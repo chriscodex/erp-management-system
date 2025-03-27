@@ -66,7 +66,7 @@ export class ReservacionService {
   }
   async createReservacion(reservacion) {
     try {
-
+      
       const reservacionValidated = createReservacionSchema.safeParse(reservacion);
 
       if (!reservacionValidated.success) {
@@ -78,17 +78,6 @@ export class ReservacionService {
           payload: reservacionValidated.error.issues,
         };
       }
-
-      // Validar si la reservacion
-      const reservacionFound = await this.reservacionRepository.getReservacionByData(reservacion);
-      if (reservacionFound) {
-        console.log('Reservacion Service: La reservación ya existe');
-        return {
-          status: 409,
-          payload: 'La reservación ya existe',
-        };
-      }
-
       // Crear el objeto de reservacion
       const reservacionObject = {
         ...reservacion,

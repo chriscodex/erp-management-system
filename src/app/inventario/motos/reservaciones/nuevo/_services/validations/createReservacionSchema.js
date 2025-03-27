@@ -1,8 +1,6 @@
 import { z } from "zod";
 
 export const createReservacionSchema = z.object({
-  identificador: z
-    .string(),
   pagoInicial: z
     .string()
     .regex(
@@ -39,37 +37,64 @@ export const createReservacionSchema = z.object({
     .max(250, {
       message: "El comentario no debe tener más de 250 caracteres",
     }),
-
-cliente: z.discriminatedUnion("tipo", [
+  cliente: z.discriminatedUnion("tipo", [
     z.object({
       tipo: z.literal("persona"),
       datos: z.object({
-        dni: z.string().length(8, "El DNI debe tener 8 dígitos"),
-        nombres: z.string().min(3, "Los nombres deben tener al menos 3 caracteres").max(50, "Máximo 100 caracteres"),
-        apellidos: z.string().min(3, "Los apellidos deben tener al menos 3 caracteres").max(250, "Máximo 250 caracteres"),
-        celular: z.string().regex(/^9\d{8}$/, { message: "El número de celular debe tener 9 dígitos y comenzar con 9" }),
+        nombres: z
+          .string()
+          .min(3, "Los nombres deben tener al menos 3 caracteres")
+          .max(50, "Máximo 100 caracteres"),
+        apellidos: z
+          .string()
+          .min(3, "Los apellidos deben tener al menos 3 caracteres")
+          .max(250, "Máximo 250 caracteres"),
+        celular: z
+          .string()
+          .regex(/^9\d{8}$/, {
+            message:
+              "El número de celular debe tener 9 dígitos y comenzar con 9",
+          }),
         email: z.string().email({ message: "Ingrese un correo válido" }),
       }),
     }),
     z.object({
       tipo: z.literal("empresa"),
       datos: z.object({
-        ruc: z.string().length(11, "El RUC debe tener 11 dígitos"),
-        nombre: z.string().min(3, "El nombre de la empresadebe tener al menos 3 caracteres").max(100, "Máximo 100 caracteres"),
-        celular: z.string().regex(/^9\d{8}$/, { message: "El número de celular debe tener 9 dígitos y comenzar con 9" }),
+        nombre: z
+          .string()
+          .min(3, "El nombre de la empresadebe tener al menos 3 caracteres")
+          .max(100, "Máximo 100 caracteres"),
+        celular: z
+          .string()
+          .regex(/^9\d{8}$/, {
+            message:
+              "El número de celular debe tener 9 dígitos y comenzar con 9",
+          }),
         email: z.string().email({ message: "Ingrese un correo válido" }),
       }),
     }),
   ]),
-
   moto: z.object({
-    nombre: z.string().min(3, "El nombre de la moto debe tener al menos 3 caracteres").max(100, "Máximo 100 caracteres"),
-    descripcion: z.string().min(3, "La descripción debe tener al menos 3 caracteres").max(250, "Máximo 250 caracteres"),
+    nombre: z
+      .string()
+      .min(3, "El nombre de la moto debe tener al menos 3 caracteres")
+      .max(100, "Máximo 100 caracteres"),
+    descripcion: z
+      .string()
+      .min(3, "La descripción debe tener al menos 3 caracteres")
+      .max(250, "Máximo 250 caracteres"),
     categoria: z.object({
-        nombre: z.string().min(3, "El nombre de la categoría debe tener al menos 3 caracteres").max(20, "Máximo 20 caracteres"),
+      nombre: z
+        .string()
+        .min(3, "El nombre de la categoría debe tener al menos 3 caracteres")
+        .max(20, "Máximo 20 caracteres"),
     }),
     marca: z.object({
-        nombre: z.string().min(3, "El nombre de la marca debe tener al menos 3 caracteres").max(20, "Máximo 20 caracteres"),
+      nombre: z
+        .string()
+        .min(3, "El nombre de la marca debe tener al menos 3 caracteres")
+        .max(20, "Máximo 20 caracteres"),
     }),
   }),
 });

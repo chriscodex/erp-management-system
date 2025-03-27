@@ -63,17 +63,17 @@ const reservacionSchema = new Schema(
           true,
           "Los datos del cliente son requeridos en el schema de reservaciones",
         ],
-        validate: {
-          validator: function (datos) {
-            if (this.cliente.tipo === "persona") {
-              return datos.dni && datos.nombres && datos.apellidos && datos.celular && datos.email;
-            } else if (this.cliente.tipo === "empresa") {
-              return datos.ruc && datos.nombre && datos.celular && datos.email;
-            }
-            return false; // Si no es ni persona ni empresa, es inválido
-          },
-          message: "Los datos del cliente no coinciden con el tipo especificado",
-        },
+        // validate: {
+        //   validator: function (datos) {
+        //     if (this.cliente.tipo === "persona") {
+        //       return datos.dni && datos.nombres && datos.apellidos && datos.celular && datos.email;
+        //     } else if (this.cliente.tipo === "empresa") {
+        //       return datos.ruc && datos.nombre && datos.celular && datos.email;
+        //     }
+        //     return false; // Si no es ni persona ni empresa, es inválido
+        //   },
+        //   message: "Los datos del cliente no coinciden con el tipo especificado",
+        // },
       },
     },
   },

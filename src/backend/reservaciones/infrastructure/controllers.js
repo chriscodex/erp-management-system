@@ -41,8 +41,6 @@ export async function createReservacionController(request) {
   try {
     const body = await request.json();
 
-    console.log(body);
-
     await connectDB();
 
     /* Responses { payload, status} */
