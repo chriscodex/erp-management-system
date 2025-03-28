@@ -15,6 +15,24 @@ import { DeleteReservacionAlert } from '@/app/inventario/motos/reservaciones/_co
 
 export const columnsReservaciones = [
   {
+    accessorKey: 'numeracion',
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          className="w-1"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          N°
+          <ArrowUpDown className="h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      return <div className="text-start">{row.getValue('numeracion')}</div>;
+    },
+  },
+  {
     accessorKey: 'moto',
     header: ({ column }) => {
       return (
@@ -68,7 +86,7 @@ export const columnsReservaciones = [
       return (
         <div className="text-start">
           {cliente?.tipo === 'empresa'
-            ? cliente?.datos?.razonSocial
+            ? cliente?.datos?.nombre
             : cliente?.datos?.nombres + ' ' + cliente?.datos?.apellidos}
         </div>
       );
@@ -171,7 +189,7 @@ export const columnsReservaciones = [
             </DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/motos/reservaciones/${id}`)}
+              onClick={() => router.push(`/inventario/motos/reservaciones/${id}`)}
             >
               <RiFileListLine />
               Detalle

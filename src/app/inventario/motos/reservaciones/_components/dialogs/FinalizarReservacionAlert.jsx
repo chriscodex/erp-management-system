@@ -26,7 +26,7 @@ import { deleteReservacionRequestClient } from '@/app/inventario/motos/reservaci
  *
  * @returns Un JSX con el diálogo de confirmación de eliminación de una marca.
  */
-export function DeleteReservacionAlert({
+export function FinalizarReservacionAlert({
   isOpen,
   setIsOpen,
   reservacionId,
@@ -42,11 +42,11 @@ export function DeleteReservacionAlert({
         success: () => {
           if (actionAfterComplete === 'refresh') {
             router.refresh();
-            return `Reservacion eliminada correctamente`;
+            return `Reservacion finalizada correctamente`;
           }
           if (actionAfterComplete === 'push') {
             router.push(`/inventario/motos/reservaciones`);
-            return `Reservacion eliminada correctamente`;
+            return `Reservacion finalizada correctamente`;
           }
         },
         error: (error) => {
@@ -61,10 +61,9 @@ export function DeleteReservacionAlert({
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
+            <AlertDialogTitle>¿Desea finalizar la reservación?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esta reservación será
-              permanentemente eliminada y no podrás recuperar sus datos.
+              Esta acción no se puede deshacer. Esta reservación finalizará y no podrás recuperar sus datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -72,7 +71,7 @@ export function DeleteReservacionAlert({
               className="bg-secondary text-secondary-foreground hover:opacity-80"
               onClick={() => setIsOpen(false)}
             >
-              Cancelar
+              Cancelar  
             </AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"

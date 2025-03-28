@@ -1,9 +1,11 @@
 import { z } from "zod";
 
 export const updateReservacionSchema = z.object({
-  
+
+  identificador: z.string().min(8, "El identificador debe de tener al menos 8 caracteres"),
   pagoInicial: z
-    .union([z.number(), z.string()])
+    .union([z.string(), z.number()])
+    .transform(Number)
     .refine((pago) => pago > 0, { message: "El monto debe ser mayor a 0" }),
   fechaLimite: z
     .union([z.date(), z.string()])
@@ -23,7 +25,7 @@ export const updateReservacionSchema = z.object({
         );
         return inputDate >= todayDate;
       },
-      { message: "La fecha debe ser posterior a la fecha actual" }
+      { message: "La fecha debe ser anterior o igual a la fecha actual" }
     ),
   comentario: z
     .string()
@@ -37,11 +39,10 @@ export const updateReservacionSchema = z.object({
     z.object({
       tipo: z.literal("persona"),
       datos: z.object({
-        // dni: z.string(),
         nombres: z
           .string()
           .min(3, "Los nombres deben tener al menos 3 caracteres")
-          .max(100, "Máximo 100 caracteres"),
+          .max(50, "Máximo 100 caracteres"),
         apellidos: z
           .string()
           .min(3, "Los apellidos deben tener al menos 3 caracteres")
@@ -55,7 +56,6 @@ export const updateReservacionSchema = z.object({
     z.object({
       tipo: z.literal("empresa"),
       datos: z.object({
-        // ruc: z.string(),
         nombre: z
           .string()
           .min(3, "El nombre de la empresadebe tener al menos 3 caracteres")

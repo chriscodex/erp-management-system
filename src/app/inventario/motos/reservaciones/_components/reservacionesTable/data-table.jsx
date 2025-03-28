@@ -1,6 +1,12 @@
 'use client';
 
-import {flexRender,getCoreRowModel,useReactTable,getPaginationRowModel,getSortedRowModel,getFilteredRowModel,
+import {
+  flexRender,
+  getCoreRowModel,
+  useReactTable,
+  getPaginationRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
 } from '@tanstack/react-table';
 import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
@@ -15,10 +21,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { serverErrorToast } from '@/components/toast/serverErrorToast';
-
 import { DataTablePagination } from '@/components/ui/table-pagination';
 import { DataTableViewOptions } from '@/components/ui/table-view-options';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTableReservaciones({ columns, data, status = 200 }) {
@@ -26,7 +31,7 @@ export function DataTableReservaciones({ columns, data, status = 200 }) {
 
   /* Sorting */
   const [sorting, setSorting] = useState([]);
-  const [columnFilters, setColumnFilters] = useState([]);
+  const [globalFilter, setGlobalFilter] = useState('');
 
   /* Table */
   const table = useReactTable({
@@ -36,11 +41,25 @@ export function DataTableReservaciones({ columns, data, status = 200 }) {
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
-    onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
     state: {
       sorting,
-      columnFilters,
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: (row, columnId, filterValue) => {
+      // Filtrar por identificador (RUC/DNI) o código
+      const identificador =
+        row.original.cliente?.tipo === 'empresa'
+          ? row.original.cliente?.datos?.ruc
+          : row.original.cliente?.datos?.dni;
+
+      const moto = row.original.moto.nombre;
+
+      return (
+        identificador?.toLowerCase().includes(filterValue.toLowerCase()) ||
+        moto?.toLowerCase().includes(filterValue.toLowerCase())
+      );
     },
   });
 
@@ -48,7 +67,7 @@ export function DataTableReservaciones({ columns, data, status = 200 }) {
   const [searchValue, setSearchValue] = useState('');
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('pagoInicial')?.setFilterValue(value);
+    setGlobalFilter(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
@@ -58,7 +77,7 @@ export function DataTableReservaciones({ columns, data, status = 200 }) {
   // table.getColumn('rol').getIsVisible();
 
   useEffect(() => {
-    if (status !== 200) {
+    if (status === 500) {
       serverErrorToast();
     }
   }, [status]);
@@ -73,14 +92,14 @@ export function DataTableReservaciones({ columns, data, status = 200 }) {
       {/* Input */}
       <div className="flex items-center py-4 w-full">
         <Input
-          placeholder="Buscar por moto"
+          placeholder="Buscar por moto o DNI/RUC del cliente"
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           className="max-w-sm"
         />
         <DataTableViewOptions table={table} />
       </div>
-      <div className="rounded-md border sm:min-h-[528px] min-h-[528px]">
+      <div className="rounded-md border sm:min-h-[528px] min-h-[528px] w-auto">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

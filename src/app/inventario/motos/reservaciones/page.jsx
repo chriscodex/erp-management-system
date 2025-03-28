@@ -2,7 +2,7 @@ import { RiCalendarScheduleLine} from '@remixicon/react';
 import { Plus } from 'lucide-react';
 import Link from 'next/link';
 
-import { sortByUpdateDateDesc } from '@/lib/utils';
+import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -16,7 +16,7 @@ import { getAllReservacionesRequestServer } from '@/app/inventario/motos/reserva
 export default async function ReservacionesPage() {
   const { reservaciones, status } = await getAllReservacionesRequestServer();
 
-  const reservacionesSorted = sortByUpdateDateDesc(reservaciones);
+  // const reservacionesSorted = sortByUpdateDateDesc(reservaciones);
 
   const titles = [
     {
@@ -36,21 +36,24 @@ export default async function ReservacionesPage() {
     },
   ];
 
+  const reservacionesEnumeradas = agregarNumeracionTable(reservaciones);
+  const reservacionesSorted = sortByUpdateDateDesc(reservacionesEnumeradas);
+
   return (
     <>
       <NavbarDynamic titles={titles}>
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <div className="flex items-center gap-2">
+          <CardHeader className="flex sm:flex-row flex-col items-center justify-between space-y-0 pb-2 gap-2 px-2">
+            <div className="flex items-center gap-2 self-start">
               <RiCalendarScheduleLine className="h-9 w-9" />
               <Label className="sm:text-4xl text-xl font-bold">
                 Reservaciones
               </Label>
             </div>
-            <Link href="/inventario/motos/reservaciones/nuevo">
-              <Button variant="default">
+            <Link href="/inventario/motos/reservaciones/nuevo" className='self-end'>
+              <Button variant="default" className="flex h-auto">
                 <Plus />
-                Nueva Reservación
+                Nueva Reservación
               </Button>
             </Link>
           </CardHeader>
