@@ -27,14 +27,13 @@ export function DetailReservacionContent({ reservacionData }) {
   // }, 0);
   return (
     <Card className="w-full max-w-7xl mx-auto">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+      <CardHeader className="flex lg:flex-row flex-col items-center justify-between space-y-0 pb-4">
         <div className="flex items-center gap-2">
           <RiFileListLine className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">
             Detalle de la Reservación
           </Label>
         </div>
-        
         <EmitirConfirmacionReservacionButton reservacionData={reservacionData} />
       </CardHeader>
 

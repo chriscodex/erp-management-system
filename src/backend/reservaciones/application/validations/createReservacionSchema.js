@@ -27,12 +27,7 @@ export const createReservacionSchema = z.object({
     ),
   comentario: z
     .string()
-    .min(3, {
-      message: "El comentario debe de tener al menos 3 caracteres",
-    })
-    .max(250, {
-      message: "El comentario no debe tener más de 250 caracteres",
-    }),
+    .optional(),
   cliente: z.discriminatedUnion("tipo", [
     z.object({
       tipo: z.literal("persona"),
