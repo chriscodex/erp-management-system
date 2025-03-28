@@ -16,6 +16,8 @@ export default async function MarcasPage() {
 
   const marcasSorted = sortByUpdateDateDesc(marcas);
 
+  console.log(marcasSorted);
+
   /* Secciones del navbar */
   const navbarTitles = [
     {

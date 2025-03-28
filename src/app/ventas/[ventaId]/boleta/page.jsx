@@ -6,9 +6,11 @@ import {
   getCounterBoletaRequestServer,
 } from '@/app/ventas/_services/requests';
 import { DetailBoletaContent } from '@/app/ventas/[ventaId]/boleta/_components/detailBoletaContent';
+import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
 
 export default async function Page({ params }) {
   const { venta } = await getVentaRequestServer(params.ventaId);
+  const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
   const { counterBoleta } = await getCounterBoletaRequestServer();
 
   if (!venta) {
@@ -40,7 +42,11 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailBoletaContent ventaData={venta} counterBoleta={counterBoleta} />
+      <DetailBoletaContent
+        ventaData={venta}
+        counterBoleta={counterBoleta}
+        empresas={empresas}
+      />
     </NavbarDynamic>
   );
 }

@@ -10,15 +10,13 @@ import {
 } from '@react-pdf/renderer';
 
 import { stylesBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/stylesBoleta.js';
-import { formatDateLong } from '@/lib/formateador';
+import { formatDateLong, formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesBoleta);
 
 export function PdfBoleta({ ventaData, counterBoleta }) {
-  console.log('ventaData', ventaData);
-  console.log('counterBoleta', counterBoleta);
   const currentTime = formatDateLong(new Date().toISOString());
-
+  const codigoBoleta = formatearCodigoCounterBoletaFactura(counterBoleta);
   return (
     <Document>
       <Page size="A4">
@@ -34,7 +32,7 @@ export function PdfBoleta({ ventaData, counterBoleta }) {
           <View>
             <Text>RUC N° 20606404124</Text>
             <Text>Boleta de Venta Electrónica</Text>
-            <Text>B</Text>
+            <Text>Boleta N° {codigoBoleta}</Text>
           </View>
         </View>
         <View style={styles.datosCliente}>
@@ -51,7 +49,7 @@ export function PdfBoleta({ ventaData, counterBoleta }) {
         </View>
         <View style={styles.container}>
           <Text style={styles.boletaTitle}>
-            Boleta N° {counterBoleta}
+            Boleta N° {codigoBoleta}
           </Text>
           <Text style={styles.fechaEmision}>Fecha Emisión: {currentTime}</Text>
         </View>
