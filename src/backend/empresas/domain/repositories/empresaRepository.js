@@ -41,7 +41,7 @@ export class EmpresaRepository {
           filter.ruc = empresaData.ruc;
         }
   
-        const empresaFound = await Empresa.findOne(filter).select('-password');
+        const empresaFound = await Empresa.findOne(filter);
   
         if (!empresaFound) {
           console.log('Empresa Repository: Empresa no encontrada');

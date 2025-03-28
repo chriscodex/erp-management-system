@@ -31,10 +31,10 @@ import { createEmpresaRequestClient } from '@/app/empresas/nuevo/_services/reque
 
 export function CreateFormEmpresa() {
   const router = useRouter();
+
   const form = useForm({
     resolver: zodResolver(createEmpresaSchema),
     defaultValues: {
-      segmentId: '',
       nombre: '',
       descripcion: '',
     },

@@ -88,7 +88,6 @@ export class EmpresaService {
       // Crear el objeto de empresa
       const empresaObject = {
         ...empresa,
-        estado: 'activo',
       };
 
       // Crear la empresa

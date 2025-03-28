@@ -34,6 +34,7 @@ import {
 
 import { usePathname } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { RiCalendarScheduleLine } from '@remixicon/react';
 
 // This is sample data.
 const adminData = {
@@ -80,6 +81,11 @@ const adminData = {
               title: 'Todas',
               url: '/inventario/motos/todas',
               icon: RiRidingLine,
+            },
+            {
+              title: 'Reservaciones',
+              url: '/inventario/motos/reservaciones',
+              icon: RiCalendarScheduleLine,
             },
           ],
           icon: RiMotorbikeLine,
