@@ -6,6 +6,11 @@ export const createUserClientUrl = '/api/users';
 export const updateUserClientUrl = '/api/users';
 export const deleteUserClientUrl = '/api/users';
 
+/* Empresas */
+export const createEmpresaClientUrl = '/api/empresas';
+export const updateEmpresaClientUrl = '/api/empresas';
+export const deleteEmpresaClientUrl = '/api/empresas';
+
 /* Categories */
 export const createCategoryClientUrl = '/api/categories';
 export const updateCategoryClientUrl = '/api/categories';
@@ -56,3 +61,22 @@ export const updateAlmacenClientUrl = '/api/almacenes';
 export const createProveedorClientUrl = '/api/proveedores';
 export const deleteProveedorClientUrl = '/api/proveedores';
 export const updateProveedorClientUrl = '/api/proveedores';
+
+/* Preventas */
+export const getProductByCodeClientUrl = '/api/products';
+export const getMotoByCodeClientUrl = '/api/motos';
+export const createPreventaClientUrl = '/api/preventas';
+export const deletePreventaClientUrl = '/api/preventas';
+export const updatePreventaClientUrl = '/api/preventas';
+
+/* Clientes */
+export const searchClienteClientUrl = '/api/clientes';
+export const getClientByDniOrRucClientUrl = '/api/clientes';
+export const createClienteClientUrl = '/api/clientes';
+
+/* Ventas */
+export const createVentaClientUrl = '/api/ventas';
+export const deleteVentaClientUrl = '/api/ventas';
+
+/* Boleta */
+export const getCurrentCounterBoletaClientUrl = '/api/counters';

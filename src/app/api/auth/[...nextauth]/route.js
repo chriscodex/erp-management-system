@@ -56,9 +56,18 @@ const authOptions = {
       if (!userExists) {
         throw new Error('Usuario invalidado.');
       }
+
+      // Verificar si el token ha expirado
+      const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
+      if (token.exp && token.exp < currentTime) {
+        throw new Error('Token expirado, inicie sesión nuevamente.');
+      }
+
       delete token?.user?.password;
       session.user = token?.user;
-      // console.log(session);
+      if (!session?.user) {
+        throw new Error('No se ha encontrado un usuario');
+      }
       return session;
     },
   },
@@ -68,6 +77,7 @@ const authOptions = {
   session: {
     strategy: 'jwt',
     maxAge: 60 * 60 * 24 * 7,
+    updateAge: 60 * 60 * 24, // Refrescar cada 24 horas
   },
 };
 

@@ -37,6 +37,7 @@ const productSchema = new Schema(
         code: {
           type: String,
           required: true,
+          index: true,
         },
         estado: {
           type: String,

@@ -42,6 +42,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, 'Password is required'],
     },
+    fechaIngreso: {
+      type: Date,
+      required: [true, 'Fecha is required'],
+    },
   },
   {
     timestamps: true,

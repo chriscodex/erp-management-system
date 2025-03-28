@@ -63,6 +63,10 @@ export class UsersService {
   }
   async createUser(user) {
     try {
+
+      // if (typeof user.fechaIngreso === "string") {
+      //   user.fechaIngreso = new Date(user.fechaIngreso);
+      // }
       // Validar los datos del usuario enviado con el schema
       const userValidated = createUserSchema.safeParse(user);
 

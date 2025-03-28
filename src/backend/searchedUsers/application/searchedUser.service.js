@@ -10,7 +10,7 @@ export class SearchedUserService {
   async getSearchedUser(dni) {
     try {
       const searchedUserFound =
-        await this.searchedUserRepository.getSearchedUserFromDatabase(dni);
+        await this.searchedUserRepository.getSearchedUserFromDatabaseByDni(dni);
 
       if (searchedUserFound) {
         const searchedUserFoundFormated = {
@@ -35,7 +35,7 @@ export class SearchedUserService {
       }
 
       const searchedUserCreated =
-        await this.searchedUserRepository.createSearchedUser(
+        await this.searchedUserRepository.createSearchedUserByDni(
           dni,
           MayusculasATitulo(
             `${userFromExternalApi.payload.apellidoPaterno} ${userFromExternalApi.payload.apellidoMaterno}`

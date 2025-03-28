@@ -151,8 +151,8 @@ export class ProductRepository {
         );
       }
 
-      if (productData.code) {
-        filter.code = { $regex: new RegExp(`^${productData.code}$`, 'i') };
+      if (productData.unitCode) {
+        filter['unidades.code'] = productData.unitCode;
       }
 
       if (productData.nombre) {
@@ -161,6 +161,12 @@ export class ProductRepository {
 
       if (productData.importado) {
         filter.importado = productData.importado;
+      }
+
+      if (productData.obsequio) {
+        filter.obsequio = {
+          $regex: new RegExp(`^${productData.obsequio}$`, 'i'),
+        };
       }
 
       const productFound = await this.productModel

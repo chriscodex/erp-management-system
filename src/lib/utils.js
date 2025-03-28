@@ -19,6 +19,14 @@ export async function delay() {
   }
 }
 
+export function formatMoney(amount) {
+  if (typeof amount !== 'number') {
+    return null;
+  }
+
+  return amount.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
 export function sortByUpdateDateDesc(list) {
   if (!Array.isArray(list)) return [];
   const listSorted = list?.sort(
@@ -36,6 +44,7 @@ export function sortByUpdateDateAsc(list) {
 }
 
 export function agregarNumeracionTable(array) {
+  if (!Array.isArray(array)) return [];
   return array.map((item, index) => ({
     ...item,
     numeracion: index + 1,
@@ -93,6 +102,13 @@ export function generarNumeroAleatorioSeisDigitos() {
   return Math.floor(100000 + Math.random() * 900000);
 }
 
+/**
+ * Genera un número aleatorio de la cantidad de dígitos especificada.
+ *
+ * @param {number} cantidadDigitos - La cantidad de dígitos del número aleatorio a generar.
+ * @returns {number} - El número aleatorio generado.
+ * @throws {Error} - Si la cantidad de dígitos es menor a 1.
+ */
 export function generarNumeroAleatorio(cantidadDigitos) {
   if (cantidadDigitos < 1) {
     throw new Error('La cantidad de dígitos debe ser mayor o igual a 1');

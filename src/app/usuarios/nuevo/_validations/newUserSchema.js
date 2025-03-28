@@ -37,7 +37,16 @@ export const newUserSchema = z.object({
   confirmPassword: z.string().min(3, {
     message: 'Confirmar contraseña debe tener al menos 3 caracteres',
   }),
-}).refine((data) => data.password === data.confirmPassword, {
-  message: 'Las contraseñas no coinciden',
-  path: ['confirmPassword'],
+  fechaIngreso: z
+    .union([z.date(), z.string()]) // Acepta tanto Date como string
+    .transform((val) => (typeof val === "string" ? new Date(val) : val)) // Convierte string a Date
+    .refine((date) => {
+      const inputDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const today = new Date();
+      const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      return inputDate <= todayDate;
+    }, { message: "La fecha debe ser anterior o igual a la fecha actual" }),
+ }).refine((data) => data.password === data.confirmPassword, {
+   message: 'Las contraseñas no coinciden',
+   path: ['confirmPassword'],
 });

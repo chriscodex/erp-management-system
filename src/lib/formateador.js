@@ -94,3 +94,42 @@ export function formatDateFull(date, hour = true) {
   });
   return hour ? `${formattedDate} - ${formatHour(date)}` : formattedDate;
 }
+
+/**
+ * Formatea un número para generar códigos para los contadores de boletas y facturas.
+ * El código resultante tendrá el formato BXXX-00000000 donde:
+ * - BXXX es el prefijo que se incrementa cuando el número supera 99999999
+ * - 00000000 es el número formateado con 8 dígitos
+ * 
+ * @param {number} numero - El número a formatear
+ * @returns {string} - El código formateado con el prefijo B y 8 dígitos
+ * @throws {Error} - Si el número es negativo
+ */
+export function formatearCodigoCounterBoletaFactura(numero) {
+  // Validar que el número sea positivo
+  if (numero < 0) {
+    throw new Error('El número debe ser positivo');
+  }
+
+  // Calcular el prefijo y el número a mostrar
+  const MAX_NUMERO = 99999999;
+  let prefijo;
+  let numeroAmostrar;
+
+  if (numero <= MAX_NUMERO) {
+    prefijo = 'B001';
+    numeroAmostrar = numero;
+  } else {
+    // Calcular cuántas veces supera el máximo
+    const vecesSuperado = Math.floor(numero / (MAX_NUMERO + 1));
+    prefijo = `B${String(vecesSuperado + 1).padStart(3, '0')}`;
+    // Calcular el número a mostrar (resto de la división)
+    numeroAmostrar = numero - (MAX_NUMERO + 1) * vecesSuperado;
+  }
+
+  // Formatear el número con 8 dígitos
+  const numeroFinal = String(numeroAmostrar).padStart(8, '0');
+
+  // Combinar el prefijo con el número formateado
+  return `${prefijo}-${numeroFinal}`;
+}

@@ -3,9 +3,29 @@ import { connectDB } from '@/db/mongodb';
 
 const productService = new ProductService();
 
-export async function getProductsController() {
+export async function getProductsController(request) {
   try {
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const productUnitCode = searchParams.get('unit-code');
+    const obsequioCode = searchParams.get('obsequio-code');
+
     await connectDB();
+
+    if (obsequioCode !== null) {
+      const product = await productService.getProductByData({
+        unitCode: obsequioCode,
+        obsequio: 'si',
+      });
+      return product;
+    }
+
+    if (productUnitCode !== null) {
+      const product = await productService.getProductByData({
+        unitCode: productUnitCode,
+      });
+      return product;
+    }
     const products = await productService.getAllProducts();
     return products;
   } catch (error) {

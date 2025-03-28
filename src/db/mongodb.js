@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+import { CounterRepository } from '@/backend/counters/domain/repositories/counterRepository';
+
 export const connectDB = async () => {
   try {
     const { MONGODB_URI } = process.env;
@@ -13,6 +15,9 @@ export const connectDB = async () => {
     });
     if (connection.readyState === 1) {
       console.log('MongoDB connected');
+      // Inicializar la colección de contadores si no existe
+      const counterRepository = new CounterRepository();
+      await counterRepository.initializeCounters();
       return true;
     }
   } catch (error) {

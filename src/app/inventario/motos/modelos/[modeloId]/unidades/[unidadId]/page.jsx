@@ -15,9 +15,11 @@ import Link from 'next/link';
 import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
 import { notFound } from 'next/navigation';
 import { DetailButtons } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_components/detailButtons';
+import { RiExternalLinkLine } from '@remixicon/react';
 
 export default async function MotoDetailPage({ params }) {
   const { moto } = await getMotoByIdRequestServer(params.unidadId);
+  console.log(moto);
 
   if (!moto) {
     notFound();
@@ -227,6 +229,7 @@ export default async function MotoDetailPage({ params }) {
                   <Button className="flex items-center">
                     <TrendingUp className="mr-2" />
                     Ver Gastos
+                    <RiExternalLinkLine />
                   </Button>
                 </Link>
               </CardContent>
