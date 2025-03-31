@@ -25,6 +25,7 @@ export async function getVentaRequestServer(ventaId) {
   }
 }
 
+
 export async function getCounterBoletaRequestServer() {
   try {
     await connectDB();

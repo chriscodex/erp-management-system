@@ -1,30 +1,19 @@
 import { User, Hash } from 'lucide-react';
 import { RiFileListLine, RiMotorbikeFill } from '@remixicon/react';
 
-// import { Badge } from '@/components/ui/badge';
+
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-// import {
-//   Table,
-//   TableBody,
-//   TableCell,
-//   TableHead,
-//   TableHeader,
-//   TableRow,
-// } from '@/components/ui/table';
+
 import { formatDateLong } from '@/lib/formateador';
 import { Label } from '@/components/ui/label';
 
-// import { DetailProductPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet';
 import { DetailReservacionButtons } from '@/app/inventario/motos/reservaciones/[id]/_components/buttons/DetailReservacionButtons';
 import { EmitirConfirmacionReservacionButton } from '@/app/inventario/motos/reservaciones/[id]/_components/buttons/EmitirConfirmacionReservacion';
 
-// import { GenerarVentaButton } from '@/app/ventas/preventas/[preventaId]/_components/buttons/generarVentaButton';
-// import { formatMoney } from '@/lib/utils';
+
 
 export function DetailReservacionContent({ reservacionData }) {
-  // const precioTotal = reservacionData?.productos?.reduce((acc, product) => {
-  //   return acc + product.precioVenta;
-  // }, 0);
+
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex lg:flex-row flex-col items-center justify-between space-y-0 pb-4">

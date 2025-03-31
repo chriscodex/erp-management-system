@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const updateReservacionSchema = z.object({
-  
   pagoInicial: z
     .union([z.number(), z.string()])
     .refine((pago) => pago > 0, { message: "El monto debe ser mayor a 0" }),

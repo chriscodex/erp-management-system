@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const createReservacionSchema = z.object({
-
   identificador: z.string().min(8, "El identificador debe de tener al menos 8 caracteres"),
   pagoInicial: z
     .string()

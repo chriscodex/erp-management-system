@@ -1,7 +1,6 @@
 import { z } from "zod";
 
 export const createReservacionSchema = z.object({
-  
   pagoInicial: z
     .number()
     .refine((pago) => pago > 0, { message: "El monto debe ser mayor a 0" }),
@@ -25,9 +24,7 @@ export const createReservacionSchema = z.object({
       },
       { message: "La fecha debe ser posterior a la fecha actual" }
     ),
-  comentario: z
-    .string()
-    .optional(),
+  comentario: z.string().optional(),
   cliente: z.discriminatedUnion("tipo", [
     z.object({
       tipo: z.literal("persona"),
@@ -41,10 +38,11 @@ export const createReservacionSchema = z.object({
           .string()
           .min(3, "Los apellidos deben tener al menos 3 caracteres")
           .max(250, "Máximo 250 caracteres"),
-        celular: z
+        celular: z.string().optional(),
+        email: z
           .string()
+          .email({ message: "Ingrese un correo válido" })
           .optional(),
-        email: z.string().email({ message: "Ingrese un correo válido" }).optional(),
       }),
     }),
     z.object({
@@ -55,10 +53,11 @@ export const createReservacionSchema = z.object({
           .string()
           .min(3, "El nombre de la empresadebe tener al menos 3 caracteres")
           .max(100, "Máximo 100 caracteres"),
-        celular: z
+        celular: z.string().optional(),
+        email: z
           .string()
+          .email({ message: "Ingrese un correo válido" })
           .optional(),
-        email: z.string().email({ message: "Ingrese un correo válido" }).optional(),
       }),
     }),
   ]),

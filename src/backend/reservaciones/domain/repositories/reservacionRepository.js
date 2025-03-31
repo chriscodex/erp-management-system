@@ -71,12 +71,6 @@ export class ReservacionRepository {
       throw new Error(`Error al crear reservación: ${error.message}`);
     }
   }
-
-
-
-
-
-
   async updateReservacion(reservacionId, reservacion) {
     try {
       const updatedReservacion = await Reservacion.findOneAndUpdate(

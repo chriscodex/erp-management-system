@@ -1,8 +1,8 @@
 import { ReservacionService } from '@/backend/reservaciones/application/reservacion.service';
 import { connectDB } from '@/db/mongodb';
-import { deleteData } from '@/lib/fetchData';
-import { delay, simplificadorParaClientComponent } from '@/lib/utils';
-import { deleteReservacionClientUrl } from '@/lib/urls';
+// import { deleteData } from '@/lib/fetchData';
+import { simplificadorParaClientComponent } from '@/lib/utils';
+// import { deleteReservacionClientUrl } from '@/lib/urls';
 
 export async function getReservacionRequestServer(reservacionId) {
   try {
@@ -49,28 +49,23 @@ export async function getAllReservacionesRequestServer() {
   }
 }
 
-// export async function deleteReservacionRequestClient(reservacionId) {
-//   /* eslint-disable */
-//   return new Promise(async (resolve, reject) => {
-//     /* eslint-enable */
-//     try {
-//       // Simular tiempo de retraso
-//       await delay();
+// export async function getCounterBoletaRequestServer() {
+//   try {
+//     await connectDB();
+//     const ventaService = new VentaService();
 
-//       const url = `${deleteReservacionClientUrl}/${reservacionId}`;
+//     const response = await ventaService.getCounterBoleta();
 
-//       // Obtener los datos de la persona
-//       const response = await deleteData(url);
-//       if (response?.status !== 204) {
-//         reject(
-//           'No se pudo eliminar la reservacion: ' + response.response?.data?.error
-//         );
-//         return;
-//       }
-
-//       resolve(response?.response?.data?.payload);
-//     } catch (error) {
-//       reject(error);
+//     if (response?.status !== 200) {
+//       console.log('Error al obtener el contador de boleta');
+//       return { counterBoleta: 0, status: response?.status };
 //     }
-//   });
+//     const counterBoleta = response?.payload;
+//     return {
+//       counterBoleta: counterBoleta,
+//       status: 200,
+//     };
+//   } catch (error) {
+//     console.log(error);
+//   }
 // }
