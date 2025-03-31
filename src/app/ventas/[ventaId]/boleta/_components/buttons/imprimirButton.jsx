@@ -11,7 +11,7 @@ import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/boleta/_components/empresasSelect';
 
 export function ImprimirBoletaButton({ ventaData, empresas }) {
-  const [selectedEmpresa, setSelectedEmpresa] = useState(null);
+  const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
   const [loading, setLoading] = useState(false);
 
   const handleDownloadPDF = async () => {
@@ -22,7 +22,11 @@ export function ImprimirBoletaButton({ ventaData, empresas }) {
       const codigoBoleta = formatearCodigoCounterBoletaFactura(counterBoleta);
 
       const doc = (
-        <PdfBoleta ventaData={ventaData} counterBoleta={counterBoleta} />
+        <PdfBoleta
+          ventaData={ventaData}
+          counterBoleta={counterBoleta}
+          selectedEmpresa={selectedEmpresa}
+        />
       );
       const blob = await pdf(doc).toBlob();
 

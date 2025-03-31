@@ -15,10 +15,11 @@ export function EmpresasSelect({
   setSelectedEmpresa,
 }) {
   useEffect(() => {
-    if (!selectedEmpresa && empresas?.length > 0) {
-      setSelectedEmpresa(empresas[0]._id);
+    if (Object.keys(selectedEmpresa).length !== 0 && empresas?.length > 0) {
+      setSelectedEmpresa(empresas[0]);
     }
-  }, [empresas, selectedEmpresa, setSelectedEmpresa]);
+  }, [empresas, setSelectedEmpresa]);
+
   return (
     <div className="flex items-center gap-2">
       <p className="text-sm font-bold">Empresa:</p>
@@ -32,7 +33,7 @@ export function EmpresasSelect({
           </SelectTrigger>
           <SelectContent>
             {empresas?.map((empresa) => (
-              <SelectItem key={empresa?._id} value={empresa?._id}>
+              <SelectItem key={empresa?._id} value={empresa}>
                 {empresa?.nombre}
               </SelectItem>
             ))}
