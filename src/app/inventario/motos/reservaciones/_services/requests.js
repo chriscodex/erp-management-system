@@ -1,8 +1,6 @@
 import { ReservacionService } from '@/backend/reservaciones/application/reservacion.service';
 import { connectDB } from '@/db/mongodb';
-// import { deleteData } from '@/lib/fetchData';
 import { simplificadorParaClientComponent } from '@/lib/utils';
-// import { deleteReservacionClientUrl } from '@/lib/urls';
 
 export async function getReservacionRequestServer(reservacionId) {
   try {
