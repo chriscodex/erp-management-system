@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { getVentaRequestServer } from '@/app/ventas/_services/requests';
-import { DetailFacturaContent } from '@/app/ventas/[ventaId]/factura/_componets/detailFacturaContent';
+import { DetailFacturaContent } from '@/app/ventas/[ventaId]/factura/_components/detailFacturaContent';
 
 export default async function Page({ params }) {
   const { venta } = await getVentaRequestServer(params.ventaId);
