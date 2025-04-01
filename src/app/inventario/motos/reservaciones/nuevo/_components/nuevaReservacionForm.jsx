@@ -80,6 +80,8 @@ export function NuevaReservacionForm() {
 
       identificador: "",
 
+      codigo: "",
+      
       pagoInicial: "",
       fechaLimite: new Date(),
       comentario: "",

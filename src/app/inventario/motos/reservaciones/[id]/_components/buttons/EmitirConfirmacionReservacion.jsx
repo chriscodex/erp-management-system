@@ -26,7 +26,7 @@ export function EmitirConfirmacionReservacionButton({ reservacionData }) {
           variant="default"
           className="px-2"
           onClick={() =>
-            router.push(`/reservaciones/${reservacionData?._id}/confirmacion`)
+            router.push(`/inventario/motos/reservaciones/${reservacionData?._id}/boleta`)
           }
         >
           <RiFileList2Fill className="h-4 w-4" />

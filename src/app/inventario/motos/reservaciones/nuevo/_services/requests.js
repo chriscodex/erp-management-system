@@ -4,7 +4,7 @@ import {
   createReservacionClientUrl,
   searchClienteClientUrl,
 } from '@/lib/urls';
-import { delay } from '@/lib/utils';
+import { delay} from '@/lib/utils';
 
 export function searchClientePorDniOrRucClientRequest(
   identificador,
@@ -56,6 +56,7 @@ export function searchClientePorDniOrRucClientRequest(
   });
 }
 
+
 export async function createReservacionRequestClient(reservacionData, setLoading) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
@@ -104,8 +105,6 @@ export async function createReservacionRequestClient(reservacionData, setLoading
           datos: clienteData,
         }
       };
-
-      console.log('Lo que queremos ver jejeje', reservacionObject);
   
       const response = await postData(createReservacionClientUrl, reservacionObject);
       if (response?.status !== 201) {

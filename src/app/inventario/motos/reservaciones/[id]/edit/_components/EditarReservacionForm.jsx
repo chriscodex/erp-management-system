@@ -69,8 +69,6 @@ import { updateReservacionRequestClient } from "../_services/requests";
 
 export function EditarReservacionForm({ reservacionData }) {
 
-  console.log("DATITOS", reservacionData);
-
   const router = useRouter();
 
   
@@ -190,7 +188,7 @@ export function EditarReservacionForm({ reservacionData }) {
 
     console.log("Objeto que se manda para actualizar: /n", updateObject);
 
-    delete updateObject.createdAt;
+    // delete updateObject.createdAt;
     delete updateObject.updatedAt;
 
     // Toast promise para buscar una persona

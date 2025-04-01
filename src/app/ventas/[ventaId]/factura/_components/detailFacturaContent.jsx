@@ -13,7 +13,8 @@ import {
 import { formatDateLong } from '@/lib/formateador';
 import { Label } from '@/components/ui/label';
 
-import { DetailBoletaButtons } from '@/app/ventas/[ventaId]/boleta/_components/buttons/detailBoletaButtons';
+import { DetailFacturaButtons } from '@/app/ventas/[ventaId]/factura/_components/buttons/detailFacturaButtons';
+import { ImprimirFacturaButton } from '@/app/ventas/[ventaId]/factura/_components/buttons/imprimirButton';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 
@@ -27,10 +28,7 @@ export function DetailFacturaContent({ ventaData }) {
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Factura</Label>
         </div>
-        <Button variant="default" className="flex items-center gap-2 ">
-          <RiPrinterFill className="h-4 w-4" />
-          <p>Imprimir</p>
-        </Button>
+        <ImprimirFacturaButton ventaData={ventaData}/>
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -215,7 +213,7 @@ export function DetailFacturaContent({ ventaData }) {
           </CardContent>
         </Card>
         <div className="mt-4">
-          <DetailBoletaButtons ventaId={ventaData._id} />
+          <DetailFacturaButtons ventaId={ventaData._id} ventaData={ventaData} counterFactura={2000}/>
         </div>
       </CardContent>
     </Card>
