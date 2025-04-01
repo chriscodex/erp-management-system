@@ -15,7 +15,6 @@ export function DetailFacturaButtons({ ventaId, ventaData, counterFactura }) {
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
   useEffect(() => {
-    // Fuerza la actualización de los datos cada vez que se accede a la página
     router.refresh();
   }, [router]);
 
