@@ -17,9 +17,7 @@ import { Separator } from '@/components/ui/separator';
 import { DetailBoletaButtons } from '@/app/ventas/[ventaId]/boleta/_components/buttons/detailBoletaButtons';
 import { ImprimirBoletaButton } from '@/app/ventas/[ventaId]/boleta/_components/buttons/imprimirButton';
 
-export function DetailBoletaContent({ ventaData, counterBoleta }) {
-  console.log('ventaData', ventaData);
-
+export function DetailBoletaContent({ ventaData, empresas }) {
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
@@ -27,7 +25,10 @@ export function DetailBoletaContent({ ventaData, counterBoleta }) {
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Boleta</Label>
         </div>
-        <ImprimirBoletaButton ventaData={ventaData} counterBoleta={counterBoleta} />
+        <ImprimirBoletaButton
+          ventaData={ventaData}
+          empresas={empresas}
+        />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -146,25 +147,25 @@ export function DetailBoletaContent({ ventaData, counterBoleta }) {
             <Separator className="my-4" />
             <div className="text-right">
               <strong>Subtotal:</strong> S/.
-              {0.82 *
-                ventaData?.productos
-                  .reduce(
-                    (acc, producto) =>
-                      acc + producto?.precioVenta * producto?.cantidad,
-                    0
-                  )
-                  .toFixed(2)}
+              {(
+                0.82 *
+                ventaData?.productos.reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+              ).toFixed(2)}
             </div>
             <div className="mt-2 text-right">
               <strong>IGV:</strong> S/.
-              {0.18 *
-                ventaData?.productos
-                  .reduce(
-                    (acc, producto) =>
-                      acc + producto?.precioVenta * producto?.cantidad,
-                    0
-                  )
-                  .toFixed(2)}
+              {(
+                0.18 *
+                ventaData?.productos.reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+              ).toFixed(2)}
             </div>
             <div className="mt-2 text-right">
               <strong>Total a Pagar:</strong> S/.
@@ -212,7 +213,10 @@ export function DetailBoletaContent({ ventaData, counterBoleta }) {
           </CardContent>
         </Card>
         <div className="mt-4">
-          <DetailBoletaButtons ventaId={ventaData._id} ventaData={ventaData} counterBoleta={counterBoleta} />
+          <DetailBoletaButtons
+            ventaId={ventaData._id}
+            ventaData={ventaData}
+          />
         </div>
       </CardContent>
     </Card>

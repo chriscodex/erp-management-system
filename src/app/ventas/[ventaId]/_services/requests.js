@@ -1,6 +1,8 @@
+import { EmpresaService } from '@/backend/empresas/application/empresa.service';
+import { connectDB } from '@/db/mongodb';
 import { deleteData } from '@/lib/fetchData';
 import { deleteVentaClientUrl } from '@/lib/urls';
-import { delay } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 export async function deleteVentaRequestClient(ventaId) {
   /* eslint-disable */
@@ -26,4 +28,26 @@ export async function deleteVentaRequestClient(ventaId) {
       reject(error);
     }
   });
+}
+
+export async function getAllEmpresasForComprobanteVentaRequestServer() {
+  try {
+    await connectDB();
+    const empresaService = new EmpresaService();
+
+    const response = await empresaService.getAllEmpresas();
+
+    if (response?.status !== 200) {
+      console.log('Error al obtener todas las empresas');
+      return { empresas: [], status: 500 };
+    }
+    const empresas = response?.payload;
+
+    return {
+      empresas: simplificadorParaClientComponent(empresas),
+      status: 200,
+    };
+  } catch (error) {
+    console.error(error);
+  }
 }
