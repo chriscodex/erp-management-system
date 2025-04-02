@@ -7,6 +7,8 @@ import { DetailVentaContent } from './_components/detailVentaContent';
 export default async function Page({ params }) {
   const { venta } = await getVentaRequestServer(params.ventaId);
 
+  //Lorem ipsum
+
   if (!venta) {
     notFound();
   }
