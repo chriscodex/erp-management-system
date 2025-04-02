@@ -15,6 +15,8 @@ export default async function Page() {
 
   const usersSorted = sortByUpdateDateDesc(users);
 
+  // Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quos.
+
   return (
     <>
       <NavbarSimple title="Usuarios">
