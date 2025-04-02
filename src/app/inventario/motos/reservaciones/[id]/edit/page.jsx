@@ -1,0 +1,60 @@
+import { RiEditFill } from '@remixicon/react';
+
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+
+import { getReservacionRequestServer } from '@/app/inventario/motos/reservaciones/_services/requests';
+import { EditarReservacionForm } from '@/app/inventario/motos/reservaciones/[id]/edit/_components/EditarReservacionForm';
+
+export default async function EditarReservacionPage({ params }) {
+
+  const { reservacion } = await getReservacionRequestServer(params.id);
+
+  // console.log("Reservación en la página principal de edit", reservacion)
+
+  // console.log("params", params)
+  
+
+  const titles = [
+    {
+      title: 'Inventario',
+      href: '',
+      active: false,
+    },
+    {
+      title: 'Motos',
+      href: '',
+      active: false,
+    },
+    {
+        title: 'Reservaciones',
+        href: '/inventario/motos/reservaciones',
+        active: true,
+      },
+    {
+      title: reservacion.moto.nombre,
+      href: `/inventario/motos/reservaciones/${params.id}`,
+      active: true,
+    },
+    {
+      title: 'Editar',
+      href: '',
+      active: false,
+    },
+  ];
+  return (
+    <NavbarDynamic titles={titles}>
+      <Card className="w-full max-w-7xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl flex items-center gap-2">
+            <RiEditFill className="md:h-7 h-5 md:w-7 w-5" />
+            Editar Reservacion
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <EditarReservacionForm reservacionData={reservacion} />
+        </CardContent>
+      </Card>
+    </NavbarDynamic>
+  );
+}

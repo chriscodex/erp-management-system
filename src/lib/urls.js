@@ -52,6 +52,11 @@ export const createGastoMotoClientUrl = '/api/motos';
 export const deleteGastoMotoClientUrl = '/api/motos';
 export const updateGastoMotoClientUrl = '/api/motos';
 
+/* Reservaciones */
+export const createReservacionClientUrl = '/api/reservaciones';
+export const updateReservacionClientUrl = '/api/reservaciones';
+export const deleteReservacionClientUrl = '/api/reservaciones';
+
 /* Almacen */
 export const createAlmacenClientUrl = '/api/almacenes';
 export const deleteAlmacenClientUrl = '/api/almacenes';
@@ -80,3 +85,6 @@ export const deleteVentaClientUrl = '/api/ventas';
 
 /* Boleta */
 export const getCurrentCounterBoletaClientUrl = '/api/counters';
+
+/*Factura*/
+export const getCurrentCounterFacturaClientUrl = '/api/counters';

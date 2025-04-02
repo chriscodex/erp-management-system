@@ -119,3 +119,13 @@ export function generarNumeroAleatorio(cantidadDigitos) {
 
   return Math.floor(min + Math.random() * (max - min + 1));
 }
+
+export function generateUniqueCode(id){
+  const date = new Date();
+  const year = (date.getFullYear() % 100).toString(); 
+  const month = (date.getMonth() + 1).toString().padStart(2, "0"); 
+  const day = date.getDate().toString().padStart(2, "0"); 
+  const recortedId = id.toString().slice(-6).toUpperCase();
+
+  return `RSV-${year}${month}${day}${recortedId}`	
+}

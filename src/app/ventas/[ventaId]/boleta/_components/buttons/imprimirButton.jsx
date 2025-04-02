@@ -8,10 +8,10 @@ import { Button } from '@/components/ui/button';
 import { PdfBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta';
 import { getCurrentCounterBoletaRequestClient } from '@/app/ventas/[ventaId]/boleta/_services/requests';
 import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
-import { EmpresasSelect } from '@/app/ventas/[ventaId]/boleta/_components/empresasSelect';
+import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
 export function ImprimirBoletaButton({ ventaData, empresas }) {
-  const [selectedEmpresa, setSelectedEmpresa] = useState(null);
+  const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
   const [loading, setLoading] = useState(false);
 
   const handleDownloadPDF = async () => {
@@ -19,10 +19,14 @@ export function ImprimirBoletaButton({ ventaData, empresas }) {
     try {
       const counterBoleta = await getCurrentCounterBoletaRequestClient();
 
-      const codigoBoleta = formatearCodigoCounterBoletaFactura(counterBoleta);
+      const codigoBoleta = formatearCodigoCounterBoletaFactura(counterBoleta, 'boleta');
 
       const doc = (
-        <PdfBoleta ventaData={ventaData} counterBoleta={counterBoleta} />
+        <PdfBoleta
+          ventaData={ventaData}
+          counterBoleta={counterBoleta}
+          selectedEmpresa={selectedEmpresa}
+        />
       );
       const blob = await pdf(doc).toBlob();
 

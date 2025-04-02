@@ -17,7 +17,7 @@ import { Separator } from '@/components/ui/separator';
 import { DetailBoletaButtons } from '@/app/ventas/[ventaId]/boleta/_components/buttons/detailBoletaButtons';
 import { ImprimirBoletaButton } from '@/app/ventas/[ventaId]/boleta/_components/buttons/imprimirButton';
 
-export function DetailBoletaContent({ ventaData, counterBoleta, empresas }) {
+export function DetailBoletaContent({ ventaData, empresas }) {
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
@@ -27,7 +27,6 @@ export function DetailBoletaContent({ ventaData, counterBoleta, empresas }) {
         </div>
         <ImprimirBoletaButton
           ventaData={ventaData}
-          counterBoleta={counterBoleta}
           empresas={empresas}
         />
       </CardHeader>
@@ -217,7 +216,6 @@ export function DetailBoletaContent({ ventaData, counterBoleta, empresas }) {
           <DetailBoletaButtons
             ventaId={ventaData._id}
             ventaData={ventaData}
-            counterBoleta={counterBoleta}
           />
         </div>
       </CardContent>

@@ -153,4 +153,23 @@ export class VentaService {
       };
     }
   }
+
+  async getCounterFactura() {
+    try {
+      const counter = await this.counterRepository.getCounterByType('facturas');
+      return {
+        status: 200,
+        payload: counter,
+      };
+    } catch (error) {
+      console.error(
+        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  
 }

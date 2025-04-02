@@ -10,27 +10,38 @@ import {
 } from '@react-pdf/renderer';
 
 import { stylesBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/stylesBoleta.js';
-import { formatDateLong, formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
+import {
+  formatDateLong,
+  formatearCodigoCounterBoletaFactura,
+} from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesBoleta);
 
-export function PdfBoleta({ ventaData, counterBoleta }) {
+export function PdfBoleta({ ventaData, counterBoleta, selectedEmpresa }) {
   const currentTime = formatDateLong(new Date().toISOString());
+  
   const codigoBoleta = formatearCodigoCounterBoletaFactura(counterBoleta);
+
+  console.log('selectedEmpresa', selectedEmpresa);
+  const empresa = selectedEmpresa || {
+    nombre: 'Moto Rock Ruta 33 E.I.R.L',
+    direccion: 'Av. Las Flores N° 364 Bar. Nicrupampa',
+    telefono: '043-607336',
+    email: 'gerencia@motorock33.com',
+  };
   return (
     <Document>
       <Page size="A4">
-        <View style={styles.header}>
+        <View style={styles?.header}>
           <Image src={'/logoB.jpeg'} style={styles.image} />
           <View>
-            <Text>Moto Rock Ruta 33 E.I.R.L</Text>
-            <Text>Av. Las Flores N° 364 Bar. Nicrupampa</Text>
-            <Text>Ancash - Huaraz - Independencia</Text>
-            <Text>Teléfono: 043-607336</Text>
-            <Text>Email: gerencia@motorock33.com</Text>
+            <Text>{empresa?.nombre}</Text>
+            <Text>{empresa?.direccion}</Text>
+            <Text>Teléfono: {empresa?.telefono}</Text>
+            <Text>Email: {empresa?.email}</Text>
           </View>
           <View>
-            <Text>RUC N° 20606404124</Text>
+            <Text>RUC N° {empresa?.ruc}</Text>
             <Text>Boleta de Venta Electrónica</Text>
             <Text>Boleta N° {codigoBoleta}</Text>
           </View>
@@ -48,9 +59,7 @@ export function PdfBoleta({ ventaData, counterBoleta }) {
           </Text>
         </View>
         <View style={styles.container}>
-          <Text style={styles.boletaTitle}>
-            Boleta N° {codigoBoleta}
-          </Text>
+          <Text style={styles.boletaTitle}>Boleta N° {codigoBoleta}</Text>
           <Text style={styles.fechaEmision}>Fecha Emisión: {currentTime}</Text>
         </View>
         {/* Tabla */}

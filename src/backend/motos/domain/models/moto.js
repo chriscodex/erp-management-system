@@ -92,7 +92,7 @@ const motoSchema = new Schema(
 );
 
 // Index para mejorar búsquedas por nombre y modelo
-motoSchema.index({ code: 1 });
-motoSchema.index({ nombre: 1 });
+// motoSchema.index({ code: 1 });
+// motoSchema.index({ nombre: 1 });
 
 export const Moto = models?.Moto || model('Moto', motoSchema);

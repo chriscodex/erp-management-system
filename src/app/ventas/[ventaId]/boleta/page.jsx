@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import {
   getVentaRequestServer,
-  getCounterBoletaRequestServer,
 } from '@/app/ventas/_services/requests';
 import { DetailBoletaContent } from '@/app/ventas/[ventaId]/boleta/_components/detailBoletaContent';
 import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
@@ -11,7 +10,6 @@ import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ve
 export default async function Page({ params }) {
   const { venta } = await getVentaRequestServer(params.ventaId);
   const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
-  const { counterBoleta } = await getCounterBoletaRequestServer();
 
   if (!venta) {
     notFound();
@@ -44,7 +42,6 @@ export default async function Page({ params }) {
     <NavbarDynamic titles={navbarTitles}>
       <DetailBoletaContent
         ventaData={venta}
-        counterBoleta={counterBoleta}
         empresas={empresas}
       />
     </NavbarDynamic>

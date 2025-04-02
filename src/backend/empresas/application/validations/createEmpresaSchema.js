@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const createEmpresaSchema = z.object({
-  ruc: z.string().length(11, 'El RUC debe tener 11 dígitos'),
+  ruc: z.string().regex(/^\d{11}$/, 'El RUC debe tener 11 dígitos'),
   nombre: z
     .string()
     .min(3, {
