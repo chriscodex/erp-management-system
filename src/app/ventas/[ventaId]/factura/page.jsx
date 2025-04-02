@@ -10,6 +10,7 @@ export default async function Page({ params }) {
   const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
 
   //Lorem ipsum
+  //Lorem ipsum 2
 
   if (!venta) {
     notFound();
