@@ -15,6 +15,8 @@ export default async function Page() {
 
   const usersSorted = sortByUpdateDateDesc(users);
 
+  // COmentario 3
+
   return (
     <>
       <NavbarSimple title="Usuarios">
