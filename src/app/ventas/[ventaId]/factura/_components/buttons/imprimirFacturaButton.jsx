@@ -1,44 +1,45 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { pdf } from '@react-pdf/renderer';
-import { RiPrinterLine } from '@remixicon/react';
+import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { RiPrinterLine } from "@remixicon/react";
 
-import { Button } from '@/components/ui/button';
-import { PdfBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta';
-import { getCurrentCounterBoletaRequestClient } from '@/app/ventas/[ventaId]/boleta/_services/requests';
-import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
+import { Button } from "@/components/ui/button";
+import { PdfFactura } from "@/app/ventas/[ventaId]/factura/_components/pdf/pdfFactura";
+import { getCurrentCounterFacturaRequestClient } from "@/app/ventas/[ventaId]/factura/_services/requests";
+import { formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
-export function ImprimirBoletaButton({ ventaData, empresas }) {
+export function ImprimirFacturaButton({ ventaData, empresas }) {
+
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
+  
   const [loading, setLoading] = useState(false);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
     try {
-      const counterBoleta = await getCurrentCounterBoletaRequestClient();
+      const counterFactura = await getCurrentCounterFacturaRequestClient();
 
-      const codigoBoleta = formatearCodigoCounterBoletaFactura(counterBoleta, 'boleta');
+      const codigoFactura = formatearCodigoCounterBoletaFactura(
+        counterFactura,
+        "factura"
+      );
 
       const doc = (
-        <PdfBoleta
-          ventaData={ventaData}
-          counterBoleta={counterBoleta}
-          selectedEmpresa={selectedEmpresa}
-        />
+        <PdfFactura ventaData={ventaData} counterFactura={counterFactura} empresaSeleccionada={selectedEmpresa}/>
       );
       const blob = await pdf(doc).toBlob();
 
       // Crear un enlace temporal y forzar la descarga
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      link.download = `boleta-${codigoBoleta}.pdf`;
+      link.download = `factura-${codigoFactura}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      console.error('Error al generar el PDF:', error);
+      console.error("Error al generar el PDF:", error);
     }
     setLoading(false);
   };
@@ -50,7 +51,6 @@ export function ImprimirBoletaButton({ ventaData, empresas }) {
         selectedEmpresa={selectedEmpresa}
         setSelectedEmpresa={setSelectedEmpresa}
       />
-
       <Button
         variant="default"
         className="flex items-center gap-2"
@@ -58,7 +58,7 @@ export function ImprimirBoletaButton({ ventaData, empresas }) {
         disabled={loading}
       >
         <RiPrinterLine className="h-4 w-4" />
-        <p>{loading ? 'Generando...' : 'Imprimir'}</p>
+        <p>{loading ? "Generando..." : "Imprimir"}</p>
       </Button>
     </div>
   );

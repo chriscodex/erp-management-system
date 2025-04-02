@@ -19,6 +19,7 @@ const styles = StyleSheet.create(stylesBoleta);
 
 export function PdfBoleta({ ventaData, counterBoleta, selectedEmpresa }) {
   const currentTime = formatDateLong(new Date().toISOString());
+  
   const codigoBoleta = formatearCodigoCounterBoletaFactura(counterBoleta);
 
   console.log('selectedEmpresa', selectedEmpresa);
