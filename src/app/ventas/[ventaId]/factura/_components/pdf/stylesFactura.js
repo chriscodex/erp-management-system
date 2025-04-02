@@ -23,24 +23,17 @@ export const stylesFactura = {
   datosEmpresa: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginLeft: "20px",
-    marginRight: "20px",
+    alignItems: "flex-end",
     marginTop: "5px",
     marginBottom: "5px",
     gap: "5px",
   },
-  
   datosEmpresaTitle: {
     fontSize: 16,
     fontWeight: "bold",
+    marginBottom: "5px",
   },
-  separator: {
-    width: "100%", 
-    height: 1,             
-    backgroundColor: "gray", 
-    marginVertical: 15,   
-    alignSelf: "center",   
-  },
+
   datosEmpresaContacto: {
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -48,39 +41,63 @@ export const stylesFactura = {
     marginBottom: 5,
   },
 
-  container: {
+  datosFactura:{
+    flexDirection: "row",
+    marginBottom: 5,
+  },
+
+  separator: {
+    width: "100%", 
+    height: 1,             
+    backgroundColor: "gray", 
+    marginVertical: 10,   
+    alignSelf: "center",   
+  },
+
+  datosFacturaBold:{
+    fontWeight: "bold",
+  },
+
+  datosCliente: {
+    fontSize: 14,
+    marginTop: '5px',
+    marginBottom: '5px',
+    gap: '5px',
+  },
+  datosClienteName: {
+    marginBottom: '5px',
+  },
+  datosClienteTitle:{
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  datosClienteInfo:{
+    flexDirection: 'row',
+  },
+  datosClienteInfoTitle:{
+    fontWeight: 'bold',
+  },
+  facturaTitleContainer: {
     width: "100%",
     height: "auto",
   },
-  datosCliente: {
-    marginLeft: "20px",
-    marginRight: "20px",
-    marginTop: "5px",
-    marginBottom: "5px",
-    gap: "5px",
-  },
-  boletaTitle: {
+
+  facturaTitle: {
     fontSize: "24px",
     fontWeight: "bold",
     marginTop: 10,
-    marginLeft: 20,
     marginBottom: 10,
     display: "flex",
     flexDirection: "row",
     width: "100%",
     justifyContent: "center",
   },
-  fechaEmision: {
-    fontSize: 14,
-    marginLeft: "20px",
-    marginRight: "20px",
-    marginBottom: "5px",
-  },
+
   table: {
-    width: "93%",
+    width: "100%",
     border: "1px solid black",
-    marginLeft: 20,
-    marginRight: "20px",
+
   },
   tableRow: {
     flexDirection: "row",

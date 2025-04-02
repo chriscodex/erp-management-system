@@ -23,4 +23,4 @@ export async function getCurrentCounterFacturaRequestClient() {
     console.error('Error en getCurrentCounterFacturaRequestClient:', error);
     throw error; // Propagar el error para que el caller lo maneje
   }
-}
+} 

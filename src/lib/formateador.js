@@ -105,7 +105,7 @@ export function formatDateFull(date, hour = true) {
  * @returns {string} - El código formateado con el prefijo B y 8 dígitos
  * @throws {Error} - Si el número es negativo
  */
-export function formatearCodigoCounterBoletaFactura(numero) {
+export function formatearCodigoCounterBoletaFactura(numero, comprobante) {
   // Validar que el número sea positivo
   if (numero < 0) {
     throw new Error('El número debe ser positivo');
@@ -117,12 +117,21 @@ export function formatearCodigoCounterBoletaFactura(numero) {
   let numeroAmostrar;
 
   if (numero <= MAX_NUMERO) {
-    prefijo = 'B001';
+    if(comprobante === 'boleta'){
+      prefijo = 'B001';
+    }else{
+      prefijo = 'F001';
+    }
     numeroAmostrar = numero;
   } else {
     // Calcular cuántas veces supera el máximo
     const vecesSuperado = Math.floor(numero / (MAX_NUMERO + 1));
-    prefijo = `B${String(vecesSuperado + 1).padStart(3, '0')}`;
+    if(comprobante === 'boleta'){
+      prefijo = `B${String(vecesSuperado + 1).padStart(3, '0')}`;
+    }else{
+      prefijo = `F${String(vecesSuperado + 1).padStart(3, '0')}`;
+    }
+    
     // Calcular el número a mostrar (resto de la división)
     numeroAmostrar = numero - (MAX_NUMERO + 1) * vecesSuperado;
   }

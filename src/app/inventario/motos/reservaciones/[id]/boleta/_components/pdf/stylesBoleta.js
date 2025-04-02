@@ -73,7 +73,6 @@ export const stylesBoleta = {
 
 
     datosCliente: {
-      // marginLeft: '20px',
       fontSize: 14,
       marginRight: '20px',
       marginTop: '5px',
@@ -103,7 +102,6 @@ export const stylesBoleta = {
       fontSize: 24,
       fontWeight: 'bold',
       marginTop: 10,
-      // marginLeft: 20,
       marginBottom: 10,
       display: 'flex',
       flexDirection: 'row',
@@ -122,7 +120,6 @@ export const stylesBoleta = {
     table: {
       width: '100%',
       border: '1px solid black',
-      // marginRight: '20px',
       marginBottom: 30,
     },
     tableRow: {
