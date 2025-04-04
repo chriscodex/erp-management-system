@@ -108,6 +108,18 @@ export class VentaService {
     }
   }
 
+  async updateVenta(ventaId, ventaData) {
+    try {
+      const updatedVenta = await this.ventaRepository.updateVenta(ventaId, ventaData);
+      return updatedVenta;
+    } catch (error) {
+      console.error(
+        `Venta Service: Error interno al actualizar la venta: ${error.message}`
+      );
+      throw new Error(`Error al actualizar la venta: ${error.message}`);
+    }
+  }
+
   async deleteVenta(ventaId) {
     try {
       const deletedVenta = await this.ventaRepository.deleteVenta(ventaId);

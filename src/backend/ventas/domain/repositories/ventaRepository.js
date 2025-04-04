@@ -90,6 +90,31 @@ export class VentaRepository {
     }
   }
 
+  async updateVenta(ventaId, ventaData) {
+    try {
+      const updatedVenta = await this.ventaModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(ventaId) },
+        ventaData,
+        { new: true }
+      );
+
+      if (!updatedVenta) {
+        console.log(
+          'Venta Repository: Venta no encontrada para ser actualizada'
+        );
+        return null;
+      }
+
+      console.log('Venta Repository: Venta actualizada correctamente');
+      return updatedVenta;
+    } catch (error) {
+      console.error(
+        `Venta Repository: Error al actualizar la venta: ${error.message}`
+      );
+      throw new Error(`Error al actualizar la venta: ${error.message}`);
+    }
+  }
+
   async deleteVenta(ventaId) {
     try {
       const deletedVenta = await this.ventaModel.findOneAndDelete({
