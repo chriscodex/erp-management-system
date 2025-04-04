@@ -18,6 +18,7 @@ import {
   RiRidingLine,
   RiShoppingBag3Line,
   RiVipDiamondLine,
+  RiBarChartLine,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -135,6 +136,11 @@ const adminData = {
   ],
   navAdministracion: [
     {
+      name: 'Estadísticas',
+      url: '/estadisticas',
+      icon: RiBarChartLine,
+    },
+    {
       name: 'Usuarios',
       url: '/usuarios',
       icon: User2Icon,
@@ -144,6 +150,7 @@ const adminData = {
       url: '/empresas',
       icon: RiBuildingLine,
     },
+    
   ],
 };
 
