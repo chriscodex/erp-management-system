@@ -19,6 +19,7 @@ import {
   RiShoppingBag3Line,
   RiVipDiamondLine,
   RiBarChartLine,
+  RiWallet2Fill,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -121,11 +122,6 @@ const adminData = {
       url: '#',
       icon: RiGroupFill,
       items: [
-        // {
-        //   title: 'Clientes',
-        //   url: '/ventas/motos',
-        //   icon: RiContactsFill,
-        // },
         {
           title: 'Proveedores',
           url: '/contactos/proveedores/',
@@ -139,6 +135,11 @@ const adminData = {
       name: 'Estadísticas',
       url: '/estadisticas',
       icon: RiBarChartLine,
+    },
+    {
+      name: 'Gastos generales',
+      url: '/gastos-generales',
+      icon: RiWallet2Fill,
     },
     {
       name: 'Usuarios',
