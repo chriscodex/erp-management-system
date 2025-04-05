@@ -6,7 +6,10 @@ import { RiPrinterLine } from '@remixicon/react';
 
 import { Button } from '@/components/ui/button';
 import { PdfBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta';
-import { getCurrentCounterBoletaRequestClient } from '@/app/ventas/[ventaId]/boleta/_services/requests';
+import {
+  getCurrentCounterBoletaRequestClient,
+  updateBoletaStateRequestClient,
+} from '@/app/ventas/[ventaId]/boleta/_services/requests';
 import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
@@ -19,7 +22,10 @@ export function ImprimirBoletaButton({ ventaData, empresas }) {
     try {
       const counterBoleta = await getCurrentCounterBoletaRequestClient();
 
-      const codigoBoleta = formatearCodigoCounterBoletaFactura(counterBoleta, 'boleta');
+      const codigoBoleta = formatearCodigoCounterBoletaFactura(
+        counterBoleta,
+        'boleta'
+      );
 
       const doc = (
         <PdfBoleta
@@ -37,6 +43,8 @@ export function ImprimirBoletaButton({ ventaData, empresas }) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      await updateBoletaStateRequestClient(ventaData?._id);
     } catch (error) {
       console.error('Error al generar el PDF:', error);
     }
