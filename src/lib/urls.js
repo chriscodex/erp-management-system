@@ -88,3 +88,8 @@ export const getCurrentCounterBoletaClientUrl = '/api/counters';
 
 /*Factura*/
 export const getCurrentCounterFacturaClientUrl = '/api/counters';
+
+/* Empresas */
+export const createGastoGeneralClientUrl = '/api/gastos-generales';
+export const updateGastoGeneralClientUrl = '/api/gastos-generales';
+export const deleteGastoGeneralClientUrl = '/api/gastos-generales';
