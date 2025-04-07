@@ -1,11 +1,13 @@
 import { PreventaRepository } from '@/backend/preventas/domain/repositories/preventaRepository';
 import { VentaRepository } from '@/backend/ventas/domain/repositories/ventaRepository.js';
 import { CounterRepository } from '@/backend/counters/domain/repositories/counterRepository';
+import { ventasHistoricasRepository } from '@/backend/ventas/domain/repositories/ventasHistoricasRepository';
 
 export class VentaService {
   constructor() {
     this.ventaRepository = new VentaRepository();
     this.preventaRepository = new PreventaRepository();
+    this.ventasHistoricasRepository = new ventasHistoricasRepository();
     this.counterRepository = new CounterRepository();
   }
 
@@ -183,5 +185,51 @@ export class VentaService {
       };
     }
   }
-  
+
+  async finalizarVenta(ventaId) {
+    try {
+      const venta = await this.ventaRepository.getVentaByData({
+        id: ventaId,
+      });
+
+      if (!venta) {
+        console.log('Venta Service: La venta no existe');
+        return {
+          status: 200,
+          payload: 'La venta no existe',
+        };
+      }
+
+      const ventaHistorica = {
+        code: venta.code,
+        fecha: venta.fecha,
+        cliente: venta.cliente,
+        usuario: venta.usuario,
+        productos: venta.productos,
+        obsequios: venta.obsequios,
+        estado: venta.estado,
+      };
+
+      await this.ventasHistoricasRepository.createVentaHistorica(
+        ventaHistorica
+      );
+      console.log('Venta Service: Venta finalizada correctamente');
+
+      await this.ventaRepository.deleteVenta(ventaId);
+      console.log('Venta Service: Venta eliminada correctamente');
+
+      return {
+        status: 200,
+        payload: 'Venta finalizada correctamente',
+      };
+    } catch (error) {
+      console.error(
+        `Venta Service: Error interno al finalizar la venta: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }

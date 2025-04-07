@@ -56,3 +56,21 @@ export async function deleteVentaController(contextRoute) {
     throw new Error('Venta Controller: Error interno al eliminar la venta');
   }
 }
+
+export async function finalizarVentaController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { ventaId } = params;
+
+    await connectDB();
+
+    const finalizadaVenta = await ventaService.finalizarVenta(ventaId);
+    return finalizadaVenta;
+  } catch (error) {
+    console.error(
+      'Venta Controller: Error interno al finalizar la venta:',
+      error.message
+    );
+    throw new Error('Venta Controller: Error interno al finalizar la venta');
+  }
+}
