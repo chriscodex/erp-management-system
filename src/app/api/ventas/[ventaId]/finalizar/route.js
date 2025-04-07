@@ -5,7 +5,7 @@ export async function POST(_, contextRoute) {
   try {
     const { payload, status } = await finalizarVentaController(contextRoute);
 
-    if (status !== 200) {
+    if (status !== 201) {
       return NextResponse.json({ error: payload }, { status });
     }
 

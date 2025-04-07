@@ -112,7 +112,10 @@ export class VentaService {
 
   async updateVenta(ventaId, ventaData) {
     try {
-      const updatedVenta = await this.ventaRepository.updateVenta(ventaId, ventaData);
+      const updatedVenta = await this.ventaRepository.updateVenta(
+        ventaId,
+        ventaData
+      );
       return updatedVenta;
     } catch (error) {
       console.error(
@@ -219,7 +222,7 @@ export class VentaService {
       console.log('Venta Service: Venta eliminada correctamente');
 
       return {
-        status: 200,
+        status: 201,
         payload: 'Venta finalizada correctamente',
       };
     } catch (error) {
