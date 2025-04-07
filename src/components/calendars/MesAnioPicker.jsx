@@ -9,6 +9,7 @@ import { Calendar } from "lucide-react";
 registerLocale("es", es);
 
 function MesAnioPicker({ onChange }) {
+  
   const [fecha, setFecha] = useState(new Date());
 
 

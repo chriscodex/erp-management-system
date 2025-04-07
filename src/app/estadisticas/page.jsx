@@ -3,13 +3,16 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { NavbarSimple } from "@/components/navbar/NavbarSimple";
 import { RiBarChart2Line } from "@remixicon/react";
 
-import IncomeExpenseChart from "@/app/estadisticas/_components/IncomeExpenseChart";
+import IncomeExpenseBarChart from "@/app/estadisticas/_components/IncomeExpenseBarChart";
 import { getAllProductsRequestServer } from "@/app/inventario/productos/_services/requests";
 import { getAllMotosRequestServer } from "../inventario/motos/todas/_services/requests";
+import { getAllGastosGeneralesRequestServer } from "@/app/gastos-generales/_services/requests";
+import { BoletasYFacturasPieChart } from "./_components/BoletasYFacturasPieChart";
 export default async function Page() {
 
   const dataProductos = await getAllProductsRequestServer();
   const dataMotos = await getAllMotosRequestServer();
+  const dataGastosGenerales = await getAllGastosGeneralesRequestServer();
 
   return (
     <>
@@ -23,8 +26,13 @@ export default async function Page() {
               </Label>
             </div>
           </CardHeader>
-          <CardContent>
-            <IncomeExpenseChart dataProductos={dataProductos} dataMotos={dataMotos}/>
+          <CardContent className="flex flex-col gap-4">
+            <IncomeExpenseBarChart dataProductos={dataProductos} dataMotos={dataMotos} dataGastosGenerales={dataGastosGenerales}/>
+            <div className="flex flex-col gap-4 lg:flex-row">
+              <BoletasYFacturasPieChart />
+              <BoletasYFacturasPieChart />
+            </div>
+            
           </CardContent>
         </Card>
       </NavbarSimple>

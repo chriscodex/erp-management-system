@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowUpDown} from "lucide-react";
+import { ArrowUpDown } from "lucide-react";
 import { useState } from "react";
 import { formatDateShort } from "@/lib/formateador";
 
@@ -16,6 +16,7 @@ import { DeleteGastoGeneralAlert } from "@/app/gastos-generales/_components/dial
 import { RiFileListLine, RiDeleteBinLine } from "@remixicon/react";
 import { GastoGeneralDetail } from "@/app/gastos-generales/_components/sheets/sheetDetailGastoGeneral";
 import { SheetUpdateGastoGeneralWrapper } from "@/app/gastos-generales/_components/sheets/updateGastoGeneral/sheetUpdateGastoGeneralWrapper";
+import { formatMoney } from "@/lib/utils";
 
 export const columnsGastosGenerales = [
   {
@@ -69,7 +70,7 @@ export const columnsGastosGenerales = [
     cell: ({ row }) => {
       return (
         <div className="text-start">
-          S/. {parseFloat(row.getValue("monto")).toFixed(2)}
+          S/. {formatMoney(row.getValue("monto"))}
         </div>
       );
     },
