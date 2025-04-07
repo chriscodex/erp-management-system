@@ -12,8 +12,10 @@ import {
 } from '@/app/ventas/[ventaId]/boleta/_services/requests';
 import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
-
+import { useRouter } from 'next/navigation';
 export function ImprimirBoletaButton({ ventaData, empresas }) {
+  const router = useRouter();
+
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
   const [loading, setLoading] = useState(false);
 
@@ -45,6 +47,7 @@ export function ImprimirBoletaButton({ ventaData, empresas }) {
       document.body.removeChild(link);
 
       await updateBoletaStateRequestClient(ventaData?._id);
+      router.refresh();
     } catch (error) {
       console.error('Error al generar el PDF:', error);
     }

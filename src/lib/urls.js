@@ -86,6 +86,7 @@ export const deleteVentaClientUrl = '/api/ventas';
 /* Boleta */
 export const getCurrentCounterBoletaClientUrl = '/api/counters';
 export const updateBoletaStateClientUrl = '/api/ventas';
+export const incrementCounterBoletaClientUrl = '/api/counters/increment';
 
 /*Factura*/
 export const getCurrentCounterFacturaClientUrl = '/api/counters';

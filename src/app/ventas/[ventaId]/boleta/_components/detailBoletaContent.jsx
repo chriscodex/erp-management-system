@@ -25,10 +25,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Boleta</Label>
         </div>
-        <ImprimirBoletaButton
-          ventaData={ventaData}
-          empresas={empresas}
-        />
+        <ImprimirBoletaButton ventaData={ventaData} empresas={empresas} />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -95,6 +92,9 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                   {ventaData?.usuario?.nombres +
                     ' ' +
                     ventaData?.usuario?.apellidos}{' '}
+                </p>
+                <p>
+                  <strong>Estado:</strong> {ventaData?.estado}
                 </p>
               </div>
             </CardContent>
@@ -213,10 +213,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
           </CardContent>
         </Card>
         <div className="mt-4">
-          <DetailBoletaButtons
-            ventaId={ventaData._id}
-            ventaData={ventaData}
-          />
+          <DetailBoletaButtons ventaId={ventaData._id} ventaData={ventaData} />
         </div>
       </CardContent>
     </Card>

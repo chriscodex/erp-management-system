@@ -1,6 +1,7 @@
 import { fetchData, patchData } from '@/lib/fetchData';
 import {
   getCurrentCounterBoletaClientUrl,
+  incrementCounterBoletaClientUrl,
   updateBoletaStateClientUrl,
 } from '@/lib/urls';
 import { delay } from '@/lib/utils';
@@ -32,17 +33,34 @@ export async function updateBoletaStateRequestClient(ventaId) {
   try {
     await delay();
 
-    const url = `${updateBoletaStateClientUrl}/${ventaId}`;
+    const urlUpdateStateBoleta = `${updateBoletaStateClientUrl}/${ventaId}`;
 
-    const response = await patchData(url, { estado: 'Impreso' });
+    const responseUpdateStateBoleta = await patchData(urlUpdateStateBoleta, {
+      estado: 'Impreso',
+    });
 
-    if (response?.status !== 200) {
+    const urlIncrementCounterBoleta = `${incrementCounterBoletaClientUrl}`;
+
+    const responseIncrementCounterBoleta = await patchData(
+      urlIncrementCounterBoleta,
+      {
+        type: 'boletas',
+      }
+    );
+
+    if (responseUpdateStateBoleta?.status !== 200) {
       throw new Error(
-        'No se pudo actualizar el estado de la boleta: ' + response?.data?.error
+        'No se pudo actualizar el estado de la boleta: ' +
+          responseUpdateStateBoleta?.data?.error
       );
     }
 
-    return response?.data?.payload;
+    if (responseIncrementCounterBoleta?.status !== 200) {
+      throw new Error(
+        'No se pudo incrementar el contador de boletas: ' +
+          responseIncrementCounterBoleta?.data?.error
+      );
+    }
   } catch (error) {
     console.error('Error en updateBoletaStateRequestClient:', error);
     throw error;
