@@ -22,3 +22,21 @@ export async function getCurrentCounterByType(request) {
     );
   }
 }
+
+export async function aumentarContadorByType(request) {
+  try {
+    const body = await request.json();
+
+    await connectDB();
+    const counter = await counterService.aumentarContadorByType(body);
+    return counter;
+  } catch (error) {
+    console.error(
+      'Counter Controller: Error interno al aumentar el contador:',
+      error.message
+    );
+    throw new Error(
+      'Counter Controller: Error interno al aumentar el contador'
+    );
+  }
+}

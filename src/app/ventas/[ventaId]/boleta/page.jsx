@@ -1,9 +1,7 @@
 import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import {
-  getVentaRequestServer,
-} from '@/app/ventas/_services/requests';
+import { getVentaRequestServer } from '@/app/ventas/_services/requests';
 import { DetailBoletaContent } from '@/app/ventas/[ventaId]/boleta/_components/detailBoletaContent';
 import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
 
@@ -23,8 +21,8 @@ export default async function Page({ params }) {
     },
     {
       title: 'Ventas',
-      href: '',
-      active: false,
+      href: '/ventas',
+      active: true,
     },
     {
       title: venta?.code,
@@ -40,10 +38,7 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailBoletaContent
-        ventaData={venta}
-        empresas={empresas}
-      />
+      <DetailBoletaContent ventaData={venta} empresas={empresas} />
     </NavbarDynamic>
   );
 }

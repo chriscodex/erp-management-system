@@ -82,9 +82,12 @@ export const createClienteClientUrl = '/api/clientes';
 /* Ventas */
 export const createVentaClientUrl = '/api/ventas';
 export const deleteVentaClientUrl = '/api/ventas';
+export const finalizarVentaClientUrl = '/api/ventas';
 
 /* Boleta */
 export const getCurrentCounterBoletaClientUrl = '/api/counters';
+export const updateBoletaStateClientUrl = '/api/ventas';
+export const incrementCounterBoletaClientUrl = '/api/counters/increment';
 
 /*Factura*/
 export const getCurrentCounterFacturaClientUrl = '/api/counters';
