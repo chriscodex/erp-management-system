@@ -3,13 +3,34 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { NavbarSimple } from "@/components/navbar/NavbarSimple";
 import { RiBarChart2Line } from "@remixicon/react";
 
-import IncomeExpenseChart from "@/app/estadisticas/_components/IncomeExpenseChart";
+import IncomeExpenseBarChart from "@/app/estadisticas/_components/IncomeExpenseBarChart";
 import { getAllProductsRequestServer } from "@/app/inventario/productos/_services/requests";
 import { getAllMotosRequestServer } from "../inventario/motos/todas/_services/requests";
+import { getAllGastosGeneralesRequestServer } from "@/app/gastos-generales/_services/requests";
+
+import  BoletasYFacturasPieChart  from "./_components/BoletasYFacturasPieChart";
+import { getCounterByTypeRequestServer } from "@/app/estadisticas/_services/requests";
+
+import { LeaderboardSalesBarChart } from "./_components/LeaderboardSalesBarChart";
+// import { getAllVentasRequestServer } from "@/app/ventas/_services/requests";
+
+import { getAllVentasHistoricasRequestServer } from "@/app/estadisticas/_services/requests";
+
 export default async function Page() {
 
+  //Data para IncomeExpenseBarChart
   const dataProductos = await getAllProductsRequestServer();
   const dataMotos = await getAllMotosRequestServer();
+  const dataGastosGenerales = await getAllGastosGeneralesRequestServer();
+
+  //Data para BoletasYFacturasPieChart
+  
+  const dataCounterBoletas = await getCounterByTypeRequestServer("boletas");
+  const dataCounterFacturas = await getCounterByTypeRequestServer("facturas");
+
+  //Data para vendedores
+
+  const dataVendedores = await getAllVentasHistoricasRequestServer();
 
   return (
     <>
@@ -23,8 +44,13 @@ export default async function Page() {
               </Label>
             </div>
           </CardHeader>
-          <CardContent>
-            <IncomeExpenseChart dataProductos={dataProductos} dataMotos={dataMotos}/>
+          <CardContent className="flex flex-col gap-4">
+            <IncomeExpenseBarChart dataProductos={dataProductos} dataMotos={dataMotos} dataGastosGenerales={dataGastosGenerales}/>
+            <div className="flex flex-col gap-4 xl:flex-row">
+              <LeaderboardSalesBarChart dataVendedores={dataVendedores}/>
+              <BoletasYFacturasPieChart dataCounterBoletas={dataCounterBoletas} dataCounterFacturas={dataCounterFacturas}/>
+            </div>
+            
           </CardContent>
         </Card>
       </NavbarSimple>

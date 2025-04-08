@@ -71,15 +71,10 @@ export function CreateGastoGeneralForm({onClose}) {
     
     setFormSubmitIsLoading(true);
 
-    console.log("Data", data);
-
-
     const gastoGeneralData = {
       ...data,
       fecha: new Date(date),
     };
-
-    console.log("Gasto General Data", gastoGeneralData);
 
     // Toast promise para buscar una persona
     toast.promise(

@@ -27,6 +27,7 @@ import { DataTablePagination } from "@/components/ui/table-pagination";
 import { DataTableViewOptions } from "@/components/ui/table-view-options";
 import { TIME_DEBOUNCE } from "@/lib/utils";
 import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
+import { Button } from "@/components/ui/button";
 
 export function DataTableGastosGenerales({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -35,33 +36,33 @@ export function DataTableGastosGenerales({ columns, data, status = 200 }) {
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
 
-
   const [mes, setMes] = useState(new Date().getMonth() + 1);
   const [anio, setAnio] = useState(new Date().getFullYear());
   const [filtroActivo, setFiltroActivo] = useState(false);
-  
+
   function handleDateChange(month, year) {
     setMes(month);
     setAnio(year);
     setFiltroActivo(true);
   }
 
- 
-  function filtrarDataPorMes(data, mes, anio){
+  function filtrarDataPorMes(data, mes, anio) {
     return data.filter((item) => {
       const fecha = new Date(item.fecha);
-      return (
-        fecha.getMonth() + 1 === mes &&
-        fecha.getFullYear() === anio
-      );
+      return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
     });
   }
 
   const dataFiltrada = useMemo(() => {
     if (!filtroActivo) return data;
     return filtrarDataPorMes(data, mes, anio);
-  }, [data, mes, anio, filtroActivo])
-  
+  }, [data, mes, anio, filtroActivo]);
+
+  function limpiarFiltro() {
+    setFiltroActivo(false);
+    setMes(new Date().getMonth() + 1);
+    setAnio(new Date().getFullYear());
+  }
   /* Table */
   const table = useReactTable({
     data: dataFiltrada,
@@ -102,9 +103,6 @@ export function DataTableGastosGenerales({ columns, data, status = 200 }) {
     router.refresh();
   }, [router]);
 
-
-
-
   return (
     <div>
       {/* Input */}
@@ -116,7 +114,16 @@ export function DataTableGastosGenerales({ columns, data, status = 200 }) {
             onChange={(e) => setSearchValue(e.target.value)}
             className="max-w-sm"
           />
-          <MesAnioPicker onChange={handleDateChange}/>
+          <MesAnioPicker onChange={handleDateChange} />
+          <Button
+              className={`${filtroActivo ? "opacity-100" : "opacity-70 select-none pointer-events-none"}`}
+              onClick={limpiarFiltro}
+            >
+              Mostrar todos los gastos generales
+            </Button>
+            {/* {filtroActivo && (
+            
+          )} */}
         </div>
 
         <DataTableViewOptions table={table} />

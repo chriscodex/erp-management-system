@@ -4,6 +4,28 @@ export class ventasHistoricasRepository {
   constructor() {
     this.ventasHistoricasModel = VentasHistoricas;
   }
+  
+  async getAllVentasHistoricas() {
+    try {
+      const ventasHistoricas = await this.ventasHistoricasModel.find({});
+
+      if (ventasHistoricas?.length === 0) {
+        console.log('Venta Historica Repository: No se encontraron ventas');
+        return [];
+      }
+      
+      console.log('Venta Historica Repository: Ventas encontradas');
+      return ventasHistoricas;
+    } catch (error) {
+      console.error(
+        `Venta Historica Repository: Error al buscar todas las ventas: ${error}`
+      );
+      throw new Error(
+        `Venta Historica Repository: Error al buscar todas las ventas: ${error}`
+      );
+    }
+  }
+
 
   async createVentaHistorica(ventasHistoricas) {
     try {
@@ -27,4 +49,6 @@ export class ventasHistoricasRepository {
       );
     }
   }
+
+
 }

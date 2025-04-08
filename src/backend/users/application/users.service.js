@@ -12,6 +12,7 @@ export class UsersService {
       const users = await this.userRepository.getAllUsers();
 
       if (users?.length === 0) {
+        
         console.log('User Service: No se encontraron usuarios');
         return {
           status: 200,

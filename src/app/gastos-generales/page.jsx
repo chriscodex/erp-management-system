@@ -12,8 +12,9 @@ export default async function Page() {
   const { gastosGenerales, status } =
     await getAllGastosGeneralesRequestServer();
 
-  const gastosGeneralesEnumerados = agregarNumeracionTable(gastosGenerales);
-  const gastosGeneralesSorted = sortByUpdateDateDesc(gastosGeneralesEnumerados);
+  const gastosGeneralesSorted = sortByUpdateDateDesc(gastosGenerales);
+
+  const gastosGeneralesEnumerados = agregarNumeracionTable(gastosGeneralesSorted);
 
   return (
     <>
@@ -33,7 +34,7 @@ export default async function Page() {
           <CardContent>
             <DataTableGastosGenerales
               columns={columnsGastosGenerales}
-              data={gastosGeneralesSorted}
+              data={gastosGeneralesEnumerados}
               status={status}
             />
           </CardContent>
