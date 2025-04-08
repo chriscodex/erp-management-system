@@ -26,6 +26,7 @@ export async function getProductsController(request) {
       });
       return product;
     }
+
     const products = await productService.getAllProducts();
     return products;
   } catch (error) {

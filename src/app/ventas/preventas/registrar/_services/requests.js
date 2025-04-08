@@ -174,6 +174,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
               marca: producto?.marcaId?.nombre,
               proveedor: producto?.proveedorId?.nombre,
               estado: unitProducto?.estado,
+              _id: unitProducto?._id,
             };
 
             delete productoObject?.unidades;

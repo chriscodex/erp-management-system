@@ -87,7 +87,7 @@ export class PreventaService {
       // eslint-disable-next-line no-undef
       await Promise.all(
         preventaData?.productos?.map(async (producto) => {
-          if (producto?.modeloId) {
+          if (producto.modeloId) {
             await this.motoRepository.updateMoto(producto._id, {
               estado: {
                 titulo: 'prevendido',
@@ -95,7 +95,7 @@ export class PreventaService {
               },
             });
           } else {
-            await this.productRepository.updateProduct(producto._id, {
+            await this.productRepository.updateUnitProduct(producto._id, {
               estado: 'prevendido',
             });
           }
