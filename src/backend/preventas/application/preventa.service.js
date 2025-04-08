@@ -1,10 +1,14 @@
 import { PreventaRepository } from '@/backend/preventas/domain/repositories/preventaRepository';
 import { createPreventaSchema } from '@/backend/preventas/application/validations/createPreventaSchema';
 import { generarNumeroAleatorio } from '@/lib/utils';
+import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
+import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
 
 export class PreventaService {
   constructor() {
     this.preventaRepository = new PreventaRepository();
+    this.productRepository = new ProductRepository();
+    this.motoRepository = new MotoRepository();
   }
 
   async getAllPreventas() {
@@ -78,6 +82,25 @@ export class PreventaService {
           payload: preventaValidated.error.issues,
         };
       }
+
+      // Cambiar el estado de los productos a prevendidos
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        preventaData?.productos?.map(async (producto) => {
+          if (producto?.modeloId) {
+            await this.motoRepository.updateMoto(producto._id, {
+              estado: {
+                titulo: 'prevendido',
+                observaciones: producto?.estado?.observaciones,
+              },
+            });
+          } else {
+            await this.productRepository.updateProduct(producto._id, {
+              estado: 'prevendido',
+            });
+          }
+        })
+      );
 
       const preventaObject = {
         ...preventaData,
