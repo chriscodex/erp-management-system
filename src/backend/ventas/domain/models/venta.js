@@ -59,7 +59,11 @@ const ventaSchema = new Schema(
         required: false,
       },
     ],
-    estado: {
+    comprobante: {
+      type: String,
+      required: true,
+    },
+    estadoSunat: {
       type: String,
       required: true,
     },

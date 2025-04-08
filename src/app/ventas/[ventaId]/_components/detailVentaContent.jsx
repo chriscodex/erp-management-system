@@ -90,10 +90,22 @@ export function DetailVentaContent({ ventaData }) {
                 <p>
                   <strong>Código:</strong> {ventaData?.code}
                 </p>
-                <div className="flex items-center">
+                <p>
                   <strong>Fecha:</strong>{' '}
-                  <p>{formatDateLong(ventaData?.fecha, true)}</p>
-                </div>
+                  {formatDateLong(ventaData?.fecha, true)}
+                </p>
+                <p>
+                  <strong>Vendedor:</strong>{' '}
+                  {ventaData?.usuario?.nombres +
+                    ' ' +
+                    ventaData?.usuario?.apellidos}{' '}
+                </p>
+                <p>
+                  <strong>Comprobante:</strong> {ventaData?.comprobante}
+                </p>
+                <p>
+                  <strong>Estado SUNAT:</strong> {ventaData?.estadoSunat}
+                </p>
               </div>
             </CardContent>
           </Card>

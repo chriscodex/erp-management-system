@@ -88,7 +88,8 @@ export class VentaService {
         usuario: preventa.usuario,
         productos: preventa.productos,
         obsequios: preventa.obsequios,
-        estado: 'Pendiente',
+        comprobante: 'No impreso',
+        estadoSunat: 'Por enviar',
       };
 
       const newVenta = await this.ventaRepository.createVenta(nuevaVenta);
