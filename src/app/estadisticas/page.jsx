@@ -12,7 +12,9 @@ import  BoletasYFacturasPieChart  from "./_components/BoletasYFacturasPieChart";
 import { getCounterByTypeRequestServer } from "@/app/estadisticas/_services/requests";
 
 import { LeaderboardSalesBarChart } from "./_components/LeaderboardSalesBarChart";
-import { getAllVentasRequestServer } from "@/app/ventas/_services/requests";
+// import { getAllVentasRequestServer } from "@/app/ventas/_services/requests";
+
+import { getAllVentasHistoricasRequestServer } from "@/app/estadisticas/_services/requests";
 
 export default async function Page() {
 
@@ -28,7 +30,7 @@ export default async function Page() {
 
   //Data para vendedores
 
-  const dataVendedores = await getAllVentasRequestServer();
+  const dataVendedores = await getAllVentasHistoricasRequestServer();
 
   return (
     <>

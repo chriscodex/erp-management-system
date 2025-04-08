@@ -37,18 +37,18 @@ export function LeaderboardSalesBarChart({ dataVendedores }) {
     setAnio(year);
   }
 
-  // console.log(dataVendedores);
+  console.log(dataVendedores);
 
   function topVendedoresPorMes(data, mes, anio) {
     // Filtrar ventas del mes y año
-    const ventasFiltradas = data.ventas.filter(venta => {
+    const ventasHistoricasFiltradas = data.ventasHistoricas.filter(venta => {
       const fecha = new Date(venta.fecha);
       return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
   });
 
     const resumenPorVendedor = {};
 
-    ventasFiltradas.forEach(venta => {
+    ventasHistoricasFiltradas.forEach(venta => {
         const vendedorId = venta.usuario.id;
         const nombre = `${venta.usuario.nombres} ${venta.usuario.apellidos}`;
 
