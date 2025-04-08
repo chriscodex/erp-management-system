@@ -8,11 +8,24 @@ import { getAllProductsRequestServer } from "@/app/inventario/productos/_service
 import { getAllMotosRequestServer } from "../inventario/motos/todas/_services/requests";
 import { getAllGastosGeneralesRequestServer } from "@/app/gastos-generales/_services/requests";
 import { BoletasYFacturasPieChart } from "./_components/BoletasYFacturasPieChart";
+import  {getCurrentCounterBoletaRequestClient}  from "@/app/ventas/[ventaId]/boleta/_services/requests";
+import  {getCurrentCounterFacturaRequestClient} from "@/app/ventas/[ventaId]/factura/_services/requests";
+import { LeaderboardSalesBarChart } from "./_components/LeaderboardSalesBarChart";
 export default async function Page() {
 
+  //Data para IncomeExpenseBarChart
   const dataProductos = await getAllProductsRequestServer();
   const dataMotos = await getAllMotosRequestServer();
   const dataGastosGenerales = await getAllGastosGeneralesRequestServer();
+
+  //Data para BoletasYFacturasPieChart
+
+  const dataCounterBoletas = await getCurrentCounterBoletaRequestClient();
+  const dataCounterFacturas = await getCurrentCounterFacturaRequestClient();
+
+  //Data para vendedores
+
+  const dataVendedores = [];
 
   return (
     <>
@@ -28,9 +41,9 @@ export default async function Page() {
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
             <IncomeExpenseBarChart dataProductos={dataProductos} dataMotos={dataMotos} dataGastosGenerales={dataGastosGenerales}/>
-            <div className="flex flex-col gap-4 lg:flex-row">
-              <BoletasYFacturasPieChart />
-              <BoletasYFacturasPieChart />
+            <div className="flex flex-col gap-4 xl:flex-row">
+              <BoletasYFacturasPieChart className="w-full flex-1" dataCounterBoletas={dataCounterBoletas} dataCounterFacturas={dataCounterFacturas}/>
+              <LeaderboardSalesBarChart className="w-full flex-1" dataVendedores={dataVendedores}/>
             </div>
             
           </CardContent>
