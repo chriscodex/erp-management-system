@@ -7,10 +7,13 @@ import IncomeExpenseBarChart from "@/app/estadisticas/_components/IncomeExpenseB
 import { getAllProductsRequestServer } from "@/app/inventario/productos/_services/requests";
 import { getAllMotosRequestServer } from "../inventario/motos/todas/_services/requests";
 import { getAllGastosGeneralesRequestServer } from "@/app/gastos-generales/_services/requests";
-import { BoletasYFacturasPieChart } from "./_components/BoletasYFacturasPieChart";
-import  {getCurrentCounterBoletaRequestClient}  from "@/app/ventas/[ventaId]/boleta/_services/requests";
-import  {getCurrentCounterFacturaRequestClient} from "@/app/ventas/[ventaId]/factura/_services/requests";
+
+import  BoletasYFacturasPieChart  from "./_components/BoletasYFacturasPieChart";
+import { getCounterByTypeRequestServer } from "@/app/estadisticas/_services/requests";
+
 import { LeaderboardSalesBarChart } from "./_components/LeaderboardSalesBarChart";
+import { getAllVentasRequestServer } from "@/app/ventas/_services/requests";
+
 export default async function Page() {
 
   //Data para IncomeExpenseBarChart
@@ -19,13 +22,13 @@ export default async function Page() {
   const dataGastosGenerales = await getAllGastosGeneralesRequestServer();
 
   //Data para BoletasYFacturasPieChart
-
-  const dataCounterBoletas = await getCurrentCounterBoletaRequestClient();
-  const dataCounterFacturas = await getCurrentCounterFacturaRequestClient();
+  
+  const dataCounterBoletas = await getCounterByTypeRequestServer("boletas");
+  const dataCounterFacturas = await getCounterByTypeRequestServer("facturas");
 
   //Data para vendedores
 
-  const dataVendedores = [];
+  const dataVendedores = await getAllVentasRequestServer();
 
   return (
     <>
@@ -42,8 +45,8 @@ export default async function Page() {
           <CardContent className="flex flex-col gap-4">
             <IncomeExpenseBarChart dataProductos={dataProductos} dataMotos={dataMotos} dataGastosGenerales={dataGastosGenerales}/>
             <div className="flex flex-col gap-4 xl:flex-row">
-              <BoletasYFacturasPieChart className="w-full flex-1" dataCounterBoletas={dataCounterBoletas} dataCounterFacturas={dataCounterFacturas}/>
-              <LeaderboardSalesBarChart className="w-full flex-1" dataVendedores={dataVendedores}/>
+              <LeaderboardSalesBarChart dataVendedores={dataVendedores}/>
+              <BoletasYFacturasPieChart dataCounterBoletas={dataCounterBoletas} dataCounterFacturas={dataCounterFacturas}/>
             </div>
             
           </CardContent>

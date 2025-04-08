@@ -1,8 +1,6 @@
 "use client";
 import { TrendingUp } from "lucide-react";
 import { Pie, PieChart } from "recharts";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 
 import {
   Card,
@@ -18,33 +16,16 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
-
-export function BoletasYFacturasPieChart(
+export default function BoletasYFacturasPieChart({
   dataCounterBoletas,
   dataCounterFacturas
-) {
-  console.log(dataCounterBoletas);
-  console.log(dataCounterFacturas);
+}) {
 
-  const router = useRouter();
-
-  const [mes, setMes] = useState(new Date().getMonth() + 1);
-  const [anio, setAnio] = useState(new Date().getFullYear());
-
-  function handleDateChange(month, year) {
-    setMes(month);
-    setAnio(year);
-  }
-  function filtrarBoletasyFacturasPorMes(data, mes, anio) {
-
-  }
-
-  const dataMensual = { boletas: 20, facturas: 30 };
+  const dataMensualContadores = { boletas: dataCounterBoletas?.contador, facturas: dataCounterFacturas?.contador };
 
   // Extraer boletas y facturas del mes seleccionado
 
-  const { boletas = 0, facturas = 0 } = dataMensual || {};
+  const { boletas = 0, facturas = 0 } = dataMensualContadores || {};
 
   function ComparacionBoletasFacturas({ boletas, facturas }) {
     let mensaje = "";
@@ -63,12 +44,12 @@ export function BoletasYFacturasPieChart(
         100;
       mensaje = `Se han emitido un ${diferencia.toFixed(
         1
-      )}% más de ${mayor} que ${menor} este mes.`;
+      )}% más de ${mayor} que ${menor} hasta la fecha.`;
     }
     return mensaje;
   }
 
-  const mensaje =  ComparacionBoletasFacturas({ boletas, facturas });
+  const mensaje = ComparacionBoletasFacturas({ boletas, facturas });
 
   const chartData = [
     { tipoComprobante: "Boletas", cantidad: boletas, fill: "#10b981" },
@@ -86,17 +67,11 @@ export function BoletasYFacturasPieChart(
     },
   };
 
-  useEffect(() => {
-    router.refresh();
-  }, [mes, anio, router]);
-
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col w-full xl:flex-1 xl:self-start">
       <CardHeader className="items-center pb-0">
         <CardTitle>Boletas y facturas emitidas</CardTitle>
         <CardDescription>
-          <span className="font-bold mr-2">Seleccione el mes y año: </span>
-          <MesAnioPicker onChange={handleDateChange} />
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
@@ -121,7 +96,7 @@ export function BoletasYFacturasPieChart(
           <TrendingUp className="h-4 w-4" />
         </div>
         <div className="leading-none text-muted-foreground">
-          Mostrando total de boletas y facturas emitidas por mes.
+          Mostrando total de boletas y facturas emitidas hasta la fecha.
         </div>
       </CardFooter>
     </Card>

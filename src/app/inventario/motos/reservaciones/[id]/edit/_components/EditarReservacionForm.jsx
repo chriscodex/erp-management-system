@@ -68,10 +68,7 @@ import { updateReservacionSchema } from "@/app/inventario/motos/reservaciones/[i
 import { updateReservacionRequestClient } from "../_services/requests";
 
 export function EditarReservacionForm({ reservacionData }) {
-
   const router = useRouter();
-
-  
 
   const [date, setDate] = useState(new Date(reservacionData?.fechaLimite)); //Date Calendar
 
@@ -82,16 +79,17 @@ export function EditarReservacionForm({ reservacionData }) {
     defaultValues: {
       identificador:
         reservacionData?.cliente?.datos?.dni ||
-        reservacionData?.cliente?.datos?.ruc || "",
+        reservacionData?.cliente?.datos?.ruc ||
+        "",
       moto: {
         nombre: reservacionData?.moto?.nombre || "",
         descripcion: reservacionData?.moto?.descripcion || "",
-        categoria:{
+        categoria: {
           nombre: reservacionData?.moto?.categoria?.nombre || "",
         },
-        marca:{
+        marca: {
           nombre: reservacionData?.moto?.marca?.nombre || "",
-        }
+        },
       },
       pagoInicial: reservacionData?.pagoInicial || "",
       fechaLimite: new Date(reservacionData?.fechaLimite) || new Date(),
@@ -104,11 +102,9 @@ export function EditarReservacionForm({ reservacionData }) {
           apellidos: reservacionData?.cliente?.datos?.apellidos || "",
           nombre: reservacionData?.cliente?.datos?.nombre || "",
           celular: reservacionData?.cliente?.datos?.celular || "",
-          email: reservacionData?.cliente?.datos?.email || ""
+          email: reservacionData?.cliente?.datos?.email || "",
         },
       },
-
-      
     },
   });
 
@@ -142,9 +138,6 @@ export function EditarReservacionForm({ reservacionData }) {
     let updateObject = {
       ...reservacionData,
     };
-
-    
-
 
     if (reservacionData?.cliente?.tipo === "persona") {
       updateObject["cliente"] = {
@@ -180,7 +173,7 @@ export function EditarReservacionForm({ reservacionData }) {
       marca: {
         nombre: formData?.moto?.marca?.nombre,
       },
-    }
+    };
 
     updateObject["comentario"] = formData?.comentario;
     updateObject["pagoInicial"] = formData?.pagoInicial;
@@ -212,81 +205,83 @@ export function EditarReservacionForm({ reservacionData }) {
 
   // Busqueda por DNI o RUC
   const handleSearchByDniOrRuc = async (e) => {
-    e.preventDefault();
-    try {
-      setSearchByDniOrRucIsLoading(true);
-
-      const tipo = formData.tipo;
-      const identificador = formData.identificador;
-
-      if (tipo === "persona") {
-        if (!identificador || identificador.length !== 8) {
-          setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un DNI válido", {
-            description: "El DNI debe tener 8 dígitos",
-          });
-          return;
-        }
-        toast.promise(
-          searchClientePorDniOrRucClientRequest(
-            identificador,
-            setSearchByDniOrRucIsLoading
-          ),
-          {
-            loading: "Buscando...",
-            success: (persona) => {
-              setValue("cliente.datos.apellidos", persona?.apellidos);
-              setValue("cliente.datos.nombres", persona?.nombres);
-              setValue("celular", persona?.celular);
-              clearErrors("apellidos");
-              clearErrors("nombres");
-              clearErrors("celular");
-              return `Persona encontrada`;
-            },
-            error: (error) => {
-              setSearchByDniOrRucIsLoading(false);
-              return error;
-            },
+      e.preventDefault();
+      try {
+        setSearchByDniOrRucIsLoading(true);
+  
+        const tipo = formData.cliente.tipo;
+        const identificador = formData.identificador;
+  
+        if (tipo === "persona") {
+          if (!identificador || identificador.length !== 8) {
+            setSearchByDniOrRucIsLoading(false);
+            toast.warning("Por favor, ingrese un DNI válido", {
+              description: "El DNI debe tener 8 dígitos",
+            });
+            return;
           }
-        );
-      }
-
-      if (tipo === "empresa") {
-        if (!identificador || identificador.length !== 11) {
-          setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un RUC válido", {
-            description: "El RUC debe tener 11 dígitos",
-          });
-          return;
+          toast.promise(
+            searchClientePorDniOrRucClientRequest(
+              identificador,
+              setSearchByDniOrRucIsLoading
+            ),
+            {
+              loading: "Buscando...",
+              success: (persona) => {
+                setValue("cliente.datos.apellidos", persona?.apellidos);
+                setValue("cliente.datos.nombres", persona?.nombres);
+                setValue("celular", persona?.celular);
+                clearErrors("apellidos");
+                clearErrors("nombres");
+                clearErrors("celular");
+                return `Persona encontrada`;
+              },
+              error: (error) => {
+                setSearchByDniOrRucIsLoading(false);
+                return error;
+              },
+            }
+          );
         }
-        toast.promise(
-          searchClientePorDniOrRucClientRequest(
-            identificador,
-            setSearchByDniOrRucIsLoading
-          ),
-          {
-            loading: "Buscando...",
-
-            success: (empresa) => {
-              setValue("cliente.datos.nombre", empresa?.razonSocial);
-              setValue("telefono", empresa?.telefono);
-              clearErrors("nombre");
-              clearErrors("telefono");
-              return `Empresa encontrada`;
-            },
-            error: (error) => {
-              setSearchByDniOrRucIsLoading(false);
-              return error;
-            },
+  
+        if (tipo === "empresa") {
+          if (!identificador || identificador.length !== 11) {
+            setSearchByDniOrRucIsLoading(false);
+            toast.warning("Por favor, ingrese un RUC válido", {
+              description: "El RUC debe tener 11 dígitos",
+            });
+            return;
           }
-        );
+          toast.promise(
+            searchClientePorDniOrRucClientRequest(
+              identificador,
+              setSearchByDniOrRucIsLoading
+            ),
+            {
+              loading: "Buscando...",
+              success: (empresa) => {
+  
+                console.log("empresa",empresa);
+  
+                setValue("cliente.datos.nombre", empresa?.razonSocial);
+                setValue("telefono", empresa?.telefono);
+                clearErrors("nombre");
+                clearErrors("telefono");
+                return `Empresa encontrada`;
+              },
+              error: (error) => {
+                setSearchByDniOrRucIsLoading(false);
+                return error;
+              },
+            }
+          );
+        }
+      } catch (error) {
+        setSearchByDniOrRucIsLoading(false);
+        toast.error("Error al buscar persona por DNI");
+        console.error("Error al buscar persona por DNI:", error);
       }
-    } catch (error) {
-      setSearchByDniOrRucIsLoading(false);
-      toast.error("Error al buscar persona por DNI");
-      console.error("Error al buscar persona por DNI:", error);
-    }
-  };
+    };
 
   return (
     <>

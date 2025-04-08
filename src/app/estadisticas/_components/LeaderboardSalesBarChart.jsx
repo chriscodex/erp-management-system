@@ -1,11 +1,9 @@
 "use client";
 
-import { TrendingUp } from "lucide-react";
 import {
   Bar,
   BarChart,
   CartesianGrid,
-  LabelList,
   XAxis,
   YAxis,
 } from "recharts";
@@ -28,7 +26,7 @@ import {
 
 import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
 
-export function LeaderboardSalesBarChart({dataVendedores}) {
+export function LeaderboardSalesBarChart({ dataVendedores }) {
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
@@ -39,13 +37,63 @@ export function LeaderboardSalesBarChart({dataVendedores}) {
     setAnio(year);
   }
 
-  const chartData = [
-    { name: "Rhay Erickson Valladares Ramírez", motos: 186, productos: 80 },
-    { name: "María Fernanda Soto Ramírez", motos: 305, productos: 200 },
-    { name: "Sandra Ríos Ramírez", motos: 237, productos: 120 },
-    { name: "Valeria Torres Quispe", motos: 73, productos: 190 },
-    { name: "Ana Valverde Soto", motos: 209, productos: 130 },
-  ];
+  // console.log(dataVendedores);
+
+  function topVendedoresPorMes(data, mes, anio) {
+    // Filtrar ventas del mes y año
+    const ventasFiltradas = data.ventas.filter(venta => {
+      const fecha = new Date(venta.fecha);
+      return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
+  });
+
+    const resumenPorVendedor = {};
+
+    ventasFiltradas.forEach(venta => {
+        const vendedorId = venta.usuario.id;
+        const nombre = `${venta.usuario.nombres} ${venta.usuario.apellidos}`;
+
+        if (!resumenPorVendedor[vendedorId]) {
+            resumenPorVendedor[vendedorId] = {
+                name: nombre,
+                motos: 0,
+                productos: 0
+            };
+        }
+
+        venta.productos.forEach(producto => {
+            const cantidad = producto.cantidad || 1;
+
+            if (producto.tipo === "moto") {
+                resumenPorVendedor[vendedorId].motos += cantidad;
+            } else if (producto.tipo === "producto") {
+                resumenPorVendedor[vendedorId].productos += cantidad;
+            }
+        });
+    });
+
+    // Convertir a array, ordenar por total (motos + productos) y tomar top 5
+    const topVendedores = Object.values(resumenPorVendedor)
+        .sort((a, b) => (b.motos + b.productos) - (a.motos + a.productos))
+        .slice(0, 5);
+
+    return topVendedores;
+}
+  
+
+  const resultado = topVendedoresPorMes(dataVendedores, mes, anio);
+
+  console.log(resultado) ;
+
+  // const chartData = [
+  //   { name: "Rhay Erickson Valladares Ramírez", motos: 186, productos: 80 },
+  //   { name: "María Fernanda Soto Ramírez", motos: 305, productos: 200 },
+  //   { name: "Sandra Ríos Ramírez", motos: 237, productos: 120 },
+  //   { name: "Valeria Torres Quispe", motos: 73, productos: 190 },
+  //   { name: "Ana Valverde Soto", motos: 209, productos: 130 },
+  // ];
+  
+  const chartData = resultado;
+
 
   const chartConfig = {
     motos: {
@@ -66,7 +114,7 @@ export function LeaderboardSalesBarChart({dataVendedores}) {
   }, [mes, anio, router]);
 
   return (
-    <Card className="flex flex-col">
+    <Card className="flex flex-col w-full xl:flex-1">
       <CardHeader className="items-center pb-0">
         <CardTitle>Vendedor del mes</CardTitle>
         <CardDescription>
@@ -104,15 +152,13 @@ export function LeaderboardSalesBarChart({dataVendedores}) {
               layout="vertical"
               fill="var(--color-motos)"
               radius={4}
-            >
-            </Bar>
+            ></Bar>
             <Bar
               dataKey="productos"
               layout="vertical"
               fill="var(--color-productos)"
               radius={4}
-            >
-            </Bar>
+            ></Bar>
           </BarChart>
         </ChartContainer>
       </CardContent>

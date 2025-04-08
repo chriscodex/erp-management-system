@@ -17,7 +17,6 @@ export function ImprimirBoletaButton({reservacionData}) {
     try {
       // const counterBoleta = await getCurrentCounterBoletaRequestClient();
      
-
       const doc = <PdfBoleta reservacionData={reservacionData} counterBoleta={2000} />;
       const blob = await pdf(doc).toBlob();
 

@@ -139,7 +139,7 @@ export function DetailReservacionBoletaContent({
           </CardContent>
         </Card>
         <div className="mt-4">
-          <DetailBoletaButtons reservacionData={reservacionData} counterBoleta={counterBoleta} />
+          <DetailBoletaButtons reservacionData={reservacionData} counterBoleta={3000} />
         </div>
       </CardContent>
     </Card>

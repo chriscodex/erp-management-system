@@ -27,6 +27,7 @@ export default function IncomeExpenseBarChart({
   dataMotos,
   dataGastosGenerales,
 }) {
+
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
