@@ -107,6 +107,11 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
             {row.getValue('estado') === 'dañado' && (
               <BadgeUnitProduct variant="redTable">Dañado</BadgeUnitProduct>
             )}
+            {row.getValue('estado') === 'prevendido' && (
+              <BadgeUnitProduct variant="purpleTable">
+                Prevendido
+              </BadgeUnitProduct>
+            )}
           </div>
         );
       },

@@ -11,7 +11,7 @@ const motoSchema = new Schema(
       titulo: {
         type: String,
         required: [true, 'El estado es requerido en el schema de motos'],
-        enum: ['disponible', 'dañado', 'reparado', 'desarmado'],
+        enum: ['disponible', 'dañado', 'reparado', 'desarmado', 'prevendido'],
       },
       observaciones: {
         type: String,
