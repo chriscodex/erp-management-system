@@ -1,7 +1,7 @@
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   BikeIcon,
   Package,
@@ -10,16 +10,26 @@ import {
   FileText,
   Receipt,
   AlertCircle,
-} from 'lucide-react';
-import Link from 'next/link';
-import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
-import { notFound } from 'next/navigation';
-import { DetailButtons } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_components/detailButtons';
-import { RiExternalLinkLine } from '@remixicon/react';
+} from "lucide-react";
+import {
+  RiArrowUpDownLine,
+  RiDashboard2Line,
+  RiFlashlightFill,
+  RiOilLine,
+  RiPaletteLine,
+  RiRepeatLine,
+  RiRuler2Fill,
+  RiSpeedLine,
+  RiStopMiniFill,
+} from "@remixicon/react";
+import Link from "next/link";
+import { getMotoByIdRequestServer } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests";
+import { notFound } from "next/navigation";
+import { DetailButtons } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_components/detailButtons";
+import { RiExternalLinkLine, RiMotorbikeLine } from "@remixicon/react";
 
 export default async function MotoDetailPage({ params }) {
   const { moto } = await getMotoByIdRequestServer(params.unidadId);
-  console.log(moto);
 
   if (!moto) {
     notFound();
@@ -42,18 +52,18 @@ export default async function MotoDetailPage({ params }) {
 
   const navbarTitles = [
     {
-      title: 'Inventario',
-      href: '',
+      title: "Inventario",
+      href: "",
       active: false,
     },
     {
-      title: 'Motos',
-      href: '',
+      title: "Motos",
+      href: "",
       active: false,
     },
     {
-      title: 'Modelos',
-      href: '/inventario/motos/modelos',
+      title: "Modelos",
+      href: "/inventario/motos/modelos",
       active: true,
     },
     {
@@ -63,10 +73,12 @@ export default async function MotoDetailPage({ params }) {
     },
     {
       title: `Moto ${nombre}`,
-      href: '',
+      href: "",
       active: false,
     },
   ];
+
+  console.log(moto);
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -124,7 +136,77 @@ export default async function MotoDetailPage({ params }) {
                 </p>
               </CardContent>
             </Card>
-
+            {moto?.caracteristicas &&
+              Object.values(moto.caracteristicas).some((v) => v?.trim?.()) && (
+                <Card className="md:col-span-3">
+                  <CardHeader className="flex flex-row items-start gap-2">
+                    <RiMotorbikeLine />
+                    <CardTitle>Características de la moto</CardTitle>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {moto.caracteristicas.motor?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <RiDashboard2Line className="text-muted-foreground" />
+                        <p className="text-muted-foreground">Motor:</p> {moto.caracteristicas.motor}
+                      </div>
+                    )}
+                    {moto.caracteristicas.cilindrada?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <RiSpeedLine className="text-muted-foreground" />
+                        <p className="text-muted-foreground">Cilindrada:</p>{" "}
+                        {moto.caracteristicas.cilindrada}
+                      </div>
+                    )}
+                    {moto.caracteristicas.potencia?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <RiFlashlightFill className="text-muted-foreground" />
+                        <p className="text-muted-foreground">Potencia:</p>{" "}
+                        {moto.caracteristicas.potencia}
+                      </div>
+                    )}
+                    {moto.caracteristicas.frenos?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <RiStopMiniFill className="text-muted-foreground" />
+                        <p className="text-muted-foreground">Frenos:</p> {moto.caracteristicas.frenos}
+                      </div>
+                    )}
+                    {moto.caracteristicas.transmision?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <RiRepeatLine className="text-muted-foreground" />
+                        <p className="text-muted-foreground">Transmisión:</p>{" "}
+                        {moto.caracteristicas.transmision}
+                      </div>
+                    )}
+                    {moto.caracteristicas.dimensiones?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <RiRuler2Fill className="text-muted-foreground" />
+                        <p className="text-muted-foreground">Dimensiones:</p>{" "}
+                        {moto.caracteristicas.dimensiones}
+                      </div>
+                    )}
+                    {moto.caracteristicas.capacidadCombustible?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <RiOilLine className="text-muted-foreground" />
+                        <p className="text-muted-foreground">Capacidad de combustible:</p>{" "}
+                        {moto.caracteristicas.capacidadCombustible}
+                      </div>
+                    )}
+                    {moto.caracteristicas.suspension?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <RiArrowUpDownLine className="text-muted-foreground" />
+                        <p className="text-muted-foreground">Suspensión:</p>{" "}
+                        {moto.caracteristicas.suspension}
+                      </div>
+                    )}
+                    {moto.caracteristicas.colores?.trim() && (
+                      <div className="flex items-center gap-2">
+                        <RiPaletteLine className="text-muted-foreground" />
+                        <p className="text-muted-foreground">Colores:</p> {moto.caracteristicas.colores}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              )}
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center">
@@ -145,7 +227,7 @@ export default async function MotoDetailPage({ params }) {
                       Importado:
                     </span>
                     <Badge variant="default">
-                      {moto?.importado === 'si' ? 'Sí' : 'No'}
+                      {moto?.importado === "si" ? "Sí" : "No"}
                     </Badge>
                   </div>
                   <div className="flex justify-between">
@@ -174,14 +256,14 @@ export default async function MotoDetailPage({ params }) {
                       Estado Actual
                     </p>
                     <p className="text-xl font-bold">
-                      {moto?.estado?.titulo === 'disponible'
-                        ? 'Disponible'
-                        : moto?.estado?.titulo === 'dañado'
-                        ? 'Dañado'
-                        : moto?.estado?.titulo === 'reparado'
-                        ? 'Reparado'
-                        : moto?.estado?.titulo === 'desarmado'
-                        ? 'Desarmado'
+                      {moto?.estado?.titulo === "disponible"
+                        ? "Disponible"
+                        : moto?.estado?.titulo === "dañado"
+                        ? "Dañado"
+                        : moto?.estado?.titulo === "reparado"
+                        ? "Reparado"
+                        : moto?.estado?.titulo === "desarmado"
+                        ? "Desarmado"
                         : moto?.estado?.titulo}
                     </p>
                   </div>
@@ -265,8 +347,8 @@ export default async function MotoDetailPage({ params }) {
                     <p
                       className={`text-2xl font-bold ${
                         margenValue.toFixed(2) >= 0
-                          ? 'text-green-600'
-                          : 'text-red-600'
+                          ? "text-green-600"
+                          : "text-red-600"
                       }`}
                     >
                       {margenValue >= 0
@@ -279,7 +361,6 @@ export default async function MotoDetailPage({ params }) {
               </CardContent>
             </Card>
           </div>
-
           <div className="mt-4">
             <DetailButtons motoId={moto?._id} modeloData={modeloData} />
           </div>
