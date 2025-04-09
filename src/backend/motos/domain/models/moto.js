@@ -26,8 +26,8 @@ const motoSchema = new Schema(
     },
     nombre: {
       type: String,
-      unique: true,
-      required: [true, "El nombre es requerido en el schema de moto"],
+      unique: false,
+      required: [true, 'El nombre es requerido en el schema de moto'],
     },
     descripcion: {
       type: String,

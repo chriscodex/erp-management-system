@@ -83,7 +83,7 @@ export class PreventaService {
         };
       }
 
-      // Cambiar el estado de los productos a prevendidos
+      // Cambiar el estado de los productos y motos a prevendidos
       // eslint-disable-next-line no-undef
       await Promise.all(
         preventaData?.productos?.map(async (producto) => {
@@ -95,10 +95,23 @@ export class PreventaService {
               },
             });
           } else {
-            await this.productRepository.updateUnitProduct(producto._id, {
+            await this.productRepository.updateUnitProduct(producto.unitId, {
               estado: 'prevendido',
             });
           }
+        })
+      );
+
+      // Cambiar el estado de los obsequios incluidos en la preventa
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        preventaData?.obsequios?.map(async (obsequio) => {
+          // En caso de ser SOAT, salta a la siguiente iteración
+          if (obsequio.nombre === 'SOAT') return;
+
+          await this.productRepository.updateUnitProduct(obsequio.unitId, {
+            estado: 'prevendido',
+          });
         })
       );
 

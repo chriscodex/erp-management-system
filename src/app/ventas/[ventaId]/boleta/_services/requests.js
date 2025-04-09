@@ -36,7 +36,7 @@ export async function updateBoletaStateRequestClient(ventaId) {
     const urlUpdateStateBoleta = `${updateBoletaStateClientUrl}/${ventaId}`;
 
     const responseUpdateStateBoleta = await patchData(urlUpdateStateBoleta, {
-      estado: 'Impreso',
+      comprobante: 'Boleta Impresa',
     });
 
     const urlIncrementCounterBoleta = `${incrementCounterBoletaClientUrl}`;

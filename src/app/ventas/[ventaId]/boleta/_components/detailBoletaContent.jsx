@@ -94,7 +94,10 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                     ventaData?.usuario?.apellidos}{' '}
                 </p>
                 <p>
-                  <strong>Estado:</strong> {ventaData?.estado}
+                  <strong>Comprobante:</strong> {ventaData?.comprobante}
+                </p>
+                <p>
+                  <strong>Estado SUNAT:</strong> {ventaData?.estadoSunat}
                 </p>
               </div>
             </CardContent>

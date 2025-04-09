@@ -2,13 +2,17 @@ import { PreventaRepository } from '@/backend/preventas/domain/repositories/prev
 import { VentaRepository } from '@/backend/ventas/domain/repositories/ventaRepository.js';
 import { CounterRepository } from '@/backend/counters/domain/repositories/counterRepository';
 import { ventasHistoricasRepository } from '@/backend/ventas/domain/repositories/ventasHistoricasRepository';
+import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
+import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
 
 export class VentaService {
   constructor() {
     this.ventaRepository = new VentaRepository();
     this.preventaRepository = new PreventaRepository();
     this.ventasHistoricasRepository = new ventasHistoricasRepository();
+    this.productRepository = new ProductRepository();
     this.counterRepository = new CounterRepository();
+    this.motoRepository = new MotoRepository();
   }
 
   async getAllVentas() {
@@ -88,7 +92,8 @@ export class VentaService {
         usuario: preventa.usuario,
         productos: preventa.productos,
         obsequios: preventa.obsequios,
-        estado: 'Pendiente',
+        comprobante: 'No impreso',
+        estadoSunat: 'Por enviar',
       };
 
       const newVenta = await this.ventaRepository.createVenta(nuevaVenta);
@@ -210,7 +215,8 @@ export class VentaService {
         usuario: venta.usuario,
         productos: venta.productos,
         obsequios: venta.obsequios,
-        estado: venta.estado,
+        estadoSunat: venta.estadoSunat,
+        comprobante: venta.comprobante,
       };
 
       await this.ventasHistoricasRepository.createVentaHistorica(
@@ -220,6 +226,21 @@ export class VentaService {
 
       await this.ventaRepository.deleteVenta(ventaId);
       console.log('Venta Service: Venta eliminada correctamente');
+
+      // Eliminar los productos del inventario
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        venta?.productos?.map(async (producto) => {
+          if (producto.modeloId) {
+            await this.motoRepository.deleteMoto(producto._id);
+          } else {
+            await this.productRepository.deleteSingleUnitFromProduct(
+              producto.productId,
+              producto.unitId
+            );
+          }
+        })
+      );
 
       return {
         status: 201,

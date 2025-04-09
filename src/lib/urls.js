@@ -91,6 +91,9 @@ export const incrementCounterBoletaClientUrl = '/api/counters/increment';
 
 /*Factura*/
 export const getCurrentCounterFacturaClientUrl = '/api/counters';
+export const updateFacturaStateClientUrl = '/api/ventas';
+export const incrementCounterFacturaClientUrl = '/api/counters/increment';
+
 
 /* Empresas */
 export const createGastoGeneralClientUrl = '/api/gastos-generales';

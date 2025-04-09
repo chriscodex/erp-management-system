@@ -1,5 +1,5 @@
 import { User, Package, Gift, Hash } from 'lucide-react';
-import { RiInfoCardFill} from '@remixicon/react';
+import { RiInfoCardFill } from '@remixicon/react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -17,7 +17,6 @@ import { ImprimirFacturaButton } from '@/app/ventas/[ventaId]/factura/_component
 import { Separator } from '@/components/ui/separator';
 
 export function DetailFacturaContent({ ventaData, empresas }) {
-  
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
@@ -25,7 +24,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Factura</Label>
         </div>
-        <ImprimirFacturaButton ventaData={ventaData } empresas={empresas}/>
+        <ImprimirFacturaButton ventaData={ventaData} empresas={empresas} />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -92,6 +91,12 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                   {ventaData?.usuario?.nombres +
                     ' ' +
                     ventaData?.usuario?.apellidos}{' '}
+                </p>
+                <p>
+                  <strong>Comprobante:</strong> {ventaData?.comprobante}
+                </p>
+                <p>
+                  <strong>Estado SUNAT:</strong> {ventaData?.estadoSunat}
                 </p>
               </div>
             </CardContent>
@@ -210,7 +215,11 @@ export function DetailFacturaContent({ ventaData, empresas }) {
           </CardContent>
         </Card>
         <div className="mt-4">
-          <DetailFacturaButtons ventaId={ventaData._id} ventaData={ventaData} empresas={empresas}/>
+          <DetailFacturaButtons
+            ventaId={ventaData._id}
+            ventaData={ventaData}
+            empresas={empresas}
+          />
         </div>
       </CardContent>
     </Card>

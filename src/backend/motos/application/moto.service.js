@@ -134,17 +134,6 @@ export class MotoService {
         };
       }
 
-      // Validar si una moto con ese nombre y en el mismo modelo ya existe
-      const motoFound = await this.motoRepository.getMotoByData(motoData);
-      if (motoFound) {
-        console.log('Moto Service: Una moto con el mismo nombre ya existe');
-        return {
-          status: 409,
-          payload: 'Una Moto con el mismo nombre ya existe',
-        };
-      }
-      console.log('Moto Service: No hay duplicados');
-
       // Validar si el modelo existe
       const modeloFound = await this.modeloRepository.getModeloByData({
         id: motoData.modeloId,

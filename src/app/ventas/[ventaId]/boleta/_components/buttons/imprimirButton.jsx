@@ -1,8 +1,9 @@
-'use client';
+/*  */ 'use client';
 
 import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { RiPrinterLine } from '@remixicon/react';
+import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { PdfBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta';
@@ -12,7 +13,6 @@ import {
 } from '@/app/ventas/[ventaId]/boleta/_services/requests';
 import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
-import { useRouter } from 'next/navigation';
 export function ImprimirBoletaButton({ ventaData, empresas }) {
   const router = useRouter();
 
