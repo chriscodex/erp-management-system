@@ -26,8 +26,13 @@ const motoSchema = new Schema(
     },
     nombre: {
       type: String,
+<<<<<<< HEAD
       unique: true,
       required: [true, "El nombre es requerido en el schema de moto"],
+=======
+      unique: false,
+      required: [true, 'El nombre es requerido en el schema de moto'],
+>>>>>>> 12b40e9 (descontar stock v1.3 - motos se pueden agregar)
     },
     descripcion: {
       type: String,
