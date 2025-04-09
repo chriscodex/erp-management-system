@@ -15,7 +15,7 @@ export function EmpresasSelect({
   setSelectedEmpresa,
 }) {
   useEffect(() => {
-    if (Object.keys(selectedEmpresa).length !== 0 && empresas?.length > 0) {
+    if (Object?.keys(selectedEmpresa)?.length !== 0 && empresas?.length > 0) {
       setSelectedEmpresa(empresas[0]);
     }
   }, [empresas, setSelectedEmpresa]);
