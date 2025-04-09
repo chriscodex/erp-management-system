@@ -256,14 +256,16 @@ export default async function MotoDetailPage({ params }) {
                       Estado Actual
                     </p>
                     <p className="text-xl font-bold">
-                      {moto?.estado?.titulo === "disponible"
-                        ? "Disponible"
-                        : moto?.estado?.titulo === "dañado"
-                        ? "Dañado"
-                        : moto?.estado?.titulo === "reparado"
-                        ? "Reparado"
-                        : moto?.estado?.titulo === "desarmado"
-                        ? "Desarmado"
+                      {moto?.estado?.titulo === 'disponible'
+                        ? 'Disponible'
+                        : moto?.estado?.titulo === 'dañado'
+                        ? 'Dañado'
+                        : moto?.estado?.titulo === 'reparado'
+                        ? 'Reparado'
+                        : moto?.estado?.titulo === 'desarmado'
+                        ? 'Desarmado'
+                        : moto?.estado?.titulo === 'prevendido'
+                        ? 'Prevendido'
                         : moto?.estado?.titulo}
                     </p>
                   </div>

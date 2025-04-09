@@ -174,7 +174,8 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
               marca: producto?.marcaId?.nombre,
               proveedor: producto?.proveedorId?.nombre,
               estado: unitProducto?.estado,
-              _id: unitProducto?._id,
+              unitId: unitProducto?._id,
+              productId: producto?._id,
             };
 
             delete productoObject?.unidades;
@@ -182,6 +183,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
             delete productoObject?.numeracion;
             delete productoObject?.stock;
             delete productoObject?.stockMinimo;
+            delete productoObject?._id;
 
             return productoObject;
           }

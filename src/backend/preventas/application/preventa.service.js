@@ -95,7 +95,7 @@ export class PreventaService {
               },
             });
           } else {
-            await this.productRepository.updateUnitProduct(producto._id, {
+            await this.productRepository.updateUnitProduct(producto.unitId, {
               estado: 'prevendido',
             });
           }

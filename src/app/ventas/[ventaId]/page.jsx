@@ -16,13 +16,13 @@ export default async function Page({ params }) {
   const navbarTitles = [
     {
       title: 'Inventario',
-      href: '/inventario/todos',
+      href: '',
       active: false,
     },
     {
       title: 'Ventas',
-      href: '',
-      active: false,
+      href: '/ventas',
+      active: true,
     },
     {
       title: venta?.code,
