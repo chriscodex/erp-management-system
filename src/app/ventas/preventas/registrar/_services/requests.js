@@ -205,6 +205,8 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
             proveedor: obsequio?.proveedorId?._id,
             estado:
               obsequio?.nombre === 'SOAT' ? 'Disponible' : unitObsequio?.estado,
+            unitId: unitObsequio?._id,
+            productId: obsequio?._id,
           };
 
           delete obsequioObject?.unidades;
@@ -213,6 +215,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           delete obsequioObject?.precioVenta;
           delete obsequioObject?.stock;
           delete obsequioObject?.stockMinimo;
+          delete obsequioObject?._id;
 
           return obsequioObject;
         });
