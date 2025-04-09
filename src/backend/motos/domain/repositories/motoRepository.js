@@ -146,6 +146,7 @@ export class MotoRepository {
       throw new Error(`Error al buscar la moto: ${error.message}`);
     }
   }
+
   async createMoto(motoData) {
     try {
       const newMoto = new this.motoModel(motoData);
