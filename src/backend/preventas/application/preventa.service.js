@@ -177,6 +177,72 @@ export class PreventaService {
     }
   }
 
+  async cancelarPreventa(preventaId) {
+    try {
+      const preventaFound = await this.preventaRepository.getPreventaByData({
+        _id: preventaId,
+      });
+
+      // Cambiar el estado de los productos y motos a prevendidos
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        preventaFound?.productos?.map(async (producto) => {
+          if (producto.modeloId) {
+            await this.motoRepository.updateMoto(producto._id, {
+              estado: {
+                titulo: 'disponible',
+                observaciones: producto?.estado?.observaciones,
+              },
+            });
+          } else {
+            await this.productRepository.updateUnitProduct(producto.unitId, {
+              estado: 'disponible',
+            });
+          }
+        })
+      );
+
+      // Cambiar el estado de los obsequios incluidos en la preventa
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        preventaFound?.obsequios?.map(async (obsequio) => {
+          // En caso de ser SOAT, salta a la siguiente iteración
+          if (obsequio.nombre === 'SOAT') return;
+
+          await this.productRepository.updateUnitProduct(obsequio.unitId, {
+            estado: 'prevendido',
+          });
+        })
+      );
+
+      const deletedPreventa = await this.preventaRepository.deletePreventa(
+        preventaId
+      );
+
+      if (!deletedPreventa) {
+        console.log('Preventa Service: La preventa no existe');
+        return {
+          status: 200,
+          payload: 'La preventa no existe',
+        };
+      }
+
+      console.log('Preventa Service: Preventa eliminada correctamente');
+      return {
+        status: 204,
+        payload: preventaFound,
+      };
+    } catch (error) {
+      console.error(
+        `Preventa Service: Error interno al cancelar la preventa: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+
   async deletePreventa(preventaId) {
     try {
       const deletedPreventa = await this.preventaRepository.deletePreventa(
