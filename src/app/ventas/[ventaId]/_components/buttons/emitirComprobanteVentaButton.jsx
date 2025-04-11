@@ -44,7 +44,10 @@ export function EmitirComprobanteVentaButton({ ventaData }) {
             Factura
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => router.push(`/ventas/${ventaData?._id}/nota-venta`)}
+          >
             <RiFileList3Line />
             Nota de Venta
           </DropdownMenuItem>

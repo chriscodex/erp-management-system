@@ -94,6 +94,11 @@ export const getCurrentCounterFacturaClientUrl = '/api/counters';
 export const updateFacturaStateClientUrl = '/api/ventas';
 export const incrementCounterFacturaClientUrl = '/api/counters/increment';
 
+/* Nota de Venta */
+export const getCurrentCounterNotaVentaClientUrl = '/api/counters';
+export const updateNotaVentaStateClientUrl = '/api/ventas';
+export const incrementCounterNotaVentaClientUrl = '/api/counters/increment';
+
 
 /* Empresas */
 export const createGastoGeneralClientUrl = '/api/gastos-generales';
