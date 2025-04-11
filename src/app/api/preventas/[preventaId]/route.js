@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
 import {
-  deletePreventaController,
+  cancelarPreventaController,
   updatePreventaController,
 } from '@/backend/preventas/infrastructure/controllers';
 
 export async function DELETE(_, contextRoute) {
   try {
-    const { payload, status } = await deletePreventaController(contextRoute);
+    const { payload, status } = await cancelarPreventaController(contextRoute);
 
     if (status === 204) {
       return new NextResponse(null, { status });
