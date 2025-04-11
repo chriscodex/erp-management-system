@@ -6,6 +6,7 @@ import { ProductRepository } from '@/backend/products/domain/repositories/produc
 import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
 
 export class VentaService {
+
   constructor() {
     this.ventaRepository = new VentaRepository();
     this.preventaRepository = new PreventaRepository();

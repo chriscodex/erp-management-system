@@ -8,6 +8,8 @@ export const createPreventaSchemaForm = z.object({
   nombres: z.string().optional(),
   apellidos: z.string().optional(),
   razonSocial: z.string().optional(),
+  representanteLegal: z.string().optional(),
+  direccion: z.string().optional(),
   celular: z.string().optional(),
   comentarios: z.string().optional(),
 });

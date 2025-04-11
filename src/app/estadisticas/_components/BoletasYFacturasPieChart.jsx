@@ -52,8 +52,8 @@ export default function BoletasYFacturasPieChart({
   const mensaje = ComparacionBoletasFacturas({ boletas, facturas });
 
   const chartData = [
-    { tipoComprobante: "Boletas", cantidad: boletas, fill: "#10b981" },
-    { tipoComprobante: "Facturas", cantidad: facturas, fill: "#f59e0b" },
+    { tipoComprobante: "Boletas", cantidad: boletas, fill: "#2A9D90" },
+    { tipoComprobante: "Facturas", cantidad: facturas, fill: "#E76E50" },
   ];
 
   const chartConfig = {
