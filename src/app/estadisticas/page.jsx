@@ -15,11 +15,12 @@ import LeaderboardSalesBarChart from "./_components/LeaderboardSalesBarChart";
 import { getAllVentasHistoricasRequestServer } from "@/app/estadisticas/_services/requests";
 
 import ProductosImportadosPieChart from "./_components/ProductosImportadosPieChart";
-import ProductosMasVendidos from "./_components/ProductosMasVendidos";
+import ProductosMasVendidos from "./_components/ProductosMasVendidosBarChart";
 import ObsequiosLineChart from "./_components/ObsequiosLineChart";
 
+import VentasTotalesBarChart from "@/app/estadisticas/_components/VentasTotalesBarChart";
+
 export default async function Page() {
-  
   //Data para IncomeExpenseBarChart
   const dataProductos = await getAllProductsRequestServer();
   const dataMotos = await getAllMotosRequestServer();
@@ -31,7 +32,6 @@ export default async function Page() {
   const dataCounterFacturas = await getCounterByTypeRequestServer("facturas");
 
   //Data para vendedores y productos mas vendidos
-
   const dataVentasHistoricas = await getAllVentasHistoricasRequestServer();
 
   return (
@@ -53,7 +53,10 @@ export default async function Page() {
               dataGastosGenerales={dataGastosGenerales}
             />
             <div className="flex flex-col gap-4 2xl:flex-row">
-              <LeaderboardSalesBarChart dataVendedores={dataVentasHistoricas} cantidadVendedores={5} />
+              <LeaderboardSalesBarChart
+                dataVendedores={dataVentasHistoricas}
+                cantidadVendedores={5}
+              />
               <div className="flex flex-col gap-4">
                 <BoletasYFacturasPieChart
                   dataCounterBoletas={dataCounterBoletas}
@@ -62,10 +65,13 @@ export default async function Page() {
                 <ProductosImportadosPieChart dataProductos={dataProductos} />
               </div>
             </div>
-            <ProductosMasVendidos
-              dataVentasHistoricas={dataVentasHistoricas}
-            />
-            <ObsequiosLineChart dataVentasHistoricas={dataVentasHistoricas} />
+            <ProductosMasVendidos dataVentasHistoricas={dataVentasHistoricas} />
+            <div className="flex flex-col gap-4 2xl:flex-row">
+              <VentasTotalesBarChart
+                dataVentasHistoricas={dataVentasHistoricas}
+              />
+              <ObsequiosLineChart dataVentasHistoricas={dataVentasHistoricas} />
+            </div>
           </CardContent>
         </Card>
       </NavbarSimple>

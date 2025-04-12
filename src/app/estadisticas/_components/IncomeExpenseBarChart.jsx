@@ -120,8 +120,8 @@ export default function IncomeExpenseBarChart({
   };
 
   const chartData = [
-    { tipo: "Ingresos", monto: ingresos, fill: "#3b82f6" },
-    { tipo: "Egresos", monto: egresos, fill: "#ef4444" },
+    { tipo: "Ingresos", monto: ingresos, fill: "#2563EB" },
+    { tipo: "Egresos", monto: egresos, fill: "#E21D48" },
   ];
 
   useEffect(() => {

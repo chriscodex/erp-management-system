@@ -93,11 +93,12 @@ export default function ObsequiosLineChart({ dataVentasHistoricas }) {
             />
             <Line
               dataKey="obsequios"
-              type="natural"
-              stroke="var(--color-desktop)"
+              // type="natural"
+              type="monotone"
+              stroke="#125427"
               strokeWidth={2}
               dot={{
-                fill: "var(--color-desktop)",
+                fill: "#125427",
               }}
               activeDot={{
                 r: 6,
