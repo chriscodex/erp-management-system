@@ -251,7 +251,7 @@ export async function seedProducts() {
   try {
     if (Product) {
       delete models.Product;
-    }
+    }        
     // Eliminar todos los productos existentes
     await Product.deleteMany({});
     console.log('Productos existentes eliminados.');

@@ -55,10 +55,18 @@ export function DetailPreventaContent({ preventaData }) {
                   <p>
                     <strong>DNI:</strong> {preventaData?.cliente?.datos?.dni}
                   </p>
-                  <p>
-                    <strong>Celular:</strong>{' '}
-                    {preventaData?.cliente?.datos?.celular}
-                  </p>
+                  {preventaData?.cliente?.datos?.email && (
+                    <p>
+                      <strong>Dirección:</strong>{' '}
+                      {preventaData?.cliente?.datos?.email}
+                    </p>
+                  )}
+                  {preventaData?.cliente?.datos?.celular && (
+                    <p>
+                      <strong>Celular:</strong>{' '}
+                      {preventaData?.cliente?.datos?.celular}
+                    </p>
+                  )}
                 </div>
               </CardContent>
             ) : (
@@ -72,9 +80,19 @@ export function DetailPreventaContent({ preventaData }) {
                     <strong>RUC:</strong> {preventaData?.cliente?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Celular:</strong>{' '}
-                    {preventaData?.cliente?.datos?.celular}
+                    <strong>Represante Legal:</strong>{' '}
+                    {preventaData?.cliente?.datos?.representanteLegal}
                   </p>
+                  <p>
+                    <strong>Dirección:</strong>{' '}
+                    {preventaData?.cliente?.datos?.direccion}
+                  </p>
+                  {preventaData?.cliente?.datos?.celular && (
+                    <p>
+                      <strong>Celular:</strong>{' '}
+                      {preventaData?.cliente?.datos?.celular}
+                    </p>
+                  )}
                 </div>
               </CardContent>
             )}

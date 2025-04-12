@@ -8,29 +8,31 @@ import { getAllProductsRequestServer } from "@/app/inventario/productos/_service
 import { getAllMotosRequestServer } from "../inventario/motos/todas/_services/requests";
 import { getAllGastosGeneralesRequestServer } from "@/app/gastos-generales/_services/requests";
 
-import  BoletasYFacturasPieChart  from "./_components/BoletasYFacturasPieChart";
+import BoletasYFacturasPieChart from "./_components/BoletasYFacturasPieChart";
 import { getCounterByTypeRequestServer } from "@/app/estadisticas/_services/requests";
 
-import { LeaderboardSalesBarChart } from "./_components/LeaderboardSalesBarChart";
-// import { getAllVentasRequestServer } from "@/app/ventas/_services/requests";
-
+import LeaderboardSalesBarChart from "./_components/LeaderboardSalesBarChart";
 import { getAllVentasHistoricasRequestServer } from "@/app/estadisticas/_services/requests";
 
-export default async function Page() {
+import ProductosImportadosPieChart from "./_components/ProductosImportadosPieChart";
+import ProductosMasVendidos from "./_components/ProductosMasVendidosBarChart";
+import ObsequiosLineChart from "./_components/ObsequiosLineChart";
 
+import VentasTotalesBarChart from "@/app/estadisticas/_components/VentasTotalesBarChart";
+
+export default async function Page() {
   //Data para IncomeExpenseBarChart
   const dataProductos = await getAllProductsRequestServer();
   const dataMotos = await getAllMotosRequestServer();
   const dataGastosGenerales = await getAllGastosGeneralesRequestServer();
 
-  //Data para BoletasYFacturasPieChart
-  
+  //Data para contadores de boletas y facturas
+
   const dataCounterBoletas = await getCounterByTypeRequestServer("boletas");
   const dataCounterFacturas = await getCounterByTypeRequestServer("facturas");
 
-  //Data para vendedores
-
-  const dataVendedores = await getAllVentasHistoricasRequestServer();
+  //Data para vendedores y productos mas vendidos
+  const dataVentasHistoricas = await getAllVentasHistoricasRequestServer();
 
   return (
     <>
@@ -45,12 +47,31 @@ export default async function Page() {
             </div>
           </CardHeader>
           <CardContent className="flex flex-col gap-4">
-            <IncomeExpenseBarChart dataProductos={dataProductos} dataMotos={dataMotos} dataGastosGenerales={dataGastosGenerales}/>
-            <div className="flex flex-col gap-4 xl:flex-row">
-              <LeaderboardSalesBarChart dataVendedores={dataVendedores}/>
-              <BoletasYFacturasPieChart dataCounterBoletas={dataCounterBoletas} dataCounterFacturas={dataCounterFacturas}/>
+            <IncomeExpenseBarChart
+              dataProductos={dataProductos}
+              dataMotos={dataMotos}
+              dataGastosGenerales={dataGastosGenerales}
+            />
+            <div className="flex flex-col gap-4 2xl:flex-row">
+              <LeaderboardSalesBarChart
+                dataVendedores={dataVentasHistoricas}
+                cantidadVendedores={5}
+              />
+              <div className="flex flex-col gap-4">
+                <BoletasYFacturasPieChart
+                  dataCounterBoletas={dataCounterBoletas}
+                  dataCounterFacturas={dataCounterFacturas}
+                />
+                <ProductosImportadosPieChart dataProductos={dataProductos} />
+              </div>
             </div>
-            
+            <ProductosMasVendidos dataVentasHistoricas={dataVentasHistoricas} />
+            <div className="flex flex-col gap-4 2xl:flex-row">
+              <VentasTotalesBarChart
+                dataVentasHistoricas={dataVentasHistoricas}
+              />
+              <ObsequiosLineChart dataVentasHistoricas={dataVentasHistoricas} />
+            </div>
           </CardContent>
         </Card>
       </NavbarSimple>

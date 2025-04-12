@@ -235,6 +235,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           dni: preventaData?.identificador,
           nombres: preventaData?.nombres,
           apellidos: preventaData?.apellidos,
+          email: preventaData?.email,
           celular: preventaData?.celular,
         };
       }
@@ -242,6 +243,9 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
         clienteData = {
           ruc: preventaData?.identificador,
           razonSocial: preventaData?.razonSocial,
+          representanteLegal: preventaData?.representanteLegal,
+          direccion: preventaData?.direccion,
+          email: preventaData?.email,
           celular: preventaData?.celular,
         };
       }

@@ -10,6 +10,9 @@ import {
   Save,
   SearchIcon,
   User,
+  MapPin,
+  UserCheck,
+  Mail,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
@@ -68,6 +71,9 @@ export function EditarPreventaForm({ preventaData }) {
       nombres: preventaData?.cliente?.datos?.nombres || '',
       apellidos: preventaData?.cliente?.datos?.apellidos || '',
       razonSocial: preventaData?.cliente?.datos?.razonSocial || '',
+      representanteLegal: preventaData?.cliente?.datos?.representanteLegal || '',
+      direccion: preventaData?.cliente?.datos?.direccion || '',
+      email: preventaData?.cliente?.datos?.email || '',
       celular: preventaData?.cliente?.datos?.celular || '',
       comentarios: preventaData?.comentarios || '',
     },
@@ -116,6 +122,7 @@ export function EditarPreventaForm({ preventaData }) {
           dni: formData?.identificador,
           nombres: formData?.nombres,
           apellidos: formData?.apellidos,
+          email: formData?.email,
           celular: formData?.celular,
         },
       };
@@ -127,6 +134,9 @@ export function EditarPreventaForm({ preventaData }) {
         datos: {
           ruc: formData?.identificador,
           razonSocial: formData?.razonSocial,
+          representanteLegal: formData?.representanteLegal,
+          direccion: formData?.direccion,
+          email: formData?.email,
           celular: formData?.celular,
         },
       };
@@ -441,8 +451,75 @@ export function EditarPreventaForm({ preventaData }) {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={control}
+                    name="representanteLegal"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel>Representante Legal</FormLabel>
+                        <div className="relative">
+                          <UserCheck className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <FormControl>
+                            <Input
+                              placeholder="Representante Legal"
+                              className="pl-8"
+                              autoComplete="off"
+                              disabled={formSubmitIsLoading}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="direccion"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel>Dirección</FormLabel>
+                        <div className="relative">
+                            <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <FormControl>
+                            <Input
+                              placeholder="Dirección"
+                              className="pl-8"
+                              autoComplete="off"
+                              disabled={formSubmitIsLoading}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                 </>
               )}
+              <FormField
+                control={control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Email</FormLabel>
+                    <div className="relative">
+                      <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Email"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={formSubmitIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={control}
                 name="celular"

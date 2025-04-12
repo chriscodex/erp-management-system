@@ -47,10 +47,18 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                   <p>
                     <strong>DNI:</strong> {ventaData?.cliente?.datos?.dni}
                   </p>
-                  <p>
-                    <strong>Celular:</strong>{' '}
-                    {ventaData?.cliente?.datos?.celular}
-                  </p>
+                  {ventaData?.cliente?.datos?.email && (
+                    <p>
+                      <strong>Email:</strong>{' '}
+                      {ventaData?.cliente?.datos?.email}
+                    </p>
+                  )}
+                  {ventaData?.cliente?.datos?.celular && (
+                    <p>
+                      <strong>Celular:</strong>{' '}
+                      {ventaData?.cliente?.datos?.celular}
+                    </p>
+                  )}
                 </div>
               ) : (
                 <div className="space-y-2">
@@ -62,9 +70,25 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                     <strong>RUC:</strong> {ventaData?.cliente?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Celular:</strong>{' '}
-                    {ventaData?.cliente?.datos?.celular}
+                    <strong>Representante Legal:</strong>{' '}
+                    {ventaData?.cliente?.datos?.representanteLegal}
                   </p>
+                  <p>
+                    <strong>Dirección:</strong>{' '}
+                    {ventaData?.cliente?.datos?.direccion}
+                  </p>
+                  {ventaData?.cliente?.datos?.email && (
+                    <p>
+                      <strong>Email:</strong>{' '}
+                      {ventaData?.cliente?.datos?.email}
+                    </p>
+                  )}
+                  {ventaData?.cliente?.datos?.celular && (
+                    <p>
+                      <strong>Celular:</strong>{' '}
+                      {ventaData?.cliente?.datos?.celular}
+                    </p>
+                  )}
                 </div>
               )}
             </CardContent>

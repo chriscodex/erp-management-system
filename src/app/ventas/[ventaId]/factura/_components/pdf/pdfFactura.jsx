@@ -12,8 +12,10 @@ import {
 } from "@react-pdf/renderer";
 
 import { stylesFactura } from "@/app/ventas/[ventaId]/factura/_components/pdf/stylesFactura.js";
-import { formatDateLong, formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
-
+import {
+  formatDateLong,
+  formatearCodigoCounterBoletaFactura,
+} from "@/lib/formateador";
 
 const styles = StyleSheet.create(stylesFactura);
 
@@ -71,20 +73,27 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
               <Text style={styles.datosEmpresaTitle}>
                 {empresaSeleccionada?.nombre || "Moto Rock Ruta 33 E.I.R.L"}
               </Text>
-              <Text style={styles.datosEmpresaTitle}>RUC N° { empresaSeleccionada?.ruc || "20202020202"}</Text>
+              <Text style={styles.datosEmpresaTitle}>
+                RUC N° {empresaSeleccionada?.ruc || "20202020202"}
+              </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
-                <Text>{empresaSeleccionada?.direccion || "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}</Text>
+                <Text>
+                  {empresaSeleccionada?.direccion ||
+                    "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}
+                </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>{empresaSeleccionada?.telefono || "01-442-1210" }</Text>
+                <Text>{empresaSeleccionada?.telefono || "01-442-1210"}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
-                <Text>{empresaSeleccionada?.email || "gerencia@motorock33.com"}</Text>
+                <Text>
+                  {empresaSeleccionada?.email || "gerencia@motorock33.com"}
+                </Text>
               </View>
             </View>
             <View>
@@ -118,30 +127,34 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
                   : `${ventaData?.cliente?.datos?.dni}`}
               </Text>
             </View>
-            <View style={styles.datosClienteInfo}>
-              <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
-              <Text>
-                {ventaData?.cliente?.tipo === "empresa"
-                  ? ventaData?.cliente?.datos?.email
-                  : ventaData?.cliente?.datos?.email}
-              </Text>
-            </View>
-            <View style={styles.datosClienteInfo}>
-              <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
-              <Text>
-                {ventaData?.cliente?.tipo === "empresa"
-                  ? ventaData?.cliente?.datos?.celular
-                  : ventaData?.cliente?.datos?.celular}
-              </Text>
-            </View>
-            <View style={styles.datosClienteInfo}>
-              <Text style={styles.datosClienteInfoTitle}>{"Dirección: "}</Text>
-              <Text>
-                {ventaData?.cliente?.tipo === "empresa"
-                  ? ventaData?.cliente?.datos?.direccion
-                  : ventaData?.cliente?.datos?.direccion}
-              </Text>
-            </View>
+            {ventaData?.cliente?.tipo === "empresa" && (
+              <View style={styles.datosClienteInfo}>
+                <Text style={styles.datosClienteInfoTitle}>
+                  {"Representante Legal: "}
+                </Text>
+                <Text>{ventaData?.cliente?.datos?.representanteLegal}</Text>
+              </View>
+            )}
+            {ventaData?.cliente?.tipo === "empresa" && (
+              <View style={styles.datosClienteInfo}>
+                <Text style={styles.datosClienteInfoTitle}>
+                  {"Dirección: "}
+                </Text>
+                <Text>{ventaData?.cliente?.datos?.direccion}</Text>
+              </View>
+            )}
+            {ventaData?.cliente?.datos?.email && (
+              <View style={styles.datosClienteInfo}>
+                <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
+                <Text>{ventaData.cliente.datos.email}</Text>
+              </View>
+            )}
+            {ventaData?.cliente?.datos?.celular && (
+              <View style={styles.datosClienteInfo}>
+                <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
+                <Text>{ventaData.cliente.datos.celular}</Text>
+              </View>
+            )}
           </View>
 
           <View style={styles.facturaTitleContainer}>

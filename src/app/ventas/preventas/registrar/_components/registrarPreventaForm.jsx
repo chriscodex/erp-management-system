@@ -1,20 +1,23 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import {
   IdCardIcon,
   Loader2,
+  Mail,
+  MapPin,
   Phone,
   Save,
   SearchIcon,
   User,
-} from 'lucide-react';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { RiArrowLeftLine } from '@remixicon/react';
-import { useSession } from 'next-auth/react';
+  UserCheck,
+} from "lucide-react";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { RiArrowLeftLine } from "@remixicon/react";
+import { useSession } from "next-auth/react";
 
 import {
   Form,
@@ -23,34 +26,34 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 import {
   onChangeCelular,
   onChangeNumero,
-} from '@/components/formInputs/onChange';
-import { ProductsPreventaTable } from '@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table';
+} from "@/components/formInputs/onChange";
+import { ProductsPreventaTable } from "@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table";
 import {
   createPreventaRequestClient,
   searchClientePorDniOrRucClientRequest,
-} from '@/app/ventas/preventas/registrar/_services/requests';
-import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table';
-import { Textarea } from '@/components/ui/textarea';
-import { createPreventaSchemaForm } from '@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm';
+} from "@/app/ventas/preventas/registrar/_services/requests";
+import { ObsequiosPreventaTable } from "@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table";
+import { Textarea } from "@/components/ui/textarea";
+import { createPreventaSchemaForm } from "@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm";
 
 export function RegistrarPreventaForm() {
   const { data: session } = useSession();
-  
+
   const router = useRouter();
 
   const [obsequiosPreventa, setObsequiosPreventa] = useState([]);
@@ -59,13 +62,16 @@ export function RegistrarPreventaForm() {
   const form = useForm({
     resolver: zodResolver(createPreventaSchemaForm),
     defaultValues: {
-      identificador: '',
-      tipo: 'persona',
-      nombres: '',
-      apellidos: '',
-      razonSocial: '',
-      celular: '',
-      comentarios: '',
+      identificador: "",
+      tipo: "persona",
+      nombres: "",
+      apellidos: "",
+      razonSocial: "",
+      representanteLegal: "",
+      email: "",
+      direccion: "",
+      celular: "",
+      comentarios: "",
     },
   });
 
@@ -91,7 +97,7 @@ export function RegistrarPreventaForm() {
     toast.promise(
       createPreventaRequestClient(createPreventaObject, setFormSubmitIsLoading),
       {
-        loading: 'Registrando...',
+        loading: "Registrando...",
         success: (response) => {
           console.log(response);
           clearErrors();
@@ -115,11 +121,11 @@ export function RegistrarPreventaForm() {
       const tipo = formData.tipo;
       const identificador = formData.identificador;
 
-      if (tipo === 'persona') {
+      if (tipo === "persona") {
         if (!identificador || identificador.length !== 8) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning('Por favor, ingrese un DNI válido', {
-            description: 'El DNI debe tener 8 dígitos',
+          toast.warning("Por favor, ingrese un DNI válido", {
+            description: "El DNI debe tener 8 dígitos",
           });
           return;
         }
@@ -129,14 +135,14 @@ export function RegistrarPreventaForm() {
             setSearchByDniOrRucIsLoading
           ),
           {
-            loading: 'Buscando...',
+            loading: "Buscando...",
             success: (persona) => {
-              setValue('apellidos', persona?.apellidos);
-              setValue('nombres', persona?.nombres);
-              setValue('celular', persona?.celular);
-              clearErrors('apellidos');
-              clearErrors('nombres');
-              clearErrors('celular');
+              setValue("apellidos", persona?.apellidos);
+              setValue("nombres", persona?.nombres);
+              setValue("celular", persona?.celular);
+              clearErrors("apellidos");
+              clearErrors("nombres");
+              clearErrors("celular");
               return `Persona encontrada`;
             },
             error: (error) => {
@@ -147,11 +153,11 @@ export function RegistrarPreventaForm() {
         );
       }
 
-      if (tipo === 'empresa') {
+      if (tipo === "empresa") {
         if (!identificador || identificador.length !== 11) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning('Por favor, ingrese un RUC válido', {
-            description: 'El RUC debe tener 11 dígitos',
+          toast.warning("Por favor, ingrese un RUC válido", {
+            description: "El RUC debe tener 11 dígitos",
           });
           return;
         }
@@ -161,12 +167,16 @@ export function RegistrarPreventaForm() {
             setSearchByDniOrRucIsLoading
           ),
           {
-            loading: 'Buscando...',
+            loading: "Buscando...",
             success: (empresa) => {
-              setValue('razonSocial', empresa?.razonSocial);
-              setValue('celular', empresa?.celular);
-              clearErrors('razonSocial');
-              clearErrors('celular');
+              setValue("razonSocial", empresa?.razonSocial);
+              // setValue('representanteLegal', empresa?.representanteLegal);
+              // setValue('direccion', empresa?.direccion);
+              setValue("celular", empresa?.celular);
+              clearErrors("razonSocial");
+              // clearErrors('representanteLegal');
+              // clearErrors('direccion');
+              clearErrors("celular");
               return `Empresa encontrada`;
             },
             error: (error) => {
@@ -178,8 +188,8 @@ export function RegistrarPreventaForm() {
       }
     } catch (error) {
       setSearchByDniOrRucIsLoading(false);
-      toast.error('Error al buscar persona por DNI');
-      console.error('Error al buscar persona por DNI:', error);
+      toast.error("Error al buscar persona por DNI");
+      console.error("Error al buscar persona por DNI:", error);
     }
   };
 
@@ -201,16 +211,20 @@ export function RegistrarPreventaForm() {
                       <RadioGroup
                         onValueChange={(value) => {
                           field.onChange(value);
-                          setValue('identificador', '');
-                          clearErrors('identificador');
-                          clearErrors('apellidos');
-                          clearErrors('nombres');
-                          clearErrors('razonSocial');
-                          clearErrors('celular');
-                          setValue('apellidos', '');
-                          setValue('nombres', '');
-                          setValue('razonSocial', '');
-                          setValue('celular', '');
+                          setValue("identificador", "");
+                          clearErrors("identificador");
+                          clearErrors("apellidos");
+                          clearErrors("nombres");
+                          clearErrors("razonSocial");
+                          clearErrors("representanteLegal");
+                          clearErrors("direccion");
+                          clearErrors("celular");
+                          setValue("apellidos", "");
+                          setValue("nombres", "");
+                          setValue("razonSocial", "");
+                          setValue("representanteLegal", "");
+                          setValue("direccion", "");
+                          setValue("celular", "");
                         }}
                         defaultValue={field.value}
                         className="flex flex-row space-x-4"
@@ -241,7 +255,7 @@ export function RegistrarPreventaForm() {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>
-                      {watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
+                      {watch("tipo") === "persona" ? "DNI" : "RUC"}
                     </FormLabel>
                     <div className="relative">
                       <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -249,7 +263,7 @@ export function RegistrarPreventaForm() {
                         <Input
                           type="text"
                           placeholder={
-                            watch('tipo') === 'persona' ? 'DNI' : 'RUC'
+                            watch("tipo") === "persona" ? "DNI" : "RUC"
                           }
                           className="pl-8"
                           autoComplete="off"
@@ -265,10 +279,10 @@ export function RegistrarPreventaForm() {
                       <FormMessage />
                       <div
                         className={cn(
-                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
+                          "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
                           searchByDniOrRucIsLoading
-                            ? 'opacity-75 pointer-events-none'
-                            : 'cursor-pointer'
+                            ? "opacity-75 pointer-events-none"
+                            : "cursor-pointer"
                         )}
                         onClick={handleSearchByDniOrRuc}
                       >
@@ -293,7 +307,7 @@ export function RegistrarPreventaForm() {
                   </FormItem>
                 )}
               />
-              {watch('tipo') === 'persona' ? (
+              {watch("tipo") === "persona" ? (
                 <>
                   <FormField
                     control={control}
@@ -388,8 +402,75 @@ export function RegistrarPreventaForm() {
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={control}
+                    name="representanteLegal"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel>Representante Legal</FormLabel>
+                        <div className="relative">
+                          <UserCheck className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <FormControl>
+                            <Input
+                              placeholder="Representante Legal"
+                              className="pl-8"
+                              autoComplete="off"
+                              disabled={formSubmitIsLoading}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={control}
+                    name="direccion"
+                    render={({ field }) => (
+                      <FormItem className="space-y-2">
+                        <FormLabel>Dirección</FormLabel>
+                        <div className="relative">
+                            <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <FormControl>
+                            <Input
+                              placeholder="Dirección"
+                              className="pl-8"
+                              autoComplete="off"
+                              disabled={formSubmitIsLoading}
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    )}
+                  />
                 </>
               )}
+              <FormField
+                control={control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Email</FormLabel>
+                    <div className="relative">
+                      <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Email"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={formSubmitIsLoading}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={control}
                 name="celular"
@@ -483,7 +564,7 @@ export function RegistrarPreventaForm() {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                'Registrando...'
+                "Registrando..."
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

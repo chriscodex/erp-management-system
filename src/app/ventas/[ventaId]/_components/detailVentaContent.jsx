@@ -53,10 +53,18 @@ export function DetailVentaContent({ ventaData }) {
                   <p>
                     <strong>DNI:</strong> {ventaData?.cliente?.datos?.dni}
                   </p>
-                  <p>
-                    <strong>Celular:</strong>{' '}
-                    {ventaData?.cliente?.datos?.celular}
-                  </p>
+                  {ventaData?.cliente?.datos?.email && (
+                    <p>
+                      <strong>Email:</strong>{' '}
+                      {ventaData?.cliente?.datos?.email}
+                    </p>
+                  )}
+                  {ventaData?.cliente?.datos?.celular && (
+                    <p>
+                      <strong>Celular:</strong>{' '}
+                      {ventaData?.cliente?.datos?.celular}
+                    </p>
+                  )}
                 </div>
               </CardContent>
             ) : (
@@ -70,9 +78,25 @@ export function DetailVentaContent({ ventaData }) {
                     <strong>RUC:</strong> {ventaData?.cliente?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Celular:</strong>{' '}
-                    {ventaData?.cliente?.datos?.celular}
+                    <strong>Representante Legal:</strong>{' '}
+                    {ventaData?.cliente?.datos?.representanteLegal}
                   </p>
+                  <p>
+                    <strong>Direccion:</strong>{' '}
+                    {ventaData?.cliente?.datos?.direccion}
+                  </p>
+                  {ventaData?.cliente?.datos?.email && (
+                    <p>
+                      <strong>Email:</strong>{' '}
+                      {ventaData?.cliente?.datos?.email}
+                    </p>
+                  )}
+                  {ventaData?.cliente?.datos?.celular && (
+                    <p>
+                      <strong>Celular:</strong>{' '}
+                      {ventaData?.cliente?.datos?.celular}
+                    </p>
+                  )}
                 </div>
               </CardContent>
             )}
