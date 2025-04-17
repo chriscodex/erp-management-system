@@ -76,7 +76,7 @@ export class ProductRepository {
       if (productData.categoryId) {
         filter.categoryId = new mongoose.Types.ObjectId(productData.categoryId);
       }
-
+      
       if (productData.almacenId) {
         filter.almacenId = new mongoose.Types.ObjectId(productData.almacenId);
       }

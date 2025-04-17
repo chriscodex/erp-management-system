@@ -4,9 +4,12 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
 import { Sheet } from '@/components/ui/sheet';
-import { AddCaracteristicasMotoForm } from '@/app/inventario/motos/modelos/[modeloId]/_components/sheets/addCaracteristicasMoto/addCaracteristicasMotoForm';
+// import { AddModeloForm } from '@/app/inventario/motos/pedidos/[modeloId]/_components/sheets/addCaracteristicasMoto/addCaracteristicasMotoForm';
 
-export function SheetAddCaracteristicasMotoWrapper({ onSave, defaultValues }) {
+import { AddModeloForm } from '@/app/inventario/motos/pedidos/_components/sheets/addModelo/addModeloForm';
+
+
+export function SheetAddModeloWrapper({ defaultValues, categories, marcas, onAddModelo }) {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -18,11 +21,6 @@ export function SheetAddCaracteristicasMotoWrapper({ onSave, defaultValues }) {
     setIsSheetOpen(false);
   };
 
-  const handleSave = (data) => {
-    onSave(data); // ← se guarda en el estado `caracteristicas` del form principal
-    handleCloseSheet(); // ← cierra el sheet
-  };
-
   return (
     <div>
       <div
@@ -30,11 +28,11 @@ export function SheetAddCaracteristicasMotoWrapper({ onSave, defaultValues }) {
         onClick={handleOpenSheet}
       >
         <Plus />
-        Agregar Características
+        Agregar Modelo
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <AddCaracteristicasMotoForm onSave={handleSave} onClose={handleCloseSheet} defaultValues={defaultValues}/>
+          <AddModeloForm onClose={handleCloseSheet} defaultValues={defaultValues} categories={categories} marcas={marcas} onAddModelo={onAddModelo}/>
         </Sheet>
       )}
     </div>

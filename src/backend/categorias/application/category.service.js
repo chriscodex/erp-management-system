@@ -244,4 +244,31 @@ export class CategoryService {
       };
     }
   }
+  async getCategoryByData(categoryData) {
+    try {
+      const categoryFound = await this.categoryRepository.getCategoryByData(categoryData);
+
+      if (!categoryFound) {
+        console.log('Category Service: La categoria no existe');
+        return {
+          status: 200,
+          payload: null,
+        };
+      }
+
+      console.log('Category Service: La categoria existe');
+      return {
+        status: 200,
+        payload: categoryFound,
+      };
+    } catch (error) {
+      console.error(
+        `Category Service: Error interno al buscar la categoria: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }

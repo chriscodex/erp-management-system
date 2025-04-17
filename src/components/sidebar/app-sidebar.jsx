@@ -20,6 +20,7 @@ import {
   RiVipDiamondLine,
   RiBarChartLine,
   RiWallet2Fill,
+  RiBox2Fill,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -88,6 +89,11 @@ const adminData = {
               title: 'Reservaciones',
               url: '/inventario/motos/reservaciones',
               icon: RiCalendarScheduleLine,
+            },
+            {
+              title: 'Pedidos',
+              url: '/inventario/motos/pedidos',
+              icon: RiBox2Fill,
             },
           ],
           icon: RiMotorbikeLine,

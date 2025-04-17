@@ -42,6 +42,11 @@ export const createModeloClientUrl = '/api/modelos';
 export const deleteModeloClientUrl = '/api/modelos';
 export const updateModeloClientUrl = '/api/modelos';
 
+/* Modelos Pedidos */
+export const createModeloPedidoClientUrl = '/api/modelos-pedidos';
+export const deleteModeloPedidoClientUrl = '/api/modelos-pedidos';
+export const updateModeloPedidoClientUrl = '/api/modelos-pedidos';
+
 /* Moto Unidad */
 export const createMotoClientUrl = '/api/motos';
 export const updateMotoClientUrl = '/api/motos';
@@ -56,6 +61,11 @@ export const updateGastoMotoClientUrl = '/api/motos';
 export const createReservacionClientUrl = '/api/reservaciones';
 export const updateReservacionClientUrl = '/api/reservaciones';
 export const deleteReservacionClientUrl = '/api/reservaciones';
+
+/* Pedidos */
+export const createPedidoClientUrl = '/api/pedidos';
+export const updatePedidoClientUrl = '/api/pedidos';
+export const deletePedidoClientUrl = '/api/pedidos';
 
 /* Almacen */
 export const createAlmacenClientUrl = '/api/almacenes';
@@ -104,3 +114,9 @@ export const incrementCounterNotaVentaClientUrl = '/api/counters/increment';
 export const createGastoGeneralClientUrl = '/api/gastos-generales';
 export const updateGastoGeneralClientUrl = '/api/gastos-generales';
 export const deleteGastoGeneralClientUrl = '/api/gastos-generales';
+
+/* Inventariar pedido */
+
+
+export const inventariarPedidoClientUrl = '/api/pedidos';
+
