@@ -20,6 +20,10 @@ import ObsequiosLineChart from "./_components/ObsequiosLineChart";
 
 import VentasTotalesBarChart from "@/app/estadisticas/_components/VentasTotalesBarChart";
 
+
+import PedidosAreaChart from "./_components/PedidosAreaChart";
+import { getAllPedidosHistoricosRequestServer } from "@/app/estadisticas/_services/requests";
+
 export default async function Page() {
   //Data para IncomeExpenseBarChart
   const dataProductos = await getAllProductsRequestServer();
@@ -33,6 +37,14 @@ export default async function Page() {
 
   //Data para vendedores y productos mas vendidos
   const dataVentasHistoricas = await getAllVentasHistoricasRequestServer();
+
+
+  //Data para pedidos
+
+  const dataPedidosHistoricos = await getAllPedidosHistoricosRequestServer();
+
+
+  // console.log("Data de pedidos", dataPedidosHistoricos);
 
   return (
     <>
@@ -51,6 +63,7 @@ export default async function Page() {
               dataProductos={dataProductos}
               dataMotos={dataMotos}
               dataGastosGenerales={dataGastosGenerales}
+              dataVentasHistoricas={dataVentasHistoricas}
             />
             <div className="flex flex-col gap-4 2xl:flex-row">
               <LeaderboardSalesBarChart
@@ -72,6 +85,7 @@ export default async function Page() {
               />
               <ObsequiosLineChart dataVentasHistoricas={dataVentasHistoricas} />
             </div>
+            <PedidosAreaChart dataPedidosHistoricos={dataPedidosHistoricos} />
           </CardContent>
         </Card>
       </NavbarSimple>

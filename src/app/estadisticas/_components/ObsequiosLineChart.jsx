@@ -1,6 +1,6 @@
 "use client";
 
-import { CartesianGrid, LabelList, Line, LineChart, XAxis } from "recharts"
+import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts"
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 
@@ -87,6 +87,10 @@ export default function ObsequiosLineChart({ dataVentasHistoricas }) {
               tickMargin={8}
               tickFormatter={(value) => value.slice(0, 3)}
             />
+
+            <YAxis domain={[0, 'dataMax + 1']} />
+            
+
             <ChartTooltip
               cursor={false}
               content={<ChartTooltipContent indicator="line" />}

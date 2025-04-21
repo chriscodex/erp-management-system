@@ -30,7 +30,7 @@ export function SheetAddCaracteristicasMotoWrapper({ onSave, defaultValues }) {
         onClick={handleOpenSheet}
       >
         <Plus />
-        Agregar Características de la Moto
+        Agregar Características
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>

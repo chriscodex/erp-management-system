@@ -26,17 +26,51 @@ export default function IncomeExpenseBarChart({
   dataProductos,
   dataMotos,
   dataGastosGenerales,
+  dataVentasHistoricas,
 }) {
-
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
   const [anio, setAnio] = useState(new Date().getFullYear());
 
+  console.log("Desde IncomeExpense", dataVentasHistoricas);
+
   function handleDateChange(month, year) {
     setMes(month);
     setAnio(year);
   }
+
+  //Cálculos para ingresos (ventas)
+
+  function sumarIngresos(dataVentasHistoricas, anio, mes) {
+    if (
+      !dataVentasHistoricas ||
+      !Array.isArray(dataVentasHistoricas.ventasHistoricas)
+    ) {
+      console.error("Ventas históricas no válidas");
+      return 0;
+    }
+
+    return dataVentasHistoricas.ventasHistoricas.reduce((total, venta) => {
+      const fechaVenta = new Date(venta.fecha);
+      const mesVenta = fechaVenta.getMonth() + 1;
+      const anioVenta = fechaVenta.getFullYear();
+
+      if (mesVenta === mes && anioVenta === anio) {
+        const sumaVenta = (venta.productos || []).reduce((suma, producto) => {
+          return suma + (producto.precioVenta || 0);
+        }, 0);
+
+        return total + sumaVenta;
+      }
+
+      return total;
+    }, 0);
+  }
+
+  const totalIngresos = sumarIngresos(dataVentasHistoricas, anio, mes);
+
+  //Cálculos para egresos
 
   function sumarGastos(data, anio, mes) {
     if (!Array.isArray(data)) {
@@ -109,7 +143,10 @@ export default function IncomeExpenseBarChart({
     anio
   );
 
-  const dataMensual = { ingresos: 21111, egresos: resultado?.totalGeneral };
+  const dataMensual = {
+    ingresos: totalIngresos,
+    egresos: resultado?.totalGeneral,
+  };
   // Extraer ingresos y egresos del mes seleccionado
 
   const { ingresos = 0, egresos = 0 } = dataMensual || {};
@@ -140,32 +177,32 @@ export default function IncomeExpenseBarChart({
       <CardContent className="flex flex-col items-center lg:flex-row gap-5">
         <div className="flex-1  w-full h-auto">
           {/* <ResponsiveContainer width="100%" height={250}> */}
-            <ChartContainer
-              config={chartConfig}
-              className="w-full h-full overflow-hidden lg:min-w-[350px]"
-            >
-              <BarChart data={chartData} layout="vertical" margin={{ left: 0 }}>
-                <YAxis
-                  dataKey="tipo"
-                  type="category"
-                  tickLine={false}
-                  tickMargin={5}
-                  axisLine={false}
-                  tickFormatter={(value) => chartConfig[value]?.label || value}
-                />
-                <XAxis dataKey="monto" type="number" />
-                <ChartTooltip
-                  cursor={false}
-                  content={<ChartTooltipContent hideLabel />}
-                />
-                <Bar
-                  dataKey="monto"
-                  layout="vertical"
-                  radius={5}
-                  minPointSize={8}
-                />
-              </BarChart>
-            </ChartContainer>
+          <ChartContainer
+            config={chartConfig}
+            className="w-full h-full overflow-hidden lg:min-w-[350px]"
+          >
+            <BarChart data={chartData} layout="vertical" margin={{ left: 0 }}>
+              <YAxis
+                dataKey="tipo"
+                type="category"
+                tickLine={false}
+                tickMargin={5}
+                axisLine={false}
+                tickFormatter={(value) => chartConfig[value]?.label || value}
+              />
+              <XAxis dataKey="monto" type="number" />
+              <ChartTooltip
+                cursor={false}
+                content={<ChartTooltipContent hideLabel />}
+              />
+              <Bar
+                dataKey="monto"
+                layout="vertical"
+                radius={5}
+                minPointSize={8}
+              />
+            </BarChart>
+          </ChartContainer>
           {/* </ResponsiveContainer> */}
         </div>
 
@@ -181,14 +218,18 @@ export default function IncomeExpenseBarChart({
                 <span className="text-sm font-medium mr-2 text-blue-700">
                   Ingresos por ventas
                 </span>
-                <span className=" font-semibold">S/ {formatMoney(ingresos)}</span>
+                <span className=" font-semibold">
+                  S/ {formatMoney(ingresos)}
+                </span>
               </div>
               <Separator />
               <div className="flex items-center justify-between">
                 <span className="font-semibold mr-2 text-blue-600">
                   Total ingresos
                 </span>
-                <span className="font-bold text-blue-600">S/ {formatMoney(ingresos)}</span>
+                <span className="font-bold text-blue-600">
+                  S/ {formatMoney(ingresos)}
+                </span>
               </div>
             </CardContent>
           </Card>
