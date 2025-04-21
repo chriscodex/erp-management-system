@@ -48,17 +48,12 @@ export function DataTablePedidos({ columns, data, status = 200 }) {
     },
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: (row, columnId, filterValue) => {
-      // Filtrar por identificador (RUC/DNI) o código
-      const identificador =
-        row.original.cliente?.tipo === 'empresa'
-          ? row.original.cliente?.datos?.ruc
-          : row.original.cliente?.datos?.dni;
-
-      const moto = row.original.moto.nombre;
+      // Filtrar por código
+      const code = row.original?.code;
 
       return (
-        identificador?.toLowerCase().includes(filterValue.toLowerCase()) ||
-        moto?.toLowerCase().includes(filterValue.toLowerCase())
+        code.includes(filterValue) ||
+        String(code).includes(filterValue)
       );
     },
   });

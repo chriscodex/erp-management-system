@@ -96,6 +96,27 @@ export const columnsPedidos = [
       return <div className="text-start">{cantidad}</div>;
     },
   },
+  // {
+  //   accessorKey: "montoPagadoYTotal",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+  //       >
+  //         Monto Pagado / Total
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  //   cell: ({ row }) => {
+  //     const montoPagado = formatMoney(row?.original?.montoPagado);
+  //     const montoTotal = formatMoney(row?.original?.montoTotal);
+  //     return (
+  //       <div className="text-start">{`S/.${montoPagado} de S/.${montoTotal}`}</div>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "montoPagadoYTotal",
     header: ({ column }) => {
@@ -110,10 +131,17 @@ export const columnsPedidos = [
       );
     },
     cell: ({ row }) => {
-      const montoPagado = formatMoney(row?.original?.montoPagado);
+      const montoPagado = row?.original?.montoPagado;
       const montoTotal = formatMoney(row?.original?.montoTotal);
+  
+      const showSoloTotal = montoPagado === undefined || montoPagado === null || montoPagado === "";
+  
       return (
-        <div className="text-start">{`S/.${montoPagado} de S/.${montoTotal}`}</div>
+        <div className="text-start">
+          {showSoloTotal
+            ? `S/.${montoTotal}`
+            : `S/.${formatMoney(montoPagado)} de S/.${montoTotal}`}
+        </div>
       );
     },
   },
@@ -125,9 +153,6 @@ export const columnsPedidos = [
       // const { _id: id } = row.original._id;
 
       const id = row.original._id;
-
-      console.log("XXXXXXXXXXXXXXXXXXXXXXXXXX", row.original);
-      console.log(id);
 
       const router = useRouter();
 

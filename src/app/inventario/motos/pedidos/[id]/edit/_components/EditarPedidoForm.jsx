@@ -1,6 +1,6 @@
 "use client";
 
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { CalendarIcon, Save } from "lucide-react";
@@ -56,11 +56,12 @@ import {
 } from "@/components/ui/popover";
 import { estadosPagos } from "@/app/inventario/motos/_services/helpers";
 import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
-import { updatePedidoRequestClient } from "@/app/inventario/motos/pedidos/[id]/_services/requests";
+import { updatePedidoRequestClient } from "@/app/inventario/motos/pedidos/[id]/edit/_services/requests";
 
 import { Textarea } from "@/components/ui/textarea";
+import { updatePedidoSchema } from "@/app/inventario/motos/pedidos/[id]/edit/_services/validations/updatePedidoSchema";
 // import { createPedidoSchema } from "@/app/inventario/motos/pedidos/nuevo/_services/validations/createPedidoSchema";
-import { SheetAddCaracteristicasMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/addCaracteristicasMoto/sheetAddCaracteristicasMoto";
+import { SheetUpdateCaracteristicasMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/updateCaracteristicasMoto/sheetUpdateCaracteristicasMoto";
 
 import { SheetAddModeloWrapper } from "@/app/inventario/motos/pedidos/_components/sheets/addModelo/sheetAddModelo";
 import { SheetAddProveedorWrapper } from "@/app/inventario/motos/pedidos/_components/sheets/addProveedor/sheetAddProveedor";
@@ -79,7 +80,7 @@ export function EditarPedidoForm({
   const [open, setOpen] = useState(false); //Close calendar
 
   const form = useForm({
-    // resolver: zodResolver(createPedidoSchema),
+    resolver: zodResolver(updatePedidoSchema),
     defaultValues: {
       modeloId: (() => {
         const matchModeloInventario = modelos.find(
@@ -148,36 +149,11 @@ export function EditarPedidoForm({
     await shortDelay();
   };
 
-  // Manejo de formulario
-  // const onSubmit = handleSubmit(async (data) => {
-  //   const createPedidoObject = {
-  //     ...data,
-  //     modelo: modeloSeleccionado,
-  //     caracteristicas: caracteristicas,
-  //   };
+  const contarCaracteristicasValidas = (obj) =>
+    Object.values(obj || {}).filter(
+      (valor) => valor !== "" && valor !== null && valor !== undefined
+    ).length;
 
-  //   toast.promise(
-  //     createPedidoRequestClient(
-  //       createPedidoObject,
-  //       setFormSubmitIsLoading,
-  //       setError
-  //     ),
-  //     {
-  //       loading: "Registrando...",
-
-  //       success: (response) => {
-  //         console.log(response);
-  //         clearErrors();
-  //         router.push(`/inventario/motos/pedidos`);
-  //         return `Pedido registrado correctamente`;
-  //       },
-  //       error: (error) => {
-  //         setFormSubmitIsLoading(false);
-  //         return error;
-  //       },
-  //     }
-  //   );
-  // });
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
@@ -196,41 +172,35 @@ export function EditarPedidoForm({
       }
     }
 
-    console.log("Datos del formulario", data);
-
     let updateObject = {
       ...pedidoData,
       modelo: modeloSeleccionado,
       // caracteristicas: caracteristicas,
     };
 
-    console.log("Objeto antes: /n", updateObject);
-
-    console.log(modeloSeleccionado);
-
     (updateObject["modelo"] = {
       nombre: modeloSeleccionado?.nombre,
       descripcion: modeloSeleccionado?.descripcion,
-      categoria: modeloSeleccionado?.categoryId?._id,
-      marca: modeloSeleccionado?.marcaId?._id,
+      stockMinimo: modeloSeleccionado?.stockMinimo,
+      categoryId: modeloSeleccionado?.categoryId?._id,
+      marcaId: modeloSeleccionado?.marcaId?._id,
     }),
       (updateObject["moto"] = {
         nombre: data.moto?.nombre,
         descripcion: data.moto?.descripcion,
         caracteristicas: caracteristicas,
-        cantidad: data.moto?.cantidad,
+        cantidad: 1,
         importado: data.importado,
       });
 
     updateObject["comentario"] = data.comentario;
     updateObject["estadoPago"] = data.estadoTitle;
-    updateObject["montoPagado"] = Number(data.montoPagado);
+    // updateObject["montoPagado"] = Number(data.montoPagado);
+    updateObject["montoPagado"] = data.montoPagado ? Number(data.montoPagado) : 0;
     updateObject["montoTotal"] = Number(data.montoTotal);
     updateObject["fechaPago"] = data.fechaPago;
     updateObject["proveedorId"] = data.proveedorId;
     updateObject["almacenId"] = data.almacenId;
-
-    console.log("Objeto que se manda para actualizar: /n", updateObject);
 
     // delete updateObject.createdAt;
     delete updateObject.updatedAt;
@@ -354,8 +324,6 @@ export function EditarPedidoForm({
               )}
               <div className="flex items-end gap-2">
                 <SheetAddModeloWrapper
-                  onSave={handleSaveCaracteristicas}
-                  defaultValues={caracteristicas}
                   categories={categories}
                   marcas={marcas}
                   onAddModelo={(nuevoModelo) => {
@@ -415,22 +383,54 @@ export function EditarPedidoForm({
                 )}
               />
               <div className="flex items-end gap-2">
-                <SheetAddCaracteristicasMotoWrapper
+                <SheetUpdateCaracteristicasMotoWrapper
                   onSave={handleSaveCaracteristicas}
                   defaultValues={caracteristicas}
+                  MotoData={pedidoData?.moto}
                 />
-                {caracteristicas &&
-                  (() => {
-                    const count = Object.values(caracteristicas).filter(
-                      (valor) =>
-                        valor !== "" && valor !== null && valor !== undefined
-                    ).length;
-                    return count > 0 ? (
+                {(() => {
+                  const originales = pedidoData?.moto?.caracteristicas || {};
+                  const actuales = caracteristicas || originales;
+
+                  const totalOriginales =
+                    contarCaracteristicasValidas(originales);
+                  const totalActuales = contarCaracteristicasValidas(actuales);
+
+                  // Calcular cuántas fueron modificadas
+                  const modificadas = Object.keys(actuales).reduce(
+                    (count, key) => {
+                      const original = originales[key] ?? "";
+                      const actual = actuales[key] ?? "";
+
+                      return original !== actual ? count + 1 : count;
+                    },
+                    0
+                  );
+
+                  if (totalActuales > 0) {
+                    return (
                       <span className="text-green-600 text-sm">
-                        {count} característica(s) agregada(s)
+                        {totalOriginales > 0 ? (
+                          <>
+                            {totalOriginales} característica(s) previa(s)
+                            {modificadas > 0 && (
+                              <>
+                                {" "}
+                                <span className="text-orange-600">
+                                  y {modificadas} modificada(s)
+                                </span>
+                              </>
+                            )}
+                          </>
+                        ) : (
+                          `${totalActuales} característica(s) agregada(s)`
+                        )}
                       </span>
-                    ) : null;
-                  })()}
+                    );
+                  }
+
+                  return null;
+                })()}
               </div>
             </CardContent>
           </Card>
@@ -591,8 +591,6 @@ export function EditarPedidoForm({
                   />
                   <div className="flex items-end gap-2">
                     <SheetAddProveedorWrapper
-                      onSave={handleSaveCaracteristicas}
-                      defaultValues={caracteristicas}
                       onAddProveedor={(nuevoProveedor) => {
                         setSelectedProveedorId(nuevoProveedor._id);
                         setListaProveedores((prev) => [

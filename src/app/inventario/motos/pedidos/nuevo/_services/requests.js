@@ -16,9 +16,9 @@ export async function createPedidoRequestClient(pedidoData, setLoading) {
           modeloId: pedidoData.modeloId,
           nombre: pedidoData.modelo.nombre,
           descripcion: pedidoData.modelo.descripcion,
-          stockMinimo: pedidoData.modelo.stockMinimo,
-          marca: pedidoData.modelo.marcaId,
-          categoria: pedidoData.modelo.categoryId,
+          stockMinimo: Number(pedidoData.modelo.stockMinimo),
+          marcaId: String(pedidoData.modelo.marcaId._id),
+          categoryId: String(pedidoData.modelo.categoryId._id),
         },
         moto: {
           nombre: pedidoData.moto.nombre,
@@ -28,13 +28,16 @@ export async function createPedidoRequestClient(pedidoData, setLoading) {
           importado: pedidoData.importado,
         },
         estadoPago: pedidoData.estadoTitle,
-        montoPagado: pedidoData.montoPagado,
+        // montoPagado: pedidoData.montoPagado,
+        montoPagado: pedidoData.montoPagado ? Number(pedidoData.montoPagado) : 0,
         montoTotal: pedidoData.montoTotal,
         fechaPago: pedidoData.fechaPago,
         comentario: pedidoData.comentario,
         proveedorId: pedidoData.proveedorId,
         almacenId: pedidoData.almacenId,
       };
+
+      console.log("Pedido data formateado en el request", pedidoDataFormated);
 
       const response = await postData(
         createPedidoClientUrl,

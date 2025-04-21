@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { useState } from "react";
 import { toast } from "sonner";
-// import { useRouter } from "next/navigation";
+import { zodResolver } from '@hookform/resolvers/zod';
 
 import { Input } from "@/components/ui/input";
 import {
@@ -34,13 +34,13 @@ import { StringInputField } from "@/components/formInputs/StringInputField";
 import { Textarea } from "@/components/ui/textarea";
 import { Separator } from "@/components/ui/separator";
 
+import { createModeloSchema } from "@/app/inventario/motos/pedidos/_services/validations/createModeloSchema";
 import { createModeloPedidoRequestClient } from "@/app/inventario/motos/pedidos/_services/requests";
 
 import {} from "@remixicon/react";
 
 export function AddModeloForm({
   onClose,
-  defaultValues,
   categories = [],
   marcas = [],
   onAddModelo,
@@ -48,7 +48,14 @@ export function AddModeloForm({
   // const router = useRouter();
 
   const addModeloForm = useForm({
-    defaultValues: defaultValues || {},
+    resolver: zodResolver(createModeloSchema),
+    defaultValues: {
+      categoryId: '',
+      marcaId: '',
+      nombre: '',
+      descripcion: '',
+      stockMinimo: '',
+    },
   });
 
   const {
@@ -60,26 +67,6 @@ export function AddModeloForm({
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
-  //Manejo de formulario
-  // const onSubmit = handleSubmit(async (data) => {
-  //   setFormSubmitIsLoading(true);
-
-  //   // Toast promise para buscar una persona
-  //   toast.promise(createModeloPedidoRequestClient(data, setFormSubmitIsLoading), {
-  //     loading: "Creando...",
-  //     success: () => {
-  //       clearErrors();
-  //       resetForm();
-  //       onClose();
-  //       router.refresh();
-  //       return `Modelo pedido creado correctamente`;
-  //     },
-  //     error: (error) => {
-  //       setFormSubmitIsLoading(false);
-  //       return error;
-  //     },
-  //   });
-  // });
   const onSubmit = handleSubmit(async (data) => {
     setFormSubmitIsLoading(true);
 

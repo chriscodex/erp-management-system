@@ -1,11 +1,12 @@
 import { PedidoRepository } from "@/backend/pedidos/domain/repositories/pedidoRepository";
 
 import { ModeloRepository } from "@/backend/modelos/domain/repositories/modeloRepository";
-// import { ModeloPedidoRepository } from "@/backend/modelosPedidos/domain/repositories/modeloPedidoRepository";
+import { ModeloPedidoRepository } from "@/backend/modelosPedidos/domain/repositories/modeloPedidoRepository";
 
 import { AlmacenRepository } from "@/backend/almacenes/domain/repositories/almacenRepository";
 import { ProveedorRepository } from "@/backend/proveedores/domain/repositories/proveedorRepository";
 import { MotoRepository } from "@/backend/motos/domain/repositories/motoRepository";
+import { PedidoHistoricoRepository } from "@/backend/pedidos/domain/repositories/pedidoHistoricoRepository";
 
 import { createPedidoSchema } from "@/backend/pedidos/application/validations/createPedidoSchema";
 import { generarNumeroAleatorio } from "@/lib/utils";
@@ -16,9 +17,11 @@ export class PedidoService {
   constructor() {
     this.pedidoRepository = new PedidoRepository();
     this.modeloRepository = new ModeloRepository();
+    this.modeloPedidoRepository = new ModeloPedidoRepository();
     this.almacenRepository = new AlmacenRepository();
     this.proveedorRepository = new ProveedorRepository();
     this.motoRepository = new MotoRepository();
+    this.pedidoHistoricoRepository = new PedidoHistoricoRepository();
   }
 
   async getAllPedidos() {
@@ -130,13 +133,26 @@ export class PedidoService {
       // Validar los datos del pedido enviado con el schema
       const pedidoValidated = createPedidoSchema.safeParse(pedidoData);
 
+      // if (!pedidoValidated.success) {
+      //   console.log(
+      //     `Pedido Service: Error de validación de schema de pedido al crear ${pedidoValidated}`
+      //   );
+      //   return {
+      //     status: 400,
+      //     payload: pedidoValidated.error.issues,
+      //   };
+      // }
       if (!pedidoValidated.success) {
-        console.log(
-          `Pedido Service: Error de validación de schema de pedido al crear ${pedidoValidated}`
-        );
+        const formattedErrors = pedidoValidated.error.issues.map((err) => ({
+          path: err.path.join("."),
+          message: err.message,
+        }));
+
+        console.log("Pedido Service: Error de validación", formattedErrors);
+
         return {
           status: 400,
-          payload: pedidoValidated.error.issues,
+          payload: formattedErrors,
         };
       }
 
@@ -201,13 +217,27 @@ export class PedidoService {
       // Validar los datos del usuario enviado con el schema
       const pedidoValidated = updatePedidoSchema.safeParse(pedidoData);
 
+      // if (!pedidoValidated.success) {
+      //   console.log(
+      //     "Pedido Service: Error de validación de schema de pedido al actualizar"
+      //   );
+      //   return {
+      //     status: 400,
+      //     payload: pedidoValidated.error.issues,
+      //   };
+      // }
+      
       if (!pedidoValidated.success) {
-        console.log(
-          "Pedido Service: Error de validación de schema de pedido al actualizar"
-        );
+        const formattedErrors = pedidoValidated.error.issues.map((err) => ({
+          path: err.path.join("."),
+          message: err.message,
+        }));
+
+        console.log("Pedido Service: Error de validación", formattedErrors);
+
         return {
           status: 400,
-          payload: pedidoValidated.error.issues,
+          payload: formattedErrors,
         };
       }
 
@@ -269,13 +299,9 @@ export class PedidoService {
 
   async inventariarPedido(pedidoId) {
     try {
-      // console.log("Este es el pedidooooo", pedidoId);
-
       //Traemos el pedido
 
       const pedido = await this.pedidoRepository.getPedidoByData(pedidoId);
-
-      
 
       if (!pedido) {
         console.log(
@@ -287,23 +313,35 @@ export class PedidoService {
         };
       }
 
+      console.log("Así llega pedido", pedido)
+      //Verificamos si las características vienen como null
+
+      if (
+        !pedido?.moto?.caracteristicas ||
+        (typeof pedido.moto.caracteristicas.toObject === "function" &&
+          pedido.moto.caracteristicas.toObject() === null)
+      ) {
+        pedido.moto.caracteristicas = {};
+      } else if (typeof pedido.moto.caracteristicas.toObject === "function") {
+        pedido.moto.caracteristicas = pedido.moto.caracteristicas.toObject();
+      }
+
       //Extraemos y transformamos la información del pedido
 
       const datosModelo = {
         nombre: pedido?.modelo?.nombre,
         descripcion: pedido?.modelo?.descripcion,
-        marcaId: pedido?.modelo?.marca,
-        categoryId: pedido?.modelo?.categoria,
+        marcaId: pedido?.modelo?.marcaId,
+        categoryId: pedido?.modelo?.categoryId,
       };
 
+      console.log("datosModelo", datosModelo);
       
 
       //Verificamos si el modelo existe
       const modeloFound = await this.modeloRepository.getModeloByData(
         datosModelo
       );
-
-      console.log(modeloFound);
 
       let modeloId;
 
@@ -325,10 +363,20 @@ export class PedidoService {
         );
 
         modeloId = modeloCreated._id;
+        const modeloPedidoFound = await this.modeloPedidoRepository.getModeloPedidoByData(
+          datosModelo
+        );
 
+        console.log ("modeloPedidoFound", modeloPedidoFound);
+
+        if (modeloPedidoFound) {
+          await this.modeloPedidoRepository.deleteModeloPedido(
+            modeloPedidoFound._id
+          )
+        }
         // return {
         //   status: 201,
-        //   payload: {modelo: modeloCreated},
+        //   payload: { modelo: modeloCreated },
         // };
       } else {
         console.log("Pedido Service: El modelo ya existe en inventario.");
@@ -345,7 +393,7 @@ export class PedidoService {
         },
         nombre: pedido?.moto?.nombre,
         descripcion: pedido?.moto?.descripcion,
-        caracteristicas: pedido?.moto?.caracteristicas || [],
+        caracteristicas: pedido?.moto?.caracteristicas ?? {},
         precioCompra: pedido?.montoTotal,
         precioVenta: pedido?.montoTotal,
         importado: pedido?.moto?.importado,
@@ -355,18 +403,31 @@ export class PedidoService {
         gastos: [],
       };
 
+      console.log("Datos de la moto", datosMoto);
+
       //Crear moto
 
       const motoCreated = await this.motoRepository.createMoto(datosMoto);
 
-      //Eliminar pedido tras inventariarlo
+      //Crear pedido historico
+      const pedidoObject = pedido.toObject(); // Convierte el documento Mongoose a un objeto plano
+      delete pedidoObject._id;
+
+      console.log("pedido que ira a historico", pedidoObject);
+
+      const pedidoHistoricoCreated =
+        await this.pedidoHistoricoRepository.createPedidoHistorico(
+          pedidoObject
+        );
+
+      //Eliminar pedido tras inventariarlo y mandarlo al historial
 
       await this.pedidoRepository.deletePedido(pedidoId);
       console.log("Pedido Service: Pedido eliminado tras ser inventariado.");
 
       return {
         status: 201,
-        payload: { moto: motoCreated },
+        payload: { moto: motoCreated, pedidoHistorico: pedidoHistoricoCreated },
       };
     } catch (error) {
       console.error(

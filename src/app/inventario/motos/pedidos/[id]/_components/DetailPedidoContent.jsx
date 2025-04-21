@@ -2,7 +2,7 @@ import { Package, User, Hash } from "lucide-react";
 import { RiFileListLine, RiMotorbikeFill } from "@remixicon/react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import { cn } from "@/lib/utils";
 import { formatDateLong } from "@/lib/formateador";
 import {
   RiArrowUpDownLine,
@@ -17,13 +17,12 @@ import {
   RiMotorbikeLine,
 } from "@remixicon/react";
 import { Label } from "@/components/ui/label";
-import { Badge } from '@/components/ui/badge';
-import { DetailPedidoButtons } from '@/app/inventario/motos/pedidos/[id]/_components/buttons/DetailPedidoButtons';
-import { GenerarInventariadoButton } from '@/app/inventario/motos/pedidos/[id]/_components/buttons/GenerarInventariadoButton';
+import { Badge } from "@/components/ui/badge";
+import { DetailPedidoButtons } from "@/app/inventario/motos/pedidos/[id]/_components/buttons/DetailPedidoButtons";
+import { GenerarInventariadoButton } from "@/app/inventario/motos/pedidos/[id]/_components/buttons/GenerarInventariadoButton";
 // import { EmitirConfirmacionReservacionButton } from '@/app/inventario/motos/reservaciones/[id]/_components/buttons/EmitirConfirmacionReservacion';
 
 export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
-  
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex lg:flex-row flex-col items-center justify-between space-y-0 pb-4">
@@ -88,8 +87,19 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                   <span className="text-gray-500 dark:text-gray-400">
                     Estado de Pago:
                   </span>
-                  <Badge className="capitalize">{pedidoData?.estadoPago}</Badge>
-                  {/* {pedidoData?.estadoPago} */}
+                  <Badge
+                    className={cn(
+                      "capitalize",
+                      pedidoData?.estadoPago === "pendiente" &&
+                        "bg-red-500 text-white",
+                      pedidoData?.estadoPago === "parcial" &&
+                        "bg-yellow-500 text-white",
+                      pedidoData?.estadoPago === "completado" &&
+                        "bg-green-500 text-white"
+                    )}
+                  >
+                    {pedidoData?.estadoPago}
+                  </Badge>
                 </div>
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
@@ -128,7 +138,6 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
             <CardContent>
               <div className="space-y-2">
                 <p className="flex justify-between">
-
                   <span className="text-gray-500 dark:text-gray-400">
                     Nombre:
                   </span>{" "}

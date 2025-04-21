@@ -9,7 +9,7 @@ import { Sheet } from '@/components/ui/sheet';
 import { AddModeloForm } from '@/app/inventario/motos/pedidos/_components/sheets/addModelo/addModeloForm';
 
 
-export function SheetAddModeloWrapper({ defaultValues, categories, marcas, onAddModelo }) {
+export function SheetAddModeloWrapper({ categories, marcas, onAddModelo }) {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -32,7 +32,7 @@ export function SheetAddModeloWrapper({ defaultValues, categories, marcas, onAdd
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <AddModeloForm onClose={handleCloseSheet} defaultValues={defaultValues} categories={categories} marcas={marcas} onAddModelo={onAddModelo}/>
+          <AddModeloForm onClose={handleCloseSheet} categories={categories} marcas={marcas} onAddModelo={onAddModelo}/>
         </Sheet>
       )}
     </div>

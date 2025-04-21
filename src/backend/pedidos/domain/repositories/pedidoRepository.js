@@ -225,14 +225,14 @@ export class PedidoRepository {
     }
   }
 
-  async inventariarPedido(pedidoId) {
-    try {
+  // async inventariarPedido(pedidoId) {
+  //   try {
       
-    } catch (error) {
-      console.error(
-        `Pedido Repository: Error al inventariar el pedido: ${error.message}`
-      );
-      throw new Error(`Error al inventariar el pedido: ${error.message}`);
-    }
-  }
+  //   } catch (error) {
+  //     console.error(
+  //       `Pedido Repository: Error al inventariar el pedido: ${error.message}`
+  //     );
+  //     throw new Error(`Error al inventariar el pedido: ${error.message}`);
+  //   }
+  // }
 }

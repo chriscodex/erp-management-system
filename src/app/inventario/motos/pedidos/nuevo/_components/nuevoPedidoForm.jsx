@@ -1,6 +1,6 @@
 "use client";
 
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { CalendarIcon, Save } from "lucide-react";
@@ -36,17 +36,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 // import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import {
-//   Tooltip,
-//   TooltipContent,
-//   TooltipProvider,
-//   TooltipTrigger,
-// } from "@/components/ui/tooltip";
+
 import { cn } from "@/lib/utils";
-// import {
-//   onChangeCelular,
-//   onChangeNumero,
-// } from "@/components/formInputs/onChange";
 import { shortDelay } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import {
@@ -61,7 +52,7 @@ import { createPedidoRequestClient } from "@/app/inventario/motos/pedidos/nuevo/
 import { Textarea } from "@/components/ui/textarea";
 // import { createPedidoSchema } from "@/app/inventario/motos/pedidos/nuevo/_services/validations/createPedidoSchema";
 import { SheetAddCaracteristicasMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/addCaracteristicasMoto/sheetAddCaracteristicasMoto";
-
+import { createPedidoSchema } from "@/app/inventario/motos/pedidos/nuevo/_services/validations/createPedidoSchema";
 import { SheetAddModeloWrapper } from "@/app/inventario/motos/pedidos/_components/sheets/addModelo/sheetAddModelo";
 import { SheetAddProveedorWrapper } from "@/app/inventario/motos/pedidos/_components/sheets/addProveedor/sheetAddProveedor";
 export function NuevoPedidoForm({
@@ -72,7 +63,6 @@ export function NuevoPedidoForm({
   categories = [],
   marcas = [],
 }) {
-  // const { data: session } = useSession();
 
   const router = useRouter();
 
@@ -80,10 +70,14 @@ export function NuevoPedidoForm({
   const [open, setOpen] = useState(false); //Close calendar
 
   const form = useForm({
-    // resolver: zodResolver(createPedidoSchema),
+    resolver: zodResolver(createPedidoSchema),
     defaultValues: {
+      moto:{
+        descripcion: "",
+      },
       importado: "no",
       fechaPago: new Date(),
+      comentario: "",
     },
   });
 
@@ -95,11 +89,6 @@ export function NuevoPedidoForm({
   });
 
   const [tipoModelo, idModelo] = selectedModelIdWithPrefix?.split("-") || [];
-
-  // const modeloSeleccionado =
-  //   tipoModelo === "modelo"
-  //     ? modelos.find((m) => m._id === idModelo)
-  //     : modelosPedidos.find((m) => m._id === idModelo);
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
@@ -180,6 +169,7 @@ export function NuevoPedidoForm({
               <CardTitle>Modelo</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
+              
               <FormField
                 control={control}
                 name="modeloId"
@@ -259,8 +249,6 @@ export function NuevoPedidoForm({
               )}
               <div className="flex items-end gap-2">
                 <SheetAddModeloWrapper
-                  onSave={handleSaveCaracteristicas}
-                  defaultValues={caracteristicas}
                   categories={categories}
                   marcas={marcas}
                   onAddModelo={(nuevoModelo) => {
@@ -496,8 +484,6 @@ export function NuevoPedidoForm({
                   />
                   <div className="flex items-end gap-2">
                     <SheetAddProveedorWrapper
-                      onSave={handleSaveCaracteristicas}
-                      defaultValues={caracteristicas}
                       onAddProveedor={(nuevoProveedor) => {
                         setSelectedProveedorId(nuevoProveedor._id);
                         setListaProveedores((prev) => [
