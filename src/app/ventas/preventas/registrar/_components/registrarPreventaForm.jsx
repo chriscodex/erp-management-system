@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 import {
   IdCardIcon,
@@ -13,12 +13,21 @@ import {
   SearchIcon,
   User,
   UserCheck,
+  CalendarIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { RiArrowLeftLine } from "@remixicon/react";
 import { useSession } from "next-auth/react";
 
+import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
+import { format } from "date-fns"; //Calendar
+import { es } from "date-fns/locale"; //Calendar
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Form,
   FormControl,
@@ -29,6 +38,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -50,6 +60,7 @@ import {
 import { ObsequiosPreventaTable } from "@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table";
 import { Textarea } from "@/components/ui/textarea";
 import { createPreventaSchemaForm } from "@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm";
+// import { ConstructionOutlined } from "@mui/icons-material";
 
 export function RegistrarPreventaForm() {
   const { data: session } = useSession();
@@ -58,6 +69,9 @@ export function RegistrarPreventaForm() {
 
   const [obsequiosPreventa, setObsequiosPreventa] = useState([]);
   const [productsPreventa, setProductsPreventa] = useState([]);
+
+  const [date, setDate] = useState(new Date()); //Date Calendar
+  const [open, setOpen] = useState(false); //Close calendar
 
   const form = useForm({
     resolver: zodResolver(createPreventaSchemaForm),
@@ -72,6 +86,8 @@ export function RegistrarPreventaForm() {
       direccion: "",
       celular: "",
       comentarios: "",
+      cotizacion: "no",
+      fechaValidez: new Date(),
     },
   });
 
@@ -92,7 +108,6 @@ export function RegistrarPreventaForm() {
       productos: productsPreventa,
       obsequios: obsequiosPreventa,
     };
-
     // Toast promise para buscar una persona
     toast.promise(
       createPreventaRequestClient(createPreventaObject, setFormSubmitIsLoading),
@@ -192,6 +207,22 @@ export function RegistrarPreventaForm() {
       console.error("Error al buscar persona por DNI:", error);
     }
   };
+
+  const cotizacionValue = useWatch({
+    control,
+    name: "cotizacion",
+  });
+
+  useEffect(() => {
+    if (cotizacionValue === "no") {
+      setValue("fechaValidez", null);
+      setDate(undefined); // Si estás manejando la fecha localmente
+    }else{
+      setDate(new Date());
+    }
+  }, [cotizacionValue, setValue]);
+
+  
 
   return (
     <>
@@ -431,7 +462,7 @@ export function RegistrarPreventaForm() {
                       <FormItem className="space-y-2">
                         <FormLabel>Dirección</FormLabel>
                         <div className="relative">
-                            <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                           <FormControl>
                             <Input
                               placeholder="Dirección"
@@ -547,6 +578,90 @@ export function RegistrarPreventaForm() {
                   </FormItem>
                 )}
               />
+            </CardContent>
+          </Card>
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Información adicional</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <FormField
+                control={control}
+                name="cotizacion"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col items-start space-y-3 mb-4">
+                    <FormLabel>Cotización</FormLabel>
+                    <div className="flex space-x-2">
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>No</FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value === "si"}
+                          onCheckedChange={(checked) =>
+                            field.onChange(checked ? "si" : "no")
+                          }
+                          disabled={formSubmitIsLoading}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>Sí</FormLabel>
+                      </div>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              {cotizacionValue === "si" && (
+                <FormField
+                  control={control}
+                  name="fechaValidez"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col space-y-2">
+                      <FormLabel>Fecha de validez</FormLabel>
+                      <FormControl>
+                        <Popover open={open} onOpenChange={setOpen}>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[280px] justify-start text-left font-normal",
+                                !date && "text-muted-foreground"
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {date ? (
+                                format(date, "PPP", { locale: es })
+                              ) : (
+                                <span>Selecciona una fecha</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0">
+                            <AddFormCalendar
+                              captionLayout="dropdown-buttons"
+                              fromYear={2020}
+                              toYear={new Date().getFullYear()}
+                              mode="single"
+                              selected={date}
+                              onSelect={(selectedDate) => {
+                                if (selectedDate) {
+                                  field.onChange(selectedDate);
+                                  setDate(selectedDate);
+                                  setOpen(false);
+                                }
+                              }}
+                              locale={es}
+                              calendarDate={field.value}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
             </CardContent>
           </Card>
 

@@ -264,6 +264,8 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           apellidos: preventaData?.user?.apellidos,
         },
         comentarios: preventaData?.comentarios,
+        cotizacion: preventaData?.cotizacion,
+        fechaValidez: preventaData?.fechaValidez,
         productos: productsFormated,
         obsequios: obsequiosFormated,
       };

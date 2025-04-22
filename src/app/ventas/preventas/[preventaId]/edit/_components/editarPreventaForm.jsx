@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
 import {
   IdCardIcon,
   Loader2,
@@ -13,11 +13,20 @@ import {
   MapPin,
   UserCheck,
   Mail,
-} from 'lucide-react';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { RiArrowLeftLine } from '@remixicon/react';
-
+  CalendarIcon,
+} from "lucide-react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { RiArrowLeftLine } from "@remixicon/react";
+import { Switch } from "@/components/ui/switch";
+import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
+import { format } from "date-fns"; //Calendar
+import { es } from "date-fns/locale"; //Calendar
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Form,
   FormControl,
@@ -25,30 +34,30 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
+} from "@/components/ui/tooltip";
 import {
   onChangeCelular,
   onChangeNumero,
-} from '@/components/formInputs/onChange';
+} from "@/components/formInputs/onChange";
 
-import { agregarNumeracionTable, cn } from '@/lib/utils';
+import { agregarNumeracionTable, cn } from "@/lib/utils";
 
-import { ProductsPreventaTable } from '@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table';
-import { searchClientePorDniOrRucClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
-import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table';
-import { Textarea } from '@/components/ui/textarea';
-import { createPreventaSchemaForm } from '@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm';
-import { updatePreventaRequestClient } from '../_services/requests';
+import { ProductsPreventaTable } from "@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table";
+import { searchClientePorDniOrRucClientRequest } from "@/app/ventas/preventas/registrar/_services/requests";
+import { ObsequiosPreventaTable } from "@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table";
+import { Textarea } from "@/components/ui/textarea";
+import { createPreventaSchemaForm } from "@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm";
+import { updatePreventaRequestClient } from "../_services/requests";
 
 export function EditarPreventaForm({ preventaData }) {
   const router = useRouter();
@@ -60,22 +69,28 @@ export function EditarPreventaForm({ preventaData }) {
     agregarNumeracionTable(preventaData?.productos) || []
   );
 
+  const [date, setDate] = useState(new Date()); //Date Calendar
+  const [open, setOpen] = useState(false); //Close calendar
+
   const form = useForm({
     resolver: zodResolver(createPreventaSchemaForm),
     defaultValues: {
       identificador:
         preventaData?.cliente?.datos?.dni ||
         preventaData?.cliente?.datos?.ruc ||
-        '',
-      tipo: preventaData?.cliente?.tipo || 'persona',
-      nombres: preventaData?.cliente?.datos?.nombres || '',
-      apellidos: preventaData?.cliente?.datos?.apellidos || '',
-      razonSocial: preventaData?.cliente?.datos?.razonSocial || '',
-      representanteLegal: preventaData?.cliente?.datos?.representanteLegal || '',
-      direccion: preventaData?.cliente?.datos?.direccion || '',
-      email: preventaData?.cliente?.datos?.email || '',
-      celular: preventaData?.cliente?.datos?.celular || '',
-      comentarios: preventaData?.comentarios || '',
+        "",
+      tipo: preventaData?.cliente?.tipo || "persona",
+      nombres: preventaData?.cliente?.datos?.nombres || "",
+      apellidos: preventaData?.cliente?.datos?.apellidos || "",
+      razonSocial: preventaData?.cliente?.datos?.razonSocial || "",
+      representanteLegal:
+        preventaData?.cliente?.datos?.representanteLegal || "",
+      direccion: preventaData?.cliente?.datos?.direccion || "",
+      email: preventaData?.cliente?.datos?.email || "",
+      celular: preventaData?.cliente?.datos?.celular || "",
+      comentarios: preventaData?.comentarios || "",
+      cotizacion: preventaData?.cotizacion || "no",
+      fechaValidez: preventaData?.fechaValidez || new Date(),
     },
   });
 
@@ -105,7 +120,7 @@ export function EditarPreventaForm({ preventaData }) {
         JSON.stringify(productsPreventa) ===
           JSON.stringify(agregarNumeracionTable(preventaData?.productos))
       ) {
-        toast.error('No se han realizado cambios.');
+        toast.error("No se han realizado cambios.");
         setFormSubmitIsLoading(false);
         return;
       }
@@ -115,8 +130,8 @@ export function EditarPreventaForm({ preventaData }) {
       ...preventaData,
     };
 
-    if (preventaData?.cliente?.tipo === 'persona') {
-      updateObject['cliente'] = {
+    if (preventaData?.cliente?.tipo === "persona") {
+      updateObject["cliente"] = {
         tipo: formData?.tipo,
         datos: {
           dni: formData?.identificador,
@@ -128,8 +143,8 @@ export function EditarPreventaForm({ preventaData }) {
       };
     }
 
-    if (preventaData?.cliente?.tipo === 'empresa') {
-      updateObject['cliente'] = {
+    if (preventaData?.cliente?.tipo === "empresa") {
+      updateObject["cliente"] = {
         tipo: formData?.tipo,
         datos: {
           ruc: formData?.identificador,
@@ -142,10 +157,12 @@ export function EditarPreventaForm({ preventaData }) {
       };
     }
 
-    updateObject['productos'] = productsPreventa;
-    updateObject['obsequios'] = obsequiosPreventa;
+    updateObject["productos"] = productsPreventa;
+    updateObject["obsequios"] = obsequiosPreventa;
 
-    updateObject['comentarios'] = formData?.comentarios;
+    updateObject["comentarios"] = formData?.comentarios;
+    updateObject["cotizacion"] = formData?.cotizacion;
+    updateObject["fechaValidez"] = formData?.fechaValidez;
 
     delete updateObject.createdAt;
     delete updateObject.updatedAt;
@@ -154,7 +171,7 @@ export function EditarPreventaForm({ preventaData }) {
     toast.promise(
       updatePreventaRequestClient(updateObject, setFormSubmitIsLoading),
       {
-        loading: 'Editando...',
+        loading: "Editando...",
         success: (response) => {
           console.log(response);
           clearErrors();
@@ -178,11 +195,11 @@ export function EditarPreventaForm({ preventaData }) {
       const tipo = formData.tipo;
       const identificador = formData.identificador;
 
-      if (tipo === 'persona') {
+      if (tipo === "persona") {
         if (!identificador || identificador.length !== 8) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning('Por favor, ingrese un DNI válido', {
-            description: 'El DNI debe tener 8 dígitos',
+          toast.warning("Por favor, ingrese un DNI válido", {
+            description: "El DNI debe tener 8 dígitos",
           });
           return;
         }
@@ -192,14 +209,14 @@ export function EditarPreventaForm({ preventaData }) {
             setSearchByDniOrRucIsLoading
           ),
           {
-            loading: 'Buscando...',
+            loading: "Buscando...",
             success: (persona) => {
-              setValue('apellidos', persona?.apellidos);
-              setValue('nombres', persona?.nombres);
-              setValue('celular', persona?.celular);
-              clearErrors('apellidos');
-              clearErrors('nombres');
-              clearErrors('celular');
+              setValue("apellidos", persona?.apellidos);
+              setValue("nombres", persona?.nombres);
+              setValue("celular", persona?.celular);
+              clearErrors("apellidos");
+              clearErrors("nombres");
+              clearErrors("celular");
               return `Persona encontrada`;
             },
             error: (error) => {
@@ -210,11 +227,11 @@ export function EditarPreventaForm({ preventaData }) {
         );
       }
 
-      if (tipo === 'empresa') {
+      if (tipo === "empresa") {
         if (!identificador || identificador.length !== 11) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning('Por favor, ingrese un RUC válido', {
-            description: 'El RUC debe tener 11 dígitos',
+          toast.warning("Por favor, ingrese un RUC válido", {
+            description: "El RUC debe tener 11 dígitos",
           });
           return;
         }
@@ -224,12 +241,12 @@ export function EditarPreventaForm({ preventaData }) {
             setSearchByDniOrRucIsLoading
           ),
           {
-            loading: 'Buscando...',
+            loading: "Buscando...",
             success: (empresa) => {
-              setValue('razonSocial', empresa?.razonSocial);
-              setValue('celular', empresa?.celular);
-              clearErrors('razonSocial');
-              clearErrors('celular');
+              setValue("razonSocial", empresa?.razonSocial);
+              setValue("celular", empresa?.celular);
+              clearErrors("razonSocial");
+              clearErrors("celular");
               return `Empresa encontrada`;
             },
             error: (error) => {
@@ -241,10 +258,22 @@ export function EditarPreventaForm({ preventaData }) {
       }
     } catch (error) {
       setSearchByDniOrRucIsLoading(false);
-      toast.error('Error al buscar persona por DNI');
-      console.error('Error al buscar persona por DNI:', error);
+      toast.error("Error al buscar persona por DNI");
+      console.error("Error al buscar persona por DNI:", error);
     }
   };
+
+  const cotizacionValue = useWatch({
+    control,
+    name: "cotizacion",
+  });
+
+  useEffect(() => {
+    if (cotizacionValue === "no") {
+      setValue("fechaValidez", null);
+      setDate(undefined); // Si estás manejando la fecha localmente
+    }
+  }, [cotizacionValue, setValue]);
 
   return (
     <>
@@ -264,16 +293,16 @@ export function EditarPreventaForm({ preventaData }) {
                       <RadioGroup
                         onValueChange={(value) => {
                           field.onChange(value);
-                          setValue('identificador', '');
-                          clearErrors('identificador');
-                          clearErrors('apellidos');
-                          clearErrors('nombres');
-                          clearErrors('razonSocial');
-                          clearErrors('celular');
-                          setValue('apellidos', '');
-                          setValue('nombres', '');
-                          setValue('razonSocial', '');
-                          setValue('celular', '');
+                          setValue("identificador", "");
+                          clearErrors("identificador");
+                          clearErrors("apellidos");
+                          clearErrors("nombres");
+                          clearErrors("razonSocial");
+                          clearErrors("celular");
+                          setValue("apellidos", "");
+                          setValue("nombres", "");
+                          setValue("razonSocial", "");
+                          setValue("celular", "");
                         }}
                         defaultValue={field.value}
                         className="flex flex-row space-x-4"
@@ -304,7 +333,7 @@ export function EditarPreventaForm({ preventaData }) {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>
-                      {watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
+                      {watch("tipo") === "persona" ? "DNI" : "RUC"}
                     </FormLabel>
                     <div className="relative">
                       <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -312,7 +341,7 @@ export function EditarPreventaForm({ preventaData }) {
                         <Input
                           type="text"
                           placeholder={
-                            watch('tipo') === 'persona' ? 'DNI' : 'RUC'
+                            watch("tipo") === "persona" ? "DNI" : "RUC"
                           }
                           className="pl-8"
                           autoComplete="off"
@@ -328,10 +357,10 @@ export function EditarPreventaForm({ preventaData }) {
                       <FormMessage />
                       <div
                         className={cn(
-                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
+                          "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
                           searchByDniOrRucIsLoading
-                            ? 'opacity-75 pointer-events-none'
-                            : 'cursor-pointer'
+                            ? "opacity-75 pointer-events-none"
+                            : "cursor-pointer"
                         )}
                         onClick={handleSearchByDniOrRuc}
                       >
@@ -356,7 +385,7 @@ export function EditarPreventaForm({ preventaData }) {
                   </FormItem>
                 )}
               />
-              {watch('tipo') === 'persona' ? (
+              {watch("tipo") === "persona" ? (
                 <>
                   <FormField
                     control={control}
@@ -480,7 +509,7 @@ export function EditarPreventaForm({ preventaData }) {
                       <FormItem className="space-y-2">
                         <FormLabel>Dirección</FormLabel>
                         <div className="relative">
-                            <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                           <FormControl>
                             <Input
                               placeholder="Dirección"
@@ -577,6 +606,90 @@ export function EditarPreventaForm({ preventaData }) {
 
           <Card className="mb-6">
             <CardHeader>
+              <CardTitle>Información adicional</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <FormField
+                control={control}
+                name="cotizacion"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col items-start space-y-3 mb-4">
+                    <FormLabel>Cotización</FormLabel>
+                    <div className="flex space-x-2">
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>No</FormLabel>
+                      </div>
+                      <FormControl>
+                        <Switch
+                          checked={field.value === "si"}
+                          onCheckedChange={(checked) =>
+                            field.onChange(checked ? "si" : "no")
+                          }
+                          disabled={formSubmitIsLoading}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>Sí</FormLabel>
+                      </div>
+                    </div>
+                  </FormItem>
+                )}
+              />
+              {cotizacionValue === "si" && (
+                <FormField
+                  control={control}
+                  name="fechaValidez"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-col space-y-2">
+                      <FormLabel>Fecha de validez</FormLabel>
+                      <FormControl>
+                        <Popover open={open} onOpenChange={setOpen}>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-[280px] justify-start text-left font-normal",
+                                !date && "text-muted-foreground"
+                              )}
+                            >
+                              <CalendarIcon className="mr-2 h-4 w-4" />
+                              {date ? (
+                                format(date, "PPP", { locale: es })
+                              ) : (
+                                <span>Selecciona una fecha</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-auto p-0">
+                            <AddFormCalendar
+                              captionLayout="dropdown-buttons"
+                              fromYear={2020}
+                              toYear={new Date().getFullYear()}
+                              mode="single"
+                              selected={date}
+                              onSelect={(selectedDate) => {
+                                if (selectedDate) {
+                                  field.onChange(selectedDate);
+                                  setDate(selectedDate);
+                                  setOpen(false);
+                                }
+                              }}
+                              locale={es}
+                              calendarDate={field.value}
+                              initialFocus
+                            />
+                          </PopoverContent>
+                        </Popover>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+            </CardContent>
+          </Card>
+          <Card className="mb-6">
+            <CardHeader>
               <CardTitle>Productos</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -613,7 +726,7 @@ export function EditarPreventaForm({ preventaData }) {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                'Registrando...'
+                "Registrando..."
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

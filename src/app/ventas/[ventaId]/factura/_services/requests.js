@@ -6,6 +6,7 @@ import {
 } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
+
 export async function getCurrentCounterFacturaRequestClient() {
   try {
     // Simular tiempo de retraso

@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
+import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { RiDeleteBinLine, RiFileListLine } from "@remixicon/react";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,19 +13,41 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
-import { formatDateShort } from '@/lib/formateador';
-import { DeletePreventaAlert } from '@/app/ventas/preventas/[preventaId]/_components/dialogs/deletePreventaAlert';
+import { formatDateShort } from "@/lib/formateador";
+import { DeletePreventaAlert } from "@/app/ventas/preventas/[preventaId]/_components/dialogs/deletePreventaAlert";
 
 export const columnsPreventas = [
   {
-    accessorKey: 'cliente',
+    accessorKey: "cotizacion",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Tipo
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      const cotizacion = row?.original?.cotizacion;
+      return (
+        <div className="text-start">
+          {cotizacion === "si" ? "Cotización" : "Preventa"}
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "cliente",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Cliente
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -36,20 +58,20 @@ export const columnsPreventas = [
       const cliente = row?.original?.cliente;
       return (
         <div className="text-start">
-          {cliente?.tipo === 'empresa'
+          {cliente?.tipo === "empresa"
             ? cliente?.datos?.razonSocial
-            : cliente?.datos?.nombres + ' ' + cliente?.datos?.apellidos}
+            : cliente?.datos?.nombres + " " + cliente?.datos?.apellidos}
         </div>
       );
     },
   },
   {
-    accessorKey: 'cliente',
+    accessorKey: "cliente",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Identificador
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -61,10 +83,10 @@ export const columnsPreventas = [
       return (
         <div className="text-start flex">
           <p className="font-light mr-2 text-[0.8rem] border rounded-md px-1">
-            {cliente?.tipo === 'empresa' ? 'RUC' : 'DNI'}
+            {cliente?.tipo === "empresa" ? "RUC" : "DNI"}
           </p>
           <p>
-            {cliente?.tipo === 'empresa'
+            {cliente?.tipo === "empresa"
               ? cliente?.datos?.ruc
               : cliente?.datos?.dni}
           </p>
@@ -73,18 +95,19 @@ export const columnsPreventas = [
     },
     // Configuramos el valor de filtro personalizado
     accessorFn: (row) => {
-      return row.cliente?.tipo === 'empresa'
+      return row.cliente?.tipo === "empresa"
         ? row.cliente?.datos?.ruc
         : row.cliente?.datos?.dni;
     },
   },
+
   {
-    accessorKey: 'fecha',
+    accessorKey: "fecha",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Fecha
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -97,12 +120,12 @@ export const columnsPreventas = [
     },
   },
   {
-    accessorKey: 'usuario',
+    accessorKey: "usuario",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Responsable
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -112,21 +135,21 @@ export const columnsPreventas = [
     cell: ({ row }) => {
       return (
         <div className="text-start">
-          {row.getValue('usuario')?.nombres +
-            ' ' +
-            row.getValue('usuario')?.apellidos}
+          {row.getValue("usuario")?.nombres +
+            " " +
+            row.getValue("usuario")?.apellidos}
         </div>
       );
     },
   },
   {
     accessorFn: (row) => row?.code,
-    id: 'Código',
+    id: "Código",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Código
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -139,8 +162,8 @@ export const columnsPreventas = [
     },
   },
   {
-    id: 'actions',
-    header: 'Acciones',
+    id: "actions",
+    header: "Acciones",
     cell: ({ row }) => {
       const { _id: id } = row.original;
 
