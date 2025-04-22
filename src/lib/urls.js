@@ -109,6 +109,10 @@ export const getCurrentCounterNotaVentaClientUrl = '/api/counters';
 export const updateNotaVentaStateClientUrl = '/api/ventas';
 export const incrementCounterNotaVentaClientUrl = '/api/counters/increment';
 
+/* Cotizaciones */
+export const getCurrentCounterCotizacionClientUrl = '/api/counters';
+export const incrementCounterCotizacionClientUrl = '/api/counters/increment';
+
 
 /* Empresas */
 export const createGastoGeneralClientUrl = '/api/gastos-generales';

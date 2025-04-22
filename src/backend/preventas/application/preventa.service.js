@@ -87,7 +87,7 @@ export class PreventaService {
       // eslint-disable-next-line no-undef
       await Promise.all(
         preventaData?.productos?.map(async (producto) => {
-          if (producto.modeloId) {
+          if (producto.modeloId && preventaData?.cotizacion !== "si") {
             await this.motoRepository.updateMoto(producto._id, {
               estado: {
                 titulo: 'prevendido',
@@ -95,9 +95,10 @@ export class PreventaService {
               },
             });
           } else {
+            if(preventaData?.cotizacion !== "si"){
             await this.productRepository.updateUnitProduct(producto.unitId, {
               estado: 'prevendido',
-            });
+            });}
           }
         })
       );

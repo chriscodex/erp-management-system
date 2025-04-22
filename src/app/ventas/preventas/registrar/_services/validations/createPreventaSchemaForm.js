@@ -12,4 +12,6 @@ export const createPreventaSchemaForm = z.object({
   direccion: z.string().optional(),
   celular: z.string().optional(),
   comentarios: z.string().optional(),
+  cotizacion: z.enum(['si', 'no']).optional(),
+  fechaValidez: z.date().nullable().optional(),
 });
