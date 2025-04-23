@@ -298,6 +298,8 @@ export function ObsequiosPreventaTable({
   const handleAgregarObsequio = async (event) => {
     event.preventDefault();
 
+    const trimmedSearchValue = searchValue.trim();
+
     if (!searchValue) {
       toast.error('Ingrese el codigo del producto');
       return;
@@ -308,7 +310,7 @@ export function ObsequiosPreventaTable({
     }
 
     const duplicado = obsequiosPreventa.some(
-      (obsequio) => obsequio?.code === searchValue.trim()
+      (obsequio) => obsequio?.code === trimmedSearchValue
     );
     if (duplicado) {
       toast.error('El obsequio ya se encuentra en la lista');
@@ -319,7 +321,7 @@ export function ObsequiosPreventaTable({
 
     // Toast para buscar producto
     toast.promise(
-      getObsequioByCodeClientRequest(searchValue, setSearchProductIsLoading),
+      getObsequioByCodeClientRequest(trimmedSearchValue, setSearchProductIsLoading),
       {
         loading: 'Buscando...',
         success: (response) => {

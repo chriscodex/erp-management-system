@@ -15,10 +15,10 @@ import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
 export function ImprimirFacturaButton({ ventaData, empresas }) {
+
   const router = useRouter();
 
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
-
   const [loading, setLoading] = useState(false);
 
   const handleDownloadPDF = async () => {

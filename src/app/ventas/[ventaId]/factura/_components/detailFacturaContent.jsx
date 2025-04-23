@@ -1,6 +1,6 @@
-import { User, Package, Gift, Hash } from 'lucide-react';
-import { RiInfoCardFill } from '@remixicon/react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { User, Package, Gift, Hash } from "lucide-react";
+import { RiInfoCardFill } from "@remixicon/react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -8,13 +8,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { formatDateLong } from '@/lib/formateador';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/table";
+import { formatDateLong } from "@/lib/formateador";
+import { Label } from "@/components/ui/label";
 
-import { DetailFacturaButtons } from '@/app/ventas/[ventaId]/factura/_components/buttons/detailFacturaButtons';
-import { ImprimirFacturaButton } from '@/app/ventas/[ventaId]/factura/_components/buttons/imprimirFacturaButton';
-import { Separator } from '@/components/ui/separator';
+import { ImprimirFacturaButton } from "@/app/ventas/[ventaId]/factura/_components/buttons/imprimirFacturaButton";
+import { Separator } from "@/components/ui/separator";
 
 export function DetailFacturaContent({ ventaData, empresas }) {
   return (
@@ -37,11 +36,11 @@ export function DetailFacturaContent({ ventaData, empresas }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {ventaData?.cliente?.tipo === 'persona' ? (
+              {ventaData?.cliente?.tipo === "persona" ? (
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{' '}
-                    {ventaData?.cliente?.datos?.nombres}{' '}
+                    <strong>Nombre:</strong>{" "}
+                    {ventaData?.cliente?.datos?.nombres}{" "}
                     {ventaData?.cliente?.datos?.apellidos}
                   </p>
                   <p>
@@ -49,13 +48,12 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                   </p>
                   {ventaData?.cliente?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{' '}
-                      {ventaData?.cliente?.datos?.email}
+                      <strong>Email:</strong> {ventaData?.cliente?.datos?.email}
                     </p>
                   )}
                   {ventaData?.cliente?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{' '}
+                      <strong>Celular:</strong>{" "}
                       {ventaData?.cliente?.datos?.celular}
                     </p>
                   )}
@@ -63,29 +61,28 @@ export function DetailFacturaContent({ ventaData, empresas }) {
               ) : (
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{' '}
+                    <strong>Razon Social:</strong>{" "}
                     {ventaData?.cliente?.datos?.razonSocial}
                   </p>
                   <p>
                     <strong>RUC:</strong> {ventaData?.cliente?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Representante Legal:</strong>{' '}
+                    <strong>Representante Legal:</strong>{" "}
                     {ventaData?.cliente?.datos?.representanteLegal}
                   </p>
                   <p>
-                    <strong>Dirección:</strong>{' '}
+                    <strong>Dirección:</strong>{" "}
                     {ventaData?.cliente?.datos?.direccion}
                   </p>
                   {ventaData?.cliente?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{' '}
-                      {ventaData?.cliente?.datos?.email}
+                      <strong>Email:</strong> {ventaData?.cliente?.datos?.email}
                     </p>
                   )}
                   {ventaData?.cliente?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{' '}
+                      <strong>Celular:</strong>{" "}
                       {ventaData?.cliente?.datos?.celular}
                     </p>
                   )}
@@ -93,7 +90,6 @@ export function DetailFacturaContent({ ventaData, empresas }) {
               )}
             </CardContent>
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
@@ -107,14 +103,14 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                   <strong>Código:</strong> {ventaData?.code}
                 </p>
                 <p>
-                  <strong>Fecha:</strong>{' '}
+                  <strong>Fecha:</strong>{" "}
                   {formatDateLong(ventaData?.fecha, true)}
                 </p>
                 <p>
-                  <strong>Vendedor:</strong>{' '}
+                  <strong>Vendedor:</strong>{" "}
                   {ventaData?.usuario?.nombres +
-                    ' ' +
-                    ventaData?.usuario?.apellidos}{' '}
+                    " " +
+                    ventaData?.usuario?.apellidos}{" "}
                 </p>
                 <p>
                   <strong>Comprobante:</strong> {ventaData?.comprobante}
@@ -160,7 +156,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{' '}
+                        S/.{" "}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
                           2
                         )}
@@ -173,25 +169,25 @@ export function DetailFacturaContent({ ventaData, empresas }) {
             <Separator className="my-4" />
             <div className="text-right">
               <strong>Subtotal:</strong> S/.
-              {0.82 *
-                ventaData?.productos
-                  .reduce(
-                    (acc, producto) =>
-                      acc + producto?.precioVenta * producto?.cantidad,
-                    0
-                  )
-                  .toFixed(2)}
+              {(
+                0.82 *
+                ventaData?.productos.reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+              ).toFixed(2)}
             </div>
             <div className="mt-2 text-right">
               <strong>IGV:</strong> S/.
-              {0.18 *
-                ventaData?.productos
-                  .reduce(
-                    (acc, producto) =>
-                      acc + producto?.precioVenta * producto?.cantidad,
-                    0
-                  )
-                  .toFixed(2)}
+              {(
+                0.18 *
+                ventaData?.productos.reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+              ).toFixed(2)}
             </div>
             <div className="mt-2 text-right">
               <strong>Total a Pagar:</strong> S/.
@@ -238,13 +234,6 @@ export function DetailFacturaContent({ ventaData, empresas }) {
             </Table>
           </CardContent>
         </Card>
-        <div className="mt-4">
-          <DetailFacturaButtons
-            ventaId={ventaData._id}
-            ventaData={ventaData}
-            empresas={empresas}
-          />
-        </div>
       </CardContent>
     </Card>
   );

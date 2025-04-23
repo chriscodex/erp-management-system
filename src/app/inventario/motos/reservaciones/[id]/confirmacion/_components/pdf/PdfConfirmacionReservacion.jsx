@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Document,
   Text,
@@ -10,14 +9,14 @@ import {
   Svg,
   Path,
 } from "@react-pdf/renderer";
-
-import { stylesBoleta } from "@/app/inventario/motos/reservaciones/[id]/boleta/_components/pdf/stylesBoleta.js";
+import { stylesConfirmacionReservacion } from "@/app/inventario/motos/reservaciones/[id]/confirmacion/_components/pdf/stylesConfirmacionReservacion.js";
 import { formatDateLong } from "@/lib/formateador";
 
-const styles = StyleSheet.create(stylesBoleta);
+const styles = StyleSheet.create(stylesConfirmacionReservacion);
 
-export function PdfBoleta({ reservacionData, counterBoleta }) {
-  const currentTime = formatDateLong(new Date().toISOString());
+export function PdfConfirmacionReservacion({ reservacionData}) {
+
+  const currentTime = formatDateLong(new Date().toISOString(), false);
 
   const fechaReserva = formatDateLong(
     new Date(reservacionData?.createdAt).toISOString(),
@@ -123,11 +122,7 @@ export function PdfBoleta({ reservacionData, counterBoleta }) {
           </View>
           <View style={styles.datosClienteInfo}>
             <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
-            <Text>
-              {reservacionData?.cliente?.tipo === "empresa"
-                ? reservacionData?.cliente?.datos?.email
-                : reservacionData?.cliente?.datos?.email}
-            </Text>
+            <Text>{reservacionData?.cliente?.datos?.email}</Text>
           </View>
           <View style={styles.datosClienteInfo}>
             <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
@@ -139,7 +134,7 @@ export function PdfBoleta({ reservacionData, counterBoleta }) {
           </View>
         </View>
         <View style={styles.container}>
-          <Text style={styles.boletaTitle}>Reservación # {counterBoleta}</Text>
+          <Text style={styles.boletaTitle}>Reservación # {2000}</Text>
           <View style={styles.reservacionDate}>
             <Text style={styles.reservacionDateTitle}>Emitido el</Text>
             <Text> {currentTime}</Text>

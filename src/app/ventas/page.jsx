@@ -10,11 +10,12 @@ import { DataTableVentas } from '@/app/ventas/_components/ventasTable/data-table
 import { columnsVentas } from '@/app/ventas/_components/ventasTable/columns';
 
 export default async function VentasPage() {
+
   const { ventas, status } = await getAllVentasRequestServer();
 
   const ventasSorted = sortByUpdateDateDesc(ventas);
 
-  console.log('ventas', ventasSorted);
+  // console.log('ventas', ventasSorted);
 
   const titles = [
     {

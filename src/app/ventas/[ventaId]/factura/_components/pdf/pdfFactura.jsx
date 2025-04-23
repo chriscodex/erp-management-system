@@ -14,6 +14,7 @@ import {
 import { stylesFactura } from "@/app/ventas/[ventaId]/factura/_components/pdf/stylesFactura.js";
 import {
   formatDateLong,
+  formatNumeroALetras,
   formatearCodigoCounterBoletaFactura,
 } from "@/lib/formateador";
 
@@ -24,7 +25,10 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
   //   console.log('counterFactura', counterFactura);
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
-  const codigoFactura = formatearCodigoCounterBoletaFactura(counterFactura);
+  const codigoFactura = formatearCodigoCounterBoletaFactura(
+    counterFactura,
+    "factura"
+  );
 
   const MapPin = () => (
     <Svg
@@ -96,18 +100,19 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
                 </Text>
               </View>
             </View>
-            <View>
+
+            <View style={styles.datosFacturaContainer}>
               <View style={styles.datosFactura}>
-                <Text style={styles.datosFacturaBold}>
-                  Factura N° {codigoFactura}
-                </Text>
+                <Text style={styles.datosFacturaBold}>Factura N°</Text>
+                <Text> {codigoFactura}</Text>
               </View>
               <View style={styles.datosFactura}>
-                <Text style={styles.datosFacturaBold}>Fecha: </Text>
+                <Text style={styles.datosFacturaBold}>Fecha de emisión: </Text>
                 <Text>{currentTime}</Text>
               </View>
             </View>
           </View>
+
           <View style={styles.separator} />
 
           <View style={styles.datosCliente}>
@@ -158,7 +163,7 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
           </View>
 
           <View style={styles.facturaTitleContainer}>
-            <Text style={styles.facturaTitle}>Factura N° {codigoFactura}</Text>
+            <Text style={styles.facturaTitle}>Factura</Text>
           </View>
           {/* Tabla */}
           <View style={styles.table}>
@@ -184,7 +189,33 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
             ))}
           </View>
           <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>Total: </Text>
+            <Text style={styles.totalCell}>Op. Gravada: S/.</Text>
+            <Text>
+              {(
+                0.82 *
+                ventaData?.productos.reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+              ).toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>I.G.V.: S/.</Text>
+            <Text>
+              {(
+                0.18 *
+                ventaData?.productos.reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+              ).toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>Importe Total: S/.</Text>
             <Text style={styles.totalCell}>
               {ventaData?.productos
                 .reduce(
@@ -193,6 +224,32 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
                   0
                 )
                 .toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>Importe a Pagar: S/.</Text>
+            <Text style={styles.totalCell}>
+              {ventaData?.productos
+                .reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+                .toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>SON:</Text>
+            <Text style={styles.totalCell}>
+              {formatNumeroALetras(
+                ventaData?.productos
+                  .reduce(
+                    (acc, producto) =>
+                      acc + producto?.precioVenta * producto?.cantidad,
+                    0
+                  )
+                  .toFixed(2)
+              )}
             </Text>
           </View>
         </View>

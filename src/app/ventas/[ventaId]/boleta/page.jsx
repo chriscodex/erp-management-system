@@ -6,6 +6,7 @@ import { DetailBoletaContent } from '@/app/ventas/[ventaId]/boleta/_components/d
 import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
 
 export default async function Page({ params }) {
+  
   const { venta } = await getVentaRequestServer(params.ventaId);
   const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
 

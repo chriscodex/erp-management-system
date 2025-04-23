@@ -1,20 +1,22 @@
 export const stylesFactura = {
   header: {
-    backgroundColor: "#000",
     fontSize: 12,
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "flex-end",
-    padding: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#000",
   },
   image: {
-    //   marginTop: 12,
+    padding: 10,
+    backgroundColor: "#000",
     width: "35%",
   },
   title: {
+    marginVertical: 10,
     fontSize: 36,
     marginLeft: 10,
-    color: "#fff",
+    color: "#000",
   },
   body: {
     padding: 35,
@@ -40,43 +42,44 @@ export const stylesFactura = {
     alignItems: "center",
     marginBottom: 5,
   },
-
-  datosFactura:{
+  datosFacturaContainer: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+  },
+  datosFactura: {
     flexDirection: "row",
     marginBottom: 5,
   },
 
-  separator: {
-    width: "100%", 
-    height: 1,             
-    backgroundColor: "gray", 
-    marginVertical: 10,   
-    alignSelf: "center",   
-  },
-
-  datosFacturaBold:{
+  datosFacturaBold: {
     fontWeight: "bold",
   },
-
+  separator: {
+    width: "100%",
+    height: 1,
+    backgroundColor: "gray",
+    marginVertical: 10,
+    alignSelf: "center",
+  },
   datosCliente: {
     fontSize: 14,
-    marginTop: '5px',
-    marginBottom: '5px',
-    gap: '5px',
+    marginTop: "5px",
+    marginBottom: "5px",
+    gap: "5px",
   },
   datosClienteName: {
-    marginBottom: '5px',
+    marginBottom: "5px",
   },
-  datosClienteTitle:{
+  datosClienteTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
-  datosClienteInfo:{
-    flexDirection: 'row',
+  datosClienteInfo: {
+    flexDirection: "row",
   },
-  datosClienteInfoTitle:{
-    fontWeight: 'bold',
+  datosClienteInfoTitle: {
+    fontWeight: "bold",
   },
   facturaTitleContainer: {
     width: "100%",
@@ -97,7 +100,6 @@ export const stylesFactura = {
   table: {
     width: "100%",
     border: "1px solid black",
-
   },
   tableRow: {
     flexDirection: "row",
@@ -123,11 +125,10 @@ export const stylesFactura = {
     fontSize: 12,
     fontWeight: "bold",
     textAlign: "right",
-    marginRight: 20,
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    gap: 10,
+    gap: 4,
   },
 };
