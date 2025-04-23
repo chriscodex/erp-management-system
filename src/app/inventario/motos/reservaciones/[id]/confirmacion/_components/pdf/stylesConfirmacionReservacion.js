@@ -1,15 +1,13 @@
-
-
-export const stylesBoleta = {
+export const stylesConfirmacionReservacion = {
     page:{
       fontSize: 14,
       padding: 35,
     },
     header: {
       fontSize: 12,
-      flexDirection: 'column', // ✅ Usa flexbox en lugar de grid
-      justifyContent: 'space-between', // ✅ Distribuye los elementos en la fila
-      alignItems: 'center', // ✅ Alinea verticalmente
+      flexDirection: 'column', 
+      justifyContent: 'space-between', 
+      alignItems: 'center', 
       padding: 10,
     },
     image: {

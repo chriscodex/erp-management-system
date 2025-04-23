@@ -503,6 +503,8 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
   const handleAgregarProducto = async (event) => {
     event.preventDefault();
 
+    const trimmedSearchValue = searchValue.trim();
+
     if (!searchValue) {
       toast.error('Ingrese el codigo del producto');
       return;
@@ -513,7 +515,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
     }
 
     const duplicado = productsVenta.some(
-      (product) => product?.code === searchValue.trim()
+      (product) => product?.code === trimmedSearchValue
     );
     if (duplicado) {
       toast.error('El producto ya se encuentra en la lista');
@@ -524,7 +526,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
 
     // Toast para buscar producto
     toast.promise(
-      getProductByCodeClientRequest(searchValue, setSearchProductIsLoading),
+      getProductByCodeClientRequest(trimmedSearchValue, setSearchProductIsLoading),
       {
         loading: 'Buscando...',
         success: (response) => {

@@ -1,5 +1,4 @@
 "use client";
-
 import {
   Document,
   Text,
@@ -12,18 +11,11 @@ import {
 } from "@react-pdf/renderer";
 
 import { stylesCotizacion } from "@/app/ventas/preventas/[preventaId]/_components/pdf/stylesCotizacion.js";
-import {
-  formatDateLong,
-  formatDateShort,
-} from "@/lib/formateador";
+import { formatDateLong, formatDateShort } from "@/lib/formateador";
 
 const styles = StyleSheet.create(stylesCotizacion);
 
-export function PdfCotizacion({
-  preventaData
-}) {
-  //   console.log('ventaData', ventaData);
-  //   console.log('counterFactura', counterFactura);
+export function PdfCotizacion({ preventaData }) {
 
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
@@ -76,14 +68,10 @@ export function PdfCotizacion({
               <Text style={styles.datosEmpresaTitle}>
                 Moto Rock Ruta 33 E.I.R.L
               </Text>
-              <Text style={styles.datosEmpresaTitle}>
-                RUC N° 20202020202
-              </Text>
+              <Text style={styles.datosEmpresaTitle}>RUC N° 20202020202</Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
-                <Text>
-                  Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz
-                </Text>
+                <Text>Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
@@ -93,20 +81,18 @@ export function PdfCotizacion({
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
-                <Text>
-                  gerencia@motorock33.com
-                </Text>
+                <Text>gerencia@motorock33.com</Text>
               </View>
             </View>
             <View style={styles.datosCotizacionContainer}>
               <View style={styles.datosCotizacion}>
-                <Text style={styles.datosCotizacionBold}>
-                  Cotización N°
-                </Text>
-                <Text>{" "}{codigoCotizacion}</Text>
+                <Text style={styles.datosCotizacionBold}>Cotización N°</Text>
+                <Text> {codigoCotizacion}</Text>
               </View>
               <View style={styles.datosCotizacion}>
-                <Text style={styles.datosCotizacionBold}>Fecha: </Text>
+                <Text style={styles.datosCotizacionBold}>
+                  Fecha de emisión:{" "}
+                </Text>
                 <Text>{currentTime}</Text>
               </View>
             </View>
@@ -161,9 +147,7 @@ export function PdfCotizacion({
           </View>
 
           <View style={styles.cotizacionTitleContainer}>
-            <Text style={styles.cotizacionTitle}>
-              Cotización
-            </Text>
+            <Text style={styles.cotizacionTitle}>Cotización</Text>
           </View>
           <View style={styles.cotizacionSubTitleContainer}>
             <Text style={styles.cotizacionSubTitle}>
@@ -171,6 +155,7 @@ export function PdfCotizacion({
               {formatDateShort(preventaData?.fechaValidez, false)}
             </Text>
           </View>
+
           {/* Tabla */}
           <View style={styles.table}>
             {/* Encabezados */}
@@ -194,21 +179,9 @@ export function PdfCotizacion({
               </View>
             ))}
           </View>
-          {/* <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>TOTAL: S/.</Text>
-            <Text style={styles.totalCell}>
-              {preventaData?.productos
-                .reduce(
-                  (acc, producto) =>
-                    acc + producto?.precioVenta * producto?.cantidad,
-                  0
-                )
-                .toFixed(2)}
-            </Text>
-          </View> */}
           <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>Op. Gravada: S/.</Text>
             <Text>
-              <Text style={styles.totalCell}>Op. Gravada: S/.</Text>
               {(
                 0.82 *
                 preventaData?.productos.reduce(
@@ -222,14 +195,14 @@ export function PdfCotizacion({
           <View style={styles.totalRow}>
             <Text style={styles.totalCell}>I.G.V.: S/.</Text>
             <Text>
-              {(0.18 *
-                preventaData?.productos
-                  .reduce(
-                    (acc, producto) =>
-                      acc + producto?.precioVenta * producto?.cantidad,
-                    0
-                  )
-                ).toFixed(2)}
+              {(
+                0.18 *
+                preventaData?.productos.reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+              ).toFixed(2)}
             </Text>
           </View>
           <View style={styles.totalRow}>

@@ -16,21 +16,18 @@ import { formatDateLong } from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
 // import { Separator } from '@/components/ui/separator';
 
-import { DetailBoletaButtons } from "@/app/inventario/motos/reservaciones/[id]/boleta/_components/buttons/DetailBoletaButtons";
-import { ImprimirBoletaButton } from "@/app/inventario/motos/reservaciones/[id]/boleta/_components/buttons/ImprimirBoletaButton";
+// import { DetailBoletaButtons } from "@/app/inventario/motos/reservaciones/[id]/reservacion/_components/buttons/DetailBoletaButtons";
+import { ImprimirConfirmacionReservacionButton } from "@/app/inventario/motos/reservaciones/[id]/confirmacion/_components/buttons/ImprimirConfirmacionReservacionButton";
 
-export function DetailReservacionBoletaContent({
-  reservacionData,
-  counterBoleta,
-}) {
+export function DetailConfirmacionReservacionContent({reservacionData}) {
   return (
     <Card className="w-full max-w-7xl mx-auto">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+      <CardHeader className="flex flex-col items-center justify-between space-y-0 pb-4 md:flex-row  ">
         <div className="flex items-center gap-2">
           <RiInfoCardFill className="h-9 w-9" />
-          <Label className="sm:text-4xl text-xl font-bold">Boleta</Label>
+          <Label className="sm:text-4xl text-xl font-bold">Confirmación de Reservación</Label>
         </div>
-        <ImprimirBoletaButton reservacionData={reservacionData} />
+        <ImprimirConfirmacionReservacionButton reservacionData={reservacionData} />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -138,9 +135,9 @@ export function DetailReservacionBoletaContent({
             </Table>
           </CardContent>
         </Card>
-        <div className="mt-4">
+        {/* <div className="mt-4">
           <DetailBoletaButtons reservacionData={reservacionData} counterBoleta={3000} />
-        </div>
+        </div> */}
       </CardContent>
     </Card>
   );

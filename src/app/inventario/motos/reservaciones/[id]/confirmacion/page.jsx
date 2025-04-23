@@ -4,15 +4,11 @@ import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 
 // getCounterBoletaRequestServer
 import {getReservacionRequestServer} from '@/app/inventario/motos/reservaciones/_services/requests';
-import { DetailReservacionBoletaContent } from '@/app/inventario/motos/reservaciones/[id]/boleta/_components/DetailReservacionBoletaContent';
+import { DetailConfirmacionReservacionContent } from '@/app/inventario/motos/reservaciones/[id]/confirmacion/_components/DetailConfirmacionReservacionContent';
 
 export default async function Page({ params }) {
 
-  console.log("Show paramsssssssss", params);
-
   const { reservacion } = await getReservacionRequestServer(params.id);
-
-  console.log("Show ID", params.id);
 
   if (!reservacion) {
     notFound();
@@ -40,7 +36,7 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: 'Boleta',
+      title: 'Confirmación',
       href: '',
       active: false,
     },
@@ -48,7 +44,7 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailReservacionBoletaContent reservacionData={reservacion} counterBoleta={2000}  />
+      <DetailConfirmacionReservacionContent reservacionData={reservacion}/>
     </NavbarDynamic>
   );
 }

@@ -104,10 +104,12 @@ export const stylesCotizacion = {
     fontSize: 14,
     marginBottom: 10,
   },
+
   table: {
     width: "100%",
     border: "1px solid black",
-
+    // marginLeft: 20,
+    // marginRight: "20px",
   },
   tableRow: {
     flexDirection: "row",
@@ -133,12 +135,11 @@ export const stylesCotizacion = {
     fontSize: 12,
     fontWeight: "bold",
     textAlign: "right",
-    // marginRight: 30,
     display: "flex",
     flexDirection: "row",
     justifyContent: "flex-end",
     alignItems: "center",
-    gap: 10,
+    gap: 4,
   },
   AdditionalInfo:{
     marginTop: 30,
@@ -146,7 +147,6 @@ export const stylesCotizacion = {
   },
 
   AdditionalInfoTitle:{
-    // fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
   }

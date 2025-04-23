@@ -3,11 +3,8 @@ import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { RiPrinterLine } from '@remixicon/react';
 import { useRouter } from 'next/navigation';
-
 import { Button } from "@/components/ui/button";
-// import { RiFile4Line } from "@remixicon/react";
 import { PdfCotizacion } from '@/app/ventas/preventas/[preventaId]/_components/pdf/pdfCotizacion';
-
 
 export function ImprimirCotizacionButton({ preventaData }) {
 
@@ -32,8 +29,6 @@ export function ImprimirCotizacionButton({ preventaData }) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
-      // await updateCotizacionCounterRequestClient(preventaData?._id);
       router.refresh();
     } catch (error) {
       console.error("Error al generar el PDF:", error);
