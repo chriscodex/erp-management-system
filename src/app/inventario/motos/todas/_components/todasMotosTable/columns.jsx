@@ -113,6 +113,9 @@ export const columnsTodasMotos = [
               Disponible
             </BadgeUnitProduct>
           )}
+          {row.getValue('estado')?.titulo === 'prevendido' && (
+            <BadgeUnitProduct variant="purpleTable">Prevendido</BadgeUnitProduct>
+          )}
           {row.getValue('estado')?.titulo === 'reparado' && (
             <BadgeUnitProduct variant="blueTable">Reparado</BadgeUnitProduct>
           )}

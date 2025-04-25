@@ -21,6 +21,7 @@ import {
   RiBarChartLine,
   RiWallet2Fill,
   RiBox2Fill,
+  RiFolderHistoryLine,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -61,6 +62,11 @@ const adminData = {
           title: 'Ventas',
           url: '/ventas/',
           icon: RiVipDiamondLine,
+        },
+        {
+          title: 'Historial de Ventas',
+          url: '/ventas/ventas-historicas/',
+          icon: RiFolderHistoryLine,
         },
       ],
     },

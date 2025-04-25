@@ -126,7 +126,7 @@ export function DataTableModelo({ modeloId, motos, status = 200 }) {
               <BadgeUnitProduct variant="redTable">Dañado</BadgeUnitProduct>
             )}
             {row.getValue('estado')?.titulo === 'prevendido' && (
-              <BadgeUnitProduct variant="purpleTable">Pre vendido</BadgeUnitProduct>
+              <BadgeUnitProduct variant="purpleTable">Prevendido</BadgeUnitProduct>
             )}
           </div>
         );
