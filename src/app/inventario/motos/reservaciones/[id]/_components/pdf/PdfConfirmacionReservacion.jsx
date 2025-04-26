@@ -9,19 +9,15 @@ import {
   Svg,
   Path,
 } from "@react-pdf/renderer";
-import { stylesConfirmacionReservacion } from "@/app/inventario/motos/reservaciones/[id]/confirmacion/_components/pdf/stylesConfirmacionReservacion.js";
-import { formatDateLong } from "@/lib/formateador";
+import { stylesConfirmacionReservacion } from "@/app/inventario/motos/reservaciones/[id]/_components/pdf/stylesConfirmacionReservacion.js";
+import { formatDateLong} from "@/lib/formateador";
 
 const styles = StyleSheet.create(stylesConfirmacionReservacion);
 
-export function PdfConfirmacionReservacion({ reservacionData}) {
-
+export function PdfConfirmacionReservacion({ reservacionData }) {
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
-  const fechaReserva = formatDateLong(
-    new Date(reservacionData?.createdAt).toISOString(),
-    false
-  );
+  const fechaReserva = formatDateLong(reservacionData?.createdAt, false);
 
   const MapPin = () => (
     <Svg
@@ -62,7 +58,7 @@ export function PdfConfirmacionReservacion({ reservacionData}) {
         <View style={styles.header}>
           <Image
             src={"/logoB.jpeg"}
-            alt={"Moto Rock Ruta 33 E.I.R.L"}
+            alt={"logo"}
             style={styles.image}
           />
           <Text style={styles.headerMotorock}>Moto Rock Ruta 33 E.I.R.L</Text>
@@ -94,7 +90,7 @@ export function PdfConfirmacionReservacion({ reservacionData}) {
             </Text>
             <View style={styles.reservacionInfo}>
               <Text style={styles.reservacionInfoTitle}>Reservación #:</Text>
-              <Text>00000000041</Text>
+              <Text>{reservacionData?.code}</Text>
             </View>
             <View style={styles.reservacionInfo}>
               <Text style={styles.reservacionInfoTitle}>Fecha de reserva:</Text>

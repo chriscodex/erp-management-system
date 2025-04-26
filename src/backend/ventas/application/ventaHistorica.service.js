@@ -31,4 +31,32 @@ export class VentaHistoricaService {
       };
     }
   }
+  async getVentaHistoricaByData(ventaHistoricaData) {
+    try {
+      const ventaHistoricaFound = await this.ventasHistoricasRepository.getVentaHistoricaByData(ventaHistoricaData);
+
+      if (!ventaHistoricaFound) {
+        console.log('Venta Historica Service: La venta histórica no existe');
+        return {
+          status: 200,
+          payload: null,
+        };
+      }
+
+      console.log('Venta Historica Service: La venta historica existe');
+      return {
+        status: 200,
+        payload: ventaHistoricaFound,
+      };
+    } catch (error) {
+      console.error(
+        `Venta Historica Service: Error interno al buscar la venta historica: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }
+

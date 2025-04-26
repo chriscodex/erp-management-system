@@ -7,10 +7,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { formatDateLong } from '@/lib/formateador';
 import { Label } from '@/components/ui/label';
 
-import { DetailReservacionButtons } from '@/app/inventario/motos/reservaciones/[id]/_components/buttons/DetailReservacionButtons';
-import { EmitirConfirmacionReservacionButton } from '@/app/inventario/motos/reservaciones/[id]/_components/buttons/EmitirConfirmacionReservacion';
-
-
+import { DetailReservacionButtons } from '@/app/inventario/motos/reservaciones/[id]/_components/buttons/detailReservacionButtons';
+import { EmitirConfirmacionReservacionButton } from '@/app/inventario/motos/reservaciones/[id]/_components/buttons/emitirConfirmacionReservacion';
 
 export function DetailReservacionContent({ reservacionData }) {
 
