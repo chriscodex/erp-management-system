@@ -8,9 +8,13 @@ import {
   getSortedRowModel,
   getFilteredRowModel,
 } from "@tanstack/react-table";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useRouter } from "next/navigation";
+
+import { Badge } from "@/components/ui/badge";
+import { format } from "date-fns";
+import { es } from "date-fns/locale";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -41,7 +45,6 @@ export function DataTableVentasHistoricas({ columns, data, status = 200 }) {
   /*Filtrar datos*/
 
   const datosFiltrados = useMemo(() => {
-    console.log("Desde filtros", filtrosAvanzados);
 
     return data.filter((ventaHistorica) => {
       const codigoFiltro = filtrosAvanzados?.codigo;
@@ -100,7 +103,46 @@ export function DataTableVentasHistoricas({ columns, data, status = 200 }) {
     });
   }, [data, filtrosAvanzados]);
 
-  console.log("Estos serían los datos filtrados", datosFiltrados);
+  const obtenerFiltrosAplicados = () => {
+    const filtros = [];
+
+    if (filtrosAvanzados?.montoMinimo)
+      filtros.push(`Monto Mínimo: ${filtrosAvanzados.montoMinimo}`);
+    if (filtrosAvanzados?.montoMaximo)
+      filtros.push(`Monto Máximo: ${filtrosAvanzados.montoMaximo}`);
+    if (filtrosAvanzados?.fechaDesde)
+      filtros.push(
+        `Fecha Desde: ${format(new Date(filtrosAvanzados.fechaDesde), "PPP", {
+          locale: es,
+        })}`
+      );
+    if (filtrosAvanzados?.fechaHasta)
+      filtros.push(
+        `Fecha Hasta: ${format(new Date(filtrosAvanzados.fechaHasta), "PPP", {
+          locale: es,
+        })}`
+      );
+    if (filtrosAvanzados?.tipo)
+      filtros.push(
+        `Cliente: ${
+          filtrosAvanzados.tipo === "persona" ? "Persona" : "Empresa"
+        }`
+      );
+    if (filtrosAvanzados?.identificador) {
+      const labelIdentificador =
+        filtrosAvanzados.tipo === "persona"
+          ? "DNI"
+          : filtrosAvanzados.tipo === "empresa"
+          ? "RUC"
+          : "Identificador";
+      filtros.push(`${labelIdentificador}: ${filtrosAvanzados.identificador}`);
+    }
+    if (filtrosAvanzados?.codigo)
+      filtros.push(`Código: ${filtrosAvanzados.codigo}`);
+
+    return filtros;
+  };
+
 
   /* Table */
   const table = useReactTable({
@@ -139,6 +181,12 @@ export function DataTableVentasHistoricas({ columns, data, status = 200 }) {
     setGlobalFilter(value);
   }, TIME_DEBOUNCE);
 
+  //Acceder al limpiar del modal
+
+  const modalRef = useRef();
+
+  //
+
   useEffect(() => {
     debouncedSearch(searchValue);
   }, [searchValue, debouncedSearch]);
@@ -173,15 +221,34 @@ export function DataTableVentasHistoricas({ columns, data, status = 200 }) {
           Filtros avanzados
         </Button>
         <Button
-          className={`ml-2 transition-opacity ${
+          variant="secondary"
+          className={`ml-2 transition-opacity border ${
             filtrosAvanzados ? "opacity-100" : "opacity-70 cursor-not-allowed"
           }`}
-          onClick={() => setFiltrosAvanzados(false)}
+          onClick={() => {
+            setFiltrosAvanzados(false);
+            modalRef.current?.limpiarFiltroAvanzadoVentasModal();
+          }}
         >
           Limpiar filtros
         </Button>
         <DataTableViewOptions table={table} />
       </div>
+
+      {/* Mostrar filtros */}
+      {Object.keys(filtrosAvanzados).some((key) => filtrosAvanzados[key]) && (
+        <div className="flex gap-2 items-center mb-4">
+          <p className="font-semibold text-sm">Filtros aplicados:</p>
+          <div className="flex gap-2 flex-wrap">
+            {obtenerFiltrosAplicados().map((filtro, index) => (
+              <Badge key={index} variant="outline" className="text-sm font-thin">
+                {filtro}
+              </Badge>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="rounded-md border sm:min-h-[528px] min-h-[528px] w-auto">
         <Table>
           <TableHeader>
@@ -240,6 +307,7 @@ export function DataTableVentasHistoricas({ columns, data, status = 200 }) {
           setFiltrosAvanzados(filtros);
           setModalAbierto(false);
         }}
+        ref={modalRef}
       />
     </div>
   );
