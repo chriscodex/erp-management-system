@@ -1,62 +1,125 @@
-import {
-  EmpresaCliente,
-  PersonaCliente,
-} from '@/backend/clientes/domain/models/clienteBaseSchema';
+import mongoose from "mongoose";
+
+import { Cliente } from "@/backend/clientes/domain/models/cliente";
 
 export class ClienteRepository {
-  async getClienteFromDatabase(identificador) {
+  async getAllClientes() {
     try {
-      console.log('identificador', identificador);
-      const personaCliente = await PersonaCliente.findOne({
-        dni: identificador,
-      });
+      const clientes = await Cliente.find();
 
-      if (personaCliente) {
-        console.log('PersonaCliente encontrada');
-        return personaCliente;
+      if (clientes?.length === 0) {
+        console.log("Cliente Repository: No se encontraron clientes");
+        return [];
       }
 
-      const empresaCliente = await EmpresaCliente.findOne({
-        ruc: identificador,
-      });
-
-      if (empresaCliente) {
-        console.log('EmpresaCliente encontrada');
-        return empresaCliente;
-      }
-
-      console.log('Persona o Empresa no encontradas en la base de datos');
-      return null;
+      console.log("Cliente Repository: Clientes encontrados");
+      return clientes;
     } catch (error) {
+      console.error(
+        `Cliente Repository: Error al buscar todos los clientes: ${error.message}`
+      );
       throw new Error(
-        `Error al buscar la persona o empresa en la base de datos: ${error.message}`
+        `Error al buscar todos los clientes: ${error.message}`
       );
     }
   }
-
-  async createPersonaCliente(personaData) {
+  async getClienteByData(clienteData) {
+    console.log(clienteData);
     try {
-      const personaCliente = new PersonaCliente(personaData);
-      await personaCliente.save();
-      console.log('PersonaCliente creado en la base de datos');
-      return personaCliente;
+      if (!clienteData) {
+        console.log("Cliente Repository: Cliente no proporcionado");
+        return null;
+      }
+
+      const filter = {};
+
+      if (clienteData.id) {
+        filter._id = new mongoose.Types.ObjectId(
+          clienteData.id
+        );
+      }
+
+      const reservacionFound = await Cliente.findOne(filter);
+
+      if (!reservacionFound) {
+        console.log("Cliente Repository: Cliente no encontrado");
+        return null;
+      }
+
+      console.log("Cliente Repository: Cliente encontrado");
+      return reservacionFound;
     } catch (error) {
-      throw new Error(
-        `Error al crear la persona en la base de datos: ${error.message}`
+      console.error(
+        `Cliente Repository: Error al buscar un cliente: ${error.message}`
       );
+      throw new Error(`Error al buscar un cliente: ${error.message}`);
     }
   }
 
-  async createEmpresaCliente(empresaData) {
+  
+  async createCliente(cliente) {
     try {
-      const empresaCliente = new EmpresaCliente(empresaData);
-      await empresaCliente.save();
-      console.log('EmpresaCliente creado en la base de datos');
-      return empresaCliente;
+      const newCliente = new Cliente(cliente);
+      const savedCliente = await newCliente.save();
+
+      console.log("Cliente Repository: Cliente creado correctamente");
+      return savedCliente;
     } catch (error) {
-      throw new Error(
-        `Error al crear la empresa en la base de datos: ${error.message}`
+      console.log(
+        `Cliente Repository: Error al crear el cliente: ${error.message}`
       );
+      throw new Error(`Error al crear el cliente: ${error.message}`);
+    }
+  }
+  async updateCliente(clienteId, cliente) {
+    try {
+      const updatedCliente = await Cliente.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(clienteId) },
+        cliente,
+        {
+          new: true,
+        }
+      );
+
+      if (!updatedCliente) {
+        console.log(
+          "Cliente Repository: Cliente no encontrado para ser actualizado"
+        );
+        return null;
+      }
+
+      console.log(
+        "Cliente Repository: Cliente actualizado correctamente"
+      );
+      return updatedCliente;
+    } catch (error) {
+      console.error(
+        `Cliente Repository: Error al actualizar el cliente: ${error.message}`
+      );
+      throw new Error(`Error al actualizar el cliente: ${error.message}`);
+    }
+  }
+  async deleteCliente(clienteId) {
+    try {
+      const deletedCliente = await Cliente.findOneAndDelete({
+        _id: new mongoose.Types.ObjectId(clienteId),
+      });
+
+      if (!deletedCliente) {
+        console.log(
+          "Cliente Repository: Cliente no encontrado para ser eliminada"
+        );
+        return null;
+      }
+
+      console.log("Cliente Repository: Cliente encontrada y eliminada");
+      return deletedCliente;
+    } catch (error) {
+      console.error(
+        `Cliente Repository: Error al eliminar el cliente: ${error.message}`
+      );
+      throw new Error(`Error al eliminar el cliente: ${error.message}`);
     }
   }
 }
+
