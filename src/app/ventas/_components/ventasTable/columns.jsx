@@ -33,7 +33,7 @@ export const columnsVentas = [
       );
     },
     cell: ({ row }) => {
-      const cliente = row?.original?.cliente;
+      const cliente = row?.original?.clienteId;
       return (
         <div className="text-start">
           {cliente?.tipo === 'empresa'
@@ -57,7 +57,7 @@ export const columnsVentas = [
       );
     },
     cell: ({ row }) => {
-      const cliente = row?.original?.cliente;
+      const cliente = row?.original?.clienteId;
       return (
         <div className="text-start flex">
           <p className="font-light mr-2 text-[0.8rem] border rounded-md px-1">

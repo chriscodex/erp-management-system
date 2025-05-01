@@ -159,9 +159,10 @@ export function NuevaReservacionForm() {
           {
             loading: "Buscando...",
             success: (persona) => {
-              setValue("cliente.datos.apellidos", persona?.apellidos);
-              setValue("cliente.datos.nombres", persona?.nombres);
-              setValue("celular", persona?.celular);
+              console.log("persona",persona);
+              setValue("cliente.datos.apellidos", persona?.apellidos || persona?.datos?.apellidos);
+              setValue("cliente.datos.nombres", persona?.nombres || persona?.datos?.nombres);
+              setValue("celular", persona?.celular || persona?.datos?.celular);
               clearErrors("apellidos");
               clearErrors("nombres");
               clearErrors("celular");

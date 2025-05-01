@@ -94,7 +94,10 @@ export function DataTableReservaciones({ columns, data, status = 200 }) {
         <Input
           placeholder="Buscar por moto o DNI/RUC del cliente"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
         />
         <DataTableViewOptions table={table} />

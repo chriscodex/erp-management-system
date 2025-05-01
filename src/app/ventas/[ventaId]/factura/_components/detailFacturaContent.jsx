@@ -14,16 +14,20 @@ import { Label } from "@/components/ui/label";
 
 import { ImprimirFacturaButton } from "@/app/ventas/[ventaId]/factura/_components/buttons/imprimirFacturaButton";
 import { Separator } from "@/components/ui/separator";
+import { FinalizarVentaButton } from "@/app/ventas/[ventaId]/_components/buttons/finalizarVentaButton";
 
 export function DetailFacturaContent({ ventaData, empresas }) {
   return (
     <Card className="w-full max-w-7xl mx-auto">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+      <CardHeader className="flex flex-col lg:flex-row items-center justify-between space-y-0 pb-4">
         <div className="flex items-center gap-2">
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Factura</Label>
         </div>
-        <ImprimirFacturaButton ventaData={ventaData} empresas={empresas} />
+        <div className="flex flex-col items-center lg:flex-row gap-4">
+          <ImprimirFacturaButton ventaData={ventaData} empresas={empresas} />
+          <FinalizarVentaButton ventaId={ventaData?._id} />
+        </div>
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -36,25 +40,32 @@ export function DetailFacturaContent({ ventaData, empresas }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {ventaData?.cliente?.tipo === "persona" ? (
+              {ventaData?.clienteId?.tipo === "persona" ? (
                 <div className="space-y-2">
                   <p>
                     <strong>Nombre:</strong>{" "}
-                    {ventaData?.cliente?.datos?.nombres}{" "}
-                    {ventaData?.cliente?.datos?.apellidos}
+                    {ventaData?.clienteId?.datos?.nombres}{" "}
+                    {ventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
-                    <strong>DNI:</strong> {ventaData?.cliente?.datos?.dni}
+                    <strong>DNI:</strong> {ventaData?.clienteId?.datos?.dni}
                   </p>
-                  {ventaData?.cliente?.datos?.email && (
+                  {ventaData?.clienteId?.datos?.direccion && (
                     <p>
-                      <strong>Email:</strong> {ventaData?.cliente?.datos?.email}
+                      <strong>Dirección:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.direccion}
                     </p>
                   )}
-                  {ventaData?.cliente?.datos?.celular && (
+                  {ventaData?.clienteId?.datos?.email && (
+                    <p>
+                      <strong>Email:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.email}
+                    </p>
+                  )}
+                  {ventaData?.clienteId?.datos?.celular && (
                     <p>
                       <strong>Celular:</strong>{" "}
-                      {ventaData?.cliente?.datos?.celular}
+                      {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
                 </div>
@@ -62,28 +73,29 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                 <div className="space-y-2">
                   <p>
                     <strong>Razon Social:</strong>{" "}
-                    {ventaData?.cliente?.datos?.razonSocial}
+                    {ventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
-                    <strong>RUC:</strong> {ventaData?.cliente?.datos?.ruc}
+                    <strong>RUC:</strong> {ventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
                     <strong>Representante Legal:</strong>{" "}
-                    {ventaData?.cliente?.datos?.representanteLegal}
+                    {ventaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
                     <strong>Dirección:</strong>{" "}
-                    {ventaData?.cliente?.datos?.direccion}
+                    {ventaData?.clienteId?.datos?.direccion}
                   </p>
-                  {ventaData?.cliente?.datos?.email && (
+                  {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong> {ventaData?.cliente?.datos?.email}
+                      <strong>Email:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
-                  {ventaData?.cliente?.datos?.celular && (
+                  {ventaData?.clienteId?.datos?.celular && (
                     <p>
                       <strong>Celular:</strong>{" "}
-                      {ventaData?.cliente?.datos?.celular}
+                      {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
                 </div>

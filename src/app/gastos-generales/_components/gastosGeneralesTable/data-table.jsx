@@ -111,7 +111,10 @@ export function DataTableGastosGenerales({ columns, data, status = 200 }) {
           <Input
             placeholder="Buscar por descripción"
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => {
+              const trimmedValue = e.target.value.trim();
+              setSearchValue(trimmedValue);
+            }}
             className="max-w-sm"
           />
           <MesAnioPicker onChange={handleDateChange} />

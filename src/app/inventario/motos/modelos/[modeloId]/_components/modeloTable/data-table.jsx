@@ -252,7 +252,10 @@ export function DataTableModelo({ modeloId, motos, status = 200 }) {
         <Input
           placeholder="Buscar por código"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
         />
         <div>

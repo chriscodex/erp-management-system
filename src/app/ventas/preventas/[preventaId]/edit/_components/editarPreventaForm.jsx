@@ -73,27 +73,28 @@ export function EditarPreventaForm({ preventaData }) {
   const [open, setOpen] = useState(false); //Close calendar
 
   const form = useForm({
+
     resolver: zodResolver(createPreventaSchemaForm),
     defaultValues: {
       identificador:
-        preventaData?.cliente?.datos?.dni ||
-        preventaData?.cliente?.datos?.ruc ||
+        preventaData?.clienteId?.datos?.dni ||
+        preventaData?.clienteId?.datos?.ruc ||
         "",
-      tipo: preventaData?.cliente?.tipo || "persona",
-      nombres: preventaData?.cliente?.datos?.nombres || "",
-      apellidos: preventaData?.cliente?.datos?.apellidos || "",
-      razonSocial: preventaData?.cliente?.datos?.razonSocial || "",
+      tipo: preventaData?.clienteId?.tipo || "persona",
+      nombres: preventaData?.clienteId?.datos?.nombres || "",
+      apellidos: preventaData?.clienteId?.datos?.apellidos || "",
+      razonSocial: preventaData?.clienteId?.datos?.razonSocial || "",
       representanteLegal:
-        preventaData?.cliente?.datos?.representanteLegal || "",
-      direccion: preventaData?.cliente?.datos?.direccion || "",
-      email: preventaData?.cliente?.datos?.email || "",
-      celular: preventaData?.cliente?.datos?.celular || "",
+        preventaData?.clienteId?.datos?.representanteLegal || "",
+      direccion: preventaData?.clienteId?.datos?.direccion || "",
+      email: preventaData?.clienteId?.datos?.email || "",
+      celular: preventaData?.clienteId?.datos?.celular || "",
       comentarios: preventaData?.comentarios || "",
       cotizacion: preventaData?.cotizacion || "no",
       fechaValidez: preventaData?.fechaValidez || new Date(),
     },
   });
-
+  console.log(preventaData);
   const { handleSubmit, watch, setValue, control, clearErrors } = form;
 
   const formData = watch();

@@ -42,7 +42,7 @@ export function FinalizarVentaAlert({
         loading: 'Finalizando Venta...',
         success: () => {
           if (actionAfterComplete === 'push') {
-            router.push(`/ventas`);
+            router.push(`/ventas/ventas-historicas`);
             return `Venta finalizada correctamente`;
           }
         },

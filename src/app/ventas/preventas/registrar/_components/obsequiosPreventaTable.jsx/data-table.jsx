@@ -386,7 +386,10 @@ export function ObsequiosPreventaTable({
             ref={searchObsequiosInputRef}
             placeholder="Ingrese el código del obsequio"
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => {
+              const trimmedValue = e.target.value.trim();
+              setSearchValue(trimmedValue);
+            }}
             className="max-w-sm"
             onKeyDown={(event) => {
               if (event.key === 'Enter') {

@@ -1,15 +1,17 @@
 import mongoose from 'mongoose';
 
 import { Preventa } from '@/backend/preventas/domain/models/preventa';
+import { Cliente } from '@/backend/clientes/domain/models/cliente';
 
 export class PreventaRepository {
   constructor() {
     this.preventaModel = Preventa;
+    this.clienteModel = Cliente;
   }
 
   async getAllPreventas() {
     try {
-      const preventas = await this.preventaModel.find({});
+      const preventas = await this.preventaModel.find({}).populate('clienteId');
 
       if (preventas?.length === 0) {
         console.log('Preventa Repository: No se encontraron preventas');
@@ -44,7 +46,7 @@ export class PreventaRepository {
       if (preventaData.code) {
         filter.code = { $regex: new RegExp(`^${preventaData.code}$`, 'i') };
       }
-      const preventaFound = await this.preventaModel.findOne(filter);
+      const preventaFound = await this.preventaModel.findOne(filter).populate('clienteId');;
 
       if (!preventaFound) {
         console.log('Preventa Repository: Preventa no encontrada');

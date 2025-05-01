@@ -21,8 +21,7 @@ import {
 const styles = StyleSheet.create(stylesFactura);
 
 export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
-  //   console.log('ventaData', ventaData);
-  //   console.log('counterFactura', counterFactura);
+
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
   const codigoFactura = formatearCodigoCounterBoletaFactura(
@@ -118,46 +117,46 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {ventaData?.cliente?.tipo === "empresa"
-                ? ventaData?.cliente?.datos?.nombre
-                : `${ventaData?.cliente?.datos?.apellidos} ${ventaData?.cliente?.datos?.nombres}`}
+              {ventaData?.clienteId?.tipo === "empresa"
+                ? ventaData?.clienteId?.datos?.nombre
+                : `${ventaData?.clienteId?.datos?.apellidos} ${ventaData?.clienteId?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {ventaData?.cliente?.tipo === "empresa" ? `RUC: ` : `DNI: `}
+                {ventaData?.clienteId?.tipo === "empresa" ? `RUC: ` : `DNI: `}
               </Text>
               <Text>
-                {ventaData?.cliente?.tipo === "empresa"
-                  ? `${ventaData?.cliente?.datos?.ruc}`
-                  : `${ventaData?.cliente?.datos?.dni}`}
+                {ventaData?.clienteId?.tipo === "empresa"
+                  ? `${ventaData?.clienteId?.datos?.ruc}`
+                  : `${ventaData?.clienteId?.datos?.dni}`}
               </Text>
             </View>
-            {ventaData?.cliente?.tipo === "empresa" && (
+            {ventaData?.clienteId?.tipo === "empresa" && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {"Representante Legal: "}
                 </Text>
-                <Text>{ventaData?.cliente?.datos?.representanteLegal}</Text>
+                <Text>{ventaData?.clienteId?.datos?.representanteLegal}</Text>
               </View>
             )}
-            {ventaData?.cliente?.tipo === "empresa" && (
+            {ventaData?.clienteId?.tipo === "empresa" && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {"Dirección: "}
                 </Text>
-                <Text>{ventaData?.cliente?.datos?.direccion}</Text>
+                <Text>{ventaData?.clienteId?.datos?.direccion}</Text>
               </View>
             )}
-            {ventaData?.cliente?.datos?.email && (
+            {ventaData?.clienteId?.datos?.email && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
-                <Text>{ventaData.cliente.datos.email}</Text>
+                <Text>{ventaData?.clienteId?.datos?.email}</Text>
               </View>
             )}
-            {ventaData?.cliente?.datos?.celular && (
+            {ventaData?.clienteId?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
-                <Text>{ventaData.cliente.datos.celular}</Text>
+                <Text>{ventaData?.clienteId?.datos?.celular}</Text>
               </View>
             )}
           </View>

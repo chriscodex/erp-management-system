@@ -48,6 +48,7 @@ export function searchClientePorDniOrRucClientRequest(
         }
         setLoading(false);
         resolve(response?.data?.payload);
+        console.log(response?.data?.payload);
       }
     } catch (error) {
       setLoading(false);

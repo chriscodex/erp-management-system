@@ -43,9 +43,6 @@ export default async function Page() {
 
   const dataPedidosHistoricos = await getAllPedidosHistoricosRequestServer();
 
-
-  // console.log("Data de pedidos", dataPedidosHistoricos);
-
   return (
     <>
       <NavbarSimple title="Estadísticas">

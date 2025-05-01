@@ -6,6 +6,14 @@ export const createUserClientUrl = '/api/users';
 export const updateUserClientUrl = '/api/users';
 export const deleteUserClientUrl = '/api/users';
 
+/* Clientes */
+export const createClienteClientUrl = '/api/clientes';
+export const updateClienteClientUrl = '/api/clientes';
+export const deleteClienteClientUrl = '/api/clientes';
+export const searchClienteClientUrl = '/api/clientes';
+// export const getClientByDniOrRucClientUrl = '/api/clientes';
+// export const createClienteClientUrl = '/api/clientes';
+
 /* Empresas */
 export const createEmpresaClientUrl = '/api/empresas';
 export const updateEmpresaClientUrl = '/api/empresas';
@@ -84,10 +92,7 @@ export const createPreventaClientUrl = '/api/preventas';
 export const deletePreventaClientUrl = '/api/preventas';
 export const updatePreventaClientUrl = '/api/preventas';
 
-/* Clientes */
-export const searchClienteClientUrl = '/api/clientes';
-export const getClientByDniOrRucClientUrl = '/api/clientes';
-export const createClienteClientUrl = '/api/clientes';
+
 
 /* Ventas */
 export const createVentaClientUrl = '/api/ventas';

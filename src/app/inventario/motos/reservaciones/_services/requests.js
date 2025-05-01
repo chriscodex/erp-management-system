@@ -46,24 +46,3 @@ export async function getAllReservacionesRequestServer() {
     console.error(error);
   }
 }
-
-// export async function getCounterBoletaRequestServer() {
-//   try {
-//     await connectDB();
-//     const ventaService = new VentaService();
-
-//     const response = await ventaService.getCounterBoleta();
-
-//     if (response?.status !== 200) {
-//       console.log('Error al obtener el contador de boleta');
-//       return { counterBoleta: 0, status: response?.status };
-//     }
-//     const counterBoleta = response?.payload;
-//     return {
-//       counterBoleta: counterBoleta,
-//       status: 200,
-//     };
-//   } catch (error) {
-//     console.log(error);
-//   }
-// }

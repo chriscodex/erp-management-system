@@ -10,16 +10,10 @@ const ventaSchema = new Schema(
       type: Date,
       required: [true, 'La fecha es requerida en el schema de ventas'],
     },
-    cliente: {
-      tipo: {
-        type: String,
-        required: [true, 'El tipo es requerido en el schema de ventas'],
-        enum: ['persona', 'empresa'],
-      },
-      datos: {
-        type: Schema.Types.Mixed,
-        required: [true, 'Los datos son requeridos en el schema de ventas'],
-      },
+    clienteId: {
+      type: Schema.Types.ObjectId,
+      ref: "Cliente",
+      required: [true, "El cliente es requerido en el schema de preventas."],
     },
     usuario: {
       id: {

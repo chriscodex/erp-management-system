@@ -1,14 +1,15 @@
 import mongoose from 'mongoose';
 import { VentasHistoricas } from "@/backend/ventas/domain/models/ventasHistoricas";
-
+import { Cliente } from '@/backend/clientes/domain/models/cliente';
 export class ventasHistoricasRepository {
   constructor() {
     this.ventasHistoricasModel = VentasHistoricas;
+    this.clienteModel = Cliente;
   }
 
   async getAllVentasHistoricas() {
     try {
-      const ventasHistoricas = await this.ventasHistoricasModel.find({});
+      const ventasHistoricas = await this.ventasHistoricasModel.find({}).populate('clienteId');
 
       if (ventasHistoricas?.length === 0) {
         console.log("Venta Historica Repository: No se encontraron ventas");
@@ -43,7 +44,7 @@ export class ventasHistoricasRepository {
       if (ventaHistorica.code) {
         filter.code = { $regex: new RegExp(`^${ventaHistorica.code}$`, "i") };
       }
-      const ventaHistoricaFound = await this.ventasHistoricasModel.findOne(filter);
+      const ventaHistoricaFound = await this.ventasHistoricasModel.findOne(filter).populate('clienteId');;
 
       if (!ventaHistoricaFound) {
         console.log("Venta Historica Repository: Venta historica no encontrada");
@@ -57,6 +58,18 @@ export class ventasHistoricasRepository {
         `Venta Historica Repository: Error al buscar la venta historica: ${error.message}`
       );
       throw new Error(`Error al buscar una venta historica: ${error.message}`);
+    }
+  }
+  async getVentasHistoricasByCliente(clienteId) {
+    try {
+      const ventas = await this.ventasHistoricasModel
+        .find({ clienteId: new mongoose.Types.ObjectId(clienteId) })
+        .sort({ fecha: -1 })
+        .populate('clienteId');
+  
+      return ventas;
+    } catch (error) {
+      throw new Error(`Error al buscar ventas historicas del cliente: ${error.message}`);
     }
   }
   async createVentaHistorica(ventasHistoricas) {

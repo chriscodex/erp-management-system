@@ -89,7 +89,7 @@ export class VentaService {
       const nuevaVenta = {
         code: preventa.code,
         fecha: new Date(),
-        cliente: preventa.cliente,
+        clienteId: preventa.clienteId,
         usuario: preventa.usuario,
         productos: preventa.productos,
         obsequios: preventa.obsequios,
@@ -212,7 +212,7 @@ export class VentaService {
       const ventaHistorica = {
         code: venta.code,
         fecha: venta.fecha,
-        cliente: venta.cliente,
+        clienteId: venta.clienteId,
         usuario: venta.usuario,
         productos: venta.productos,
         obsequios: venta.obsequios,

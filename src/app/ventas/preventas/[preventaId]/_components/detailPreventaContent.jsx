@@ -21,6 +21,9 @@ import { formatMoney } from "@/lib/utils";
 import { ImprimirCotizacionButton } from "@/app/ventas/preventas/[preventaId]/_components/buttons/imprimirCotizacionButton";
 
 export function DetailPreventaContent({ preventaData }) {
+
+  console.log("preventaData", preventaData);
+
   const precioTotal = preventaData?.productos?.reduce((acc, product) => {
     return acc + product.precioVenta;
   }, 0);
@@ -52,27 +55,27 @@ export function DetailPreventaContent({ preventaData }) {
                 Información del Cliente
               </CardTitle>
             </CardHeader>
-            {preventaData?.cliente?.tipo === "persona" ? (
+            {preventaData?.clienteId?.tipo === "persona" ? (
               <CardContent>
                 <div className="space-y-2">
                   <p>
                     <strong>Nombre:</strong>{" "}
-                    {preventaData?.cliente?.datos?.nombres}{" "}
-                    {preventaData?.cliente?.datos?.apellidos}
+                    {preventaData?.clienteId?.datos?.nombres}{" "}
+                    {preventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
-                    <strong>DNI:</strong> {preventaData?.cliente?.datos?.dni}
+                    <strong>DNI:</strong> {preventaData?.clienteId?.datos?.dni}
                   </p>
-                  {preventaData?.cliente?.datos?.email && (
+                  {preventaData?.clienteId?.datos?.email && (
                     <p>
                       <strong>Dirección:</strong>{" "}
-                      {preventaData?.cliente?.datos?.email}
+                      {preventaData?.clienteId?.datos?.email}
                     </p>
                   )}
-                  {preventaData?.cliente?.datos?.celular && (
+                  {preventaData?.clienteId?.datos?.celular && (
                     <p>
                       <strong>Celular:</strong>{" "}
-                      {preventaData?.cliente?.datos?.celular}
+                      {preventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
                 </div>
@@ -82,23 +85,23 @@ export function DetailPreventaContent({ preventaData }) {
                 <div className="space-y-2">
                   <p>
                     <strong>Razon Social:</strong>{" "}
-                    {preventaData?.cliente?.datos?.razonSocial}
+                    {preventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
-                    <strong>RUC:</strong> {preventaData?.cliente?.datos?.ruc}
+                    <strong>RUC:</strong> {preventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
                     <strong>Represante Legal:</strong>{" "}
-                    {preventaData?.cliente?.datos?.representanteLegal}
+                    {preventaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
                     <strong>Dirección:</strong>{" "}
-                    {preventaData?.cliente?.datos?.direccion}
+                    {preventaData?.clienteId?.datos?.direccion}
                   </p>
-                  {preventaData?.cliente?.datos?.celular && (
+                  {preventaData?.clienteId?.datos?.celular && (
                     <p>
                       <strong>Celular:</strong>{" "}
-                      {preventaData?.cliente?.datos?.celular}
+                      {preventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
                 </div>

@@ -33,8 +33,6 @@ export default function LeaderboardSalesBarChart({ dataVendedores, cantidadVende
     setAnio(year);
   }
 
-  // console.log(dataVendedores);
-
   function topVendedoresPorMes(data, mes, anio) {
     // Filtrar ventas del mes y año
     const ventasHistoricasFiltradas = data.ventasHistoricas.filter((venta) => {

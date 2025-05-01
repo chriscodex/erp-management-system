@@ -1,8 +1,8 @@
-import { User, Package, Gift, Calendar, Hash, FileText } from 'lucide-react';
-import { RiFileListLine } from '@remixicon/react';
+import { User, Package, Gift, Calendar, Hash, FileText } from "lucide-react";
+import { RiFileListLine } from "@remixicon/react";
 
-import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -10,21 +10,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { formatDateLong } from '@/lib/formateador';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/table";
+import { formatDateLong } from "@/lib/formateador";
+import { Label } from "@/components/ui/label";
 
-import { DetailProductPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet';
-import { DetailVentaButtons } from '@/app/ventas/[ventaId]/_components/buttons/detailVentaButtons';
-import { EmitirComprobanteVentaButton } from '@/app/ventas/[ventaId]/_components/buttons/emitirComprobanteVentaButton';
-
+import { DetailProductPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet";
+import { DetailVentaButtons } from "@/app/ventas/[ventaId]/_components/buttons/detailVentaButtons";
+import { EmitirComprobanteVentaButton } from "@/app/ventas/[ventaId]/_components/buttons/emitirComprobanteVentaButton";
 
 export function DetailVentaContent({ ventaData }) {
-  console.log(ventaData);
-
   return (
     <Card className="w-full max-w-7xl mx-auto">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+      <CardHeader className="flex flex-col md:flex-row items-center justify-between space-y-0 pb-4">
         <div className="flex items-center gap-2">
           <RiFileListLine className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">
@@ -43,27 +40,33 @@ export function DetailVentaContent({ ventaData }) {
                 Información del Cliente
               </CardTitle>
             </CardHeader>
-            {ventaData?.cliente?.tipo === 'persona' ? (
+            {ventaData?.clienteId?.tipo === "persona" ? (
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{' '}
-                    {ventaData?.cliente?.datos?.nombres}{' '}
-                    {ventaData?.cliente?.datos?.apellidos}
+                    <strong>Nombre:</strong>{" "}
+                    {ventaData?.clienteId?.datos?.nombres}{" "}
+                    {ventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
-                    <strong>DNI:</strong> {ventaData?.cliente?.datos?.dni}
+                    <strong>DNI:</strong> {ventaData?.clienteId?.datos?.dni}
                   </p>
-                  {ventaData?.cliente?.datos?.email && (
+                  {ventaData?.clienteId?.datos?.direccion && (
                     <p>
-                      <strong>Email:</strong>{' '}
-                      {ventaData?.cliente?.datos?.email}
+                      <strong>Dirección:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.direccion}
                     </p>
                   )}
-                  {ventaData?.cliente?.datos?.celular && (
+                  {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Celular:</strong>{' '}
-                      {ventaData?.cliente?.datos?.celular}
+                      <strong>Email:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.email}
+                    </p>
+                  )}
+                  {ventaData?.clienteId?.datos?.celular && (
+                    <p>
+                      <strong>Celular:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
                 </div>
@@ -72,30 +75,30 @@ export function DetailVentaContent({ ventaData }) {
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{' '}
-                    {ventaData?.cliente?.datos?.razonSocial}
+                    <strong>Razon Social:</strong>{" "}
+                    {ventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
-                    <strong>RUC:</strong> {ventaData?.cliente?.datos?.ruc}
+                    <strong>RUC:</strong> {ventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Representante Legal:</strong>{' '}
-                    {ventaData?.cliente?.datos?.representanteLegal}
+                    <strong>Representante Legal:</strong>{" "}
+                    {ventaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
-                    <strong>Direccion:</strong>{' '}
-                    {ventaData?.cliente?.datos?.direccion}
+                    <strong>Direccion:</strong>{" "}
+                    {ventaData?.clienteId?.datos?.direccion}
                   </p>
-                  {ventaData?.cliente?.datos?.email && (
+                  {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{' '}
-                      {ventaData?.cliente?.datos?.email}
+                      <strong>Email:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
-                  {ventaData?.cliente?.datos?.celular && (
+                  {ventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{' '}
-                      {ventaData?.cliente?.datos?.celular}
+                      <strong>Celular:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
                 </div>
@@ -116,14 +119,14 @@ export function DetailVentaContent({ ventaData }) {
                   <strong>Código:</strong> {ventaData?.code}
                 </p>
                 <p>
-                  <strong>Fecha:</strong>{' '}
+                  <strong>Fecha:</strong>{" "}
                   {formatDateLong(ventaData?.fecha, true)}
                 </p>
                 <p>
-                  <strong>Vendedor:</strong>{' '}
+                  <strong>Vendedor:</strong>{" "}
                   {ventaData?.usuario?.nombres +
-                    ' ' +
-                    ventaData?.usuario?.apellidos}{' '}
+                    " " +
+                    ventaData?.usuario?.apellidos}{" "}
                 </p>
                 <p>
                   <strong>Comprobante:</strong> {ventaData?.comprobante}
@@ -168,7 +171,7 @@ export function DetailVentaContent({ ventaData }) {
                       <TableCell>{producto?.descripcion}</TableCell>
                       <TableCell>
                         <Badge variant="outline">
-                          {producto?.tipo === 'moto'
+                          {producto?.tipo === "moto"
                             ? producto?.estado?.titulo
                             : producto?.estado}
                         </Badge>
@@ -178,7 +181,7 @@ export function DetailVentaContent({ ventaData }) {
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{' '}
+                        S/.{" "}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
                           2
                         )}
@@ -254,14 +257,14 @@ export function DetailVentaContent({ ventaData }) {
             <CardContent>
               <div className="space-y-2">
                 <p>
-                  <strong>Total de Productos:</strong>{' '}
+                  <strong>Total de Productos:</strong>{" "}
                   {ventaData?.productos?.reduce(
                     (acc, producto) => acc + producto?.cantidad,
                     0
                   )}
                 </p>
                 <p>
-                  <strong>Total de Obsequios:</strong>{' '}
+                  <strong>Total de Obsequios:</strong>{" "}
                   {ventaData?.obsequios?.reduce(
                     (acc, obsequio) => acc + obsequio?.cantidad,
                     0
