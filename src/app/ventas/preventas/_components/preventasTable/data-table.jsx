@@ -95,7 +95,10 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
         <Input
           placeholder="Buscar por DNI/RUC o código"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
         />
         <DataTableViewOptions table={table} />

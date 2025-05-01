@@ -1,5 +1,5 @@
 import { User, Package, Gift, Calendar, Hash, FileText } from "lucide-react";
-import { RiFileListLine} from "@remixicon/react";
+import { RiFileListLine } from "@remixicon/react";
 
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -17,10 +17,8 @@ import { Label } from "@/components/ui/label";
 import { DetailProductPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet";
 import { DetailVentaButtons } from "@/app/ventas/[ventaId]/_components/buttons/detailVentaButtons";
 import { EmitirComprobanteVentaButton } from "@/app/ventas/[ventaId]/_components/buttons/emitirComprobanteVentaButton";
-import { FinalizarVentaButton } from "@/app/ventas/[ventaId]/_components/buttons/finalizarVentaButton";
 
 export function DetailVentaContent({ ventaData }) {
-
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col md:flex-row items-center justify-between space-y-0 pb-4">
@@ -30,10 +28,7 @@ export function DetailVentaContent({ ventaData }) {
             Detalle de la Venta
           </Label>
         </div>
-        <div className="flex flex-col gap-2 lg:flex-row">
-          <FinalizarVentaButton ventaId={ventaData?._id} />
-          <EmitirComprobanteVentaButton ventaData={ventaData} />
-        </div>
+        <EmitirComprobanteVentaButton ventaData={ventaData} />
       </CardHeader>
 
       <CardContent className="space-y-4">

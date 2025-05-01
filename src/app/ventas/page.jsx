@@ -15,8 +15,6 @@ export default async function VentasPage() {
 
   const ventasSorted = sortByUpdateDateDesc(ventas);
 
-  // console.log('ventas', ventasSorted);
-
   const titles = [
     {
       title: 'Ventas',

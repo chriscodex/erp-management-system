@@ -100,7 +100,6 @@ export class PreventaService {
         }
       }
 
-      console.log("Esto es el cliente final", clienteFinal);
       console.log("Esto es el preventa data", preventaData);
 
       // Reemplazar cliente en preventaData por clienteId

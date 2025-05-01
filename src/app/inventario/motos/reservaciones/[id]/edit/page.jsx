@@ -9,12 +9,7 @@ import { EditarReservacionForm } from '@/app/inventario/motos/reservaciones/[id]
 export default async function EditarReservacionPage({ params }) {
 
   const { reservacion } = await getReservacionRequestServer(params.id);
-
-  // console.log("Reservación en la página principal de edit", reservacion)
-
-  // console.log("params", params)
   
-
   const titles = [
     {
       title: 'Inventario',

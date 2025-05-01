@@ -90,8 +90,6 @@ export function AddClienteForm({ onClose }) {
   const onSubmit = handleSubmit(async (data) => {
     setFormSubmitIsLoading(true);
 
-    console.log("Esto es data", data);
-
     // Toast promise para buscar una persona
     toast.promise(createClienteRequestClient(data, setFormSubmitIsLoading), {
       loading: "Creando...",
@@ -147,6 +145,8 @@ export function AddClienteForm({ onClose }) {
 
               clearErrors("apellidos");
               clearErrors("nombres");
+              clearErrors("direccion");
+              clearErrors("email");
               clearErrors("celular");
               return `Persona encontrada`;
             },

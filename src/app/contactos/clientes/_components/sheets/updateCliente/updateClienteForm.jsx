@@ -24,29 +24,17 @@ import {
 } from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
-import {
   IdCardIcon,
-  Loader2,
   Mail,
   MapPin,
   Phone,
-  SearchIcon,
   User,
   UserCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { updateClienteFormSchema } from "@/app/contactos/clientes/_services/validations/updateClienteFormSchema";
-import {
-  updateClienteRequestClient,
-  searchClientePorDniOrRucClientRequest,
-} from "@/app/contactos/clientes/_services/requests";
+import { updateClienteRequestClient } from "@/app/contactos/clientes/_services/requests";
 import {
   onChangeCelular,
   onChangeNumero,
@@ -59,14 +47,14 @@ export function UpdateClienteForm({ onClose, clienteData }) {
     resolver: zodResolver(updateClienteFormSchema),
     defaultValues: {
       tipo: clienteData?.tipo,
-      identificador: clienteData?.datos?.dni || clienteData?.datos?.ruc || "",
-      nombres: clienteData?.datos?.nombres || "",
-      apellidos: clienteData?.datos?.apellidos || "",
-      razonSocial: clienteData?.datos?.razonSocial || "",
-      representanteLegal: clienteData?.datos?.representanteLegal || "",
-      email: clienteData?.datos?.email || "",
-      direccion: clienteData?.datos?.direccion || "",
-      celular: clienteData?.datos?.celular || "",
+      identificador: clienteData?.datos?.dni || clienteData?.datos?.ruc,
+      nombres: clienteData?.datos?.nombres,
+      apellidos: clienteData?.datos?.apellidos,
+      razonSocial: clienteData?.datos?.razonSocial,
+      representanteLegal: clienteData?.datos?.representanteLegal,
+      email: clienteData?.datos?.email,
+      direccion: clienteData?.datos?.direccion,
+      celular: clienteData?.datos?.celular,
     },
   });
 
@@ -83,8 +71,6 @@ export function UpdateClienteForm({ onClose, clienteData }) {
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
-  const [searchByDniOrRucIsLoading, setSearchByDniOrRucIsLoading] =
-    useState(false);
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async () => {
@@ -114,7 +100,7 @@ export function UpdateClienteForm({ onClose, clienteData }) {
       ...clienteData,
     };
 
-    if (clienteData?.tipo === "persona") {
+    if (clienteData?.tipo && formData?.tipo === "persona") {
       updateObject = {
         ...updateObject,
         tipo: formData?.tipo,
@@ -126,7 +112,7 @@ export function UpdateClienteForm({ onClose, clienteData }) {
       };
     }
 
-    if (clienteData?.tipo === "empresa") {
+    if (clienteData?.tipo && formData?.tipo === "empresa") {
       updateObject = {
         ...updateObject,
         tipo: formData?.tipo,
@@ -147,6 +133,8 @@ export function UpdateClienteForm({ onClose, clienteData }) {
       },
     };
 
+    console.log("updateObject", updateObject);
+
     // Toast promise para buscar una persona
     toast.promise(
       updateClienteRequestClient(updateObject, setFormSubmitIsLoading),
@@ -166,87 +154,6 @@ export function UpdateClienteForm({ onClose, clienteData }) {
       }
     );
   });
-
-  // Busqueda por DNI o RUC
-  const handleSearchByDniOrRuc = async (e) => {
-    e.preventDefault();
-    try {
-      setSearchByDniOrRucIsLoading(true);
-
-      const tipo = formData.tipo;
-      const identificador = formData.identificador;
-
-      if (tipo === "persona") {
-        if (!identificador || identificador.length !== 8) {
-          setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un DNI válido", {
-            description: "El DNI debe tener 8 dígitos",
-          });
-          return;
-        }
-        toast.promise(
-          searchClientePorDniOrRucClientRequest(
-            identificador,
-            setSearchByDniOrRucIsLoading
-          ),
-          {
-            loading: "Buscando...",
-            success: (persona) => {
-              setValue("apellidos", persona?.apellidos);
-              setValue("nombres", persona?.nombres);
-              setValue("celular", persona?.celular);
-              clearErrors("apellidos");
-              clearErrors("nombres");
-              clearErrors("celular");
-              return `Persona encontrada`;
-            },
-            error: (error) => {
-              setSearchByDniOrRucIsLoading(false);
-              return error;
-            },
-          }
-        );
-      }
-
-      if (tipo === "empresa") {
-        if (!identificador || identificador.length !== 11) {
-          setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un RUC válido", {
-            description: "El RUC debe tener 11 dígitos",
-          });
-          return;
-        }
-        toast.promise(
-          searchClientePorDniOrRucClientRequest(
-            identificador,
-            setSearchByDniOrRucIsLoading
-          ),
-          {
-            loading: "Buscando...",
-            success: (empresa) => {
-              setValue("razonSocial", empresa?.razonSocial);
-              // setValue('representanteLegal', empresa?.representanteLegal);
-              // setValue('direccion', empresa?.direccion);
-              setValue("celular", empresa?.celular);
-              clearErrors("razonSocial");
-              // clearErrors('representanteLegal');
-              // clearErrors('direccion');
-              clearErrors("celular");
-              return `Empresa encontrada`;
-            },
-            error: (error) => {
-              setSearchByDniOrRucIsLoading(false);
-              return error;
-            },
-          }
-        );
-      }
-    } catch (error) {
-      setSearchByDniOrRucIsLoading(false);
-      toast.error("Error al buscar persona por DNI");
-      console.error("Error al buscar persona por DNI:", error);
-    }
-  };
 
   return (
     <SheetContent>
@@ -273,14 +180,11 @@ export function UpdateClienteForm({ onClose, clienteData }) {
                       clearErrors("nombres");
                       clearErrors("razonSocial");
                       clearErrors("representanteLegal");
-                      clearErrors("direccion");
-                      clearErrors("celular");
                       setValue("apellidos", "");
                       setValue("nombres", "");
                       setValue("razonSocial", "");
                       setValue("representanteLegal", "");
-                      setValue("direccion", "");
-                      setValue("celular", "");
+
                     }}
                     defaultValue={field.value}
                     className="flex flex-row space-x-4"
@@ -321,9 +225,7 @@ export function UpdateClienteForm({ onClose, clienteData }) {
                       placeholder={watch("tipo") === "persona" ? "DNI" : "RUC"}
                       className="pl-8"
                       autoComplete="off"
-                      disabled={
-                        searchByDniOrRucIsLoading || formSubmitIsLoading
-                      }
+                      disabled={formSubmitIsLoading}
                       {...field}
                       onChange={(e) => {
                         onChangeNumero(e, field);
@@ -331,32 +233,6 @@ export function UpdateClienteForm({ onClose, clienteData }) {
                     />
                   </FormControl>
                   <FormMessage />
-                  <div
-                    className={cn(
-                      "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
-                      searchByDniOrRucIsLoading
-                        ? "opacity-75 pointer-events-none"
-                        : "cursor-pointer"
-                    )}
-                    onClick={handleSearchByDniOrRuc}
-                  >
-                    {searchByDniOrRucIsLoading ? (
-                      <>
-                        <Loader2 className="h-6 w-6 animate-spin " />
-                      </>
-                    ) : (
-                      <TooltipProvider delayDuration={0}>
-                        <Tooltip>
-                          <TooltipTrigger>
-                            <SearchIcon className="h-6 w-6" />
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            <p>Buscar</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      </TooltipProvider>
-                    )}
-                  </div>
                 </div>
               </FormItem>
             )}
@@ -370,21 +246,13 @@ export function UpdateClienteForm({ onClose, clienteData }) {
                   <FormItem className="space-y-2">
                     <FormLabel>Apellidos</FormLabel>
                     <div className="relative">
-                      {searchByDniOrRucIsLoading ? (
-                        <>
-                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
-                        </>
-                      ) : (
-                        <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                      )}
+                      <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                       <FormControl>
                         <Input
                           placeholder="Apellidos"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={
-                            searchByDniOrRucIsLoading || formSubmitIsLoading
-                          }
+                          disabled={formSubmitIsLoading}
                           {...field}
                         />
                       </FormControl>
@@ -400,21 +268,13 @@ export function UpdateClienteForm({ onClose, clienteData }) {
                   <FormItem className="space-y-2">
                     <FormLabel>Nombres</FormLabel>
                     <div className="relative">
-                      {searchByDniOrRucIsLoading ? (
-                        <>
-                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
-                        </>
-                      ) : (
-                        <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                      )}
+                      <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                       <FormControl>
                         <Input
                           placeholder="Nombres"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={
-                            searchByDniOrRucIsLoading || formSubmitIsLoading
-                          }
+                          disabled={formSubmitIsLoading}
                           {...field}
                         />
                       </FormControl>
@@ -433,21 +293,13 @@ export function UpdateClienteForm({ onClose, clienteData }) {
                   <FormItem className="space-y-2">
                     <FormLabel>Razón Social</FormLabel>
                     <div className="relative">
-                      {searchByDniOrRucIsLoading ? (
-                        <>
-                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
-                        </>
-                      ) : (
-                        <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                      )}
+                      <User className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                       <FormControl>
                         <Input
                           placeholder="Razón Social"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={
-                            searchByDniOrRucIsLoading || formSubmitIsLoading
-                          }
+                          disabled={formSubmitIsLoading}
                           {...field}
                         />
                       </FormControl>

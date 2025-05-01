@@ -25,7 +25,7 @@ import { DataTablePagination } from "@/components/ui/table-pagination";
 import { DataTableViewOptions } from "@/components/ui/table-view-options";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { RiFileListLine, RiDeleteBinLine } from "@remixicon/react";
+import { RiFileListLine} from "@remixicon/react";
 
 import {
   Tooltip,
@@ -35,7 +35,6 @@ import {
 } from "@/components/ui/tooltip";
 import { serverErrorToast } from "@/components/toast/serverErrorToast";
 import { TIME_DEBOUNCE } from "@/lib/utils";
-import { DeleteClienteAlert } from "@/app/contactos/clientes/_components/dialogs/deleteClienteAlert";
 import { SheetUpdateClienteWrapper } from "@/app/contactos/clientes/_components/sheets/updateCliente/sheetUpdateClienteWrapper";
 
 export function DataTableClientes({ data, status = 200 }) {
@@ -43,7 +42,29 @@ export function DataTableClientes({ data, status = 200 }) {
 
   const columns = [
     {
-      accessorKey: "nombre",
+      accessorKey: "tipo",
+      header: ({ column }) => {
+        return (
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          >
+            Tipo
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        );
+      },
+      cell: ({ row }) => {
+        const cliente = row?.original;
+        return <div className="text-start">{cliente?.tipo ==="empresa" ? "Empresa" : "Persona"}</div>;
+      },
+    },
+    {
+      id: "nombre",
+      accessorFn: (row) =>
+        row.tipo === "empresa"
+          ? row.datos?.razonSocial
+          : `${row.datos?.nombres ?? ""} ${row.datos?.apellidos ?? ""}`,
       header: ({ column }) => {
         return (
           <Button
@@ -67,7 +88,9 @@ export function DataTableClientes({ data, status = 200 }) {
       },
     },
     {
-      accessorKey: "identificador",
+      id: "identificador",
+      accessorFn: (row) =>
+        row.tipo === "empresa" ? row.datos?.ruc : row.datos?.dni,
       header: ({ column }) => {
         return (
           <Button
@@ -131,37 +154,13 @@ export function DataTableClientes({ data, status = 200 }) {
         return <div className="text-start">{cliente?.datos?.email}</div>;
       },
     },
-    // {
-    //   accessorKey: "direccion",
-    //   header: ({ column }) => {
-    //     return (
-    //       <Button
-    //         variant="ghost"
-    //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-    //       >
-    //         Direción
-    //         <ArrowUpDown className="ml-2 h-4 w-4" />
-    //       </Button>
-    //     );
-    //   },
-    //   cell: ({ row }) => {
-    //     const cliente = row?.original;
-    //     return <div className="text-start">{cliente?.datos?.direccion}</div>;
-    //   },
-    // },
     {
       id: "actions",
       header: "Acciones",
       cell: ({ row }) => {
         const clienteData = row.original;
 
-        // const { _id: id } = row.original;
-
-        console.log("Desde datatable", clienteData);
-
         const router = useRouter();
-
-        const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
         return (
           <div className="flex items-center space-x-3">
@@ -170,7 +169,9 @@ export function DataTableClientes({ data, status = 200 }) {
                 <TooltipTrigger asChild>
                   <div
                     className="cursor-pointer flex"
-                    onClick={() => router.push(`/contactos/clientes/${clienteData._id}`)}
+                    onClick={() =>
+                      router.push(`/contactos/clientes/${clienteData._id}`)
+                    }
                   >
                     <RiFileListLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                   </div>
@@ -180,31 +181,7 @@ export function DataTableClientes({ data, status = 200 }) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-
             <SheetUpdateClienteWrapper clienteData={clienteData} />
-
-            <TooltipProvider delayDuration={0}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => setIsOpenDialogDelete(true)}
-                  >
-                    <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Eliminar</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <DeleteClienteAlert
-              isOpen={isOpenDialogDelete}
-              setIsOpen={setIsOpenDialogDelete}
-              actionAfterComplete="refresh"
-              clienteId={clienteData._id}
-            />
           </div>
         );
       },
@@ -230,8 +207,6 @@ export function DataTableClientes({ data, status = 200 }) {
     },
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: (row, filterValue) => {
-      // Filtrar por identificador (RUC/DNI) o código
-      console.log("Para los filtros", row);
 
       const identificador =
         row.original?.tipo === "empresa"
@@ -241,11 +216,15 @@ export function DataTableClientes({ data, status = 200 }) {
       const nombre =
         row.original?.tipo === "empresa"
           ? row.original?.datos?.razonSocial
-          : row.original?.datos?.nombres + " " + row.original?.datos?.apellidos;
+          : `${row.original?.datos?.nombres ?? ""} ${
+              row.original?.datos?.apellidos ?? ""
+            }`;
 
       return (
         identificador?.toLowerCase().includes(filterValue.toLowerCase()) ||
-        nombre?.toLowerCase().includes(filterValue.toLowerCase())
+        String(identificador).includes(filterValue) ||
+        nombre?.toLowerCase().includes(filterValue.toLowerCase()) ||
+        String(nombre).includes(filterValue)
       );
     },
   });
@@ -279,9 +258,12 @@ export function DataTableClientes({ data, status = 200 }) {
       {/* Input */}
       <div className="flex items-center py-4 w-full">
         <Input
-          placeholder="Buscar por nombre o razón social"
+          placeholder="Buscar por nombre, razón social, DNI o RUC"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
         />
         <DataTableViewOptions table={table} />

@@ -236,7 +236,10 @@ export function DataTableGastosMoto({ data, status = 200, unidadId }) {
         <Input
           placeholder="Buscar por descripcion"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
         />
         <DataTableViewOptions table={table} />

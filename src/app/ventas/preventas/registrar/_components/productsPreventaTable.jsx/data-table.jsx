@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState, useRef } from 'react';
-import { ArrowUpDown, Edit, Plus } from 'lucide-react';
-import { toast } from 'sonner';
-import { RiDeleteBinLine } from '@remixicon/react';
+import { useEffect, useState, useRef } from "react";
+import { ArrowUpDown, Edit, Plus } from "lucide-react";
+import { toast } from "sonner";
+import { RiDeleteBinLine } from "@remixicon/react";
 
 import {
   flexRender,
@@ -12,14 +12,14 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/tooltip";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -27,9 +27,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { getProductByCodeClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { getProductByCodeClientRequest } from "@/app/ventas/preventas/registrar/_services/requests";
 import {
   Sheet,
   SheetContent,
@@ -37,10 +37,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet';
-import { formatMoney, generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
-import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/sheet";
+import { formatMoney, generarNumeroAleatorioSeisDigitos } from "@/lib/utils";
+import { BadgeUnitProduct } from "@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct";
+import { Label } from "@/components/ui/label";
 
 export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
   const searchProductsInputRef = useRef(null);
@@ -56,8 +56,10 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
   const deleteProduct = (internalId) => {
     setProductsVenta((prevData) => {
       // Filtra el producto a eliminar
-      const updatedData = prevData.filter((row) => row.internalId !== internalId);
-  
+      const updatedData = prevData.filter(
+        (row) => row.internalId !== internalId
+      );
+
       // Reasigna la numeración
       return updatedData.map((row, index) => ({
         ...row,
@@ -68,13 +70,13 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
 
   const columns = [
     {
-      accessorKey: 'numeracion',
+      accessorKey: "numeracion",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             className="w-1"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             N°
             <ArrowUpDown className="h-4 w-4" />
@@ -82,16 +84,16 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('numeracion')}</div>;
+        return <div className="text-start">{row.getValue("numeracion")}</div>;
       },
     },
     {
-      accessorKey: 'code',
+      accessorKey: "code",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Código
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -99,16 +101,16 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('code')}</div>;
+        return <div className="text-start">{row.getValue("code")}</div>;
       },
     },
     {
-      accessorKey: 'nombre',
+      accessorKey: "nombre",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Nombre
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -116,16 +118,16 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('nombre')}</div>;
+        return <div className="text-start">{row.getValue("nombre")}</div>;
       },
     },
     {
-      accessorKey: 'cantidad',
+      accessorKey: "cantidad",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Cantidad
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -133,16 +135,16 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('cantidad')}</div>;
+        return <div className="text-start">{row.getValue("cantidad")}</div>;
       },
     },
     {
-      accessorKey: 'precioVenta',
+      accessorKey: "precioVenta",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Precio de Venta
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -150,18 +152,18 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
         );
       },
       cell: ({ row }) => {
-        const precioVenta = row.getValue('precioVenta');
+        const precioVenta = row.getValue("precioVenta");
         return <div className="text-start">S/. {formatMoney(precioVenta)}</div>;
       },
     },
     {
-      id: 'actions',
-      header: 'Acciones',
+      id: "actions",
+      header: "Acciones",
       cell: ({ row }) => {
         const productData = row.original;
 
-        let estadoProducto = '';
-        if (productData?.tipo === 'producto') {
+        let estadoProducto = "";
+        if (productData?.tipo === "producto") {
           const unitProduct = productData?.unidades?.find(
             (unidad) => unidad?.code === productData?.code
           );
@@ -182,7 +184,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
         const handleApplyChange = () => {
           updateRowValue(
             productData.internalId,
-            'precioVenta',
+            "precioVenta",
             parseFloat(tempPrice)
           );
         };
@@ -251,7 +253,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
                                 Importado
                               </label>
                               <p className="col-span-2">
-                                {productData?.importado === 'si' ? 'Si' : 'No'}
+                                {productData?.importado === "si" ? "Si" : "No"}
                               </p>
                             </div>
                             <div className="grid grid-cols-3 items-center gap-4">
@@ -268,23 +270,23 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
                               </label>
                               <div className="col-span-2">
                                 {productData?.estado?.titulo ===
-                                  'disponible' && (
+                                  "disponible" && (
                                   <BadgeUnitProduct variant="successTable">
                                     Disponible
                                   </BadgeUnitProduct>
                                 )}
-                                {productData?.estado?.titulo === 'reparado' && (
+                                {productData?.estado?.titulo === "reparado" && (
                                   <BadgeUnitProduct variant="blueTable">
                                     Reparado
                                   </BadgeUnitProduct>
                                 )}
                                 {productData?.estado?.titulo ===
-                                  'desarmado' && (
+                                  "desarmado" && (
                                   <BadgeUnitProduct variant="orangeTable">
                                     Desarmado
                                   </BadgeUnitProduct>
                                 )}
-                                {productData?.estado?.titulo === 'dañado' && (
+                                {productData?.estado?.titulo === "dañado" && (
                                   <BadgeUnitProduct variant="redTable">
                                     Dañado
                                   </BadgeUnitProduct>
@@ -305,7 +307,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
                                   value={tempPrice}
                                   onChange={handleTempPriceChange}
                                   onKeyDown={(event) => {
-                                    if (event.key === 'Enter') {
+                                    if (event.key === "Enter") {
                                       handleApplyChange(); // Llama a la función que guarda el cambio
                                     }
                                   }}
@@ -373,7 +375,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
                                 Importado
                               </label>
                               <p className="col-span-2">
-                                {productData?.importado === 'si' ? 'Si' : 'No'}
+                                {productData?.importado === "si" ? "Si" : "No"}
                               </p>
                             </div>
                             <div className="grid grid-cols-3 items-center gap-4">
@@ -389,22 +391,22 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
                                 Estado
                               </label>
                               <div className="col-span-2">
-                                {estadoProducto === 'disponible' && (
+                                {estadoProducto === "disponible" && (
                                   <BadgeUnitProduct variant="successTable">
                                     Disponible
                                   </BadgeUnitProduct>
                                 )}
-                                {estadoProducto === 'reparado' && (
+                                {estadoProducto === "reparado" && (
                                   <BadgeUnitProduct variant="blueTable">
                                     Reparado
                                   </BadgeUnitProduct>
                                 )}
-                                {estadoProducto === 'desaparecido' && (
+                                {estadoProducto === "desaparecido" && (
                                   <BadgeUnitProduct variant="orangeTable">
                                     Desaparecido
                                   </BadgeUnitProduct>
                                 )}
-                                {estadoProducto === 'dañado' && (
+                                {estadoProducto === "dañado" && (
                                   <BadgeUnitProduct variant="redTable">
                                     Dañado
                                   </BadgeUnitProduct>
@@ -425,7 +427,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
                                   value={tempPrice}
                                   onChange={handleTempPriceChange}
                                   onKeyDown={(event) => {
-                                    if (event.key === 'Enter') {
+                                    if (event.key === "Enter") {
                                       handleApplyChange(); // Llama a la función que guarda el cambio
                                     }
                                   }}
@@ -496,29 +498,27 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   /* Agregar Producto */
   const [searchProductIsLoading, setSearchProductIsLoading] = useState(false);
   const handleAgregarProducto = async (event) => {
     event.preventDefault();
 
-    const trimmedSearchValue = searchValue.trim();
-
     if (!searchValue) {
-      toast.error('Ingrese el codigo del producto');
+      toast.error("Ingrese el codigo del producto");
       return;
     }
     if (searchValue.length < 13) {
-      toast.error('El codigo debe tener 13 caracteres');
+      toast.error("El codigo debe tener 13 caracteres");
       return;
     }
 
     const duplicado = productsVenta.some(
-      (product) => product?.code === trimmedSearchValue
+      (product) => product?.code === searchValue
     );
     if (duplicado) {
-      toast.error('El producto ya se encuentra en la lista');
+      toast.error("El producto ya se encuentra en la lista");
       return;
     }
 
@@ -526,16 +526,19 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
 
     // Toast para buscar producto
     toast.promise(
-      getProductByCodeClientRequest(trimmedSearchValue, setSearchProductIsLoading),
+      getProductByCodeClientRequest(
+        searchValue,
+        setSearchProductIsLoading
+      ),
       {
-        loading: 'Buscando...',
+        loading: "Buscando...",
         success: (response) => {
-          console.log('RESPONSE', response);
-          let tipo = '';
+          console.log("RESPONSE", response);
+          let tipo = "";
           if (response.modeloId) {
-            tipo = 'moto';
+            tipo = "moto";
           } else {
-            tipo = 'producto';
+            tipo = "producto";
           }
           setProductsVenta([
             ...productsVenta,
@@ -548,7 +551,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
               internalId: generarNumeroAleatorioSeisDigitos(),
             },
           ]);
-          setSearchValue('');
+          setSearchValue("");
           if (searchProductsInputRef.current) {
             searchProductsInputRef.current.focus();
           }
@@ -581,10 +584,13 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
           ref={searchProductsInputRef}
           placeholder="Ingrese el código del producto o moto"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
           onKeyDown={(event) => {
-            if (event.key === 'Enter') {
+            if (event.key === "Enter") {
               event.preventDefault();
               handleAgregarProducto(event);
             }
@@ -626,7 +632,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
