@@ -22,6 +22,7 @@ import {
   RiWallet2Fill,
   RiBox2Fill,
   RiFolderHistoryLine,
+  RiGroup3Line,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -134,6 +135,11 @@ const adminData = {
       url: '#',
       icon: RiGroupFill,
       items: [
+        {
+          title: 'Clientes',
+          url: '/contactos/clientes/',
+          icon: RiGroup3Line,
+        },
         {
           title: 'Proveedores',
           url: '/contactos/proveedores/',

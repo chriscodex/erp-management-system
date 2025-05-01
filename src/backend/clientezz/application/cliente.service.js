@@ -1,4 +1,4 @@
-import { ClienteRepository } from '@/backend/clientes/domain/repository/clienteRepository';
+import { ClienteRepository } from '@/backend/clientes/domain/repositories/clienteRepository';
 import { SearchedUserRepository } from '@/backend/searchedUsers/domain/repositories/searchedUserRepository';
 import { MayusculasATitulo } from '@/lib/formateador';
 

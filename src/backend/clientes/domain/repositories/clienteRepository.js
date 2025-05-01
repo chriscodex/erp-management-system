@@ -18,13 +18,13 @@ export class ClienteRepository {
       console.error(
         `Cliente Repository: Error al buscar todos los clientes: ${error.message}`
       );
-      throw new Error(
-        `Error al buscar todos los clientes: ${error.message}`
-      );
+      throw new Error(`Error al buscar todos los clientes: ${error.message}`);
     }
   }
   async getClienteByData(clienteData) {
-    console.log(clienteData);
+
+    console.log("Desde repository", clienteData);
+
     try {
       if (!clienteData) {
         console.log("Cliente Repository: Cliente no proporcionado");
@@ -33,21 +33,42 @@ export class ClienteRepository {
 
       const filter = {};
 
+      // Buscamos por _id
       if (clienteData.id) {
-        filter._id = new mongoose.Types.ObjectId(
-          clienteData.id
-        );
+        if (mongoose.Types.ObjectId.isValid(clienteData.id)) {
+          filter._id = new mongoose.Types.ObjectId(clienteData.id);
+        } else {
+          console.log("Cliente Repository: id inválido");
+          return null;
+        }
       }
 
-      const reservacionFound = await Cliente.findOne(filter);
+      // Buscamos por dni si viene
+      if (clienteData.dni) {
+        filter["datos.dni"] = clienteData.dni;
+      }
 
-      if (!reservacionFound) {
+      // Buscamos por ruc si viene
+      if (clienteData.ruc) {
+        filter["datos.ruc"] = clienteData.ruc;
+      }
+
+
+      if (Object.keys(filter).length === 0) {
+        console.log("Cliente Repository: No se proporcionaron filtros válidos");
+        return null;
+      }
+
+      const clienteFound = await Cliente.findOne(filter);
+
+      if (!clienteFound) {
         console.log("Cliente Repository: Cliente no encontrado");
         return null;
       }
 
       console.log("Cliente Repository: Cliente encontrado");
-      return reservacionFound;
+      return clienteFound;
+      
     } catch (error) {
       console.error(
         `Cliente Repository: Error al buscar un cliente: ${error.message}`
@@ -56,7 +77,6 @@ export class ClienteRepository {
     }
   }
 
-  
   async createCliente(cliente) {
     try {
       const newCliente = new Cliente(cliente);
@@ -88,9 +108,7 @@ export class ClienteRepository {
         return null;
       }
 
-      console.log(
-        "Cliente Repository: Cliente actualizado correctamente"
-      );
+      console.log("Cliente Repository: Cliente actualizado correctamente");
       return updatedCliente;
     } catch (error) {
       console.error(
@@ -122,4 +140,3 @@ export class ClienteRepository {
     }
   }
 }
-

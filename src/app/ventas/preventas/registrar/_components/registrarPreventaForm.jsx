@@ -152,11 +152,21 @@ export function RegistrarPreventaForm() {
           {
             loading: "Buscando...",
             success: (persona) => {
-              setValue("apellidos", persona?.apellidos);
-              setValue("nombres", persona?.nombres);
-              setValue("celular", persona?.celular);
+              setValue(
+                "apellidos",
+                persona?.apellidos || persona?.datos?.apellidos
+              );
+              setValue("nombres", persona?.nombres || persona?.datos?.nombres);
+              setValue(
+                "direccion",
+                persona?.direccion || persona?.datos?.direccion
+              );
+              setValue("email", persona?.email || persona?.datos?.email);
+              setValue("celular", persona?.celular || persona?.datos?.celular);
               clearErrors("apellidos");
               clearErrors("nombres");
+              clearErrors("direccion");
+              clearErrors("email");
               clearErrors("celular");
               return `Persona encontrada`;
             },
@@ -184,13 +194,25 @@ export function RegistrarPreventaForm() {
           {
             loading: "Buscando...",
             success: (empresa) => {
-              setValue("razonSocial", empresa?.razonSocial);
-              // setValue('representanteLegal', empresa?.representanteLegal);
-              // setValue('direccion', empresa?.direccion);
-              setValue("celular", empresa?.celular);
+              setValue(
+                "razonSocial",
+                empresa?.razonSocial || empresa?.datos?.razonSocial
+              );
+              setValue(
+                "representanteLegal",
+                empresa?.representanteLegal ||
+                  empresa?.datos?.representanteLegal
+              );
+              setValue(
+                "direccion",
+                empresa?.direccion || empresa?.datos?.direccion
+              );
+              setValue("email", empresa?.email || empresa?.datos?.email);
+              setValue("celular", empresa?.celular || empresa?.datos?.celular);
               clearErrors("razonSocial");
-              // clearErrors('representanteLegal');
-              // clearErrors('direccion');
+              clearErrors("representanteLegal");
+              clearErrors("direccion");
+              clearErrors("email");
               clearErrors("celular");
               return `Empresa encontrada`;
             },
@@ -217,12 +239,10 @@ export function RegistrarPreventaForm() {
     if (cotizacionValue === "no") {
       setValue("fechaValidez", null);
       setDate(undefined); // Si estás manejando la fecha localmente
-    }else{
+    } else {
       setDate(new Date());
     }
   }, [cotizacionValue, setValue]);
-
-  
 
   return (
     <>
@@ -249,12 +269,14 @@ export function RegistrarPreventaForm() {
                           clearErrors("razonSocial");
                           clearErrors("representanteLegal");
                           clearErrors("direccion");
+                          clearErrors("email");
                           clearErrors("celular");
                           setValue("apellidos", "");
                           setValue("nombres", "");
                           setValue("razonSocial", "");
                           setValue("representanteLegal", "");
                           setValue("direccion", "");
+                          setValue("email", "");
                           setValue("celular", "");
                         }}
                         defaultValue={field.value}
@@ -440,35 +462,21 @@ export function RegistrarPreventaForm() {
                       <FormItem className="space-y-2">
                         <FormLabel>Representante Legal</FormLabel>
                         <div className="relative">
-                          <UserCheck className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          {searchByDniOrRucIsLoading ? (
+                            <>
+                              <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                            </>
+                          ) : (
+                            <UserCheck className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          )}
                           <FormControl>
                             <Input
                               placeholder="Representante Legal"
                               className="pl-8"
                               autoComplete="off"
-                              disabled={formSubmitIsLoading}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={control}
-                    name="direccion"
-                    render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <FormLabel>Dirección</FormLabel>
-                        <div className="relative">
-                          <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                          <FormControl>
-                            <Input
-                              placeholder="Dirección"
-                              className="pl-8"
-                              autoComplete="off"
-                              disabled={formSubmitIsLoading}
+                              disabled={
+                                searchByDniOrRucIsLoading || formSubmitIsLoading
+                              }
                               {...field}
                             />
                           </FormControl>
@@ -481,19 +489,57 @@ export function RegistrarPreventaForm() {
               )}
               <FormField
                 control={control}
+                name="direccion"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Dirección</FormLabel>
+                    <div className="relative">
+                      {searchByDniOrRucIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
+                      <FormControl>
+                        <Input
+                          placeholder="Dirección"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={
+                            searchByDniOrRucIsLoading || formSubmitIsLoading
+                          }
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
                 name="email"
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>Email</FormLabel>
                     <div className="relative">
-                      <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      {searchByDniOrRucIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
                       <FormControl>
                         <Input
                           type="email"
                           placeholder="Email"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={formSubmitIsLoading}
+                          disabled={
+                            searchByDniOrRucIsLoading || formSubmitIsLoading
+                          }
                           {...field}
                         />
                       </FormControl>
@@ -509,13 +555,21 @@ export function RegistrarPreventaForm() {
                   <FormItem className="space-y-2">
                     <FormLabel>Celular</FormLabel>
                     <div className="relative">
-                      <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      {searchByDniOrRucIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Celular"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={formSubmitIsLoading}
+                          disabled={
+                            searchByDniOrRucIsLoading || formSubmitIsLoading
+                          }
                           {...field}
                           onChange={(e) => {
                             onChangeCelular(e, field);

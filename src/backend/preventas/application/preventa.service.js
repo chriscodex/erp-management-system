@@ -1,14 +1,16 @@
-import { PreventaRepository } from '@/backend/preventas/domain/repositories/preventaRepository';
-import { createPreventaSchema } from '@/backend/preventas/application/validations/createPreventaSchema';
-import { generarNumeroAleatorio } from '@/lib/utils';
-import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
-import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
+import { PreventaRepository } from "@/backend/preventas/domain/repositories/preventaRepository";
+import { createPreventaSchema } from "@/backend/preventas/application/validations/createPreventaSchema";
+import { generarNumeroAleatorio } from "@/lib/utils";
+import { ProductRepository } from "@/backend/products/domain/repositories/productRepository";
+import { MotoRepository } from "@/backend/motos/domain/repositories/motoRepository";
+import { ClienteRepository } from "@/backend/clientes/domain/repositories/clienteRepository";
 
 export class PreventaService {
   constructor() {
     this.preventaRepository = new PreventaRepository();
     this.productRepository = new ProductRepository();
     this.motoRepository = new MotoRepository();
+    this.clienteRepository = new ClienteRepository();
   }
 
   async getAllPreventas() {
@@ -16,14 +18,14 @@ export class PreventaService {
       const preventas = await this.preventaRepository.getAllPreventas();
 
       if (preventas?.length === 0) {
-        console.log('Preventa Service: No se encontraron preventas');
+        console.log("Preventa Service: No se encontraron preventas");
         return {
           status: 200,
           payload: [],
         };
       }
 
-      console.log('Preventa Service: Preventas encontradas');
+      console.log("Preventa Service: Preventas encontradas");
       return {
         status: 200,
         payload: preventas,
@@ -46,14 +48,14 @@ export class PreventaService {
       );
 
       if (!preventaFound) {
-        console.log('Preventa Service: La preventa no existe');
+        console.log("Preventa Service: La preventa no existe");
         return {
           status: 200,
           payload: null,
         };
       }
 
-      console.log('Preventa Service: La preventa existe');
+      console.log("Preventa Service: La preventa existe");
       return {
         status: 200,
         payload: preventaFound,
@@ -70,6 +72,43 @@ export class PreventaService {
   }
   async createPreventa(preventaData) {
     try {
+      console.log("Esto es desde el service de preventa", preventaData);
+
+      // Lógica para buscar o crear cliente
+
+      const clienteTipo = preventaData?.cliente?.tipo;
+      const clienteDatos = preventaData?.cliente?.datos;
+
+      const clienteExistente = await this.clienteRepository.getClienteByData(
+        clienteDatos
+      );
+
+      let clienteFinal = clienteExistente;
+
+      if (!clienteExistente) {
+        // Crear el cliente si no existe
+        clienteFinal = await this.clienteRepository.createCliente({
+          tipo: clienteTipo,
+          datos: clienteDatos,
+        });
+
+        if (!clienteFinal?._id) {
+          return {
+            status: 400,
+            payload: "No se pudo crear el cliente.",
+          };
+        }
+      }
+
+      console.log("Esto es el cliente final", clienteFinal);
+      console.log("Esto es el preventa data", preventaData);
+
+      // Reemplazar cliente en preventaData por clienteId
+      preventaData.clienteId = clienteFinal._id.toString();
+      delete preventaData.cliente; 
+
+      console.log("Esto es el preventa data despues", preventaData);
+
       // Validar los datos del producto enviado con el schema
       const preventaValidated = createPreventaSchema.safeParse(preventaData);
 
@@ -90,15 +129,16 @@ export class PreventaService {
           if (producto.modeloId && preventaData?.cotizacion !== "si") {
             await this.motoRepository.updateMoto(producto._id, {
               estado: {
-                titulo: 'prevendido',
+                titulo: "prevendido",
                 observaciones: producto?.estado?.observaciones,
               },
             });
           } else {
-            if(preventaData?.cotizacion !== "si"){
-            await this.productRepository.updateUnitProduct(producto.unitId, {
-              estado: 'prevendido',
-            });}
+            if (preventaData?.cotizacion !== "si") {
+              await this.productRepository.updateUnitProduct(producto.unitId, {
+                estado: "prevendido",
+              });
+            }
           }
         })
       );
@@ -108,10 +148,10 @@ export class PreventaService {
       await Promise.all(
         preventaData?.obsequios?.map(async (obsequio) => {
           // En caso de ser SOAT, salta a la siguiente iteración
-          if (obsequio.nombre === 'SOAT') return;
+          if (obsequio.nombre === "SOAT") return;
 
           await this.productRepository.updateUnitProduct(obsequio.unitId, {
-            estado: 'prevendido',
+            estado: "prevendido",
           });
         })
       );
@@ -123,7 +163,7 @@ export class PreventaService {
       const newPreventa = await this.preventaRepository.createPreventa(
         preventaObject
       );
-      console.log('Preventa Service: Preventa creada correctamente');
+      console.log("Preventa Service: Preventa creada correctamente");
       return {
         status: 201,
         payload: newPreventa,
@@ -142,10 +182,10 @@ export class PreventaService {
   async updatePreventa(preventaId, preventaData) {
     try {
       if (!preventaId) {
-        console.log('Preventa Service: PreventaId no enviado');
+        console.log("Preventa Service: PreventaId no enviado");
         return {
           status: 400,
-          payload: 'PreventaId no enviado',
+          payload: "PreventaId no enviado",
         };
       }
 
@@ -155,14 +195,14 @@ export class PreventaService {
       );
 
       if (!preventaUpdated) {
-        console.log('Preventa Service: La preventa no existe');
+        console.log("Preventa Service: La preventa no existe");
         return {
           status: 404,
-          payload: 'La preventa no existe',
+          payload: "La preventa no existe",
         };
       }
 
-      console.log('Preventa Service: Preventa actualizada correctamente');
+      console.log("Preventa Service: Preventa actualizada correctamente");
       return {
         status: 200,
         payload: preventaUpdated,
@@ -191,13 +231,13 @@ export class PreventaService {
           if (producto.modeloId) {
             await this.motoRepository.updateMoto(producto._id, {
               estado: {
-                titulo: 'disponible',
+                titulo: "disponible",
                 observaciones: producto?.estado?.observaciones,
               },
             });
           } else {
             await this.productRepository.updateUnitProduct(producto.unitId, {
-              estado: 'disponible',
+              estado: "disponible",
             });
           }
         })
@@ -208,10 +248,10 @@ export class PreventaService {
       await Promise.all(
         preventaFound?.obsequios?.map(async (obsequio) => {
           // En caso de ser SOAT, salta a la siguiente iteración
-          if (obsequio.nombre === 'SOAT') return;
+          if (obsequio.nombre === "SOAT") return;
 
           await this.productRepository.updateUnitProduct(obsequio.unitId, {
-            estado: 'prevendido',
+            estado: "prevendido",
           });
         })
       );
@@ -221,14 +261,14 @@ export class PreventaService {
       );
 
       if (!deletedPreventa) {
-        console.log('Preventa Service: La preventa no existe');
+        console.log("Preventa Service: La preventa no existe");
         return {
           status: 200,
-          payload: 'La preventa no existe',
+          payload: "La preventa no existe",
         };
       }
 
-      console.log('Preventa Service: Preventa eliminada correctamente');
+      console.log("Preventa Service: Preventa eliminada correctamente");
       return {
         status: 204,
         payload: preventaFound,
@@ -251,14 +291,14 @@ export class PreventaService {
       );
 
       if (!deletedPreventa) {
-        console.log('Preventa Service: La preventa no existe');
+        console.log("Preventa Service: La preventa no existe");
         return {
           status: 200,
-          payload: 'La preventa no existe',
+          payload: "La preventa no existe",
         };
       }
 
-      console.log('Preventa Service: Preventa eliminada correctamente');
+      console.log("Preventa Service: Preventa eliminada correctamente");
       return {
         status: 204,
         payload: deletedPreventa,

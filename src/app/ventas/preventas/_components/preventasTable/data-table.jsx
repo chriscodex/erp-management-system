@@ -27,6 +27,7 @@ import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTablePreventas({ columns, data, status = 200 }) {
+
   const router = useRouter();
 
   /* Sorting */

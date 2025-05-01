@@ -46,28 +46,34 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                 Información del Cliente
               </CardTitle>
             </CardHeader>
-            {ventaHistoricaData?.cliente?.tipo === "persona" ? (
+            {ventaHistoricaData?.clienteId?.tipo === "persona" ? (
               <CardContent>
                 <div className="space-y-2">
                   <p>
                     <strong>Nombre:</strong>{" "}
-                    {ventaHistoricaData?.cliente?.datos?.nombres}{" "}
-                    {ventaHistoricaData?.cliente?.datos?.apellidos}
+                    {ventaHistoricaData?.clienteId?.datos?.nombres}{" "}
+                    {ventaHistoricaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
                     <strong>DNI:</strong>{" "}
-                    {ventaHistoricaData?.cliente?.datos?.dni}
+                    {ventaHistoricaData?.clienteId?.datos?.dni}
                   </p>
-                  {ventaHistoricaData?.cliente?.datos?.email && (
+                  {ventaHistoricaData?.clienteId?.datos?.direccion && (
                     <p>
-                      <strong>Email:</strong>{" "}
-                      {ventaHistoricaData?.cliente?.datos?.email}
+                      <strong>Dirección:</strong>{" "}
+                      {ventaHistoricaData?.clienteId?.datos?.direccion}
                     </p>
                   )}
-                  {ventaHistoricaData?.cliente?.datos?.celular && (
+                  {ventaHistoricaData?.clienteId?.datos?.email && (
+                    <p>
+                      <strong>Email:</strong>{" "}
+                      {ventaHistoricaData?.clienteId?.datos?.email}
+                    </p>
+                  )}
+                  {ventaHistoricaData?.clienteId?.datos?.celular && (
                     <p>
                       <strong>Celular:</strong>{" "}
-                      {ventaHistoricaData?.cliente?.datos?.celular}
+                      {ventaHistoricaData?.clienteId?.datos?.celular}
                     </p>
                   )}
                 </div>
@@ -77,30 +83,30 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                 <div className="space-y-2">
                   <p>
                     <strong>Razon Social:</strong>{" "}
-                    {ventaHistoricaData?.cliente?.datos?.razonSocial}
+                    {ventaHistoricaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
                     <strong>RUC:</strong>{" "}
-                    {ventaHistoricaData?.cliente?.datos?.ruc}
+                    {ventaHistoricaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
                     <strong>Representante Legal:</strong>{" "}
-                    {ventaHistoricaData?.cliente?.datos?.representanteLegal}
+                    {ventaHistoricaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
                     <strong>Direccion:</strong>{" "}
-                    {ventaHistoricaData?.cliente?.datos?.direccion}
+                    {ventaHistoricaData?.clienteId?.datos?.direccion}
                   </p>
-                  {ventaHistoricaData?.cliente?.datos?.email && (
+                  {ventaHistoricaData?.clienteId?.datos?.email && (
                     <p>
                       <strong>Email:</strong>{" "}
-                      {ventaHistoricaData?.cliente?.datos?.email}
+                      {ventaHistoricaData?.clienteId?.datos?.email}
                     </p>
                   )}
-                  {ventaHistoricaData?.cliente?.datos?.celular && (
+                  {ventaHistoricaData?.clienteId?.datos?.celular && (
                     <p>
                       <strong>Celular:</strong>{" "}
-                      {ventaHistoricaData?.cliente?.datos?.celular}
+                      {ventaHistoricaData?.clienteId?.datos?.celular}
                     </p>
                   )}
                 </div>

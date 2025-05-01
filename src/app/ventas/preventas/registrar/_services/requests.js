@@ -140,6 +140,9 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
     try {
+
+      console.log("Esto es preventa data en el request",preventaData);
+
       setLoading(true);
       // Simular tiempo de retraso
       await delay();
@@ -235,6 +238,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           dni: preventaData?.identificador,
           nombres: preventaData?.nombres,
           apellidos: preventaData?.apellidos,
+          direccion: preventaData?.direccion,
           email: preventaData?.email,
           celular: preventaData?.celular,
         };

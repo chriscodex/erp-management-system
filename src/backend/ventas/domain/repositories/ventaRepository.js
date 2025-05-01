@@ -1,10 +1,12 @@
 import mongoose from 'mongoose';
 
 import { Venta } from '@/backend/ventas/domain/models/venta';
+import { Cliente } from '@/backend/clientes/domain/models/cliente';
 
 export class VentaRepository {
   constructor() {
     this.ventaModel = Venta;
+    this.clienteModel = Cliente;
   }
 
   /**
@@ -15,7 +17,7 @@ export class VentaRepository {
    */
   async getAllVentas() {
     try {
-      const ventas = await this.ventaModel.find({});
+      const ventas = await this.ventaModel.find({}).populate('clienteId');
 
       if (ventas?.length === 0) {
         console.log('Venta Repository: No se encontraron ventas');
@@ -50,7 +52,7 @@ export class VentaRepository {
       if (ventaData.code) {
         filter.code = { $regex: new RegExp(`^${ventaData.code}$`, 'i') };
       }
-      const ventaFound = await this.ventaModel.findOne(filter);
+      const ventaFound = await this.ventaModel.findOne(filter).populate('clienteId');
 
       if (!ventaFound) {
         console.log('Venta Repository: Venta no encontrada');

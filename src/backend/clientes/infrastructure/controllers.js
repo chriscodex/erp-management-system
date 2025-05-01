@@ -1,9 +1,31 @@
 import { ClienteService } from "@/backend/clientes/application/cliente.service";
+import {
+  getDataByDniFromExternalApi,
+  getDataByRucFromExternalApi,
+} from "@/backend/shared/externalApi";
 import { connectDB } from "@/db/mongodb";
 
-const clienteService = new ClienteService();
+// const clienteService = new ClienteService();
 
-export async function getClientesController() {
+const clienteService = new ClienteService(
+  getDataByDniFromExternalApi,
+  getDataByRucFromExternalApi
+);
+
+export async function getClientesRequestHandlerController(request) {
+
+  const { searchParams } = new URL(request.url);
+  const dni = searchParams.get("dni");
+  const ruc = searchParams.get("ruc");
+
+  if (dni || ruc) {
+    return await getClienteByDataController(request);
+  }
+
+  return await getAllClientesController();
+}
+
+export async function getAllClientesController() {
   try {
     await connectDB();
     const clientes = await clienteService.getAllClientes();
@@ -19,15 +41,45 @@ export async function getClientesController() {
   }
 }
 
-
 export async function getClienteByDataController(contextRoute) {
   try {
-    const { params } = contextRoute;
-    const { id } = params;
+    const { searchParams } = new URL(contextRoute.url);
+    
+    const id = searchParams.get("id");
+    const dni = searchParams.get("dni");
+    const ruc = searchParams.get("ruc");
+    
+
+    console.log("Esto es serchParams", searchParams);
+
+    if ([id, dni, ruc].filter(Boolean).length === 0) {
+      return {
+        payload: "Debe proporcionar un ID, DNI o RUC",
+        status: 400,
+      };
+    }
+
+    if ([id, dni, ruc].filter(Boolean).length > 1) {
+      return {
+        payload: "Debe proporcionar solo un ID, DNI o RUC, no varios a la vez",
+        status: 400,
+      };
+    }
+
+    let query = {};
+
+    if (id) {
+      query = { _id: id };
+    } else if (dni) {
+      query = { dni: dni };
+    } else if (ruc) {
+      query = { ruc: ruc };
+    }
 
     await connectDB();
 
-    const cliente = await clienteService.getClienteByData({ _id: id });
+    const cliente = await clienteService.getClienteByData(query);
+
     return cliente;
   } catch (error) {
     console.error(

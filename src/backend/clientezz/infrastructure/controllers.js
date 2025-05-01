@@ -37,6 +37,8 @@ export async function getClientByDniOrRucController(request) {
     if (!dni) identificador = ruc;
     if (!ruc) identificador = dni;
 
+
+
     await connectDB();
 
     const clienteData = await clienteService.getCliente(identificador);
