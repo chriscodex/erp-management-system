@@ -2,11 +2,13 @@ import mongoose from 'mongoose';
 
 import { Venta } from '@/backend/ventas/domain/models/venta';
 import { Cliente } from '@/backend/clientes/domain/models/cliente';
+import { User } from '@/backend/users/domain/models/user';
 
 export class VentaRepository {
   constructor() {
     this.ventaModel = Venta;
     this.clienteModel = Cliente;
+    this.userModel = User;
   }
 
   /**
@@ -17,7 +19,7 @@ export class VentaRepository {
    */
   async getAllVentas() {
     try {
-      const ventas = await this.ventaModel.find({}).populate('clienteId');
+      const ventas = await this.ventaModel.find({}).populate('clienteId').populate('usuario.id');
 
       if (ventas?.length === 0) {
         console.log('Venta Repository: No se encontraron ventas');
@@ -52,7 +54,7 @@ export class VentaRepository {
       if (ventaData.code) {
         filter.code = { $regex: new RegExp(`^${ventaData.code}$`, 'i') };
       }
-      const ventaFound = await this.ventaModel.findOne(filter).populate('clienteId');
+      const ventaFound = await this.ventaModel.findOne(filter).populate('clienteId').populate('usuario.id');
 
       if (!ventaFound) {
         console.log('Venta Repository: Venta no encontrada');

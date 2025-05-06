@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { getClienteRequestServer, getVentasHistoricasRequestServer } from '@/app/contactos/clientes/[id]/_services/requests';
-import { DetailClienteContent } from '@/app/contactos/clientes/[id]/components/detailClienteContent';
+import { DetailClienteContent } from '@/app/contactos/clientes/[id]/_components/detailClienteContent';
 
 export default async function Page({ params }) {
     
