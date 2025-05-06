@@ -18,6 +18,7 @@ const ventaSchema = new Schema(
     usuario: {
       id: {
         type: Schema.Types.ObjectId,
+        ref: "User",
         required: [true, 'El id es requerido en el schema de ventas'],
       },
       dni: {
