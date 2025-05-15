@@ -23,6 +23,8 @@ import {
   RiBox2Fill,
   RiFolderHistoryLine,
   RiGroup3Line,
+  RiToolsFill,
+  RiFileCopy2Line,
 } from '@remixicon/react';
 
 import { NavMain } from '@/components/sidebar/nav-main';
@@ -30,6 +32,7 @@ import { NavAdministracion } from '@/components/sidebar/nav-projects';
 import { NavHome } from '@/components/sidebar/nav-home';
 import { NavUser } from '@/components/sidebar/nav-user';
 import { NavVentas } from '@/components/sidebar/nav-ventas';
+import { NavTaller } from '@/components/sidebar/nav-taller';
 import {
   Sidebar,
   SidebarContent,
@@ -148,6 +151,20 @@ const adminData = {
       ],
     },
   ],
+  navTaller: [
+    {
+      title: 'Taller',
+      url: '#',
+      icon: RiToolsFill,
+      items: [
+        {
+          title: 'Órdenes de Servicio',
+          url: '/taller/ordenes-servicio/',
+          icon: RiFileCopy2Line,
+        }
+      ],
+    },
+  ],
   navAdministracion: [
     {
       name: 'Estadísticas',
@@ -203,6 +220,7 @@ export function AppSidebar({ ...props }) {
                 items={adminData.navPlataforma}
               />
             )}
+            <NavTaller navTitle={'Taller'} items={adminData.navTaller} />
             {session?.user?.rol === 'Administrador' && (
               <NavAdministracion projects={adminData.navAdministracion} />
             )}

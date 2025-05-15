@@ -5,6 +5,7 @@ export const getSearchedUserClientUrl = '/api/searched-users';
 export const createUserClientUrl = '/api/users';
 export const updateUserClientUrl = '/api/users';
 export const deleteUserClientUrl = '/api/users';
+export const getUserByDNIClientUrl = '/api/users';
 
 /* Clientes */
 export const createClienteClientUrl = '/api/clientes';
@@ -102,11 +103,13 @@ export const finalizarVentaClientUrl = '/api/ventas';
 /* Boleta */
 export const getCurrentCounterBoletaClientUrl = '/api/counters';
 export const updateBoletaStateClientUrl = '/api/ventas';
+export const updateBoletaOrdenDeServicioStateClientUrl = '/api/ordenes-servicio';
 export const incrementCounterBoletaClientUrl = '/api/counters/increment';
 
 /*Factura*/
 export const getCurrentCounterFacturaClientUrl = '/api/counters';
 export const updateFacturaStateClientUrl = '/api/ventas';
+export const updateFacturaOrdenDeServicioStateClientUrl = '/api/ordenes-servicio';
 export const incrementCounterFacturaClientUrl = '/api/counters/increment';
 
 /* Nota de Venta */
@@ -126,6 +129,10 @@ export const deleteGastoGeneralClientUrl = '/api/gastos-generales';
 
 /* Inventariar pedido */
 
-
 export const inventariarPedidoClientUrl = '/api/pedidos';
 
+
+/* Clientes */
+export const createOrdenDeServicioClientUrl = '/api/ordenes-servicio';
+export const updateOrdenDeServicioClientUrl = '/api/ordenes-servicio';
+export const deleteOrdenDeServicioClientUrl = '/api/ordenes-servicio';

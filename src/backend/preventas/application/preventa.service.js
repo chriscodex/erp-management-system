@@ -72,8 +72,7 @@ export class PreventaService {
   }
   async createPreventa(preventaData) {
     try {
-      console.log("Esto es desde el service de preventa", preventaData);
-
+      
       // Lógica para buscar o crear cliente
 
       const clienteTipo = preventaData?.cliente?.tipo;
