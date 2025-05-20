@@ -1,4 +1,4 @@
-/*  */ 'use client';
+'use client';
 
 import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
@@ -6,15 +6,17 @@ import { RiPrinterLine } from '@remixicon/react';
 import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
-import { PdfBoleta } from '@/app/taller/ordenes-servicio/[id]/boleta/_components/pdf/pdfBoleta';
+import { PdfNotaDeVenta } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/pdf/pdfNotaDeVenta';
 import {
-  getCurrentCounterBoletaRequestClient,
-  updateBoletaStateRequestClient,
-} from '@/app/taller/ordenes-servicio/[id]/boleta/_services/requests';
+  getCurrentCounterNotaDeVentaRequestClient,
+  updateNotaDeVentaStateRequestClient,
+} from '@/app/taller/ordenes-servicio/[id]/nota-venta/_services/requests';
 import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
-export function ImprimirBoletaButton({ ordenDeServicioData, empresas }) {
+
+export function ImprimirNotaDeVentaButton({ ordenDeServicioData, empresas }) {
+
   const router = useRouter();
 
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
@@ -23,18 +25,18 @@ export function ImprimirBoletaButton({ ordenDeServicioData, empresas }) {
   const handleDownloadPDF = async () => {
     setLoading(true);
     try {
-      const counterBoleta = await getCurrentCounterBoletaRequestClient();
+      const counterNotaDeVenta = await getCurrentCounterNotaDeVentaRequestClient();
 
-      const codigoBoleta = formatearCodigoCounterBoletaFactura(
-        counterBoleta,
-        'boleta'
+      const codigoNotaDeVenta = formatearCodigoCounterBoletaFactura(
+        counterNotaDeVenta,
+        'nota-venta'
       );
 
       const doc = (
-        <PdfBoleta
+        <PdfNotaDeVenta
           ordenDeServicioData={ordenDeServicioData}
-          counterBoleta={counterBoleta}
-          selectedEmpresa={selectedEmpresa}
+          counterNotaDeVenta={counterNotaDeVenta}
+          empresaSeleccionada={selectedEmpresa}
         />
       );
       const blob = await pdf(doc).toBlob();
@@ -42,13 +44,12 @@ export function ImprimirBoletaButton({ ordenDeServicioData, empresas }) {
       // Crear un enlace temporal y forzar la descarga
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = `boleta-${codigoBoleta}.pdf`;
+      link.download = `nota-venta-${codigoNotaDeVenta}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
 
-      await updateBoletaStateRequestClient(ordenDeServicioData?._id);
-
+      await updateNotaDeVentaStateRequestClient(ordenDeServicioData?._id);
       router.refresh();
     } catch (error) {
       console.error('Error al generar el PDF:', error);
@@ -57,13 +58,12 @@ export function ImprimirBoletaButton({ ordenDeServicioData, empresas }) {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4 md:flex-row">
+    <div className="flex items-center gap-4">
       <EmpresasSelect
         empresas={empresas}
         selectedEmpresa={selectedEmpresa}
         setSelectedEmpresa={setSelectedEmpresa}
       />
-
       <Button
         variant="default"
         className="flex items-center gap-2"

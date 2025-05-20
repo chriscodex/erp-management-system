@@ -170,3 +170,4 @@ export function formatNumeroALetras(numero) {
   //Concatenar las partes
   return `${letrasParteEntera.toUpperCase()} CON ${letrasParteDecimal}/100 SOLES`;
 }
+

@@ -1,44 +1,46 @@
 import { notFound } from 'next/navigation';
 
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { getVentaRequestServer } from '@/app/ventas/_services/requests';
+import { getOrdenDeServicioRequestServer } from '@/app/taller/ordenes-servicio/_services/requests';
 import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
-import { DetailNotaVentaContent } from '@/app/ventas/[ventaId]/nota-venta/_components/detailNotaVentaContent';
+import { DetailNotaDeVentaContent } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/detailNotaDeVentaContent';
 
 export default async function Page({ params }) {
-  const { venta } = await getVentaRequestServer(params.ventaId);
-  const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
 
-  if (!venta) {
-    notFound();
-  }
+   const { ordenDeServicio } = await getOrdenDeServicioRequestServer(params.id);
+  
+    const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
+  
+    if (!ordenDeServicio) {
+      notFound();
+    }
 
   const navbarTitles = [
     {
-      title: 'Inventario',
-      href: '/inventario/todos',
+      title: "Taller",
+      href: "",
       active: false,
     },
     {
-      title: 'Ventas',
-      href: '/ventas',
+      title: "Órdenes de Servicio",
+      href: "/taller/ordenes-servicio",
       active: true,
     },
     {
-      title: venta?.code,
-      href: `/ventas/${params.ventaId}`,
+      title: ordenDeServicio?.code,
+      href: `/taller/ordenes-servicio/${params.id}`,
       active: true,
     },
     {
-      title: 'Nota de Venta',
-      href: '',
+      title: "Nota de venta",
+      href: "",
       active: false,
     },
   ];
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailNotaVentaContent ventaData={venta} empresas={empresas} />
+      <DetailNotaDeVentaContent ordenDeServicioData={ordenDeServicio} empresas={empresas} />
     </NavbarDynamic>
   );
 }

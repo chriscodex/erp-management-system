@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { createVentaRequestClient } from '@/app/ventas/preventas/[preventaId]/_services/requests';
+import { finalizarOrdenDeServicioRequestClient } from '@/app/taller/ordenes-servicio/[id]/_services/requests';
 
 export function FinalizarOrdenDeServicioAlert({
   isOpen,
@@ -25,7 +25,7 @@ export function FinalizarOrdenDeServicioAlert({
   const handleCreateVenta = async () => {
     try {
       setIsOpen(false);
-      toast.promise(createVentaRequestClient(ordenDeServicioId), {
+      toast.promise(finalizarOrdenDeServicioRequestClient(ordenDeServicioId), {
         loading: 'Finalizando Orden De Servicio...',
         success: (response) => {
           if (actionAfterComplete === 'refresh') {
@@ -33,7 +33,7 @@ export function FinalizarOrdenDeServicioAlert({
             return `Orden de Servicio finalizada correctamente`;
           }
           if (actionAfterComplete === 'push') {
-            router.push(`/ventas/${response?._id}`);
+            router.push(`/taller/ordenes-servicio-historial/${response?._id}`);
             return `Orden de Servicio finalizada correctamente`;
           }
         },

@@ -4,10 +4,12 @@ import { generarNumeroAleatorio } from "@/lib/utils";
 import { ProductRepository } from "@/backend/products/domain/repositories/productRepository";
 import { ClienteRepository } from "@/backend/clientes/domain/repositories/clienteRepository";
 import { UserRepository } from "@/backend/users/domain/repositories/userRepository";
+import { OrdenServicioHistoricaRepository } from "@/backend/ordenesServicio/domain/repositories/ordenServicioHistoricaRepository";
 
 export class OrdenServicioService {
   constructor() {
     this.ordenServicioRepository = new OrdenServicioRepository();
+    this.ordenServicioHistoricaRepository = new OrdenServicioHistoricaRepository();
     this.clienteRepository = new ClienteRepository();
     this.productRepository = new ProductRepository();
     this.userRepository = new UserRepository();
@@ -250,6 +252,64 @@ export class OrdenServicioService {
     } catch (error) {
       console.error(
         `Orden De Servicio Service: Error interno al eliminar la orden de servicio: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+  async finalizarOrdenDeServicio(ordenDeServicioId) {
+    try {
+
+      const ordenDeServicio = await this.ordenServicioRepository.getOrdenDeServicioByData({
+        id: ordenDeServicioId,
+      });
+
+      if (!ordenDeServicio) {
+        console.log('Orden De Servicio Service: La orden de servicio no existe');
+        return {
+          status: 200,
+          payload: 'La orden de servicio no existe',
+        };
+      }
+
+      const ordenDeServicioHistorica = {
+        code: ordenDeServicio.code,
+        cliente: ordenDeServicio.cliente,
+        moto: ordenDeServicio.moto,
+        mecanicos: ordenDeServicio.mecanicos,
+        pago: ordenDeServicio.pago,
+        productos: ordenDeServicio.productos,
+        servicios: ordenDeServicio.servicios,
+
+        fechaIngreso: ordenDeServicio.fechaIngreso,
+        origenServicio: ordenDeServicio.origenServicio,
+        tipoServicio: ordenDeServicio.tipoServicio,
+        comentarios: ordenDeServicio.comentarios,
+        estadoSunat: ordenDeServicio.estadoSunat,
+        comprobante: ordenDeServicio.comprobante,
+        estado: ordenDeServicio.estado,
+        fechaEntregaEstimada: ordenDeServicio.fechaEntregaEstimada,
+      };
+
+      await this.ordenServicioHistoricaRepository.createOrdenDeServicioHistorica(
+        ordenDeServicioHistorica
+      );
+      
+      console.log('Orden De Servicio Service: Orden de servicio finalizada correctamente');
+
+      await this.ordenServicioRepository.deleteOrdenDeServicio(ordenDeServicioId);
+
+      console.log('Orden De Servicio Service: Orden de servicio eliminada correctamente');
+
+      return {
+        status: 201,
+        payload: 'Orden de servicio finalizada correctamente',
+      };
+    } catch (error) {
+      console.error(
+        `Orden De Servicio Service: Error interno al finalizar la orden de servicio: ${error.message}`
       );
       return {
         status: 500,

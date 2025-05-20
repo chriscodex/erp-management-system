@@ -6,7 +6,7 @@ import {
 } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
-export async function getCurrentCounterNotaVentaRequestClient() {
+export async function getCurrentCounterNotaDeVentaRequestClient() {
   try {
     // Simular tiempo de retraso
     await delay();
@@ -29,11 +29,11 @@ export async function getCurrentCounterNotaVentaRequestClient() {
   }
 }
 
-export async function updateNotaVentaStateRequestClient(ventaId) {
+export async function updateNotaDeVentaStateRequestClient(ordenDeServicioId) {
   try {
     await delay();
 
-    const urlUpdateStateNotaVenta = `${updateNotaVentaStateClientUrl}/${ventaId}`;
+    const urlUpdateStateNotaVenta = `${updateNotaVentaStateClientUrl}/${ordenDeServicioId}`;
 
     const responseUpdateStateNotaVenta = await patchData(
       urlUpdateStateNotaVenta,

@@ -100,6 +100,8 @@ export const createVentaClientUrl = '/api/ventas';
 export const deleteVentaClientUrl = '/api/ventas';
 export const finalizarVentaClientUrl = '/api/ventas';
 
+//AGRUPARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
+
 /* Boleta */
 export const getCurrentCounterBoletaClientUrl = '/api/counters';
 export const updateBoletaStateClientUrl = '/api/ventas';
@@ -132,7 +134,8 @@ export const deleteGastoGeneralClientUrl = '/api/gastos-generales';
 export const inventariarPedidoClientUrl = '/api/pedidos';
 
 
-/* Clientes */
+/* Ordenes de servicio */
 export const createOrdenDeServicioClientUrl = '/api/ordenes-servicio';
 export const updateOrdenDeServicioClientUrl = '/api/ordenes-servicio';
 export const deleteOrdenDeServicioClientUrl = '/api/ordenes-servicio';
+export const finalizarOrdenDeServicioClientUrl = '/api/ordenes-servicio';

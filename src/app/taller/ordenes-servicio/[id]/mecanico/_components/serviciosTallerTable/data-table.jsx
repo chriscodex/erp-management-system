@@ -28,7 +28,6 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
@@ -67,19 +66,20 @@ import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
 import { formatDateShort } from "@/lib/formateador";
 
 export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
-  const updateRowValue = (i, key, value) => {
+  const updateRowValue = (internalId, key, value) => {
     setServiciosTaller((prevData) =>
       prevData.map((row) =>
-        row.numeracion === i ? { ...row, [key]: value } : row
+        row.internalId === internalId ? { ...row, [key]: value } : row
       )
     );
   };
 
-  const deleteProduct = (i) => {
+  const deleteProduct = (internalId) => {
     setServiciosTaller((prevData) => {
       // Filtra el producto a eliminar
-      const updatedData = prevData.filter((row) => row.numeracion !== i);
-
+      const updatedData = prevData.filter(
+        (row) => row.internalId !== internalId
+      );
       // Reasigna la numeración
       return updatedData.map((row, index) => ({
         ...row,
@@ -190,17 +190,17 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
           setFormSubmitIsLoading(true);
 
           updateRowValue(
-            servicioData.numeracion,
+            servicioData.internalId,
             "descripcion",
             data.descripcion
           );
           updateRowValue(
-            servicioData.numeracion,
+            servicioData.internalId,
             "precio",
             parseFloat(data.precio)
           );
           updateRowValue(
-            servicioData.numeracion,
+            servicioData.internalId,
             "fecha",
             data.fecha.toISOString()
           );
@@ -334,7 +334,7 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
                 <TooltipTrigger asChild>
                   <div
                     className="cursor-pointer"
-                    onClick={() => deleteProduct(servicioData?.id)}
+                    onClick={() => deleteProduct(servicioData?.internalId)}
                   >
                     <RiDeleteBinLine className="w-5 h-5 text-red-500 hover:text-foreground" />
                   </div>

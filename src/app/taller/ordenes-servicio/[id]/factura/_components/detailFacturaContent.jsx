@@ -45,7 +45,7 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {ordenDeServicioData?.clienteId?.tipo === "persona" ? (
+              {ordenDeServicioData?.cliente?.tipo === "persona" ? (
                 <div className="space-y-2">
                   <p>
                     <strong>Nombre:</strong>{" "}
@@ -109,6 +109,7 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
               )}
             </CardContent>
           </Card>
+
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
