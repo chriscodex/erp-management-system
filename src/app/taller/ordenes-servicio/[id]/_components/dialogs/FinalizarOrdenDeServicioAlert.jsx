@@ -18,22 +18,24 @@ export function FinalizarOrdenDeServicioAlert({
   isOpen,
   setIsOpen,
   ordenDeServicioId,
+  counterBoleta,
   actionAfterComplete = 'refresh',
 }) {
   const router = useRouter();
 
-  const handleCreateVenta = async () => {
+  const handleCreateOrdenDeServicio = async () => {
     try {
+
       setIsOpen(false);
-      toast.promise(finalizarOrdenDeServicioRequestClient(ordenDeServicioId), {
+      toast.promise(finalizarOrdenDeServicioRequestClient(ordenDeServicioId, counterBoleta), {
         loading: 'Finalizando Orden De Servicio...',
-        success: (response) => {
+        success: () => {
           if (actionAfterComplete === 'refresh') {
             router.refresh();
             return `Orden de Servicio finalizada correctamente`;
           }
           if (actionAfterComplete === 'push') {
-            router.push(`/taller/ordenes-servicio-historial/${response?._id}`);
+            router.push(`/taller/ordenes-servicio-historial`);
             return `Orden de Servicio finalizada correctamente`;
           }
         },
@@ -65,7 +67,7 @@ export function FinalizarOrdenDeServicioAlert({
             </AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              onClick={handleCreateVenta}
+              onClick={handleCreateOrdenDeServicio}
             >
               Continuar
             </AlertDialogAction>

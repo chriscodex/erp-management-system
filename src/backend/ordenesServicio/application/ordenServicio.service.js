@@ -259,9 +259,10 @@ export class OrdenServicioService {
       };
     }
   }
-  async finalizarOrdenDeServicio(ordenDeServicioId) {
+  async finalizarOrdenDeServicio(ordenDeServicioId, counter) {
     try {
-
+      console.log(ordenDeServicioId, counter);
+      
       const ordenDeServicio = await this.ordenServicioRepository.getOrdenDeServicioByData({
         id: ordenDeServicioId,
       });
@@ -287,8 +288,12 @@ export class OrdenServicioService {
         origenServicio: ordenDeServicio.origenServicio,
         tipoServicio: ordenDeServicio.tipoServicio,
         comentarios: ordenDeServicio.comentarios,
+
         estadoSunat: ordenDeServicio.estadoSunat,
+        counter: counter,
         comprobante: ordenDeServicio.comprobante,
+
+
         estado: ordenDeServicio.estado,
         fechaEntregaEstimada: ordenDeServicio.fechaEntregaEstimada,
       };

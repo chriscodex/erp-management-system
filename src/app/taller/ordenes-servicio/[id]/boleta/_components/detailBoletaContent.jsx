@@ -1,3 +1,7 @@
+'use client';
+
+import { useState } from "react";
+
 import { User, Package, Hash } from "lucide-react";
 import { RiInfoCardFill } from "@remixicon/react";
 
@@ -19,6 +23,14 @@ import { HomeRepairService } from "@mui/icons-material";
 import { formatMoney } from "@/lib/utils";
 
 export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
+  //Estados para el contador de la boleta
+
+  const [counterBoleta, setCounterBoleta] = useState(null);
+
+  const handleSaveCounterBoleta = async (data) => {
+    setCounterBoleta(data);
+  };
+
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col lg:flex-row items-center justify-between space-y-0 pb-4">
@@ -30,9 +42,11 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
           <ImprimirBoletaButton
             ordenDeServicioData={ordenDeServicioData}
             empresas={empresas}
+            onSaveCounterBoleta={handleSaveCounterBoleta}
           />
           <FinalizarOrdenDeServicioButton
             ordenDeServicioId={ordenDeServicioData?._id}
+            counterBoleta={counterBoleta}
           />
         </div>
       </CardHeader>
@@ -224,7 +238,6 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                   })}
                 </TableBody>
               </Table>
-            
             </CardContent>
           </Card>
         )}

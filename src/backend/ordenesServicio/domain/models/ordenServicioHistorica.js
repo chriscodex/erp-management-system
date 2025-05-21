@@ -27,12 +27,10 @@ const ordenServicioHistoricaSchema = new Schema(
       vin: {
         type: String,
         required: false,
-        unique: true,
       },
       placa: {
         type: String,
         required: false,
-        unique: true,
       },
       nombre: {
         type: String,
@@ -50,7 +48,6 @@ const ordenServicioHistoricaSchema = new Schema(
         type: String,
         required: false,
       }
-
     },
     mecanicos: [
       {
@@ -92,7 +89,7 @@ const ordenServicioHistoricaSchema = new Schema(
         id: {
           type: Schema.Types.ObjectId,
           ref: "Product",
-          required: [false, "El id del mecánico es requerido en el schema de ordenes de servicio"],
+          required: [false, "El id del producto es requerido en el schema de ordenes de servicio"],
         },
         code: {
           type: String,
@@ -158,13 +155,9 @@ const ordenServicioHistoricaSchema = new Schema(
       },
       montoAdelanto: {
         type: Number,
-        required: [false, "El monto de adelanto es requerido en el schema de ordenes de servicio"],
+        required: [true, "El monto de adelanto es requerido en el schema de ordenes de servicio"],
         min: [0, "El monto de adelanto no puede ser negativo"],
       },
-    },
-    comentarios: {
-      type: String,
-      required: false,
     },
     //Mecánico
     fechaEntregaEstimada: {
@@ -194,6 +187,10 @@ const ordenServicioHistoricaSchema = new Schema(
     ],
     comprobante: {
       type: String,
+      required: true,
+    },
+    counter: {
+      type: Number,
       required: true,
     },
     estadoSunat: {

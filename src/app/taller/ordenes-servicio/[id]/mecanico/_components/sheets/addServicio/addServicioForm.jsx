@@ -1,7 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 
 import {
@@ -33,16 +33,19 @@ import { es } from "date-fns/locale"; //Calendar
 
 import { cn } from "@/lib/utils";
 import { CalendarIcon, Text } from "lucide-react";
-// import { addClienteFormSchema } from "@/app/contactos/clientes/_services/validations/addClienteFormSchema";
+
 import { Button } from "@/components/ui/button";
 import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
+import { servicioSchema } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/servicioSchemaForm";
 
 export function AddServicioForm({ onClose, onAgregarServicio, defaultValues }) {
-  const [date, setDate] = useState(new Date()); //Date Calendar
-  const [open, setOpen] = useState(false); //Close calendar
+
+  const [date, setDate] = useState(new Date());
+
+  const [open, setOpen] = useState(false);
 
   const addForm = useForm({
-    // resolver: zodResolver(addClienteFormSchema),
+    resolver: zodResolver(servicioSchema),
     defaultValues: defaultValues || {
       descripcion: "",
       precio: "",
@@ -58,7 +61,7 @@ export function AddServicioForm({ onClose, onAgregarServicio, defaultValues }) {
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
     setFormSubmitIsLoading(true);
-    data = { ...data, fecha: date };
+    data = { ...data, fecha:date};
     onAgregarServicio?.(data);
     resetForm();
     onClose();
@@ -134,9 +137,9 @@ export function AddServicioForm({ onClose, onAgregarServicio, defaultValues }) {
                         selected={date}
                         onSelect={(selectedDate) => {
                           if (selectedDate) {
-                            field.onChange(selectedDate); // 🔹 Actualiza el valor en el formulario
-                            setDate(selectedDate); // Guarda la fecha seleccionada
-                            setOpen(false); // Cierra el Popover
+                            field.onChange(selectedDate);
+                            setDate(selectedDate);
+                            setOpen(false);
                           }
                         }}
                         locale={es}

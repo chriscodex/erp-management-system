@@ -1,6 +1,6 @@
 "use client";
 
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Save, CalendarIcon } from "lucide-react";
@@ -9,8 +9,8 @@ import { useRouter } from "next/navigation";
 import { RiArrowLeftLine } from "@remixicon/react";
 
 import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+import { format } from "date-fns";
+import { es } from "date-fns/locale"; 
 import {
   Popover,
   PopoverContent,
@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/select";
 import { ProductsTallerTable } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/productsTallerTable/data-table";
 import { ServiciosTallerTable } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/serviciosTallerTable/data-table";
+import { updateOrdenDeServicioMecanicoSchema } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/updateOrdenDeServicioMecanicoSchemaForm";
 
 export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
   const router = useRouter();
@@ -58,7 +59,7 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
   const [open, setOpen] = useState(false);
 
   const form = useForm({
-    // resolver: zodResolver(createOrdenDeServicioSchema),
+    resolver: zodResolver(updateOrdenDeServicioMecanicoSchema),
     defaultValues: {
       fechaEntregaEstimada: defaultDate,
       estado: ordenDeServicioData?.estado || "",

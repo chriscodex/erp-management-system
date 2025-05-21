@@ -1,6 +1,6 @@
 import { z } from "zod";
 const objectIdRegex = /^[a-f\d]{24}$/i;
-export const createOrdenDeServicioSchema = z.object({
+export const updateOrdenDeServicioSchema = z.object({
     //Cliente
     tipo: z.enum(["persona", "empresa"]),
     identificador: z

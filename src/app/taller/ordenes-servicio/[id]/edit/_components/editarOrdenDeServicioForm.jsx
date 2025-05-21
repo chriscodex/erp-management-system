@@ -68,7 +68,7 @@ import {
 // import { ProductsPreventaTable } from "@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table";
 import { searchClientePorDniOrRucClientRequest } from "@/app/taller/ordenes-servicio/nuevo/_services/requests";
 import { Textarea } from "@/components/ui/textarea";
-import { createPreventaSchemaForm } from "@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm";
+import { updateOrdenDeServicioSchema } from "@/app/taller/ordenes-servicio/[id]/edit/_services/validations/updateOrdenDeServicioSchemaForm";
 import { updateOrdenDeServicioRequestClient } from "@/app/taller/ordenes-servicio/[id]/edit/_services/requests";
 import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
 import { MecanicosTallerTable } from "@/app/taller/ordenes-servicio/nuevo/_components/mecanicosTallerTable/data-table";
@@ -88,7 +88,7 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
   const [open, setOpen] = useState(false); //Close calendar
 
   const form = useForm({
-    resolver: zodResolver(createPreventaSchemaForm),
+    resolver: zodResolver(updateOrdenDeServicioSchema),
     defaultValues: {
       identificador:
         ordenDeServicioData?.cliente?.datos?.dni ||
@@ -162,9 +162,16 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
           dni: formData?.identificador,
           nombres: formData?.nombres,
           apellidos: formData?.apellidos,
-          direccion: formData?.direccion,
-          email: formData?.email,
-          celular: formData?.celular,
+          direccion:
+            formData?.direccion.trim() === ""
+              ? undefined
+              : formData?.direccion?.trim(),
+          email:
+            formData?.email.trim() === "" ? undefined : formData?.email?.trim(),
+          celular:
+            formData?.celular.trim() === ""
+              ? undefined
+              : formData?.celular?.trim(),
         },
       };
     }
@@ -250,14 +257,17 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
           {
             loading: "Buscando...",
             success: (persona) => {
-
-                console.log("Esto es persona",persona);
-
-              setValue("apellidos", persona?.apellidos ?? "");
-              setValue("nombres", persona?.nombres ?? "");
-              setValue("direccion", persona?.direccion ?? "");
-              setValue("email", persona?.email ?? "");
-              setValue("celular", persona?.celular ?? "");
+              setValue(
+                "apellidos",
+                persona?.apellidos || persona?.datos?.apellidos
+              );
+              setValue("nombres", persona?.nombres || persona?.datos?.nombres);
+              setValue(
+                "direccion",
+                persona?.direccion || persona?.datos?.direccion
+              );
+              setValue("email", persona?.email || persona?.datos?.email);
+              setValue("celular", persona?.celular || persona?.datos?.celular);
               clearErrors("apellidos");
               clearErrors("nombres");
               clearErrors("direccion");
@@ -289,11 +299,23 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
           {
             loading: "Buscando...",
             success: (empresa) => {
-              setValue("razonSocial", empresa?.razonSocial);
-              setValue("direccion", empresa?.direccion);
-              setValue("email", empresa?.email);
-              setValue("celular", empresa?.celular);
+              setValue(
+                "razonSocial",
+                empresa?.razonSocial || empresa?.datos?.razonSocial
+              );
+              setValue(
+                "representanteLegal",
+                empresa?.representanteLegal ||
+                  empresa?.datos?.representanteLegal
+              );
+              setValue(
+                "direccion",
+                empresa?.direccion || empresa?.datos?.direccion
+              );
+              setValue("email", empresa?.email || empresa?.datos?.email);
+              setValue("celular", empresa?.celular || empresa?.datos?.celular);
               clearErrors("razonSocial");
+              clearErrors("representanteLegal");
               clearErrors("direccion");
               clearErrors("email");
               clearErrors("celular");
@@ -318,6 +340,11 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
       setDate(new Date(ordenDeServicioData.fechaIngreso));
     }
   }, [ordenDeServicioData]);
+
+    useEffect(() => {
+      form.setValue("mecanicos", mecanicosTaller);
+      form.clearErrors("mecanicos");
+    }, [mecanicosTaller]);
 
   return (
     <>
@@ -795,36 +822,36 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
                   </FormItem>
                 )}
               />
-              {/* <div className="flex items-end gap-2">
-                <SheetAddMotoExternaWrapper onSave={""} defaultValues={""} />
-              </div> */}
             </CardContent>
           </Card>
 
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Mecánicos</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <MecanicosTallerTable
-                mecanicosTaller={mecanicosTaller}
-                setMecanicosTaller={setMecanicosTaller}
-              />
-            </CardContent>
-          </Card>
-
-          {/* <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Productos</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <ProductsTallerTable
-                productsTaller={productsTaller}
-                setProductsTaller={setProductsTaller}
-              />
-            </CardContent>
-          </Card> */}
-
+           <FormField
+            control={form.control}
+            name="mecanicos"
+            render={({ field }) => (
+              <FormItem>
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>Mecánicos</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <MecanicosTallerTable
+                      mecanicosTaller={mecanicosTaller}
+                      setMecanicosTaller={setMecanicosTaller}
+                    />
+                    {/* Campo oculto para que el valor entre al form y valide */}
+                    <input
+                      type="hidden"
+                      value={JSON.stringify(field.value)}
+                      {...field}
+                    />
+                    <FormMessage />
+                  </CardContent>
+                </Card>
+              </FormItem>
+            )}
+          />
+          
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Información adicional</CardTitle>

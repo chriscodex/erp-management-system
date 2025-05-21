@@ -27,12 +27,10 @@ const ordenServicioSchema = new Schema(
       vin: {
         type: String,
         required: false,
-        unique: true,
       },
       placa: {
         type: String,
         required: false,
-        unique: true,
       },
       nombre: {
         type: String,
@@ -50,7 +48,6 @@ const ordenServicioSchema = new Schema(
         type: String,
         required: false,
       }
-
     },
     mecanicos: [
       {
@@ -87,74 +84,12 @@ const ordenServicioSchema = new Schema(
       required: [true, 'La categoría del servicio es requerido en el schema de ordenes de servicio'],
       enum: ['mantenimiento', 'reparacion'],
     },
-    // productos: [
-    //   {
-    //     id: {
-    //       type: Schema.Types.ObjectId,
-    //       ref: "Product",
-    //       required: [false, "El id del mecánico es requerido en el schema de ordenes de servicio"],
-    //     },
-    //     code: {
-    //       type: String,
-    //       required: true,
-    //       index: true,
-    //     },
-    //     nombre: {
-    //       type: String,
-    //       required: false,
-    //     },
-    //     descripcion: {
-    //       type: String,
-    //       required: false,
-    //     },
-    //     cantidad: {
-    //       type: Number,
-    //       required: false,
-    //     },
-    //     unidades: [
-    //       {
-    //         code: {
-    //           type: String,
-    //           required: true,
-    //           index: true,
-    //         },
-    //         estado: {
-    //           type: String,
-    //           required: [true, 'El estado es requerido en el schema de productos'],
-    //           enum: [
-    //             'disponible',
-    //             'dañado',
-    //             'desaparecido',
-    //             'reparado',
-    //             'prevendido',
-    //           ],
-    //         },
-    //       },
-    //     ],
-    //     precioCompra: {
-    //       type: Number,
-    //       required: [
-    //         true,
-    //         'El precio de compra es requerido en el schema de productos',
-    //       ],
-    //       min: [0, 'El precio de compra no puede ser negativo'],
-    //     },
-    //     precioVenta: {
-    //       type: Number,
-    //       required: [
-    //         true,
-    //         'El precio de venta es requerido en el schema de productos',
-    //       ],
-    //       min: [0, 'El precio de venta no puede ser negativo'],
-    //     },
-    //   }
-    // ],
     productos: [
       {
         id: {
           type: Schema.Types.ObjectId,
           ref: "Product",
-          required: [false, "El id del mecánico es requerido en el schema de ordenes de servicio"],
+          required: [false, "El id del producto es requerido en el schema de ordenes de servicio"],
         },
         code: {
           type: String,
@@ -218,21 +153,11 @@ const ordenServicioSchema = new Schema(
         required: [false, "El monto pagado es requerido en el schema de ordenes de servicio"],
         min: [0, "El monto pagado no puede ser negativo"],
       },
-      // adelantoPagado: {
-      //     type: Boolean,
-      //     default: false,
-      // },
       montoAdelanto: {
         type: Number,
-        required: [false, "El monto de adelanto es requerido en el schema de ordenes de servicio"],
+        required: [true, "El monto de adelanto es requerido en el schema de ordenes de servicio"],
         min: [0, "El monto de adelanto no puede ser negativo"],
       },
-      // adelantoFecha: {
-      //     type: Date,
-      //     required: function () {
-      //         return this.pago.adelantoPagado === true;
-      //     }
-      // },
     },
     comentarios: {
       type: String,

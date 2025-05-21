@@ -29,7 +29,7 @@ export async function deleteOrdenDeServicioRequestClient(ordenDeServicioId) {
   });
 }
 
-export async function finalizarOrdenDeServicioRequestClient(ordenDeServicioId) {
+export async function finalizarOrdenDeServicioRequestClient(ordenDeServicioId, counterBoleta) {
   /* eslint-disable */
 
   return new Promise(async (resolve, reject) => {
@@ -41,7 +41,8 @@ export async function finalizarOrdenDeServicioRequestClient(ordenDeServicioId) {
       const url = `${finalizarOrdenDeServicioClientUrl}/${ordenDeServicioId}/finalizar`;
 
       // Obtener los datos de la persona
-      const response = await postData(url);
+      const response = await postData(url, {counterBoleta});
+      
       if (response?.status !== 201) {
         reject(
           'No se pudo eliminar la orden de servicio: ' + response.response?.data?.error

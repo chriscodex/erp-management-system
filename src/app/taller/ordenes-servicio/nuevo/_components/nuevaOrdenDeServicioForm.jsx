@@ -1,6 +1,6 @@
 "use client";
 
-// import { zodResolver } from "@hookform/resolvers/zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import {
@@ -15,7 +15,7 @@ import {
   UserCheck,
   CalendarIcon,
 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import {
   RiAppsLine,
@@ -70,7 +70,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-// import { createOrdenDeServicioSchema } from "@/app/taller/ordenes-servicio/nuevo/_services/validations/createOrdenDeServicioSchemaForm";
+import { createOrdenDeServicioSchema } from "@/app/taller/ordenes-servicio/nuevo/_services/validations/createOrdenDeServicioSchemaForm";
 import { MecanicosTallerTable } from "@/app/taller/ordenes-servicio/nuevo/_components/mecanicosTallerTable/data-table";
 import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
 
@@ -83,9 +83,8 @@ export function NuevaOrdenDeServicioForm() {
   const [open, setOpen] = useState(false); //Close calendar
 
   const form = useForm({
-    // resolver: zodResolver(createOrdenDeServicioSchema),
+    resolver: zodResolver(createOrdenDeServicioSchema),
     defaultValues: {
-
       //Cliente
 
       identificador: "",
@@ -100,20 +99,24 @@ export function NuevaOrdenDeServicioForm() {
 
       //Moto
 
-      nombre:"",
+      nombre: "",
       placa: "",
       vin: "",
       descripcion: "",
       categoria: "",
-      marca:"",
+      marca: "",
+
+      //Mecanicos
+
+      mecanicos: [],
 
       //Orden de servicio
 
       montoAdelanto: "",
       origenServicio: "",
+      tipoServicio: "",
       comentarios: "",
       fechaIngreso: new Date(),
-
     },
   });
 
@@ -130,7 +133,7 @@ export function NuevaOrdenDeServicioForm() {
   const onSubmit = handleSubmit(async (data) => {
     const createOrdenDeServicioObject = {
       ...data,
-      mecanicos: mecanicosTaller,
+      // mecanicos: mecanicosTaller,
     };
     // Toast promise para buscar una persona
     toast.promise(
@@ -256,6 +259,11 @@ export function NuevaOrdenDeServicioForm() {
       console.error("Error al buscar persona por DNI:", error);
     }
   };
+
+  useEffect(() => {
+    form.setValue("mecanicos", mecanicosTaller);
+    form.clearErrors("mecanicos");
+  }, [mecanicosTaller]);
 
   return (
     <>
@@ -583,10 +591,10 @@ export function NuevaOrdenDeServicioForm() {
                           disabled={
                             searchByDniOrRucIsLoading || formSubmitIsLoading
                           }
-                          {...field}
                           onChange={(e) => {
                             onChangeCelular(e, field);
                           }}
+                          {...field}
                         />
                       </FormControl>
                       <FormMessage />
@@ -733,35 +741,35 @@ export function NuevaOrdenDeServicioForm() {
                   </FormItem>
                 )}
               />
-              {/* <div className="flex items-end gap-2">
-                <SheetAddMotoExternaWrapper onSave={""} defaultValues={""} />
-              </div> */}
             </CardContent>
           </Card>
 
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Mecánicos</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <MecanicosTallerTable
-                mecanicosTaller={mecanicosTaller}
-                setMecanicosTaller={setMecanicosTaller}
-              />
-            </CardContent>
-          </Card>
-
-          {/* <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Productos</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <ProductsTallerTable
-                productsTaller={productsTaller}
-                setProductsTaller={setProductsTaller}
-              />
-            </CardContent>
-          </Card> */}
+          <FormField
+            control={form.control}
+            name="mecanicos"
+            render={({ field }) => (
+              <FormItem>
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>Mecánicos</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <MecanicosTallerTable
+                      mecanicosTaller={mecanicosTaller}
+                      setMecanicosTaller={setMecanicosTaller}
+                    />
+                    {/* Campo oculto para que el valor entre al form y valide */}
+                    <input
+                      type="hidden"
+                      value={JSON.stringify(field.value)}
+                      {...field}
+                    />
+                    <FormMessage />
+                  </CardContent>
+                </Card>
+              </FormItem>
+            )}
+          />
 
           <Card className="mb-6">
             <CardHeader>
@@ -801,9 +809,9 @@ export function NuevaOrdenDeServicioForm() {
                             selected={date}
                             onSelect={(selectedDate) => {
                               if (selectedDate) {
-                                field.onChange(selectedDate); // 🔹 Actualiza el valor en el formulario
-                                setDate(selectedDate); // Guarda la fecha seleccionada
-                                setOpen(false); // Cierra el Popover
+                                field.onChange(selectedDate);
+                                setDate(selectedDate); 
+                                setOpen(false);
                               }
                             }}
                             locale={es}
@@ -873,7 +881,7 @@ export function NuevaOrdenDeServicioForm() {
                     </div>
                   </FormItem>
                 )}
-              /> 
+              />
               {/* <FormField
                 control={control}
                 name="estado"

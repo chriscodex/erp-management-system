@@ -1,4 +1,4 @@
-export const stylesOrdenDeServicioHistorica = {
+export const stylesBoleta = {
   header: {
     fontSize: 12,
     flexDirection: "row",
@@ -22,16 +22,13 @@ export const stylesOrdenDeServicioHistorica = {
     padding: 35,
     fontSize: 14,
   },
-  datosEmpresaOrdenDeServicioContainer: {
+  datosEmpresa: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
     marginTop: "5px",
     marginBottom: "5px",
     gap: "5px",
-  },
-  datosEmpresa:{
-    // flex: 1,
   },
   datosEmpresaTitle: {
     fontSize: 16,
@@ -46,17 +43,18 @@ export const stylesOrdenDeServicioHistorica = {
     marginBottom: 5,
   },
 
-  datosOrdenDeServicioHistoricaContainer: {
-    // flex: 1,
+  datosBoletaContainer: {
     flexDirection: "column",
     alignItems: "flex-end",
   },
-
-  datosOrdenDeServicioHistorica: {
+  datosBoleta: {
     flexDirection: "row",
     marginBottom: 5,
   },
-
+  datosBoletaBold: {
+    fontWeight: "bold",
+  },
+  
   separator: {
     width: "100%",
     height: 1,
@@ -65,91 +63,45 @@ export const stylesOrdenDeServicioHistorica = {
     alignSelf: "center",
   },
 
-  datosOrdenDeServicioHistoricaBold: {
-    fontWeight: "bold",
-  },
-  datosContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  datosCliente: {
+    fontSize: 14,
+    marginTop: "5px",
+    marginBottom: "5px",
     gap: "5px",
   },
-  datosCliente: {
-    flex: 1,
-    fontSize: 14,
-    marginTop: '5px',
-    marginBottom: '5px',
-    gap: '5px',
-  },
   datosClienteName: {
-    marginBottom: '5px',
+    marginBottom: "5px",
   },
   datosClienteTitle: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginBottom: 5,
   },
   datosClienteInfo: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   datosClienteInfoTitle: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
-  datosMoto: {
-    flex: 1,
-    fontSize: 14,
-    marginTop: '5px',
-    marginBottom: '5px',
-    gap: '5px',
-  },
-  datosMotoTitle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  datosMotoInfo: {
-    flexDirection: 'row',
-  },
-  datosMotoInfoTitle: {
-    fontWeight: 'bold',
-  },
-  datosMotoDescription:{
-    // wordBreak: 'break-word',
-  },
-
-  ordenDeServicioHistoricaTitleContainer: {
+  boletaTitleContainer: {
     width: "100%",
     height: "auto",
   },
-
-  ordenDeServicioHistoricaTitle: {
+  boletaTitle: {
     fontSize: "24px",
     fontWeight: "bold",
     marginTop: 10,
-    marginBottom: 4,
+    marginBottom: 10,
     display: "flex",
     flexDirection: "row",
     width: "100%",
     justifyContent: "center",
   },
-  ordenDeServicioHistoricaSubTitleContainer: {
-    fontSize: 14,
-    marginBottom: 10,
-    flexDirection: 'column',
-    gap: '5px',
-  },
-  ordenDeServicioHistoricaSubTitleBold: {
-    fontWeight: 'bold',
-  },
-  ordenDeServicioHistoricaSubTitle:{
-    flexDirection: 'row',
-    gap: '5px',
-  },
+
   table: {
     width: "100%",
     border: "1px solid black",
-    // marginLeft: 20,
-    // marginRight: "20px",
   },
   tableRow: {
     flexDirection: "row",
@@ -181,13 +133,4 @@ export const stylesOrdenDeServicioHistorica = {
     alignItems: "center",
     gap: 4,
   },
-  AdditionalInfo: {
-    marginTop: 30,
-    fontSize: 12,
-  },
-
-  AdditionalInfoTitle: {
-    fontWeight: 'bold',
-    marginBottom: 5,
-  }
 };

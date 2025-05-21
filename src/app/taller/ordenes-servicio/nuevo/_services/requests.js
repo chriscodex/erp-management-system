@@ -116,7 +116,6 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
           delete mecanicoObject?.numeracion;
           delete mecanicoObject?.rol;
           delete mecanicoObject?.estado;
-          
 
           return mecanicoObject;
         });
@@ -135,9 +134,18 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
           dni: ordenDeServicioData?.identificador,
           nombres: ordenDeServicioData?.nombres,
           apellidos: ordenDeServicioData?.apellidos,
-          direccion: ordenDeServicioData?.direccion,
-          email: ordenDeServicioData?.email,
-          celular: ordenDeServicioData?.celular,
+          direccion:
+            ordenDeServicioData?.direccion?.trim() === ""
+              ? undefined
+              : ordenDeServicioData?.direccion?.trim(),
+          email:
+            ordenDeServicioData?.email?.trim() === ""
+              ? undefined
+              : ordenDeServicioData?.email?.trim(),
+          celular:
+            ordenDeServicioData?.celular?.trim() === ""
+              ? undefined
+              : ordenDeServicioData?.celular?.trim(),
         };
       }
       if (ordenDeServicioData?.tipo === 'empresa') {
@@ -145,19 +153,46 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
           ruc: ordenDeServicioData?.identificador,
           razonSocial: ordenDeServicioData?.razonSocial,
           representanteLegal: ordenDeServicioData?.representanteLegal,
-          direccion: ordenDeServicioData?.direccion,
-          email: ordenDeServicioData?.email,
-          celular: ordenDeServicioData?.celular,
+          direccion:
+            ordenDeServicioData?.direccion?.trim() === ""
+              ? undefined
+              : ordenDeServicioData?.direccion?.trim(),
+          email:
+            ordenDeServicioData?.email?.trim() === ""
+              ? undefined
+              : ordenDeServicioData?.email?.trim(),
+          celular:
+            ordenDeServicioData?.celular?.trim() === ""
+              ? undefined
+              : ordenDeServicioData?.celular?.trim(),
         };
       }
 
       let motoData = {
-        nombre: ordenDeServicioData?.nombre,
-        vin: ordenDeServicioData?.vin,
-        placa: ordenDeServicioData?.placa,
-        descripcion: ordenDeServicioData?.descripcion,
-        categoria: ordenDeServicioData?.categoria,
-        marca: ordenDeServicioData?.marca,
+        nombre:
+          ordenDeServicioData?.nombre?.trim() === ""
+            ? undefined
+            : ordenDeServicioData?.nombre?.trim(),
+        vin:
+          ordenDeServicioData?.vin?.trim() === ""
+            ? undefined
+            : ordenDeServicioData?.vin?.trim(),
+        placa:
+          ordenDeServicioData?.placa?.trim() === ""
+            ? undefined
+            : ordenDeServicioData?.placa?.trim(),
+        descripcion:
+          ordenDeServicioData?.descripcion?.trim() === ""
+            ? undefined
+            : ordenDeServicioData?.descripcion?.trim(),
+        categoria:
+          ordenDeServicioData?.categoria?.trim() === ""
+            ? undefined
+            : ordenDeServicioData?.categoria?.trim(),
+        marca:
+          ordenDeServicioData?.marca?.trim() === ""
+            ? undefined
+            : ordenDeServicioData?.marca?.trim(),
       };
 
       const ordenDeServicioObject = {
@@ -175,7 +210,10 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
         fechaIngreso: ordenDeServicioData?.fechaIngreso,
         origenServicio: ordenDeServicioData?.origenServicio,
         tipoServicio: ordenDeServicioData?.tipoServicio,
-        comentarios: ordenDeServicioData?.comentarios,
+        comentarios:
+          ordenDeServicioData?.comentarios?.trim() === ""
+            ? undefined
+            : ordenDeServicioData?.comentarios?.trim(),
       };
 
       console.log('ordenDeServicioObject', ordenDeServicioObject);

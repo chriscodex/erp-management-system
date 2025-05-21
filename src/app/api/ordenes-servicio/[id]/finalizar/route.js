@@ -1,9 +1,9 @@
 import { finalizarOrdenDeServicioController } from '@/backend/ordenesServicio/infrastructure/controllers';
 import { NextResponse } from 'next/server';
 
-export async function POST(_, contextRoute) {
+export async function POST(request, contextRoute) {
   try {
-    const { payload, status } = await finalizarOrdenDeServicioController(contextRoute);
+    const { payload, status } = await finalizarOrdenDeServicioController(request, contextRoute);
 
     if (status !== 201) {
       return NextResponse.json({ error: payload }, { status });

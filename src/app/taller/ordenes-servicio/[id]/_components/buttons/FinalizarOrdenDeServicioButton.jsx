@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 
 import { FinalizarOrdenDeServicioAlert } from '@/app/taller/ordenes-servicio/[id]/_components/dialogs/FinalizarOrdenDeServicioAlert';
 
-export function FinalizarOrdenDeServicioButton({ ordenDeServicioId }) {
+export function FinalizarOrdenDeServicioButton({ ordenDeServicioId, counterBoleta }) {
 
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
@@ -27,6 +27,7 @@ export function FinalizarOrdenDeServicioButton({ ordenDeServicioId }) {
         isOpen={isOpenDialogDelete}
         setIsOpen={setIsOpenDialogDelete}
         ordenDeServicioId={ordenDeServicioId}
+        counterBoleta={counterBoleta}
         actionAfterComplete="push"
       />
     </>

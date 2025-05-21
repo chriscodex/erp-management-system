@@ -45,7 +45,7 @@ export async function deleteOrdenDeServicioController(contextRoute) {
   try {
 
     const { params } = contextRoute;
-    const { id : ordenDeServicioId } = params;
+    const { id: ordenDeServicioId } = params;
 
     await connectDB();
 
@@ -60,14 +60,18 @@ export async function deleteOrdenDeServicioController(contextRoute) {
   }
 }
 
-export async function finalizarOrdenDeServicioController(contextRoute) {
+export async function finalizarOrdenDeServicioController(request, contextRoute) {
   try {
+
     const { params } = contextRoute;
     const { id } = params;
 
+    const { counterBoleta } = await request.json();
+
     await connectDB();
 
-    const ordenDeServicioFinalizada = await ordenServicioService.finalizarOrdenDeServicio(id);
+    const ordenDeServicioFinalizada = await ordenServicioService.finalizarOrdenDeServicio(id, counterBoleta);
+
     return ordenDeServicioFinalizada;
   } catch (error) {
     console.error(

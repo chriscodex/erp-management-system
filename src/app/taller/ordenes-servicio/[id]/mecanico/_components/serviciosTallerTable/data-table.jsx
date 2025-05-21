@@ -64,6 +64,8 @@ import { Label } from "@/components/ui/label";
 import { SheetAddServicioWrapper } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/sheets/addServicio/sheetAddServicioWrapper";
 import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
 import { formatDateShort } from "@/lib/formateador";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { servicioSchema } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/servicioSchemaForm";
 
 export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
   const updateRowValue = (internalId, key, value) => {
@@ -170,16 +172,21 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
       cell: ({ row }) => {
         const servicioData = row.original;
 
-        const [date, setDate] = useState(new Date()); //Date Calendar
+        const defaultDate = servicioData.fecha
+          ? new Date(servicioData.fecha)
+          : null;
+
+        const [date, setDate] = useState(defaultDate); //Date Calendar
         const [open, setOpen] = useState(false); //Close calendar
 
         // Estados de carga
         const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
         const updateForm = useForm({
+          resolver: zodResolver(servicioSchema),
           defaultValues: {
-            descripcion: servicioData.descripcion,
-            precio: servicioData.precio,
+            descripcion: servicioData.descripcion || "",
+            precio: servicioData.precio || "",
             fecha: new Date(servicioData.fecha),
           },
         });
@@ -370,11 +377,6 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
   });
 
   const handleAgregarServicio = (nuevoServicio) => {
-    console.log(
-      "🚀 Servicio recibido en handleAgregarServicio:",
-      nuevoServicio
-    );
-
     const servicioFromateado = {
       ...nuevoServicio,
       id: generarNumeroAleatorioSeisDigitos(),

@@ -11,7 +11,7 @@ export default async function NuevaOrdenDeServicioPage() {
     },
     {
       title: 'Órdenes de Servicio',
-      href: '/taller/ordenes-servicios',
+      href: '/taller/ordenes-servicio',
       active: true,
     },
     {

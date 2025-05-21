@@ -17,9 +17,9 @@ import { Label } from "@/components/ui/label";
 import { DetailProductOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductOrdenDeServicioDetailSheet";
 import { DetailServicioOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailServicioOrdenDeServicioDetailSheet";
 import { DetailMecanicoOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailMecanicoOrdenDeServicioDetailSheet";
-import { ImprimirOrdenDeServicioHistoricaButton } from "@/app/taller/ordenes-servicio-historial/[id]/_components/buttons/imprimirOrdenDeServicioHistoricaButton";
 import { formatMoney } from "@/lib/utils";
 import { HomeRepairService } from "@mui/icons-material";
+import { ImprimirComprobanteOrdenDeServicioHistoricaButton } from "./buttons/imprimirComprobanteOrdenDeServicioHistorica";
 
 
 
@@ -57,7 +57,7 @@ export function DetailOrdenDeServicioHistoricaContent({
           >
             <span className="font-bold mr-1">Estado:</span> Finalizado
           </Badge>
-          <ImprimirOrdenDeServicioHistoricaButton
+          <ImprimirComprobanteOrdenDeServicioHistoricaButton
             ordenDeServicioHistoricaData={ordenDeServicioHistoricaData}
           />
         </div>
