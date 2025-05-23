@@ -167,7 +167,9 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
               ? undefined
               : formData?.direccion?.trim(),
           email:
-            formData?.email.trim() === "" ? undefined : formData?.email?.trim(),
+            formData?.email.trim() === "" 
+            ? undefined 
+            : formData?.email?.trim(),
           celular:
             formData?.celular.trim() === ""
               ? undefined
@@ -191,12 +193,29 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
     }
 
     updateObject["moto"] = {
-      nombre: formData?.nombre,
-      descripcion: formData?.descripcion,
-      categoria: formData?.categoria,
-      marca: formData?.marca,
-      placa: formData?.placa,
-      vin: formData?.vin,
+      nombre:
+        formData?.nombre.trim() === "" 
+        ? undefined 
+        : formData?.nombre?.trim(),
+      descripcion:
+        formData?.descripcion.trim() === ""
+          ? undefined
+          : formData?.descripcion?.trim(),
+      categoria:
+        formData?.categoria.trim() === ""
+          ? undefined
+          : formData?.categoria?.trim(),
+      marca:
+        formData?.marca.trim() === "" 
+        ? undefined 
+        : formData?.marca?.trim(),
+      placa:
+        formData?.placa.trim() === "" 
+        ? undefined 
+        : formData?.placa?.trim(),
+      vin: formData?.vin.trim() === "" 
+      ? undefined 
+      : formData?.vin?.trim(),
     };
 
     updateObject["pago"] = {
@@ -208,7 +227,9 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
     updateObject["fechaIngreso"] = formData?.fechaIngreso;
     updateObject["origenServicio"] = formData?.origenServicio;
     updateObject["tipoServicio"] = formData?.tipoServicio;
-    updateObject["comentarios"] = formData?.comentarios;
+    updateObject["comentarios"] = formData?.comentarios.trim() === "" 
+      ? undefined 
+      : formData?.comentarios?.trim(),
 
     delete updateObject.createdAt;
     delete updateObject.updatedAt;
@@ -341,10 +362,10 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
     }
   }, [ordenDeServicioData]);
 
-    useEffect(() => {
-      form.setValue("mecanicos", mecanicosTaller);
-      form.clearErrors("mecanicos");
-    }, [mecanicosTaller]);
+  useEffect(() => {
+    form.setValue("mecanicos", mecanicosTaller);
+    form.clearErrors("mecanicos");
+  }, [mecanicosTaller]);
 
   return (
     <>
@@ -825,7 +846,7 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
             </CardContent>
           </Card>
 
-           <FormField
+          <FormField
             control={form.control}
             name="mecanicos"
             render={({ field }) => (
@@ -851,7 +872,7 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
               </FormItem>
             )}
           />
-          
+
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Información adicional</CardTitle>

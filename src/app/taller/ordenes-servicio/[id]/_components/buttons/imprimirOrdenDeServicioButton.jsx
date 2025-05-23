@@ -39,7 +39,7 @@ export function ImprimirOrdenDeServicioButton({ ordenDeServicioData }) {
   return (
     <>
       <Button
-        className="cursor-pointer"
+        className="cursor-pointer bg-blue-600 hover:bg-blue-700 dark:bg-blue-400 dark:hover:bg-blue-500"
         onClick={handleDownloadPDF}
         disabled={loading}
       >

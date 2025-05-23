@@ -13,6 +13,7 @@ export function EmpresasSelect({
   empresas,
   selectedEmpresa,
   setSelectedEmpresa,
+  disabled = false,
 }) {
   useEffect(() => {
     if (Object?.keys(selectedEmpresa)?.length !== 0 && empresas?.length > 0) {
@@ -27,6 +28,7 @@ export function EmpresasSelect({
         <Select
           value={selectedEmpresa || ''}
           onValueChange={setSelectedEmpresa}
+          disabled={disabled}
         >
           <SelectTrigger className="w-full pl-2">
             <SelectValue placeholder="Seleccione una empresa" />

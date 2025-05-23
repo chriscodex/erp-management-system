@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Sheet } from '@/components/ui/sheet';
 import { AddServicioForm } from '@/app/taller/ordenes-servicio/[id]/mecanico/_components/sheets/addServicio/addServicioForm';
 
-export function SheetAddServicioWrapper({ onAgregarServicio , defaultValues  }) {
+export function SheetAddServicioWrapper({ onAgregarServicio }) {
 
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
@@ -29,7 +29,7 @@ export function SheetAddServicioWrapper({ onAgregarServicio , defaultValues  }) 
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <AddServicioForm onClose={handleCloseSheet} onAgregarServicio={onAgregarServicio} defaultValues={defaultValues}/>
+          <AddServicioForm onClose={handleCloseSheet} onAgregarServicio={onAgregarServicio}/>
         </Sheet>
       )}
     </div>

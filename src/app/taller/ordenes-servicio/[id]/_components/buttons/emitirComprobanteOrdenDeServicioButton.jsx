@@ -20,6 +20,11 @@ export function EmitirComprobanteOrdenDeServicioButton({
 }) {
   const router = useRouter();
 
+  const comprobante = ordenDeServicioData?.comprobante.toLowerCase();
+
+  const boletaEmitida = comprobante?.includes("boleta");
+  const facturaEmitida = comprobante?.includes("factura");
+
   return (
     <>
       <DropdownMenu>
@@ -32,10 +37,18 @@ export function EmitirComprobanteOrdenDeServicioButton({
         <DropdownMenuContent align="center">
           <DropdownMenuItem
             className="cursor-pointer"
-            onClick={() =>
-              router.push(
-                `/taller/ordenes-servicio/${ordenDeServicioData?._id}/boleta`
-              )
+            onClick={() => {
+              if (!facturaEmitida) {
+                router.push(
+                  `/taller/ordenes-servicio/${ordenDeServicioData?._id}/boleta`
+                );
+              }
+            }}
+            disabled={facturaEmitida}
+            title={
+              facturaEmitida
+                ? "Ya se emitió una factura, no puedes emitir boleta."
+                : ""
             }
           >
             <RiFileListLine />
@@ -44,10 +57,18 @@ export function EmitirComprobanteOrdenDeServicioButton({
           <DropdownMenuSeparator />
           <DropdownMenuItem
             className="cursor-pointer"
-            onClick={() =>
-              router.push(
-                `/taller/ordenes-servicio/${ordenDeServicioData?._id}/factura`
-              )
+            onClick={() => {
+              if (!boletaEmitida) {
+                router.push(
+                  `/taller/ordenes-servicio/${ordenDeServicioData?._id}/factura`
+                );
+              }
+            }}
+            disabled={boletaEmitida}
+            title={
+              boletaEmitida
+                ? "Ya se emitió una factura, no puedes emitir boleta."
+                : ""
             }
           >
             <RiFileList2Fill />

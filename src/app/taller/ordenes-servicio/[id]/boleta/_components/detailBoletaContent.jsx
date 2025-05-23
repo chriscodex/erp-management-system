@@ -1,7 +1,3 @@
-'use client';
-
-import { useState } from "react";
-
 import { User, Package, Hash } from "lucide-react";
 import { RiInfoCardFill } from "@remixicon/react";
 
@@ -17,19 +13,13 @@ import {
 import { formatDateLong, formatDateShort } from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
 
-import { ImprimirBoletaButton } from "@/app/taller/ordenes-servicio/[id]/boleta/_components/buttons/imprimirButton";
+import { ImprimirBoletaButton } from "@/app/taller/ordenes-servicio/[id]/boleta/_components/buttons/imprimirBoletaButton";
 import { FinalizarOrdenDeServicioButton } from "@/app/taller/ordenes-servicio/[id]/_components/buttons/FinalizarOrdenDeServicioButton";
 import { HomeRepairService } from "@mui/icons-material";
 import { formatMoney } from "@/lib/utils";
 
 export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
   //Estados para el contador de la boleta
-
-  const [counterBoleta, setCounterBoleta] = useState(null);
-
-  const handleSaveCounterBoleta = async (data) => {
-    setCounterBoleta(data);
-  };
 
   return (
     <Card className="w-full max-w-7xl mx-auto">
@@ -42,11 +32,10 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
           <ImprimirBoletaButton
             ordenDeServicioData={ordenDeServicioData}
             empresas={empresas}
-            onSaveCounterBoleta={handleSaveCounterBoleta}
           />
           <FinalizarOrdenDeServicioButton
             ordenDeServicioId={ordenDeServicioData?._id}
-            counterBoleta={counterBoleta}
+            disabled={ordenDeServicioData?.comprobante !== "Boleta Impresa"}
           />
         </div>
       </CardHeader>

@@ -5,6 +5,7 @@ import { ProductRepository } from "@/backend/products/domain/repositories/produc
 import { ClienteRepository } from "@/backend/clientes/domain/repositories/clienteRepository";
 import { UserRepository } from "@/backend/users/domain/repositories/userRepository";
 import { OrdenServicioHistoricaRepository } from "@/backend/ordenesServicio/domain/repositories/ordenServicioHistoricaRepository";
+import { updateOrdenServicioSchema } from "@/backend/ordenesServicio/application/validations/updateOrdenServicioSchema";
 
 export class OrdenServicioService {
   constructor() {
@@ -108,8 +109,17 @@ export class OrdenServicioService {
 
       console.log("Esto es la orden de servicio data despues", ordenDeServicioData);
 
-      // Validar los datos del producto enviado con el schema
-      const ordenServicioValidated = createOrdenServicioSchema.safeParse(ordenDeServicioData);
+
+
+      const ordenDeServicioObject = {
+        ...ordenDeServicioData,
+        code: generarNumeroAleatorio(13),
+        comprobante: 'No impreso',
+        estadoSunat: 'Por enviar',
+      };
+
+      // Validar los datos de la orden de servicio
+      const ordenServicioValidated = createOrdenServicioSchema.safeParse(ordenDeServicioObject);
 
       if (!ordenServicioValidated.success) {
         // console.log(
@@ -125,13 +135,6 @@ export class OrdenServicioService {
           payload: ordenServicioValidated.error.issues,
         };
       }
-
-      const ordenDeServicioObject = {
-        ...ordenDeServicioData,
-        code: generarNumeroAleatorio(13),
-        comprobante: 'No impreso',
-        estadoSunat: 'Por enviar',
-      };
       const newOrdenDeServicio = await this.ordenServicioRepository.createOrdenDeServicio(
         ordenDeServicioObject
       );
@@ -153,6 +156,9 @@ export class OrdenServicioService {
 
   async updateOrdenDeServicio(ordenDeServicioId, ordenDeServicioData) {
     try {
+
+      console.log("Esto es la orden de servicio data", ordenDeServicioData);
+
       if (!ordenDeServicioId) {
         console.log("Orden De Servicio Service: OrdenDeServicioId no enviado");
         return {
@@ -160,9 +166,6 @@ export class OrdenServicioService {
           payload: "OrdenDeServicioId no enviado",
         };
       }
-
-      console.log("Desde service ordenxxxxxx", ordenDeServicioData);
-
 
       const { cliente } = ordenDeServicioData;
 
@@ -193,13 +196,35 @@ export class OrdenServicioService {
           }
         }
 
-        console.log("Esto es la orden de servicio data", ordenDeServicioData);
 
-        // Reemplazar cliente en ordenDeServicioData por clienteId
         ordenDeServicioData.cliente.id = clienteFinal._id.toString();
       }
 
       console.log("Esto es la orden de servicio data despues", ordenDeServicioData);
+
+      const paraImprimir = ordenDeServicioData?.counter !== undefined;
+
+      if (!paraImprimir) {
+        // Validar los datos de la orden de servicio
+        const ordenServicioValidated = updateOrdenServicioSchema.safeParse(ordenDeServicioData);
+
+        if (!ordenServicioValidated.success) {
+          // console.log(
+          //   `Orden De Servicio Service: Error de validación de schema de orden de servicio al crear ${ordenServicioValidated}`
+          // )
+          console.log(
+            "Orden De Servicio Service: Error de validación de schema de orden de servicio al actualizar",
+            ordenServicioValidated.error.format?.() || ordenServicioValidated.error
+          );
+          ;
+          return {
+            status: 400,
+            payload: ordenServicioValidated.error.issues,
+          };
+        }
+      }
+
+
 
       const ordenDeServicioUpdated = await this.ordenServicioRepository.updateOrdenDeServicio(
         ordenDeServicioId,
@@ -259,10 +284,9 @@ export class OrdenServicioService {
       };
     }
   }
-  async finalizarOrdenDeServicio(ordenDeServicioId, counter) {
+  async finalizarOrdenDeServicio(ordenDeServicioId) {
     try {
-      console.log(ordenDeServicioId, counter);
-      
+
       const ordenDeServicio = await this.ordenServicioRepository.getOrdenDeServicioByData({
         id: ordenDeServicioId,
       });
@@ -290,8 +314,9 @@ export class OrdenServicioService {
         comentarios: ordenDeServicio.comentarios,
 
         estadoSunat: ordenDeServicio.estadoSunat,
-        counter: counter,
+        counter: ordenDeServicio.counter,
         comprobante: ordenDeServicio.comprobante,
+        empresa: ordenDeServicio.empresa,
 
 
         estado: ordenDeServicio.estado,
@@ -301,7 +326,7 @@ export class OrdenServicioService {
       await this.ordenServicioHistoricaRepository.createOrdenDeServicioHistorica(
         ordenDeServicioHistorica
       );
-      
+
       console.log('Orden De Servicio Service: Orden de servicio finalizada correctamente');
 
       await this.ordenServicioRepository.deleteOrdenDeServicio(ordenDeServicioId);

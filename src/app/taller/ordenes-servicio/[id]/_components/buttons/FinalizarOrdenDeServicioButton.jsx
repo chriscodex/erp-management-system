@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 
 import { FinalizarOrdenDeServicioAlert } from '@/app/taller/ordenes-servicio/[id]/_components/dialogs/FinalizarOrdenDeServicioAlert';
 
-export function FinalizarOrdenDeServicioButton({ ordenDeServicioId, counterBoleta }) {
+export function FinalizarOrdenDeServicioButton({ ordenDeServicioId, disabled}) {
 
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
@@ -17,6 +17,7 @@ export function FinalizarOrdenDeServicioButton({ ordenDeServicioId, counterBolet
         <Button
           className="flex items-center bg-green-600 hover:bg-green-700"
           onClick={() => setIsOpenDialogDelete(true)}
+          disabled={disabled}
         >
           <RiFileCopy2Line className="mr-2 h-4 w-4" />
           Finalizar Orden de Servicio
@@ -27,7 +28,6 @@ export function FinalizarOrdenDeServicioButton({ ordenDeServicioId, counterBolet
         isOpen={isOpenDialogDelete}
         setIsOpen={setIsOpenDialogDelete}
         ordenDeServicioId={ordenDeServicioId}
-        counterBoleta={counterBoleta}
         actionAfterComplete="push"
       />
     </>

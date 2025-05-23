@@ -35,11 +35,13 @@ export function ImprimirComprobanteOrdenDeServicioHistoricaButton({
           <PdfBoleta
             ordenDeServicioHistoricaData={ordenDeServicioHistoricaData}
             counterBoleta={counter}
+            selectedEmpresa={ordenDeServicioHistoricaData?.empresa}
           />
         ) : (
           <PdfFactura
             ordenDeServicioHistoricaData={ordenDeServicioHistoricaData}
             counterFactura={counter}
+            selectedEmpresa={ordenDeServicioHistoricaData?.empresa}
           />
         );
 
@@ -48,7 +50,6 @@ export function ImprimirComprobanteOrdenDeServicioHistoricaButton({
       // Crear un enlace temporal y forzar la descarga
       const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
-      // link.download = `boleta-${codigoBoleta}.pdf`;
       link.download = `${tipoComprobante}-${codigo}.pdf`;
       document.body.appendChild(link);
       link.click();

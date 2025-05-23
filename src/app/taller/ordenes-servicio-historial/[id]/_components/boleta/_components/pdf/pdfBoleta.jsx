@@ -142,7 +142,10 @@ export function PdfBoleta({
                   {"Representante Legal: "}
                 </Text>
                 <Text>
-                  {ordenDeServicioHistoricaData?.cliente?.datos?.representanteLegal}
+                  {
+                    ordenDeServicioHistoricaData?.cliente?.datos
+                      ?.representanteLegal
+                  }
                 </Text>
               </View>
             )}
@@ -151,7 +154,9 @@ export function PdfBoleta({
                 <Text style={styles.datosClienteInfoTitle}>
                   {"Dirección: "}
                 </Text>
-                <Text>{ordenDeServicioHistoricaData.cliente.datos.direccion}</Text>
+                <Text>
+                  {ordenDeServicioHistoricaData.cliente.datos.direccion}
+                </Text>
               </View>
             )}
             {ordenDeServicioHistoricaData?.cliente?.datos?.email && (
@@ -163,7 +168,9 @@ export function PdfBoleta({
             {ordenDeServicioHistoricaData?.cliente?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
-                <Text>{ordenDeServicioHistoricaData.cliente.datos.celular}</Text>
+                <Text>
+                  {ordenDeServicioHistoricaData.cliente.datos.celular}
+                </Text>
               </View>
             )}
           </View>
@@ -217,8 +224,7 @@ export function PdfBoleta({
                   .concat(ordenDeServicioHistoricaData?.servicios || [])
                   .reduce(
                     (acc, item) =>
-                      acc +
-                      (item?.precioVenta || item?.precio) * 1,
+                      acc + (item?.precioVenta || item?.precio) * 1,
                     0
                   )
               ).toFixed(2)}
@@ -233,8 +239,7 @@ export function PdfBoleta({
                   .concat(ordenDeServicioHistoricaData?.servicios || [])
                   .reduce(
                     (acc, item) =>
-                      acc +
-                      (item?.precioVenta || item?.precio) * 1,
+                      acc + (item?.precioVenta || item?.precio) * 1,
                     0
                   )
               ).toFixed(2)}
@@ -246,8 +251,7 @@ export function PdfBoleta({
               {ordenDeServicioHistoricaData?.productos
                 .concat(ordenDeServicioHistoricaData?.servicios || [])
                 .reduce(
-                  (acc, item) =>
-                    acc + (item?.precioVenta || item?.precio) * 1,
+                  (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
                   0
                 )
                 .toFixed(2)}
@@ -259,8 +263,7 @@ export function PdfBoleta({
               {ordenDeServicioHistoricaData?.productos
                 .concat(ordenDeServicioHistoricaData?.servicios || [])
                 .reduce(
-                  (acc, item) =>
-                    acc + (item?.precioVenta || item?.precio) * 1,
+                  (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
                   0
                 )
                 .toFixed(2)}
@@ -274,8 +277,7 @@ export function PdfBoleta({
                   .concat(ordenDeServicioHistoricaData?.servicios || [])
                   .reduce(
                     (acc, item) =>
-                      acc +
-                      (item?.precioVenta || item?.precio) * 1,
+                      acc + (item?.precioVenta || item?.precio) * 1,
                     0
                   )
                   .toFixed(2)

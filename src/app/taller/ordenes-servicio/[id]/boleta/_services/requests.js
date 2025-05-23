@@ -29,7 +29,7 @@ export async function getCurrentCounterBoletaRequestClient() {
   }
 }
 
-export async function updateBoletaStateRequestClient(ordenDeServicioId) {
+export async function updateBoletaStateRequestClient(ordenDeServicioId, counterBoleta, selectedEmpresa) {
   try {
     await delay();
 
@@ -37,6 +37,10 @@ export async function updateBoletaStateRequestClient(ordenDeServicioId) {
 
     const responseUpdateStateBoleta = await patchData(urlUpdateStateBoleta, {
       comprobante: 'Boleta Impresa',
+      counter: counterBoleta,
+      empresa: {
+        ...selectedEmpresa
+      },
     });
 
     const urlIncrementCounterBoleta = `${incrementCounterBoletaClientUrl}`;

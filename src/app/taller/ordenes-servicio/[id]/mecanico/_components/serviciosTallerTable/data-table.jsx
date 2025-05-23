@@ -379,7 +379,7 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
   const handleAgregarServicio = (nuevoServicio) => {
     const servicioFromateado = {
       ...nuevoServicio,
-      id: generarNumeroAleatorioSeisDigitos(),
+      internalId: generarNumeroAleatorioSeisDigitos(),
       numeracion: serviciosTaller.length + 1,
       precio: Number(nuevoServicio.precio),
       fecha: new Date(nuevoServicio.fecha).toISOString(),
@@ -403,7 +403,6 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
       <div className="flex gap-2 items-center py-4 w-full">
         <SheetAddServicioWrapper
           onAgregarServicio={handleAgregarServicio}
-          defaultValues={serviciosTaller}
         />
       </div>
       <div className="rounded-md border w-auto">

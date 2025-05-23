@@ -28,8 +28,8 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 
 import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+import { format } from "date-fns";
+import { es } from "date-fns/locale"; 
 
 import { cn } from "@/lib/utils";
 import { CalendarIcon, Text } from "lucide-react";
@@ -38,15 +38,14 @@ import { Button } from "@/components/ui/button";
 import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
 import { servicioSchema } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/servicioSchemaForm";
 
-export function AddServicioForm({ onClose, onAgregarServicio, defaultValues }) {
-
+export function AddServicioForm({ onClose, onAgregarServicio }) {
   const [date, setDate] = useState(new Date());
 
   const [open, setOpen] = useState(false);
 
   const addForm = useForm({
     resolver: zodResolver(servicioSchema),
-    defaultValues: defaultValues || {
+    defaultValues: {
       descripcion: "",
       precio: "",
       fecha: new Date(),
@@ -61,7 +60,7 @@ export function AddServicioForm({ onClose, onAgregarServicio, defaultValues }) {
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
     setFormSubmitIsLoading(true);
-    data = { ...data, fecha:date};
+    data = { ...data, fecha: date };
     onAgregarServicio?.(data);
     resetForm();
     onClose();
@@ -138,8 +137,8 @@ export function AddServicioForm({ onClose, onAgregarServicio, defaultValues }) {
                         onSelect={(selectedDate) => {
                           if (selectedDate) {
                             field.onChange(selectedDate);
-                            setDate(selectedDate);
-                            setOpen(false);
+                            setDate(selectedDate); 
+                            setOpen(false); 
                           }
                         }}
                         locale={es}

@@ -18,7 +18,6 @@ export function FinalizarOrdenDeServicioAlert({
   isOpen,
   setIsOpen,
   ordenDeServicioId,
-  counterBoleta,
   actionAfterComplete = 'refresh',
 }) {
   const router = useRouter();
@@ -27,7 +26,7 @@ export function FinalizarOrdenDeServicioAlert({
     try {
 
       setIsOpen(false);
-      toast.promise(finalizarOrdenDeServicioRequestClient(ordenDeServicioId, counterBoleta), {
+      toast.promise(finalizarOrdenDeServicioRequestClient(ordenDeServicioId), {
         loading: 'Finalizando Orden De Servicio...',
         success: () => {
           if (actionAfterComplete === 'refresh') {

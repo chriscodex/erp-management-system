@@ -14,7 +14,7 @@ import {
 import { formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
 import { EmpresasSelect } from "@/app/ventas/[ventaId]/_components/empresasSelect";
 
-export function ImprimirBoletaButton({ ordenDeServicioData, empresas, onSaveCounterBoleta }) {
+export function ImprimirBoletaButton({ ordenDeServicioData, empresas }) {
   const router = useRouter();
 
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
@@ -23,18 +23,27 @@ export function ImprimirBoletaButton({ ordenDeServicioData, empresas, onSaveCoun
   const handleDownloadPDF = async () => {
     setLoading(true);
     try {
-      const counterBoleta = await getCurrentCounterBoletaRequestClient();
+      const boletaEmitida = ordenDeServicioData?.comprobante
+        .toLowerCase()
+        .includes("boleta");
+
+      const counterBoleta = boletaEmitida
+        ? ordenDeServicioData?.counter
+        : await getCurrentCounterBoletaRequestClient();
 
       const codigoBoleta = formatearCodigoCounterBoletaFactura(
         counterBoleta,
         "boleta"
       );
+      const empresaSeleccionada = boletaEmitida
+        ? ordenDeServicioData?.empresa
+        : selectedEmpresa;
 
       const doc = (
         <PdfBoleta
           ordenDeServicioData={ordenDeServicioData}
           counterBoleta={counterBoleta}
-          selectedEmpresa={selectedEmpresa}
+          selectedEmpresa={empresaSeleccionada}
         />
       );
       const blob = await pdf(doc).toBlob();
@@ -47,9 +56,23 @@ export function ImprimirBoletaButton({ ordenDeServicioData, empresas, onSaveCoun
       link.click();
       document.body.removeChild(link);
 
-      await updateBoletaStateRequestClient(ordenDeServicioData?._id);
-      
-      onSaveCounterBoleta(counterBoleta);
+      if (!boletaEmitida) {
+        const selectedEmpresaFormateada = {
+          id: selectedEmpresa._id,
+          ruc: selectedEmpresa.ruc,
+          nombre: selectedEmpresa.nombre,
+          descripcion: selectedEmpresa.descripcion,
+          direccion: selectedEmpresa.direccion,
+          telefono: selectedEmpresa.telefono,
+          email: selectedEmpresa.email,
+        };
+
+        await updateBoletaStateRequestClient(
+          ordenDeServicioData?._id,
+          counterBoleta,
+          selectedEmpresaFormateada
+        );
+      }
 
       router.refresh();
     } catch (error) {
@@ -64,6 +87,7 @@ export function ImprimirBoletaButton({ ordenDeServicioData, empresas, onSaveCoun
         empresas={empresas}
         selectedEmpresa={selectedEmpresa}
         setSelectedEmpresa={setSelectedEmpresa}
+        disabled={!!ordenDeServicioData?.empresa}
       />
 
       <Button

@@ -31,6 +31,7 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
           />
           <FinalizarOrdenDeServicioButton
             ordenDeServicioId={ordenDeServicioData?._id}
+            disabled={ordenDeServicioData?.comprobante !== "Factura Impresa"}
           />
         </div>
       </CardHeader>

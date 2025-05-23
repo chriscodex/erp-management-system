@@ -302,7 +302,7 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
                                   onChange={handleTempPriceChange}
                                   onKeyDown={(event) => {
                                     if (event.key === "Enter") {
-                                      handleApplyChange(); // Llama a la función que guarda el cambio
+                                      handleApplyChange();
                                     }
                                   }}
                                   className="pl-9"

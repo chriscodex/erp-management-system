@@ -60,19 +60,18 @@ export async function deleteOrdenDeServicioController(contextRoute) {
   }
 }
 
-export async function finalizarOrdenDeServicioController(request, contextRoute) {
+export async function finalizarOrdenDeServicioController(contextRoute) {
   try {
 
     const { params } = contextRoute;
     const { id } = params;
 
-    const { counterBoleta } = await request.json();
-
     await connectDB();
 
-    const ordenDeServicioFinalizada = await ordenServicioService.finalizarOrdenDeServicio(id, counterBoleta);
+    const ordenDeServicioFinalizada = await ordenServicioService.finalizarOrdenDeServicio(id);
 
     return ordenDeServicioFinalizada;
+
   } catch (error) {
     console.error(
       'Orden de Servicio Controller: Error interno al finalizar la orden de servicio',
@@ -81,3 +80,4 @@ export async function finalizarOrdenDeServicioController(request, contextRoute) 
     throw new Error('Orden de Servicio Controller: Error interno al finalizar la orden de servicio');
   }
 }
+
