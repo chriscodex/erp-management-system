@@ -16,7 +16,7 @@ export class OrdenServicioRepository {
 
   async getAllOrdenesDeServicio() {
     try {
-      const ordenesDeServicio = await this.ordenServicioModel.find({}).populate('cliente.id').populate('mecanicos.id').populate('productos.id');
+      const ordenesDeServicio = await this.ordenServicioModel.find({}).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
 
       if (ordenesDeServicio?.length === 0) {
         console.log('Orden De Servicio Repository: No se encontraron ordenes de servicios');
@@ -50,7 +50,7 @@ export class OrdenServicioRepository {
       if (ordenDeServicioData.code) {
         filter.code = { $regex: new RegExp(`^${ordenDeServicioData.code}$`, 'i') };
       }
-      const ordenDeServicioFound = await this.ordenServicioModel.findOne(filter).populate('cliente.id').populate('mecanicos.id').populate('productos.id');
+      const ordenDeServicioFound = await this.ordenServicioModel.findOne(filter).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
 
       if (!ordenDeServicioFound) {
         console.log('Orden De Servicio Repository: Orden de servicio no encontrada');

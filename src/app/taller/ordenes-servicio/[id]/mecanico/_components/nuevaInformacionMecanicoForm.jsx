@@ -81,7 +81,7 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
     });
 
     const productsFormateados = productsTaller.map((producto) => ({
-      id: producto._id,
+      productId: producto._id,
       code: producto.code,
       nombre: producto.nombre,
       descripcion: producto.descripcion,

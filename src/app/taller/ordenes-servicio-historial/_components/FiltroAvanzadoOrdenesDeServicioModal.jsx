@@ -37,9 +37,9 @@ import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CalendarIcon } from "lucide-react";
 import { RiCalendarTodoLine, RiHashtag, RiUser3Line } from "@remixicon/react";
-import { filtroAvanzadoSchema } from "@/app/ventas/ventas-historicas/_services/validations/filtroAvanzadoSchema";
+import { filtroAvanzadoSchema } from "@/app/taller/ordenes-servicio-historial/_services/validations/filtroAvanzadoSchema";
 
-export const FiltroAvanzadoVentasModal = forwardRef(
+export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
   ({ abierto, setAbierto, onAplicarFiltros }, ref) => {
     const [fechaDesdeDate, setFechaDesdeDate] = useState(undefined);
     const [fechaHastaDate, setFechaHastaDate] = useState(undefined);
@@ -111,14 +111,8 @@ export const FiltroAvanzadoVentasModal = forwardRef(
       setCodigoDeshabilitado(hayAlgunCampoLleno);
     }, [montoMinimo, montoMaximo, fechaDesde, fechaHasta, tipo, identificador]);
 
-    // function limpiarFiltroAvanzadoVentasModal(form) {
-    //   form.reset();
-    //   setFechaDesdeDate(new Date());
-    //   setFechaHastaDate(new Date());
-    // }
-
     // La función que limpia el formulario
-    function limpiarFiltroAvanzadoVentasModal() {
+    function limpiarFiltroAvanzadoOrdenesDeServicioModal() {
       // Aquí nos aseguramos de que form esté correctamente definido antes de intentar usarlo
       if (form) {
         form.reset(); // Limpiar formulario
@@ -130,7 +124,7 @@ export const FiltroAvanzadoVentasModal = forwardRef(
     }
 
     useImperativeHandle(ref, () => ({
-      limpiarFiltroAvanzadoVentasModal,
+      limpiarFiltroAvanzadoOrdenesDeServicioModal,
     }));
 
     return (
@@ -144,9 +138,9 @@ export const FiltroAvanzadoVentasModal = forwardRef(
             <Form {...form}>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogHeader className={"text-left mb-4"}>
-                  <DialogTitle>Filtrar Ventas en el Historial</DialogTitle>
+                  <DialogTitle>Filtrar Órdenes de Servicio en el Historial</DialogTitle>
                   <DialogDescription>
-                    Puedes buscar por código de venta o usar los filtros
+                    Puedes buscar por código de orden de servicio o usar los filtros
                     avanzados.
                   </DialogDescription>
                 </DialogHeader>
@@ -156,7 +150,7 @@ export const FiltroAvanzadoVentasModal = forwardRef(
                     name="codigo"
                     render={({ field }) => (
                       <FormItem className="space-y-2 col-span-2">
-                        <FormLabel>Código de Venta</FormLabel>
+                        <FormLabel>Código de Orden de Servicio</FormLabel>
                         <div className="relative">
                           <RiHashtag className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                           <FormControl>
@@ -401,7 +395,7 @@ export const FiltroAvanzadoVentasModal = forwardRef(
                       type="button"
                       variant="outline"
                       onClick={() => {
-                        limpiarFiltroAvanzadoVentasModal();
+                        limpiarFiltroAvanzadoOrdenesDeServicioModal();
                       }}
                     >
                       Limpiar
@@ -419,4 +413,4 @@ export const FiltroAvanzadoVentasModal = forwardRef(
 );
 
 //Asignar displayName
-FiltroAvanzadoVentasModal.displayName = "FiltroAvanzadoVentasModal";
+FiltroAvanzadoOrdenesDeServicioModal.displayName = "FiltroAvanzadoOrdenesDeServicioModal";

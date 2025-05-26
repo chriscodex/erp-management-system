@@ -26,7 +26,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { FiltroAvanzadoVentasModal } from "@/app/ventas/ventas-historicas/_components/FiltroAvanzadoVentasModal";
+import { FiltroAvanzadoOrdenesDeServicioModal } from "@/app/taller/ordenes-servicio-historial/_components/FiltroAvanzadoOrdenesDeServicioModal";
 import { DataTablePagination } from "@/components/ui/table-pagination";
 import { DataTableViewOptions } from "@/components/ui/table-view-options";
 import { serverErrorToast } from "@/components/toast/serverErrorToast";
@@ -230,7 +230,7 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
           }`}
           onClick={() => {
             setFiltrosAvanzados(false);
-            modalRef.current?.limpiarFiltroAvanzadoVentasModal();
+            modalRef.current?.limpiarFiltroAvanzadoOrdenesDeServicioModal();
           }}
         >
           Limpiar filtros
@@ -303,7 +303,7 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
         </Table>
       </div>
       <DataTablePagination table={table} />
-      <FiltroAvanzadoVentasModal
+      <FiltroAvanzadoOrdenesDeServicioModal
         abierto={modalAbierto}
         setAbierto={setModalAbierto}
         onAplicarFiltros={(filtros) => {

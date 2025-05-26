@@ -28,7 +28,6 @@ export function DetailOrdenDeServicioContent({
   ordenDeServicioData,
   empresas,
 }) {
-
   const precioTotalProductos = ordenDeServicioData?.productos?.reduce(
     (acc, product) => {
       return acc + product.precioVenta;
@@ -119,10 +118,12 @@ export function DetailOrdenDeServicioContent({
                     <strong>Represante Legal:</strong>{" "}
                     {ordenDeServicioData?.cliente?.datos?.representanteLegal}
                   </p>
-                  <p>
-                    <strong>Dirección:</strong>{" "}
-                    {ordenDeServicioData?.cliente?.datos?.direccion}
-                  </p>
+                  {ordenDeServicioData?.cliente?.datos?.direccion && (
+                    <p>
+                      <strong>Dirección:</strong>{" "}
+                      {ordenDeServicioData?.cliente?.datos?.direccion}
+                    </p>
+                  )}
                   {ordenDeServicioData?.cliente?.datos?.email && (
                     <p>
                       <strong>Email:</strong>{" "}
@@ -181,10 +182,10 @@ export function DetailOrdenDeServicioContent({
                     )}
                   </p>
                 )}
-                {ordenDeServicioData?.pago?.montoAdelanto && (
+                {ordenDeServicioData?.pago?.montoAdelanto != null && (
                   <p>
                     <strong>Monto adelantado:</strong> S/.
-                    {formatMoney(ordenDeServicioData?.pago?.montoAdelanto)}
+                    {formatMoney(ordenDeServicioData.pago.montoAdelanto)}
                   </p>
                 )}
                 {ordenDeServicioData?.estado && (
@@ -213,6 +214,12 @@ export function DetailOrdenDeServicioContent({
                     )}
                   </div>
                 )}
+                {ordenDeServicioData?.comprobante && (
+                  <p>
+                    <strong>Comprobante:</strong>{" "}
+                    {ordenDeServicioData?.comprobante}
+                  </p>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -229,37 +236,37 @@ export function DetailOrdenDeServicioContent({
               <div className="space-y-2">
                 {ordenDeServicioData?.moto?.vin && (
                   <p>
-                    <strong>VIN:</strong>
+                    <strong>VIN: </strong>
                     {ordenDeServicioData?.moto?.vin}
                   </p>
                 )}
                 {ordenDeServicioData?.moto?.placa && (
                   <p>
-                    <strong>Placa:</strong>
+                    <strong>Placa: </strong>
                     {ordenDeServicioData?.moto?.placa}
                   </p>
                 )}
                 {ordenDeServicioData?.moto?.nombre && (
                   <p>
-                    <strong>Nombre:</strong>
+                    <strong>Nombre: </strong>
                     {ordenDeServicioData?.moto?.nombre}
                   </p>
                 )}
                 {ordenDeServicioData?.moto?.descripcion && (
                   <p>
-                    <strong>Descripción:</strong>
+                    <strong>Descripción: </strong>
                     {ordenDeServicioData?.moto?.descripcion}
                   </p>
                 )}
                 {ordenDeServicioData?.moto?.categoria && (
                   <p>
-                    <strong>Categoría:</strong>
+                    <strong>Categoría: </strong>
                     {ordenDeServicioData?.moto?.categoria}
                   </p>
                 )}
                 {ordenDeServicioData?.moto?.marca && (
                   <p>
-                    <strong>Marca:</strong>
+                    <strong>Marca: </strong>
                     {ordenDeServicioData?.moto?.marca}
                   </p>
                 )}
@@ -491,6 +498,10 @@ export function DetailOrdenDeServicioContent({
         <div className="mt-4">
           <DetailOrdenDeServicioButtons
             ordenDeServicioId={ordenDeServicioData._id}
+            disabled={
+              ordenDeServicioData?.comprobante === "Boleta Impresa" ||
+              ordenDeServicioData?.comprobante === "Factura Impresa"
+            }
           />
         </div>
       </CardContent>

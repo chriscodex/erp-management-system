@@ -103,7 +103,7 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
         mecanicosFormated = ordenDeServicioData?.mecanicos?.map((mecanico) => {
           const mecanicoObject = {
             ...mecanico,
-            id: mecanico._id,
+            userId: mecanico._id,
           };
           delete mecanicoObject?._id;
           delete mecanicoObject?.celular;

@@ -25,7 +25,7 @@ export function PdfFactura({
   counterFactura,
   empresaSeleccionada,
 }) {
-  const currentTime = formatDateLong(new Date().toISOString(), false);
+  const currentTime = formatDateLong(new Date().toISOString(), true);
 
   const codigoFactura = formatearCodigoCounterBoletaFactura(
     counterFactura,

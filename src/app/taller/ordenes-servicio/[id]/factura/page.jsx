@@ -10,7 +10,11 @@ export default async function Page({ params }) {
 
   const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
 
-  if (!ordenDeServicio) {
+  const hayProductosServicios =
+    (ordenDeServicio?.productos?.length ?? 0) > 0 ||
+    (ordenDeServicio?.servicios?.length ?? 0) > 0;
+
+  if (!ordenDeServicio || !hayProductosServicios) {
     notFound();
   }
 

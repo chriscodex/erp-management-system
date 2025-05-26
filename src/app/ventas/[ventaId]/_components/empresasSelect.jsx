@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Select,
@@ -6,8 +6,15 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { useEffect } from 'react';
+} from "@/components/ui/select";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Info } from "lucide-react";
+import { useEffect } from "react";
 
 export function EmpresasSelect({
   empresas,
@@ -23,10 +30,13 @@ export function EmpresasSelect({
 
   return (
     <div className="flex items-center gap-2">
-      <p className="text-sm font-bold">Empresa:</p>
-      <div className="relative">
+      <p className="text-sm font-bold">
+        Empresa:
+        
+      </p>
+      <div className="relative flex gap-2 items-center">
         <Select
-          value={selectedEmpresa || ''}
+          value={selectedEmpresa || ""}
           onValueChange={setSelectedEmpresa}
           disabled={disabled}
         >
@@ -41,6 +51,19 @@ export function EmpresasSelect({
             ))}
           </SelectContent>
         </Select>
+        {/* Tooltip */}
+        {disabled && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Info className="h-4 w-4 text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>La empresa no se puede cambiar después de haber impreso un comprobante</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
       </div>
     </div>
   );

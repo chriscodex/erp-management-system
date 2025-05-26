@@ -6,7 +6,7 @@ export const createOrdenServicioSchema = z.object({
 
   code: z.union([z.string(), z.number()]),
   cliente: z.object({
-    id: z
+    clienteId: z
       .string()
       .regex(objectIdRegex, {
         message: 'Debe ingresar un cliente',
@@ -32,6 +32,16 @@ export const createOrdenServicioSchema = z.object({
         .max(50, {
           message: 'Los apellidos no puede tener más de 50 caracteres',
         }),
+      razonSocial: z
+        .string()
+        .min(3, {
+          message: 'El nombre de la empresa debe tener al menos 3 caracteres',
+        })
+        .max(150, {
+          message: 'El nombre de la empresa no puede tener más de 150 caracteres',
+        })
+        .optional(),
+      representanteLegal: z.string().optional(),
       direccion: z
         .string()
         .min(3, {
@@ -79,7 +89,7 @@ export const createOrdenServicioSchema = z.object({
   }),
   mecanicos: z.array(
     z.object({
-      id: z
+      userId: z
         .string()
         .regex(objectIdRegex, {
           message: 'Debe ingresar un mecánico',

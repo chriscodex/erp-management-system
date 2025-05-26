@@ -14,7 +14,7 @@ import {
 import { formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
 import { EmpresasSelect } from "@/app/ventas/[ventaId]/_components/empresasSelect";
 
-export function ImprimirBoletaButton({ ordenDeServicioData, empresas }) {
+export function ImprimirBoletaButton({ ordenDeServicioData, empresas, reimprimir }) {
   const router = useRouter();
 
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
@@ -58,7 +58,7 @@ export function ImprimirBoletaButton({ ordenDeServicioData, empresas }) {
 
       if (!boletaEmitida) {
         const selectedEmpresaFormateada = {
-          id: selectedEmpresa._id,
+          empresaId: selectedEmpresa._id,
           ruc: selectedEmpresa.ruc,
           nombre: selectedEmpresa.nombre,
           descripcion: selectedEmpresa.descripcion,
@@ -97,7 +97,7 @@ export function ImprimirBoletaButton({ ordenDeServicioData, empresas }) {
         disabled={loading}
       >
         <RiPrinterLine className="h-4 w-4" />
-        <p>{loading ? "Generando..." : "Imprimir"}</p>
+        <p>{loading ? "Generando..." : reimprimir ? "Reimprimir" : "Imprimir"}</p>
       </Button>
     </div>
   );

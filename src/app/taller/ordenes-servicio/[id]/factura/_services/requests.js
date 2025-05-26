@@ -30,7 +30,7 @@ export async function getCurrentCounterFacturaRequestClient() {
   }
 }
 
-export async function updateFacturaStateRequestClient(ordenDeServicioId, counterBoleta, selectedEmpresa) {
+export async function updateFacturaStateRequestClient(ordenDeServicioId, counterFactura, selectedEmpresa) {
   try {
     await delay();
 
@@ -38,7 +38,7 @@ export async function updateFacturaStateRequestClient(ordenDeServicioId, counter
 
     const responseUpdateStateFactura = await patchData(urlUpdateStateFactura, {
       comprobante: 'Factura Impresa',
-      counter: counterBoleta,
+      counter: counterFactura,
       empresa: {
         ...selectedEmpresa
       },

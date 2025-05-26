@@ -18,7 +18,7 @@ import {
 const styles = StyleSheet.create(stylesOrdenDeServicio);
 
 export function PdfOrdenDeServicio({ ordenDeServicioData }) {
-  const currentTime = formatDateLong(new Date().toISOString(), false);
+  const currentTime = formatDateLong(new Date().toISOString(), true);
 
   const codigoOrdenDeServicio = ordenDeServicioData?.code;
 

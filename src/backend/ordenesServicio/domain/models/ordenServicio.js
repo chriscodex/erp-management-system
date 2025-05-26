@@ -8,7 +8,7 @@ const ordenServicioSchema = new Schema(
       unique: true,
     },
     cliente: {
-      id: {
+      clienteId: {
         type: Schema.Types.ObjectId,
         ref: "Cliente",
         required: [true, "El id del cliente es requerido en el schema de ordenes de servicio"],
@@ -51,7 +51,7 @@ const ordenServicioSchema = new Schema(
     },
     mecanicos: [
       {
-        id: {
+        userId: {
           type: Schema.Types.ObjectId,
           ref: "User",
           required: [true, "El id del mecánico es requerido en el schema de ordenes de servicio"],
@@ -86,7 +86,7 @@ const ordenServicioSchema = new Schema(
     },
     productos: [
       {
-        id: {
+        productId: {
           type: Schema.Types.ObjectId,
           ref: "Product",
           required: [false, "El id del producto es requerido en el schema de ordenes de servicio"],
@@ -202,7 +202,7 @@ const ordenServicioSchema = new Schema(
       required: true,
     },
     empresa: {
-      id: {
+      empresaId: {
         type: Schema.Types.ObjectId,
         ref: "Empresa",
         required: [false, "El id de la empresa es requerido en el schema de ordenes de servicio"],

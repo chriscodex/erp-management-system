@@ -25,7 +25,7 @@ export function PdfNotaDeVenta({
   counterNotaDeVenta,
   empresaSeleccionada,
 }) {
-  const currentTime = formatDateLong(new Date().toISOString(), false);
+  const currentTime = formatDateLong(new Date().toISOString(), true);
 
   const codigoNotaDeVenta = formatearCodigoCounterBoletaFactura(
     counterNotaDeVenta,
@@ -265,28 +265,36 @@ export function PdfNotaDeVenta({
                   .concat(ordenDeServicioData?.servicios || [])
                   .reduce(
                     (acc, item) =>
-                      acc +
-                      (item?.precioVenta || item?.precio) * item?.cantidad,
+                      acc + (item?.precioVenta || item?.precio) * 1,
                     0
                   ) - (ordenDeServicioData?.pago?.montoAdelanto || 0)
               ).toFixed(2)}
             </Text>
           </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>SON:</Text>
-            <Text style={styles.totalCell}>
-              {formatNumeroALetras(
-                ordenDeServicioData?.productos
-                  .concat(ordenDeServicioData?.servicios || [])
-                  .reduce(
-                    (acc, item) =>
-                      acc +
-                      (item?.precioVenta || item?.precio) * item?.cantidad,
-                    0
-                  ) - (ordenDeServicioData?.pago?.montoAdelanto || 0)
-              )}
-            </Text>
-          </View>
+          {(
+            ordenDeServicioData?.productos
+              .concat(ordenDeServicioData?.servicios || [])
+              .reduce(
+                (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
+                0
+              ) - (ordenDeServicioData?.pago?.montoAdelanto || 0)
+          ).toFixed(2) > 0 && (
+            <View style={styles.totalRow}>
+              <Text style={styles.totalCell}>SON:</Text>
+              <Text style={styles.totalCell}>
+                {formatNumeroALetras(
+                  ordenDeServicioData?.productos
+                    .concat(ordenDeServicioData?.servicios || [])
+                    .reduce(
+                      (acc, item) =>
+                        acc + (item?.precioVenta || item?.precio) * 1,
+                      0
+                    ) - (ordenDeServicioData?.pago?.montoAdelanto || 0)
+                )}
+              </Text>
+            </View>
+          )}
+
         </View>
       </Page>
     </Document>

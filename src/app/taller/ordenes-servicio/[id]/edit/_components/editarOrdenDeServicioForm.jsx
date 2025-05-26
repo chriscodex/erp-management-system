@@ -119,8 +119,6 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
     },
   });
 
-  console.log(ordenDeServicioData);
-
   const { handleSubmit, watch, setValue, control, clearErrors } = form;
 
   const formData = watch();
@@ -155,7 +153,8 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
       ...ordenDeServicioData,
     };
 
-    if (ordenDeServicioData?.cliente?.tipo === "persona") {
+    if (formData?.tipo === "persona") {
+
       updateObject["cliente"] = {
         tipo: formData?.tipo,
         datos: {
@@ -163,31 +162,40 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
           nombres: formData?.nombres,
           apellidos: formData?.apellidos,
           direccion:
-            formData?.direccion.trim() === ""
+            formData?.direccion?.trim() === ""
               ? undefined
               : formData?.direccion?.trim(),
           email:
-            formData?.email.trim() === "" 
+            formData?.email?.trim() === "" 
             ? undefined 
             : formData?.email?.trim(),
           celular:
-            formData?.celular.trim() === ""
+            formData?.celular?.trim() === ""
               ? undefined
               : formData?.celular?.trim(),
         },
       };
     }
 
-    if (ordenDeServicioData?.cliente?.tipo === "empresa") {
+    if (formData?.tipo === "empresa") {
       updateObject["cliente"] = {
         tipo: formData?.tipo,
         datos: {
           ruc: formData?.identificador,
           razonSocial: formData?.razonSocial,
           representanteLegal: formData?.representanteLegal,
-          direccion: formData?.direccion,
-          email: formData?.email,
-          celular: formData?.celular,
+          direccion:
+            formData?.direccion?.trim() === ""
+              ? undefined
+              : formData?.direccion?.trim(),
+          email:
+            formData?.email?.trim() === "" 
+            ? undefined 
+            : formData?.email?.trim(),
+          celular:
+            formData?.celular?.trim() === ""
+              ? undefined
+              : formData?.celular?.trim(),
         },
       };
     }
@@ -222,7 +230,6 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
       montoAdelanto: formData?.montoAdelanto,
     };
 
-    // updateObject["productos"] = productsPreventa;
     updateObject["mecanicos"] = mecanicosTaller;
     updateObject["fechaIngreso"] = formData?.fechaIngreso;
     updateObject["origenServicio"] = formData?.origenServicio;
@@ -234,13 +241,15 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
     delete updateObject.createdAt;
     delete updateObject.updatedAt;
 
+    console.log("updateObject", updateObject);
+
     // Toast promise para buscar una persona
     toast.promise(
       updateOrdenDeServicioRequestClient(updateObject, setFormSubmitIsLoading),
       {
         loading: "Editando...",
         success: (response) => {
-          console.log(response);
+          console.log("XX", response);
           clearErrors();
           router.push(`/taller/ordenes-servicio/${ordenDeServicioData._id}`);
           return `Orden de servicio actualizada correctamente`;

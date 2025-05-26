@@ -104,7 +104,7 @@ export class OrdenServicioService {
       console.log("Esto es la orden de servicio data", ordenDeServicioData);
 
       // Reemplazar cliente en ordenDeServicioData por clienteId
-      ordenDeServicioData.cliente.id = clienteFinal._id.toString();
+      ordenDeServicioData.cliente.clienteId = clienteFinal._id.toString();
       // delete ordenDeServicioData.cliente;
 
       console.log("Esto es la orden de servicio data despues", ordenDeServicioData);
@@ -197,7 +197,7 @@ export class OrdenServicioService {
         }
 
 
-        ordenDeServicioData.cliente.id = clienteFinal._id.toString();
+        ordenDeServicioData.cliente.clienteId = clienteFinal._id.toString();
       }
 
       console.log("Esto es la orden de servicio data despues", ordenDeServicioData);
@@ -323,7 +323,7 @@ export class OrdenServicioService {
         fechaEntregaEstimada: ordenDeServicio.fechaEntregaEstimada,
       };
 
-      await this.ordenServicioHistoricaRepository.createOrdenDeServicioHistorica(
+      const ordenDeServicioHistoricaCreated = await this.ordenServicioHistoricaRepository.createOrdenDeServicioHistorica(
         ordenDeServicioHistorica
       );
 
@@ -335,7 +335,10 @@ export class OrdenServicioService {
 
       return {
         status: 201,
-        payload: 'Orden de servicio finalizada correctamente',
+        payload: {
+          message: 'Orden de servicio finalizada correctamente',
+          _id: ordenDeServicioHistoricaCreated._id,
+        },
       };
     } catch (error) {
       console.error(
@@ -348,3 +351,4 @@ export class OrdenServicioService {
     }
   }
 }
+

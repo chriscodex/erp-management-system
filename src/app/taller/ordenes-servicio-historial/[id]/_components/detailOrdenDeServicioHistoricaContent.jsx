@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDateLong, formatDateShort } from "@/lib/formateador";
+import { formatDateLong, formatDateShort, formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
 
 import { DetailProductOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductOrdenDeServicioDetailSheet";
@@ -21,13 +21,10 @@ import { formatMoney } from "@/lib/utils";
 import { HomeRepairService } from "@mui/icons-material";
 import { ImprimirComprobanteOrdenDeServicioHistoricaButton } from "./buttons/imprimirComprobanteOrdenDeServicioHistorica";
 
-
-
 export function DetailOrdenDeServicioHistoricaContent({
   ordenDeServicioHistoricaData,
 }) {
-
-    const precioTotalProductos = ordenDeServicioHistoricaData?.productos?.reduce(
+  const precioTotalProductos = ordenDeServicioHistoricaData?.productos?.reduce(
     (acc, product) => {
       return acc + product.precioVenta;
     },
@@ -117,7 +114,10 @@ export function DetailOrdenDeServicioHistoricaContent({
                   </p>
                   <p>
                     <strong>Represante Legal:</strong>{" "}
-                    {ordenDeServicioHistoricaData?.cliente?.datos?.representanteLegal}
+                    {
+                      ordenDeServicioHistoricaData?.cliente?.datos
+                        ?.representanteLegal
+                    }
                   </p>
                   <p>
                     <strong>Dirección:</strong>{" "}
@@ -164,17 +164,21 @@ export function DetailOrdenDeServicioHistoricaContent({
                 </p>
                 <p>
                   <strong>Tipo de servicio:</strong>{" "}
-                  {ordenDeServicioHistoricaData?.tipoServicio === "mantenimiento"
+                  {ordenDeServicioHistoricaData?.tipoServicio ===
+                  "mantenimiento"
                     ? "Mantenimiento"
                     : "Reparación"}
                 </p>
                 <p>
                   <strong>Fecha de ingreso:</strong>{" "}
-                  {formatDateLong(ordenDeServicioHistoricaData?.fechaIngreso, false)}
+                  {formatDateLong(
+                    ordenDeServicioHistoricaData?.fechaIngreso,
+                    false
+                  )}
                 </p>
                 {ordenDeServicioHistoricaData?.fechaEntregaEstimada && (
                   <p>
-                    <strong>Fecha de entrega estimada:</strong>
+                    <strong>Fecha de entrega estimada: </strong>
                     {formatDateLong(
                       ordenDeServicioHistoricaData?.fechaEntregaEstimada,
                       false
@@ -184,7 +188,9 @@ export function DetailOrdenDeServicioHistoricaContent({
                 {ordenDeServicioHistoricaData?.pago?.montoAdelanto && (
                   <p>
                     <strong>Monto adelantado:</strong> S/.
-                    {formatMoney(ordenDeServicioHistoricaData?.pago?.montoAdelanto)}
+                    {formatMoney(
+                      ordenDeServicioHistoricaData?.pago?.montoAdelanto
+                    )}
                   </p>
                 )}
                 {ordenDeServicioHistoricaData?.estado && (
@@ -193,16 +199,20 @@ export function DetailOrdenDeServicioHistoricaContent({
                     {ordenDeServicioHistoricaData.estado === "pendiente" && (
                       <Badge variant="secondary">Pendiente</Badge>
                     )}
-                    {ordenDeServicioHistoricaData.estado === "diagnosticando" && (
+                    {ordenDeServicioHistoricaData.estado ===
+                      "diagnosticando" && (
                       <Badge variant="outline">Diagnosticando</Badge>
                     )}
-                    {ordenDeServicioHistoricaData.estado === "esperando-repuestos" && (
+                    {ordenDeServicioHistoricaData.estado ===
+                      "esperando-repuestos" && (
                       <Badge variant="destructive">Esperando repuestos</Badge>
                     )}
-                    {ordenDeServicioHistoricaData.estado === "en-reparacion" && (
+                    {ordenDeServicioHistoricaData.estado ===
+                      "en-reparacion" && (
                       <Badge variant="default">En reparación</Badge>
                     )}
-                    {ordenDeServicioHistoricaData.estado === "en-mantenimiento" && (
+                    {ordenDeServicioHistoricaData.estado ===
+                      "en-mantenimiento" && (
                       <Badge variant="secondary">En mantenimiento</Badge>
                     )}
                     {ordenDeServicioHistoricaData.estado === "finalizado" && (
@@ -212,6 +222,21 @@ export function DetailOrdenDeServicioHistoricaContent({
                       <Badge variant="success">Entregado</Badge>
                     )}
                   </div>
+                )}
+                {ordenDeServicioHistoricaData?.comprobante && (
+                  <p>
+                    <strong>Comprobante: </strong>
+                    {ordenDeServicioHistoricaData?.comprobante}
+                  </p>
+                )}
+                {ordenDeServicioHistoricaData?.counter && (
+                  <p>
+                    <strong>Número de comprobante:</strong>{" "}
+                    {formatearCodigoCounterBoletaFactura(
+                      ordenDeServicioHistoricaData?.counter,
+                      "boleta"
+                    )}
+                  </p>
                 )}
               </div>
             </CardContent>
@@ -441,7 +466,9 @@ export function DetailOrdenDeServicioHistoricaContent({
                 Comentarios
               </CardTitle>
             </CardHeader>
-            <CardContent>{ordenDeServicioHistoricaData?.comentarios}</CardContent>
+            <CardContent>
+              {ordenDeServicioHistoricaData?.comentarios}
+            </CardContent>
           </Card>
 
           {(ordenDeServicioHistoricaData?.productos?.length > 0 ||

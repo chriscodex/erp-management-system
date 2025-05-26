@@ -13,6 +13,12 @@ import {
   RiFileList3Line,
   RiFileListLine,
 } from "@remixicon/react";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { useRouter } from "next/navigation";
 
 export function EmitirComprobanteOrdenDeServicioButton({
@@ -25,8 +31,12 @@ export function EmitirComprobanteOrdenDeServicioButton({
   const boletaEmitida = comprobante?.includes("boleta");
   const facturaEmitida = comprobante?.includes("factura");
 
+  const hayProductosServicios =
+    (ordenDeServicioData?.productos?.length ?? 0) > 0 ||
+    (ordenDeServicioData?.servicios?.length ?? 0) > 0;
+
   return (
-    <>
+    <TooltipProvider>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" className="px-2">
@@ -35,46 +45,77 @@ export function EmitirComprobanteOrdenDeServicioButton({
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="center">
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => {
-              if (!facturaEmitida) {
+          {/* Boleta */}
+          {!hayProductosServicios || facturaEmitida ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div>
+                  <DropdownMenuItem disabled className="cursor-not-allowed">
+                    <RiFileListLine />
+                    Boleta
+                  </DropdownMenuItem>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>
+                  {!hayProductosServicios
+                    ? "Agregue productos o servicios antes de emitir una boleta"
+                    : "Ya se emitió una factura, no puedes emitir boleta"}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() =>
                 router.push(
                   `/taller/ordenes-servicio/${ordenDeServicioData?._id}/boleta`
-                );
+                )
               }
-            }}
-            disabled={facturaEmitida}
-            title={
-              facturaEmitida
-                ? "Ya se emitió una factura, no puedes emitir boleta."
-                : ""
-            }
-          >
-            <RiFileListLine />
-            Boleta
-          </DropdownMenuItem>
+            >
+              <RiFileListLine />
+              Boleta
+            </DropdownMenuItem>
+          )}
+
           <DropdownMenuSeparator />
-          <DropdownMenuItem
-            className="cursor-pointer"
-            onClick={() => {
-              if (!boletaEmitida) {
+
+          {/* Factura */}
+          {!hayProductosServicios || boletaEmitida ? (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div>
+                  <DropdownMenuItem disabled className="cursor-not-allowed">
+                    <RiFileList2Fill />
+                    Factura
+                  </DropdownMenuItem>
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>
+                  {!hayProductosServicios
+                    ? "Agregue productos o servicios antes de emitir una factura"
+                    : "Ya se emitió una boleta, no puedes emitir factura"}
+                </p>
+              </TooltipContent>
+            </Tooltip>
+          ) : (
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() =>
                 router.push(
                   `/taller/ordenes-servicio/${ordenDeServicioData?._id}/factura`
-                );
+                )
               }
-            }}
-            disabled={boletaEmitida}
-            title={
-              boletaEmitida
-                ? "Ya se emitió una factura, no puedes emitir boleta."
-                : ""
-            }
-          >
-            <RiFileList2Fill />
-            Factura
-          </DropdownMenuItem>
+            >
+              <RiFileList2Fill />
+              Factura
+            </DropdownMenuItem>
+          )}
+
           <DropdownMenuSeparator />
+
+          {/* Nota de venta */}
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() =>
@@ -88,6 +129,6 @@ export function EmitirComprobanteOrdenDeServicioButton({
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
-    </>
+    </TooltipProvider>
   );
 }

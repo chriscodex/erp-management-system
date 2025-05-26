@@ -28,13 +28,14 @@ export function FinalizarOrdenDeServicioAlert({
       setIsOpen(false);
       toast.promise(finalizarOrdenDeServicioRequestClient(ordenDeServicioId), {
         loading: 'Finalizando Orden De Servicio...',
-        success: () => {
+        success: (response) => {
+          console.log("Esto es el response", response);
           if (actionAfterComplete === 'refresh') {
             router.refresh();
             return `Orden de Servicio finalizada correctamente`;
           }
           if (actionAfterComplete === 'push') {
-            router.push(`/taller/ordenes-servicio-historial`);
+            router.push(`/taller/ordenes-servicio-historial/${response._id}`);
             return `Orden de Servicio finalizada correctamente`;
           }
         },

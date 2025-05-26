@@ -10,7 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDateLong, formatDateShort } from "@/lib/formateador";
+import {
+  formatDateLong,
+  formatDateShort,
+  formatearCodigoCounterBoletaFactura,
+} from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
 
 import { ImprimirBoletaButton } from "@/app/taller/ordenes-servicio/[id]/boleta/_components/buttons/imprimirBoletaButton";
@@ -19,7 +23,19 @@ import { HomeRepairService } from "@mui/icons-material";
 import { formatMoney } from "@/lib/utils";
 
 export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
-  //Estados para el contador de la boleta
+  const precioTotalProductos = ordenDeServicioData?.productos?.reduce(
+    (acc, product) => {
+      return acc + product.precioVenta;
+    },
+    0
+  );
+
+  const precioTotalServicios = ordenDeServicioData?.servicios?.reduce(
+    (acc, servicio) => {
+      return acc + servicio.precio;
+    },
+    0
+  );
 
   return (
     <Card className="w-full max-w-7xl mx-auto">
@@ -32,6 +48,7 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
           <ImprimirBoletaButton
             ordenDeServicioData={ordenDeServicioData}
             empresas={empresas}
+            reimprimir={!!ordenDeServicioData?.counter}
           />
           <FinalizarOrdenDeServicioButton
             ordenDeServicioId={ordenDeServicioData?._id}
@@ -131,10 +148,44 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                   <strong>Fecha de ingreso:</strong>{" "}
                   {formatDateLong(ordenDeServicioData?.fechaIngreso, true)}
                 </p>
+                {ordenDeServicioData?.pago?.montoAdelanto != null && (
+                  <p>
+                    <strong>Monto adelantado:</strong> S/.
+                    {formatMoney(ordenDeServicioData.pago.montoAdelanto)}
+                  </p>
+                )}
+                {(ordenDeServicioData?.productos?.length > 0 ||
+                  ordenDeServicioData?.servicios?.length > 0) && (
+                  <p>
+                    <strong>Importe total:</strong>{" "}
+                    {(precioTotalProductos + precioTotalServicios).toFixed(2)}
+                  </p>
+                )}
+                {ordenDeServicioData?.pago?.montoAdelanto != null && (
+                  <p>
+                    <strong>Importe restante:</strong>{" "}
+                    <strong>
+                      {(
+                        precioTotalProductos +
+                        precioTotalServicios -
+                        ordenDeServicioData?.pago?.montoAdelanto
+                      ).toFixed(2)}
+                    </strong>
+                  </p>
+                )}
                 <p>
                   <strong>Comprobante:</strong>{" "}
                   {ordenDeServicioData?.comprobante}
                 </p>
+                {ordenDeServicioData?.counter && (
+                  <p>
+                    <strong>Número de comprobante:</strong>{" "}
+                    {formatearCodigoCounterBoletaFactura(
+                      ordenDeServicioData?.counter,
+                      "boleta"
+                    )}
+                  </p>
+                )}
                 <p>
                   <strong>Estado SUNAT:</strong>{" "}
                   {ordenDeServicioData?.estadoSunat}

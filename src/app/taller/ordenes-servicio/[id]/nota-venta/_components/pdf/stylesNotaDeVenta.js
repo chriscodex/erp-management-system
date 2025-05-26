@@ -23,12 +23,8 @@ export const stylesNotaDeVenta = {
     fontSize: 14,
   },
   datosEmpresa: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
     marginTop: "5px",
     marginBottom: "5px",
-    gap: "5px",
   },
   datosEmpresaTitle: {
     fontSize: 16,
@@ -44,7 +40,7 @@ export const stylesNotaDeVenta = {
   },
   datosNotaDeVentaContainer: {
     flexDirection: "column",
-    alignItems: "flex-end",
+    marginTop: "10px",
   },
   datosNotaDeVenta: {
     flexDirection: "row",

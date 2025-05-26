@@ -9,7 +9,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDateLong, formatDateShort } from "@/lib/formateador";
+import {
+  formatDateLong,
+  formatDateShort,
+  formatearCodigoCounterBoletaFactura,
+} from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
 
 import { ImprimirFacturaButton } from "@/app/taller/ordenes-servicio/[id]/factura/_components/buttons/imprimirFacturaButton";
@@ -17,6 +21,20 @@ import { FinalizarOrdenDeServicioButton } from "@/app/taller/ordenes-servicio/[i
 import { formatMoney } from "@/lib/utils";
 import { HomeRepairService } from "@mui/icons-material";
 export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
+  const precioTotalProductos = ordenDeServicioData?.productos?.reduce(
+    (acc, product) => {
+      return acc + product.precioVenta;
+    },
+    0
+  );
+
+  const precioTotalServicios = ordenDeServicioData?.servicios?.reduce(
+    (acc, servicio) => {
+      return acc + servicio.precio;
+    },
+    0
+  );
+
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col lg:flex-row items-center justify-between space-y-0 pb-4">
@@ -28,6 +46,7 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
           <ImprimirFacturaButton
             ordenDeServicioData={ordenDeServicioData}
             empresas={empresas}
+            reimprimir={!!ordenDeServicioData?.counter}
           />
           <FinalizarOrdenDeServicioButton
             ordenDeServicioId={ordenDeServicioData?._id}
@@ -90,10 +109,12 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
                     <strong>Representante Legal:</strong>{" "}
                     {ordenDeServicioData?.cliente?.datos?.representanteLegal}
                   </p>
-                  <p>
-                    <strong>Dirección:</strong>{" "}
-                    {ordenDeServicioData?.cliente?.datos?.direccion}
-                  </p>
+                  {ordenDeServicioData?.cliente?.datos?.direccion && (
+                    <p>
+                      <strong>Direccion:</strong>{" "}
+                      {ordenDeServicioData?.cliente?.datos?.direccion}
+                    </p>
+                  )}
                   {ordenDeServicioData?.cliente?.datos?.email && (
                     <p>
                       <strong>Email:</strong>{" "}
@@ -127,10 +148,44 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
                   <strong>Fecha de ingreso:</strong>{" "}
                   {formatDateLong(ordenDeServicioData?.fechaIngreso, true)}
                 </p>
+                {ordenDeServicioData?.pago?.montoAdelanto != null && (
+                  <p>
+                    <strong>Monto adelantado:</strong> S/.
+                    {formatMoney(ordenDeServicioData.pago.montoAdelanto)}
+                  </p>
+                )}
+                {(ordenDeServicioData?.productos?.length > 0 ||
+                  ordenDeServicioData?.servicios?.length > 0) && (
+                  <p>
+                    <strong>Importe total:</strong>{" "}
+                    {(precioTotalProductos + precioTotalServicios).toFixed(2)}
+                  </p>
+                )}
+                {ordenDeServicioData?.pago?.montoAdelanto != null && (
+                  <p>
+                    <strong>Importe restante:</strong>{" "}
+                    <strong>
+                      {(
+                        precioTotalProductos +
+                        precioTotalServicios -
+                        ordenDeServicioData?.pago?.montoAdelanto
+                      ).toFixed(2)}
+                    </strong>
+                  </p>
+                )}
                 <p>
                   <strong>Comprobante:</strong>{" "}
                   {ordenDeServicioData?.comprobante}
                 </p>
+                {ordenDeServicioData?.counter && (
+                  <p>
+                    <strong>Número de comprobante:</strong>{" "}
+                    {formatearCodigoCounterBoletaFactura(
+                      ordenDeServicioData?.counter,
+                      "factura"
+                    )}
+                  </p>
+                )}
                 <p>
                   <strong>Estado SUNAT:</strong>{" "}
                   {ordenDeServicioData?.estadoSunat}

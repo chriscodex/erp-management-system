@@ -44,6 +44,7 @@ export async function createVentaRequestClient(preventaId) {
       }
 
       resolve(response?.data?.payload);
+      
     } catch (error) {
       reject(error);
     }

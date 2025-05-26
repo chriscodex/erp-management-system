@@ -53,7 +53,7 @@ export const columnsOrdenesDeServicio = [
     },
     cell: ({ row }) => {
       console.log(row?.original);
-      const cliente = row?.original?.cliente.id;
+      const cliente = row?.original?.cliente;
       return (
         <div className="text-start">
           {cliente?.tipo === "empresa"
@@ -77,7 +77,7 @@ export const columnsOrdenesDeServicio = [
       );
     },
     cell: ({ row }) => {
-      const cliente = row?.original?.cliente.id;
+      const cliente = row?.original?.cliente;
       return (
         <div className="text-start flex">
           <p className="font-light mr-2 text-[0.8rem] border rounded-md px-1">

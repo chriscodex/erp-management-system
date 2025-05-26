@@ -6,7 +6,7 @@ export const updateOrdenServicioSchema = z.object({
 
   code: z.union([z.string(), z.number()]),
   cliente: z.object({
-    id: z
+    clienteId: z
       .string()
       .regex(objectIdRegex, {
         message: 'Debe ingresar un cliente',
@@ -15,7 +15,8 @@ export const updateOrdenServicioSchema = z.object({
     datos: z.object({
       dni: z
         .string()
-        .length(8, 'El DNI debe tener 8 dígitos'),
+        .length(8, 'El DNI debe tener 8 dígitos')
+        .optional(),
       nombres: z
         .string()
         .min(3, {
@@ -23,7 +24,8 @@ export const updateOrdenServicioSchema = z.object({
         })
         .max(50, {
           message: 'Los nombres no puede tener más de 50 caracteres',
-        }),
+        })
+        .optional(),
       apellidos: z
         .string()
         .min(3, {
@@ -31,7 +33,7 @@ export const updateOrdenServicioSchema = z.object({
         })
         .max(50, {
           message: 'Los apellidos no puede tener más de 50 caracteres',
-        }),
+        }).optional(),
       direccion: z
         .string()
         .min(3, {
@@ -133,13 +135,13 @@ export const updateOrdenServicioSchema = z.object({
 
   //Mecánico
   fechaEntregaEstimada: z.union([z.date(), z.string()])
-    .transform((val) => (typeof val === "string" ? new Date(val) : val)),
+    .transform((val) => (typeof val === "string" ? new Date(val) : val)).optional(),
   estado: z.enum(['pendiente', 'diagnosticando', 'esperando-repuestos', 'en-reparacion', 'en-mantenimiento', 'finalizado', 'entregado'], {
     message: 'Debe ingresar un estado',
-  }),
+  }).optional(),
   productos: z.array(
     z.object({
-      id: z.any(),
+      productId: z.any(),
       code: z
         .string(),
       nombre: z
@@ -168,10 +170,10 @@ export const updateOrdenServicioSchema = z.object({
             .string()
             .min(1, {
               message: 'El stock debe ser un número entero mayor o igual a 1',
-            }) 
+            })
             .refine((val) => /^[0-9]+$/.test(val), {
               message: 'Ingrese el valor del stock',
-            }), 
+            }),
         ])
         .transform((val) => (typeof val === 'string' ? Number(val) : val))
         .refine((val) => Number.isInteger(val) && val >= 1, {
@@ -189,7 +191,7 @@ export const updateOrdenServicioSchema = z.object({
           }),
           z.string().refine((val) => /^[0-9]*\.?[0-9]+$/.test(val), {
             message: 'Ingrese un número válido para el precio de compra',
-          }), 
+          }),
         ])
         .transform((val) => (typeof val === 'string' ? Number(val) : val))
         .refine((val) => val >= 0, {
@@ -203,7 +205,7 @@ export const updateOrdenServicioSchema = z.object({
           }),
           z.string().refine((val) => /^[0-9]*\.?[0-9]+$/.test(val), {
             message: 'Ingrese un número válido para el precio de venta',
-          }), 
+          }),
         ])
         .transform((val) => (typeof val === 'string' ? Number(val) : val))
         .refine((val) => val >= 0, {
@@ -231,7 +233,7 @@ export const updateOrdenServicioSchema = z.object({
   counter: z.number().optional(),
   estadoSunat: z.string(),
   empresa: z.object({
-    id: z.string().regex(objectIdRegex, {
+    empresaId: z.string().regex(objectIdRegex, {
       message: 'Debe seleccionar una empresa',
     }),
     ruc: z.string().regex(/^\d{11}$/, 'El RUC debe tener 11 dígitos'),

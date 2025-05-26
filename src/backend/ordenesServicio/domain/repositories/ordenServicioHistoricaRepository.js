@@ -13,7 +13,7 @@ export class OrdenServicioHistoricaRepository {
 
   async getAllOrdenesDeServicioHistoricas() {
     try {
-      const ordenesServicioHistoricas = await this.ordenServicioHistoricaModel.find({}).populate('cliente.id').populate('mecanicos.id').populate('productos.id');
+      const ordenesServicioHistoricas = await this.ordenServicioHistoricaModel.find({}).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
 
       if (ordenesServicioHistoricas?.length === 0) {
         console.log("Orden de Servicio Historica Repository: No se encontraron ordenes de servicio");
@@ -48,7 +48,7 @@ export class OrdenServicioHistoricaRepository {
       if (ordenDeServicio.code) {
         filter.code = { $regex: new RegExp(`^${ordenDeServicio.code}$`, "i") };
       }
-      const ordenDeServicioHistoricaFound = await this.ordenServicioHistoricaModel.findOne(filter).populate('cliente.id').populate('mecanicos.id').populate('productos.id');
+      const ordenDeServicioHistoricaFound = await this.ordenServicioHistoricaModel.findOne(filter).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
 
       if (!ordenDeServicioHistoricaFound) {
         console.log("Orden de Servicio Historial Repository: Orden de servicio historica no encontrada");

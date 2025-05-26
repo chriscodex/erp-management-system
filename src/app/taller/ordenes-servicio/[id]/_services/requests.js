@@ -50,7 +50,8 @@ export async function finalizarOrdenDeServicioRequestClient(ordenDeServicioId) {
         return;
       }
 
-      resolve(response?.response?.data?.payload);
+      resolve(response?.data?.payload);
+      
     } catch (error) {
       reject(error);
     }
