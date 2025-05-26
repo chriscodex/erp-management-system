@@ -38,6 +38,10 @@ export class UserRepository {
         filter.dni = userData.dni;
       }
 
+      if (userData.rol) {
+        filter.rol = userData.rol;
+      }
+
       const userFound = await User.findOne(filter).select('-password');
 
       if (!userFound) {

@@ -55,6 +55,7 @@ export function agregarNumeracionTable(array) {
   return array.map((item, index) => ({
     ...item,
     numeracion: index + 1,
+    internalId: generarNumeroAleatorioSeisDigitos(), 
   }));
 }
 

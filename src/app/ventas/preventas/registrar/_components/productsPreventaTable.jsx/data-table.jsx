@@ -52,7 +52,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
       )
     );
   };
-
+          
   const deleteProduct = (internalId) => {
     setProductsVenta((prevData) => {
       // Filtra el producto a eliminar
@@ -161,6 +161,8 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
       header: "Acciones",
       cell: ({ row }) => {
         const productData = row.original;
+
+        console.log("A ver a ver a ver",productData);
 
         let estadoProducto = "";
         if (productData?.tipo === "producto") {

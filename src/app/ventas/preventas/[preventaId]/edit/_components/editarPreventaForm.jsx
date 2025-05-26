@@ -69,8 +69,8 @@ export function EditarPreventaForm({ preventaData }) {
     agregarNumeracionTable(preventaData?.productos) || []
   );
 
-  const [date, setDate] = useState(new Date()); //Date Calendar
-  const [open, setOpen] = useState(false); //Close calendar
+  const [date, setDate] = useState(new Date()); 
+  const [open, setOpen] = useState(false); 
 
   const form = useForm({
 
