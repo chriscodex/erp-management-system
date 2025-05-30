@@ -40,7 +40,7 @@ export class PreventaService {
       };
     }
   }
-
+  
   async getPreventaByData(preventaData) {
     try {
       const preventaFound = await this.preventaRepository.getPreventaByData(
@@ -72,7 +72,7 @@ export class PreventaService {
   }
   async createPreventa(preventaData) {
     try {
-      
+
       // Lógica para buscar o crear cliente
 
       const clienteTipo = preventaData?.cliente?.tipo;
@@ -103,7 +103,7 @@ export class PreventaService {
 
       // Reemplazar cliente en preventaData por clienteId
       preventaData.clienteId = clienteFinal._id.toString();
-      delete preventaData.cliente; 
+      delete preventaData.cliente;
 
       console.log("Esto es el preventa data despues", preventaData);
 
@@ -112,7 +112,8 @@ export class PreventaService {
 
       if (!preventaValidated.success) {
         console.log(
-          `Preventa Service: Error de validación de schema de preventa al crear ${preventaValidated}`
+          `Preventa Service: Error de validación de schema de preventa al crear`,
+          preventaValidated.error.format?.() || preventaValidated.error
         );
         return {
           status: 400,
@@ -186,6 +187,36 @@ export class PreventaService {
           payload: "PreventaId no enviado",
         };
       }
+
+      // Lógica para buscar o crear cliente
+
+      const clienteTipo = preventaData?.cliente?.tipo;
+      const clienteDatos = preventaData?.cliente?.datos;
+
+      const clienteExistente = await this.clienteRepository.getClienteByData(
+        clienteDatos
+      );
+
+      let clienteFinal = clienteExistente;
+
+      if (!clienteExistente) {
+        // Crear el cliente si no existe
+        clienteFinal = await this.clienteRepository.createCliente({
+          tipo: clienteTipo,
+          datos: clienteDatos,
+        });
+
+        if (!clienteFinal?._id) {
+          return {
+            status: 400,
+            payload: "No se pudo crear el cliente.",
+          };
+        }
+      }
+
+      // Reemplazar cliente en preventaData por clienteId
+      preventaData.clienteId = clienteFinal._id.toString();
+      delete preventaData.cliente;
 
       const preventaUpdated = await this.preventaRepository.updatePreventa(
         preventaId,

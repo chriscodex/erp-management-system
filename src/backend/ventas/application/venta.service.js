@@ -93,6 +93,7 @@ export class VentaService {
         usuario: preventa.usuario,
         productos: preventa.productos,
         obsequios: preventa.obsequios,
+        comentarios: preventa.comentarios,
         comprobante: 'No impreso',
         estadoSunat: 'Por enviar',
       };
@@ -218,9 +219,10 @@ export class VentaService {
         obsequios: venta.obsequios,
         estadoSunat: venta.estadoSunat,
         comprobante: venta.comprobante,
+        counter: venta.counter,
       };
 
-      await this.ventasHistoricasRepository.createVentaHistorica(
+      const ventaHistoricaCreated = await this.ventasHistoricasRepository.createVentaHistorica(
         ventaHistorica
       );
       console.log('Venta Service: Venta finalizada correctamente');
@@ -245,7 +247,10 @@ export class VentaService {
 
       return {
         status: 201,
-        payload: 'Venta finalizada correctamente',
+        payload: {
+          message: 'Venta finalizada correctamente',
+          _id: ventaHistoricaCreated._id,
+        }
       };
     } catch (error) {
       console.error(

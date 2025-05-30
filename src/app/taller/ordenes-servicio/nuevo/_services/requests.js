@@ -153,10 +153,7 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
           ruc: ordenDeServicioData?.identificador,
           razonSocial: ordenDeServicioData?.razonSocial,
           representanteLegal: ordenDeServicioData?.representanteLegal,
-          direccion:
-            ordenDeServicioData?.direccion?.trim() === ""
-              ? undefined
-              : ordenDeServicioData?.direccion?.trim(),
+          direccion: ordenDeServicioData?.direccion?.trim(),
           email:
             ordenDeServicioData?.email?.trim() === ""
               ? undefined

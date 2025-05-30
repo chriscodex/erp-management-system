@@ -11,7 +11,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDateLong, formatDateShort, formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
+import {
+  formatDateLong,
+  formatDateShort,
+  formatearCodigoCounterBoletaFactura,
+} from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
 
 import { DetailProductOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductOrdenDeServicioDetailSheet";
@@ -229,15 +233,20 @@ export function DetailOrdenDeServicioHistoricaContent({
                     {ordenDeServicioHistoricaData?.comprobante}
                   </p>
                 )}
-                {ordenDeServicioHistoricaData?.counter && (
-                  <p>
-                    <strong>Número de comprobante:</strong>{" "}
-                    {formatearCodigoCounterBoletaFactura(
-                      ordenDeServicioHistoricaData?.counter,
-                      "boleta"
-                    )}
-                  </p>
-                )}
+                {ordenDeServicioHistoricaData?.counter &&
+                  ordenDeServicioHistoricaData?.comprobante && (
+                    <p>
+                      <strong>Número de comprobante:</strong>{" "}
+                      {formatearCodigoCounterBoletaFactura(
+                        ordenDeServicioHistoricaData.counter,
+                        ordenDeServicioHistoricaData.comprobante === "Boleta Impresa"
+                          ? "boleta"
+                          : ordenDeServicioHistoricaData.comprobante === "Factura Impresa"
+                          ? "factura"
+                          : ""
+                      )}
+                    </p>
+                  )}
               </div>
             </CardContent>
           </Card>

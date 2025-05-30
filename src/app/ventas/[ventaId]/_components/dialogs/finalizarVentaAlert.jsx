@@ -40,9 +40,13 @@ export function FinalizarVentaAlert({
       setIsOpen(false);
       toast.promise(finalizarVentaRequestClient(ventaId), {
         loading: 'Finalizando Venta...',
-        success: () => {
+        success: (response) => {
+          if (actionAfterComplete === 'refresh') {
+            router.refresh();
+            return `Venta finalizada correctamente`;
+          }
           if (actionAfterComplete === 'push') {
-            router.push(`/ventas/ventas-historicas`);
+            router.push(`/ventas/ventas-historicas/${response._id}`);
             return `Venta finalizada correctamente`;
           }
         },

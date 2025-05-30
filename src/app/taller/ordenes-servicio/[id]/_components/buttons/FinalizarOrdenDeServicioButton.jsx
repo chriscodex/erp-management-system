@@ -14,7 +14,7 @@ import { FinalizarOrdenDeServicioAlert } from "@/app/taller/ordenes-servicio/[id
 
 export function FinalizarOrdenDeServicioButton({
   ordenDeServicioId,
-  disabled,
+  disabled
 }) {
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 

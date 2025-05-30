@@ -60,7 +60,7 @@ export async function updateFacturaStateRequestClient(ordenDeServicioId, counter
       );
     }
 
-    if (urlIncrementCounterFactura?.status !== 200) {
+    if (responseIncrementCounterFactura?.status !== 200) {
       throw new Error(
         'No se pudo incrementar el contador de facturas: ' +
           responseIncrementCounterFactura?.data?.error

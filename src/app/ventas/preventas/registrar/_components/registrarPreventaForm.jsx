@@ -85,6 +85,11 @@ export function RegistrarPreventaForm() {
       email: "",
       direccion: "",
       celular: "",
+
+      //Productos
+
+      productos: [],
+
       comentarios: "",
       cotizacion: "no",
       fechaValidez: new Date(),
@@ -105,7 +110,6 @@ export function RegistrarPreventaForm() {
     const createPreventaObject = {
       ...data,
       user: session?.user,
-      productos: productsPreventa,
       obsequios: obsequiosPreventa,
     };
     // Toast promise para buscar una persona
@@ -237,12 +241,17 @@ export function RegistrarPreventaForm() {
 
   useEffect(() => {
     if (cotizacionValue === "no") {
-      setValue("fechaValidez", null);
+      setValue("fechaValidez", undefined);
       setDate(undefined); // Si estás manejando la fecha localmente
     } else {
       setDate(new Date());
     }
   }, [cotizacionValue, setValue]);
+
+  useEffect(() => {
+    form.setValue("productos", productsPreventa);
+    form.clearErrors("productos");
+  }, [productsPreventa]);
 
   return (
     <>
@@ -583,18 +592,32 @@ export function RegistrarPreventaForm() {
               />
             </CardContent>
           </Card>
-
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Productos</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <ProductsPreventaTable
-                productsVenta={productsPreventa}
-                setProductsVenta={setProductsPreventa}
-              />
-            </CardContent>
-          </Card>
+          <FormField
+            control={form.control}
+            name="productos"
+            render={({ field }) => (
+              <FormItem>
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>Productos</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <ProductsPreventaTable
+                      productsVenta={productsPreventa}
+                      setProductsVenta={setProductsPreventa}
+                    />
+                    {/* Campo oculto para que el valor entre al form y valide */}
+                    <input
+                      type="hidden"
+                      value={JSON.stringify(field.value)}
+                      {...field}
+                    />
+                    <FormMessage />
+                  </CardContent>
+                </Card>
+              </FormItem>
+            )}
+          />
 
           <Card className="mb-6">
             <CardHeader>

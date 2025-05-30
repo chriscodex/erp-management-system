@@ -20,7 +20,7 @@ import {
 
 const styles = StyleSheet.create(stylesFactura);
 
-export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
+export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa }) {
 
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
@@ -117,46 +117,46 @@ export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {ventaData?.clienteId?.tipo === "empresa"
-                ? ventaData?.clienteId?.datos?.nombre
-                : `${ventaData?.clienteId?.datos?.apellidos} ${ventaData?.clienteId?.datos?.nombres}`}
+              {ventaHistoricaData?.clienteId?.tipo === "empresa"
+                ? ventaHistoricaData?.clienteId?.datos?.nombre
+                : `${ventaHistoricaData?.clienteId?.datos?.apellidos} ${ventaHistoricaData?.clienteId?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {ventaData?.clienteId?.tipo === "empresa" ? `RUC: ` : `DNI: `}
+                {ventaHistoricaData?.clienteId?.tipo === "empresa" ? `RUC: ` : `DNI: `}
               </Text>
               <Text>
-                {ventaData?.clienteId?.tipo === "empresa"
-                  ? `${ventaData?.clienteId?.datos?.ruc}`
-                  : `${ventaData?.clienteId?.datos?.dni}`}
+                {ventaHistoricaData?.clienteId?.tipo === "empresa"
+                  ? `${ventaHistoricaData?.clienteId?.datos?.ruc}`
+                  : `${ventaHistoricaData?.clienteId?.datos?.dni}`}
               </Text>
             </View>
-            {ventaData?.clienteId?.tipo === "empresa" && (
+            {ventaHistoricaData?.clienteId?.tipo === "empresa" && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {"Representante Legal: "}
                 </Text>
-                <Text>{ventaData?.clienteId?.datos?.representanteLegal}</Text>
+                <Text>{ventaHistoricaData?.clienteId?.datos?.representanteLegal}</Text>
               </View>
             )}
-            {ventaData?.clienteId?.tipo === "empresa" && (
+            {ventaHistoricaData?.clienteId?.tipo === "empresa" && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {"Dirección: "}
                 </Text>
-                <Text>{ventaData?.clienteId?.datos?.direccion}</Text>
+                <Text>{ventaHistoricaData?.clienteId?.datos?.direccion}</Text>
               </View>
             )}
-            {ventaData?.clienteId?.datos?.email && (
+            {ventaHistoricaData?.clienteId?.datos?.email && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
-                <Text>{ventaData?.clienteId?.datos?.email}</Text>
+                <Text>{ventaHistoricaData?.clienteId?.datos?.email}</Text>
               </View>
             )}
-            {ventaData?.clienteId?.datos?.celular && (
+            {ventaHistoricaData?.clienteId?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
-                <Text>{ventaData?.clienteId?.datos?.celular}</Text>
+                <Text>{ventaHistoricaData?.clienteId?.datos?.celular}</Text>
               </View>
             )}
           </View>
@@ -174,7 +174,7 @@ export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
               <Text style={styles.tableCellHeader}>Importe</Text>
             </View>
             {/* Filas de productos */}
-            {ventaData?.productos?.map((item) => (
+            {ventaHistoricaData?.productos?.map((item) => (
               <View key={item._id} style={styles.tableRow}>
                 <Text style={styles.tableCell}>{item?.nombre}</Text>
                 <Text style={styles.tableCell}>
@@ -192,7 +192,7 @@ export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
             <Text>
               {(
                 0.82 *
-                ventaData?.productos.reduce(
+                ventaHistoricaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
                   0
@@ -205,7 +205,7 @@ export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
             <Text>
               {(
                 0.18 *
-                ventaData?.productos.reduce(
+                ventaHistoricaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
                   0
@@ -216,7 +216,7 @@ export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
           <View style={styles.totalRow}>
             <Text style={styles.totalCell}>Importe Total: S/.</Text>
             <Text style={styles.totalCell}>
-              {ventaData?.productos
+              {ventaHistoricaData?.productos
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
@@ -228,7 +228,7 @@ export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
           <View style={styles.totalRow}>
             <Text style={styles.totalCell}>Importe a Pagar: S/.</Text>
             <Text style={styles.totalCell}>
-              {ventaData?.productos
+              {ventaHistoricaData?.productos
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
@@ -241,7 +241,7 @@ export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
             <Text style={styles.totalCell}>SON:</Text>
             <Text style={styles.totalCell}>
               {formatNumeroALetras(
-                ventaData?.productos
+                ventaHistoricaData?.productos
                   .reduce(
                     (acc, producto) =>
                       acc + producto?.precioVenta * producto?.cantidad,

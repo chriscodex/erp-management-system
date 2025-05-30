@@ -30,14 +30,18 @@ export async function getCurrentCounterFacturaRequestClient() {
   }
 }
 
-export async function updateFacturaStateRequestClient(ventaId) {
+export async function updateFacturaStateRequestClient(ventaId, counterFactura, selectedEmpresa) {
   try {
     await delay();
 
     const urlUpdateStateFactura = `${updateFacturaStateClientUrl}/${ventaId}`;
-
+    
     const responseUpdateStateFactura = await patchData(urlUpdateStateFactura, {
       comprobante: 'Factura Impresa',
+      counter: counterFactura,
+      empresa: {
+        ...selectedEmpresa
+      },
     });
 
     const urlIncrementCounterFactura = `${incrementCounterFacturaClientUrl}`;
@@ -56,7 +60,7 @@ export async function updateFacturaStateRequestClient(ventaId) {
       );
     }
 
-    if (urlIncrementCounterFactura?.status !== 200) {
+    if (responseIncrementCounterFactura?.status !== 200) {
       throw new Error(
         'No se pudo incrementar el contador de facturas: ' +
           responseIncrementCounterFactura?.data?.error

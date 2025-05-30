@@ -318,7 +318,6 @@ export class OrdenServicioService {
         comprobante: ordenDeServicio.comprobante,
         empresa: ordenDeServicio.empresa,
 
-
         estado: ordenDeServicio.estado,
         fechaEntregaEstimada: ordenDeServicio.fechaEntregaEstimada,
       };

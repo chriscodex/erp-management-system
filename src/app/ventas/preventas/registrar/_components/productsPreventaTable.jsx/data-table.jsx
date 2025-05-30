@@ -52,7 +52,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
       )
     );
   };
-          
+
   const deleteProduct = (internalId) => {
     setProductsVenta((prevData) => {
       // Filtra el producto a eliminar
@@ -162,7 +162,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
       cell: ({ row }) => {
         const productData = row.original;
 
-        console.log("A ver a ver a ver",productData);
+        console.log("productData", productData);
 
         let estadoProducto = "";
         if (productData?.tipo === "producto") {
@@ -528,10 +528,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
 
     // Toast para buscar producto
     toast.promise(
-      getProductByCodeClientRequest(
-        searchValue,
-        setSearchProductIsLoading
-      ),
+      getProductByCodeClientRequest(searchValue, setSearchProductIsLoading),
       {
         loading: "Buscando...",
         success: (response) => {
@@ -561,6 +558,7 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
           return `Producto agregado a la lista correctamente`;
         },
         error: (error) => {
+          console.log(typeof error);
           setSearchProductIsLoading(false);
           return error;
         },

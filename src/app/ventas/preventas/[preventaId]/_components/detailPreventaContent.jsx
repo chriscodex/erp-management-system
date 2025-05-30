@@ -21,7 +21,6 @@ import { formatMoney } from "@/lib/utils";
 import { ImprimirCotizacionButton } from "@/app/ventas/preventas/[preventaId]/_components/buttons/imprimirCotizacionButton";
 
 export function DetailPreventaContent({ preventaData }) {
-
   console.log("preventaData", preventaData);
 
   const precioTotal = preventaData?.productos?.reduce((acc, product) => {
@@ -235,19 +234,31 @@ export function DetailPreventaContent({ preventaData }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {preventaData?.obsequios?.map((obsequio) => (
-                  <TableRow key={obsequio?.code}>
-                    <TableCell className="font-medium">
-                      {obsequio?.code}
+                {preventaData?.obsequios &&
+                preventaData.obsequios.length > 0 ? (
+                  preventaData.obsequios.map((obsequio) => (
+                    <TableRow key={obsequio?.code}>
+                      <TableCell className="font-medium">
+                        {obsequio?.code}
+                      </TableCell>
+                      <TableCell>{obsequio?.nombre}</TableCell>
+                      <TableCell>{obsequio?.descripcion}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{obsequio?.estado}</Badge>
+                      </TableCell>
+                      <TableCell>{obsequio?.cantidad}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell
+                      colSpan={5}
+                      className="h-24 text-center"
+                    >
+                      Sin obsequios.
                     </TableCell>
-                    <TableCell>{obsequio?.nombre}</TableCell>
-                    <TableCell>{obsequio?.descripcion}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{obsequio?.estado}</Badge>
-                    </TableCell>
-                    <TableCell>{obsequio?.cantidad}</TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </CardContent>

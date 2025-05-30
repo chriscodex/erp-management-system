@@ -76,6 +76,15 @@ export function getProductByCodeClientRequest(code, setLoading) {
         return;
       }
 
+      //Para el error prevendido
+      if (
+        responseProduct?.status === 201 &&
+        responseProduct?.data?.error?.message
+      ) {
+        setLoading(false);
+        return reject(responseProduct.data.error.message);
+      }
+
       const responseMoto = await fetchData(
         `${getMotoByCodeClientUrl}/?code=${code}`
       );
@@ -88,6 +97,7 @@ export function getProductByCodeClientRequest(code, setLoading) {
 
       setLoading(false);
       reject('No se ha encontrado un producto o moto con ese código');
+
     } catch (error) {
       setLoading(false);
       reject(error);
@@ -166,6 +176,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
             delete motoObject?.numeracion;
 
             return motoObject;
+
           } else {
             const unitProducto = producto?.unidades?.find(
               (unit) => unit?.code === producto?.code
@@ -238,9 +249,18 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           dni: preventaData?.identificador,
           nombres: preventaData?.nombres,
           apellidos: preventaData?.apellidos,
-          direccion: preventaData?.direccion,
-          email: preventaData?.email,
-          celular: preventaData?.celular,
+          direccion:
+            preventaData?.direccion?.trim() === ""
+              ? undefined
+              : preventaData?.direccion?.trim(),
+          email:
+            preventaData?.email?.trim() === ""
+              ? undefined
+              : preventaData?.email?.trim(),
+          celular:
+            preventaData?.celular?.trim() === ""
+              ? undefined
+              : preventaData?.celular?.trim(),
         };
       }
       if (preventaData?.tipo === 'empresa') {
@@ -249,8 +269,14 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           razonSocial: preventaData?.razonSocial,
           representanteLegal: preventaData?.representanteLegal,
           direccion: preventaData?.direccion,
-          email: preventaData?.email,
-          celular: preventaData?.celular,
+          email:
+            preventaData?.email?.trim() === ""
+              ? undefined
+              : preventaData?.email?.trim(),
+          celular:
+            preventaData?.celular?.trim() === ""
+              ? undefined
+              : preventaData?.celular?.trim(),
         };
       }
 
@@ -267,7 +293,10 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           nombres: preventaData?.user?.nombres,
           apellidos: preventaData?.user?.apellidos,
         },
-        comentarios: preventaData?.comentarios,
+        comentarios:
+          preventaData?.comentarios?.trim() === ""
+            ? undefined
+            : preventaData?.comentarios?.trim(),
         cotizacion: preventaData?.cotizacion,
         fechaValidez: preventaData?.fechaValidez,
         productos: productsFormated,
