@@ -40,7 +40,7 @@ export class PreventaService {
       };
     }
   }
-  
+
   async getPreventaByData(preventaData) {
     try {
       const preventaFound = await this.preventaRepository.getPreventaByData(
@@ -187,15 +187,21 @@ export class PreventaService {
           payload: "PreventaId no enviado",
         };
       }
+      //Obtener la preventa antes de editar
+
+      const preventaBefore = await this.preventaRepository.getPreventaByData({
+        _id: preventaId,
+      });
+
+      if (!preventaBefore) {
+        return { status: 404, payload: "La preventa no existe" };
+      }
 
       // Lógica para buscar o crear cliente
 
       const clienteTipo = preventaData?.cliente?.tipo;
       const clienteDatos = preventaData?.cliente?.datos;
-
-      const clienteExistente = await this.clienteRepository.getClienteByData(
-        clienteDatos
-      );
+      const clienteExistente = await this.clienteRepository.getClienteByData(clienteDatos);
 
       let clienteFinal = clienteExistente;
 
@@ -218,10 +224,88 @@ export class PreventaService {
       preventaData.clienteId = clienteFinal._id.toString();
       delete preventaData.cliente;
 
+      //Identificar productos/motos/obsequios 
+      const antiguosProductos = preventaBefore?.productos || [];
+      const nuevosProductos = preventaData?.productos || [];
+
+      const antiguosObsequios = preventaBefore?.obsequios || [];
+      const nuevosObsequios = preventaData?.obsequios || [];
+
+      const idsAntiguos = antiguosProductos.map(product => product.unitId || product._id);
+      const idsNuevos = nuevosProductos.map(product => product.unitId || product._id);
+
+      const obsequiosAntiguosIds = antiguosObsequios.map(obsequio => obsequio.unitId || obsequio._id);
+      const obsequiosNuevosIds = nuevosObsequios.map(obsequio => obsequio.unitId || obsequio._id);
+
+      // Productos quitados
+      const productosQuitados = antiguosProductos.filter(product => {
+        const id = product.unitId || product._id;
+        return !idsNuevos.includes(id);
+      });
+
+      // Productos agregados
+      const productosAgregados = nuevosProductos.filter(product => {
+        const id = product.unitId || product._id;
+        return !idsAntiguos.includes(id);
+      });
+
+      // Obsequios quitados (excepto SOAT)
+      const obsequiosQuitados = antiguosObsequios.filter(obsequio => {
+        return obsequio.nombre !== "SOAT" && !obsequiosNuevosIds.includes(obsequio.unitId);
+      });
+
+      // Obsequios agregados (excepto SOAT)
+      const obsequiosAgregados = nuevosObsequios.filter(obsequio => {
+        return obsequio.nombre !== "SOAT" && !obsequiosAntiguosIds.includes(obsequio.unitId);
+      });
+
+      // Cambiar estado a "disponible" de productos quitados
+      // eslint-disable-next-line no-undef
+      await Promise.all(productosQuitados.map(async product => {
+        if (product.modeloId) {
+          await this.motoRepository.updateMoto(product._id, {
+            estado: {
+              titulo: "disponible",
+              observaciones: product?.estado?.observaciones,
+            },
+          });
+        } else {
+          await this.productRepository.updateUnitProduct(product.unitId, { estado: "disponible" });
+        }
+      }));
+
+      // Cambiar estado a "prevendido" de productos agregados
+      // eslint-disable-next-line no-undef
+      await Promise.all(productosAgregados.map(async product => {
+        if (product.modeloId && preventaData?.cotizacion !== "si") {
+          await this.motoRepository.updateMoto(product._id, {
+            estado: {
+              titulo: "prevendido",
+              observaciones: product?.estado?.observaciones,
+            },
+          });
+        } else if (preventaData?.cotizacion !== "si") {
+          await this.productRepository.updateUnitProduct(product.unitId, { estado: "prevendido" });
+        }
+      }));
+
+      // Obsequios quitados => "disponible"
+      // eslint-disable-next-line no-undef
+      await Promise.all(obsequiosQuitados.map(async obsequio => {
+        await this.productRepository.updateUnitProduct(obsequio.unitId, { estado: "disponible" });
+      }));
+
+      // Obsequios agregados => "prevendido"
+      // eslint-disable-next-line no-undef
+      await Promise.all(obsequiosAgregados.map(async obsequio => {
+        await this.productRepository.updateUnitProduct(obsequio.unitId, { estado: "prevendido" });
+      }));
+      // Actualizar preventa
       const preventaUpdated = await this.preventaRepository.updatePreventa(
         preventaId,
         preventaData
       );
+
 
       if (!preventaUpdated) {
         console.log("Preventa Service: La preventa no existe");
@@ -252,7 +336,7 @@ export class PreventaService {
       const preventaFound = await this.preventaRepository.getPreventaByData({
         _id: preventaId,
       });
-
+      
       // Cambiar el estado de los productos y motos a prevendidos
       // eslint-disable-next-line no-undef
       await Promise.all(
@@ -280,7 +364,7 @@ export class PreventaService {
           if (obsequio.nombre === "SOAT") return;
 
           await this.productRepository.updateUnitProduct(obsequio.unitId, {
-            estado: "prevendido",
+            estado: "disponible",
           });
         })
       );

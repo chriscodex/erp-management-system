@@ -14,6 +14,7 @@ export async function getMotoByDataController(request) {
     if (motoCode !== null) {
       const product = await motoService.getMotoByData({
         code: motoCode,
+        'estado.titulo': { $in: ['disponible', 'reparado', 'dañado', 'desarmado'] },
       });
       return product;
     }

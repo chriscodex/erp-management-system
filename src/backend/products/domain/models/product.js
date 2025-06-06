@@ -48,6 +48,7 @@ const productSchema = new Schema(
             'desaparecido',
             'reparado',
             'prevendido',
+            'taller'
           ],
         },
       },

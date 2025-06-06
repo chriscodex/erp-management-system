@@ -19,6 +19,7 @@ import { Label } from "@/components/ui/label";
 
 import { DetailProductPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet";
 import { ImprimirComprobanteVentaHistoricaButton } from "@/app/ventas/ventas-historicas/[id]/_components/buttons/imprimirComprobanteVentaHistoricaButton";
+import { DetailObsequioPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailObsequioPreventaDetailSheet";
 
 export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
   return (
@@ -247,22 +248,37 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                   <TableHead>Descripción</TableHead>
                   <TableHead>Estado</TableHead>
                   <TableHead>Cantidad</TableHead>
+                  <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {ventaHistoricaData?.obsequios.map((obsequio) => (
-                  <TableRow key={obsequio?.code}>
-                    <TableCell className="font-medium">
-                      {obsequio?.code}
+                {ventaHistoricaData?.obsequios &&
+                ventaHistoricaData.obsequios.length > 0 ? (
+                  ventaHistoricaData.obsequios.map((obsequio) => (
+                    <TableRow key={obsequio?.code}>
+                      <TableCell className="font-medium">
+                        {obsequio?.code}
+                      </TableCell>
+                      <TableCell>{obsequio?.nombre}</TableCell>
+                      <TableCell>{obsequio?.descripcion}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{obsequio?.estado}</Badge>
+                      </TableCell>
+                      <TableCell>{obsequio?.cantidad}</TableCell>
+                      <TableCell>
+                        <DetailObsequioPreventaDetailSheet
+                          obsequioPreventa={obsequio}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} className="h-24 text-center">
+                      Sin obsequios.
                     </TableCell>
-                    <TableCell>{obsequio?.nombre}</TableCell>
-                    <TableCell>{obsequio?.descripcion}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{obsequio?.estado}</Badge>
-                    </TableCell>
-                    <TableCell>{obsequio?.cantidad}</TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </CardContent>

@@ -630,7 +630,7 @@ export function RegistrarPreventaForm() {
               />
             </CardContent>
           </Card>
-
+            
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Comentarios</CardTitle>

@@ -21,8 +21,9 @@ import { HomeRepairService } from "@mui/icons-material";
 import { DetailProductOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductOrdenDeServicioDetailSheet";
 import { DetailServicioOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailServicioOrdenDeServicioDetailSheet";
 import { DetailMecanicoOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailMecanicoOrdenDeServicioDetailSheet";
-
+import { DetailProductExternoOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductExternoOrdenDeServicioDetailSheet";
 import { ImprimirOrdenDeServicioButton } from "@/app/taller/ordenes-servicio/[id]/_components/buttons/imprimirOrdenDeServicioButton";
+
 
 export function DetailOrdenDeServicioContent({
   ordenDeServicioData,
@@ -378,6 +379,48 @@ export function DetailOrdenDeServicioContent({
                       </span>
                     </TableCell>
                   </TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+        {ordenDeServicioData?.productosExternos?.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Package className="mr-2" />
+                Productos Externos
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Nombre</TableHead>
+                    <TableHead>Descripción</TableHead>
+                    <TableHead>Cantidad</TableHead>
+                    <TableHead>Fecha</TableHead>
+                    <TableHead>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {ordenDeServicioData?.productosExternos?.map((productoExterno) => {
+                    return (
+                      <TableRow key={productoExterno?.code}>
+                        <TableCell>{productoExterno?.nombre}</TableCell>
+                        <TableCell>{productoExterno?.descripcion}</TableCell>
+                        <TableCell>{productoExterno?.cantidad}</TableCell>
+                        <TableCell>
+                          {formatDateShort(productoExterno?.fecha, false)}
+                        </TableCell>
+                        <TableCell>
+                          <DetailProductExternoOrdenDeServicioDetailSheet
+                            productoExternoOrdenDeServicio={productoExterno}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    );
+                  })}
                 </TableBody>
               </Table>
             </CardContent>

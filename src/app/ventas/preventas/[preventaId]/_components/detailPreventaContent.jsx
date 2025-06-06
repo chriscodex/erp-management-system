@@ -19,6 +19,7 @@ import { DetailPreventaButtons } from "@/app/ventas/preventas/[preventaId]/_comp
 import { GenerarVentaButton } from "@/app/ventas/preventas/[preventaId]/_components/buttons/generarVentaButton";
 import { formatMoney } from "@/lib/utils";
 import { ImprimirCotizacionButton } from "@/app/ventas/preventas/[preventaId]/_components/buttons/imprimirCotizacionButton";
+import { DetailObsequioPreventaDetailSheet } from "./sheets/detailObsequioPreventaDetailSheet";
 
 export function DetailPreventaContent({ preventaData }) {
   console.log("preventaData", preventaData);
@@ -231,6 +232,7 @@ export function DetailPreventaContent({ preventaData }) {
                   <TableHead>Descripción</TableHead>
                   <TableHead>Estado</TableHead>
                   <TableHead>Cantidad</TableHead>
+                  <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -247,6 +249,11 @@ export function DetailPreventaContent({ preventaData }) {
                         <Badge variant="outline">{obsequio?.estado}</Badge>
                       </TableCell>
                       <TableCell>{obsequio?.cantidad}</TableCell>
+                      <TableCell>
+                        <DetailObsequioPreventaDetailSheet
+                          obsequioPreventa={obsequio}
+                        />
+                      </TableCell>
                     </TableRow>
                   ))
                 ) : (

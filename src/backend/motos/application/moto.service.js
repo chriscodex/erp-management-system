@@ -97,6 +97,17 @@ export class MotoService {
     try {
       const motoFound = await this.motoRepository.getMotoByData(motoData);
 
+      if (motoFound === 'invalid_state') {
+        console.log('Moto Service: La moto existe pero está prevendida');
+        return {
+          status: 201,
+          payload: {
+            message:
+              'La moto existe, pero está prevendida. Modifique su estado en la sección de motos.',
+          },
+        };
+      }
+
       if (!motoFound) {
         console.log('Moto Service: La moto no existe');
         return {

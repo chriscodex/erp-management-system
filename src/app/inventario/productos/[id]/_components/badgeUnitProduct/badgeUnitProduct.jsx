@@ -20,7 +20,9 @@ const badgeVariants = cva(
           'bg-red-500 text-neutral-100 font-normal text-base w-[120px] flex items-center justify-center',
         purpleTable:
           'bg-purple-500 text-neutral-100 font-normal text-base w-[120px] flex items-center justify-center',
-      },
+        yellowTable:
+          'bg-yellow-500 text-neutral-100 font-normal text-base w-[120px] flex items-center justify-center',
+        },
     },
     defaultVariants: {
       variant: 'default',

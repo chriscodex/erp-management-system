@@ -105,7 +105,6 @@ export function EditarPreventaForm({ preventaData }) {
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async () => {
-    console.log("XXXXXXXXXXXXXXXXXXXXXXXXXXX");
     // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
     const dataToUpdate = Object.keys(formData).reduce((datosCambiados, key) => {
       if (formData[key] !== form.formState.defaultValues[key]) {
@@ -177,9 +176,9 @@ export function EditarPreventaForm({ preventaData }) {
       };
     }
 
-    console.log("Esto traen los productos", productsPreventa);
-
     let productsFormated = [];
+    let obsequiosFormated = [];
+
     // Formatear los productos
     if (productsPreventa.length > 0) {
       productsFormated = productsPreventa.map((producto) => {
@@ -198,12 +197,9 @@ export function EditarPreventaForm({ preventaData }) {
 
           return motoObject;
         } else {
-
           const unitProducto = Array.isArray(producto?.unidades)
             ? producto?.unidades?.find((unit) => unit?.code === producto?.code)
             : null;
-
-          console.log("Esto es unitProducto", unitProducto);
 
           const productoObject = {
             ...producto,
@@ -213,7 +209,7 @@ export function EditarPreventaForm({ preventaData }) {
             proveedor: producto?.proveedorId?.nombre,
             estado: unitProducto?.estado ?? producto?.estado,
             unitId: unitProducto?._id ?? producto?.unitId,
-            productId: producto?._id,
+            productId: producto?._id ?? producto?.productId,
           };
 
           delete productoObject?.unidades;
@@ -235,9 +231,45 @@ export function EditarPreventaForm({ preventaData }) {
       });
     }
 
+    // Formatear los obsequios
+
+    if (obsequiosPreventa.length > 0) {
+      obsequiosFormated = obsequiosPreventa.map((obsequio) => {
+        const unitObsequio = obsequio?.unidades?.find(
+          (unit) => unit?.code === obsequio?.code
+        );
+
+        const obsequioObject = {
+          ...obsequio,
+          almacen: obsequio?.almacenId?._id,
+          category: obsequio?.categoryId?._id,
+          marca: obsequio?.marcaId?._id,
+          proveedor: obsequio?.proveedorId?._id,
+          estado:
+            obsequio?.nombre === "SOAT" ? "Disponible" : unitObsequio?.estado ?? obsequio?.estado,
+          unitId: unitObsequio?._id ?? obsequio?.unitId,
+          productId: obsequio?._id,
+        };
+
+        delete obsequioObject?.unidades;
+        delete obsequioObject?.internalId;
+        delete obsequioObject?.numeracion;
+        delete obsequioObject?.precioVenta;
+        delete obsequioObject?.stock;
+        delete obsequioObject?.stockMinimo;
+        delete obsequioObject?._id;
+        delete obsequioObject?.__v;
+        delete obsequioObject?.createdAt;
+        delete obsequioObject?.updatedAt;
+
+        return obsequioObject;
+      });
+
+    }
+
     updateObject["productos"] = productsFormated;
 
-    updateObject["obsequios"] = obsequiosPreventa;
+    updateObject["obsequios"] = obsequiosFormated;
 
     (updateObject["comentarios"] =
       formData?.comentarios?.trim() === ""
@@ -249,7 +281,7 @@ export function EditarPreventaForm({ preventaData }) {
     delete updateObject.createdAt;
     delete updateObject.updatedAt;
 
-    console.log("Esto es updateObject", updateObject);
+    console.log("updateObject", updateObject);
 
     // Toast promise para buscar una persona
     toast.promise(

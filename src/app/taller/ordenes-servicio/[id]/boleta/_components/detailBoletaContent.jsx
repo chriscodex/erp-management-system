@@ -1,3 +1,5 @@
+"use client";
+
 import { User, Package, Hash } from "lucide-react";
 import { RiInfoCardFill } from "@remixicon/react";
 
@@ -16,11 +18,13 @@ import {
   formatearCodigoCounterBoletaFactura,
 } from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
 
 import { ImprimirBoletaButton } from "@/app/taller/ordenes-servicio/[id]/boleta/_components/buttons/imprimirBoletaButton";
 import { FinalizarOrdenDeServicioButton } from "@/app/taller/ordenes-servicio/[id]/_components/buttons/FinalizarOrdenDeServicioButton";
 import { HomeRepairService } from "@mui/icons-material";
 import { formatMoney } from "@/lib/utils";
+import { DeleteProductoFromInventarioButton } from "@/app/taller/ordenes-servicio/[id]/_components/buttons/deleteProductoFromInventarioButton";
 
 export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
   const precioTotalProductos = ordenDeServicioData?.productos?.reduce(
@@ -212,6 +216,10 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                   <TableHead>Precio</TableHead>
                   <TableHead>Cantidad</TableHead>
                   <TableHead>Total</TableHead>
+                  <TableHead>Inventario</TableHead>
+                  {ordenDeServicioData?.comprobante === "Boleta Impresa" && (
+                    <TableHead>Acciones</TableHead>
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -233,6 +241,36 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                           2
                         )}
                       </TableCell>
+                      <TableCell>
+                        {producto.inventario === "Eliminado" ? (
+                          <Badge
+                            variant="outline"
+                            className="text-red-600 border-red-600"
+                          >
+                            Eliminado
+                          </Badge>
+                        ) : (
+                          <Badge
+                            variant="outline"
+                            className="text-green-600 border-green-600"
+                          >
+                            Existente
+                          </Badge>
+                        )}
+                      </TableCell>
+                      {ordenDeServicioData?.comprobante ===
+                        "Boleta Impresa" && (
+                        <TableCell>
+                          {producto.inventario !== "Eliminado" &&
+                            ordenDeServicioData?.comprobante ===
+                              "Boleta Impresa" && (
+                              <DeleteProductoFromInventarioButton
+                                ordenDeServicioData={ordenDeServicioData}
+                                productoOrdenDeServicio={producto}
+                              />
+                            )}
+                        </TableCell>
+                      )}
                     </TableRow>
                   );
                 })}

@@ -151,14 +151,6 @@ export class ProductRepository {
         );
       }
 
-      // if (productData.unitCode) {
-      //   filter['unidades.code'] = productData.unitCode;
-      // }
-
-      // if (productData.unitEstado) {
-      //   filter['unidades.estado'] = productData.unitEstado;
-      // }
-
       if (productData.unitCode || productData.unitEstado) {
         filter.unidades = {
           $elemMatch: {

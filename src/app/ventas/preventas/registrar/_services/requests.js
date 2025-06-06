@@ -89,6 +89,15 @@ export function getProductByCodeClientRequest(code, setLoading) {
         `${getMotoByCodeClientUrl}/?code=${code}`
       );
 
+      //Para el error prevendido
+      if (
+        responseMoto?.status === 201 &&
+        responseMoto?.data?.error?.message
+      ) {
+        setLoading(false);
+        return reject(responseMoto.data.error.message);
+      }
+
       if (responseMoto?.status === 200 && responseMoto?.data?.payload) {
         setLoading(false);
         resolve(responseMoto?.data?.payload);

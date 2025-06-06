@@ -29,7 +29,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { getProductByCodeClientRequest } from "@/app/ventas/preventas/registrar/_services/requests";
+import { getProductByCodeClientRequest } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/requests";
 import {
   Sheet,
   SheetContent,

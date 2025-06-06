@@ -109,8 +109,6 @@ export class OrdenServicioService {
 
       console.log("Esto es la orden de servicio data despues", ordenDeServicioData);
 
-
-
       const ordenDeServicioObject = {
         ...ordenDeServicioData,
         code: generarNumeroAleatorio(13),
@@ -167,7 +165,17 @@ export class OrdenServicioService {
         };
       }
 
-      const { cliente } = ordenDeServicioData;
+      //Obtener la orden de servicio antes de editar
+
+      const ordenDeServicioBefore = await this.ordenServicioRepository.getOrdenDeServicioByData({
+        id: ordenDeServicioId,
+      });
+
+      if (!ordenDeServicioBefore) {
+        return { status: 404, payload: "La orden de servicio no existe" };
+      }
+
+      const { cliente, isDelete, ...cleanedOrdenDeServicioData } = ordenDeServicioData;
 
       if (cliente) {
         // Lógica para buscar o crear cliente
@@ -200,31 +208,82 @@ export class OrdenServicioService {
         ordenDeServicioData.cliente.clienteId = clienteFinal._id.toString();
       }
 
-      console.log("Esto es la orden de servicio data despues", ordenDeServicioData);
+      if (isDelete) {
+        console.log("Procesando una eliminación de producto");
+
+        // Actualiza directamente sin procesar la lógica de productos
+        const ordenDeServicioUpdated = await this.ordenServicioRepository.updateOrdenDeServicio(
+          ordenDeServicioId,
+          cleanedOrdenDeServicioData
+        );
+
+        if (!ordenDeServicioUpdated) {
+          console.log("Orden De Servicio Service: La orden de servicio no existe");
+          return {
+            status: 404,
+            payload: "La orden de servicio no existe",
+          };
+        }
+
+        console.log("Orden De Servicio Service: Orden actualizada como eliminación");
+        return {
+          status: 200,
+          payload: ordenDeServicioUpdated,
+        };
+
+      }
 
       const paraImprimir = ordenDeServicioData?.counter !== undefined;
 
       if (!paraImprimir) {
+        //Cambiar el estado de los productos y motos a taller
+
+        //Identificar productos
+        const antiguosProductos = ordenDeServicioBefore?.productos || [];
+        const nuevosProductos = ordenDeServicioData?.productos || [];
+
+        const idsAntiguos = antiguosProductos.map(product => product.unitId);
+        const idsNuevos = nuevosProductos.map(product => product.unitId);
+
+        // Productos quitados
+        const productosQuitados = antiguosProductos.filter(product => {
+          const id = product.unitId;
+          return !idsNuevos.includes(id);
+        });
+
+        // Productos agregados
+        const productosAgregados = nuevosProductos.filter(product => {
+          const id = product.unitId;
+          return !idsAntiguos.includes(id);
+        });
+
+        // Cambiar estado a "disponible" de productos quitados
+
+        // eslint-disable-next-line no-undef
+        await Promise.all(productosQuitados.map(async product => {
+          await this.productRepository.updateUnitProduct(product.unitId, { estado: "disponible" });
+        }));
+
+        // Cambiar estado a "taller" de productos agregados
+        // eslint-disable-next-line no-undef
+        await Promise.all(productosAgregados.map(async product => {
+          await this.productRepository.updateUnitProduct(product.unitId, { estado: "taller" });
+        }));
+
         // Validar los datos de la orden de servicio
         const ordenServicioValidated = updateOrdenServicioSchema.safeParse(ordenDeServicioData);
 
         if (!ordenServicioValidated.success) {
-          // console.log(
-          //   `Orden De Servicio Service: Error de validación de schema de orden de servicio al crear ${ordenServicioValidated}`
-          // )
           console.log(
             "Orden De Servicio Service: Error de validación de schema de orden de servicio al actualizar",
             ordenServicioValidated.error.format?.() || ordenServicioValidated.error
           );
-          ;
           return {
             status: 400,
             payload: ordenServicioValidated.error.issues,
           };
         }
       }
-
-
 
       const ordenDeServicioUpdated = await this.ordenServicioRepository.updateOrdenDeServicio(
         ordenDeServicioId,
@@ -257,6 +316,29 @@ export class OrdenServicioService {
 
   async deleteOrdenDeServicio(ordenDeServicioId) {
     try {
+
+      //Obtener la orden de servicio antes de eliminar
+
+      const ordenDeServicio = await this.ordenServicioRepository.getOrdenDeServicioByData({
+        id: ordenDeServicioId,
+      });
+
+      if (!ordenDeServicio) {
+        return { status: 404, payload: "La orden de servicio no existe" };
+      }
+
+      // Cambiar el estado de los productos a disponible
+
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        ordenDeServicio?.productos?.map(async (producto) => {
+          await this.productRepository.updateUnitProduct(producto.unitId, {
+            estado: "disponible",
+          });
+        })
+      );
+
+
       const deletedOrdenDeServicio = await this.ordenServicioRepository.deleteOrdenDeServicio(
         ordenDeServicioId
       );
@@ -307,6 +389,7 @@ export class OrdenServicioService {
         pago: ordenDeServicio.pago,
         productos: ordenDeServicio.productos,
         servicios: ordenDeServicio.servicios,
+        productosExternos: ordenDeServicio.productosExternos,
 
         fechaIngreso: ordenDeServicio.fechaIngreso,
         origenServicio: ordenDeServicio.origenServicio,
@@ -331,6 +414,17 @@ export class OrdenServicioService {
       await this.ordenServicioRepository.deleteOrdenDeServicio(ordenDeServicioId);
 
       console.log('Orden De Servicio Service: Orden de servicio eliminada correctamente');
+
+      // Eliminar los productos del inventario
+      // eslint-disable-next-line no-undef
+      // await Promise.all(
+      //   ordenDeServicio?.productos?.map(async (producto) => {
+      //       await this.productRepository.deleteSingleUnitFromProduct(
+      //         producto.productId,
+      //         producto.unitId
+      //       );
+      //   })
+      // );
 
       return {
         status: 201,

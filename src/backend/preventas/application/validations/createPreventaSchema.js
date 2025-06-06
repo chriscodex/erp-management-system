@@ -39,15 +39,47 @@ export const createPreventaSchema = z.object({
   productos: z
     .array(
       z.object({
-        code: z.string(),
-        tipo: z.string(),
+        code: z.string().length(13, 'El code debe tener 13 dígitos'),
+        tipo: z.enum(['producto', 'moto']),
         descripcion: z.string(),
         nombre: z.string(),
-        estado: z.enum(['disponible', 'dañado', 'reparado', 'desaparecido']),
+        estado: z.any(),
+        precioCompra: z.number().optional(),
         precioVenta: z.number({
           required_error: 'Ingrese el precio de venta',
           invalid_type_error: 'Debe ingresar un precio de venta',
         }),
+        modeloId: z.object({
+          _id: z.string().regex(objectIdRegex, {
+            message: 'Debe ingresar un modelo',
+          }),
+          nombre: z.string(),
+          categoryId: z.object({
+            _id: z.string().regex(objectIdRegex, {
+              message: 'Debe ingresar una categoría',
+            }),
+            nombre: z.string(),
+          }),
+          marcaId: z.object({
+            _id: z.string().regex(objectIdRegex, {
+              message: 'Debe ingresar una marca',
+            }),
+            nombre: z.string(),
+          })
+        }).optional(),
+
+        caracteristicas: z.object({
+          motor: z.string().optional(),
+          cilindrada: z.string().optional(),
+          potencia: z.string().optional(),
+          frenos: z.string().optional(),
+          transmision: z.string().optional(),
+          dimensiones: z.string().optional(),
+          capacidadCombustible: z.string().optional(),
+          suspension: z.string().optional(),
+          colores: z.string().optional(),
+        }).optional(),
+
         cantidad: z.number({
           required_error: 'Ingrese la cantidad',
           invalid_type_error: 'Debe ingresar una cantidad',
@@ -64,13 +96,13 @@ export const createPreventaSchema = z.object({
             message: 'Debe ingresar una categoría',
           }),
           nombre: z.string(),
-        }),
+        }).optional(),
         marcaId: z.object({
           _id: z.string().regex(objectIdRegex, {
             message: 'Debe ingresar una marca',
           }),
           nombre: z.string(),
-        }),
+        }).optional(),
         proveedorId: z.object({
           _id: z.string().regex(objectIdRegex, {
             message: 'Debe ingresar una proveedor',
@@ -83,13 +115,44 @@ export const createPreventaSchema = z.object({
         proveedor: z.string(),
         unitId: z.string().regex(objectIdRegex, {
           message: 'El id de la unidad es requerido',
-        }),
+        }).optional(),
         productId: z.string().regex(objectIdRegex, {
           message: 'El id del producto es requerido',
-        }),
+        }).optional(),
       }))
     .min(1, "Debe agregar al menos un producto"),
   obsequios: z.array(z.any()).optional(),
   cotizacion: z.enum(['si', 'no']),
   comentarios: z.string().optional(),
+}).superRefine((data, ctx) => {
+  // Validación de estado
+  //Estado si tipo es producto o moto
+  data.productos.forEach((producto, index) => {
+    if (producto.tipo === "producto") {
+      if (
+        !["disponible", "dañado", "reparado", "desaparecido"].includes(producto.estado)
+      ) {
+        ctx.addIssue({
+          path: ["productos", index, "estado"],
+          code: z.ZodIssueCode.custom,
+          message: "El estado del producto no es válido.",
+        });
+      }
+    }
+
+    if (producto.tipo === "moto") {
+      const estado = producto.estado;
+      if (
+        typeof estado !== "object" ||
+        !estado ||
+        !["disponible", "dañado", "reparado", "desarmado"].includes(estado.titulo)
+      ) {
+        ctx.addIssue({
+          path: ["productos", index, "estado"],
+          code: z.ZodIssueCode.custom,
+          message: "El estado de una moto debe tener un título válido.",
+        });
+      }
+    }
+  });
 });
