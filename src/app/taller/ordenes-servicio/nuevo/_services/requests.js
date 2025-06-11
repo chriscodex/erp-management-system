@@ -76,7 +76,7 @@ export function getMecanicoByDNIClientRequest(dni, setLoading) {
       }
 
       setLoading(false);
-      reject('No se ha encontrado un mecanico con ese DNI.');
+      reject('No se ha encontrado un mecanico con ese DNI o está inactivo.');
     } catch (error) {
       setLoading(false);
       reject(error);
@@ -89,8 +89,6 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
     try {
-
-      console.log("Esto es ordenDeServicioData en el request", ordenDeServicioData);
 
       setLoading(true);
       // Simular tiempo de retraso

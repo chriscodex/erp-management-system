@@ -23,12 +23,8 @@ export const stylesCotizacion = {
     fontSize: 14,
   },
   datosEmpresa: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "flex-end",
     marginTop: "5px",
     marginBottom: "5px",
-    gap: "5px",
   },
   datosEmpresaTitle: {
     fontSize: 16,
@@ -43,25 +39,25 @@ export const stylesCotizacion = {
     marginBottom: 5,
   },
 
-  datosCotizacionContainer:{
+  datosCotizacionContainer: {
     flexDirection: "column",
-    alignItems: "flex-end",
+    marginTop: "10px",
   },
-  
-  datosCotizacion:{
+
+  datosCotizacion: {
     flexDirection: "row",
     marginBottom: 5,
   },
 
   separator: {
-    width: "100%", 
-    height: 1,             
-    backgroundColor: "gray", 
-    marginVertical: 10,   
-    alignSelf: "center",   
+    width: "100%",
+    height: 1,
+    backgroundColor: "gray",
+    marginVertical: 10,
+    alignSelf: "center",
   },
 
-  datosCotizacionBold:{
+  datosCotizacionBold: {
     fontWeight: "bold",
   },
 
@@ -74,15 +70,15 @@ export const stylesCotizacion = {
   datosClienteName: {
     marginBottom: '5px',
   },
-  datosClienteTitle:{
+  datosClienteTitle: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
   },
-  datosClienteInfo:{
+  datosClienteInfo: {
     flexDirection: 'row',
   },
-  datosClienteInfoTitle:{
+  datosClienteInfoTitle: {
     fontWeight: 'bold',
   },
   cotizacionTitleContainer: {
@@ -100,7 +96,7 @@ export const stylesCotizacion = {
     width: "100%",
     justifyContent: "center",
   },
-  cotizacionSubTitleContainer:{
+  cotizacionSubTitleContainer: {
     fontSize: 14,
     marginBottom: 10,
   },
@@ -141,12 +137,12 @@ export const stylesCotizacion = {
     alignItems: "center",
     gap: 4,
   },
-  AdditionalInfo:{
+  AdditionalInfo: {
     marginTop: 30,
     fontSize: 12,
   },
 
-  AdditionalInfoTitle:{
+  AdditionalInfoTitle: {
     fontWeight: 'bold',
     marginBottom: 5,
   }

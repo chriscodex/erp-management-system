@@ -17,11 +17,14 @@ import {
   getAllAlmacenesByDataForMotosRequestServer,
   getAllProveedoresByDataForMotosRequestServer,
 } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
   const { modelo } = await getModeloByIdRequestServer(params.modeloId);
 
-  if (!modelo) {
+  if (!modelo || session?.user?.rol !== "Administrador") {
     notFound();
   }
 

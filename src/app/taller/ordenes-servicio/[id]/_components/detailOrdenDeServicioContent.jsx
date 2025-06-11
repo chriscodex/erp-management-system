@@ -143,7 +143,6 @@ export function DetailOrdenDeServicioContent({
               </CardContent>
             )}
           </Card>
-
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center">
@@ -328,7 +327,6 @@ export function DetailOrdenDeServicioContent({
                     <TableHead>Código</TableHead>
                     <TableHead>Nombre</TableHead>
                     <TableHead>Descripción</TableHead>
-                    <TableHead>Estado</TableHead>
                     <TableHead>Precio</TableHead>
                     <TableHead>Cantidad</TableHead>
                     <TableHead>Total</TableHead>
@@ -344,13 +342,6 @@ export function DetailOrdenDeServicioContent({
                         </TableCell>
                         <TableCell>{producto?.nombre}</TableCell>
                         <TableCell>{producto?.descripcion}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline">
-                            {producto?.tipo === "moto"
-                              ? producto?.estado?.titulo
-                              : producto?.estado}
-                          </Badge>
-                        </TableCell>
                         <TableCell>
                           S/.{formatMoney(producto?.precioVenta)}
                         </TableCell>

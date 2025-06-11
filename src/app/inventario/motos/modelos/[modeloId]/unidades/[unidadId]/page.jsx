@@ -24,11 +24,14 @@ import {
 } from "@remixicon/react";
 import Link from "next/link";
 import { getMotoByIdRequestServer } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { notFound } from "next/navigation";
 import { DetailButtons } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_components/detailButtons";
 import { RiExternalLinkLine, RiMotorbikeLine } from "@remixicon/react";
 
 export default async function MotoDetailPage({ params }) {
+  const session = await getServerSession(authOptions);
   const { moto } = await getMotoByIdRequestServer(params.unidadId);
 
   if (!moto) {
@@ -77,8 +80,6 @@ export default async function MotoDetailPage({ params }) {
       active: false,
     },
   ];
-
-  console.log(moto);
 
   return (
     <NavbarDynamic titles={navbarTitles}>
@@ -147,13 +148,16 @@ export default async function MotoDetailPage({ params }) {
                     {moto.caracteristicas.motor?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiDashboard2Line className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Motor:</p> {moto.caracteristicas.motor}
+                        <p className="text-muted-foreground">Motor:</p>{" "}
+                        {moto.caracteristicas.motor}
                       </div>
                     )}
                     {moto.caracteristicas.cilindrada?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiSpeedLine className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Cilindrada:</p>{" "}
+                        <p className="text-muted-foreground">
+                          Cilindrada:
+                        </p>{" "}
                         {moto.caracteristicas.cilindrada}
                       </div>
                     )}
@@ -167,41 +171,51 @@ export default async function MotoDetailPage({ params }) {
                     {moto.caracteristicas.frenos?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiStopMiniFill className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Frenos:</p> {moto.caracteristicas.frenos}
+                        <p className="text-muted-foreground">Frenos:</p>{" "}
+                        {moto.caracteristicas.frenos}
                       </div>
                     )}
                     {moto.caracteristicas.transmision?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiRepeatLine className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Transmisión:</p>{" "}
+                        <p className="text-muted-foreground">
+                          Transmisión:
+                        </p>{" "}
                         {moto.caracteristicas.transmision}
                       </div>
                     )}
                     {moto.caracteristicas.dimensiones?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiRuler2Fill className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Dimensiones:</p>{" "}
+                        <p className="text-muted-foreground">
+                          Dimensiones:
+                        </p>{" "}
                         {moto.caracteristicas.dimensiones}
                       </div>
                     )}
                     {moto.caracteristicas.capacidadCombustible?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiOilLine className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Capacidad de combustible:</p>{" "}
+                        <p className="text-muted-foreground">
+                          Capacidad de combustible:
+                        </p>{" "}
                         {moto.caracteristicas.capacidadCombustible}
                       </div>
                     )}
                     {moto.caracteristicas.suspension?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiArrowUpDownLine className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Suspensión:</p>{" "}
+                        <p className="text-muted-foreground">
+                          Suspensión:
+                        </p>{" "}
                         {moto.caracteristicas.suspension}
                       </div>
                     )}
                     {moto.caracteristicas.colores?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiPaletteLine className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Colores:</p> {moto.caracteristicas.colores}
+                        <p className="text-muted-foreground">Colores:</p>{" "}
+                        {moto.caracteristicas.colores}
                       </div>
                     )}
                   </CardContent>
@@ -256,16 +270,16 @@ export default async function MotoDetailPage({ params }) {
                       Estado Actual
                     </p>
                     <p className="text-xl font-bold">
-                      {moto?.estado?.titulo === 'disponible'
-                        ? 'Disponible'
-                        : moto?.estado?.titulo === 'dañado'
-                        ? 'Dañado'
-                        : moto?.estado?.titulo === 'reparado'
-                        ? 'Reparado'
-                        : moto?.estado?.titulo === 'desarmado'
-                        ? 'Desarmado'
-                        : moto?.estado?.titulo === 'prevendido'
-                        ? 'Prevendido'
+                      {moto?.estado?.titulo === "disponible"
+                        ? "Disponible"
+                        : moto?.estado?.titulo === "dañado"
+                        ? "Dañado"
+                        : moto?.estado?.titulo === "reparado"
+                        ? "Reparado"
+                        : moto?.estado?.titulo === "desarmado"
+                        ? "Desarmado"
+                        : moto?.estado?.titulo === "prevendido"
+                        ? "Prevendido"
                         : moto?.estado?.titulo}
                     </p>
                   </div>
@@ -278,48 +292,49 @@ export default async function MotoDetailPage({ params }) {
                 </div>
               </CardContent>
             </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center">
-                  <Receipt className="mr-2" />
-                  Resumen de Gastos
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-gray-500 dark:text-gray-400">
-                      Total de Gastos
-                    </p>
-                    <p className="text-2xl font-bold">
-                      S/. {totalGastos?.toLocaleString()}
-                    </p>
+            {session?.user?.rol === "Administrador" && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center">
+                    <Receipt className="mr-2" />
+                    Resumen de Gastos
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-gray-500 dark:text-gray-400">
+                        Total de Gastos
+                      </p>
+                      <p className="text-2xl font-bold">
+                        S/. {totalGastos?.toLocaleString()}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-gray-500 dark:text-gray-400">
+                        Cantidad de Gastos
+                      </p>
+                      <p className="text-2xl font-bold">
+                        {cantidadGastos?.toLocaleString()}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-gray-500 dark:text-gray-400">
-                      Cantidad de Gastos
-                    </p>
-                    <p className="text-2xl font-bold">
-                      {cantidadGastos?.toLocaleString()}
-                    </p>
-                  </div>
-                </div>
-                <Link
-                  className="flex justify-end"
-                  href={`/inventario/motos/modelos/${modeloData?._id}/unidades/${moto?._id}/gastos`}
-                  passHref
-                >
-                  <Button className="flex items-center">
-                    <TrendingUp className="mr-2" />
-                    Ver Gastos
-                    <RiExternalLinkLine />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
 
-            <Card className="md:col-span-2">
+                  <Link
+                    className="flex justify-end"
+                    href={`/inventario/motos/modelos/${modeloData?._id}/unidades/${moto?._id}/gastos`}
+                    passHref
+                  >
+                    <Button className="flex items-center">
+                      <TrendingUp className="mr-2" />
+                      Ver Gastos
+                      <RiExternalLinkLine />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            )}
+            <Card className={session?.user?.rol === "Administrador" ? "md:col-span-2" : "md:col-span-3"}>
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <DollarSign className="mr-2" />

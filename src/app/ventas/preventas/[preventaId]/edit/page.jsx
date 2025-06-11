@@ -1,23 +1,34 @@
-import { RiEditFill } from '@remixicon/react';
+import { notFound } from "next/navigation";
+import { RiEditFill } from "@remixicon/react";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
 
-import { getPreventaRequestServer } from '@/app/ventas/preventas/_services/requests';
-import { EditarPreventaForm } from '@/app/ventas/preventas/[preventaId]/edit/_components/editarPreventaForm';
+import { getPreventaRequestServer } from "@/app/ventas/preventas/_services/requests";
+import { EditarPreventaForm } from "@/app/ventas/preventas/[preventaId]/edit/_components/editarPreventaForm";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function EditarPreventaPage({ params }) {
+  
+  const session = await getServerSession(authOptions);
+  if (
+    session?.user?.rol !== "Administrador" &&
+    session?.user?.rol !== "Vendedor"
+  ) {
+    notFound();
+  }
   const { preventa } = await getPreventaRequestServer(params.preventaId);
 
   const titles = [
     {
-      title: 'Ventas',
-      href: '',
+      title: "Ventas",
+      href: "",
       active: false,
     },
     {
-      title: 'Pre-Ventas',
-      href: '/ventas/preventas',
+      title: "Pre-Ventas",
+      href: "/ventas/preventas",
       active: true,
     },
     {
@@ -26,8 +37,8 @@ export default async function EditarPreventaPage({ params }) {
       active: true,
     },
     {
-      title: 'Editar',
-      href: '',
+      title: "Editar",
+      href: "",
       active: false,
     },
   ];

@@ -10,11 +10,14 @@ import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
 import { SheetAddGastoWrapper } from '@/app/inventario/productos/[id]/gastos/_components/sheets/addGasto/sheetAddGastoWrapper';
 import { StatCard } from '@/components/customCards/statCard';
 import { DollarSign } from 'lucide-react';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function ProductGastoPage({ params }) {
+  const session = await getServerSession(authOptions);
   const { product, status } = await getProductByIdRequestServer(params.id);
 
-  if (!product) {
+  if (!product || session?.user?.rol !== "Administrador") {
     notFound();
   }
 

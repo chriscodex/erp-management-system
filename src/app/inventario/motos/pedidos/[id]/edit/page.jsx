@@ -8,20 +8,22 @@ import { getPedidoRequestServer } from "@/app/inventario/motos/pedidos/_services
 // import { getCategoryRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
 import { EditarPedidoForm } from "@/app/inventario/motos/pedidos/[id]/edit/_components/EditarPedidoForm";
 import {
-    getAllModelosRequestServer,
-    getAllModelosPedidosRequestServer,
-    getAllProveedoresRequestServer,
-    getAllAlmacenesRequestServer,
-    getCategoriesBySegmentDataForModelosRequestServer,
-    getMarcasBySegmentDataForModelosRequestServer,
-  } from "@/app/inventario/motos/pedidos/_services/requests";
+  getAllModelosRequestServer,
+  getAllModelosPedidosRequestServer,
+  getAllProveedoresRequestServer,
+  getAllAlmacenesRequestServer,
+  getCategoriesBySegmentDataForModelosRequestServer,
+  getMarcasBySegmentDataForModelosRequestServer,
+} from "@/app/inventario/motos/pedidos/_services/requests";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Page({ params }) {
-  // console.log("parametrito", params.id);
-
+  const session = await getServerSession(authOptions);
+  if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
   const { pedido } = await getPedidoRequestServer(params.id);
-  //   const { marca } = await getMarcaRequestServer(pedido.modelo.marca);
-  //   const { category } = await getCategoryRequestServer(pedido.modelo.categoria);
-
+  
   if (!pedido) {
     notFound();
   }

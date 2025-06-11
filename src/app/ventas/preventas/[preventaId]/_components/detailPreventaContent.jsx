@@ -21,7 +21,7 @@ import { formatMoney } from "@/lib/utils";
 import { ImprimirCotizacionButton } from "@/app/ventas/preventas/[preventaId]/_components/buttons/imprimirCotizacionButton";
 import { DetailObsequioPreventaDetailSheet } from "./sheets/detailObsequioPreventaDetailSheet";
 
-export function DetailPreventaContent({ preventaData }) {
+export function DetailPreventaContent({ preventaData, empresa }) {
   console.log("preventaData", preventaData);
 
   const precioTotal = preventaData?.productos?.reduce((acc, product) => {
@@ -40,7 +40,7 @@ export function DetailPreventaContent({ preventaData }) {
         </div>
         <div className="flex flex-col items-center gap-2 md:items-end xl:flex-row">
           {preventaData?.cotizacion === "si" && (
-            <ImprimirCotizacionButton preventaData={preventaData} />
+            <ImprimirCotizacionButton preventaData={preventaData} empresa={empresa} />
           )}
           <GenerarVentaButton preventaId={preventaData._id} />
         </div>

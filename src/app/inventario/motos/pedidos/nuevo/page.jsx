@@ -1,6 +1,7 @@
+import { notFound } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { RiBox2Fill} from "@remixicon/react";
+import { RiBox2Fill } from "@remixicon/react";
 import { NuevoPedidoForm } from "@/app/inventario/motos/pedidos/nuevo/_components/nuevoPedidoForm";
 import {
   getAllModelosRequestServer,
@@ -10,8 +11,13 @@ import {
   getCategoriesBySegmentDataForModelosRequestServer,
   getMarcasBySegmentDataForModelosRequestServer,
 } from "@/app/inventario/motos/pedidos/_services/requests";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function NuevaReservacionPage() {
+  const session = await getServerSession(authOptions);
+  if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
   const titles = [
     {
       title: "Inventario",
@@ -64,7 +70,6 @@ export default async function NuevaReservacionPage() {
   const { almacenes = [] } = almacenesPedidoResponse || {};
   const { categories = [] } = categoriesPedidoResponse || {};
   const { marcas = [] } = marcasPedidoResponse || {};
-
 
   return (
     <NavbarDynamic titles={titles}>

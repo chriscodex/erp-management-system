@@ -1,4 +1,5 @@
-import { RiFileCopy2Line} from "@remixicon/react";
+import { notFound } from "next/navigation";
+import { RiFileCopy2Line } from "@remixicon/react";
 
 import { sortByUpdateDateDesc } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
@@ -7,15 +8,24 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Plus} from "lucide-react";
+import { Plus } from "lucide-react";
 
 import { getAllOrdenesDeServicioRequestServer } from "@/app/taller/ordenes-servicio/_services/requests";
 import { DataTableOrdenesDeServicio } from "@/app/taller/ordenes-servicio/_components/ordenesServicioTable/data-table";
 import { columnsOrdenesDeServicio } from "@/app/taller/ordenes-servicio/_components/ordenesServicioTable/columns";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function VentasPage() {
 
-  const { ordenesDeServicio, status } = await getAllOrdenesDeServicioRequestServer();
+  const session = await getServerSession(authOptions);
+
+  if (session?.user?.rol !== "Administrador" && session?.user?.rol !== "Tecnico") {
+    notFound();
+  }
+
+  const { ordenesDeServicio, status } =
+    await getAllOrdenesDeServicioRequestServer();
 
   const ordenesDeServicioSorted = sortByUpdateDateDesc(ordenesDeServicio);
 

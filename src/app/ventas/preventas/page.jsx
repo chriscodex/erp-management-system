@@ -1,31 +1,42 @@
-import { RiShoppingBag3Line } from '@remixicon/react';
-import { Plus } from 'lucide-react';
-import Link from 'next/link';
+import { notFound } from "next/navigation";
+import { RiShoppingBag3Line } from "@remixicon/react";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
-import { sortByUpdateDateDesc } from '@/lib/utils';
-import { Label } from '@/components/ui/label';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import { sortByUpdateDateDesc } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
-import { DataTablePreventas } from '@/app/ventas/preventas/_components/preventasTable/data-table';
-import { getAllPreventasRequestServer } from '@/app/ventas/preventas/_services/requests';
-import { columnsPreventas } from '@/app/ventas/preventas/_components/preventasTable/columns';
-
+import { DataTablePreventas } from "@/app/ventas/preventas/_components/preventasTable/data-table";
+import { getAllPreventasRequestServer } from "@/app/ventas/preventas/_services/requests";
+import { columnsPreventas } from "@/app/ventas/preventas/_components/preventasTable/columns";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function PreventasPage() {
+  const session = await getServerSession(authOptions);
+
+  if (
+    session?.user?.rol !== "Administrador" &&
+    session?.user?.rol !== "Vendedor"
+  ) {
+    notFound();
+  }
+
   const { preventas, status } = await getAllPreventasRequestServer();
 
   const preventasSorted = sortByUpdateDateDesc(preventas);
 
   const titles = [
     {
-      title: 'Ventas',
-      href: '',
+      title: "Ventas",
+      href: "",
       active: false,
     },
     {
-      title: 'Pre-Ventas',
-      href: '',
+      title: "Pre-Ventas",
+      href: "",
       active: false,
     },
   ];

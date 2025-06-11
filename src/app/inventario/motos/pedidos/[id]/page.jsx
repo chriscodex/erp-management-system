@@ -5,10 +5,14 @@ import { getPedidoRequestServer } from "@/app/inventario/motos/pedidos/_services
 import { getMarcaRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
 import { getCategoryRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
 import { DetailPedidoContent } from "@/app/inventario/motos/pedidos/[id]/_components/DetailPedidoContent";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Page({ params }) {
   // console.log("parametrito", params.id);
-
+  const session = await getServerSession(authOptions);
+  if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
   const { pedido } = await getPedidoRequestServer(params.id);
   const { marca } = await getMarcaRequestServer(pedido.modelo.marca);
   const { category } = await getCategoryRequestServer(pedido.modelo.categoria);
@@ -42,7 +46,11 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailPedidoContent pedidoData={pedido} marcaData={marca} categoryData={category} />
+      <DetailPedidoContent
+        pedidoData={pedido}
+        marcaData={marca}
+        categoryData={category}
+      />
     </NavbarDynamic>
   );
 }

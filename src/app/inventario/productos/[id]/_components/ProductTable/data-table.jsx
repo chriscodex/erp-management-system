@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   flexRender,
@@ -7,20 +7,20 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from '@tanstack/react-table';
-import { useEffect, useState } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
-import { useRouter } from 'next/navigation';
-import { ArrowUpDown } from 'lucide-react';
-
+} from "@tanstack/react-table";
+import { useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { ArrowUpDown } from "lucide-react";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { TIME_DEBOUNCE } from '@/lib/utils';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/tooltip";
+import { TIME_DEBOUNCE } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -28,26 +28,27 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { DataTablePagination } from '@/components/ui/table-pagination';
-import { DataTableViewOptions } from '@/components/ui/table-view-options';
-import { Button } from '@/components/ui/button';
-import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
-import { SheetUpdateUnitProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/updateUnitProduct/sheetUpdateWrapper';
-import { serverErrorToast } from '@/components/toast/serverErrorToast';
-import { RiDeleteBinLine } from '@remixicon/react';
-import { DeleteUnitProductAlert } from '@/app/inventario/productos/[id]/_components/dialogs/deleteUnitProductAlert';
+} from "@/components/ui/table";
+import { DataTablePagination } from "@/components/ui/table-pagination";
+import { DataTableViewOptions } from "@/components/ui/table-view-options";
+import { Button } from "@/components/ui/button";
+import { BadgeUnitProduct } from "@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct";
+import { SheetUpdateUnitProductWrapper } from "@/app/inventario/productos/[id]/_components/Sheets/updateUnitProduct/sheetUpdateWrapper";
+import { serverErrorToast } from "@/components/toast/serverErrorToast";
+import { RiDeleteBinLine } from "@remixicon/react";
+import { DeleteUnitProductAlert } from "@/app/inventario/productos/[id]/_components/dialogs/deleteUnitProductAlert";
 
 export function DataTableProduct({ productData, unidades, status = 200 }) {
+  const { data: session } = useSession();
   const columns = [
     {
-      accessorKey: 'numeracion',
+      accessorKey: "numeracion",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             className="w-1"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             N°
             <ArrowUpDown className="h-4 w-4" />
@@ -55,16 +56,16 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('numeracion')}</div>;
+        return <div className="text-start">{row.getValue("numeracion")}</div>;
       },
     },
     {
-      accessorKey: 'code',
+      accessorKey: "code",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Código
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -72,16 +73,16 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('code')}</div>;
+        return <div className="text-start">{row.getValue("code")}</div>;
       },
     },
     {
-      accessorKey: 'estado',
+      accessorKey: "estado",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Estado
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -91,48 +92,89 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
       cell: ({ row }) => {
         return (
           <div className="text-start">
-            {row.getValue('estado') === 'disponible' && (
+            {row.getValue("estado") === "disponible" && (
               <BadgeUnitProduct variant="successTable">
                 Disponible
               </BadgeUnitProduct>
             )}
-            {row.getValue('estado') === 'reparado' && (
+            {row.getValue("estado") === "reparado" && (
               <BadgeUnitProduct variant="blueTable">Reparado</BadgeUnitProduct>
             )}
-            {row.getValue('estado') === 'desaparecido' && (
+            {row.getValue("estado") === "desaparecido" && (
               <BadgeUnitProduct variant="orangeTable">
                 Desaparecido
               </BadgeUnitProduct>
             )}
-            {row.getValue('estado') === 'dañado' && (
+            {row.getValue("estado") === "dañado" && (
               <BadgeUnitProduct variant="redTable">Dañado</BadgeUnitProduct>
             )}
-            {row.getValue('estado') === 'prevendido' && (
+            {row.getValue("estado") === "prevendido" && (
               <BadgeUnitProduct variant="purpleTable">
                 Prevendido
               </BadgeUnitProduct>
             )}
-            {row.getValue('estado') === 'taller' && (
-              <BadgeUnitProduct variant="yellowTable">
-                Taller
-              </BadgeUnitProduct>
+            {row.getValue("estado") === "taller" && (
+              <BadgeUnitProduct variant="yellowTable">Taller</BadgeUnitProduct>
             )}
           </div>
         );
       },
     },
-    {
-      id: 'actions',
-      header: 'Acciones',
+    // {
+    //   id: "actions",
+    //   header: "Acciones",
+    //   cell: ({ row }) => {
+    //     const unitProductData = row.original;
+
+    //     const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
+
+    //     return (
+    //       <div className="flex items-center space-x-3">
+    //         <SheetUpdateUnitProductWrapper
+    //           unitProductData={row.original}
+    //           productData={productData}
+    //         />
+    //         <TooltipProvider delayDuration={0}>
+    //           <Tooltip>
+    //             <TooltipTrigger asChild>
+    //               <div
+    //                 className="cursor-pointer"
+    //                 onClick={() => setIsOpenDialogDelete(true)}
+    //               >
+    //                 <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+    //               </div>
+    //             </TooltipTrigger>
+    //             <TooltipContent>
+    //               <p>Eliminar</p>
+    //             </TooltipContent>
+    //           </Tooltip>
+    //         </TooltipProvider>
+    //         <DeleteUnitProductAlert
+    //           isOpen={isOpenDialogDelete}
+    //           setIsOpen={setIsOpenDialogDelete}
+    //           actionAfterComplete="refresh"
+    //           unitProductId={unitProductData._id}
+    //           productId={productData._id}
+    //         />
+    //       </div>
+    //     );
+    //   },
+    // },
+  ];
+
+  // Agrega la columna de acciones si es administrador
+  if (session?.user?.rol === "Administrador") {
+    columns.push({
+      id: "actions",
+      header: "Acciones",
       cell: ({ row }) => {
         const unitProductData = row.original;
-
         const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
         return (
           <div className="flex items-center space-x-3">
             <SheetUpdateUnitProductWrapper
-              unitProductData={row.original}
+              unitProductData={unitProductData}
               productData={productData}
             />
             <TooltipProvider delayDuration={0}>
@@ -160,8 +202,8 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
           </div>
         );
       },
-    },
-  ];
+    });
+  }
 
   const router = useRouter();
 
@@ -185,10 +227,10 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('code')?.setFilterValue(value);
+    table.getColumn("code")?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
@@ -251,7 +293,7 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

@@ -10,13 +10,16 @@ import { sortByUpdateDateAsc } from '@/lib/utils';
 import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
 import { UpdateMotoForm } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_components/updateMotoForm';
 import { getAllModelosForUpdateMotoFormRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/requests';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
   const { moto } = await getMotoByIdRequestServer(params?.unidadId);
 
   console.log(moto);
 
-  if (!moto) {
+  if (!moto || session?.user?.rol !== "Administrador") {
     notFound();
   }
 

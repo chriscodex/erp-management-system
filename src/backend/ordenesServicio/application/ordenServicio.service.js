@@ -155,8 +155,6 @@ export class OrdenServicioService {
   async updateOrdenDeServicio(ordenDeServicioId, ordenDeServicioData) {
     try {
 
-      console.log("Esto es la orden de servicio data", ordenDeServicioData);
-
       if (!ordenDeServicioId) {
         console.log("Orden De Servicio Service: OrdenDeServicioId no enviado");
         return {
@@ -203,7 +201,6 @@ export class OrdenServicioService {
             };
           }
         }
-
 
         ordenDeServicioData.cliente.clienteId = clienteFinal._id.toString();
       }
@@ -337,7 +334,6 @@ export class OrdenServicioService {
           });
         })
       );
-
 
       const deletedOrdenDeServicio = await this.ordenServicioRepository.deleteOrdenDeServicio(
         ordenDeServicioId

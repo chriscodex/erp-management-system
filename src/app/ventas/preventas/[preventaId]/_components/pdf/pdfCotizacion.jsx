@@ -15,9 +15,8 @@ import { formatDateLong, formatDateShort } from "@/lib/formateador";
 
 const styles = StyleSheet.create(stylesCotizacion);
 
-export function PdfCotizacion({ preventaData }) {
-
-  const currentTime = formatDateLong(new Date().toISOString(), false);
+export function PdfCotizacion({ preventaData, empresa }) {
+  const currentTime = formatDateLong(new Date().toISOString(), true);
 
   const codigoCotizacion = preventaData?.code;
 
@@ -66,24 +65,32 @@ export function PdfCotizacion({ preventaData }) {
           <View style={styles.datosEmpresa}>
             <View>
               <Text style={styles.datosEmpresaTitle}>
-                Moto Rock Ruta 33 E.I.R.L
+                {empresa?.nombre || "xxx"}
               </Text>
-              <Text style={styles.datosEmpresaTitle}>RUC N° 20202020202</Text>
+              <Text style={styles.datosEmpresaTitle}>
+                RUC N° {empresa?.ruc || "xxxxx"}
+              </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
-                <Text>Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz</Text>
+                <Text>
+                  {empresa?.direccion ||
+                    "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}
+                </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>01-442-1210</Text>
+                <Text>{empresa?.telefono || "01-442-1210"}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
-                <Text>gerencia@motorock33.com</Text>
+                <Text>
+                  {empresa?.email || "gerencia@motorock33.com"}
+                </Text>
               </View>
             </View>
+
             <View style={styles.datosCotizacionContainer}>
               <View style={styles.datosCotizacion}>
                 <Text style={styles.datosCotizacionBold}>Cotización N°</Text>
@@ -96,49 +103,54 @@ export function PdfCotizacion({ preventaData }) {
                 <Text>{currentTime}</Text>
               </View>
             </View>
+            
           </View>
           <View style={styles.separator} />
 
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {preventaData?.cliente?.tipo === "empresa"
-                ? preventaData?.cliente?.datos?.nombre
-                : `${preventaData?.cliente?.datos?.apellidos} ${preventaData?.cliente?.datos?.nombres}`}
+              {preventaData?.clienteId?.tipo === "empresa"
+                ? preventaData?.clienteId?.datos?.nombre
+                : `${preventaData?.clienteId?.datos?.apellidos} ${preventaData?.clienteId?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {preventaData?.cliente?.tipo === "empresa" ? `RUC: ` : `DNI: `}
+                {preventaData?.clienteId?.tipo === "empresa"
+                  ? `RUC: `
+                  : `DNI: `}
               </Text>
               <Text>
-                {preventaData?.cliente?.tipo === "empresa"
-                  ? `${preventaData?.cliente?.datos?.ruc}`
-                  : `${preventaData?.cliente?.datos?.dni}`}
+                {preventaData?.clienteId?.tipo === "empresa"
+                  ? `${preventaData?.clienteId?.datos?.ruc}`
+                  : `${preventaData?.clienteId?.datos?.dni}`}
               </Text>
             </View>
-            {preventaData?.cliente?.tipo === "empresa" && (
+            {preventaData?.clienteId?.tipo === "empresa" && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {"Representante Legal: "}
                 </Text>
-                <Text>{preventaData?.cliente?.datos?.representanteLegal}</Text>
+                <Text>
+                  {preventaData?.clienteId?.datos?.representanteLegal}
+                </Text>
               </View>
             )}
-            {preventaData?.cliente?.tipo === "empresa" && (
+            {preventaData?.clienteId?.tipo === "empresa" && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {"Dirección: "}
                 </Text>
-                <Text>{preventaData?.cliente?.datos?.direccion}</Text>
+                <Text>{preventaData?.clienteId?.datos?.direccion}</Text>
               </View>
             )}
-            {preventaData?.cliente?.datos?.email && (
+            {preventaData?.clienteId?.datos?.email && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
                 <Text>{preventaData.cliente.datos.email}</Text>
               </View>
             )}
-            {preventaData?.cliente?.datos?.celular && (
+            {preventaData?.clienteId?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
                 <Text>{preventaData.cliente.datos.celular}</Text>

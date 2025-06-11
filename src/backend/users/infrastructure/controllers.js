@@ -16,6 +16,7 @@ export async function getUsersController(request) {
       const mecanico = await userService.getUserByData({
         dni: mecanicoDNI,
         rol: 'Tecnico',
+        estado: 'activo',
       });
       return mecanico;
     }

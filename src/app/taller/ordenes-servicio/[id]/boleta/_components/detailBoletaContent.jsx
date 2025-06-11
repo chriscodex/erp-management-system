@@ -242,7 +242,7 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                         )}
                       </TableCell>
                       <TableCell>
-                        {producto.inventario === "Eliminado" ? (
+                        {producto.inventario === "eliminado" ? (
                           <Badge
                             variant="outline"
                             className="text-red-600 border-red-600"
@@ -261,7 +261,7 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                       {ordenDeServicioData?.comprobante ===
                         "Boleta Impresa" && (
                         <TableCell>
-                          {producto.inventario !== "Eliminado" &&
+                          {producto.inventario !== "eliminado" &&
                             ordenDeServicioData?.comprobante ===
                               "Boleta Impresa" && (
                               <DeleteProductoFromInventarioButton

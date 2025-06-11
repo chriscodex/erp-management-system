@@ -1,7 +1,10 @@
-import { delay } from '@/lib/utils';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 import { createVentaClientUrl, deletePreventaClientUrl } from '@/lib/urls';
 import { deleteData, postData } from '@/lib/fetchData';
+
+import { EmpresaService } from '@/backend/empresas/application/empresa.service';
+import { connectDB } from '@/db/mongodb';
 
 export async function deletePreventaRequestClient(preventaId) {
   /* eslint-disable */
@@ -49,4 +52,26 @@ export async function createVentaRequestClient(preventaId) {
       reject(error);
     }
   });
+}
+
+export async function getFirstEmpresaForCotizacionRequestServer() {
+  try {
+    await connectDB();
+    const empresaService = new EmpresaService();
+
+    const response = await empresaService.getFirstEmpresa();
+
+    if (response?.status !== 200) {
+      console.log('Error al obtener la primera empresa');
+      return { empresas: [], status: 500 };
+    }
+    const empresa = response?.payload;
+
+    return {
+      empresa: simplificadorParaClientComponent(empresa),
+      status: 200,
+    };
+  } catch (error) {
+    console.error(error);
+  }
 }

@@ -1,23 +1,33 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { RiShoppingBag3Line } from '@remixicon/react';
-import { RegistrarPreventaForm } from '@/app/ventas/preventas/registrar/_components/registrarPreventaForm';
-
+import { notFound } from "next/navigation";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { RiShoppingBag3Line } from "@remixicon/react";
+import { RegistrarPreventaForm } from "@/app/ventas/preventas/registrar/_components/registrarPreventaForm";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function RegistrarPreventaPage() {
+  const session = await getServerSession(authOptions);
+
+  if (
+    session?.user?.rol !== "Administrador" &&
+    session?.user?.rol !== "Vendedor"
+  ) {
+    notFound();
+  }
   const titles = [
     {
-      title: 'Ventas',
-      href: '',
+      title: "Ventas",
+      href: "",
       active: false,
     },
     {
-      title: 'Pre-Ventas',
-      href: '/ventas/preventas',
+      title: "Pre-Ventas",
+      href: "/ventas/preventas",
       active: true,
     },
     {
-      title: 'Registrar',
-      href: '',
+      title: "Registrar",
+      href: "",
       active: false,
     },
   ];

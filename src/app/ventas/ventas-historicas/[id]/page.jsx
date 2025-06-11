@@ -3,11 +3,13 @@ import { notFound } from 'next/navigation';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { getVentaHistoricaRequestServer } from '@/app/ventas/ventas-historicas/_services/requests';
 import { DetailVentaHistoricaContent } from '@/app/ventas/ventas-historicas/[id]/_components/detailVentaHistoricaContent';
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
   const { ventaHistorica } = await getVentaHistoricaRequestServer(params.id);
 
-  if (!ventaHistorica) {
+  if (!ventaHistorica || (session?.user?.rol !== "Administrador" && session?.user?.rol !== "Vendedor")) {
     notFound();
   }
 

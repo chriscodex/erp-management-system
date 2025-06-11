@@ -4,13 +4,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getEmpresaRequestServer } from '@/app/empresas/[id]/_services/requests.js';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { UpdateFormEmpresa } from '@/app/empresas/[id]/edit/_components/updateFormEmpresa';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 
 export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
   const { empresa } = await getEmpresaRequestServer(params.id);
 
-  if (!empresa) {
+  if (!empresa || session?.user?.rol !== "Administrador") {
     notFound();
   }
 

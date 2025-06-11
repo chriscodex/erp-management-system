@@ -1,24 +1,33 @@
-import { RiShoppingBag3Line } from '@remixicon/react';
+import { notFound } from "next/navigation";
+import { RiShoppingBag3Line } from "@remixicon/react";
 
-import { sortByUpdateDateDesc } from '@/lib/utils';
-import { Label } from '@/components/ui/label';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { sortByUpdateDateDesc } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
-import { getAllVentasRequestServer } from '@/app/ventas/_services/requests';
-import { DataTableVentas } from '@/app/ventas/_components/ventasTable/data-table';
-import { columnsVentas } from '@/app/ventas/_components/ventasTable/columns';
+import { getAllVentasRequestServer } from "@/app/ventas/_services/requests";
+import { DataTableVentas } from "@/app/ventas/_components/ventasTable/data-table";
+import { columnsVentas } from "@/app/ventas/_components/ventasTable/columns";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function VentasPage() {
-
+  const session = await getServerSession(authOptions);
+  if (
+    session?.user?.rol !== "Administrador" &&
+    session?.user?.rol !== "Vendedor"
+  ) {
+    notFound();
+  }
   const { ventas, status } = await getAllVentasRequestServer();
 
   const ventasSorted = sortByUpdateDateDesc(ventas);
 
   const titles = [
     {
-      title: 'Ventas',
-      href: '',
+      title: "Ventas",
+      href: "",
       active: false,
     },
   ];

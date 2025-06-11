@@ -25,7 +25,7 @@ export function PdfBoleta({
   counterBoleta,
   selectedEmpresa,
 }) {
-  const currentTime = formatDateLong(new Date().toISOString(), false);
+  const currentTime = formatDateLong(new Date().toISOString(), true);
 
   const codigoBoleta = formatearCodigoCounterBoletaFactura(
     counterBoleta,

@@ -42,6 +42,10 @@ export class UserRepository {
         filter.rol = userData.rol;
       }
 
+      if (userData.estado) {
+        filter.estado = userData.estado;
+      }
+
       const userFound = await User.findOne(filter).select('-password');
 
       if (!userFound) {
@@ -51,6 +55,7 @@ export class UserRepository {
 
       console.log('User Repository: Usuario encontrado');
       return userFound;
+      
     } catch (error) {
       console.error(
         `User Repository: Error al buscar un usuario: ${error.message}`

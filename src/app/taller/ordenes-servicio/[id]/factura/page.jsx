@@ -1,11 +1,14 @@
 import { notFound } from "next/navigation";
 
 import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { getOrdenDeServicioRequestServer } from '@/app/taller/ordenes-servicio/_services/requests';
+import { getOrdenDeServicioRequestServer } from "@/app/taller/ordenes-servicio/_services/requests";
 import { DetailFacturaContent } from "@/app/taller/ordenes-servicio/[id]/factura/_components/detailFacturaContent";
 import { getAllEmpresasForComprobanteVentaRequestServer } from "@/app/ventas/[ventaId]/_services/requests";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
   const { ordenDeServicio } = await getOrdenDeServicioRequestServer(params.id);
 
   const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
@@ -14,7 +17,11 @@ export default async function Page({ params }) {
     (ordenDeServicio?.productos?.length ?? 0) > 0 ||
     (ordenDeServicio?.servicios?.length ?? 0) > 0;
 
-  if (!ordenDeServicio || !hayProductosServicios) {
+  if (
+    !ordenDeServicio ||
+    !hayProductosServicios ||
+    (session?.user?.rol !== "Administrador" && session?.user?.rol !== "Tecnico")
+  ) {
     notFound();
   }
 
@@ -43,7 +50,10 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailFacturaContent ordenDeServicioData={ordenDeServicio} empresas={empresas} />
+      <DetailFacturaContent
+        ordenDeServicioData={ordenDeServicio}
+        empresas={empresas}
+      />
     </NavbarDynamic>
   );
 }

@@ -1,21 +1,25 @@
-'use client';
+"use client";
 
-import { Pencil, Trash2 } from 'lucide-react';
-import Link from 'next/link';
+import { Pencil, Trash2 } from "lucide-react";
+import Link from "next/link";
 
-import { Button } from '@/components/ui/button';
-import { DeleteMotoAlert } from '@/app/inventario/motos/modelos/[modeloId]/_components/dialogs/deleteUnidadMotoAlert';
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Button } from "@/components/ui/button";
+import { DeleteMotoAlert } from "@/app/inventario/motos/modelos/[modeloId]/_components/dialogs/deleteUnidadMotoAlert";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 export function DetailButtons({ motoId, modeloData }) {
   const router = useRouter();
+  const { data: session } = useSession();
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
   useEffect(() => {
     // Fuerza la actualización de los datos cada vez que se accede a la página
     router.refresh();
   }, [router]);
+
+  if (session?.user?.rol !== "Administrador") return null;
 
   return (
     <>

@@ -11,6 +11,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -25,7 +26,7 @@ import { DataTablePagination } from "@/components/ui/table-pagination";
 import { DataTableViewOptions } from "@/components/ui/table-view-options";
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
-import { RiFileListLine} from "@remixicon/react";
+import { RiFileListLine } from "@remixicon/react";
 
 import {
   Tooltip,
@@ -39,6 +40,9 @@ import { SheetUpdateClienteWrapper } from "@/app/contactos/clientes/_components/
 
 export function DataTableClientes({ data, status = 200 }) {
   const router = useRouter();
+  const { data: session } = useSession();
+
+  console.log("session", session);
 
   const columns = [
     {
@@ -56,7 +60,11 @@ export function DataTableClientes({ data, status = 200 }) {
       },
       cell: ({ row }) => {
         const cliente = row?.original;
-        return <div className="text-start">{cliente?.tipo ==="empresa" ? "Empresa" : "Persona"}</div>;
+        return (
+          <div className="text-start">
+            {cliente?.tipo === "empresa" ? "Empresa" : "Persona"}
+          </div>
+        );
       },
     },
     {
@@ -181,7 +189,9 @@ export function DataTableClientes({ data, status = 200 }) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            <SheetUpdateClienteWrapper clienteData={clienteData} />
+            {session?.user?.rol === "Administrador" && (
+              <SheetUpdateClienteWrapper clienteData={clienteData} />
+            )}
           </div>
         );
       },
@@ -207,7 +217,6 @@ export function DataTableClientes({ data, status = 200 }) {
     },
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: (row, filterValue) => {
-
       const identificador =
         row.original?.tipo === "empresa"
           ? row.original?.datos?.ruc

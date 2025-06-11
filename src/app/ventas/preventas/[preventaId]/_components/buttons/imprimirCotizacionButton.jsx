@@ -5,8 +5,7 @@ import { RiPrinterLine } from '@remixicon/react';
 import { useRouter } from 'next/navigation';
 import { Button } from "@/components/ui/button";
 import { PdfCotizacion } from '@/app/ventas/preventas/[preventaId]/_components/pdf/pdfCotizacion';
-
-export function ImprimirCotizacionButton({ preventaData }) {
+export function ImprimirCotizacionButton({ preventaData, empresa}) {
 
   const router = useRouter();
 
@@ -17,7 +16,8 @@ export function ImprimirCotizacionButton({ preventaData }) {
     try {
       const doc = (
         <PdfCotizacion
-          preventaData={preventaData}
+          preventaData={preventaData} 
+          empresa={empresa}
         />
       );
       const blob = await pdf(doc).toBlob();

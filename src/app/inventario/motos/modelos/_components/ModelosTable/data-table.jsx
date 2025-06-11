@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useRouter } from 'next/navigation';
 
+
 import { Input } from '@/components/ui/input';
 import {
   Table,
@@ -27,6 +28,8 @@ import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTableModelos({ columns, data, status = 200 }) {
+
+
   const router = useRouter();
 
   /* Sorting */

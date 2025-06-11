@@ -36,8 +36,8 @@ export function DeleteProductoFromInventarioButton({
         setIsOpen={setIsOpenDialogDelete}
         actionAfterComplete="refresh"
         ordenDeServicioData= {ordenDeServicioData}
-        unitProductId={productoOrdenDeServicio.unitId}
-        productId={productoOrdenDeServicio.productId._id}
+        unitProductId={productoOrdenDeServicio?.unitId}
+        productId={productoOrdenDeServicio?.productId?._id}
       />
     </div>
   );

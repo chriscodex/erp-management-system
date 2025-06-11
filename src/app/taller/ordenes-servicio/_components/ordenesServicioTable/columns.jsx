@@ -176,13 +176,15 @@ export const columnsOrdenesDeServicio = [
               Detalle
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem
-              className="cursor-pointer"
-              onClick={() => setIsOpenDialogDelete(true)}
-            >
-              <RiDeleteBinLine />
-              Eliminar
-            </DropdownMenuItem>
+            {!row.original?.counter && (
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => setIsOpenDialogDelete(true)}
+              >
+                <RiDeleteBinLine />
+                Eliminar
+              </DropdownMenuItem>
+            )}
           </DropdownMenuContent>
           {/* Dialog Delete */}
           <DeleteOrdenDeServicioAlert
