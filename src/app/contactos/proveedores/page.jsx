@@ -1,23 +1,32 @@
-import { RiTeamFill } from '@remixicon/react';
+import { notFound } from 'next/navigation';
+import { RiTeamFill } from "@remixicon/react";
 
-import { sortByUpdateDateDesc } from '@/lib/utils';
-import { Label } from '@/components/ui/label';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { SheetAddProveedorWrapper } from '@/app/contactos/proveedores/_components/sheets/addProveedor/sheetAddProveedorWrapper';
-import { getAllProveedoresRequestServer } from '@/app/contactos/proveedores/_services/requests';
-import { DataTableProveedores } from '@/app/contactos/proveedores/_components/proveedoresTable/data-table';
+import { sortByUpdateDateDesc } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { SheetAddProveedorWrapper } from "@/app/contactos/proveedores/_components/sheets/addProveedor/sheetAddProveedorWrapper";
+import { getAllProveedoresRequestServer } from "@/app/contactos/proveedores/_services/requests";
+import { DataTableProveedores } from "@/app/contactos/proveedores/_components/proveedoresTable/data-table";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function ProveedoresPage() {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
+
   const titles = [
     {
-      title: 'Contactos',
-      href: '',
+      title: "Contactos",
+      href: "",
       active: false,
     },
     {
-      title: 'Proveedores',
-      href: '',
+      title: "Proveedores",
+      href: "",
       active: false,
     },
   ];

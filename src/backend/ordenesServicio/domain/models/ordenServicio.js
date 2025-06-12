@@ -91,6 +91,11 @@ const ordenServicioSchema = new Schema(
           ref: "Product",
           required: [false, "El id del producto es requerido en el schema de ordenes de servicio"],
         },
+        unitId: {
+          type: Schema.Types.ObjectId,
+          ref: "Unit",
+          required: [false, "El id de la unidad es requerido en el schema de ordenes de servicio"],
+        },
         code: {
           type: String,
           required: true,
@@ -113,6 +118,7 @@ const ordenServicioSchema = new Schema(
             'desaparecido',
             'reparado',
             'prevendido',
+            'taller',
           ],
         },
         stock: {
@@ -140,6 +146,11 @@ const ordenServicioSchema = new Schema(
           ],
           min: [0, 'El precio de venta no puede ser negativo'],
         },
+        inventario: {
+          type: String,
+          enum: ['existente', 'eliminado'],
+          required: [true, 'El inventario es requerido en el schema de ordenes de servicio'],
+        }
       }
     ],
     pago: {
@@ -185,6 +196,26 @@ const ordenServicioSchema = new Schema(
         },
         precio: {
           type: Number,
+          required: false,
+        },
+      }
+    ],
+    productosExternos: [
+      {
+        nombre: {
+          type: String,
+          required: false,
+        },
+        descripcion: {
+          type: String,
+          required: false,
+        },
+        cantidad: {
+          type: Number,
+          required: false,
+        },
+        fecha: {
+          type: Date,
           required: false,
         },
       }

@@ -56,7 +56,7 @@ import { ProductsPreventaTable } from "@/app/ventas/preventas/registrar/_compone
 import { searchClientePorDniOrRucClientRequest } from "@/app/ventas/preventas/registrar/_services/requests";
 import { ObsequiosPreventaTable } from "@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table";
 import { Textarea } from "@/components/ui/textarea";
-import { createPreventaSchemaForm } from "@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm";
+import { updatePreventaSchemaForm } from "@/app/ventas/preventas/[preventaId]/edit/_services/validations/updatePreventaSchemaForm";
 import { updatePreventaRequestClient } from "../_services/requests";
 
 export function EditarPreventaForm({ preventaData }) {
@@ -69,12 +69,11 @@ export function EditarPreventaForm({ preventaData }) {
     agregarNumeracionTable(preventaData?.productos) || []
   );
 
-  const [date, setDate] = useState(new Date()); 
-  const [open, setOpen] = useState(false); 
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false);
 
   const form = useForm({
-
-    resolver: zodResolver(createPreventaSchemaForm),
+    resolver: zodResolver(updatePreventaSchemaForm),
     defaultValues: {
       identificador:
         preventaData?.clienteId?.datos?.dni ||
@@ -94,7 +93,7 @@ export function EditarPreventaForm({ preventaData }) {
       fechaValidez: preventaData?.fechaValidez || new Date(),
     },
   });
-  console.log(preventaData);
+
   const { handleSubmit, watch, setValue, control, clearErrors } = form;
 
   const formData = watch();
@@ -131,42 +130,158 @@ export function EditarPreventaForm({ preventaData }) {
       ...preventaData,
     };
 
-    if (preventaData?.cliente?.tipo === "persona") {
+    if (formData?.tipo === "persona") {
       updateObject["cliente"] = {
         tipo: formData?.tipo,
         datos: {
           dni: formData?.identificador,
           nombres: formData?.nombres,
           apellidos: formData?.apellidos,
-          email: formData?.email,
-          celular: formData?.celular,
+          direccion:
+            preventaData?.direccion?.trim() === ""
+              ? undefined
+              : preventaData?.direccion?.trim(),
+          email:
+            preventaData?.email?.trim() === ""
+              ? undefined
+              : preventaData?.email?.trim(),
+          celular:
+            preventaData?.celular?.trim() === ""
+              ? undefined
+              : preventaData?.celular?.trim(),
         },
       };
     }
 
-    if (preventaData?.cliente?.tipo === "empresa") {
+    if (formData?.tipo === "empresa") {
       updateObject["cliente"] = {
         tipo: formData?.tipo,
         datos: {
           ruc: formData?.identificador,
           razonSocial: formData?.razonSocial,
           representanteLegal: formData?.representanteLegal,
-          direccion: formData?.direccion,
-          email: formData?.email,
-          celular: formData?.celular,
+          direccion:
+            formData?.direccion?.trim() === ""
+              ? undefined
+              : formData?.direccion?.trim(),
+          email:
+            formData?.email?.trim() === ""
+              ? undefined
+              : formData?.email?.trim(),
+          celular:
+            formData?.celular?.trim() === ""
+              ? undefined
+              : formData?.celular?.trim(),
         },
       };
     }
 
-    updateObject["productos"] = productsPreventa;
-    updateObject["obsequios"] = obsequiosPreventa;
+    let productsFormated = [];
+    let obsequiosFormated = [];
 
-    updateObject["comentarios"] = formData?.comentarios;
-    updateObject["cotizacion"] = formData?.cotizacion;
+    // Formatear los productos
+    if (productsPreventa.length > 0) {
+      productsFormated = productsPreventa.map((producto) => {
+        if (producto.tipo === "moto") {
+          const motoObject = {
+            ...producto,
+            almacen: producto?.almacenId?.nombre,
+            proveedor: producto?.proveedorId?.nombre,
+            marca: producto?.modeloId?.marcaId?.nombre,
+            category: producto?.modeloId?.categoryId?.nombre,
+            modelo: producto?.modeloId?.nombre,
+          };
+
+          delete motoObject?.internalId;
+          delete motoObject?.numeracion;
+
+          return motoObject;
+        } else {
+          const unitProducto = Array.isArray(producto?.unidades)
+            ? producto?.unidades?.find((unit) => unit?.code === producto?.code)
+            : null;
+
+          const productoObject = {
+            ...producto,
+            almacen: producto?.almacenId?.nombre,
+            category: producto?.categoryId?.nombre,
+            marca: producto?.marcaId?.nombre,
+            proveedor: producto?.proveedorId?.nombre,
+            estado: unitProducto?.estado ?? producto?.estado,
+            unitId: unitProducto?._id ?? producto?.unitId,
+            productId: producto?._id ?? producto?.productId,
+          };
+
+          delete productoObject?.unidades;
+          delete productoObject?.internalId;
+          delete productoObject?.numeracion;
+          delete productoObject?.stock;
+          delete productoObject?.stockMinimo;
+          delete productoObject?._id;
+          delete productoObject?.__v;
+          delete productoObject?.createdAt;
+          delete productoObject?.updatedAt;
+          delete productoObject?.precioCompra;
+          delete productoObject?.importado;
+          delete productoObject?.obsequio;
+          delete productoObject?.gastos;
+
+          return productoObject;
+        }
+      });
+    }
+
+    // Formatear los obsequios
+
+    if (obsequiosPreventa.length > 0) {
+      obsequiosFormated = obsequiosPreventa.map((obsequio) => {
+        const unitObsequio = obsequio?.unidades?.find(
+          (unit) => unit?.code === obsequio?.code
+        );
+
+        const obsequioObject = {
+          ...obsequio,
+          almacen: obsequio?.almacenId?._id,
+          category: obsequio?.categoryId?._id,
+          marca: obsequio?.marcaId?._id,
+          proveedor: obsequio?.proveedorId?._id,
+          estado:
+            obsequio?.nombre === "SOAT" ? "Disponible" : unitObsequio?.estado ?? obsequio?.estado,
+          unitId: unitObsequio?._id ?? obsequio?.unitId,
+          productId: obsequio?._id,
+        };
+
+        delete obsequioObject?.unidades;
+        delete obsequioObject?.internalId;
+        delete obsequioObject?.numeracion;
+        delete obsequioObject?.precioVenta;
+        delete obsequioObject?.stock;
+        delete obsequioObject?.stockMinimo;
+        delete obsequioObject?._id;
+        delete obsequioObject?.__v;
+        delete obsequioObject?.createdAt;
+        delete obsequioObject?.updatedAt;
+
+        return obsequioObject;
+      });
+
+    }
+
+    updateObject["productos"] = productsFormated;
+
+    updateObject["obsequios"] = obsequiosFormated;
+
+    (updateObject["comentarios"] =
+      formData?.comentarios?.trim() === ""
+        ? undefined
+        : formData?.comentarios?.trim()),
+      (updateObject["cotizacion"] = formData?.cotizacion);
     updateObject["fechaValidez"] = formData?.fechaValidez;
 
     delete updateObject.createdAt;
     delete updateObject.updatedAt;
+
+    console.log("updateObject", updateObject);
 
     // Toast promise para buscar una persona
     toast.promise(
@@ -220,6 +335,7 @@ export function EditarPreventaForm({ preventaData }) {
               clearErrors("celular");
               return `Persona encontrada`;
             },
+
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
@@ -276,6 +392,11 @@ export function EditarPreventaForm({ preventaData }) {
     }
   }, [cotizacionValue, setValue]);
 
+  useEffect(() => {
+    form.setValue("productos", productsPreventa);
+    form.clearErrors("productos");
+  }, [productsPreventa]);
+
   return (
     <>
       <Form {...form}>
@@ -299,10 +420,14 @@ export function EditarPreventaForm({ preventaData }) {
                           clearErrors("apellidos");
                           clearErrors("nombres");
                           clearErrors("razonSocial");
+                          clearErrors("direccion");
+                          clearErrors("email");
                           clearErrors("celular");
                           setValue("apellidos", "");
                           setValue("nombres", "");
                           setValue("razonSocial", "");
+                          setValue("direccion", "");
+                          setValue("email", "");
                           setValue("celular", "");
                         }}
                         defaultValue={field.value}
@@ -488,35 +613,21 @@ export function EditarPreventaForm({ preventaData }) {
                       <FormItem className="space-y-2">
                         <FormLabel>Representante Legal</FormLabel>
                         <div className="relative">
-                          <UserCheck className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          {searchByDniOrRucIsLoading ? (
+                            <>
+                              <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                            </>
+                          ) : (
+                            <UserCheck className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                          )}
                           <FormControl>
                             <Input
                               placeholder="Representante Legal"
                               className="pl-8"
                               autoComplete="off"
-                              disabled={formSubmitIsLoading}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={control}
-                    name="direccion"
-                    render={({ field }) => (
-                      <FormItem className="space-y-2">
-                        <FormLabel>Dirección</FormLabel>
-                        <div className="relative">
-                          <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                          <FormControl>
-                            <Input
-                              placeholder="Dirección"
-                              className="pl-8"
-                              autoComplete="off"
-                              disabled={formSubmitIsLoading}
+                              disabled={
+                                searchByDniOrRucIsLoading || formSubmitIsLoading
+                              }
                               {...field}
                             />
                           </FormControl>
@@ -529,19 +640,57 @@ export function EditarPreventaForm({ preventaData }) {
               )}
               <FormField
                 control={control}
+                name="direccion"
+                render={({ field }) => (
+                  <FormItem className="space-y-2">
+                    <FormLabel>Dirección</FormLabel>
+                    <div className="relative">
+                      {searchByDniOrRucIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
+                      <FormControl>
+                        <Input
+                          placeholder="Dirección"
+                          className="pl-8"
+                          autoComplete="off"
+                          disabled={
+                            searchByDniOrRucIsLoading || formSubmitIsLoading
+                          }
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </div>
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={control}
                 name="email"
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>Email</FormLabel>
                     <div className="relative">
-                      <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      {searchByDniOrRucIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
                       <FormControl>
                         <Input
                           type="email"
                           placeholder="Email"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={formSubmitIsLoading}
+                          disabled={
+                            searchByDniOrRucIsLoading || formSubmitIsLoading
+                          }
                           {...field}
                         />
                       </FormControl>
@@ -557,13 +706,21 @@ export function EditarPreventaForm({ preventaData }) {
                   <FormItem className="space-y-2">
                     <FormLabel>Celular</FormLabel>
                     <div className="relative">
-                      <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      {searchByDniOrRucIsLoading ? (
+                        <>
+                          <Loader2 className="absolute left-2 top-2.5 h-4 w-4 animate-spin" />
+                        </>
+                      ) : (
+                        <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                      )}
                       <FormControl>
                         <Input
                           placeholder="Celular"
                           className="pl-8"
                           autoComplete="off"
-                          disabled={formSubmitIsLoading}
+                          disabled={
+                            searchByDniOrRucIsLoading || formSubmitIsLoading
+                          }
                           {...field}
                           onChange={(e) => {
                             onChangeCelular(e, field);
@@ -577,7 +734,43 @@ export function EditarPreventaForm({ preventaData }) {
               />
             </CardContent>
           </Card>
-
+          <FormField
+            control={form.control}
+            name="productos"
+            render={({ field }) => (
+              <FormItem>
+                <Card className="mb-6">
+                  <CardHeader>
+                    <CardTitle>Productos</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <ProductsPreventaTable
+                      productsVenta={productsPreventa}
+                      setProductsVenta={setProductsPreventa}
+                    />
+                    {/* Campo oculto para que el valor entre al form y valide */}
+                    <input
+                      type="hidden"
+                      value={JSON.stringify(field.value)}
+                      {...field}
+                    />
+                    <FormMessage />
+                  </CardContent>
+                </Card>
+              </FormItem>
+            )}
+          />
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Obsequios</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <ObsequiosPreventaTable
+                obsequiosPreventa={obsequiosPreventa}
+                setObsequiosPreventa={setObsequiosPreventa}
+              />
+            </CardContent>
+          </Card>
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Comentarios</CardTitle>
@@ -687,29 +880,6 @@ export function EditarPreventaForm({ preventaData }) {
                   )}
                 />
               )}
-            </CardContent>
-          </Card>
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Productos</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <ProductsPreventaTable
-                productsVenta={productsPreventa}
-                setProductsVenta={setProductsPreventa}
-              />
-            </CardContent>
-          </Card>
-
-          <Card className="mb-6">
-            <CardHeader>
-              <CardTitle>Obsequios</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <ObsequiosPreventaTable
-                obsequiosPreventa={obsequiosPreventa}
-                setObsequiosPreventa={setObsequiosPreventa}
-              />
             </CardContent>
           </Card>
 

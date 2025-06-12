@@ -3,11 +3,14 @@ import { notFound } from 'next/navigation';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { getReservacionRequestServer } from '@/app/inventario/motos/reservaciones/_services/requests';
 import { DetailReservacionContent } from '@/app/inventario/motos/reservaciones/[id]/_components/DetailReservacionContent';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
   const { reservacion } = await getReservacionRequestServer(params.id);
 
-  if (!reservacion) {
+  if (!reservacion || session?.user?.rol !== "Administrador") {
     notFound();
   }
 

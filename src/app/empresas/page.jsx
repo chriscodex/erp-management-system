@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { Building, Plus, MapPin, Phone, Mail } from "lucide-react";
 import Link from "next/link";
 
@@ -18,9 +19,16 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RiFileListLine } from "@remixicon/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function EmpresasPage() {
+  const session = await getServerSession(authOptions);
   const { empresas } = await getAllEmpresasRequestServer();
+
+  if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
 
   /* Secciones del navbar */
   const navbarTitles = [
@@ -65,7 +73,9 @@ export default async function EmpresasPage() {
                         <CardTitle className="text-2xl mb-2">
                           {empresa?.nombre}
                         </CardTitle>
-                        <CardDescription>{empresa?.descripcion}</CardDescription>
+                        <CardDescription>
+                          {empresa?.descripcion}
+                        </CardDescription>
                       </div>
                       <Badge variant="secondary" className="text-sm">
                         RUC: {empresa?.ruc}

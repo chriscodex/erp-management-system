@@ -37,7 +37,7 @@ export async function createMarcaRequestClient(marca, setLoading, setError) {
 
       // Obtener los datos de la persona
       const response = await postData(createMarcaClientUrl, marca);
-      if (response?.status === 409) {
+      if (response?.status === 201) {
         setLoading(false);
         setError('nombre', {
           type: 'custom',

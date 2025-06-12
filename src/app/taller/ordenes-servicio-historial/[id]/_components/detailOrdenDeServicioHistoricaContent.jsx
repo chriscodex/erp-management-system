@@ -11,10 +11,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDateLong, formatDateShort, formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
+import {
+  formatDateLong,
+  formatDateShort,
+  formatearCodigoCounterBoletaFactura,
+} from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
 
 import { DetailProductOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductOrdenDeServicioDetailSheet";
+import { DetailProductExternoOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductExternoOrdenDeServicioDetailSheet";
 import { DetailServicioOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailServicioOrdenDeServicioDetailSheet";
 import { DetailMecanicoOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailMecanicoOrdenDeServicioDetailSheet";
 import { formatMoney } from "@/lib/utils";
@@ -229,15 +234,22 @@ export function DetailOrdenDeServicioHistoricaContent({
                     {ordenDeServicioHistoricaData?.comprobante}
                   </p>
                 )}
-                {ordenDeServicioHistoricaData?.counter && (
-                  <p>
-                    <strong>Número de comprobante:</strong>{" "}
-                    {formatearCodigoCounterBoletaFactura(
-                      ordenDeServicioHistoricaData?.counter,
-                      "boleta"
-                    )}
-                  </p>
-                )}
+                {ordenDeServicioHistoricaData?.counter &&
+                  ordenDeServicioHistoricaData?.comprobante && (
+                    <p>
+                      <strong>Número de comprobante:</strong>{" "}
+                      {formatearCodigoCounterBoletaFactura(
+                        ordenDeServicioHistoricaData.counter,
+                        ordenDeServicioHistoricaData.comprobante ===
+                          "Boleta Impresa"
+                          ? "boleta"
+                          : ordenDeServicioHistoricaData.comprobante ===
+                            "Factura Impresa"
+                          ? "factura"
+                          : ""
+                      )}
+                    </p>
+                  )}
               </div>
             </CardContent>
           </Card>
@@ -345,7 +357,6 @@ export function DetailOrdenDeServicioHistoricaContent({
                     <TableHead>Código</TableHead>
                     <TableHead>Nombre</TableHead>
                     <TableHead>Descripción</TableHead>
-                    <TableHead>Estado</TableHead>
                     <TableHead>Precio</TableHead>
                     <TableHead>Cantidad</TableHead>
                     <TableHead>Total</TableHead>
@@ -361,13 +372,6 @@ export function DetailOrdenDeServicioHistoricaContent({
                         </TableCell>
                         <TableCell>{producto?.nombre}</TableCell>
                         <TableCell>{producto?.descripcion}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline">
-                            {producto?.tipo === "moto"
-                              ? producto?.estado?.titulo
-                              : producto?.estado}
-                          </Badge>
-                        </TableCell>
                         <TableCell>
                           S/.{formatMoney(producto?.precioVenta)}
                         </TableCell>
@@ -396,6 +400,50 @@ export function DetailOrdenDeServicioHistoricaContent({
                       </span>
                     </TableCell>
                   </TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        )}
+        {ordenDeServicioHistoricaData?.productosExternos?.length > 0 && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Package className="mr-2" />
+                Productos Externos
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Nombre</TableHead>
+                    <TableHead>Descripción</TableHead>
+                    <TableHead>Cantidad</TableHead>
+                    <TableHead>Fecha</TableHead>
+                    <TableHead>Acciones</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {ordenDeServicioHistoricaData?.productosExternos?.map(
+                    (productoExterno) => {
+                      return (
+                        <TableRow key={productoExterno?.code}>
+                          <TableCell>{productoExterno?.nombre}</TableCell>
+                          <TableCell>{productoExterno?.descripcion}</TableCell>
+                          <TableCell>{productoExterno?.cantidad}</TableCell>
+                          <TableCell>
+                            {formatDateShort(productoExterno?.fecha, false)}
+                          </TableCell>
+                          <TableCell>
+                            <DetailProductExternoOrdenDeServicioDetailSheet
+                              productoExternoOrdenDeServicio={productoExterno}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    }
+                  )}
                 </TableBody>
               </Table>
             </CardContent>

@@ -10,7 +10,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDateLong } from "@/lib/formateador";
+import { Badge } from "@/components/ui/badge";
+import {
+  formatDateLong,
+  formatearCodigoCounterBoletaFactura,
+} from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 
@@ -26,10 +30,16 @@ export function DetailBoletaContent({ ventaData, empresas }) {
           <Label className="sm:text-4xl text-xl font-bold">Boleta</Label>
         </div>
         <div className="flex flex-col items-center lg:flex-row gap-4">
-          <ImprimirBoletaButton ventaData={ventaData} empresas={empresas} />
-          <FinalizarVentaButton ventaId={ventaData?._id} />
+          <ImprimirBoletaButton
+            ventaData={ventaData}
+            empresas={empresas}
+            reimprimir={!!ventaData?.counter}
+          />
+          <FinalizarVentaButton
+            ventaId={ventaData?._id}
+            disabled={ventaData?.comprobante !== "Boleta Impresa"}
+          />
         </div>
-        
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -54,12 +64,14 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                   </p>
                   {ventaData?.clienteId?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong> {ventaData?.clienteId?.datos?.direccion}
+                      <strong>Dirección:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.direccion}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong> {ventaData?.clienteId?.datos?.email}
+                      <strong>Email:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
@@ -88,7 +100,8 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                   </p>
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong> {ventaData?.clienteId?.datos?.email}
+                      <strong>Email:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
@@ -127,6 +140,15 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                 <p>
                   <strong>Comprobante:</strong> {ventaData?.comprobante}
                 </p>
+                {ventaData?.counter && (
+                  <p>
+                    <strong>Número de comprobante:</strong>{" "}
+                    {formatearCodigoCounterBoletaFactura(
+                      ventaData?.counter,
+                      "boleta"
+                    )}
+                  </p>
+                )}
                 <p>
                   <strong>Estado SUNAT:</strong> {ventaData?.estadoSunat}
                 </p>
@@ -232,16 +254,27 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {ventaData?.obsequios.map((obsequio) => (
-                  <TableRow key={obsequio?.code}>
-                    <TableCell className="font-medium">
-                      {obsequio?.code}
+                {ventaData?.obsequios && ventaData.obsequios.length > 0 ? (
+                  ventaData.obsequios.map((obsequio) => (
+                    <TableRow key={obsequio?.code}>
+                      <TableCell className="font-medium">
+                        {obsequio?.code}
+                      </TableCell>
+                      <TableCell>{obsequio?.nombre}</TableCell>
+                      <TableCell>{obsequio?.descripcion}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{obsequio?.estado}</Badge>
+                      </TableCell>
+                      <TableCell>{obsequio?.cantidad}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} className="h-24 text-center">
+                      Sin obsequios.
                     </TableCell>
-                    <TableCell>{obsequio?.nombre}</TableCell>
-                    <TableCell>{obsequio?.descripcion}</TableCell>
-                    <TableCell>{obsequio?.cantidad}</TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </CardContent>

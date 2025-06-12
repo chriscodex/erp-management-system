@@ -1,8 +1,17 @@
+import { notFound } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { RiFileCopy2Line } from '@remixicon/react';
 import { NuevaOrdenDeServicioForm  } from '@/app/taller/ordenes-servicio/nuevo/_components/nuevaOrdenDeServicioForm';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function NuevaOrdenDeServicioPage() {
+
+  const session = await getServerSession(authOptions);
+  if (session?.user?.rol !== "Administrador" && session?.user?.rol !== "Tecnico") {
+      notFound();
+    }
+    
   const titles = [
     {
       title: 'Taller',

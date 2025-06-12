@@ -30,6 +30,7 @@ export async function updateOrdenDeServicioController(request, contextRoute) {
 
     const result = await ordenServicioService.updateOrdenDeServicio(ordenDeServicioId, body);
     return result;
+    
   } catch (error) {
     console.error(
       'Orden de Servicio Controller: Error interno actualizando la orden de servicio',

@@ -149,11 +149,11 @@ export function UpdateUnitProductForm({
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="disponible">Disponible</SelectItem>
+                        <SelectItem value="prevendido">Prevendido</SelectItem>
+                        <SelectItem value="taller">Taller</SelectItem>
                         <SelectItem value="dañado">Dañado</SelectItem>
                         <SelectItem value="reparado">Reparado</SelectItem>
-                        <SelectItem value="desaparecido">
-                          Desaparecido
-                        </SelectItem>
+                        <SelectItem value="desaparecido">Desaparecido</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

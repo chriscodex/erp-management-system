@@ -63,6 +63,8 @@ export function ObsequiosPreventaTable({
   const columns = [
     {
       accessorKey: 'numeracion',
+/*************  ✨ Windsurf Command ⭐  *************/
+/*******  47e86d4f-f69c-4498-8794-5bfdb540416c  *******/
       header: ({ column }) => {
         return (
           <Button

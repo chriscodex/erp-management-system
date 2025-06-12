@@ -29,7 +29,6 @@ export function FinalizarOrdenDeServicioAlert({
       toast.promise(finalizarOrdenDeServicioRequestClient(ordenDeServicioId), {
         loading: 'Finalizando Orden De Servicio...',
         success: (response) => {
-          console.log("Esto es el response", response);
           if (actionAfterComplete === 'refresh') {
             router.refresh();
             return `Orden de Servicio finalizada correctamente`;

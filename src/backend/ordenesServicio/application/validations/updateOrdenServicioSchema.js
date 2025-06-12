@@ -142,6 +142,7 @@ export const updateOrdenServicioSchema = z.object({
   productos: z.array(
     z.object({
       productId: z.any(),
+      unitId: z.any(),
       code: z
         .string(),
       nombre: z
@@ -211,6 +212,10 @@ export const updateOrdenServicioSchema = z.object({
         .refine((val) => val >= 0, {
           message: 'El precio de venta debe ser un número mayor o igual a 0',
         }),
+      inventario: z
+      .enum(['existente', 'eliminado'], {
+        message: 'Debe ingresar si el producto está o no en inventario',
+      })
     }))
     .optional(),
   servicios: z.array(
@@ -226,6 +231,26 @@ export const updateOrdenServicioSchema = z.object({
         required_error: "Ingrese el precio",
         invalid_type_error: "Debe ingresar un número valido",
       }),
+    })
+  ).optional(),
+
+  productosExternos: z.array(
+    z.object({
+      nombre: z
+        .string()
+        .min(3, "El nombre debe tener al menos 3 caracteres")
+        .max(100, "Máximo 100 caracteres"),
+      descripcion: z
+        .string()
+        .min(3, "La descripción debe tener al menos 3 caracteres")
+        .max(100, "Máximo 100 caracteres"),
+      cantidad: z.number({
+        required_error: "Ingrese la cantidad",
+        invalid_type_error: "Debe ingresar un número valido",
+      }),
+      fecha: z
+        .union([z.date(), z.string()])
+        .transform((val) => (typeof val === "string" ? new Date(val) : val)),
     })
   ).optional(),
 

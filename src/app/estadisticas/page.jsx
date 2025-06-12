@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation";
+
 import { Label } from "@radix-ui/react-label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { NavbarSimple } from "@/components/navbar/NavbarSimple";
@@ -20,11 +22,19 @@ import ObsequiosLineChart from "./_components/ObsequiosLineChart";
 
 import VentasTotalesBarChart from "@/app/estadisticas/_components/VentasTotalesBarChart";
 
-
 import PedidosAreaChart from "./_components/PedidosAreaChart";
 import { getAllPedidosHistoricosRequestServer } from "@/app/estadisticas/_services/requests";
 
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+
 export default async function Page() {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
+
   //Data para IncomeExpenseBarChart
   const dataProductos = await getAllProductsRequestServer();
   const dataMotos = await getAllMotosRequestServer();
@@ -37,7 +47,6 @@ export default async function Page() {
 
   //Data para vendedores y productos mas vendidos
   const dataVentasHistoricas = await getAllVentasHistoricasRequestServer();
-
 
   //Data para pedidos
 

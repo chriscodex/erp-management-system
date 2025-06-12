@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   flexRender,
@@ -7,12 +7,13 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from '@tanstack/react-table';
-import { useEffect, useState } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
-import { useRouter } from 'next/navigation';
+} from "@tanstack/react-table";
+import { useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-import { Input } from '@/components/ui/input';
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -20,38 +21,39 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Sheet, SheetTrigger } from '@/components/ui/sheet';
-import { DataTablePagination } from '@/components/ui/table-pagination';
-import { DataTableViewOptions } from '@/components/ui/table-view-options';
-import { Button } from '@/components/ui/button';
-import { ArrowUpDown } from 'lucide-react';
-import { RiFileListLine, RiDeleteBinLine } from '@remixicon/react';
-import { Badge } from '@/components/ui/badge';
+} from "@/components/ui/table";
+import { Sheet, SheetTrigger } from "@/components/ui/sheet";
+import { DataTablePagination } from "@/components/ui/table-pagination";
+import { DataTableViewOptions } from "@/components/ui/table-view-options";
+import { Button } from "@/components/ui/button";
+import { ArrowUpDown } from "lucide-react";
+import { RiFileListLine, RiDeleteBinLine } from "@remixicon/react";
+import { Badge } from "@/components/ui/badge";
 
-import { DeleteCategoryAlert } from '@/app/inventario/categorias/_components/dialogs/DeleteCategoryAlert';
-import { CategoryDetail } from '@/app/inventario/categorias/_components/sheets/category-detail';
-import { SheetUpdateWrapper } from '@/app/inventario/categorias/_components/sheets/updateCategory/sheetUpdateWrapper';
+import { DeleteCategoryAlert } from "@/app/inventario/categorias/_components/dialogs/DeleteCategoryAlert";
+import { CategoryDetail } from "@/app/inventario/categorias/_components/sheets/category-detail";
+import { SheetUpdateWrapper } from "@/app/inventario/categorias/_components/sheets/updateCategory/sheetUpdateWrapper";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { serverErrorToast } from '@/components/toast/serverErrorToast';
-import { TIME_DEBOUNCE } from '@/lib/utils';
+} from "@/components/ui/tooltip";
+import { serverErrorToast } from "@/components/toast/serverErrorToast";
+import { TIME_DEBOUNCE } from "@/lib/utils";
 
 export function DataTableCategory({ data, segments, status = 200 }) {
   const router = useRouter();
+  const { data: session } = useSession();
 
   const columns = [
     {
-      accessorKey: 'nombre',
+      accessorKey: "nombre",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Nombre
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -59,17 +61,17 @@ export function DataTableCategory({ data, segments, status = 200 }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue('nombre')}</div>;
+        return <div className="text-start">{row.getValue("nombre")}</div>;
       },
     },
     {
       accessorFn: (row) => row?.segmentId?.nombre,
-      id: 'Segmento',
+      id: "Segmento",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Segmento
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -82,12 +84,12 @@ export function DataTableCategory({ data, segments, status = 200 }) {
       },
     },
     {
-      accessorKey: 'estado',
+      accessorKey: "estado",
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
           >
             Estado
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -97,7 +99,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
       cell: ({ row }) => {
         return (
           <div className="text-start">
-            {row.getValue('estado') === 'activo' ? (
+            {row.getValue("estado") === "activo" ? (
               <Badge variant="successTable" className="text-sm">
                 Activo
               </Badge>
@@ -111,8 +113,8 @@ export function DataTableCategory({ data, segments, status = 200 }) {
       },
     },
     {
-      id: 'actions',
-      header: 'Acciones',
+      id: "actions",
+      header: "Acciones",
       cell: ({ row }) => {
         const categoryData = row.original;
 
@@ -139,27 +141,30 @@ export function DataTableCategory({ data, segments, status = 200 }) {
               </Tooltip>
             </TooltipProvider>
 
-            <SheetUpdateWrapper
-              segments={segments}
-              categoryData={categoryData}
-            />
+            {session?.user?.rol === "Administrador" && (
+              <SheetUpdateWrapper
+                segments={segments}
+                categoryData={categoryData}
+              />
+            )}
 
-            <TooltipProvider delayDuration={0}>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div
-                    className="cursor-pointer"
-                    onClick={() => setIsOpenDialogDeleteCategory(true)}
-                  >
-                    <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Eliminar</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
+            {session?.user?.rol === "Administrador" && (
+              <TooltipProvider delayDuration={0}>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <div
+                      className="cursor-pointer"
+                      onClick={() => setIsOpenDialogDeleteCategory(true)}
+                    >
+                      <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Eliminar</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
             <DeleteCategoryAlert
               isOpen={isOpenDialogDeleteCategory}
               setIsOpen={setIsOpenDialogDeleteCategory}
@@ -193,10 +198,10 @@ export function DataTableCategory({ data, segments, status = 200 }) {
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('nombre')?.setFilterValue(value);
+    table.getColumn("nombre")?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
@@ -256,7 +261,7 @@ export function DataTableCategory({ data, segments, status = 200 }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

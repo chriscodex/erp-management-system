@@ -1,7 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Package, Trash, Edit2 } from 'lucide-react';
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { Package, Trash, Edit2 } from "lucide-react";
 
 import {
   Card,
@@ -9,12 +10,13 @@ import {
   CardDescription,
   CardFooter,
   CardHeader,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { DeleteModeloAlert } from '@/app/inventario/motos/modelos/_components/Dialogs/DeleteModeloAlert';
-import Link from 'next/link';
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { DeleteModeloAlert } from "@/app/inventario/motos/modelos/_components/Dialogs/DeleteModeloAlert";
+import Link from "next/link";
 
 export function ModeloCard({ modelo }) {
+  const { data: session } = useSession();
   /* Manejar estado de eliminar el producto */
   const [isOpenDialogDeleteModelo, setIsOpenDialogDeleteModelo] =
     useState(false);
@@ -30,15 +32,15 @@ export function ModeloCard({ modelo }) {
           <div className="flex items-center space-x-2">
             <div
               className={`h-2 w-2 rounded-full ${
-                modelo?.estado === 'activo' ? 'bg-green-500' : 'bg-red-500'
+                modelo?.estado === "activo" ? "bg-green-500" : "bg-red-500"
               }`}
             />
             <span
               className={`text-sm ${
-                modelo?.estado === 'activo' ? 'text-green-600' : 'text-red-500'
+                modelo?.estado === "activo" ? "text-green-600" : "text-red-500"
               }`}
             >
-              {modelo?.estado === 'activo' ? 'Activo' : 'Inactivo'}
+              {modelo?.estado === "activo" ? "Activo" : "Inactivo"}
             </span>
           </div>
         </div>
@@ -60,21 +62,23 @@ export function ModeloCard({ modelo }) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="grid grid-cols-2 gap-4">
-        <Button
-          className="w-full col-span-1 bg-destructive text-destructive-foreground hover:bg-destructive/90"
-          onClick={() => setIsOpenDialogDeleteModelo(true)}
-        >
-          <Trash className="h-4 w-4" />
-          Eliminar
-        </Button>
-        <Link href={`/inventario/motos/modelos/${modelo?._id}/edit`}>
-          <Button className="w-full col-span-1" variant="outline">
-            <Edit2 className="h-4 w-4 mr-2" />
-            Editar
+      {session?.user?.rol === "Administrador" && (
+        <CardFooter className="grid grid-cols-2 gap-4">
+          <Button
+            className="w-full col-span-1 bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            onClick={() => setIsOpenDialogDeleteModelo(true)}
+          >
+            <Trash className="h-4 w-4" />
+            Eliminar
           </Button>
-        </Link>
-      </CardFooter>
+          <Link href={`/inventario/motos/modelos/${modelo?._id}/edit`}>
+            <Button className="w-full col-span-1" variant="outline">
+              <Edit2 className="h-4 w-4 mr-2" />
+              Editar
+            </Button>
+          </Link>
+        </CardFooter>
+      )}
       {/* Dialog Delete */}
       <DeleteModeloAlert
         isOpen={isOpenDialogDeleteModelo}

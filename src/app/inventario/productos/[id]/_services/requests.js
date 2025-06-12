@@ -152,7 +152,7 @@ export async function deleteUnitProductRequestClient(productId, unitProductId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la categoría: ' + response.response?.data?.error
+          'No se pudo eliminar el producto: ' + response.response?.data?.error
         );
         return;
       }

@@ -20,7 +20,7 @@ import {
 
 const styles = StyleSheet.create(stylesFactura);
 
-export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
+export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
 
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
@@ -74,28 +74,28 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
           <View style={styles.datosEmpresa}>
             <View>
               <Text style={styles.datosEmpresaTitle}>
-                {empresaSeleccionada?.nombre || "Moto Rock Ruta 33 E.I.R.L"}
+                {selectedEmpresa?.nombre || "Moto Rock Ruta 33 E.I.R.L"}
               </Text>
               <Text style={styles.datosEmpresaTitle}>
-                RUC N° {empresaSeleccionada?.ruc || "20202020202"}
+                RUC N° {selectedEmpresa?.ruc || "20202020202"}
               </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
                 <Text>
-                  {empresaSeleccionada?.direccion ||
+                  {selectedEmpresa?.direccion ||
                     "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}
                 </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>{empresaSeleccionada?.telefono || "01-442-1210"}</Text>
+                <Text>{selectedEmpresa?.telefono || "01-442-1210"}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
                 <Text>
-                  {empresaSeleccionada?.email || "gerencia@motorock33.com"}
+                  {selectedEmpresa?.email || "gerencia@motorock33.com"}
                 </Text>
               </View>
             </View>

@@ -4,13 +4,15 @@ import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { getOrdenDeServicioRequestServer } from '@/app/taller/ordenes-servicio/_services/requests';
 import { DetailOrdenDeServicioContent } from '@/app/taller/ordenes-servicio/[id]/_components/detailOrdenDeServicioContent';
 import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
- 
+  const session = await getServerSession(authOptions);
   const { ordenDeServicio } = await getOrdenDeServicioRequestServer(params.id);
   const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
 
-  if (!ordenDeServicio) {
+  if (!ordenDeServicio || session?.user?.rol !== "Administrador" && session?.user?.rol !== "Tecnico") {
     notFound();
   }
 

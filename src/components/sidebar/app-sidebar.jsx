@@ -215,20 +215,33 @@ export function AppSidebar({ ...props }) {
           </SidebarHeader>
 
           <SidebarContent>
+            {/* Sección Home */}
             {session?.user?.rol === "Administrador" && (
               <NavHome home={adminData.home} />
             )}
-            <NavVentas navTitle={"Ventas"} items={adminData.navVentas} />
-            {session?.user?.rol === "Administrador" && (
-              <NavMain
-                navTitle={"Plataforma"}
-                items={adminData.navPlataforma}
-              />
+
+            {/* Sección de Ventas*/}
+
+            {(session?.user?.rol === "Administrador" ||
+              session?.user?.rol === "Vendedor") && (
+              <NavVentas navTitle={"Ventas"} items={adminData.navVentas} />
             )}
-            <NavTaller navTitle={"Taller"} items={adminData.navTaller} />
+
+            {/* Sección de Plataforma*/}
+
+            <NavMain navTitle={"Plataforma"} items={adminData.navPlataforma} />
+
+            {/* Solo para Administrador */}
+
+            {(session?.user?.rol === "Administrador" ||
+              session?.user?.rol === "Tecnico") && (
+              <NavTaller navTitle={"Taller"} items={adminData.navTaller} />
+            )}
+
             {session?.user?.rol === "Administrador" && (
               <NavAdministracion projects={adminData.navAdministracion} />
             )}
+            
           </SidebarContent>
 
           <SidebarFooter>

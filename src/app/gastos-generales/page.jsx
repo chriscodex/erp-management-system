@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { Label } from "@radix-ui/react-label";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { NavbarSimple } from "@/components/navbar/NavbarSimple";
@@ -7,14 +8,24 @@ import { DataTableGastosGenerales } from "@/app/gastos-generales/_components/gas
 import { getAllGastosGeneralesRequestServer } from "@/app/gastos-generales/_services/requests";
 import { RiWallet2Fill } from "@remixicon/react";
 import { SheetCreateGastoGeneralWrapper } from "@/app/gastos-generales/_components/sheets/createGastoGeneral/sheetCreateGastoGeneralWrapper";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page() {
+  const session = await getServerSession(authOptions);
+
+  if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
+  
   const { gastosGenerales, status } =
     await getAllGastosGeneralesRequestServer();
 
   const gastosGeneralesSorted = sortByUpdateDateDesc(gastosGenerales);
 
-  const gastosGeneralesEnumerados = agregarNumeracionTable(gastosGeneralesSorted);
+  const gastosGeneralesEnumerados = agregarNumeracionTable(
+    gastosGeneralesSorted
+  );
 
   return (
     <>

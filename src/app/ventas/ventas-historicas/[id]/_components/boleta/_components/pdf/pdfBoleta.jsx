@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Document,
   Text,
@@ -10,16 +11,22 @@ import {
   Path,
 } from "@react-pdf/renderer";
 
-import { stylesVentaHistorica} from "@/app/ventas/ventas-historicas/[id]/_components/pdf/stylesVentaHistorica.js";
-import { formatDateLong, formatDateShort } from "@/lib/formateador";
+import { stylesBoleta } from "@/app/ventas/[ventaId]/boleta/_components/pdf/stylesBoleta.js";
+import {
+  formatDateLong,
+  formatearCodigoCounterBoletaFactura,
+  formatNumeroALetras,
+} from "@/lib/formateador";
 
-const styles = StyleSheet.create(stylesVentaHistorica);
+const styles = StyleSheet.create(stylesBoleta);
 
-export function PdfVentaHistorica({ ventaHistoricaData }) {
-
+export function PdfBoleta({ ventaHistoricaData, counterBoleta, selectedEmpresa }) {
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
-  const codigoVentaHistorica = ventaHistoricaData?.code;
+  const codigoBoleta = formatearCodigoCounterBoletaFactura(
+    counterBoleta,
+    "boleta"
+  );
 
   const MapPin = () => (
     <Svg
@@ -60,102 +67,103 @@ export function PdfVentaHistorica({ ventaHistoricaData }) {
       <Page size="A4">
         <View style={styles.header}>
           <Image src={"/logoB.jpeg"} style={styles.image} alt="logo" />
-          <Text style={styles.title}>Detalle de Venta</Text>
+          <Text style={styles.title}>Boleta electrónica</Text>
         </View>
         <View style={styles.body}>
           <View style={styles.datosEmpresa}>
             <View>
               <Text style={styles.datosEmpresaTitle}>
-                Moto Rock Ruta 33 E.I.R.L
+                {selectedEmpresa?.nombre || "Moto Rock Ruta 33 E.I.R.L"}
               </Text>
-              <Text style={styles.datosEmpresaTitle}>RUC N° 20202020202</Text>
+              <Text style={styles.datosEmpresaTitle}>
+                RUC N° {selectedEmpresa?.ruc || "20202020202"}
+              </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
-                <Text>Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz</Text>
+                <Text>
+                  {selectedEmpresa?.direccion ||
+                    "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}
+                </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>01-442-1210</Text>
+                <Text>{selectedEmpresa?.telefono || "01-442-1210"}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
-                <Text>gerencia@motorock33.com</Text>
+                <Text>
+                  {selectedEmpresa?.email || "gerencia@motorock33.com"}
+                </Text>
               </View>
             </View>
-            <View style={styles.datosVentaHistoricaContainer}>
-              <View style={styles.datosVentaHistorica}>
-                <Text style={styles.datosVentaHistoricaBold}>Venta #</Text>
-                <Text> {codigoVentaHistorica}</Text>
+
+            <View style={styles.datosBoletaContainer}>
+              <View style={styles.datosBoleta}>
+                <Text style={styles.datosBoletaBold}>Boleta N°</Text>
+                <Text> {codigoBoleta}</Text>
               </View>
-              <View style={styles.datosVentaHistorica}>
-                <Text style={styles.datosVentaHistoricaBold}>
-                  Fecha de emisión:{" "}
-                </Text>
+              <View style={styles.datosBoleta}>
+                <Text style={styles.datosBoletaBold}>Fecha de emisión: </Text>
                 <Text>{currentTime}</Text>
               </View>
             </View>
           </View>
+
           <View style={styles.separator} />
 
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {ventaHistoricaData?.cliente?.tipo === "empresa"
-                ? ventaHistoricaData?.cliente?.datos?.nombre
-                : `${ventaHistoricaData?.cliente?.datos?.apellidos} ${ventaHistoricaData?.cliente?.datos?.nombres}`}
+              {ventaHistoricaData?.clienteId?.tipo === "empresa"
+                ? ventaHistoricaData?.clienteId?.datos?.nombre
+                : `${ventaHistoricaData?.clienteId?.datos?.apellidos} ${ventaHistoricaData?.clienteId?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {ventaHistoricaData?.cliente?.tipo === "empresa" ? `RUC: ` : `DNI: `}
+                {ventaHistoricaData?.clienteId?.tipo === "empresa" ? `RUC: ` : `DNI: `}
               </Text>
               <Text>
-                {ventaHistoricaData?.cliente?.tipo === "empresa"
-                  ? `${ventaHistoricaData?.cliente?.datos?.ruc}`
-                  : `${ventaHistoricaData?.cliente?.datos?.dni}`}
+                {ventaHistoricaData?.clienteId?.tipo === "empresa"
+                  ? `${ventaHistoricaData?.clienteId?.datos?.ruc}`
+                  : `${ventaHistoricaData?.clienteId?.datos?.dni}`}
               </Text>
             </View>
-            {ventaHistoricaData?.cliente?.tipo === "empresa" && (
+            {ventaHistoricaData?.clienteId?.tipo === "empresa" && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {"Representante Legal: "}
                 </Text>
-                <Text>{ventaHistoricaData?.cliente?.datos?.representanteLegal}</Text>
+                <Text>{ventaHistoricaData?.clienteId?.datos?.representanteLegal}</Text>
               </View>
             )}
-            {ventaHistoricaData?.cliente?.tipo === "empresa" && (
+            {ventaHistoricaData?.clienteId?.datos?.direccion && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>
-                  {"Dirección: "}
-                </Text>
-                <Text>{ventaHistoricaData?.cliente?.datos?.direccion}</Text>
+                <Text style={styles.datosClienteInfoTitle}>{"Dirección: "}</Text>
+                <Text>{ventaHistoricaData.clienteId.datos.direccion}</Text>
               </View>
             )}
-            {ventaHistoricaData?.cliente?.datos?.email && (
+            {ventaHistoricaData?.clienteId?.datos?.email && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
-                <Text>{ventaHistoricaData.cliente.datos.email}</Text>
+                <Text>{ventaHistoricaData.clienteId.datos.email}</Text>
               </View>
             )}
-            {ventaHistoricaData?.cliente?.datos?.celular && (
+            {ventaHistoricaData?.clienteId?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
-                <Text>{ventaHistoricaData.cliente.datos.celular}</Text>
+                <Text>{ventaHistoricaData.clienteId.datos.celular}</Text>
               </View>
             )}
           </View>
 
-          <View style={styles.ventaHistoricaTitleContainer}>
-            <Text style={styles.ventaHistoricaTitle}>Venta</Text>
+          <View style={styles.boletaTitleCntainer}>
+            <Text style={styles.boletaTitle}>Boleta</Text>
+            {/* <Text style={styles.fechaEmision}>
+              Fecha Emisión: {currentTime}
+            </Text> */}
           </View>
-          <View style={styles.ventaHistoricaSubTitleContainer}>
-            <Text style={styles.ventaHistoricaSubTitle}>
-              Venta realizada el{" "}
-              {formatDateShort(ventaHistoricaData?.fecha, false)}
-            </Text>
-          </View>
-
           {/* Tabla */}
           <View style={styles.table}>
             {/* Encabezados */}
@@ -218,7 +226,7 @@ export function PdfVentaHistorica({ ventaHistoricaData }) {
             </Text>
           </View>
           <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>Importe Pagado: S/.</Text>
+            <Text style={styles.totalCell}>Importe a Pagar: S/.</Text>
             <Text style={styles.totalCell}>
               {ventaHistoricaData?.productos
                 .reduce(
@@ -229,17 +237,20 @@ export function PdfVentaHistorica({ ventaHistoricaData }) {
                 .toFixed(2)}
             </Text>
           </View>
-          {/* <View style={styles.AdditionalInfo}>
-            <Text style={styles.AdditionalInfoTitle}>
-              Información adicional
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>SON:</Text>
+            <Text style={styles.totalCell}>
+              {formatNumeroALetras(
+                ventaHistoricaData?.productos
+                  .reduce(
+                    (acc, producto) =>
+                      acc + producto?.precioVenta * producto?.cantidad,
+                    0
+                  )
+                  .toFixed(2)
+              )}
             </Text>
-            <Text>
-              Esta cotización es válida hasta el{" "}
-              {formatDateShort(ventaHistoricaData?.fechaValidez, false)}. Luego de
-              esta fecha los precios pueden variar. Ante cualquier consulta, no
-              dude en contactarnos.
-            </Text>
-          </View> */}
+          </View>
         </View>
       </Page>
     </Document>

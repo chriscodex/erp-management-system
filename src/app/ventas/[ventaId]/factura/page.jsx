@@ -1,27 +1,33 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { getVentaRequestServer } from '@/app/ventas/_services/requests';
-import { DetailFacturaContent } from '@/app/ventas/[ventaId]/factura/_components/detailFacturaContent';
-import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
-
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { getVentaRequestServer } from "@/app/ventas/_services/requests";
+import { DetailFacturaContent } from "@/app/ventas/[ventaId]/factura/_components/detailFacturaContent";
+import { getAllEmpresasForComprobanteVentaRequestServer } from "@/app/ventas/[ventaId]/_services/requests";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
   const { venta } = await getVentaRequestServer(params.ventaId);
   const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
 
-  if (!venta) {
+  if (
+    !venta ||
+    (session?.user?.rol !== "Administrador" &&
+      session?.user?.rol !== "Vendedor")
+  ) {
     notFound();
   }
 
   const navbarTitles = [
     {
-      title: 'Inventario',
-      href: '/inventario/todos',
+      title: "Inventario",
+      href: "/inventario/todos",
       active: false,
     },
     {
-      title: 'Ventas',
-      href: '',
+      title: "Ventas",
+      href: "",
       active: false,
     },
     {
@@ -30,15 +36,15 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: 'Factura',
-      href: '',
+      title: "Factura",
+      href: "",
       active: false,
     },
   ];
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailFacturaContent ventaData={venta} empresas={empresas}/>
+      <DetailFacturaContent ventaData={venta} empresas={empresas} />
     </NavbarDynamic>
   );
 }

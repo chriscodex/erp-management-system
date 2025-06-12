@@ -11,8 +11,6 @@ import { columnsTodasMotos } from '@/app/inventario/motos/todas/_components/toda
 export default async function MotosTodasPage() {
   const { motos } = await getAllMotosRequestServer();
 
-  console.log(motos);
-
   const titles = [
     {
       title: 'Inventario',

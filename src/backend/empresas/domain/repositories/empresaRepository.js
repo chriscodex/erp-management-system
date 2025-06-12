@@ -57,6 +57,24 @@ export class EmpresaRepository {
         throw new Error(`Error al buscar una empresa: ${error.message}`);
       }
     }
+    async getFirstEmpresa() {
+      try {
+        const empresaFound = await Empresa.findOne().sort({ createdAt: 1 });
+  
+        if (!empresaFound) {
+          console.log('Empresa Repository: Empresa no encontrada');
+          return null;
+        }
+  
+        console.log('Empresa Repository: Empresa encontrada');
+        return empresaFound;
+      } catch (error) {
+        console.error(
+          `Empresa Repository: Error al buscar una empresa: ${error.message}`
+        );
+        throw new Error(`Error al buscar una empresa: ${error.message}`);
+      }
+    }
     async createEmpresa(empresa) {
       try {
         const newEmpresa = new Empresa(empresa);

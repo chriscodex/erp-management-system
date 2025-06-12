@@ -51,7 +51,7 @@ export function DetailMecanicoOrdenDeServicioDetailSheet({ mecanico }) {
                           Dirección
                         </label>
                         <p className="col-span-2">
-                          {mecanico?.id?.direccion || "Desconocido"}
+                          {mecanico?.userId?.direccion || "Desconocida"}
                         </p>
                       </div>
                       {/* <div className="grid grid-cols-3 items-center gap-4">
@@ -67,7 +67,7 @@ export function DetailMecanicoOrdenDeServicioDetailSheet({ mecanico }) {
                           Celular
                         </label>
                         <p className="col-span-2">
-                          {mecanico?.id?.celular || "Desconocido"}
+                          {mecanico?.userId?.celular || "Desconocido"}
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -77,7 +77,7 @@ export function DetailMecanicoOrdenDeServicioDetailSheet({ mecanico }) {
                         <div className="relative mt-1">
                           <p className="col-span-2">
                             {formatDateShort(
-                              mecanico?.id?.fechaIngreso,
+                              mecanico?.userId?.fechaIngreso,
                               false
                             ) || "Desconocida"}
                           </p>
@@ -88,7 +88,7 @@ export function DetailMecanicoOrdenDeServicioDetailSheet({ mecanico }) {
                           Estado
                         </label>
                         <div className="col-span-2">
-                          {mecanico?.id?.estado === "activo" ? (
+                          {mecanico?.userId?.estado === "activo" ? (
                             <Badge variant="success">Activo</Badge>
                           ) : (
                             <Badge variant="error">Inactivo</Badge>

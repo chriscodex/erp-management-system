@@ -10,7 +10,7 @@ import { RiArrowLeftLine } from "@remixicon/react";
 
 import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
 import { format } from "date-fns";
-import { es } from "date-fns/locale"; 
+import { es } from "date-fns/locale";
 import {
   Popover,
   PopoverContent,
@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/select";
 import { ProductsTallerTable } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/productsTallerTable/data-table";
 import { ServiciosTallerTable } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/serviciosTallerTable/data-table";
+import { ProductosExternosTallerTable } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/productosExternosTallerTable/data-table";
 import { updateOrdenDeServicioMecanicoSchema } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/updateOrdenDeServicioMecanicoSchemaForm";
 
 export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
@@ -49,6 +50,10 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
 
   const [serviciosTaller, setServiciosTaller] = useState(
     agregarNumeracionTable(ordenDeServicioData?.servicios) || []
+  );
+
+  const [productosExternosTaller, setProductosExternosTaller] = useState(
+    agregarNumeracionTable(ordenDeServicioData?.productosExternos) || []
   );
 
   const defaultDate = ordenDeServicioData?.fechaEntregaEstimada
@@ -80,23 +85,38 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
       return copiaServicios;
     });
 
-    const productsFormateados = productsTaller.map((producto) => ({
-      productId: producto._id,
-      code: producto.code,
-      nombre: producto.nombre,
-      descripcion: producto.descripcion,
-      estado: producto.estado,
-      stock: producto.stock,
-      cantidad: producto.cantidad,
-      precioCompra: producto.precioCompra,
-      precioVenta: producto.precioVenta,
-    }));
+    let productosFormateados = [];
 
+    if (productsTaller.length > 0) {
+      productosFormateados = productsTaller.map((producto) => {
+
+        const unitProducto = Array.isArray(producto?.unidades)
+          ? producto?.unidades?.find((unit) => unit?.code === producto?.code)
+          : null;
+
+        const productoObject = {
+          productId: producto._id,
+          unitId: unitProducto?._id ?? producto?.unitId,
+          code: producto.code,
+          nombre: producto.nombre,
+          descripcion: producto.descripcion,
+          estado: unitProducto?.estado ?? producto?.estado,
+          stock: producto.stock,
+          cantidad: producto.cantidad,
+          precioCompra: producto.precioCompra,
+          precioVenta: producto.precioVenta,
+          inventario: producto.inventario ?? 'existente'
+        };
+
+        return productoObject;
+      });
+    }
     const updateOrdenDeServicioObject = {
       ...ordenDeServicioData,
       ...data,
       servicios: serviciosFormateados,
-      productos: productsFormateados,
+      productos: productosFormateados,
+      productosExternos: productosExternosTaller,
     };
 
     console.log("Info mecanico", updateOrdenDeServicioObject);
@@ -244,6 +264,18 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
               <ProductsTallerTable
                 productsTaller={productsTaller}
                 setProductsTaller={setProductsTaller}
+              />
+            </CardContent>
+          </Card>
+
+          <Card className="mb-6">
+            <CardHeader>
+              <CardTitle>Productos externos</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <ProductosExternosTallerTable
+                productosExternosTaller={productosExternosTaller}
+                setProductosExternosTaller={setProductosExternosTaller}
               />
             </CardContent>
           </Card>

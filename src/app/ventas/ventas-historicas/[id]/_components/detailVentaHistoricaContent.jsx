@@ -11,11 +11,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { formatDateLong } from "@/lib/formateador";
+import {
+  formatDateLong,
+  formatearCodigoCounterBoletaFactura,
+} from "@/lib/formateador";
 import { Label } from "@/components/ui/label";
 
 import { DetailProductPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet";
-import { ImprimirVentaHistoricaButton } from "@/app/ventas/ventas-historicas/[id]/_components/buttons/imprimirVentaHistoricaButton";
+import { ImprimirComprobanteVentaHistoricaButton } from "@/app/ventas/ventas-historicas/[id]/_components/buttons/imprimirComprobanteVentaHistoricaButton";
+import { DetailObsequioPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailObsequioPreventaDetailSheet";
 
 export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
   return (
@@ -28,10 +32,13 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
           </Label>
         </div>
         <div className="flex flex-col items-center gap-2 lg:flex-row">
-          <Badge variant="error" className="text-sm h-9 px-4 flex items-center justify-center">
+          <Badge
+            variant="error"
+            className="text-sm h-9 px-4 flex items-center justify-center"
+          >
             <span className="font-bold mr-1">Estado:</span> Finalizado
           </Badge>
-          <ImprimirVentaHistoricaButton
+          <ImprimirComprobanteVentaHistoricaButton
             ventaHistoricaData={ventaHistoricaData}
           />
         </div>
@@ -136,10 +143,26 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                     " " +
                     ventaHistoricaData?.usuario?.apellidos}{" "}
                 </p>
-                <p>
-                  <strong>Comprobante:</strong>{" "}
-                  {ventaHistoricaData?.comprobante}
-                </p>
+                {ventaHistoricaData?.comprobante && (
+                  <p>
+                    <strong>Comprobante: </strong>
+                    {ventaHistoricaData?.comprobante}
+                  </p>
+                )}
+                {ventaHistoricaData?.counter &&
+                  ventaHistoricaData?.comprobante && (
+                    <p>
+                      <strong>Número de comprobante:</strong>{" "}
+                      {formatearCodigoCounterBoletaFactura(
+                        ventaHistoricaData.counter,
+                        ventaHistoricaData.comprobante === "Boleta Impresa"
+                          ? "boleta"
+                          : ventaHistoricaData.comprobante === "Factura Impresa"
+                          ? "factura"
+                          : ""
+                      )}
+                    </p>
+                  )}
                 <p>
                   <strong>Estado SUNAT:</strong>{" "}
                   {ventaHistoricaData?.estadoSunat}
@@ -225,22 +248,37 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                   <TableHead>Descripción</TableHead>
                   <TableHead>Estado</TableHead>
                   <TableHead>Cantidad</TableHead>
+                  <TableHead>Acciones</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {ventaHistoricaData?.obsequios.map((obsequio) => (
-                  <TableRow key={obsequio?.code}>
-                    <TableCell className="font-medium">
-                      {obsequio?.code}
+                {ventaHistoricaData?.obsequios &&
+                ventaHistoricaData.obsequios.length > 0 ? (
+                  ventaHistoricaData.obsequios.map((obsequio) => (
+                    <TableRow key={obsequio?.code}>
+                      <TableCell className="font-medium">
+                        {obsequio?.code}
+                      </TableCell>
+                      <TableCell>{obsequio?.nombre}</TableCell>
+                      <TableCell>{obsequio?.descripcion}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{obsequio?.estado}</Badge>
+                      </TableCell>
+                      <TableCell>{obsequio?.cantidad}</TableCell>
+                      <TableCell>
+                        <DetailObsequioPreventaDetailSheet
+                          obsequioPreventa={obsequio}
+                        />
+                      </TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} className="h-24 text-center">
+                      Sin obsequios.
                     </TableCell>
-                    <TableCell>{obsequio?.nombre}</TableCell>
-                    <TableCell>{obsequio?.descripcion}</TableCell>
-                    <TableCell>
-                      <Badge variant="outline">{obsequio?.estado}</Badge>
-                    </TableCell>
-                    <TableCell>{obsequio?.cantidad}</TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </CardContent>
