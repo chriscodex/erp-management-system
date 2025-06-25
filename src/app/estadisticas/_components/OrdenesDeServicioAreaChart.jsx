@@ -1,7 +1,7 @@
 "use client";
 
-// import * as React from "react";
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import * as React from "react";
+import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
@@ -15,42 +15,53 @@ import {
 } from "@/components/ui/card";
 import {
   ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 
 import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
 
-export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
+export default function OrdenesDeServicioAreaChart({
+  dataOrdenesDeServicioHistoricas,
+}) {
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
   const [anio, setAnio] = useState(new Date().getFullYear());
-  // const [chartData, setChartData] = useState([]);
 
   function handleDateChange(month, year) {
     setMes(month);
     setAnio(year);
   }
 
+  const chartConfig = {
+    total: {
+      label: "Total",
+      color: "var(--chart-4)",
+    },
+  };
+  
   const chartData = useMemo(() => {
-    const ventasFiltradas = dataVentasHistoricas.ventasHistoricas.filter(
-      (venta) => {
-        const fecha = new Date(venta.fecha);
-        return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
-      }
-    );
+    const ordenesDeServicioFiltradas =
+      dataOrdenesDeServicioHistoricas.ordenesDeServicioHistoricas.filter(
+        (ordenDeServicio) => {
+          const fecha = new Date(ordenDeServicio.fechaIngreso);
+          return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
+        }
+      );
 
-    const ventasPorDia = {};
+    const ordenesDeServicioPorDia = {};
 
-    for (const venta of ventasFiltradas) {
-      const fecha = new Date(venta.fecha);
+    for (const ordenDeServicio of ordenesDeServicioFiltradas) {
+      const fecha = new Date(ordenDeServicio.fechaIngreso);
       const dia = fecha.toISOString().split("T")[0];
 
-      if (ventasPorDia[dia]) {
-        ventasPorDia[dia] += 1;
+      if (ordenesDeServicioPorDia[dia]) {
+        ordenesDeServicioPorDia[dia] += 1;
       } else {
-        ventasPorDia[dia] = 1;
+        ordenesDeServicioPorDia[dia] = 1;
       }
     }
 
@@ -66,41 +77,31 @@ export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
       const dateStr = d.toISOString().split("T")[0];
       diasDelMes.push({
         date: dateStr,
-        total: ventasPorDia[dateStr] || 0,
+        total: ordenesDeServicioPorDia[dateStr] || 0,
       });
     }
 
     return diasDelMes;
-  }, [mes, anio, dataVentasHistoricas]);
+  }, [mes, anio, dataOrdenesDeServicioHistoricas]);
 
   const total = useMemo(() => {
-    return dataVentasHistoricas.ventasHistoricas.filter((venta) => {
-      const fecha = new Date(venta.fecha);
-      return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
-    }).length;
-  }, [dataVentasHistoricas, mes, anio]);
-
-  console.log("chartData", chartData);
-
-  const chartConfig = {
-    views: {
-      label: "Ventas",
-    },
-    total: {
-      label: "Total",
-      color: "hsl(var(--chart-1))",
-    },
-  };
+    return dataOrdenesDeServicioHistoricas.ordenesDeServicioHistoricas.filter(
+      (ordenDeServicio) => {
+        const fecha = new Date(ordenDeServicio.fechaIngreso);
+        return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
+      }
+    ).length;
+  }, [dataOrdenesDeServicioHistoricas, mes, anio]);
 
   useEffect(() => {
     router.refresh();
   }, [mes, anio, router]);
 
   return (
-    <Card>
+    <Card className="flex flex-col w-full xl:flex-1">
       <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>Ventas por mes</CardTitle>
+        <div className="flex flex-1 flex-col justify-center items-center gap-1 px-6 py-5 sm:py-6">
+          <CardTitle>Órdenes de servicio por mes</CardTitle>
           <CardDescription>
             <span className="font-bold mr-2">Seleccione el mes y año: </span>
             <MesAnioPicker onChange={handleDateChange} />
@@ -115,19 +116,18 @@ export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
           </div>
         </div>
       </CardHeader>
-      <CardContent className="px-2 sm:p-6">
+      <CardContent className="px-2 pt-4 sm:px-6 sm:pt-6">
         <ChartContainer
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <BarChart
-            accessibilityLayer
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}
-          >
+          <AreaChart data={chartData}>
+            <defs>
+              <linearGradient id="fillTotal" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor="hsl(var(--chart-4))" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="hsl(var(--chart-4))" stopOpacity={0.1} />
+              </linearGradient>
+            </defs>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="date"
@@ -144,22 +144,28 @@ export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
               }}
             />
             <ChartTooltip
+              cursor={false}
               content={
                 <ChartTooltipContent
-                  className="w-[150px]"
-                  nameKey="views"
                   labelFormatter={(value) => {
                     return new Date(value).toLocaleDateString("en-US", {
                       month: "short",
                       day: "numeric",
-                      year: "numeric",
                     });
                   }}
+                  indicator="dot"
                 />
               }
             />
-            <Bar dataKey="total" fill="#F4A462" />
-          </BarChart>
+            <Area
+              dataKey="total"
+              type="natural"
+              fill="url(#fillTotal)"
+              stroke="var(--color-mobile)"
+              stackId="a"
+            />
+            <ChartLegend content={<ChartLegendContent />} />
+          </AreaChart>
         </ChartContainer>
       </CardContent>
     </Card>

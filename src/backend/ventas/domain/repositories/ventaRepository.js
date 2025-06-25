@@ -38,6 +38,31 @@ export class VentaRepository {
     }
   }
 
+  async getVentasInDateRange(fecha1, fecha2) {
+    try {
+      const ventas = await this.ventaModel.find({
+        fecha: {
+          $gte: fecha1,
+          $lte: fecha2
+        }
+      }).populate('clienteId').populate('usuario.id');
+
+      if (ventas?.length === 0) {
+        console.log('Venta Repository: No se encontraron ventas');
+        return [];
+      }
+
+      console.log('Venta Repository: Ventas encontradas');
+      return ventas;
+    } catch (error) {
+      console.error(
+        `Venta Repository: Error al buscar todas las ventas: ${error}`
+      );
+      throw new Error(
+        `Venta Repository: Error al buscar todas las ventas: ${error}`
+      );
+    }
+  }
   async getVentaByData(ventaData) {
     try {
       if (!ventaData) {

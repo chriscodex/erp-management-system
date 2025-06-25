@@ -18,21 +18,6 @@ export const updatePedidoSchema = z.object({
     descripcion: z.string().optional(),
   }),
   estadoTitle: z.enum(["pendiente", "parcial", "completado"]),
-  // montoPagado: z
-  //   .union([
-  //     z.number({
-  //       required_error: "Ingrese el monto pagado",
-  //       invalid_type_error: "Debe ingresar un número válido",
-  //     }),
-  //     z.string().refine((val) => /^[0-9]*\.?[0-9]+$/.test(val), {
-  //       message: "Ingrese un número válido para el monto pagado",
-  //     }), // Permite números con decimales
-  //   ])
-  //   .transform((val) => (typeof val === "string" ? Number(val) : val)) // Convierte cadenas válidas a números
-  //   .refine((val) => val >= 0, {
-  //     message: "El monto pagado debe ser un número mayor o igual a 0",
-  //   })
-  //   .optional(),
   montoPagado: z
     .union([
       z.number(),
@@ -76,4 +61,10 @@ export const updatePedidoSchema = z.object({
     message: "Debe elegir un almacen",
   }),
   importado: z.enum(["si", "no"]),
+  fechaLimite: z
+    .union([z.date(), z.string()])
+    .transform((val) => (typeof val === "string" ? new Date(val) : val))
+    .refine((date) => !isNaN(date.getTime()), {
+      message: "La fecha no es válida",
+    }),
 });

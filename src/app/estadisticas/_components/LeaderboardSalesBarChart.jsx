@@ -84,11 +84,11 @@ export default function LeaderboardSalesBarChart({ dataVendedores, cantidadVende
   const chartConfig = {
     motos: {
       label: "Motos",
-      color: "#cd853f",
+      color: "hsl(var(--chart-3))",
     },
     productos: {
       label: "Productos",
-      color: "#9f7aea",
+      color: "hsl(var(--chart-4))",
     },
     label: {
       color: "hsl(var(--background))",

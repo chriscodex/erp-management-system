@@ -157,8 +157,8 @@ export default function IncomeExpenseBarChart({
   };
 
   const chartData = [
-    { tipo: "Ingresos", monto: ingresos, fill: "#2563EB" },
-    { tipo: "Egresos", monto: egresos, fill: "#E21D48" },
+    { tipo: "Ingresos", monto: ingresos, fill: "hsl(var(--chart-1))" },
+    { tipo: "Egresos", monto: egresos, fill: "hsl(var(--chart-2))" },
   ];
 
   useEffect(() => {
@@ -212,10 +212,10 @@ export default function IncomeExpenseBarChart({
             Detalle de ingresos y egresos
           </h2>
           {/* Card de Ingresos */}
-          <Card className="border-blue-500">
+          <Card className="border-chart-1">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium mr-2 text-blue-700">
+                <span className="text-sm font-medium mr-2 text-chart-1">
                   Ingresos por ventas
                 </span>
                 <span className=" font-semibold">
@@ -224,20 +224,20 @@ export default function IncomeExpenseBarChart({
               </div>
               <Separator />
               <div className="flex items-center justify-between">
-                <span className="font-semibold mr-2 text-blue-600">
+                <span className="font-semibold mr-2 text-chart-1">
                   Total ingresos
                 </span>
-                <span className="font-bold text-blue-600">
+                <span className="font-bold text-chart-1">
                   S/ {formatMoney(ingresos)}
                 </span>
               </div>
             </CardContent>
           </Card>
           {/* Card de Egresos */}
-          <Card className="border-red-500">
+          <Card className="border-chart-2">
             <CardContent className="p-4 space-y-3">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium mr-2 text-red-700">
+                <span className="text-sm font-medium mr-2 text-chart-2">
                   Gastos de motos
                 </span>
                 <span className="font-semibold">
@@ -245,7 +245,7 @@ export default function IncomeExpenseBarChart({
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium mr-2 text-red-700">
+                <span className="text-sm font-medium mr-2 text-chart-2">
                   Gastos de productos
                 </span>
                 <span className="font-semibold">
@@ -253,7 +253,7 @@ export default function IncomeExpenseBarChart({
                 </span>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium mr-2 text-red-700">
+                <span className="text-sm font-medium mr-2 text-chart-2">
                   Gastos generales
                 </span>
                 <span className="font-semibold">
@@ -263,10 +263,10 @@ export default function IncomeExpenseBarChart({
 
               <Separator />
               <div className="flex items-center justify-between">
-                <span className="font-semibold mr-2 text-red-600">
+                <span className="font-semibold mr-2 text-chart-2">
                   Total egresos
                 </span>
-                <span className="font-bold text-red-600">
+                <span className="font-bold text-chart-2">
                   S/ {formatMoney(resultado?.totalGeneral)}
                 </span>
               </div>
@@ -279,8 +279,8 @@ export default function IncomeExpenseBarChart({
               <Badge
                 className={`text-sm ${
                   ingresos - resultado?.totalGeneral >= 0
-                    ? "bg-blue-500 text-white"
-                    : "bg-red-500 text-white"
+                    ? "bg-chart-1 text-white"
+                    : "bg-chart-2 text-white"
                 }`}
               >
                 S/ {formatMoney(ingresos - resultado?.totalGeneral)}

@@ -52,7 +52,7 @@ export default function ObsequiosLineChart({ dataVentasHistoricas }) {
   const chartConfig = {
     obsequios: {
       label: "Obsequios",
-      color: "hsl(var(--chart-1))",
+      color: "hsl(var(--chart-2))",
     },
   };
 
@@ -99,10 +99,10 @@ export default function ObsequiosLineChart({ dataVentasHistoricas }) {
               dataKey="obsequios"
               // type="natural"
               type="monotone"
-              stroke="#125427"
+              stroke="hsl(var(--chart-2))"
               strokeWidth={2}
               dot={{
-                fill: "#125427",
+                fill: "hsl(var(--chart-2))",
               }}
               activeDot={{
                 r: 6,

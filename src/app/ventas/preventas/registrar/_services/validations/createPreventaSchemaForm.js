@@ -36,6 +36,16 @@ export const createPreventaSchemaForm = z.object({
         required_error: 'Ingrese el precio de venta',
         invalid_type_error: 'Debe ingresar un precio de venta',
       }),
+      stock: z.number({
+        required_error: 'Ingrese el stock',
+        invalid_type_error: 'Debe ingresar un stock',
+      }).optional(),
+      stockMinimo: z.number({
+        required_error: 'Ingrese el stock minimo',
+        invalid_type_error: 'Debe ingresar un stock minimo',  
+      }).optional(),
+      obsequio: z.enum(['si', 'no']).optional(),
+
       modeloId: z.object({
         _id: z.string().regex(objectIdRegex, {
           message: 'Debe ingresar un modelo',
@@ -66,6 +76,7 @@ export const createPreventaSchemaForm = z.object({
         suspension: z.string().optional(),
         colores: z.string().optional(),
       }).optional(),
+      
       cantidad: z.number({
         required_error: 'Ingrese la cantidad',
         invalid_type_error: 'Debe ingresar una cantidad',

@@ -30,6 +30,32 @@ export class ventasHistoricasRepository {
     }
   }
 
+  async getVentasHistoricasInDateRange(fecha1, fecha2) {
+    try {
+      const ventasHistoricas = await this.ventasHistoricasModel.find({
+        fecha: {
+          $gte: fecha1,
+          $lte: fecha2
+        }
+      }).populate('clienteId').populate('usuario.id');
+
+      if (ventasHistoricas?.length === 0) {
+        console.log("Venta Historica Repository: No se encontraron ventas");
+        return [];
+      }
+
+      console.log("Venta Historica Repository: Ventas encontradas");
+      return ventasHistoricas;
+    } catch (error) {
+      console.error(
+        `Venta Historica Repository: Error al buscar todas las ventas: ${error}`
+      );
+      throw new Error(
+        `Venta Historica Repository: Error al buscar todas las ventas: ${error}`
+      );
+    }
+  }
+
   async getVentaHistoricaByData(ventaHistorica) {
     try {
       if (!ventaHistorica) {
@@ -69,7 +95,7 @@ export class ventasHistoricasRepository {
         .sort({ fecha: -1 })
         .populate('clienteId')
         .populate('usuario.id');
-  
+
       return ventas;
     } catch (error) {
       throw new Error(`Error al buscar ventas historicas del cliente: ${error.message}`);
@@ -83,7 +109,7 @@ export class ventasHistoricasRepository {
         .sort({ fecha: -1 })
         .populate('clienteId')
         .populate('usuario.id');
-  
+
       return ventas;
     } catch (error) {
       throw new Error(`Error al buscar ventas historicas del vendedor: ${error.message}`);

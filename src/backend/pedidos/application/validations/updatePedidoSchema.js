@@ -77,4 +77,15 @@ export const updatePedidoSchema = z.object({
   almacenId: z.string().regex(objectIdRegex, {
     message: "Debe elegir un almacen",
   }),
+  fechaLimite: z.preprocess(
+    (val) => {
+      if (typeof val === "string" || val instanceof Date) {
+        return new Date(val);
+      }
+      return val;
+    },
+    z.date().refine((date) => !isNaN(date.getTime()), {
+      message: "La fecha no es válida",
+    })
+  ),
 });

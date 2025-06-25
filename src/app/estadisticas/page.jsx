@@ -25,8 +25,14 @@ import VentasTotalesBarChart from "@/app/estadisticas/_components/VentasTotalesB
 import PedidosAreaChart from "./_components/PedidosAreaChart";
 import { getAllPedidosHistoricosRequestServer } from "@/app/estadisticas/_services/requests";
 
+import OrdenesDeServicioAreaChart from "@/app/estadisticas/_components/OrdenesDeServicioAreaChart";
+import TipoDeServicioRadialChart from "@/app/estadisticas/_components/TipoDeServicioRadialChart";
+import OrigenDeServicioPieChart from "./_components/OrigenDeServicioPieChart";
+
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getAllOrdenesDeServicioHistoricasRequestServer } from "../taller/ordenes-servicio-historial/_services/requests";
+
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
@@ -52,6 +58,11 @@ export default async function Page() {
 
   const dataPedidosHistoricos = await getAllPedidosHistoricosRequestServer();
 
+  //Data para ordenes de servicio
+
+  const dataOrdenesDeServicioHistoricas =
+    await getAllOrdenesDeServicioHistoricasRequestServer();
+
   return (
     <>
       <NavbarSimple title="Estadísticas">
@@ -71,6 +82,9 @@ export default async function Page() {
               dataGastosGenerales={dataGastosGenerales}
               dataVentasHistoricas={dataVentasHistoricas}
             />
+
+
+
             <div className="flex flex-col gap-4 2xl:flex-row">
               <LeaderboardSalesBarChart
                 dataVendedores={dataVentasHistoricas}
@@ -84,6 +98,9 @@ export default async function Page() {
                 <ProductosImportadosPieChart dataProductos={dataProductos} />
               </div>
             </div>
+
+
+
             <ProductosMasVendidos dataVentasHistoricas={dataVentasHistoricas} />
             <div className="flex flex-col gap-4 2xl:flex-row">
               <VentasTotalesBarChart
@@ -92,6 +109,27 @@ export default async function Page() {
               <ObsequiosLineChart dataVentasHistoricas={dataVentasHistoricas} />
             </div>
             <PedidosAreaChart dataPedidosHistoricos={dataPedidosHistoricos} />
+
+            
+            <div className="flex flex-col gap-4 2xl:flex-row">
+              <div className="flex flex-col gap-4">
+                <OrigenDeServicioPieChart
+                  dataOrdenesDeServicioHistoricas={
+                    dataOrdenesDeServicioHistoricas
+                  }
+                />
+                <TipoDeServicioRadialChart
+                  dataOrdenesDeServicioHistoricas={
+                    dataOrdenesDeServicioHistoricas
+                  }
+                />
+              </div>
+              <OrdenesDeServicioAreaChart
+                dataOrdenesDeServicioHistoricas={
+                  dataOrdenesDeServicioHistoricas
+                }
+              />
+            </div>
           </CardContent>
         </Card>
       </NavbarSimple>
