@@ -46,8 +46,8 @@ export default function ProductosImportadosPieChart({ dataProductos }) {
     dataMensualProductosImportados || {};
 
   const chartData = [
-    { origen: "Importados", cantidad: importados, fill: "#274754" },
-    { origen: "No importados", cantidad: noImportados, fill: "#E8C468" },
+    { origen: "Importados", cantidad: importados, fill: "hsl(var(--chart-2))" },
+    { origen: "No importados", cantidad: noImportados, fill: "hsl(var(--chart-3))" },
   ];
 
   const chartConfig = {

@@ -139,3 +139,9 @@ export const createOrdenDeServicioClientUrl = '/api/ordenes-servicio';
 export const updateOrdenDeServicioClientUrl = '/api/ordenes-servicio';
 export const deleteOrdenDeServicioClientUrl = '/api/ordenes-servicio';
 export const finalizarOrdenDeServicioClientUrl = '/api/ordenes-servicio';
+
+/* Notificaciones */
+export const getNotificacionesClientUrl = '/api/notificaciones';
+export const createNotificacionClientUrl = '/api/notificaciones';
+export const updateNotificacionClientUrl = '/api/notificaciones';
+export const deleteNotificacionClientUrl = '/api/notificaciones';

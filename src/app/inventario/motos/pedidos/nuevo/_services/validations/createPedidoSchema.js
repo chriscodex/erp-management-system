@@ -60,4 +60,10 @@ export const createPedidoSchema = z.object({
     message: "Debe elegir un almacen",
   }),
   importado: z.enum(["si", "no"]),
+  fechaLimite: z
+    .union([z.date(), z.string()])
+    .transform((val) => (typeof val === "string" ? new Date(val) : val))
+    .refine((date) => !isNaN(date.getTime()), {
+      message: "La fecha no es válida",
+    }),
 });

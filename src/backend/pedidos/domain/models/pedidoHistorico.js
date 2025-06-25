@@ -139,6 +139,10 @@ const pedidoHistoricoSchema = new Schema(
       ref: "Almacen",
       required: [true, "El almacen es requerido en el schema de pedidos históricos."],
     },
+    fechaLimite: {
+      type: Date,
+      required: true,
+    },
   },
   {
     timestamps: true,

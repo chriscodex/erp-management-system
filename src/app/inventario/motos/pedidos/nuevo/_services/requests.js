@@ -35,6 +35,7 @@ export async function createPedidoRequestClient(pedidoData, setLoading) {
         comentario: pedidoData.comentario,
         proveedorId: pedidoData.proveedorId,
         almacenId: pedidoData.almacenId,
+        fechaLimite: pedidoData.fechaLimite,
       };
 
       console.log("Pedido data formateado en el request", pedidoDataFormated);

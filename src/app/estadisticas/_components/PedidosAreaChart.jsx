@@ -58,7 +58,7 @@ export default function PedidosAreaChart({ dataPedidosHistoricos }) {
   const chartConfig = {
     desktop: {
       label: "Pedidos",
-      color: "#2A9D90",
+      color: "hsl(var(--chart-3))",
       dataKey: "pedidos",
     },
   };
@@ -103,9 +103,9 @@ export default function PedidosAreaChart({ dataPedidosHistoricos }) {
             <Area
               dataKey="pedidos"
               type="monotone"
-              fill="#2A9D90"
+              fill="hsl(var(--chart-3))"
               fillOpacity={0.4}
-              stroke="#2A9D90"
+              stroke="hsl(var(--chart-3))"
             />
           </AreaChart>
         </ChartContainer>

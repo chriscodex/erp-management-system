@@ -13,6 +13,8 @@ import { generarNumeroAleatorio } from "@/lib/utils";
 import { updatePedidoSchema } from "@/backend/pedidos/application/validations/updatePedidoSchema";
 import { generarCodigoMoto } from "@/backend/motos/application/helpers";
 import { generarCodigoUnicoDelModelo } from "@/backend/modelos/application/helpers";
+
+import { NotificacionRepository } from "@/backend/notificaciones/domain/repositories/notificacionRepository";
 export class PedidoService {
   constructor() {
     this.pedidoRepository = new PedidoRepository();
@@ -22,6 +24,7 @@ export class PedidoService {
     this.proveedorRepository = new ProveedorRepository();
     this.motoRepository = new MotoRepository();
     this.pedidoHistoricoRepository = new PedidoHistoricoRepository();
+    this.notificacionRepository = new NotificacionRepository();
   }
 
   async getAllPedidos() {
@@ -226,7 +229,7 @@ export class PedidoService {
       //     payload: pedidoValidated.error.issues,
       //   };
       // }
-      
+
       if (!pedidoValidated.success) {
         const formattedErrors = pedidoValidated.error.issues.map((err) => ({
           path: err.path.join("."),
@@ -312,8 +315,6 @@ export class PedidoService {
           payload: "El pedido no existe",
         };
       }
-
-      console.log("Así llega pedido", pedido)
       //Verificamos si las características vienen como null
 
       if (
@@ -334,9 +335,6 @@ export class PedidoService {
         marcaId: pedido?.modelo?.marcaId,
         categoryId: pedido?.modelo?.categoryId,
       };
-
-      console.log("datosModelo", datosModelo);
-      
 
       //Verificamos si el modelo existe
       const modeloFound = await this.modeloRepository.getModeloByData(
@@ -367,7 +365,7 @@ export class PedidoService {
           datosModelo
         );
 
-        console.log ("modeloPedidoFound", modeloPedidoFound);
+        console.log("modeloPedidoFound", modeloPedidoFound);
 
         if (modeloPedidoFound) {
           await this.modeloPedidoRepository.deleteModeloPedido(
@@ -403,8 +401,6 @@ export class PedidoService {
         gastos: [],
       };
 
-      console.log("Datos de la moto", datosMoto);
-
       //Crear moto
 
       const motoCreated = await this.motoRepository.createMoto(datosMoto);
@@ -413,12 +409,22 @@ export class PedidoService {
       const pedidoObject = pedido.toObject(); // Convierte el documento Mongoose a un objeto plano
       delete pedidoObject._id;
 
-      console.log("pedido que ira a historico", pedidoObject);
 
       const pedidoHistoricoCreated =
         await this.pedidoHistoricoRepository.createPedidoHistorico(
           pedidoObject
         );
+
+      //Eliminar notificación del pedido si existe
+      const notificacion = await this.notificacionRepository.getNotificacionByData(
+        {
+          type: "expired_pedido",
+          pedidoId: pedido._id,
+        }
+      )
+      if (notificacion) {
+        await this.notificacionRepository.deleteNotificacion(notificacion._id);
+      }
 
       //Eliminar pedido tras inventariarlo y mandarlo al historial
 

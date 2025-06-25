@@ -76,8 +76,11 @@ export function EditarPedidoForm({
 }) {
   const router = useRouter();
 
-  const [date, setDate] = useState(new Date()); //Date Calendar
-  const [open, setOpen] = useState(false); //Close calendar
+  const [date, setDate] = useState(new Date());
+  const [open, setOpen] = useState(false); 
+
+    const [limitDate, setLimitDate] = useState(new Date());
+    const [limitOpen, setLimitOpen] = useState(false); 
 
   const form = useForm({
     resolver: zodResolver(updatePedidoSchema),
@@ -109,6 +112,7 @@ export function EditarPedidoForm({
       proveedorId: pedidoData?.proveedorId?._id,
       almacenId: pedidoData?.almacenId?._id,
       importado: pedidoData?.moto?.importado,
+      fechaLimite: new Date(pedidoData?.fechaLimite) || new Date(),
     },
   });
 
@@ -659,6 +663,55 @@ export function EditarPedidoForm({
                         <FormLabel>Sí</FormLabel>
                       </div>
                     </div>
+                  </FormItem>
+                )}
+              />
+            <FormField
+                control={control}
+                name="fechaLimite"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col space-y-2">
+                    <FormLabel>Fecha límite (Notificaciones)</FormLabel>
+                    <FormControl>
+                      <Popover open={limitOpen} onOpenChange={setLimitOpen}>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant={"outline"}
+                            className={cn(
+                              "w-[280px] justify-start text-left font-normal",
+                              !limitDate && "text-muted-foreground"
+                            )}
+                          >
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {limitDate ? (
+                              format(limitDate, "PPP", { locale: es })
+                            ) : (
+                              <span>Selecciona una fecha</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <AddFormCalendar
+                            captionLayout="dropdown-buttons"
+                            fromYear={2020}
+                            toYear={new Date().getFullYear()}
+                            mode="single"
+                            selected={limitDate}
+                            onSelect={(selectedLimitDate) => {
+                              if (selectedLimitDate) {
+                                field.onChange(selectedLimitDate);
+                                setLimitDate(selectedLimitDate);
+                                setLimitOpen(false);
+                              }
+                            }}
+                            locale={es}
+                            calendarDate={field.value}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </FormControl>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
