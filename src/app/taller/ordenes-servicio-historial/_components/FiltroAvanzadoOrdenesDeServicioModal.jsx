@@ -71,7 +71,6 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
     } = form;
 
     const onSubmit = (data) => {
-      console.log("Esto es data", data);
       onAplicarFiltros(data);
     };
 
@@ -138,10 +137,12 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
             <Form {...form}>
               <form onSubmit={handleSubmit(onSubmit)}>
                 <DialogHeader className={"text-left mb-4"}>
-                  <DialogTitle>Filtrar Órdenes de Servicio en el Historial</DialogTitle>
+                  <DialogTitle>
+                    Filtrar Órdenes de Servicio en el Historial
+                  </DialogTitle>
                   <DialogDescription>
-                    Puedes buscar por código de orden de servicio o usar los filtros
-                    avanzados.
+                    Puedes buscar por código de orden de servicio o usar los
+                    filtros avanzados.
                   </DialogDescription>
                 </DialogHeader>
                 <div className="relative grid grid-cols-2 gap-2">
@@ -413,4 +414,5 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
 );
 
 //Asignar displayName
-FiltroAvanzadoOrdenesDeServicioModal.displayName = "FiltroAvanzadoOrdenesDeServicioModal";
+FiltroAvanzadoOrdenesDeServicioModal.displayName =
+  "FiltroAvanzadoOrdenesDeServicioModal";

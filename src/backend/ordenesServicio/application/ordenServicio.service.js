@@ -101,13 +101,9 @@ export class OrdenServicioService {
         }
       }
 
-      console.log("Esto es la orden de servicio data", ordenDeServicioData);
-
       // Reemplazar cliente en ordenDeServicioData por clienteId
       ordenDeServicioData.cliente.clienteId = clienteFinal._id.toString();
       // delete ordenDeServicioData.cliente;
-
-      console.log("Esto es la orden de servicio data despues", ordenDeServicioData);
 
       const ordenDeServicioObject = {
         ...ordenDeServicioData,

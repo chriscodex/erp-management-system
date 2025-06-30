@@ -71,7 +71,6 @@ export const FiltroAvanzadoVentasModal = forwardRef(
     } = form;
 
     const onSubmit = (data) => {
-      console.log("Esto es data", data);
       onAplicarFiltros(data);
     };
 

@@ -20,8 +20,6 @@ export default async function Page({ params }) {
     notFound();
   }
 
-  console.log("Esto es empresa", empresa);
-
   const navbarTitles = [
     {
       title: "Inventario",
