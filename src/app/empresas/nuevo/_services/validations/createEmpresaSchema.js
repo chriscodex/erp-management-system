@@ -1,7 +1,9 @@
 import { z } from 'zod';
 
 export const createEmpresaSchema = z.object({
-  ruc: z.string().length(11, 'El RUC debe tener 11 dígitos'),
+  ruc: z.string({
+    required_error: 'El RUC es requerido',
+  }).length(11, 'El RUC debe tener 11 dígitos'),
   nombre: z
     .string()
     .min(3, {
@@ -19,7 +21,9 @@ export const createEmpresaSchema = z.object({
       message: 'La descripción no puede tener más de 250 caracteres',
     }),
   direccion: z
-    .string()
+    .string({
+      required_error: 'La dirección es requerida',
+    })
     .min(3, {
       message: 'La dirección debe tener al menos 3 caracteres',
     })
@@ -27,7 +31,11 @@ export const createEmpresaSchema = z.object({
       message: 'La dirección no puede tener más de 150 caracteres',
     }),
   telefono: z
-    .string()
+    .string({
+      required_error: 'El teléfono es requerido',
+    })
     .min(4, { message: 'El teléfono debe tener al menos 4 dígitos' }),
-  email: z.string().email({message: 'Ingrese un correo válido' }),
+  email: z.string({
+    required_error: 'El correo electrónico es requerido',
+  }).email({ message: 'Ingrese un correo válido' }),
 });

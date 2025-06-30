@@ -29,7 +29,7 @@ export const updateMotoSchema = z.object({
     capacidadCombustible: z.string().optional(),
     suspension: z.string().optional(),
     colores: z.string().optional(),
-  }),
+  }).optional(),
   precioCompra: z
     .union([
       z.number({

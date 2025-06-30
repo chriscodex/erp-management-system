@@ -26,7 +26,7 @@ function MesAnioPicker({ onChange }) {
       }}
       dateFormat="MM/yyyy"
       showMonthYearPicker
-      className="text-gray-900"
+      className="text-gray-900 dark:text-white"
       customInput={
         <Button variant="outline" className="flex items-center gap-2">
           <Calendar size={16} /> {formattedDateCorrected}

@@ -1,10 +1,5 @@
 import { Schema, model, models } from "mongoose";
 
-// Eliminar el modelo en caso no considere los cambios
-// if (models.motoSchema) {
-//   delete models.motoSchema;
-// }
-
 const motoSchema = new Schema(
   {
     estado: {
@@ -26,7 +21,6 @@ const motoSchema = new Schema(
     },
     nombre: {
       type: String,
-      unique: false,
       required: [true, 'El nombre es requerido en el schema de moto'],
     },
     descripcion: {

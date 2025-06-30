@@ -82,9 +82,6 @@ export default async function Page() {
               dataGastosGenerales={dataGastosGenerales}
               dataVentasHistoricas={dataVentasHistoricas}
             />
-
-
-
             <div className="flex flex-col gap-4 2xl:flex-row">
               <LeaderboardSalesBarChart
                 dataVendedores={dataVentasHistoricas}
@@ -98,9 +95,6 @@ export default async function Page() {
                 <ProductosImportadosPieChart dataProductos={dataProductos} />
               </div>
             </div>
-
-
-
             <ProductosMasVendidos dataVentasHistoricas={dataVentasHistoricas} />
             <div className="flex flex-col gap-4 2xl:flex-row">
               <VentasTotalesBarChart
@@ -109,8 +103,6 @@ export default async function Page() {
               <ObsequiosLineChart dataVentasHistoricas={dataVentasHistoricas} />
             </div>
             <PedidosAreaChart dataPedidosHistoricos={dataPedidosHistoricos} />
-
-            
             <div className="flex flex-col gap-4 2xl:flex-row">
               <div className="flex flex-col gap-4">
                 <OrigenDeServicioPieChart
