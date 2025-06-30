@@ -151,8 +151,17 @@ export class ProductRepository {
         );
       }
 
-      if (productData.unitCode) {
-        filter['unidades.code'] = productData.unitCode;
+      if (productData.unitCode || productData.unitEstado) {
+        filter.unidades = {
+          $elemMatch: {
+            ...(productData.unitCode && { code: productData.unitCode }),
+            ...(productData.unitEstado && {
+              estado: Array.isArray(productData.unitEstado)
+                ? { $in: productData.unitEstado }
+                : productData.unitEstado,
+            }),
+          },
+        };
       }
 
       if (productData.nombre) {
@@ -178,11 +187,25 @@ export class ProductRepository {
 
       if (!productFound) {
         console.log('Product Repository: Producto no encontrado');
+
+        if (productData.unitCode) {
+          const existsByCode = await this.productModel.findOne({
+            unidades: { $elemMatch: { code: productData.unitCode } },
+          });
+
+          if (existsByCode) {
+            console.log('Product Repository: Producto con code existe pero estado no válido');
+            return 'invalid_state';
+          }
+        }
+
         return null;
       }
 
       console.log('Product Repository: Producto encontrado');
+
       return productFound;
+
     } catch (error) {
       console.error(
         `Product Repository: Error al buscar el producto: ${error.message}`

@@ -12,17 +12,22 @@ import {
 } from "@react-pdf/renderer";
 
 import { stylesFactura } from "@/app/ventas/[ventaId]/factura/_components/pdf/stylesFactura.js";
-import { formatDateLong, formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
-
+import {
+  formatDateLong,
+  formatNumeroALetras,
+  formatearCodigoCounterBoletaFactura,
+} from "@/lib/formateador";
 
 const styles = StyleSheet.create(stylesFactura);
 
-export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
-  //   console.log('ventaData', ventaData);
-  //   console.log('counterFactura', counterFactura);
+export function PdfFactura({ ventaData, counterFactura, selectedEmpresa }) {
+
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
-  const codigoFactura = formatearCodigoCounterBoletaFactura(counterFactura);
+  const codigoFactura = formatearCodigoCounterBoletaFactura(
+    counterFactura,
+    "factura"
+  );
 
   const MapPin = () => (
     <Svg
@@ -69,83 +74,95 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
           <View style={styles.datosEmpresa}>
             <View>
               <Text style={styles.datosEmpresaTitle}>
-                {empresaSeleccionada?.nombre || "Moto Rock Ruta 33 E.I.R.L"}
+                {selectedEmpresa?.nombre || "Moto Rock Ruta 33 E.I.R.L"}
               </Text>
-              <Text style={styles.datosEmpresaTitle}>RUC N° { empresaSeleccionada?.ruc || "20202020202"}</Text>
+              <Text style={styles.datosEmpresaTitle}>
+                RUC N° {selectedEmpresa?.ruc || "20202020202"}
+              </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
-                <Text>{empresaSeleccionada?.direccion || "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}</Text>
+                <Text>
+                  {selectedEmpresa?.direccion ||
+                    "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}
+                </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>{empresaSeleccionada?.telefono || "01-442-1210" }</Text>
+                <Text>{selectedEmpresa?.telefono || "01-442-1210"}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
-                <Text>{empresaSeleccionada?.email || "gerencia@motorock33.com"}</Text>
-              </View>
-            </View>
-            <View>
-              <View style={styles.datosFactura}>
-                <Text style={styles.datosFacturaBold}>
-                  Factura N° {codigoFactura}
+                <Text>
+                  {selectedEmpresa?.email || "gerencia@motorock33.com"}
                 </Text>
               </View>
+            </View>
+
+            <View style={styles.datosFacturaContainer}>
               <View style={styles.datosFactura}>
-                <Text style={styles.datosFacturaBold}>Fecha: </Text>
+                <Text style={styles.datosFacturaBold}>Factura N°</Text>
+                <Text> {codigoFactura}</Text>
+              </View>
+              <View style={styles.datosFactura}>
+                <Text style={styles.datosFacturaBold}>Fecha de emisión: </Text>
                 <Text>{currentTime}</Text>
               </View>
             </View>
           </View>
+
           <View style={styles.separator} />
 
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {ventaData?.cliente?.tipo === "empresa"
-                ? ventaData?.cliente?.datos?.nombre
-                : `${ventaData?.cliente?.datos?.apellidos} ${ventaData?.cliente?.datos?.nombres}`}
+              {ventaData?.clienteId?.tipo === "empresa"
+                ? ventaData?.clienteId?.datos?.nombre
+                : `${ventaData?.clienteId?.datos?.apellidos} ${ventaData?.clienteId?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {ventaData?.cliente?.tipo === "empresa" ? `RUC: ` : `DNI: `}
+                {ventaData?.clienteId?.tipo === "empresa" ? `RUC: ` : `DNI: `}
               </Text>
               <Text>
-                {ventaData?.cliente?.tipo === "empresa"
-                  ? `${ventaData?.cliente?.datos?.ruc}`
-                  : `${ventaData?.cliente?.datos?.dni}`}
+                {ventaData?.clienteId?.tipo === "empresa"
+                  ? `${ventaData?.clienteId?.datos?.ruc}`
+                  : `${ventaData?.clienteId?.datos?.dni}`}
               </Text>
             </View>
-            <View style={styles.datosClienteInfo}>
-              <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
-              <Text>
-                {ventaData?.cliente?.tipo === "empresa"
-                  ? ventaData?.cliente?.datos?.email
-                  : ventaData?.cliente?.datos?.email}
-              </Text>
-            </View>
-            <View style={styles.datosClienteInfo}>
-              <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
-              <Text>
-                {ventaData?.cliente?.tipo === "empresa"
-                  ? ventaData?.cliente?.datos?.celular
-                  : ventaData?.cliente?.datos?.celular}
-              </Text>
-            </View>
-            <View style={styles.datosClienteInfo}>
-              <Text style={styles.datosClienteInfoTitle}>{"Dirección: "}</Text>
-              <Text>
-                {ventaData?.cliente?.tipo === "empresa"
-                  ? ventaData?.cliente?.datos?.direccion
-                  : ventaData?.cliente?.datos?.direccion}
-              </Text>
-            </View>
+            {ventaData?.clienteId?.tipo === "empresa" && (
+              <View style={styles.datosClienteInfo}>
+                <Text style={styles.datosClienteInfoTitle}>
+                  {"Representante Legal: "}
+                </Text>
+                <Text>{ventaData?.clienteId?.datos?.representanteLegal}</Text>
+              </View>
+            )}
+            {ventaData?.clienteId?.tipo === "empresa" && (
+              <View style={styles.datosClienteInfo}>
+                <Text style={styles.datosClienteInfoTitle}>
+                  {"Dirección: "}
+                </Text>
+                <Text>{ventaData?.clienteId?.datos?.direccion}</Text>
+              </View>
+            )}
+            {ventaData?.clienteId?.datos?.email && (
+              <View style={styles.datosClienteInfo}>
+                <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
+                <Text>{ventaData?.clienteId?.datos?.email}</Text>
+              </View>
+            )}
+            {ventaData?.clienteId?.datos?.celular && (
+              <View style={styles.datosClienteInfo}>
+                <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
+                <Text>{ventaData?.clienteId?.datos?.celular}</Text>
+              </View>
+            )}
           </View>
 
           <View style={styles.facturaTitleContainer}>
-            <Text style={styles.facturaTitle}>Factura N° {codigoFactura}</Text>
+            <Text style={styles.facturaTitle}>Factura</Text>
           </View>
           {/* Tabla */}
           <View style={styles.table}>
@@ -171,7 +188,33 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
             ))}
           </View>
           <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>Total: </Text>
+            <Text style={styles.totalCell}>Op. Gravada: S/.</Text>
+            <Text>
+              {(
+                0.82 *
+                ventaData?.productos.reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+              ).toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>I.G.V.: S/.</Text>
+            <Text>
+              {(
+                0.18 *
+                ventaData?.productos.reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+              ).toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>Importe Total: S/.</Text>
             <Text style={styles.totalCell}>
               {ventaData?.productos
                 .reduce(
@@ -180,6 +223,32 @@ export function PdfFactura({ ventaData, counterFactura, empresaSeleccionada }) {
                   0
                 )
                 .toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>Importe a Pagar: S/.</Text>
+            <Text style={styles.totalCell}>
+              {ventaData?.productos
+                .reduce(
+                  (acc, producto) =>
+                    acc + producto?.precioVenta * producto?.cantidad,
+                  0
+                )
+                .toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>SON:</Text>
+            <Text style={styles.totalCell}>
+              {formatNumeroALetras(
+                ventaData?.productos
+                  .reduce(
+                    (acc, producto) =>
+                      acc + producto?.precioVenta * producto?.cantidad,
+                    0
+                  )
+                  .toFixed(2)
+              )}
             </Text>
           </View>
         </View>

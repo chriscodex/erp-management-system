@@ -10,20 +10,15 @@ const ventaSchema = new Schema(
       type: Date,
       required: [true, 'La fecha es requerida en el schema de ventas'],
     },
-    cliente: {
-      tipo: {
-        type: String,
-        required: [true, 'El tipo es requerido en el schema de ventas'],
-        enum: ['persona', 'empresa'],
-      },
-      datos: {
-        type: Schema.Types.Mixed,
-        required: [true, 'Los datos son requeridos en el schema de ventas'],
-      },
+    clienteId: {
+      type: Schema.Types.ObjectId,
+      ref: "Cliente",
+      required: [true, "El cliente es requerido en el schema de preventas."],
     },
     usuario: {
       id: {
         type: Schema.Types.ObjectId,
+        ref: "User",
         required: [true, 'El id es requerido en el schema de ventas'],
       },
       dni: {
@@ -59,10 +54,49 @@ const ventaSchema = new Schema(
         required: false,
       },
     ],
-    estado: {
+    comprobante: {
       type: String,
       required: true,
     },
+    counter: {
+      type: Number,
+      required: false,
+    },
+    estadoSunat: {
+      type: String,
+      required: true,
+    },
+    empresa: {
+          empresaId: {
+            type: Schema.Types.ObjectId,
+            ref: "Empresa",
+            required: [false, "El id de la empresa es requerido en el schema de ordenes de servicio"],
+          },
+          ruc: {
+            type: String,
+            required: [false, "El ruc de la empresa es requerido en el schema de ordenes de servicio"],
+          },
+          nombre: {
+            type: String,
+            required: [false, "El nombre de la empresa es requerido en el schema de ordenes de servicio"],
+          },
+          descripcion: {
+            type: String,
+            required: false,
+          },
+          direccion: {
+            type: String,
+            required: [false, 'La dirección es requerida en el schema de empresa'],
+          },
+          telefono: {
+            type: String,
+            required: false,
+          },
+          email: {
+            type: String,
+            required: false,
+          },
+        }
   },
   {
     timestamps: true,

@@ -24,4 +24,23 @@ export class CounterService {
       };
     }
   }
+
+  async aumentarContadorByType(contadorData) {
+    try {
+      const { type } = contadorData;
+      const counter = await this.counterRepository.aumentarContadorByType(type);
+      return {
+        status: 200,
+        payload: counter,
+      };
+    } catch (error) {
+      console.error(
+        `Counter Service: Error interno al aumentar el contador: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }

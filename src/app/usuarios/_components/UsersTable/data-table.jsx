@@ -81,7 +81,10 @@ export function DataTable({ columns, data, status = 200 }) {
         <Input
           placeholder="Buscar por apellidos"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
         />
         <DataTableViewOptions table={table} />

@@ -1,18 +1,6 @@
 import { Schema, model, models } from 'mongoose';
-import { motoPreventaSchema } from '@/backend/preventas/domain/models/motoPreventa';
-import { productoPreventaSchema } from '@/backend/preventas/domain/models/productPreventa';
-
-// // Esquema base para los elementos del array de productos
-// const productoPreventaBaseSchema = new Schema(
-//   {
-//     tipo: {
-//       type: String,
-//       required: true,
-//       enum: ['moto', 'producto'],
-//     },
-//   },
-//   { discriminatorKey: 'tipo', _id: false }
-// );
+// import { motoPreventaSchema } from '@/backend/preventas/domain/models/motoPreventa';
+// import { productoPreventaSchema } from '@/backend/preventas/domain/models/productPreventa';
 
 const preventaSchema = new Schema(
   {
@@ -24,20 +12,15 @@ const preventaSchema = new Schema(
       type: Date,
       required: [true, 'La fecha es requerida en el schema de preventas'],
     },
-    cliente: {
-      tipo: {
-        type: String,
-        required: [true, 'El tipo es requerido en el schema de preventas'],
-        enum: ['persona', 'empresa'],
-      },
-      datos: {
-        type: Schema.Types.Mixed,
-        required: [true, 'Los datos son requeridos en el schema de preventas'],
-      },
+    clienteId: {
+      type: Schema.Types.ObjectId,
+      ref: "Cliente",
+      required: [true, "El cliente es requerido en el schema de preventas."],
     },
     usuario: {
       id: {
         type: Schema.Types.ObjectId,
+        ref: "User",
         required: [true, 'El id es requerido en el schema de preventas'],
       },
       dni: {
@@ -82,6 +65,15 @@ const preventaSchema = new Schema(
         required: false,
       },
     ],
+    cotizacion: {
+      type: String,
+      required: [true, 'Elegir si es cotización o no es requerido en el schema de preventas'],
+      enum: ["si", "no"],
+    },
+    fechaValidez: {
+      type: Date,
+      required: false,
+    },
   },
   {
     timestamps: true,

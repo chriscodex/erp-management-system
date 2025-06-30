@@ -107,6 +107,17 @@ export class ProductService {
         productData
       );
 
+      if (productFound === 'invalid_state') {
+        console.log('Product Service: El producto existe pero está prevendido');
+        return {
+          status: 201,
+          payload: {
+            message:
+              'El producto existe, pero está prevendido. Modifique su estado en la sección de productos.',
+          },
+        };
+      }
+
       if (!productFound) {
         console.log('Product Service: El producto no existe');
         return {
@@ -121,6 +132,7 @@ export class ProductService {
         payload: productFound,
       };
     } catch (error) {
+
       console.error(
         `Product Service: Error interno al buscar el producto: ${error.message}`
       );

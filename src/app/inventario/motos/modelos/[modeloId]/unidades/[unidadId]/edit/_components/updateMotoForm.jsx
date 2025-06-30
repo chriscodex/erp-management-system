@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
+import { useState } from "react";
 import {
   RiArrowLeftLine,
   RiPulseLine,
@@ -9,12 +9,12 @@ import {
   RiCoupon2Line,
   RiImportFill,
   RiMotorbikeFill,
-} from '@remixicon/react';
-import { Info, Package, Save, Truck } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { toast } from 'sonner';
+} from "@remixicon/react";
+import { Info, Package, Save, Truck } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 import {
   Form,
@@ -23,21 +23,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
+} from "@/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { estadosMotos } from '@/app/inventario/motos/_services/helpers';
-import { updateMotoFormSchema } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/validations/updateMotoFormSchema';
-import { updateMotoRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/requests';
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { estadosMotos } from "@/app/inventario/motos/_services/helpers";
+import { updateMotoFormSchema } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/validations/updateMotoFormSchema";
+import { updateMotoRequestClient } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/requests";
+import { SheetUpdateCaracteristicasMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/updateCaracteristicasMoto/sheetUpdateCaracteristicasMoto";
+import { shortDelay } from "@/lib/utils";
 
 export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
   const router = useRouter();
@@ -62,6 +64,21 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
+  //Estados para características de la moto
+  const [caracteristicas, setCaracteristicas] = useState(null);
+
+  const handleSaveCaracteristicas = async (data) => {
+    setCaracteristicas(data);
+    await shortDelay();
+  };
+
+  //Probando
+
+  const contarCaracteristicasValidas = (obj) =>
+    Object.values(obj || {}).filter(
+      (valor) => valor !== "" && valor !== null && valor !== undefined
+    ).length;
+
   // Manejo de formulario
   const onSubmit = handleSubmit(async () => {
     setFormSubmitIsLoading(true);
@@ -69,7 +86,7 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
     // Obtener los valores actuales del formulario
     const currentValues = watch();
 
-    // Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
+    // 1.Comparar los valores actuales con los valores iniciales y construir un objeto con los cambios
     const DataToUpdate = Object.keys(currentValues).reduce(
       (datosCambiados, key) => {
         if (currentValues[key] !== updateForm.formState.defaultValues[key]) {
@@ -79,13 +96,34 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
       },
       {}
     );
+    // 2. Verificar qué campos de características han cambiado
+    const caracteristicasOriginales = motoData?.caracteristicas || {};
+    const caracteristicasActuales = caracteristicas || {};
 
-    if (Object.keys(DataToUpdate).length === 0) {
-      toast.error('No se han realizado cambios.');
+    const caracteristicasCambiadas = Object.keys(
+      caracteristicasActuales
+    ).reduce((cambios, key) => {
+      const valorOriginal = caracteristicasOriginales[key] ?? "";
+      const valorActual = caracteristicasActuales[key] ?? "";
+
+      if (valorOriginal !== valorActual) {
+        cambios[key] = valorActual;
+      }
+      return cambios;
+    }, {});
+
+    // 3. Validar si hubo algún cambio
+    const hayCambiosPrincipales = Object.keys(DataToUpdate).length > 0;
+    const hayCambiosCaracteristicas =
+      Object.keys(caracteristicasCambiadas).length > 0;
+
+    if (!hayCambiosPrincipales && !hayCambiosCaracteristicas) {
+      toast.error("No se han realizado cambios.");
       setFormSubmitIsLoading(false);
       return;
     }
 
+    // 4. Armar el objeto final a enviar
     delete DataToUpdate?.estadoTitle;
     delete DataToUpdate?.observacionesEstado;
 
@@ -95,6 +133,9 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
         titulo: currentValues?.estadoTitle,
         observaciones: currentValues?.observacionesEstado,
       },
+      caracteristicas: hayCambiosCaracteristicas
+        ? { ...caracteristicasOriginales, ...caracteristicasCambiadas }
+        : caracteristicasOriginales,
     };
 
     toast.promise(
@@ -104,7 +145,7 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
         setFormSubmitIsLoading
       ),
       {
-        loading: 'Actualizando...',
+        loading: "Actualizando...",
         success: () => {
           clearErrors();
           router.refresh();
@@ -203,6 +244,56 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
                 </FormItem>
               )}
             />
+            <div className="flex flex-col items-center gap-2 md:col-span-2 lg:flex-row lg:items-end">
+              <SheetUpdateCaracteristicasMotoWrapper
+                onSave={handleSaveCaracteristicas}
+                defaultValues={caracteristicas}
+                MotoData={motoData}
+              />
+              {(() => {
+                const originales = motoData?.caracteristicas || {};
+                const actuales = caracteristicas || originales;
+
+                const totalOriginales =
+                  contarCaracteristicasValidas(originales);
+                const totalActuales = contarCaracteristicasValidas(actuales);
+
+                // Calcular cuántas fueron modificadas
+                const modificadas = Object.keys(actuales).reduce(
+                  (count, key) => {
+                    const original = originales[key] ?? "";
+                    const actual = actuales[key] ?? "";
+
+                    return original !== actual ? count + 1 : count;
+                  },
+                  0
+                );
+
+                if (totalActuales > 0) {
+                  return (
+                    <span className="text-green-600 text-sm">
+                      {totalOriginales > 0 ? (
+                        <>
+                          {totalOriginales} característica(s) previa(s)
+                          {modificadas > 0 && (
+                            <>
+                              {" "}
+                              <span className="text-orange-600">
+                                y {modificadas} modificada(s)
+                              </span>
+                            </>
+                          )}
+                        </>
+                      ) : (
+                        `${totalActuales} característica(s) agregada(s)`
+                      )}
+                    </span>
+                  );
+                }
+
+                return null;
+              })()}
+            </div>
           </div>
         </div>
 
@@ -408,9 +499,9 @@ export function UpdateMotoForm({ motoData, modelos, proveedores, almacenes }) {
                   </div>
                   <FormControl>
                     <Switch
-                      checked={field.value === 'si'}
+                      checked={field.value === "si"}
                       onCheckedChange={(checked) =>
-                        field.onChange(checked ? 'si' : 'no')
+                        field.onChange(checked ? "si" : "no")
                       }
                       disabled={formSubmitIsLoading}
                     />

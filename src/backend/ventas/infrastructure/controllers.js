@@ -20,6 +20,25 @@ export async function createVentaController(request) {
   }
 }
 
+export async function updateVentaController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { ventaId } = params;
+    const body = await request.json(); 
+
+    await connectDB();
+
+    const updatedVenta = await ventaService.updateVenta(ventaId, body);
+    return updatedVenta;
+  } catch (error) {
+    console.error(
+      'Venta Controller: Error interno al actualizar la venta:',
+      error.message
+    );
+    throw new Error('Venta Controller: Error interno al actualizar la venta');
+  }
+}
+
 export async function deleteVentaController(contextRoute) {
   try {
     const { params } = contextRoute;
@@ -35,5 +54,23 @@ export async function deleteVentaController(contextRoute) {
       error.message
     );
     throw new Error('Venta Controller: Error interno al eliminar la venta');
+  }
+}
+
+export async function finalizarVentaController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { ventaId } = params;
+
+    await connectDB();
+
+    const finalizadaVenta = await ventaService.finalizarVenta(ventaId);
+    return finalizadaVenta;
+  } catch (error) {
+    console.error(
+      'Venta Controller: Error interno al finalizar la venta:',
+      error.message
+    );
+    throw new Error('Venta Controller: Error interno al finalizar la venta');
   }
 }

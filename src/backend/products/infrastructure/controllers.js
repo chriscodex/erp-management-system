@@ -23,9 +23,11 @@ export async function getProductsController(request) {
     if (productUnitCode !== null) {
       const product = await productService.getProductByData({
         unitCode: productUnitCode,
+        unitEstado: { $in: ['disponible', 'reparado', 'dañado', 'desaparecido'] },
       });
       return product;
     }
+
     const products = await productService.getAllProducts();
     return products;
   } catch (error) {

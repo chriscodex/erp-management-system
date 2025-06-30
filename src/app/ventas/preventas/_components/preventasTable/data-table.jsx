@@ -27,6 +27,7 @@ import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTablePreventas({ columns, data, status = 200 }) {
+
   const router = useRouter();
 
   /* Sorting */
@@ -94,7 +95,10 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
         <Input
           placeholder="Buscar por DNI/RUC o código"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
         />
         <DataTableViewOptions table={table} />

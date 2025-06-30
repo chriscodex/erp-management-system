@@ -1,10 +1,14 @@
 import mongoose from 'mongoose';
 
 import { Venta } from '@/backend/ventas/domain/models/venta';
+import { Cliente } from '@/backend/clientes/domain/models/cliente';
+import { User } from '@/backend/users/domain/models/user';
 
 export class VentaRepository {
   constructor() {
     this.ventaModel = Venta;
+    this.clienteModel = Cliente;
+    this.userModel = User;
   }
 
   /**
@@ -15,7 +19,7 @@ export class VentaRepository {
    */
   async getAllVentas() {
     try {
-      const ventas = await this.ventaModel.find({});
+      const ventas = await this.ventaModel.find({}).populate('clienteId').populate('usuario.id');
 
       if (ventas?.length === 0) {
         console.log('Venta Repository: No se encontraron ventas');
@@ -34,6 +38,31 @@ export class VentaRepository {
     }
   }
 
+  async getVentasInDateRange(fecha1, fecha2) {
+    try {
+      const ventas = await this.ventaModel.find({
+        fecha: {
+          $gte: fecha1,
+          $lte: fecha2
+        }
+      }).populate('clienteId').populate('usuario.id');
+
+      if (ventas?.length === 0) {
+        console.log('Venta Repository: No se encontraron ventas');
+        return [];
+      }
+
+      console.log('Venta Repository: Ventas encontradas');
+      return ventas;
+    } catch (error) {
+      console.error(
+        `Venta Repository: Error al buscar todas las ventas: ${error}`
+      );
+      throw new Error(
+        `Venta Repository: Error al buscar todas las ventas: ${error}`
+      );
+    }
+  }
   async getVentaByData(ventaData) {
     try {
       if (!ventaData) {
@@ -50,7 +79,7 @@ export class VentaRepository {
       if (ventaData.code) {
         filter.code = { $regex: new RegExp(`^${ventaData.code}$`, 'i') };
       }
-      const ventaFound = await this.ventaModel.findOne(filter);
+      const ventaFound = await this.ventaModel.findOne(filter).populate('clienteId').populate('usuario.id');
 
       if (!ventaFound) {
         console.log('Venta Repository: Venta no encontrada');
@@ -87,6 +116,31 @@ export class VentaRepository {
       throw new Error(
         `Venta Repository: Error al crear la venta: ${error.message}`
       );
+    }
+  }
+
+  async updateVenta(ventaId, ventaData) {
+    try {
+      const updatedVenta = await this.ventaModel.findOneAndUpdate(
+        { _id: new mongoose.Types.ObjectId(ventaId) },
+        ventaData,
+        { new: true }
+      );
+
+      if (!updatedVenta) {
+        console.log(
+          'Venta Repository: Venta no encontrada para ser actualizada'
+        );
+        return null;
+      }
+
+      console.log('Venta Repository: Venta actualizada correctamente');
+      return updatedVenta;
+    } catch (error) {
+      console.error(
+        `Venta Repository: Error al actualizar la venta: ${error.message}`
+      );
+      throw new Error(`Error al actualizar la venta: ${error.message}`);
     }
   }
 

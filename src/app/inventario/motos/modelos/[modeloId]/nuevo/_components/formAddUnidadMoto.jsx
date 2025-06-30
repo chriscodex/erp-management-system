@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { RiMotorbikeFill } from '@remixicon/react';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import { RiMotorbikeFill } from "@remixicon/react";
 
 import {
   Form,
@@ -14,39 +14,41 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Switch } from '@/components/ui/switch';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/form";
+import { Switch } from "@/components/ui/switch";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { StringInputField } from '@/components/formInputs/StringInputField';
-import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
-import { createUnidadMotoSchema } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/validations/createUnidadMotoSchema';
-import { createUnidadMotoRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests';
-import { estadosMotos } from '@/app/inventario/motos/_services/helpers';
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { StringInputField } from "@/components/formInputs/StringInputField";
+import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
+import { createUnidadMotoSchema } from "@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/validations/createUnidadMotoSchema";
+import { createUnidadMotoRequestClient } from "@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests";
+import { estadosMotos } from "@/app/inventario/motos/_services/helpers";
+import { shortDelay } from "@/lib/utils";
+import { SheetAddCaracteristicasMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/addCaracteristicasMoto/sheetAddCaracteristicasMoto";
 
 export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
   const router = useRouter();
   const addUnidadMotoForm = useForm({
     resolver: zodResolver(createUnidadMotoSchema),
     defaultValues: {
-      nombre: '',
-      descripcion: '',
-      precioCompra: '',
-      precioVenta: '',
-      proveedorId: '',
+      nombre: "",
+      descripcion: "",
+      precioCompra: "",
+      precioVenta: "",
+      proveedorId: "",
       almacenId: almacenes[0]?._id,
       modeloId,
-      importado: 'no',
+      importado: "no",
       estadoTitle: estadosMotos[0]?.id,
-      observacionesEstado: '',
+      observacionesEstado: "",
     },
   });
 
@@ -55,22 +57,39 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
+  //Estados para características de la moto
+  const [caracteristicas, setCaracteristicas] = useState(undefined);
+
+  const handleSaveCaracteristicas = async (data) => {
+    setCaracteristicas(data);
+    await shortDelay();
+  };
+
   const onSubmit = handleSubmit(async (data) => {
     setFormSubmitIsLoading(true);
+    const motoData = {
+      ...data,
+      caracteristicas,
+    };
 
+    console.log("Moto a crear", motoData);
+    
     // Toast promise para crear
-    toast.promise(createUnidadMotoRequestClient(data, setFormSubmitIsLoading), {
-      loading: 'Creando...',
-      success: () => {
-        clearErrors();
-        router.push(`/inventario/motos/modelos/${modeloId}`);
-        return `Moto creada correctamente`;
-      },
-      error: (error) => {
-        setFormSubmitIsLoading(false);
-        return error;
-      },
-    });
+    toast.promise(
+      createUnidadMotoRequestClient(motoData, setFormSubmitIsLoading),
+      {
+        loading: "Creando...",
+        success: () => {
+          clearErrors();
+          router.push(`/inventario/motos/modelos/${modeloId}`);
+          return `Moto creada correctamente`;
+        },
+        error: (error) => {
+          setFormSubmitIsLoading(false);
+          return error;
+        },
+      }
+    );
   });
 
   return (
@@ -105,6 +124,24 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
                 </FormItem>
               )}
             />
+            <div className="flex items-end gap-2">
+              <SheetAddCaracteristicasMotoWrapper
+                onSave={handleSaveCaracteristicas}
+                defaultValues={caracteristicas}
+              />
+              {caracteristicas &&
+                (() => {
+                  const count = Object.values(caracteristicas).filter(
+                    (valor) =>
+                      valor !== "" && valor !== null && valor !== undefined
+                  ).length;
+                  return count > 0 ? (
+                    <span className="text-green-600 text-sm">
+                      {count} característica(s) agregada(s)
+                    </span>
+                  ) : null;
+                })()}
+            </div>
           </div>
         </div>
 
@@ -200,9 +237,9 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
                     </div>
                     <FormControl>
                       <Switch
-                        checked={field.value === 'si'}
+                        checked={field.value === "si"}
                         onCheckedChange={(checked) =>
-                          field.onChange(checked ? 'si' : 'no')
+                          field.onChange(checked ? "si" : "no")
                         }
                         disabled={formSubmitIsLoading}
                       />

@@ -63,6 +63,8 @@ export function ObsequiosPreventaTable({
   const columns = [
     {
       accessorKey: 'numeracion',
+/*************  ✨ Windsurf Command ⭐  *************/
+/*******  47e86d4f-f69c-4498-8794-5bfdb540416c  *******/
       header: ({ column }) => {
         return (
           <Button
@@ -298,6 +300,8 @@ export function ObsequiosPreventaTable({
   const handleAgregarObsequio = async (event) => {
     event.preventDefault();
 
+    const trimmedSearchValue = searchValue.trim();
+
     if (!searchValue) {
       toast.error('Ingrese el codigo del producto');
       return;
@@ -308,7 +312,7 @@ export function ObsequiosPreventaTable({
     }
 
     const duplicado = obsequiosPreventa.some(
-      (obsequio) => obsequio?.code === searchValue.trim()
+      (obsequio) => obsequio?.code === trimmedSearchValue
     );
     if (duplicado) {
       toast.error('El obsequio ya se encuentra en la lista');
@@ -319,7 +323,7 @@ export function ObsequiosPreventaTable({
 
     // Toast para buscar producto
     toast.promise(
-      getObsequioByCodeClientRequest(searchValue, setSearchProductIsLoading),
+      getObsequioByCodeClientRequest(trimmedSearchValue, setSearchProductIsLoading),
       {
         loading: 'Buscando...',
         success: (response) => {
@@ -384,7 +388,10 @@ export function ObsequiosPreventaTable({
             ref={searchObsequiosInputRef}
             placeholder="Ingrese el código del obsequio"
             value={searchValue}
-            onChange={(e) => setSearchValue(e.target.value)}
+            onChange={(e) => {
+              const trimmedValue = e.target.value.trim();
+              setSearchValue(trimmedValue);
+            }}
             className="max-w-sm"
             onKeyDown={(event) => {
               if (event.key === 'Enter') {

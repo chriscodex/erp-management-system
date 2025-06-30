@@ -1,7 +1,7 @@
 import { EmpresaService } from '@/backend/empresas/application/empresa.service';
 import { connectDB } from '@/db/mongodb';
-import { deleteData } from '@/lib/fetchData';
-import { deleteVentaClientUrl } from '@/lib/urls';
+import { deleteData, postData } from '@/lib/fetchData';
+import { deleteVentaClientUrl, finalizarVentaClientUrl } from '@/lib/urls';
 import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 export async function deleteVentaRequestClient(ventaId) {
@@ -50,4 +50,31 @@ export async function getAllEmpresasForComprobanteVentaRequestServer() {
   } catch (error) {
     console.error(error);
   }
+}
+
+export async function finalizarVentaRequestClient(ventaId) {
+  /* eslint-disable */
+
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      // Simular tiempo de retraso
+      await delay();
+
+      const url = `${finalizarVentaClientUrl}/${ventaId}/finalizar`;
+
+      // Obtener los datos de la persona
+      const response = await postData(url);
+      if (response?.status !== 201) {
+        reject(
+          'No se pudo eliminar la venta: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      resolve(response?.data?.payload);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }

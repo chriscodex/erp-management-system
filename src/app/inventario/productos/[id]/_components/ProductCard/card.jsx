@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   Card,
@@ -7,9 +7,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import {
   Package,
   DollarSign,
@@ -19,16 +19,17 @@ import {
   ExternalLink,
   Trash,
   Edit2,
-} from 'lucide-react';
-import Link from 'next/link';
-import { DeleteProductAlert } from '@/app/inventario/productos/_components/Dialogs/DeleteProductAlert';
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { RiImportFill } from '@remixicon/react';
+} from "lucide-react";
+import Link from "next/link";
+import { DeleteProductAlert } from "@/app/inventario/productos/_components/Dialogs/DeleteProductAlert";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { RiImportFill } from "@remixicon/react";
 
 export default function ProductCard({ product }) {
   const router = useRouter();
-
+  const { data: session } = useSession();
   /* Manejar estado de eliminar el producto */
   const [isOpenDialogDeleteProduct, setIsOpenDialogDeleteProduct] =
     useState(false);
@@ -49,15 +50,15 @@ export default function ProductCard({ product }) {
           <div className="flex items-center space-x-2">
             <div
               className={`h-2 w-2 rounded-full ${
-                product?.estado === 'activo' ? 'bg-green-500' : 'bg-red-500'
+                product?.estado === "activo" ? "bg-green-500" : "bg-red-500"
               }`}
             />
             <span
               className={`text-sm ${
-                product?.estado === 'activo' ? 'text-green-600' : 'text-red-500'
+                product?.estado === "activo" ? "text-green-600" : "text-red-500"
               }`}
             >
-              {product?.estado === 'activo' ? 'Activo' : 'Inactivo'}
+              {product?.estado === "activo" ? "Activo" : "Inactivo"}
             </span>
           </div>
         </div>
@@ -86,19 +87,19 @@ export default function ProductCard({ product }) {
           <div className="flex items-center">
             <Gift className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
-              Obsequio: {product?.obsequio === 'si' ? 'Si' : 'No'}
+              Obsequio: {product?.obsequio === "si" ? "Si" : "No"}
             </span>
           </div>
           <div className="flex items-center">
             <RiImportFill className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
-              Importado: {product?.importado === 'si' ? 'Si' : 'No'}
+              Importado: {product?.importado === "si" ? "Si" : "No"}
             </span>
           </div>
           <div className="flex items-center col-span-2">
             <Truck className="h-4 w-4 mr-2 text-muted-foreground" />
             <span className="text-sm">
-              Proveedor: {product?.proveedorId?.nombre || 'Proveedor'}
+              Proveedor: {product?.proveedorId?.nombre || "Proveedor"}
             </span>
           </div>
         </div>
@@ -118,33 +119,35 @@ export default function ProductCard({ product }) {
           </div>
         </div>
       </CardContent>
-      <CardFooter className="grid grid-cols-2 gap-4">
-        <Button
-          className="w-full col-span-1 bg-destructive text-destructive-foreground hover:bg-destructive/90"
-          onClick={() => setIsOpenDialogDeleteProduct(true)}
-        >
-          <Trash className="h-4 w-4" />
-          Eliminar
-        </Button>
-        <Button
-          className="w-full col-span-1"
-          variant="outline"
-          onClick={() =>
-            router.push(`/inventario/productos/${product?._id}/edit`)
-          }
-        >
-          <Edit2 className="h-4 w-4 mr-2" />
-          Editar
-        </Button>
-        <Link
-          className="col-span-2 w-full"
-          href={`/inventario/productos/${product?._id}/gastos`}
-        >
-          <Button className="w-full">
-            Ver Gastos <ExternalLink className="h-4 w-4" />
+      {session?.user?.rol === "Administrador" && (
+        <CardFooter className="grid grid-cols-2 gap-4">
+          <Button
+            className="w-full col-span-1 bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            onClick={() => setIsOpenDialogDeleteProduct(true)}
+          >
+            <Trash className="h-4 w-4" />
+            Eliminar
           </Button>
-        </Link>
-      </CardFooter>
+          <Button
+            className="w-full col-span-1"
+            variant="outline"
+            onClick={() =>
+              router.push(`/inventario/productos/${product?._id}/edit`)
+            }
+          >
+            <Edit2 className="h-4 w-4 mr-2" />
+            Editar
+          </Button>
+          <Link
+            className="col-span-2 w-full"
+            href={`/inventario/productos/${product?._id}/gastos`}
+          >
+            <Button className="w-full">
+              Ver Gastos <ExternalLink className="h-4 w-4" />
+            </Button>
+          </Link>
+        </CardFooter>
+      )}
       {/* Dialog Delete */}
       <DeleteProductAlert
         isOpen={isOpenDialogDeleteProduct}

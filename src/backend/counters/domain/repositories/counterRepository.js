@@ -9,6 +9,7 @@ export class CounterRepository {
       const countersToInitialize = [
         { name: 'boletas', sequenceValue: 0 },
         { name: 'facturas', sequenceValue: 0 },
+        { name: 'nota-venta', sequenceValue: 0 },
       ];
 
       for (const counter of countersToInitialize) {
@@ -25,21 +26,15 @@ export class CounterRepository {
       console.error('Error inicializando los contadores:', error);
     }
   }
+
   async getCounterByType(name) {
     const counter = await this.counterModel.findOne({ name });
     return counter ? counter.sequenceValue : 0;
   }
-  async aumentarContadorBoleta() {
+
+  async aumentarContadorByType(type) {
     const counter = await this.counterModel.findOneAndUpdate(
-      { name },
-      { $inc: { sequenceValue: 1 } },
-      { new: true, upsert: true } // Crea el contador si no existe
-    );
-    return counter.sequenceValue;
-  }
-  async aumentarContadorFactura() {
-    const counter = await this.counterModel.findOneAndUpdate(
-      { name },
+      { name: type },
       { $inc: { sequenceValue: 1 } },
       { new: true, upsert: true } // Crea el contador si no existe
     );

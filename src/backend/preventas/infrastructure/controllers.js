@@ -41,22 +41,22 @@ export async function updatePreventaController(request, contextRoute) {
   }
 }
 
-export async function deletePreventaController(contextRoute) {
+export async function cancelarPreventaController(contextRoute) {
   try {
     const { params } = contextRoute;
     const { preventaId } = params;
 
     await connectDB();
 
-    const deletedPreventa = await preventaService.deletePreventa(preventaId);
-    return deletedPreventa;
+    const result = await preventaService.cancelarPreventa(preventaId);
+    return result;
   } catch (error) {
     console.error(
-      'Preventa Controller: Error interno al eliminar la preventa:',
+      'Preventa Controller: Error interno cancelando la Preventa:',
       error.message
     );
     throw new Error(
-      'Preventa Controller: Error interno al eliminar la preventa'
+      'Preventa Controller: Error interno cancelando la Preventa'
     );
   }
 }

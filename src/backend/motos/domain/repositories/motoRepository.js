@@ -120,6 +120,11 @@ export class MotoRepository {
         filter.importado = motoData.importado;
       }
 
+
+      if (motoData['estado.titulo']) {
+        filter['estado.titulo'] = motoData['estado.titulo'];
+      }
+
       const motoFound = await this.motoModel
         .findOne(filter)
         .populate({
@@ -134,6 +139,16 @@ export class MotoRepository {
 
       if (!motoFound) {
         console.log('Moto Repository: Moto no encontrada');
+
+        if (motoData.code) {
+          const existsByCode = await this.motoModel.findOne({ code: motoData.code });
+
+          if (existsByCode) {
+            console.log('Moto Repository: Moto encontrada, pero está prevendida');
+            return 'invalid_state';
+          }
+        }
+
         return null;
       }
 
@@ -146,6 +161,7 @@ export class MotoRepository {
       throw new Error(`Error al buscar la moto: ${error.message}`);
     }
   }
+
   async createMoto(motoData) {
     try {
       const newMoto = new this.motoModel(motoData);

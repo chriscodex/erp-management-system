@@ -8,13 +8,16 @@ import {
   getCategoriesBySegmentDataForModelosRequestServer,
   getMarcasBySegmentDataForModelosRequestServer,
 } from '@/app/inventario/motos/modelos/_services/requests';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
   const { modelo } = await getModeloByIdRequestServer(params.modeloId);
 
-  if (!modelo) {
+  if (!modelo || session?.user?.rol !== "Administrador") {
     notFound();
   }
 

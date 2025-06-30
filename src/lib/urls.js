@@ -5,6 +5,15 @@ export const getSearchedUserClientUrl = '/api/searched-users';
 export const createUserClientUrl = '/api/users';
 export const updateUserClientUrl = '/api/users';
 export const deleteUserClientUrl = '/api/users';
+export const getUserByDNIClientUrl = '/api/users';
+
+/* Clientes */
+export const createClienteClientUrl = '/api/clientes';
+export const updateClienteClientUrl = '/api/clientes';
+export const deleteClienteClientUrl = '/api/clientes';
+export const searchClienteClientUrl = '/api/clientes';
+// export const getClientByDniOrRucClientUrl = '/api/clientes';
+// export const createClienteClientUrl = '/api/clientes';
 
 /* Empresas */
 export const createEmpresaClientUrl = '/api/empresas';
@@ -42,6 +51,11 @@ export const createModeloClientUrl = '/api/modelos';
 export const deleteModeloClientUrl = '/api/modelos';
 export const updateModeloClientUrl = '/api/modelos';
 
+/* Modelos Pedidos */
+export const createModeloPedidoClientUrl = '/api/modelos-pedidos';
+export const deleteModeloPedidoClientUrl = '/api/modelos-pedidos';
+export const updateModeloPedidoClientUrl = '/api/modelos-pedidos';
+
 /* Moto Unidad */
 export const createMotoClientUrl = '/api/motos';
 export const updateMotoClientUrl = '/api/motos';
@@ -56,6 +70,11 @@ export const updateGastoMotoClientUrl = '/api/motos';
 export const createReservacionClientUrl = '/api/reservaciones';
 export const updateReservacionClientUrl = '/api/reservaciones';
 export const deleteReservacionClientUrl = '/api/reservaciones';
+
+/* Pedidos */
+export const createPedidoClientUrl = '/api/pedidos';
+export const updatePedidoClientUrl = '/api/pedidos';
+export const deletePedidoClientUrl = '/api/pedidos';
 
 /* Almacen */
 export const createAlmacenClientUrl = '/api/almacenes';
@@ -74,17 +93,55 @@ export const createPreventaClientUrl = '/api/preventas';
 export const deletePreventaClientUrl = '/api/preventas';
 export const updatePreventaClientUrl = '/api/preventas';
 
-/* Clientes */
-export const searchClienteClientUrl = '/api/clientes';
-export const getClientByDniOrRucClientUrl = '/api/clientes';
-export const createClienteClientUrl = '/api/clientes';
+
 
 /* Ventas */
 export const createVentaClientUrl = '/api/ventas';
 export const deleteVentaClientUrl = '/api/ventas';
+export const finalizarVentaClientUrl = '/api/ventas';
+
+//AGRUPARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
 /* Boleta */
 export const getCurrentCounterBoletaClientUrl = '/api/counters';
+export const updateBoletaStateClientUrl = '/api/ventas';
+export const updateBoletaOrdenDeServicioStateClientUrl = '/api/ordenes-servicio';
+export const incrementCounterBoletaClientUrl = '/api/counters/increment';
 
 /*Factura*/
 export const getCurrentCounterFacturaClientUrl = '/api/counters';
+export const updateFacturaStateClientUrl = '/api/ventas';
+export const updateFacturaOrdenDeServicioStateClientUrl = '/api/ordenes-servicio';
+export const incrementCounterFacturaClientUrl = '/api/counters/increment';
+
+/* Nota de Venta */
+export const getCurrentCounterNotaVentaClientUrl = '/api/counters';
+export const updateNotaVentaStateClientUrl = '/api/ventas';
+export const incrementCounterNotaVentaClientUrl = '/api/counters/increment';
+
+/* Cotizaciones */
+export const getCurrentCounterCotizacionClientUrl = '/api/counters';
+export const incrementCounterCotizacionClientUrl = '/api/counters/increment';
+
+
+/* Empresas */
+export const createGastoGeneralClientUrl = '/api/gastos-generales';
+export const updateGastoGeneralClientUrl = '/api/gastos-generales';
+export const deleteGastoGeneralClientUrl = '/api/gastos-generales';
+
+/* Inventariar pedido */
+
+export const inventariarPedidoClientUrl = '/api/pedidos';
+
+
+/* Ordenes de servicio */
+export const createOrdenDeServicioClientUrl = '/api/ordenes-servicio';
+export const updateOrdenDeServicioClientUrl = '/api/ordenes-servicio';
+export const deleteOrdenDeServicioClientUrl = '/api/ordenes-servicio';
+export const finalizarOrdenDeServicioClientUrl = '/api/ordenes-servicio';
+
+/* Notificaciones */
+export const getNotificacionesClientUrl = '/api/notificaciones';
+export const createNotificacionClientUrl = '/api/notificaciones';
+export const updateNotificacionClientUrl = '/api/notificaciones';
+export const deleteNotificacionClientUrl = '/api/notificaciones';

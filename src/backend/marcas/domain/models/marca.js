@@ -1,9 +1,5 @@
 import { Schema, model, models } from 'mongoose';
 
-// // Eliminar el modelo en caso no considere los cambios
-// if (models.Marca) {
-//   delete models.Marca;
-// }
 
 const marcaSchema = new Schema(
   {

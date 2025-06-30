@@ -1,4 +1,5 @@
 import { format } from '@formkit/tempo';
+import writtenNumber from 'written-number';
 
 export function CrearFullName(nombres, apellidos) {
   // Obtener la primera palabra de cada string
@@ -105,40 +106,68 @@ export function formatDateFull(date, hour = true) {
  * @returns {string} - El código formateado con el prefijo B y 8 dígitos
  * @throws {Error} - Si el número es negativo
  */
+
 export function formatearCodigoCounterBoletaFactura(numero, comprobante) {
   // Validar que el número sea positivo
   if (numero < 0) {
     throw new Error('El número debe ser positivo');
   }
 
-  // Calcular el prefijo y el número a mostrar
+  // Normalizar el tipo de comprobante (insensible a mayúsculas/minúsculas)
+  const tipo = comprobante.toLowerCase();
+
   const MAX_NUMERO = 99999999;
   let prefijo;
   let numeroAmostrar;
 
   if (numero <= MAX_NUMERO) {
-    if(comprobante === 'boleta'){
+    if (tipo === 'boleta') {
       prefijo = 'B001';
-    }else{
+    } else if (tipo === 'factura') {
       prefijo = 'F001';
+    } else if (tipo === 'cotizacion') {
+      prefijo = 'C001';
+    } else if (tipo === 'nota-venta') {
+      prefijo = 'NV001';
+    } else {
+      throw new Error('Tipo de comprobante no válido');
     }
     numeroAmostrar = numero;
   } else {
-    // Calcular cuántas veces supera el máximo
     const vecesSuperado = Math.floor(numero / (MAX_NUMERO + 1));
-    if(comprobante === 'boleta'){
-      prefijo = `B${String(vecesSuperado + 1).padStart(3, '0')}`;
-    }else{
-      prefijo = `F${String(vecesSuperado + 1).padStart(3, '0')}`;
+    const nuevoPrefijo = String(vecesSuperado + 1).padStart(3, '0');
+
+    if (tipo === 'boleta') {
+      prefijo = `B${nuevoPrefijo}`;
+    } else if (tipo === 'factura') {
+      prefijo = `F${nuevoPrefijo}`;
+    } else if (tipo === 'cotizacion') {
+      prefijo = `C${nuevoPrefijo}`;
+    } else if (tipo === 'nota-venta') {
+      prefijo = `NV${nuevoPrefijo}`;
+    } else {
+      throw new Error('Tipo de comprobante no válido');
     }
-    
-    // Calcular el número a mostrar (resto de la división)
+
     numeroAmostrar = numero - (MAX_NUMERO + 1) * vecesSuperado;
   }
 
-  // Formatear el número con 8 dígitos
   const numeroFinal = String(numeroAmostrar).padStart(8, '0');
 
-  // Combinar el prefijo con el número formateado
   return `${prefijo}-${numeroFinal}`;
 }
+
+export function formatNumeroALetras(numero) {
+
+  //Extraer y leeer parte entera del número
+  const parteEntera = Math.floor(numero);
+  const letrasParteEntera = writtenNumber(parteEntera, {lang: 'es'});
+  
+  //Extraer y leer parte decimal del número
+  const parteDecimal = Math.round((numero - parteEntera) * 100);
+  const letrasParteDecimal = parteDecimal.toString().padStart(2, '0');
+
+  //Concatenar las partes
+  return `${letrasParteEntera.toUpperCase()} CON ${letrasParteDecimal}/100 SOLES`;
+}
+

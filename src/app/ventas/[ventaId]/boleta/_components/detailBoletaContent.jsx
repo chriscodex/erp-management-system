@@ -1,7 +1,7 @@
-import { User, Package, Gift, Hash } from 'lucide-react';
-import { RiInfoCardFill } from '@remixicon/react';
+import { User, Package, Gift, Hash } from "lucide-react";
+import { RiInfoCardFill } from "@remixicon/react";
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -9,26 +9,37 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { formatDateLong } from '@/lib/formateador';
-import { Label } from '@/components/ui/label';
-import { Separator } from '@/components/ui/separator';
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  formatDateLong,
+  formatearCodigoCounterBoletaFactura,
+} from "@/lib/formateador";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
 
-import { DetailBoletaButtons } from '@/app/ventas/[ventaId]/boleta/_components/buttons/detailBoletaButtons';
-import { ImprimirBoletaButton } from '@/app/ventas/[ventaId]/boleta/_components/buttons/imprimirButton';
+import { ImprimirBoletaButton } from "@/app/ventas/[ventaId]/boleta/_components/buttons/imprimirButton";
+import { FinalizarVentaButton } from "@/app/ventas/[ventaId]/_components/buttons/finalizarVentaButton";
 
 export function DetailBoletaContent({ ventaData, empresas }) {
   return (
     <Card className="w-full max-w-7xl mx-auto">
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+      <CardHeader className="flex flex-col lg:flex-row items-center justify-between space-y-0 pb-4">
         <div className="flex items-center gap-2">
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Boleta</Label>
         </div>
-        <ImprimirBoletaButton
-          ventaData={ventaData}
-          empresas={empresas}
-        />
+        <div className="flex flex-col items-center lg:flex-row gap-4">
+          <ImprimirBoletaButton
+            ventaData={ventaData}
+            empresas={empresas}
+            reimprimir={!!ventaData?.counter}
+          />
+          <FinalizarVentaButton
+            ventaId={ventaData?._id}
+            disabled={ventaData?.comprobante !== "Boleta Impresa"}
+          />
+        </div>
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -41,34 +52,64 @@ export function DetailBoletaContent({ ventaData, empresas }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {ventaData?.cliente?.tipo === 'persona' ? (
+              {ventaData?.clienteId?.tipo === "persona" ? (
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{' '}
-                    {ventaData?.cliente?.datos?.nombres}{' '}
-                    {ventaData?.cliente?.datos?.apellidos}
+                    <strong>Nombre:</strong>{" "}
+                    {ventaData?.clienteId?.datos?.nombres}{" "}
+                    {ventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
-                    <strong>DNI:</strong> {ventaData?.cliente?.datos?.dni}
+                    <strong>DNI:</strong> {ventaData?.clienteId?.datos?.dni}
                   </p>
-                  <p>
-                    <strong>Celular:</strong>{' '}
-                    {ventaData?.cliente?.datos?.celular}
-                  </p>
+                  {ventaData?.clienteId?.datos?.direccion && (
+                    <p>
+                      <strong>Dirección:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.direccion}
+                    </p>
+                  )}
+                  {ventaData?.clienteId?.datos?.email && (
+                    <p>
+                      <strong>Email:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.email}
+                    </p>
+                  )}
+                  {ventaData?.clienteId?.datos?.celular && (
+                    <p>
+                      <strong>Celular:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.celular}
+                    </p>
+                  )}
                 </div>
               ) : (
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{' '}
-                    {ventaData?.cliente?.datos?.razonSocial}
+                    <strong>Razon Social:</strong>{" "}
+                    {ventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
-                    <strong>RUC:</strong> {ventaData?.cliente?.datos?.ruc}
+                    <strong>RUC:</strong> {ventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Celular:</strong>{' '}
-                    {ventaData?.cliente?.datos?.celular}
+                    <strong>Representante Legal:</strong>{" "}
+                    {ventaData?.clienteId?.datos?.representanteLegal}
                   </p>
+                  <p>
+                    <strong>Dirección:</strong>{" "}
+                    {ventaData?.clienteId?.datos?.direccion}
+                  </p>
+                  {ventaData?.clienteId?.datos?.email && (
+                    <p>
+                      <strong>Email:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.email}
+                    </p>
+                  )}
+                  {ventaData?.clienteId?.datos?.celular && (
+                    <p>
+                      <strong>Celular:</strong>{" "}
+                      {ventaData?.clienteId?.datos?.celular}
+                    </p>
+                  )}
                 </div>
               )}
             </CardContent>
@@ -87,14 +128,29 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                   <strong>Código:</strong> {ventaData?.code}
                 </p>
                 <p>
-                  <strong>Fecha:</strong>{' '}
+                  <strong>Fecha:</strong>{" "}
                   {formatDateLong(ventaData?.fecha, true)}
                 </p>
                 <p>
-                  <strong>Vendedor:</strong>{' '}
+                  <strong>Vendedor:</strong>{" "}
                   {ventaData?.usuario?.nombres +
-                    ' ' +
-                    ventaData?.usuario?.apellidos}{' '}
+                    " " +
+                    ventaData?.usuario?.apellidos}{" "}
+                </p>
+                <p>
+                  <strong>Comprobante:</strong> {ventaData?.comprobante}
+                </p>
+                {ventaData?.counter && (
+                  <p>
+                    <strong>Número de comprobante:</strong>{" "}
+                    {formatearCodigoCounterBoletaFactura(
+                      ventaData?.counter,
+                      "boleta"
+                    )}
+                  </p>
+                )}
+                <p>
+                  <strong>Estado SUNAT:</strong> {ventaData?.estadoSunat}
                 </p>
               </div>
             </CardContent>
@@ -134,7 +190,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{' '}
+                        S/.{" "}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
                           2
                         )}
@@ -198,26 +254,31 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {ventaData?.obsequios.map((obsequio) => (
-                  <TableRow key={obsequio?.code}>
-                    <TableCell className="font-medium">
-                      {obsequio?.code}
+                {ventaData?.obsequios && ventaData.obsequios.length > 0 ? (
+                  ventaData.obsequios.map((obsequio) => (
+                    <TableRow key={obsequio?.code}>
+                      <TableCell className="font-medium">
+                        {obsequio?.code}
+                      </TableCell>
+                      <TableCell>{obsequio?.nombre}</TableCell>
+                      <TableCell>{obsequio?.descripcion}</TableCell>
+                      <TableCell>
+                        <Badge variant="outline">{obsequio?.estado}</Badge>
+                      </TableCell>
+                      <TableCell>{obsequio?.cantidad}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} className="h-24 text-center">
+                      Sin obsequios.
                     </TableCell>
-                    <TableCell>{obsequio?.nombre}</TableCell>
-                    <TableCell>{obsequio?.descripcion}</TableCell>
-                    <TableCell>{obsequio?.cantidad}</TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </CardContent>
         </Card>
-        <div className="mt-4">
-          <DetailBoletaButtons
-            ventaId={ventaData._id}
-            ventaData={ventaData}
-          />
-        </div>
       </CardContent>
     </Card>
   );

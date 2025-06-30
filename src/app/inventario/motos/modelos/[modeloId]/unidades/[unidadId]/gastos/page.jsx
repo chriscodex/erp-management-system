@@ -10,12 +10,15 @@ import { DollarSign } from 'lucide-react';
 import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
 import { SheetAddGastoMotoWrapper } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/sheets/addGastoMoto/sheetAddGastoMotoWrapper';
 import { DataTableGastosMoto } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/gastosMotoTable/data-table';
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function ProductGastoPage({ params }) {
+  const session = await getServerSession(authOptions);
   const unidadId = params.unidadId;
   const { moto, status } = await getMotoByIdRequestServer(unidadId);
 
-  if (!moto) {
+  if (!moto || session?.user?.rol !== "Administrador") {
     notFound();
   }
 

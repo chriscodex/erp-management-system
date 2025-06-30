@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { Plus } from 'lucide-react';
-import { useState } from 'react';
-
-import { Sheet } from '@/components/ui/sheet';
-import { AddCategoryForm } from '@/app/inventario/categorias/_components/sheets/addCategory/add-category.jsx';
+import { Plus } from "lucide-react";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { Sheet } from "@/components/ui/sheet";
+import { AddCategoryForm } from "@/app/inventario/categorias/_components/sheets/addCategory/add-category.jsx";
 
 export function SheetAddCategoryWrapper({ segments }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
-
+  const { data: session } = useSession();
   const handleOpenSheet = () => {
     setIsSheetOpen(true);
   };
@@ -16,7 +16,7 @@ export function SheetAddCategoryWrapper({ segments }) {
   const handleCloseSheet = () => {
     setIsSheetOpen(false);
   };
-
+  if (session?.user?.rol !== "Administrador") return null;
   return (
     <div>
       <div

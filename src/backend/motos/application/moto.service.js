@@ -97,6 +97,17 @@ export class MotoService {
     try {
       const motoFound = await this.motoRepository.getMotoByData(motoData);
 
+      if (motoFound === 'invalid_state') {
+        console.log('Moto Service: La moto existe pero está prevendida');
+        return {
+          status: 201,
+          payload: {
+            message:
+              'La moto existe, pero está prevendida. Modifique su estado en la sección de motos.',
+          },
+        };
+      }
+
       if (!motoFound) {
         console.log('Moto Service: La moto no existe');
         return {
@@ -126,24 +137,14 @@ export class MotoService {
 
       if (!motoValidated.success) {
         console.log(
-          `Moto Service: Error de validación de schema de moto al crear ${motoValidated}`
+          'Moto Service: Error de validación de schema de moto al crear',
+          motoValidated.error.format?.() || motoValidated.error
         );
         return {
           status: 400,
           payload: motoValidated.error.issues,
         };
       }
-
-      // Validar si una moto con ese nombre y en el mismo modelo ya existe
-      const motoFound = await this.motoRepository.getMotoByData(motoData);
-      if (motoFound) {
-        console.log('Moto Service: Una moto con el mismo nombre ya existe');
-        return {
-          status: 409,
-          payload: 'Una Moto con el mismo nombre ya existe',
-        };
-      }
-      console.log('Moto Service: No hay duplicados');
 
       // Validar si el modelo existe
       const modeloFound = await this.modeloRepository.getModeloByData({
@@ -156,7 +157,7 @@ export class MotoService {
           payload: 'El modelo no existe',
         };
       }
-      console.log('Moto Service: La moto existe');
+      console.log('Moto Service: El modelo de la moto existe');
 
       // Validar si el almacen existe
       const almacenFound = await this.almacenRepository.getAlmacenByData({

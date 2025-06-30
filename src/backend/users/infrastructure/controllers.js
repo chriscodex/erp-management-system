@@ -3,9 +3,24 @@ import { connectDB } from '@/db/mongodb';
 
 const userService = new UsersService();
 
-export async function getUsersController() {
+export async function getUsersController(request) {
   try {
+
+    // Extrae los query parameters de la URL
+    const { searchParams } = new URL(request.url);
+    const mecanicoDNI = searchParams.get('dni');
+
     await connectDB();
+
+    if (mecanicoDNI !== null) {
+      const mecanico = await userService.getUserByData({
+        dni: mecanicoDNI,
+        rol: 'Tecnico',
+        estado: 'activo',
+      });
+      return mecanico;
+    }
+
     const users = await userService.getAllUsers();
     return users;
   } catch (error) {

@@ -1,7 +1,10 @@
 import { connectDB } from '@/db/mongodb';
 import { simplificadorParaClientComponent } from '@/lib/utils';
+import { fetchData, patchData } from '@/lib/fetchData';
+import { getNotificacionesClientUrl, updateNotificacionClientUrl } from '@/lib/urls';
 
 import { MotoService } from '@/backend/motos/application/moto.service';
+
 import { ProductService } from '@/backend/products/application/products.service';
 
 export async function getAllProductsForHomeRequestServer() {
@@ -42,4 +45,45 @@ export async function getAllMotosForHomeRequestServer() {
   } catch (error) {
     console.error(error);
   }
+}
+
+
+export async function getNotificacionesForHomeRequestClient() {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Obtener las notificaciones
+      const response = await fetchData(getNotificacionesClientUrl);
+      if (response?.status !== 200) {
+        reject('No se pudieron obtener las notificaciones: ' + response.response?.data?.error);
+        return;
+      }
+      resolve(response?.data?.payload);
+    } catch (error) {
+      reject(error);
+    }
+  });
+}
+
+export async function removeNotificacionTemporallyForHomeRequestClient(notificacionId) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    try {
+
+      const updateNotificacionUrl = `${updateNotificacionClientUrl}/${notificacionId}`;
+
+      const response = await patchData(updateNotificacionUrl, { closed: true });
+
+      if (response?.status !== 200) {
+        setLoading(false);
+        reject(
+          'No se pudo remover la notificacion: ' + response.response?.data?.error
+        );
+        return;
+      }
+      resolve(response?.data?.payload);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }

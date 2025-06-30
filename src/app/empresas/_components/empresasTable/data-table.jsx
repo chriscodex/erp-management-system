@@ -80,7 +80,10 @@ export function DataTableMarcas({ columns, data, status = 200 }) {
         <Input
           placeholder="Buscar por nombre"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
         />
         <DataTableViewOptions table={table} />

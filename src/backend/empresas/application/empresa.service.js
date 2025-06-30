@@ -60,6 +60,35 @@ export class EmpresaService {
       };
     }
   }
+
+    async getFirstEmpresa() {
+    try {
+      const empresaFound = await this.empresaRepository.getFirstEmpresa();
+
+      if (!empresaFound) {
+        console.log('Empresa Service: La empresa no existe');
+        return {
+          status: 200,
+          payload: null,
+        };
+      }
+
+      console.log('Empresa Service: La empresa existe');
+      return {
+        status: 200,
+        payload: empresaFound,
+      };
+    } catch (error) {
+      console.error(
+        `Empresa Service: Error interno al buscar una empresa: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+
   async createEmpresa(empresa) {
     try {
 

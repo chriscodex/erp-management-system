@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { Building, Plus, MapPin, Phone, Mail } from "lucide-react";
 import Link from "next/link";
 
@@ -18,9 +19,16 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RiFileListLine } from "@remixicon/react";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function EmpresasPage() {
+  const session = await getServerSession(authOptions);
   const { empresas } = await getAllEmpresasRequestServer();
+
+  if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
 
   /* Secciones del navbar */
   const navbarTitles = [
@@ -56,7 +64,7 @@ export default async function EmpresasPage() {
                 Administra y supervisa tus empresas desde un solo lugar.
               </p>
             </header>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
               {empresas.map((empresa) => (
                 <Card key={empresa?.ruc} className="flex flex-col">
                   <CardHeader>
@@ -65,7 +73,9 @@ export default async function EmpresasPage() {
                         <CardTitle className="text-2xl mb-2">
                           {empresa?.nombre}
                         </CardTitle>
-                        <CardDescription>{empresa?.descripcion}</CardDescription>
+                        <CardDescription>
+                          {empresa?.descripcion}
+                        </CardDescription>
                       </div>
                       <Badge variant="secondary" className="text-sm">
                         RUC: {empresa?.ruc}
@@ -84,7 +94,7 @@ export default async function EmpresasPage() {
                       </div>
                       <div className="flex items-center">
                         <Mail className="h-5 w-5 mr-2 text-muted-foreground" />
-                        <span className="text-sm">{empresa?.email}</span>
+                        <span className="text-sm break-all">{empresa?.email}</span>
                       </div>
                     </div>
                   </CardContent>

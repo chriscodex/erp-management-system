@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-import { deleteVentaRequestClient } from '@/app/ventas/[ventaId]/_services/requests';
+import { finalizarVentaRequestClient } from '@/app/ventas/[ventaId]/_services/requests';
 
 /**
  * @description Un dialog de confirmación de eliminación de una marca.
@@ -32,16 +32,21 @@ export function FinalizarVentaAlert({
   ventaId,
   actionAfterComplete = 'refresh',
 }) {
+  console.log(ventaId);
   const router = useRouter();
 
   const handleConfirmationDeleteProduct = async () => {
     try {
       setIsOpen(false);
-      toast.promise(deleteVentaRequestClient(ventaId), {
+      toast.promise(finalizarVentaRequestClient(ventaId), {
         loading: 'Finalizando Venta...',
-        success: () => {
+        success: (response) => {
+          if (actionAfterComplete === 'refresh') {
+            router.refresh();
+            return `Venta finalizada correctamente`;
+          }
           if (actionAfterComplete === 'push') {
-            router.push(`/ventas`);
+            router.push(`/ventas/ventas-historicas/${response._id}`);
             return `Venta finalizada correctamente`;
           }
         },

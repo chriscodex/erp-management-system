@@ -19,6 +19,13 @@ export async function delay() {
   }
 }
 
+export async function shortDelay() {
+  try {
+    return new Promise((resolve) => setTimeout(resolve, 300)); // eslint-disable-line
+  } catch (error) {
+    console.log(error);
+  }
+}
 export function formatMoney(amount) {
   if (typeof amount !== 'number') {
     return null;
@@ -48,6 +55,7 @@ export function agregarNumeracionTable(array) {
   return array.map((item, index) => ({
     ...item,
     numeracion: index + 1,
+    internalId: generarNumeroAleatorioSeisDigitos(), 
   }));
 }
 

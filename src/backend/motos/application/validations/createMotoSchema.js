@@ -15,6 +15,17 @@ export const createMotoSchema = z.object({
       message: 'El nombre debe tener menos de 50 caracteres',
     }),
   descripcion: z.string().optional(),
+  caracteristicas: z.object({
+    motor: z.string().optional(),
+    cilindrada: z.string().optional(),
+    potencia: z.string().optional(),
+    frenos: z.string().optional(),
+    transmision: z.string().optional(),
+    dimensiones: z.string().optional(),
+    capacidadCombustible: z.string().optional(),
+    suspension: z.string().optional(),
+    colores: z.string().optional(),
+  }).optional(),
   precioCompra: z
     .union([
       z.number({

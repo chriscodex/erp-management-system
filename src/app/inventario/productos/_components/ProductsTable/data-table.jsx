@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   flexRender,
@@ -7,12 +7,11 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from '@tanstack/react-table';
-import { useEffect, useState } from 'react';
-import { useDebouncedCallback } from 'use-debounce';
-import { useRouter } from 'next/navigation';
-
-import { Input } from '@/components/ui/input';
+} from "@tanstack/react-table";
+import { useEffect, useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -20,15 +19,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { DataTablePagination } from '@/components/ui/table-pagination';
-import { DataTableViewOptions } from '@/components/ui/table-view-options';
-import { serverErrorToast } from '@/components/toast/serverErrorToast';
-import { TIME_DEBOUNCE } from '@/lib/utils';
+} from "@/components/ui/table";
+import { DataTablePagination } from "@/components/ui/table-pagination";
+import { DataTableViewOptions } from "@/components/ui/table-view-options";
+import { serverErrorToast } from "@/components/toast/serverErrorToast";
+import { TIME_DEBOUNCE } from "@/lib/utils";
 
 export function DataTableProducts({ columns, data, status = 200 }) {
   const router = useRouter();
-
   /* Sorting */
   const [sorting, setSorting] = useState([]);
   const [columnFilters, setColumnFilters] = useState([]);
@@ -50,10 +48,10 @@ export function DataTableProducts({ columns, data, status = 200 }) {
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState("");
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn('nombre')?.setFilterValue(value);
+    table.getColumn("nombre")?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
@@ -80,7 +78,10 @@ export function DataTableProducts({ columns, data, status = 200 }) {
         <Input
           placeholder="Buscar por nombre"
           value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
+          onChange={(e) => {
+            const trimmedValue = e.target.value.trim();
+            setSearchValue(trimmedValue);
+          }}
           className="max-w-sm"
         />
         <div>
@@ -113,7 +114,7 @@ export function DataTableProducts({ columns, data, status = 200 }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>

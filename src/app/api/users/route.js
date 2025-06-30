@@ -4,9 +4,11 @@ import {
   createUserController,
 } from '@/backend/users/infrastructure/controllers';
 
-export async function GET() {
+export const dynamic = 'force-dynamic';
+
+export async function GET(request) {
   try {
-    const { payload, status } = await getUsersController();
+    const { payload, status } = await getUsersController(request);
 
     if (status !== 200) {
       return NextResponse.json({ error: payload }, { status });
