@@ -16,7 +16,7 @@ import {
   getAllProductsRequestServer,
   getAllMotosRequestServer,
   getAllPreventasRequestServer,
-} from "@/app/home/administrador/_services/requests";
+} from "@/app/home/vendedor/_services/requests";
 
 import { QuickAccessCard } from "@/app/home/_components/quickAccesCard";
 
