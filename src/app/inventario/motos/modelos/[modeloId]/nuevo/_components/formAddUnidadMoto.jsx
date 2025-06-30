@@ -58,7 +58,7 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   //Estados para características de la moto
-  const [caracteristicas, setCaracteristicas] = useState(null);
+  const [caracteristicas, setCaracteristicas] = useState(undefined);
 
   const handleSaveCaracteristicas = async (data) => {
     setCaracteristicas(data);

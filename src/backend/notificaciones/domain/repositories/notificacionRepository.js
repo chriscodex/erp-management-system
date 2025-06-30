@@ -31,7 +31,6 @@ export class NotificacionRepository {
   }
   async getNotificacionByData(notificacionData) {
     try {
-      console.log("Esto sería notificacionData", notificacionData);
       if (!notificacionData) {
         console.log('Notificacion Repository: Usuario no proporcionado');
         return null;
@@ -66,11 +65,8 @@ export class NotificacionRepository {
       if (notificacionData.closed !== undefined) {
         filter.closed = notificacionData.closed;
       }
-      console.log("Esto sería filter", filter);
 
       const notificacionFound = await Notificacion.findOne(filter);
-
-      console.log("esto es notificacionFound", notificacionFound);
 
       if (!notificacionFound) {
         console.log('Notificacion Repository: Notificacion no encontrada');

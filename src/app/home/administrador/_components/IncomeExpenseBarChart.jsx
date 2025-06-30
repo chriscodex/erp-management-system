@@ -18,8 +18,6 @@ import {
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
-import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 import { formatMoney } from "@/lib/utils";
 
 export default function IncomeExpenseBarChart({
@@ -32,6 +30,8 @@ export default function IncomeExpenseBarChart({
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
   const [anio, setAnio] = useState(new Date().getFullYear());
+
+  console.log("Desde IncomeExpense", dataVentasHistoricas);
 
   function handleDateChange(month, year) {
     setMes(month);
@@ -172,7 +172,27 @@ export default function IncomeExpenseBarChart({
           <MesAnioPicker onChange={handleDateChange} />
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex flex-col items-center lg:flex-row gap-5">
+      <CardContent className="flex flex-col items-center gap-5">
+        <div className="grid w-full grid-cols-1 lg:grid-cols-3">
+          <div className="flex flex-1 flex-col justify-center gap-1 border px-6 py-4 text-left sm:px-2 sm:py-6">
+            <span className="text-xs text-muted-foreground">Ingresos</span>
+            <span className="text-base font-bold leading-none 2xl:text-sm">
+              {"S/." + formatMoney(ingresos)}
+            </span>
+          </div>
+          <div className="flex flex-1 flex-col justify-center gap-1 border-x lg:border-y px-6 py-4 text-left sm:px-2 sm:py-6">
+            <span className="text-xs text-muted-foreground">Egresos</span>
+            <span className="text-base font-bold leading-none 2xl:text-sm">
+              {"S/." + formatMoney(egresos)}
+            </span>
+          </div>
+          <div className="flex flex-1 flex-col justify-center gap-1 border px-6 py-4 text-left sm:px-2 sm:py-6">
+            <span className="text-xs text-muted-foreground">Balance</span>
+            <span className="text-base font-bold leading-none 2xl:text-sm">
+              {"S/." + formatMoney(ingresos - egresos)}
+            </span>
+          </div>
+        </div>
         <div className="flex-1  w-full h-auto">
           {/* <ResponsiveContainer width="100%" height={250}> */}
           <ChartContainer
@@ -202,89 +222,6 @@ export default function IncomeExpenseBarChart({
             </BarChart>
           </ChartContainer>
           {/* </ResponsiveContainer> */}
-        </div>
-
-        <div className="w-full md:max-w-sm grid gap-4 text-sm">
-          {/* Título */}
-          <h2 className="text-base font-semibold text-center">
-            Detalle de ingresos y egresos
-          </h2>
-          {/* Card de Ingresos */}
-          <Card className="border-chart-1">
-            <CardContent className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium mr-2 text-chart-1">
-                  Ingresos por ventas
-                </span>
-                <span className=" font-semibold">
-                  S/ {formatMoney(ingresos)}
-                </span>
-              </div>
-              <Separator />
-              <div className="flex items-center justify-between">
-                <span className="font-semibold mr-2 text-chart-1">
-                  Total ingresos
-                </span>
-                <span className="font-bold text-chart-1">
-                  S/ {formatMoney(ingresos)}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-          {/* Card de Egresos */}
-          <Card className="border-chart-2">
-            <CardContent className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium mr-2 text-chart-2">
-                  Gastos de motos
-                </span>
-                <span className="font-semibold">
-                  S/ {formatMoney(resultado?.totalGastosMotos)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium mr-2 text-chart-2">
-                  Gastos de productos
-                </span>
-                <span className="font-semibold">
-                  S/ {formatMoney(resultado?.totalGastosProductos)}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium mr-2 text-chart-2">
-                  Gastos generales
-                </span>
-                <span className="font-semibold">
-                  S/ {formatMoney(resultado?.totalGastosGenerales)}
-                </span>
-              </div>
-
-              <Separator />
-              <div className="flex items-center justify-between">
-                <span className="font-semibold mr-2 text-chart-2">
-                  Total egresos
-                </span>
-                <span className="font-bold text-chart-2">
-                  S/ {formatMoney(resultado?.totalGeneral)}
-                </span>
-              </div>
-            </CardContent>
-          </Card>
-          {/* Balance final */}
-          <Card>
-            <CardContent className="p-4 flex items-center justify-between">
-              <span className="text-base font-semibold mr-2">Balance</span>
-              <Badge
-                className={`text-sm ${
-                  ingresos - resultado?.totalGeneral >= 0
-                    ? "bg-chart-1 text-white"
-                    : "bg-chart-2 text-white"
-                }`}
-              >
-                S/ {formatMoney(ingresos - resultado?.totalGeneral)}
-              </Badge>
-            </CardContent>
-          </Card>
         </div>
       </CardContent>
       <CardFooter className="flex-col items-start gap-2 text-sm"></CardFooter>

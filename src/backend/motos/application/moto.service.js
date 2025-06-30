@@ -137,7 +137,8 @@ export class MotoService {
 
       if (!motoValidated.success) {
         console.log(
-          `Moto Service: Error de validación de schema de moto al crear ${motoValidated}`
+          'Moto Service: Error de validación de schema de moto al crear',
+          motoValidated.error.format?.() || motoValidated.error
         );
         return {
           status: 400,
@@ -156,7 +157,7 @@ export class MotoService {
           payload: 'El modelo no existe',
         };
       }
-      console.log('Moto Service: La moto existe');
+      console.log('Moto Service: El modelo de la moto existe');
 
       // Validar si el almacen existe
       const almacenFound = await this.almacenRepository.getAlmacenByData({

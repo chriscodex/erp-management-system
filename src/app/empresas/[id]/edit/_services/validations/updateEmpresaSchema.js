@@ -29,5 +29,5 @@ export const updateEmpresaSchema = z.object({
   telefono: z
     .string()
     .min(4, { message: 'El teléfono debe tener al menos 4 dígitos' }).optional(),
-  email: z.string().email({message: 'Ingrese un correo válido' }).optional(),
+  email: z.string().email({ message: 'Ingrese un correo válido' }).optional(),
 });
