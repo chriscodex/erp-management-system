@@ -8,7 +8,7 @@ import { DetailPedidoContent } from "@/app/inventario/motos/pedidos/[id]/_compon
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Page({ params }) {
-  // console.log("parametrito", params.id);
+  
   const session = await getServerSession(authOptions);
   if (session?.user?.rol !== "Administrador") {
     notFound();

@@ -129,6 +129,11 @@ export function DetailVentaContent({ ventaData }) {
                     " " +
                     ventaData?.usuario?.apellidos}{" "}
                 </p>
+                {ventaData?.sucursalId?.nombre && (
+                  <p>
+                    <strong>Sucursal:</strong> {ventaData?.sucursalId?.nombre}
+                  </p>
+                )}
                 <p>
                   <strong>Comprobante:</strong> {ventaData?.comprobante}
                 </p>

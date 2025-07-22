@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { toast } from "sonner";
-// import { useRouter } from "next/navigation";
 
 import {
   Form,
@@ -43,27 +42,6 @@ export function AddProveedorForm({ onClose, onAddProveedor }) {
   const { handleSubmit, control, clearErrors, reset: resetForm } = addForm;
 
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
-
-  // Manejo de formulario
-  // const onSubmit = handleSubmit(async (data) => {
-  //   setFormSubmitIsLoading(true);
-
-  //   // Toast promise para buscar una persona
-  //   toast.promise(createProveedorRequestClient(data, setFormSubmitIsLoading), {
-  //     loading: "Creando...",
-  //     success: () => {
-  //       clearErrors();
-  //       resetForm();
-  //       onClose();
-  //       router.refresh();
-  //       return `Proveedor creado correctamente`;
-  //     },
-  //     error: (error) => {
-  //       setFormSubmitIsLoading(false);
-  //       return error;
-  //     },
-  //   });
-  // });
 
   const onSubmit = handleSubmit(async (data) => {
       setFormSubmitIsLoading(true);

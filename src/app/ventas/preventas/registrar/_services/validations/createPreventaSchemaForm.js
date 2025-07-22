@@ -18,7 +18,9 @@ export const createPreventaSchemaForm = z.object({
   direccion: z.string().optional(),
   email: z.string().optional(),
   celular: z.string().optional(),
+  //Sucursal
 
+  sucursalId: z.string().regex(objectIdRegex).optional(),
   //Productos
   productos: z.array(
     z.object({
@@ -42,7 +44,7 @@ export const createPreventaSchemaForm = z.object({
       }).optional(),
       stockMinimo: z.number({
         required_error: 'Ingrese el stock minimo',
-        invalid_type_error: 'Debe ingresar un stock minimo',  
+        invalid_type_error: 'Debe ingresar un stock minimo',
       }).optional(),
       obsequio: z.enum(['si', 'no']).optional(),
 
@@ -76,11 +78,11 @@ export const createPreventaSchemaForm = z.object({
         suspension: z.string().optional(),
         colores: z.string().optional(),
       }).optional(),
-      
+
       cantidad: z.number({
         required_error: 'Ingrese la cantidad',
         invalid_type_error: 'Debe ingresar una cantidad',
-      }),
+      }).optional(),
 
       almacenId: z.object({
         _id: z.string().regex(objectIdRegex, {
@@ -102,7 +104,7 @@ export const createPreventaSchemaForm = z.object({
       }).optional(),
       proveedorId: z.object({
         _id: z.string().regex(objectIdRegex, {
-          message: 'Debe ingresar una proveedor',
+          message: 'Debe ingresar un proveedor',
         }),
         nombre: z.string(),
       }),
@@ -112,12 +114,11 @@ export const createPreventaSchemaForm = z.object({
             message: 'Debe ingresar una unidad',
           }),
           code: z.string(),
-          estado: z.enum(['disponible', 'reparado', 'dañado', 'desaparecido', 'prevendido']),
+          estado: z.enum(['disponible', 'reparado', 'dañado', 'desaparecido', 'prevendido', 'taller']),
         })
-      ).optional()
+      ).optional(),
     })
   ).min(1, "Debe agregar al menos un producto"),
-
   comentarios: z.string().optional(),
   cotizacion: z.enum(['si', 'no']).optional(),
   fechaValidez: z.date().nullable().optional(),

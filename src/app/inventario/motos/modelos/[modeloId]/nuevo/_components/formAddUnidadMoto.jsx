@@ -71,8 +71,6 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
       ...data,
       caracteristicas,
     };
-
-    console.log("Moto a crear", motoData);
     
     // Toast promise para crear
     toast.promise(

@@ -65,7 +65,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-// import { ProductsPreventaTable } from "@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table";
+
 import { searchClientePorDniOrRucClientRequest } from "@/app/taller/ordenes-servicio/nuevo/_services/requests";
 import { Textarea } from "@/components/ui/textarea";
 import { updateOrdenDeServicioSchema } from "@/app/taller/ordenes-servicio/[id]/edit/_services/validations/updateOrdenDeServicioSchemaForm";
@@ -240,8 +240,6 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
 
     delete updateObject.createdAt;
     delete updateObject.updatedAt;
-
-    console.log("updateObject", updateObject);
 
     // Toast promise para buscar una persona
     toast.promise(

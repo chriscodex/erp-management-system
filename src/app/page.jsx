@@ -11,7 +11,7 @@ export default async function HomeRedirect() {
   }
 
   const rol = session.user.rol;
-
+    
   switch (rol) {
     case "Administrador":
       return redirect("/home/administrador");

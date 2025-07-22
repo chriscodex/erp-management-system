@@ -40,7 +40,7 @@ export async function MotosModelosPage() {
   ];
 
   const modelosSorted = sortByUpdateDateDesc(modelos);
-  console.log(session);
+
   return (
     <>
       <NavbarDynamic titles={titles}>

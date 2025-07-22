@@ -5,7 +5,6 @@ import {
   RiMotorbikeFill,
 } from "@remixicon/react";
 import { Package, DollarSign } from "lucide-react";
-// import { useSession } from "next-auth/react";
 import {
   Card,
   CardContent,

@@ -17,8 +17,6 @@ export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
   const { moto } = await getMotoByIdRequestServer(params?.unidadId);
 
-  console.log(moto);
-
   if (!moto || session?.user?.rol !== "Administrador") {
     notFound();
   }

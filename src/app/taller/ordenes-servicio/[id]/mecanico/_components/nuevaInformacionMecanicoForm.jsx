@@ -119,8 +119,6 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
       productosExternos: productosExternosTaller,
     };
 
-    console.log("Info mecanico", updateOrdenDeServicioObject);
-
     // Toast promise para buscar una persona
     toast.promise(
       updateOrdenDeServicioRequestClient(

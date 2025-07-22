@@ -24,8 +24,6 @@ export async function createUnidadMotoRequestClient(motoData, setLoading) {
       delete motoObj?.estadoTitle;
       delete motoObj?.estadoObservaciones;
 
-      console.log('createUnidadMotoRequestClient: motoObj', motoObj);
-
       const response = await postData(createMotoClientUrl, motoObj);
       if (response?.status !== 201) {
         setLoading(false);

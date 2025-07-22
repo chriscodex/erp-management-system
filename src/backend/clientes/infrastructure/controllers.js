@@ -44,13 +44,10 @@ export async function getAllClientesController() {
 export async function getClienteByDataController(contextRoute) {
   try {
     const { searchParams } = new URL(contextRoute.url);
-    
+
     const id = searchParams.get("id");
     const dni = searchParams.get("dni");
     const ruc = searchParams.get("ruc");
-    
-
-    console.log("Esto es serchParams", searchParams);
 
     if ([id, dni, ruc].filter(Boolean).length === 0) {
       return {

@@ -38,8 +38,6 @@ export async function createPedidoRequestClient(pedidoData, setLoading) {
         fechaLimite: pedidoData.fechaLimite,
       };
 
-      console.log("Pedido data formateado en el request", pedidoDataFormated);
-
       const response = await postData(
         createPedidoClientUrl,
         pedidoDataFormated

@@ -5,9 +5,6 @@ import Link from "next/link";
 import { Label } from "@/components/ui/label";
 import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
 import { Button } from "@/components/ui/button";
-// import { DataTableMarcas } from '@/app/empresas/_components/empresasTable/data-table.jsx';
-// import { columnsEmpresas } from '@/app/empresas/_components/empresasTable/columns.jsx';
-// import { sortByUpdateDateDesc } from '@/lib/utils';
 import { getAllEmpresasRequestServer } from "@/app/empresas/_services/requests";
 import {
   Card,

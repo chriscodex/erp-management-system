@@ -62,22 +62,50 @@ export class UsersService {
       };
     }
   }
+  async getUsersBySucursal(sucursalId) {
+      try {
+        const usersFound = await this.userRepository.getUsersBySucursal(sucursalId);
+  
+        if (!usersFound) {
+          console.log('User Service: Los usuarios no existen');
+          return {
+            status: 200,
+            payload: null,
+          };
+        }
+  
+        console.log('User Service: Los usuarios existen');
+        return {
+          status: 200,
+          payload: usersFound,
+        };
+      } catch (error) {
+        console.error(
+          `User Service: Error interno al buscar los usuarios: ${error.message}`
+        );
+        return {
+          status: 500,
+          payload: error.message,
+        };
+      }
+    }
   async createUser(user) {
     try {
 
-      // if (typeof user.fechaIngreso === "string") {
-      //   user.fechaIngreso = new Date(user.fechaIngreso);
-      // }
       // Validar los datos del usuario enviado con el schema
       const userValidated = createUserSchema.safeParse(user);
 
       if (!userValidated.success) {
-        console.log(
-          'User Service: Error de validación de schema de usuario al crear'
-        );
+        const formattedErrors = userValidated.error.issues.map((err) => ({
+          path: err.path.join("."),
+          message: err.message,
+        }));
+
+        console.log("Pedido Service: Error de validación", formattedErrors);
+
         return {
           status: 400,
-          payload: userValidated.error.issues,
+          payload: formattedErrors,
         };
       }
 

@@ -281,7 +281,6 @@ export function EditarPreventaForm({ preventaData }) {
     delete updateObject.createdAt;
     delete updateObject.updatedAt;
 
-    console.log("updateObject", updateObject);
 
     // Toast promise para buscar una persona
     toast.promise(

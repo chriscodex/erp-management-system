@@ -124,8 +124,6 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
         mecanicos: mecanicosFormated,
       };
 
-      console.log('ordenDeServicioDataFormated', ordenDeServicioDataFormated);
-
       let clienteData = {};
       if (ordenDeServicioData?.tipo === 'persona') {
         clienteData = {
@@ -210,8 +208,6 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
             ? undefined
             : ordenDeServicioData?.comentarios?.trim(),
       };
-
-      console.log('ordenDeServicioObject', ordenDeServicioObject);
 
       // Obtener los datos de la persona
       const response = await postData(createOrdenDeServicioClientUrl, ordenDeServicioObject);

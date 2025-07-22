@@ -4,7 +4,6 @@ import { sortByUpdateDateDesc } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-// import { SheetAddClienteWrapper } from '@/app/contactos/clientes/_components/sheets/addCliente/sheetAddClienteWrapper';
 import { getAllClientesRequestServer } from '@/app/contactos/clientes/_services/requests';
 import { DataTableClientes } from '@/app/contactos/clientes/_components/clientesTable/data-table';
 

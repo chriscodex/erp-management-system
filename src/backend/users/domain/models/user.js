@@ -46,6 +46,11 @@ const userSchema = new Schema(
       type: Date,
       required: [true, 'Fecha is required'],
     },
+    sucursalId: {
+      type: Schema.Types.ObjectId,
+      ref: 'Sucursal',
+      required: false,
+    },
   },
   {
     timestamps: true,

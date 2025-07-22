@@ -31,8 +31,6 @@ export default function IncomeExpenseBarChart({
   const [mes, setMes] = useState(new Date().getMonth() + 1);
   const [anio, setAnio] = useState(new Date().getFullYear());
 
-  console.log("Desde IncomeExpense", dataVentasHistoricas);
-
   function handleDateChange(month, year) {
     setMes(month);
     setAnio(year);

@@ -20,7 +20,6 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { DetailPedidoButtons } from "@/app/inventario/motos/pedidos/[id]/_components/buttons/DetailPedidoButtons";
 import { GenerarInventariadoButton } from "@/app/inventario/motos/pedidos/[id]/_components/buttons/GenerarInventariadoButton";
-// import { EmitirConfirmacionReservacionButton } from '@/app/inventario/motos/reservaciones/[id]/_components/buttons/EmitirConfirmacionReservacion';
 
 export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
   return (

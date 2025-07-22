@@ -36,6 +36,11 @@ export const createPreventaSchema = z.object({
         message: 'Los apellidos no puede tener más de 50 caracteres',
       }),
   }),
+  sucursalId: z
+    .string()
+    .regex(objectIdRegex, {
+      message: 'Debe ingresar una sucursal',
+    }).optional(),
   productos: z
     .array(
       z.object({
@@ -130,7 +135,7 @@ export const createPreventaSchema = z.object({
   data.productos.forEach((producto, index) => {
     if (producto.tipo === "producto") {
       if (
-        !["disponible", "dañado", "reparado", "desaparecido"].includes(producto.estado)
+        !["disponible", "dañado", "reparado", "desaparecido", "taller"].includes(producto.estado)
       ) {
         ctx.addIssue({
           path: ["productos", index, "estado"],
