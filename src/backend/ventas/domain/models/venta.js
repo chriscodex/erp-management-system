@@ -38,6 +38,11 @@ const ventaSchema = new Schema(
         required: [true, 'Los apellidos son requeridos en el schema de ventas'],
       },
     },
+    sucursalId: {
+      type: Schema.Types.ObjectId,
+      ref: "Sucursal",
+      required: [false],
+    },
     comentarios: {
       type: String,
       required: false,
@@ -67,36 +72,36 @@ const ventaSchema = new Schema(
       required: true,
     },
     empresa: {
-          empresaId: {
-            type: Schema.Types.ObjectId,
-            ref: "Empresa",
-            required: [false, "El id de la empresa es requerido en el schema de ordenes de servicio"],
-          },
-          ruc: {
-            type: String,
-            required: [false, "El ruc de la empresa es requerido en el schema de ordenes de servicio"],
-          },
-          nombre: {
-            type: String,
-            required: [false, "El nombre de la empresa es requerido en el schema de ordenes de servicio"],
-          },
-          descripcion: {
-            type: String,
-            required: false,
-          },
-          direccion: {
-            type: String,
-            required: [false, 'La dirección es requerida en el schema de empresa'],
-          },
-          telefono: {
-            type: String,
-            required: false,
-          },
-          email: {
-            type: String,
-            required: false,
-          },
-        }
+      empresaId: {
+        type: Schema.Types.ObjectId,
+        ref: "Empresa",
+        required: [false, "El id de la empresa es requerido en el schema de ordenes de servicio"],
+      },
+      ruc: {
+        type: String,
+        required: [false, "El ruc de la empresa es requerido en el schema de ordenes de servicio"],
+      },
+      nombre: {
+        type: String,
+        required: [false, "El nombre de la empresa es requerido en el schema de ordenes de servicio"],
+      },
+      descripcion: {
+        type: String,
+        required: false,
+      },
+      direccion: {
+        type: String,
+        required: [false, 'La dirección es requerida en el schema de empresa'],
+      },
+      telefono: {
+        type: String,
+        required: false,
+      },
+      email: {
+        type: String,
+        required: false,
+      },
+    }
   },
   {
     timestamps: true,

@@ -24,7 +24,6 @@ export class ReservacionRepository {
     }
   }
   async getReservacionByData(reservacionData) {
-    console.log(reservacionData);
     try {
       if (!reservacionData) {
         console.log("Reservacion Repository: Reservación no proporcionada");

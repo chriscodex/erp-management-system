@@ -2,16 +2,19 @@ import mongoose from 'mongoose';
 import { VentasHistoricas } from "@/backend/ventas/domain/models/ventasHistoricas";
 import { Cliente } from '@/backend/clientes/domain/models/cliente';
 import { User } from '@/backend/users/domain/models/user';
+import { Sucursal } from '@/backend/sucursales/domain/models/sucursal';
+
 export class ventasHistoricasRepository {
   constructor() {
     this.ventasHistoricasModel = VentasHistoricas;
     this.clienteModel = Cliente;
     this.userModel = User;
+    this.sucursalModel = Sucursal;
   }
 
   async getAllVentasHistoricas() {
     try {
-      const ventasHistoricas = await this.ventasHistoricasModel.find({}).populate('clienteId').populate('usuario.id');
+      const ventasHistoricas = await this.ventasHistoricasModel.find({}).populate('clienteId').populate('usuario.id').populate('sucursalId');
 
       if (ventasHistoricas?.length === 0) {
         console.log("Venta Historica Repository: No se encontraron ventas");
@@ -72,7 +75,7 @@ export class ventasHistoricasRepository {
       if (ventaHistorica.code) {
         filter.code = { $regex: new RegExp(`^${ventaHistorica.code}$`, "i") };
       }
-      const ventaHistoricaFound = await this.ventasHistoricasModel.findOne(filter).populate('clienteId').populate('usuario.id');
+      const ventaHistoricaFound = await this.ventasHistoricasModel.findOne(filter).populate('clienteId').populate('usuario.id').populate('sucursalId');
 
       if (!ventaHistoricaFound) {
         console.log("Venta Historica Repository: Venta historica no encontrada");

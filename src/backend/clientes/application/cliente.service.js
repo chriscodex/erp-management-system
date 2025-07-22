@@ -41,8 +41,6 @@ export class ClienteService {
   }
   async getClienteByData(clienteData) {
     try {
-      console.log("Desde service", clienteData);
-
       const clienteFound = await this.clienteRepository.getClienteByData(
         clienteData
       );

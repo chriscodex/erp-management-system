@@ -570,7 +570,7 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
   const [totalPrecioVenta, setTotalPrecioVenta] = useState(0);
 
   useEffect(() => {
-    console.log(productsTaller);
+
     const total = productsTaller.reduce((acc, product) => {
       return acc + product.precioVenta;
     }, 0);

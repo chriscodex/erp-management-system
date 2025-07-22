@@ -37,8 +37,6 @@ export class ReservacionService {
   async getReservacionByData(reservacionData) {
     try {
 
-      console.log(reservacionData);
-
       const reservacionFound = await this.reservacionRepository.getReservacionByData(reservacionData);
 
       if (!reservacionFound) {

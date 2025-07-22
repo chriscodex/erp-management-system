@@ -1,4 +1,3 @@
-// import { marcaDataMock } from '@/db/mock-data';
 import { fetchData, postData } from '@/lib/fetchData';
 import {
   createReservacionClientUrl,

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-
+const objectIdRegex = /^[a-f\d]{24}$/i;
 const roles = ['Administrador', 'Vendedor', 'Tecnico'];
 const estados = ['activo', 'inactivo'];
 
@@ -34,12 +34,13 @@ export const updateUserSchema = z.object({
     errorMap: () => ({ message: 'Seleccione un estado' }),
   }),
   fechaIngreso: z
-      .union([z.date(), z.string()]) // Acepta tanto Date como string
-      .transform((val) => (typeof val === "string" ? new Date(val) : val)) // Convierte string a Date
-      .refine((date) => {
-        const inputDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-        const today = new Date();
-        const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-        return inputDate <= todayDate;
+    .union([z.date(), z.string()]) // Acepta tanto Date como string
+    .transform((val) => (typeof val === "string" ? new Date(val) : val)) // Convierte string a Date
+    .refine((date) => {
+      const inputDate = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      const today = new Date();
+      const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+      return inputDate <= todayDate;
     }, { message: "La fecha debe ser anterior o igual a la fecha actual" }),
+  sucursalId: z.string().regex(objectIdRegex).optional(),
 });

@@ -1,6 +1,5 @@
 "use client";
 
-// import * as React from "react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
 
 import { useState, useEffect, useMemo } from "react";
@@ -79,8 +78,6 @@ export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
       return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
     }).length;
   }, [dataVentasHistoricas, mes, anio]);
-
-  console.log("chartData", chartData);
 
   const chartConfig = {
     views: {

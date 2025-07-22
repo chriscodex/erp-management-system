@@ -6,8 +6,11 @@ import {
   getVentasHistoricasRequestServer,
 } from "@/app/usuarios/[id]/_services/requests";
 import { DetailSellsPerUserContent } from "@/app/usuarios/[id]/ventas/_components/detailSellsPerUserContent";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
+  const session = await getServerSession(authOptions);
 
   const userId = params.id;
 
@@ -15,12 +18,14 @@ export default async function Page({ params }) {
 
   const fullName = user.nombres + " " + user.apellidos;
 
-  const { ventasHistoricas } = await getVentasHistoricasRequestServer(params.id);
+  const { ventasHistoricas } = await getVentasHistoricasRequestServer(
+    params.id
+  );
 
-  if (!user && user.rol !== "Técnico") {
+  if (session?.user?.rol !== "Administrador") {
     notFound();
   }
-  
+
   const navbarTitles = [
     {
       title: "Usuarios",

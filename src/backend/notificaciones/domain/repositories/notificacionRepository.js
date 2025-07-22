@@ -154,16 +154,6 @@ export class NotificacionRepository {
     });
   }
 
-
-
-  // async findLowStock(productoId) {
-  //     return await Notificacion.findOne({
-  //         type: "low_stock",
-  //         "data.productoId": productoId,
-  //         close: false
-  //     });
-  // }
-
   async findByType(type) {
     return await Notificacion.findOne({ type, close: false });
   }

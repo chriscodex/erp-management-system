@@ -1,11 +1,18 @@
 import mongoose from 'mongoose';
 
 import { User } from '@/backend/users/domain/models/user';
+import { Sucursal } from '@/backend/sucursales/domain/models/sucursal';
 
 export class UserRepository {
+
+  constructor() {
+    this.userModel = User;
+    this.sucursalModel = Sucursal;
+  }
+
   async getAllUsers() {
     try {
-      const users = await User.find();
+      const users = await User.find().populate('sucursalId');
 
       if (users?.length === 0) {
         console.log('User Repository: No se encontraron usuarios');
@@ -46,7 +53,7 @@ export class UserRepository {
         filter.estado = userData.estado;
       }
 
-      const userFound = await User.findOne(filter).select('-password');
+      const userFound = await User.findOne(filter).populate('sucursalId').select('-password');
 
       if (!userFound) {
         console.log('User Repository: Usuario no encontrado');
@@ -55,7 +62,7 @@ export class UserRepository {
 
       console.log('User Repository: Usuario encontrado');
       return userFound;
-      
+
     } catch (error) {
       console.error(
         `User Repository: Error al buscar un usuario: ${error.message}`
@@ -63,6 +70,19 @@ export class UserRepository {
       throw new Error(`Error al buscar un usuario: ${error.message}`);
     }
   }
+
+  async getUsersBySucursal(sucursalId) {
+    try {
+      const users = await this.userModel
+        .find({ 'sucursalId': new mongoose.Types.ObjectId(sucursalId) })
+        .populate('sucursalId');
+
+      return users;
+    } catch (error) {
+      throw new Error(`Error al buscar los usuarios de la sucursal: ${error.message}`);
+    }
+  }
+
   async createUser(user) {
     try {
       const newUser = new User(user);

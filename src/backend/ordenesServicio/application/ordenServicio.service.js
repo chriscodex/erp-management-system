@@ -116,9 +116,6 @@ export class OrdenServicioService {
       const ordenServicioValidated = createOrdenServicioSchema.safeParse(ordenDeServicioObject);
 
       if (!ordenServicioValidated.success) {
-        // console.log(
-        //   `Orden De Servicio Service: Error de validación de schema de orden de servicio al crear ${ordenServicioValidated}`
-        // )
         console.log(
           "Orden De Servicio Service: Error de validación de schema de orden de servicio al crear",
           ordenServicioValidated.error.format?.() || ordenServicioValidated.error
@@ -406,17 +403,6 @@ export class OrdenServicioService {
       await this.ordenServicioRepository.deleteOrdenDeServicio(ordenDeServicioId);
 
       console.log('Orden De Servicio Service: Orden de servicio eliminada correctamente');
-
-      // Eliminar los productos del inventario
-      // eslint-disable-next-line no-undef
-      // await Promise.all(
-      //   ordenDeServicio?.productos?.map(async (producto) => {
-      //       await this.productRepository.deleteSingleUnitFromProduct(
-      //         producto.productId,
-      //         producto.unitId
-      //       );
-      //   })
-      // );
 
       return {
         status: 201,

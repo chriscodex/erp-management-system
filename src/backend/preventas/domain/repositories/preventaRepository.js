@@ -3,17 +3,19 @@ import mongoose from 'mongoose';
 import { Preventa } from '@/backend/preventas/domain/models/preventa';
 import { Cliente } from '@/backend/clientes/domain/models/cliente';
 import { User } from '@/backend/users/domain/models/user';
+import { Sucursal } from '@/backend/sucursales/domain/models/sucursal';
 
 export class PreventaRepository {
   constructor() {
     this.preventaModel = Preventa;
     this.clienteModel = Cliente;
     this.userModel = User;
+    this.sucursalModel = Sucursal;
   }
 
   async getAllPreventas() {
     try {
-      const preventas = await this.preventaModel.find({}).populate('clienteId').populate('usuario.id');
+      const preventas = await this.preventaModel.find({}).populate('clienteId').populate('usuario.id').populate('sucursalId');
 
       if (preventas?.length === 0) {
         console.log('Preventa Repository: No se encontraron preventas');
@@ -48,7 +50,7 @@ export class PreventaRepository {
       if (preventaData.code) {
         filter.code = { $regex: new RegExp(`^${preventaData.code}$`, 'i') };
       }
-      const preventaFound = await this.preventaModel.findOne(filter).populate('clienteId').populate('usuario.id');
+      const preventaFound = await this.preventaModel.findOne(filter).populate('clienteId').populate('usuario.id').populate('sucursalId');
 
       if (!preventaFound) {
         console.log('Preventa Repository: Preventa no encontrada');

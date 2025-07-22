@@ -20,6 +20,11 @@ export const createEmpresaClientUrl = '/api/empresas';
 export const updateEmpresaClientUrl = '/api/empresas';
 export const deleteEmpresaClientUrl = '/api/empresas';
 
+/* Sucursales */
+export const createSucursalClientUrl = '/api/sucursales';
+export const updateSucursalClientUrl = '/api/sucursales';
+export const deleteSucursalClientUrl = '/api/sucursales';
+
 /* Categories */
 export const createCategoryClientUrl = '/api/categories';
 export const updateCategoryClientUrl = '/api/categories';
@@ -99,8 +104,6 @@ export const updatePreventaClientUrl = '/api/preventas';
 export const createVentaClientUrl = '/api/ventas';
 export const deleteVentaClientUrl = '/api/ventas';
 export const finalizarVentaClientUrl = '/api/ventas';
-
-//AGRUPARRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR
 
 /* Boleta */
 export const getCurrentCounterBoletaClientUrl = '/api/counters';

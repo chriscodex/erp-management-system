@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const objectIdRegex = /^[a-f\d]{24}$/i;
+
 const roles = ['Administrador', 'Vendedor', 'Tecnico'];
 
 export const newUserSchema = z.object({
@@ -46,7 +48,11 @@ export const newUserSchema = z.object({
       const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       return inputDate <= todayDate;
     }, { message: "La fecha debe ser anterior o igual a la fecha actual" }),
- }).refine((data) => data.password === data.confirmPassword, {
-   message: 'Las contraseñas no coinciden',
-   path: ['confirmPassword'],
+  sucursalId: z.string().regex(objectIdRegex, {
+    message: 'Debe elegir un sucursal',
+  }).optional(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: 'Las contraseñas no coinciden',
+  path: ['confirmPassword'],
+
 });

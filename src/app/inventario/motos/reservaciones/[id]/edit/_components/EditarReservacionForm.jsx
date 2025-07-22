@@ -57,12 +57,8 @@ import {
 } from "@/components/ui/popover";
 
 import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
-
-// import { agregarNumeracionTable, cn } from '@/lib/utils';
-
-// import { ProductsPreventaTable } from '@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table';
 import { searchClientePorDniOrRucClientRequest } from "@/app/ventas/preventas/registrar/_services/requests";
-// import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table';
+
 import { Textarea } from "@/components/ui/textarea";
 import { updateReservacionSchema } from "@/app/inventario/motos/reservaciones/[id]/edit/_services/validations/updateReservacionSchema";
 import { updateReservacionRequestClient } from "../_services/requests";
@@ -178,8 +174,6 @@ export function EditarReservacionForm({ reservacionData }) {
     updateObject["comentario"] = formData?.comentario;
     updateObject["pagoInicial"] = formData?.pagoInicial;
     updateObject["fechaLimite"] = formData?.fechaLimite;
-
-    console.log("Objeto que se manda para actualizar: /n", updateObject);
 
     // delete updateObject.createdAt;
     delete updateObject.updatedAt;

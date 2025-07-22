@@ -88,7 +88,6 @@ export function UpdateGastoMotoForm({ onClose, gastoData, motoId }) {
       setFormSubmitIsLoading(false);
       return;
     }
-    console.log(gastoDataToUpdate);
 
     gastoDataForm['fecha'] = date;
 

@@ -32,7 +32,6 @@ export function FinalizarVentaAlert({
   ventaId,
   actionAfterComplete = 'refresh',
 }) {
-  console.log(ventaId);
   const router = useRouter();
 
   const handleConfirmationDeleteProduct = async () => {

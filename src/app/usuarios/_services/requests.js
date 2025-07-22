@@ -4,6 +4,7 @@ import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 import { connectDB } from '@/db/mongodb';
 import { UsersService } from '@/backend/users/application/users.service';
+import { SucursalService } from '@/backend/sucursales/application/sucursal.service';
 
 export async function getAllUsersRequestServer() {
   try {
@@ -46,4 +47,23 @@ export async function deleteUserRequestClient(userId) {
       reject(error);
     }
   });
+}
+
+export async function getAllSucursalesRequestServer() {
+  try {
+    await connectDB();
+    const sucursalService = new SucursalService();
+
+    const response = await sucursalService.getAllSucursales();
+
+    if (response?.status !== 200) {
+      console.log('Error al obtener todas las sucursales');
+      return { sucursales: [], status: 500 };
+    }
+    const sucursales = response?.payload;
+
+    return { sucursales: simplificadorParaClientComponent(sucursales), status: 200 };
+  } catch (error) {
+    console.error(error);
+  }
 }

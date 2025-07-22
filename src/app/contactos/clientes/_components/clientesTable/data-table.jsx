@@ -42,8 +42,6 @@ export function DataTableClientes({ data, status = 200 }) {
   const router = useRouter();
   const { data: session } = useSession();
 
-  console.log("session", session);
-
   const columns = [
     {
       accessorKey: "tipo",

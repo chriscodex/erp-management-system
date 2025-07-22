@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 
 import { OrdenServicio } from '@/backend/ordenesServicio/domain/models/ordenServicio';
 import { Cliente } from '@/backend/clientes/domain/models/cliente';
-// import { Moto } from '@/backend/motos/domain/models/moto';
 import { Product } from '@/backend/products/domain/models/product';
 import { User } from '@/backend/users/domain/models/user';
 

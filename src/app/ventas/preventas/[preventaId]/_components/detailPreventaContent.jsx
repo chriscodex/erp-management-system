@@ -22,8 +22,6 @@ import { ImprimirCotizacionButton } from "@/app/ventas/preventas/[preventaId]/_c
 import { DetailObsequioPreventaDetailSheet } from "./sheets/detailObsequioPreventaDetailSheet";
 
 export function DetailPreventaContent({ preventaData, empresa }) {
-  console.log("preventaData", preventaData);
-
   const precioTotal = preventaData?.productos?.reduce((acc, product) => {
     return acc + product.precioVenta;
   }, 0);
@@ -40,7 +38,10 @@ export function DetailPreventaContent({ preventaData, empresa }) {
         </div>
         <div className="flex flex-col items-center gap-2 md:items-end xl:flex-row">
           {preventaData?.cotizacion === "si" && (
-            <ImprimirCotizacionButton preventaData={preventaData} empresa={empresa} />
+            <ImprimirCotizacionButton
+              preventaData={preventaData}
+              empresa={empresa}
+            />
           )}
           <GenerarVentaButton preventaId={preventaData._id} />
         </div>
@@ -139,6 +140,11 @@ export function DetailPreventaContent({ preventaData, empresa }) {
                     " " +
                     preventaData?.usuario?.apellidos}{" "}
                 </p>
+                {preventaData?.sucursalId?.nombre && (
+                  <p>
+                    <strong>Sucursal:</strong> {preventaData?.sucursalId?.nombre}
+                  </p>
+                )}
               </div>
             </CardContent>
           </Card>
@@ -258,10 +264,7 @@ export function DetailPreventaContent({ preventaData, empresa }) {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      className="h-24 text-center"
-                    >
+                    <TableCell colSpan={5} className="h-24 text-center">
                       Sin obsequios.
                     </TableCell>
                   </TableRow>

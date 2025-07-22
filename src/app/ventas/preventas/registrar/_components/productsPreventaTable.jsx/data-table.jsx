@@ -162,8 +162,6 @@ export function ProductsPreventaTable({ productsVenta, setProductsVenta }) {
       cell: ({ row }) => {
         const productData = row.original;
 
-        console.log("productData", productData);
-
         let estadoProducto = "";
         if (productData?.tipo === "producto") {
           const unitProduct = productData?.unidades?.find(

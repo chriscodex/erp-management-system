@@ -129,14 +129,14 @@ export default async function HomePage() {
             />
             <Card className="col-span-1 md:col-span-2 bg-primary/80">
               <CardContent className="h-full flex items-center p-6">
-                <div className="text-primary p-3 bg-primary/10 rounded-full mr-4 text-white/90">
+                <div className="p-3 bg-primary/10 rounded-full mr-4 text-white/90 dark:text-black/80">
                   <DollarSign />
                 </div>
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground text-white/90">
+                  <p className="text-sm font-medium text-white/90 dark:text-black/80">
                     Valor de Inventario
                   </p>
-                  <h3 className="text-2xl font-bold text-white/80">
+                  <h3 className="text-2xl font-bold text-white/80 dark:text-black/80">
                     S/. {parseFloat(totalValorInventario).toFixed(2)}
                   </h3>
                 </div>

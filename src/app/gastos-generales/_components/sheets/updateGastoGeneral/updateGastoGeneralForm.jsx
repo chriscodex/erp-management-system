@@ -91,7 +91,6 @@ export function UpdateGastoGeneralForm({ onClose, gastoGeneralData}) {
       setFormSubmitIsLoading(false);
       return;
     }
-    console.log(gastoGeneralDataToUpdate);
 
     gastoGeneralDataForm['fecha'] = date;
 

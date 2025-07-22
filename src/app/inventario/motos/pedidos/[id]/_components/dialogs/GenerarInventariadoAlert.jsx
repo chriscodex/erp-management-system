@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/alert-dialog';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
-// import { createVentaRequestClient } from '@/app/ventas/preventas/[preventaId]/_services/requests';
 import { inventariarPedidoRequestClient } from '@/app/inventario/motos/pedidos/[id]/_services/requests';
 export function GenerarInventariadoAlert({
   isOpen,

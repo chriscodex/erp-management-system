@@ -120,46 +120,6 @@ export function DataTableProduct({ productData, unidades, status = 200 }) {
         );
       },
     },
-    // {
-    //   id: "actions",
-    //   header: "Acciones",
-    //   cell: ({ row }) => {
-    //     const unitProductData = row.original;
-
-    //     const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
-
-    //     return (
-    //       <div className="flex items-center space-x-3">
-    //         <SheetUpdateUnitProductWrapper
-    //           unitProductData={row.original}
-    //           productData={productData}
-    //         />
-    //         <TooltipProvider delayDuration={0}>
-    //           <Tooltip>
-    //             <TooltipTrigger asChild>
-    //               <div
-    //                 className="cursor-pointer"
-    //                 onClick={() => setIsOpenDialogDelete(true)}
-    //               >
-    //                 <RiDeleteBinLine className="w-5 h-5 text-muted-foreground hover:text-foreground" />
-    //               </div>
-    //             </TooltipTrigger>
-    //             <TooltipContent>
-    //               <p>Eliminar</p>
-    //             </TooltipContent>
-    //           </Tooltip>
-    //         </TooltipProvider>
-    //         <DeleteUnitProductAlert
-    //           isOpen={isOpenDialogDelete}
-    //           setIsOpen={setIsOpenDialogDelete}
-    //           actionAfterComplete="refresh"
-    //           unitProductId={unitProductData._id}
-    //           productId={productData._id}
-    //         />
-    //       </div>
-    //     );
-    //   },
-    // },
   ];
 
   // Agrega la columna de acciones si es administrador

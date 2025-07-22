@@ -8,7 +8,6 @@ import {
   IdCardIcon,
   Text,
 } from "lucide-react";
-// import { RiMotorbikeLine, RiDropboxFill } from '@remixicon/react';
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 

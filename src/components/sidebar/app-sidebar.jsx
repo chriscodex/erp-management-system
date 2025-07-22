@@ -26,6 +26,7 @@ import {
   RiToolsFill,
   RiFileCopy2Line,
   RiFileCopy2Fill,
+  RiBuilding4Line,
 } from "@remixicon/react";
 
 import { NavMain } from "@/components/sidebar/nav-main";
@@ -191,6 +192,11 @@ const adminData = {
       name: "Empresas",
       url: "/empresas",
       icon: RiBuildingLine,
+    },
+    {
+      name: "Sucursales",
+      url: "/sucursales",
+      icon: RiBuilding4Line,
     },
   ],
 };
