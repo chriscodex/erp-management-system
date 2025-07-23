@@ -4,9 +4,10 @@ import { CounterRepository } from '@/backend/counters/domain/repositories/counte
 import { ventasHistoricasRepository } from '@/backend/ventas/domain/repositories/ventasHistoricasRepository';
 import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
 import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
+import { sendInvoiceToSunat } from '@/backend/shared/apisPeru.js';
+import { obtenerSerieYCorrelativo } from '@/lib/formateador.js';
 
 export class VentaService {
-
   constructor() {
     this.ventaRepository = new VentaRepository();
     this.preventaRepository = new PreventaRepository();
@@ -224,9 +225,10 @@ export class VentaService {
         counter: venta.counter,
       };
 
-      const ventaHistoricaCreated = await this.ventasHistoricasRepository.createVentaHistorica(
-        ventaHistorica
-      );
+      const ventaHistoricaCreated =
+        await this.ventasHistoricasRepository.createVentaHistorica(
+          ventaHistorica
+        );
       console.log('Venta Service: Venta finalizada correctamente');
 
       await this.ventaRepository.deleteVenta(ventaId);
@@ -252,11 +254,147 @@ export class VentaService {
         payload: {
           message: 'Venta finalizada correctamente',
           _id: ventaHistoricaCreated._id,
-        }
+        },
       };
     } catch (error) {
       console.error(
         `Venta Service: Error interno al finalizar la venta: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
+
+  async enviarBoletaASunat(ventaId) {
+    try {
+      // 1. Obtener la venta
+      const venta = await this.ventaRepository.getVentaByData({ id: ventaId });
+      if (!venta) {
+        return {
+          status: 404,
+          payload: 'Venta no encontrada',
+        };
+      }
+
+      // 2. Obtener el contador de boletas
+      const numeroBoleta = await this.counterRepository.getCounterByType(
+        'boletas'
+      );
+      if (!numeroBoleta) {
+        return {
+          status: 500,
+          payload: 'No se pudo obtener el contador de boletas',
+        };
+      }
+
+      // 3. Calcular serie y correlativo
+      const { serie, correlativo } = obtenerSerieYCorrelativo(
+        numeroBoleta,
+        'boleta'
+      );
+
+      // 4. Mapear la venta al formato JSON de boleta
+      // NOTA: Aquí debes adaptar los campos según tu modelo de venta y el formato requerido
+      const invoiceData = {
+        ublVersion: '2.1',
+        tipoOperacion: '0101',
+        tipoDoc: '03',
+        serie,
+        correlativo,
+        fechaEmision: '2021-01-27T00:00:00-05:00',
+        formaPago: {
+          moneda: 'PEN',
+          tipo: 'Contado',
+        },
+        tipoMoneda: 'PEN',
+        client: {
+          tipoDoc: '6',
+          numDoc: 20000000002,
+          rznSocial: 'Cliente',
+          address: {
+            direccion: 'Direccion cliente',
+            provincia: 'LIMA',
+            departamento: 'LIMA',
+            distrito: 'LIMA',
+            ubigueo: '150101',
+          },
+        },
+        company: {
+          ruc: 10740621063,
+          razonSocial: 'Mi empresa',
+          nombreComercial: 'Mi empresa',
+          address: {
+            direccion: 'Direccion empresa',
+            provincia: 'LIMA',
+            departamento: 'LIMA',
+            distrito: 'LIMA',
+            ubigueo: '150101',
+          },
+        },
+        mtoOperGravadas: 100,
+        mtoIGV: 18,
+        valorVenta: 100,
+        totalImpuestos: 18,
+        subTotal: 118,
+        mtoImpVenta: 118,
+        details: [
+          {
+            codProducto: 'P001',
+            unidad: 'NIU',
+            descripcion: 'PRODUCTO 1',
+            cantidad: 2,
+            mtoValorUnitario: 50,
+            mtoValorVenta: 100,
+            mtoBaseIgv: 100,
+            porcentajeIgv: 18,
+            igv: 18,
+            tipAfeIgv: 10,
+            totalImpuestos: 18,
+            mtoPrecioUnitario: 59,
+          },
+        ],
+        legends: [
+          {
+            code: '1000',
+            value: 'SON CIENTO DIECIOCHO CON 00/100 SOLES',
+          },
+        ],
+      };
+
+      // 5. Enviar a Sunat
+      const sunatResponse = await sendInvoiceToSunat(invoiceData);
+
+      // 6. Si la respuesta es exitosa, actualizar solo estadoSunat
+      let estadoSunat = 'Error al enviar a Sunat';
+      if (
+        sunatResponse &&
+        sunatResponse.payload &&
+        sunatResponse.payload.sunatResponse &&
+        sunatResponse.payload.sunatResponse.cdrResponse
+      ) {
+        estadoSunat =
+          sunatResponse.payload.sunatResponse.cdrResponse.description;
+      }
+
+      // 7. Guardar la venta actualizada
+      await this.ventaRepository.updateVenta(ventaId, { estadoSunat });
+
+      // 8. Devolver la venta y la respuesta de Sunat
+      const success = estadoSunat !== 'Error al enviar a Sunat';
+      return {
+        status: 200,
+        payload: {
+          success,
+          estadoSunat,
+          sunat: sunatResponse.payload,
+        },
+      };
+    } catch (error) {
+      console.error(
+        'Venta Service: Error al enviar boleta a Sunat:',
+        error.message
       );
       return {
         status: 500,

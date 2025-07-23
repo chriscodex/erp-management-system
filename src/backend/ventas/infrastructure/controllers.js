@@ -74,3 +74,21 @@ export async function finalizarVentaController(contextRoute) {
     throw new Error('Venta Controller: Error interno al finalizar la venta');
   }
 }
+
+export async function enviarBoletaASunatController(contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { ventaId } = params;
+
+    await connectDB();
+
+    const resultado = await ventaService.enviarBoletaASunat(ventaId);
+    return resultado;
+  } catch (error) {
+    console.error(
+      'Venta Controller: Error interno al enviar boleta a Sunat:',
+      error.message
+    );
+    throw new Error('Venta Controller: Error interno al enviar boleta a Sunat');
+  }
+}

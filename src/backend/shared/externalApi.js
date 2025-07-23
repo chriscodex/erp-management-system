@@ -1,6 +1,7 @@
 import axios from 'axios';
 import https from 'https';
 
+// API externa (APIS.NET.PE) para obtener los datos de la persona por DNI y RUC
 function getAxiosConfig(url, token, referer) {
   return {
     method: 'get',

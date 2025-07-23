@@ -67,6 +67,8 @@ export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
           email: selectedEmpresa.email,
         };
 
+
+        
         await updateBoletaStateRequestClient(
           ventaData?._id,
           counterBoleta,
