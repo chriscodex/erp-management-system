@@ -31,6 +31,7 @@ export function CreateFormEmpresa() {
       nombre: '',
       descripcion: '',
       direccion: '',
+      departamento: '',
       distrito: '',
       provincia: '',
       ubigeo: '',
@@ -155,7 +156,25 @@ export function CreateFormEmpresa() {
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <FormField
+              control={control}
+              name="departamento"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Departamento</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Departamento"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={control}
               name="distrito"

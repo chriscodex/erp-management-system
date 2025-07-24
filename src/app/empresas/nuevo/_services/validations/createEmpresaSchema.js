@@ -30,6 +30,11 @@ export const createEmpresaSchema = z.object({
     .max(150, {
       message: 'La dirección no puede tener más de 150 caracteres',
     }),
+  departamento: z
+    .string({
+      required_error: 'El departamento es requerido',
+    })
+    .min(2, { message: 'El departamento debe tener al menos 2 caracteres' }),
   distrito: z
     .string({
       required_error: 'El distrito es requerido',

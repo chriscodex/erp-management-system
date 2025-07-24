@@ -278,7 +278,6 @@ export class VentaService {
           payload: 'Venta no encontrada',
         };
       }
-      console.log(body);
 
       // 2. Obtener el contador de boletas
       const numeroBoleta = await this.counterRepository.getCounterByType(
@@ -309,7 +308,13 @@ export class VentaService {
         ruc,
         nombre: razonSocialEmpresa,
         direccion: direccionEmpresa,
+        distrito: distritoEmpresa,
+        provincia: provinciaEmpresa,
+        departamento: departamentoEmpresa,
+        ubigeo: ubigeoEmpresa,
       } = empresa;
+
+      // Datos del producto
 
       const invoiceData = {
         ublVersion: '2.1',
@@ -332,16 +337,15 @@ export class VentaService {
           },
         },
         company: {
-          // ruc,
-          ruc: 10740621063,
+          ruc,
           razonSocial: razonSocialEmpresa,
           nombreComercial: razonSocialEmpresa,
           address: {
             direccion: direccionEmpresa,
-            provincia: 'HUARAZ',
-            departamento: 'ANCASH',
-            distrito: 'HUARAZ',
-            ubigueo: '020101',
+            provincia: provinciaEmpresa,
+            departamento: departamentoEmpresa,
+            distrito: distritoEmpresa,
+            ubigueo: ubigeoEmpresa,
           },
         },
         mtoOperGravadas: 100,
