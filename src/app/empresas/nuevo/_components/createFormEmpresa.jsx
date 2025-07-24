@@ -30,6 +30,13 @@ export function CreateFormEmpresa() {
     defaultValues: {
       nombre: '',
       descripcion: '',
+      direccion: '',
+      distrito: '',
+      provincia: '',
+      ubigeo: '',
+      ruc: '',
+      telefono: '',
+      email: '',
     },
   });
 
@@ -133,7 +140,7 @@ export function CreateFormEmpresa() {
               <FormItem className="space-y-2">
                 <FormLabel>Dirección</FormLabel>
                 <div className="relative">
-                <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Input
                       placeholder="Dirección"
@@ -148,6 +155,62 @@ export function CreateFormEmpresa() {
               </FormItem>
             )}
           />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <FormField
+              control={control}
+              name="distrito"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Distrito</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Distrito"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="provincia"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Provincia</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Provincia"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="ubigeo"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Ubigeo</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Ubigeo (6 dígitos)"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={control}
             name="telefono"

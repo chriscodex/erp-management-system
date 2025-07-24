@@ -30,6 +30,21 @@ export const createEmpresaSchema = z.object({
     .max(150, {
       message: 'La dirección no puede tener más de 150 caracteres',
     }),
+  distrito: z
+    .string({
+      required_error: 'El distrito es requerido',
+    })
+    .min(2, { message: 'El distrito debe tener al menos 2 caracteres' }),
+  provincia: z
+    .string({
+      required_error: 'La provincia es requerida',
+    })
+    .min(2, { message: 'La provincia debe tener al menos 2 caracteres' }),
+  ubigeo: z
+    .string({
+      required_error: 'El ubigeo es requerido',
+    })
+    .length(6, { message: 'El ubigeo debe tener 6 dígitos' }),
   telefono: z
     .string({
       required_error: 'El teléfono es requerido',
