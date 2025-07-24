@@ -38,7 +38,11 @@ export async function updateBoletaStateRequestClient(
     await delay();
 
     const urlEnviarBoleta = `${updateBoletaStateClientUrl}/${ventaId}/enviar-boleta`;
-    const responseEnviarBoleta = await postData(urlEnviarBoleta, {});
+    const responseEnviarBoleta = await postData(urlEnviarBoleta, {
+      empresa: {
+        ...selectedEmpresa,
+      },
+    });
 
     if (
       responseEnviarBoleta?.status !== 200 ||

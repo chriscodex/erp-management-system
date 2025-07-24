@@ -24,7 +24,7 @@ export async function updateVentaController(request, contextRoute) {
   try {
     const { params } = contextRoute;
     const { ventaId } = params;
-    const body = await request.json(); 
+    const body = await request.json();
 
     await connectDB();
 
@@ -75,14 +75,20 @@ export async function finalizarVentaController(contextRoute) {
   }
 }
 
-export async function enviarBoletaASunatController(contextRoute) {
+export async function enviarBoletaASunatController(request, contextRoute) {
   try {
     const { params } = contextRoute;
     const { ventaId } = params;
-
+    if (request.headers.get('content-length') === '0') {
+      return {
+        status: 400,
+        payload: 'No se proporcionaron datos para enviar la boleta a Sunat',
+      };
+    }
+    const body = await request.json();
     await connectDB();
 
-    const resultado = await ventaService.enviarBoletaASunat(ventaId);
+    const resultado = await ventaService.enviarBoletaASunat(ventaId, body);
     return resultado;
   } catch (error) {
     console.error(

@@ -6,6 +6,7 @@ import { ProductRepository } from '@/backend/products/domain/repositories/produc
 import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
 import { sendInvoiceToSunat } from '@/backend/shared/apisPeru.js';
 import { obtenerSerieYCorrelativo } from '@/lib/formateador.js';
+import { obtenerFechaEmisionPeru } from '@/lib/utils';
 
 export class VentaService {
   constructor() {
@@ -267,7 +268,7 @@ export class VentaService {
     }
   }
 
-  async enviarBoletaASunat(ventaId) {
+  async enviarBoletaASunat(ventaId, body) {
     try {
       // 1. Obtener la venta
       const venta = await this.ventaRepository.getVentaByData({ id: ventaId });
@@ -277,6 +278,7 @@ export class VentaService {
           payload: 'Venta no encontrada',
         };
       }
+      console.log(body);
 
       // 2. Obtener el contador de boletas
       const numeroBoleta = await this.counterRepository.getCounterByType(
@@ -296,41 +298,50 @@ export class VentaService {
       );
 
       // 4. Mapear la venta al formato JSON de boleta
-      // NOTA: Aquí debes adaptar los campos según tu modelo de venta y el formato requerido
+      // Datos del cliente
+      const { clienteId } = venta;
+      const { datos } = clienteId;
+      const { dni, nombres, apellidos, direccion } = datos;
+
+      // Datos de la empresa
+      const { empresa } = body;
+      const {
+        ruc,
+        nombre: razonSocialEmpresa,
+        direccion: direccionEmpresa,
+      } = empresa;
+
       const invoiceData = {
         ublVersion: '2.1',
         tipoOperacion: '0101',
         tipoDoc: '03',
         serie,
         correlativo,
-        fechaEmision: '2021-01-27T00:00:00-05:00',
+        fechaEmision: obtenerFechaEmisionPeru(),
         formaPago: {
           moneda: 'PEN',
           tipo: 'Contado',
         },
         tipoMoneda: 'PEN',
         client: {
-          tipoDoc: '6',
-          numDoc: 20000000002,
-          rznSocial: 'Cliente',
+          tipoDoc: '03',
+          numDoc: dni,
+          rznSocial: `${nombres} ${apellidos}`,
           address: {
-            direccion: 'Direccion cliente',
-            provincia: 'LIMA',
-            departamento: 'LIMA',
-            distrito: 'LIMA',
-            ubigueo: '150101',
+            direccion: direccion,
           },
         },
         company: {
+          // ruc,
           ruc: 10740621063,
-          razonSocial: 'Mi empresa',
-          nombreComercial: 'Mi empresa',
+          razonSocial: razonSocialEmpresa,
+          nombreComercial: razonSocialEmpresa,
           address: {
-            direccion: 'Direccion empresa',
-            provincia: 'LIMA',
-            departamento: 'LIMA',
-            distrito: 'LIMA',
-            ubigueo: '150101',
+            direccion: direccionEmpresa,
+            provincia: 'HUARAZ',
+            departamento: 'ANCASH',
+            distrito: 'HUARAZ',
+            ubigueo: '020101',
           },
         },
         mtoOperGravadas: 100,

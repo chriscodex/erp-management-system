@@ -137,3 +137,12 @@ export function generateUniqueCode(id){
 
   return `RSV-${year}${month}${day}${recortedId}`	
 }
+
+export function obtenerFechaEmisionPeru() {
+  const now = new Date();
+  const offsetMin = -300; // UTC‑5 * 60
+  const local = new Date(now.getTime() + offsetMin * 60000);
+  const iso = local.toISOString();
+  const sinMs = iso.split('.')[0];
+  return sinMs + '-05:00';
+}
