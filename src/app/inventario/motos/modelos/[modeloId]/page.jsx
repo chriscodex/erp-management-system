@@ -8,7 +8,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 import { agregarNumeracionTable, sortByUpdateDateDesc } from "@/lib/utils";
-// import GraphicSingleProductCard from "@/app/inventario/productos/[id]/_components/ProductCard/graphic";
 import {
   getAllMotosByModeloIdRequestServer,
   getModeloByIdRequestServer,

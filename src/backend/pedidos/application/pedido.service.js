@@ -136,15 +136,6 @@ export class PedidoService {
       // Validar los datos del pedido enviado con el schema
       const pedidoValidated = createPedidoSchema.safeParse(pedidoData);
 
-      // if (!pedidoValidated.success) {
-      //   console.log(
-      //     `Pedido Service: Error de validación de schema de pedido al crear ${pedidoValidated}`
-      //   );
-      //   return {
-      //     status: 400,
-      //     payload: pedidoValidated.error.issues,
-      //   };
-      // }
       if (!pedidoValidated.success) {
         const formattedErrors = pedidoValidated.error.issues.map((err) => ({
           path: err.path.join("."),
@@ -219,16 +210,6 @@ export class PedidoService {
       }
       // Validar los datos del usuario enviado con el schema
       const pedidoValidated = updatePedidoSchema.safeParse(pedidoData);
-
-      // if (!pedidoValidated.success) {
-      //   console.log(
-      //     "Pedido Service: Error de validación de schema de pedido al actualizar"
-      //   );
-      //   return {
-      //     status: 400,
-      //     payload: pedidoValidated.error.issues,
-      //   };
-      // }
 
       if (!pedidoValidated.success) {
         const formattedErrors = pedidoValidated.error.issues.map((err) => ({
@@ -372,10 +353,6 @@ export class PedidoService {
             modeloPedidoFound._id
           )
         }
-        // return {
-        //   status: 201,
-        //   payload: { modelo: modeloCreated },
-        // };
       } else {
         console.log("Pedido Service: El modelo ya existe en inventario.");
         modeloId = modeloFound._id;

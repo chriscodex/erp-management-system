@@ -21,7 +21,6 @@ import {
 import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
 
 export default function ProductosMasVendidos(dataVentasHistoricas) {
-  console.log("Ventas Historicas", dataVentasHistoricas);
 
   const router = useRouter();
 

@@ -1,16 +1,12 @@
 import mongoose from "mongoose";
 
 import { Pedido } from "@/backend/pedidos/domain/models/pedido";
-// import { Modelo } from "@/backend/modelos/domain/models/modelo";
-// import { ModeloPedido } from "@/backend/modelosPedidos/domain/models/modeloPedido";
 import { Proveedor } from "@/backend/proveedores/domain/models/proveedor";
 import { Almacen } from "@/backend/almacenes/domain/models/almacen";
 
 export class PedidoRepository {
   constructor() {
     this.pedidoModel = Pedido;
-    // this.modeloModel = Modelo;
-    // this.modeloPedidoModel = ModeloPedido;
     this.proveedorModel = Proveedor;
     this.almacenModel = Almacen;
   }
@@ -175,8 +171,6 @@ export class PedidoRepository {
   async updatePedido(pedidoId, pedidoData) {
     try {
 
-      console.log("Consolee desde Repository", pedidoId, pedidoData);
-
       const updatedPedido = await this.pedidoModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(pedidoId) },
         pedidoData,
@@ -224,15 +218,4 @@ export class PedidoRepository {
       throw new Error(`Error al eliminar el pedido: ${error.message}`);
     }
   }
-
-  // async inventariarPedido(pedidoId) {
-  //   try {
-      
-  //   } catch (error) {
-  //     console.error(
-  //       `Pedido Repository: Error al inventariar el pedido: ${error.message}`
-  //     );
-  //     throw new Error(`Error al inventariar el pedido: ${error.message}`);
-  //   }
-  // }
 }

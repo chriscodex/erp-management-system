@@ -148,8 +148,6 @@ export const stylesOrdenDeServicio = {
   table: {
     width: "100%",
     border: "1px solid black",
-    // marginLeft: 20,
-    // marginRight: "20px",
   },
   tableRow: {
     flexDirection: "row",

@@ -171,7 +171,7 @@ export class CategoryService {
           payload: 'CategoryId no enviada',
         };
       }
-      console.log(categoryData);
+
       // Validar los datos del usuario enviado con el schema
       const categoryValidated = updateCategorySchema.safeParse(categoryData);
 

@@ -1,9 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-// import { useState } from "react";
 import { toast } from "sonner";
-// import { useRouter } from "next/navigation";
 
 import { Input } from "@/components/ui/input";
 import {
@@ -36,9 +34,6 @@ import {
 } from "@remixicon/react";
 
 export function AddCaracteristicasMotoForm({ onSave, onClose, defaultValues }) {
-  // const router = useRouter();
-
-  // const [date, setDate] = useState(new Date());
 
   const addCaracteriscasMotoForm = useForm({
     defaultValues: defaultValues || {

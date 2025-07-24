@@ -5,19 +5,21 @@ import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
 import { FormUserDetail } from "@/app/usuarios/[id]/_components/FormUserDetail";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getAllSucursalesRequestServer } from "@/app/usuarios/_services/requests";
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
 
   const userId = params.id;
   const { user } = await getUserRequestServer(userId);
+  const { sucursales } = await getAllSucursalesRequestServer();
 
   const fullName = user.nombres + " " + user.apellidos;
 
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
-  
+
   const titles = [
     {
       title: "Usuarios",
@@ -37,7 +39,7 @@ export default async function Page({ params }) {
 
   return (
     <NavbarDynamic titles={titles}>
-      <FormUserDetail userDetail={user} />
+      <FormUserDetail userDetail={user} sucursales={sucursales} />
     </NavbarDynamic>
   );
 }

@@ -4,8 +4,6 @@ import { RiEditFill } from "@remixicon/react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
 import { getPedidoRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
-// import { getMarcaRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
-// import { getCategoryRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
 import { EditarPedidoForm } from "@/app/inventario/motos/pedidos/[id]/edit/_components/EditarPedidoForm";
 import {
   getAllModelosRequestServer,

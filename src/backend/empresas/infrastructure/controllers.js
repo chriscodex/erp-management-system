@@ -36,22 +36,6 @@ export async function getEmpresaByDataController(contextRoute) {
     throw new Error("Empresas Controller: Error interno al obtener la empresa");
   }
 }
-// export async function getFirstEmpresaController() {
-//   try {
-    
-//     await connectDB();
-
-//     const empresa = await empresaService.getFirstEmpresa();
-
-//     return empresa;
-//   } catch (error) {
-//     console.error(
-//       "Empresas Controller: Error interno al obtener la empresa:",
-//       error.message
-//     );
-//     throw new Error("Empresas Controller: Error interno al obtener la empresa");
-//   }
-// }
 
 export async function createEmpresaController(request) {
   try {

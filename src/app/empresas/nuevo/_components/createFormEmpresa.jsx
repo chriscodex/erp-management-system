@@ -17,13 +17,15 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from '@/components/ui/select';
+
+import { departamentosPeru } from '@/lib/utils';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { createEmpresaSchema } from '@/app/empresas/nuevo/_services/validations/createEmpresaSchema';
@@ -37,6 +39,14 @@ export function CreateFormEmpresa() {
     defaultValues: {
       nombre: '',
       descripcion: '',
+      direccion: '',
+      departamento: '',
+      distrito: '',
+      provincia: '',
+      ubigeo: '',
+      ruc: '',
+      telefono: '',
+      email: '',
     },
   });
 
@@ -140,7 +150,7 @@ export function CreateFormEmpresa() {
               <FormItem className="space-y-2">
                 <FormLabel>Dirección</FormLabel>
                 <div className="relative">
-                <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Input
                       placeholder="Dirección"
@@ -155,6 +165,91 @@ export function CreateFormEmpresa() {
               </FormItem>
             )}
           />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <FormField
+              control={control}
+              name="departamento"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Departamento</FormLabel>
+                  <Select
+                    disabled={formSubmitIsLoading}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Selecciona un departamento" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {departamentosPeru.map((dep) => (
+                        <SelectItem key={dep} value={dep}>
+                          {dep}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="distrito"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Distrito</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Distrito"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="provincia"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Provincia</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Provincia"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="ubigeo"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Ubigeo</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Ubigeo (6 dígitos)"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={control}
             name="telefono"

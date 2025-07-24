@@ -34,19 +34,8 @@ import {
 import { useWatch } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-// import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import {
-//   Tooltip,
-//   TooltipContent,
-//   TooltipProvider,
-//   TooltipTrigger,
-// } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-// import {
-//   onChangeCelular,
-//   onChangeNumero,
-// } from "@/components/formInputs/onChange";
 import { shortDelay } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import {
@@ -60,7 +49,6 @@ import { updatePedidoRequestClient } from "@/app/inventario/motos/pedidos/[id]/e
 
 import { Textarea } from "@/components/ui/textarea";
 import { updatePedidoSchema } from "@/app/inventario/motos/pedidos/[id]/edit/_services/validations/updatePedidoSchema";
-// import { createPedidoSchema } from "@/app/inventario/motos/pedidos/nuevo/_services/validations/createPedidoSchema";
 import { SheetUpdateCaracteristicasMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/updateCaracteristicasMoto/sheetUpdateCaracteristicasMoto";
 
 import { SheetAddModeloWrapper } from "@/app/inventario/motos/pedidos/_components/sheets/addModelo/sheetAddModelo";

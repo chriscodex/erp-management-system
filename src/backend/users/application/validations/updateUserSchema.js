@@ -1,5 +1,7 @@
 import { z } from 'zod';
 
+const objectIdRegex = /^[a-f\d]{24}$/i;
+
 const roles = ['Administrador', 'Vendedor', 'Tecnico'];
 
 const estados = ['activo', 'inactivo'];
@@ -58,5 +60,6 @@ export const updateUserSchema = z.object({
       const today = new Date();
       const todayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate());
       return inputDate <= todayDate;
-  }, { message: "La fecha debe ser anterior o igual a la fecha actual" }).optional(),
+    }, { message: "La fecha debe ser anterior o igual a la fecha actual" }).optional(),
+  sucursalId: z.string().regex(objectIdRegex, 'El id de la sucursal no es válido').optional(),
 });

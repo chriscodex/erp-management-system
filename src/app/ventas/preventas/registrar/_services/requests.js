@@ -159,15 +159,12 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
     try {
-
-      console.log("Esto es preventa data en el request", preventaData);
-
       setLoading(true);
       // Simular tiempo de retraso
       await delay();
-
       let productsFormated = [];
       let obsequiosFormated = [];
+
       // Formatear los productos
       if (preventaData?.productos?.length > 0) {
         productsFormated = preventaData?.productos?.map((producto) => {
@@ -244,14 +241,6 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
         });
       }
 
-      const preventaDataFormated = {
-        ...preventaData,
-        productos: productsFormated,
-        obsequios: obsequiosFormated,
-      };
-
-      console.log('preventaDataFormated', preventaDataFormated);
-
       let clienteData = {};
       if (preventaData?.tipo === 'persona') {
         clienteData = {
@@ -302,6 +291,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           nombres: preventaData?.user?.nombres,
           apellidos: preventaData?.user?.apellidos,
         },
+        sucursalId: preventaData?.sucursalId,
         comentarios:
           preventaData?.comentarios?.trim() === ""
             ? undefined
@@ -311,7 +301,6 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
         productos: productsFormated,
         obsequios: obsequiosFormated,
       };
-
       // Obtener los datos de la persona
       const response = await postData(createPreventaClientUrl, preventaObject);
       if (response?.status !== 201) {

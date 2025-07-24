@@ -46,26 +46,3 @@ export async function DELETE(_, contextRoute) {
     );
   }
 }
-
-// export async function PUT(request, contextRoute) {
-//   try {
-//     const { payload, status } = await updateOrdenDeServicioController(
-//       request,
-//       contextRoute
-//     );
-
-//     if (status !== 201) {
-//       return NextResponse.json({ error: payload }, { status });
-//     }
-
-//     return NextResponse.json({ payload }, { status });
-//   } catch (error) {
-//     console.error(
-//       `Orden de Servicio Route: Error interno al actualizar la orden de servicio: ${error.message}`
-//     );
-//     return NextResponse.json(
-//       { message: 'Error interno al actualizar la orden de servicio' },
-//       { status: 500 }
-//     );
-//   }
-// }

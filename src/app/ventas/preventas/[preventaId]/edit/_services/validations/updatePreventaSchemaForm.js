@@ -101,7 +101,7 @@ export const updatePreventaSchemaForm = z.object({
             message: 'Debe ingresar una unidad',
           }),
           code: z.string(),
-          estado: z.enum(['disponible', 'reparado', 'dañado', 'desaparecido', 'prevendido']),
+          estado: z.enum(['disponible', 'reparado', 'dañado', 'desaparecido', 'prevendido', 'taller']),
         })
       ).optional()
     })
@@ -173,7 +173,7 @@ export const updatePreventaSchemaForm = z.object({
   data.productos.forEach((producto, index) => {
     if (producto.tipo === "producto") {
       if (
-        !["disponible", "dañado", "reparado", "desaparecido", "activo", "inactivo"].includes(producto.estado)
+        !["disponible", "dañado", "reparado", "desaparecido","taller", "activo", "inactivo"].includes(producto.estado)
       ) {
         ctx.addIssue({
           path: ["productos", index, "estado"],

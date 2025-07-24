@@ -1,6 +1,4 @@
 import { Schema, model, models } from 'mongoose';
-// import { motoPreventaSchema } from '@/backend/preventas/domain/models/motoPreventa';
-// import { productoPreventaSchema } from '@/backend/preventas/domain/models/productPreventa';
 
 const preventaSchema = new Schema(
   {
@@ -45,6 +43,11 @@ const preventaSchema = new Schema(
           'Los apellidos son requeridos en el schema de preventas',
         ],
       },
+    },
+    sucursalId: {
+      type: Schema.Types.ObjectId,
+      ref: "Sucursal",
+      required: [false],
     },
     comentarios: {
       type: String,

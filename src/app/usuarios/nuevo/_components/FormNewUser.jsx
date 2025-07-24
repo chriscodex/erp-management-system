@@ -30,6 +30,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -39,13 +46,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import {
   Tooltip,
   TooltipContent,
@@ -64,7 +64,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"; //Calendar
 
-function FormNewUser() {
+function FormNewUser({ sucursales }) {
   const router = useRouter();
 
   const [date, setDate] = useState(new Date()); //Date Calendar
@@ -82,6 +82,7 @@ function FormNewUser() {
       confirmPassword: "",
       rol: "Vendedor",
       fechaIngreso: new Date(),
+      sucursalId: "",
     },
   });
 
@@ -103,18 +104,22 @@ function FormNewUser() {
     };
 
     // Toast promise para buscar una persona
-    toast.promise(createUserRequestClient(newUserData, setFormSubmitIsLoading), {
-      loading: "Creando...",
-      success: () => {
-        clearErrors();
-        router.push("/usuarios");
-        return `Usuario creado correctamente`;
-      },
-      error: (error) => {
-        setFormSubmitIsLoading(false);
-        return error;
-      },
-    });
+    toast.promise(
+      createUserRequestClient(newUserData, setFormSubmitIsLoading),
+      {
+        loading: "Creando...",
+        success: () => {
+          clearErrors();
+          router.push("/usuarios");
+          return `Usuario creado correctamente`;
+        },
+
+        error: (error) => {
+          setFormSubmitIsLoading(false);
+          return error;
+        },
+      }
+    );
   });
 
   // Busqueda por DNI
@@ -402,7 +407,6 @@ function FormNewUser() {
                 </FormItem>
               )}
             />
-
             <FormField
               control={control}
               name="fechaIngreso"
@@ -450,6 +454,39 @@ function FormNewUser() {
                     </Popover>
                   </FormControl>
                   <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="sucursalId"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Sucursal</FormLabel>
+                  <div className="relative">
+                    <Select
+                      defaultValue={field.value}
+                      onValueChange={field.onChange}
+                      disabled={formSubmitIsLoading}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-full pl-2">
+                          <SelectValue placeholder="Seleccione una sucursal" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {sucursales?.map((sucursal) => (
+                          <SelectItem
+                            key={sucursal?._id?.toString()}
+                            value={sucursal?._id?.toString()}
+                          >
+                            {sucursal?.nombre}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </div>
                 </FormItem>
               )}
             />

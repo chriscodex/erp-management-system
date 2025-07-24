@@ -4,8 +4,6 @@ import { Plus } from 'lucide-react';
 import { useState } from 'react';
 
 import { Sheet } from '@/components/ui/sheet';
-// import { AddModeloForm } from '@/app/inventario/motos/pedidos/[modeloId]/_components/sheets/addCaracteristicasMoto/addCaracteristicasMotoForm';
-
 import { AddModeloForm } from '@/app/inventario/motos/pedidos/_components/sheets/addModelo/addModeloForm';
 
 

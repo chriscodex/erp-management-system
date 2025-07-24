@@ -96,27 +96,6 @@ export const columnsPedidos = [
       return <div className="text-start">{cantidad}</div>;
     },
   },
-  // {
-  //   accessorKey: "montoPagadoYTotal",
-  //   header: ({ column }) => {
-  //     return (
-  //       <Button
-  //         variant="ghost"
-  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-  //       >
-  //         Monto Pagado / Total
-  //         <ArrowUpDown className="ml-2 h-4 w-4" />
-  //       </Button>
-  //     );
-  //   },
-  //   cell: ({ row }) => {
-  //     const montoPagado = formatMoney(row?.original?.montoPagado);
-  //     const montoTotal = formatMoney(row?.original?.montoTotal);
-  //     return (
-  //       <div className="text-start">{`S/.${montoPagado} de S/.${montoTotal}`}</div>
-  //     );
-  //   },
-  // },
   {
     accessorKey: "montoPagadoYTotal",
     header: ({ column }) => {

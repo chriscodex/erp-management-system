@@ -143,6 +143,12 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                     " " +
                     ventaHistoricaData?.usuario?.apellidos}{" "}
                 </p>
+                {ventaHistoricaData?.sucursalId?.nombre && (
+                  <p>
+                    <strong>Sucursal:</strong>{" "}
+                    {ventaHistoricaData?.sucursalId?.nombre}
+                  </p>
+                )}
                 {ventaHistoricaData?.comprobante && (
                   <p>
                     <strong>Comprobante: </strong>

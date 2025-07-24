@@ -98,14 +98,9 @@ export class PreventaService {
           };
         }
       }
-
-      console.log("Esto es el preventa data", preventaData);
-
       // Reemplazar cliente en preventaData por clienteId
       preventaData.clienteId = clienteFinal._id.toString();
       delete preventaData.cliente;
-
-      console.log("Esto es el preventa data despues", preventaData);
 
       // Validar los datos del producto enviado con el schema
       const preventaValidated = createPreventaSchema.safeParse(preventaData);
@@ -336,7 +331,7 @@ export class PreventaService {
       const preventaFound = await this.preventaRepository.getPreventaByData({
         _id: preventaId,
       });
-      
+
       // Cambiar el estado de los productos y motos a prevendidos
       // eslint-disable-next-line no-undef
       await Promise.all(

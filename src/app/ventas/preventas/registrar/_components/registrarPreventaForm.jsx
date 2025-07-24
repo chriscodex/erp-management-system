@@ -60,7 +60,6 @@ import {
 import { ObsequiosPreventaTable } from "@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table";
 import { Textarea } from "@/components/ui/textarea";
 import { createPreventaSchemaForm } from "@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm";
-// import { ConstructionOutlined } from "@mui/icons-material";
 
 export function RegistrarPreventaForm() {
   const { data: session } = useSession();
@@ -111,6 +110,7 @@ export function RegistrarPreventaForm() {
       ...data,
       user: session?.user,
       obsequios: obsequiosPreventa,
+      ...(session?.user?.sucursalId && { sucursalId: session.user.sucursalId }),
     };
     // Toast promise para buscar una persona
     toast.promise(
@@ -630,7 +630,7 @@ export function RegistrarPreventaForm() {
               />
             </CardContent>
           </Card>
-            
+
           <Card className="mb-6">
             <CardHeader>
               <CardTitle>Comentarios</CardTitle>

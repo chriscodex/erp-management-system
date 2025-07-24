@@ -2,18 +2,9 @@
 
 import { ArrowUpDown, ExternalLink } from "lucide-react";
 import { useRouter } from "next/navigation";
-// import { useState } from "react";
 import { RiFileListLine } from "@remixicon/react";
 
 import { Button } from "@/components/ui/button";
-// import {
-//   DropdownMenu,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
 
 import {
   Tooltip,
@@ -23,7 +14,6 @@ import {
 } from "@/components/ui/tooltip";
 
 import { formatDateShort } from "@/lib/formateador";
-// import { DeletePreventaAlert } from "@/app/ventas/preventas/[preventaId]/_components/dialogs/deletePreventaAlert";
 
 export const columnsVentasHistoricas = [
   {

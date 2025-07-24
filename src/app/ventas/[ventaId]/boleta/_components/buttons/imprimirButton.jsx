@@ -62,11 +62,15 @@ export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
           ruc: selectedEmpresa.ruc,
           nombre: selectedEmpresa.nombre,
           descripcion: selectedEmpresa.descripcion,
-          direccion: selectedEmpresa.direccion,
           telefono: selectedEmpresa.telefono,
           email: selectedEmpresa.email,
+          direccion: selectedEmpresa.direccion,
+          distrito: selectedEmpresa.distrito,
+          provincia: selectedEmpresa.provincia,
+          departamento: selectedEmpresa.departamento,
+          ubigeo: selectedEmpresa.ubigeo,
         };
-
+        
         await updateBoletaStateRequestClient(
           ventaData?._id,
           counterBoleta,
