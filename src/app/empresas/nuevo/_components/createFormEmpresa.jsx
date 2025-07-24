@@ -17,6 +17,8 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+
+import { departamentosPeru } from '@/lib/utils';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { createEmpresaSchema } from '@/app/empresas/nuevo/_services/validations/createEmpresaSchema';
@@ -164,12 +166,20 @@ export function CreateFormEmpresa() {
                 <FormItem className="space-y-2">
                   <FormLabel>Departamento</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Departamento"
-                      autoComplete="off"
+                    <select
+                      className="pl-2 py-2 border rounded w-full disabled:bg-muted"
                       disabled={formSubmitIsLoading}
-                      {...field}
-                    />
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      ref={field.ref}
+                    >
+                      <option value="">Selecciona un departamento</option>
+                      {departamentosPeru.map((dep) => (
+                        <option key={dep} value={dep}>{dep}</option>
+                      ))}
+                    </select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

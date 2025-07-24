@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { departamentosPeru } from '@/lib/utils';
 import { updateEmpresaSchema } from '@/app/empresas/[id]/edit/_services/validations/updateEmpresaSchema';
 import { Textarea } from '@/components/ui/textarea';
 import { updateEmpresaRequestClient } from '@/app/empresas/[id]/_services/requests.js';
@@ -32,6 +33,7 @@ export function UpdateFormEmpresa({ empresaData }) {
       ruc: empresaData?.ruc,
       descripcion: empresaData?.descripcion,
       direccion: empresaData?.direccion,
+      departamento: empresaData?.departamento,
       distrito: empresaData?.distrito,
       provincia: empresaData?.provincia,
       ubigeo: empresaData?.ubigeo,
@@ -184,7 +186,33 @@ export function UpdateFormEmpresa({ empresaData }) {
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <FormField
+              control={control}
+              name="departamento"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Departamento</FormLabel>
+                  <FormControl>
+                    <select
+                      className="pl-2 py-2 border rounded w-full disabled:bg-muted"
+                      disabled={formSubmitIsLoading}
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      ref={field.ref}
+                    >
+                      <option value="">Selecciona un departamento</option>
+                      {departamentosPeru.map((dep) => (
+                        <option key={dep} value={dep}>{dep}</option>
+                      ))}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={control}
               name="distrito"

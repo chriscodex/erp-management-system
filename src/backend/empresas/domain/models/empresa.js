@@ -20,6 +20,10 @@ const empresaSchema = new Schema(
       type: String,
       required: [true, 'La dirección es requerida en el schema de empresa'],
     },
+    departamento: {
+      type: String,
+      required: [true, 'El departamento es requerido en el schema de empresa'],
+    },
     distrito: {
       type: String,
       required: [true, 'El distrito es requerido en el schema de empresa'],

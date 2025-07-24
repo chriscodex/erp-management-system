@@ -24,6 +24,7 @@ export default function DetailContent({ empresaData, updatedAt }) {
     ruc,
     descripcion,
     direccion,
+    departamento,
     distrito,
     provincia,
     ubigeo,
@@ -63,7 +64,11 @@ export default function DetailContent({ empresaData, updatedAt }) {
           </div>
           <p>{direccion}</p>
           <Separator />
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div>
+              <span className="text-sm text-muted-foreground">Departamento:</span>
+              <p>{departamento}</p>
+            </div>
             <div>
               <span className="text-sm text-muted-foreground">Distrito:</span>
               <p>{distrito}</p>
