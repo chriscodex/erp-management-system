@@ -19,6 +19,13 @@ import {
 import { Input } from '@/components/ui/input';
 
 import { departamentosPeru } from '@/lib/utils';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { createEmpresaSchema } from '@/app/empresas/nuevo/_services/validations/createEmpresaSchema';
@@ -165,22 +172,25 @@ export function CreateFormEmpresa() {
               render={({ field }) => (
                 <FormItem className="space-y-2">
                   <FormLabel>Departamento</FormLabel>
-                  <FormControl>
-                    <select
-                      className="pl-2 py-2 border rounded w-full disabled:bg-muted"
-                      disabled={formSubmitIsLoading}
-                      value={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                      name={field.name}
-                      ref={field.ref}
-                    >
-                      <option value="">Selecciona un departamento</option>
+                  <Select
+                    disabled={formSubmitIsLoading}
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full pl-2">
+                        <SelectValue placeholder="Selecciona un departamento" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
                       {departamentosPeru.map((dep) => (
-                        <option key={dep} value={dep}>{dep}</option>
+                        <SelectItem key={dep} value={dep}>
+                          {dep}
+                        </SelectItem>
                       ))}
-                    </select>
-                  </FormControl>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}
