@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/form';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { departamentosPeru } from '@/lib/utils';
 import { updateEmpresaSchema } from '@/app/empresas/[id]/edit/_services/validations/updateEmpresaSchema';
 import { Textarea } from '@/components/ui/textarea';
 import { updateEmpresaRequestClient } from '@/app/empresas/[id]/_services/requests.js';
@@ -32,6 +33,10 @@ export function UpdateFormEmpresa({ empresaData }) {
       ruc: empresaData?.ruc,
       descripcion: empresaData?.descripcion,
       direccion: empresaData?.direccion,
+      departamento: empresaData?.departamento,
+      distrito: empresaData?.distrito,
+      provincia: empresaData?.provincia,
+      ubigeo: empresaData?.ubigeo,
       telefono: empresaData?.telefono,
       email: empresaData?.email,
       estado: empresaData?.estado,
@@ -166,7 +171,7 @@ export function UpdateFormEmpresa({ empresaData }) {
               <FormItem className="space-y-2">
                 <FormLabel>Dirección</FormLabel>
                 <div className="relative">
-                <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Input
                       placeholder="Dirección"
@@ -181,6 +186,88 @@ export function UpdateFormEmpresa({ empresaData }) {
               </FormItem>
             )}
           />
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <FormField
+              control={control}
+              name="departamento"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Departamento</FormLabel>
+                  <FormControl>
+                    <select
+                      className="pl-2 py-2 border rounded w-full disabled:bg-muted"
+                      disabled={formSubmitIsLoading}
+                      value={field.value}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
+                      name={field.name}
+                      ref={field.ref}
+                    >
+                      <option value="">Selecciona un departamento</option>
+                      {departamentosPeru.map((dep) => (
+                        <option key={dep} value={dep}>{dep}</option>
+                      ))}
+                    </select>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="distrito"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Distrito</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Distrito"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="provincia"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Provincia</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Provincia"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={control}
+              name="ubigeo"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Ubigeo</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Ubigeo (6 dígitos)"
+                      autoComplete="off"
+                      disabled={formSubmitIsLoading}
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={control}
             name="telefono"

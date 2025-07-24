@@ -26,6 +26,18 @@ export const updateEmpresaSchema = z.object({
     .max(150, {
       message: 'La dirección no puede tener más de 150 caracteres',
     }).optional(),
+  distrito: z
+    .string()
+    .min(2, { message: 'El distrito debe tener al menos 2 caracteres' })
+    .optional(),
+  provincia: z
+    .string()
+    .min(2, { message: 'La provincia debe tener al menos 2 caracteres' })
+    .optional(),
+  ubigeo: z
+    .string()
+    .length(6, { message: 'El ubigeo debe tener 6 dígitos' })
+    .optional(),
   telefono: z
     .string()
     .min(4, { message: 'El teléfono debe tener al menos 4 dígitos' }).optional(),

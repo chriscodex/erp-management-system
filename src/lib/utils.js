@@ -1,3 +1,10 @@
+// Lista de departamentos del Perú
+export const departamentosPeru = [
+  'Amazonas', 'Áncash', 'Apurímac', 'Arequipa', 'Ayacucho', 'Cajamarca',
+  'Callao', 'Cusco', 'Huancavelica', 'Huánuco', 'Ica', 'Junín', 'La Libertad',
+  'Lambayeque', 'Lima', 'Loreto', 'Madre de Dios', 'Moquegua', 'Pasco',
+  'Piura', 'Puno', 'San Martín', 'Tacna', 'Tumbes', 'Ucayali'
+];
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -136,4 +143,13 @@ export function generateUniqueCode(id){
   const recortedId = id.toString().slice(-6).toUpperCase();
 
   return `RSV-${year}${month}${day}${recortedId}`	
+}
+
+export function obtenerFechaEmisionPeru() {
+  const now = new Date();
+  const offsetMin = -300; // UTC‑5 * 60
+  const local = new Date(now.getTime() + offsetMin * 60000);
+  const iso = local.toISOString();
+  const sinMs = iso.split('.')[0];
+  return sinMs + '-05:00';
 }

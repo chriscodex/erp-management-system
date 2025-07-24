@@ -28,8 +28,13 @@ export class CounterRepository {
   }
 
   async getCounterByType(name) {
-    const counter = await this.counterModel.findOne({ name });
-    return counter ? counter.sequenceValue : 0;
+    try {
+      const counter = await this.counterModel.findOne({ name });
+      return counter ? counter.sequenceValue : 0;
+    } catch (error) {
+      console.error('Error al obtener el contador:', error);
+      throw new Error('Error al obtener el contador');
+    }
   }
 
   async aumentarContadorByType(type) {

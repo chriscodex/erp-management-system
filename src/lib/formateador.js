@@ -96,26 +96,10 @@ export function formatDateFull(date, hour = true) {
   return hour ? `${formattedDate} - ${formatHour(date)}` : formattedDate;
 }
 
-/**
- * Formatea un número para generar códigos para los contadores de boletas y facturas.
- * El código resultante tendrá el formato BXXX-00000000 donde:
- * - BXXX es el prefijo que se incrementa cuando el número supera 99999999
- * - 00000000 es el número formateado con 8 dígitos
- * 
- * @param {number} numero - El número a formatear
- * @returns {string} - El código formateado con el prefijo B y 8 dígitos
- * @throws {Error} - Si el número es negativo
- */
+export function obtenerSerieYCorrelativo(numero, comprobante) {
+  if (numero < 0) throw new Error('El número debe ser positivo');
 
-export function formatearCodigoCounterBoletaFactura(numero, comprobante) {
-  // Validar que el número sea positivo
-  if (numero < 0) {
-    throw new Error('El número debe ser positivo');
-  }
-
-  // Normalizar el tipo de comprobante (insensible a mayúsculas/minúsculas)
   const tipo = comprobante.toLowerCase();
-
   const MAX_NUMERO = 99999999;
   let prefijo;
   let numeroAmostrar;
@@ -152,9 +136,18 @@ export function formatearCodigoCounterBoletaFactura(numero, comprobante) {
     numeroAmostrar = numero - (MAX_NUMERO + 1) * vecesSuperado;
   }
 
-  const numeroFinal = String(numeroAmostrar).padStart(8, '0');
+  return {
+    serie: prefijo,
+    correlativo: String(numeroAmostrar).padStart(8, '0'),
+  };
+}
 
-  return `${prefijo}-${numeroFinal}`;
+/**
+ * Función para mostrar en UI el código completo.
+ */
+export function formatearCodigoCounterBoletaFactura(numero, comprobante) {
+  const { serie, correlativo } = obtenerSerieYCorrelativo(numero, comprobante);
+  return `${serie}-${correlativo}`;
 }
 
 export function formatNumeroALetras(numero) {
