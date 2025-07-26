@@ -7,9 +7,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
+
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
+
   const titles = [
     {
       title: "Empresas",
@@ -22,6 +24,7 @@ export default async function Page() {
       active: false,
     },
   ];
+  
   return (
     <NavbarDynamic titles={titles}>
       <Card className="w-full max-w-7xl mx-auto">

@@ -19,11 +19,19 @@ import { Button } from "@/components/ui/button";
 import { DataTableModelo } from "@/app/inventario/motos/modelos/[modeloId]/_components/modeloTable/data-table";
 
 export default async function ModelosPage({ params }) {
-  const session = await getServerSession(authOptions);
-  const { modelo, status } = await getModeloByIdRequestServer(params.modeloId);
-  const { motosByModeloId } = await getAllMotosByModeloIdRequestServer(
-    params.modeloId
-  );
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getServerSession(authOptions),
+    getModeloByIdRequestServer(params.modeloId),
+    getAllMotosByModeloIdRequestServer(params.modeloId),
+  ]);
+
+  const session = results[0].value;
+  const { modelo, status } = results[1].value;
+  const { motosByModeloId } = results[2].value;
+
+  const motosEnumeradas = agregarNumeracionTable(motosByModeloId);
+  const motosSorted = sortByUpdateDateDesc(motosEnumeradas);
 
   if (!modelo) {
     notFound();
@@ -54,9 +62,6 @@ export default async function ModelosPage({ params }) {
     },
   ];
 
-  const motosEnumeradas = agregarNumeracionTable(motosByModeloId);
-  const motosSorted = sortByUpdateDateDesc(motosEnumeradas);
-
   return (
     <NavbarDynamic titles={navbarTitles}>
       <Card>
@@ -69,11 +74,11 @@ export default async function ModelosPage({ params }) {
               </Label>
             </div>
             {session?.user?.rol === "Administrador" && (
-            <Button asChild>
-              <Link href={`/inventario/motos/modelos/${modeloId}/nuevo`}>
-                <Plus className="h-4 w-4" /> Agregar Moto
-              </Link>
-            </Button>
+              <Button asChild>
+                <Link href={`/inventario/motos/modelos/${modeloId}/nuevo`}>
+                  <Plus className="h-4 w-4" /> Agregar Moto
+                </Link>
+              </Button>
             )}
           </div>
           <ModeloCard modelo={modelo} />

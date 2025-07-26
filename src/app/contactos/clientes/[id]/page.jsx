@@ -1,14 +1,20 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { getClienteRequestServer, getVentasHistoricasRequestServer } from '@/app/contactos/clientes/[id]/_services/requests';
-import { DetailClienteContent } from '@/app/contactos/clientes/[id]/_components/detailClienteContent';
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import {
+  getClienteRequestServer,
+  getVentasHistoricasRequestServer,
+} from "@/app/contactos/clientes/[id]/_services/requests";
+import { DetailClienteContent } from "@/app/contactos/clientes/[id]/_components/detailClienteContent";
 
 export default async function Page({ params }) {
-    
-  const  {cliente}  = await getClienteRequestServer(params.id);
-
-  const {ventasHistoricas} = await getVentasHistoricasRequestServer(params.id);
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getClienteRequestServer(params.id),
+    getVentasHistoricasRequestServer(params.id),
+  ]);
+  const { cliente } = results[0].value;
+  const { ventasHistoricas } = results[1].value;
 
   if (!cliente) {
     notFound();
@@ -16,25 +22,28 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: 'Contactos',
-      href: '',
+      title: "Contactos",
+      href: "",
       active: false,
     },
     {
-      title: 'Clientes',
-      href: '/contactos/clientes',
+      title: "Clientes",
+      href: "/contactos/clientes",
       active: true,
     },
     {
       title: cliente?._id,
-      href: '',
+      href: "",
       active: false,
     },
   ];
 
   return (
     <NavbarDynamic titles={navbarTitles}>
-      <DetailClienteContent clienteData={cliente} ventasHistoricasData={ventasHistoricas} />
+      <DetailClienteContent
+        clienteData={cliente}
+        ventasHistoricasData={ventasHistoricas}
+      />
     </NavbarDynamic>
   );
 }

@@ -10,21 +10,22 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
-  const session = await getServerSession(authOptions);
-
   const userId = params.id;
-
-  const { user } = await getUserRequestServer(userId);
-
-  const fullName = user.nombres + " " + user.apellidos;
-
-  const { ventasHistoricas } = await getVentasHistoricasRequestServer(
-    params.id
-  );
+  const session = await getServerSession(authOptions);
 
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getUserRequestServer(userId),
+    getVentasHistoricasRequestServer(userId),
+  ]);
+
+  const { user } = results[0].value;
+  const { ventasHistoricas } = results[1].value ?? [];
+
+  const fullName = user.nombres + " " + user.apellidos;
 
   const navbarTitles = [
     {

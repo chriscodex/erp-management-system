@@ -27,20 +27,16 @@ export default async function HomePage() {
   if (session?.user?.rol !== "Tecnico") {
     notFound();
   }
-  const [
-    productsResponse = {},
-    motosResponse = {},
-    ordenesDeServicioResponse,
-    // eslint-disable-next-line no-undef
-  ] = await Promise.all([
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
     getAllProductsRequestServer(),
     getAllMotosRequestServer(),
     getAllOrdenesDeServicioRequestServer(),
   ]);
 
-  const { products } = productsResponse;
-  const { motos } = motosResponse;
-  const { ordenesDeServicio } = ordenesDeServicioResponse;
+  const { products } = results[0].value ?? [];
+  const { motos } = results[1].value ?? [];
+  const { ordenesDeServicio } = results[2].value ?? [];
 
   let totalOrdenesDeServicio = 0,
     totalMotos = 0,

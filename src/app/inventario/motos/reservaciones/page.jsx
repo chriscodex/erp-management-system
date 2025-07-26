@@ -17,11 +17,14 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function ReservacionesPage() {
   const session = await getServerSession(authOptions);
+
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
-  
+
   const { reservaciones, status } = await getAllReservacionesRequestServer();
+  const reservacionesEnumeradas = agregarNumeracionTable(reservaciones);
+  const reservacionesSorted = sortByUpdateDateDesc(reservacionesEnumeradas);
 
   const titles = [
     {
@@ -40,9 +43,6 @@ export default async function ReservacionesPage() {
       active: false,
     },
   ];
-
-  const reservacionesEnumeradas = agregarNumeracionTable(reservaciones);
-  const reservacionesSorted = sortByUpdateDateDesc(reservacionesEnumeradas);
 
   return (
     <>

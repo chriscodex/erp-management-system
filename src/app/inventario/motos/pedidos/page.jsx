@@ -22,6 +22,9 @@ export default async function PedidosPage() {
   }
   const { pedidos, status } = await getAllPedidosRequestServer();
 
+  const pedidosEnumerados = agregarNumeracionTable(pedidos);
+  const pedidosSorted = sortByUpdateDateDesc(pedidosEnumerados);
+
   const titles = [
     {
       title: "Inventario",
@@ -39,12 +42,6 @@ export default async function PedidosPage() {
       active: false,
     },
   ];
-
-  // const reservacionesEnumeradas = agregarNumeracionTable(reservaciones);
-  // const reservacionesSorted = sortByUpdateDateDesc(reservacionesEnumeradas);
-
-  const pedidosEnumerados = agregarNumeracionTable(pedidos);
-  const pedidosSorted = sortByUpdateDateDesc(pedidosEnumerados);
 
   return (
     <>

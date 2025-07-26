@@ -10,7 +10,6 @@ import { NuevaInformacionMecanicoForm } from "@/app/taller/ordenes-servicio/[id]
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-
 export default async function EditarOrdenDeServicioPage({ params }) {
   const session = await getServerSession(authOptions);
   if (
@@ -19,6 +18,7 @@ export default async function EditarOrdenDeServicioPage({ params }) {
   ) {
     notFound();
   }
+
   const { ordenDeServicio } = await getOrdenDeServicioRequestServer(params.id);
 
   const titles = [

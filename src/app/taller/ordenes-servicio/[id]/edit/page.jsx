@@ -18,6 +18,7 @@ export default async function EditarOrdenDeServicioPage({ params }) {
   ) {
     notFound();
   }
+
   const { ordenDeServicio } = await getOrdenDeServicioRequestServer(params.id);
 
   const titles = [

@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Label } from "@radix-ui/react-label";
 import { User2Icon, Plus } from "lucide-react";
@@ -15,14 +15,12 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
-
-  const { users, status } = await getAllUsersRequestServer();
-
-  const usersSorted = sortByUpdateDateDesc(users);
-
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
+
+  const { users, status } = await getAllUsersRequestServer();
+  const usersSorted = sortByUpdateDateDesc(users);
 
   return (
     <>

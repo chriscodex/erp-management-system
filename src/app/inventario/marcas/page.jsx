@@ -15,6 +15,7 @@ import { getAllMarcasRequestServer } from "@/app/inventario/marcas/_services/req
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 export default async function MarcasPage() {
+  
   const session = await getServerSession(authOptions);
 
   const { marcas, status } = await getAllMarcasRequestServer();

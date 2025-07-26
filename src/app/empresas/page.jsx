@@ -21,12 +21,12 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function EmpresasPage() {
   const session = await getServerSession(authOptions);
-  const { empresas } = await getAllEmpresasRequestServer();
 
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
-
+  
+  const { empresas } = await getAllEmpresasRequestServer();
   /* Secciones del navbar */
   const navbarTitles = [
     {
@@ -91,7 +91,9 @@ export default async function EmpresasPage() {
                       </div>
                       <div className="flex items-center">
                         <Mail className="h-5 w-5 mr-2 text-muted-foreground" />
-                        <span className="text-sm break-all">{empresa?.email}</span>
+                        <span className="text-sm break-all">
+                          {empresa?.email}
+                        </span>
                       </div>
                     </div>
                   </CardContent>
