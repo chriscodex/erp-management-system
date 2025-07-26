@@ -6,6 +6,7 @@ import { RiPrinterLine } from "@remixicon/react";
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
+import { useQrBase64 } from "@/hooks/useQrBase64";
 import { PdfBoleta } from "@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta";
 import {
   getCurrentCounterBoletaRequestClient,
@@ -18,6 +19,8 @@ export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
 
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
   const [loading, setLoading] = useState(false);
+
+  const qrBase64 = useQrBase64(selectedEmpresa?.ruc);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -44,6 +47,7 @@ export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
           ventaData={ventaData}
           counterBoleta={counterBoleta}
           selectedEmpresa={empresaSeleccionada}
+          qrBase64={qrBase64}
         />
       );
       const blob = await pdf(doc).toBlob();
