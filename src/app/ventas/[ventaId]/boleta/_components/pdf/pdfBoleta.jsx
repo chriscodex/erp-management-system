@@ -72,17 +72,9 @@ export function PdfBoleta({
       <Page size="A4">
         <View style={styles.header}>
           <Image src={'/logoB.jpeg'} style={styles.image} alt="logo" />
-          <Text style={styles.title}>Boleta electrónica</Text>
+          <Text style={styles.title}>Boleta de venta electrónica</Text>
         </View>
-        {/* QR en base64 */}
-        <View style={{ alignItems: 'center', marginTop: 10 }}>
-          {qrBase64 && (
-            <Image
-              src={qrBase64}
-              style={{ width: 80, height: 80, marginTop: 10 }}
-            />
-          )}
-        </View>
+
         <View style={styles.body}>
           <View style={styles.datosEmpresa}>
             <View>
@@ -176,9 +168,6 @@ export function PdfBoleta({
 
           <View style={styles.boletaTitleCntainer}>
             <Text style={styles.boletaTitle}>Boleta</Text>
-            {/* <Text style={styles.fechaEmision}>
-              Fecha Emisión: {currentTime}
-            </Text> */}
           </View>
           {/* Tabla */}
           <View style={styles.table}>
@@ -265,6 +254,18 @@ export function PdfBoleta({
                   .toFixed(2)
               )}
             </Text>
+          </View>
+
+          <View style={styles.separator} />
+
+          {/* QR en base64 */}
+          <View style={styles.qrContainer}>
+            <Text style={styles.qrMessage}>
+              Representación impresa de la BOLETA DE VENTA ELECTRÓNICA. El usuario puede consultar su validez en SUNAT Virtual: www.sunat.gob.pe en Operaciones sin Clave SOL / Consulta validez del CPE
+            </Text>
+            {qrBase64 && (
+              <Image src={qrBase64} style={styles.qrImage} alt="QR de boleta" />
+            )}
           </View>
         </View>
       </Page>
