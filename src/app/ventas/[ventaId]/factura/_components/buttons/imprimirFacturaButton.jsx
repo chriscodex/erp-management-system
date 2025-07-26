@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 import { PdfFactura } from "@/app/ventas/[ventaId]/factura/_components/pdf/pdfFactura";
+import { useQrBase64 } from "@/hooks/useQrBase64";
 import {
   getCurrentCounterFacturaRequestClient,
   updateFacturaStateRequestClient,
@@ -19,6 +20,7 @@ export function ImprimirFacturaButton({ ventaData, empresas, reimprimir }) {
 
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
   const [loading, setLoading] = useState(false);
+  const qrBase64 = useQrBase64(selectedEmpresa?.ruc);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -45,6 +47,7 @@ export function ImprimirFacturaButton({ ventaData, empresas, reimprimir }) {
           ventaData={ventaData}
           counterFactura={counterFactura}
           selectedEmpresa={empresaSeleccionada}
+          qrBase64={qrBase64}
         />
       );
       const blob = await pdf(doc).toBlob();
