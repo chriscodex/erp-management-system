@@ -30,22 +30,48 @@ export async function getCurrentCounterFacturaRequestClient() {
   }
 }
 
+  /**
+   * Actualiza el estado de la factura y env a Sunat.
+   * @param {number} ventaId - El id de la venta que se va a imprimir.
+   * @param {number} counterFactura - El valor actual del contador de facturas.
+   * @param {object} selectedEmpresa - La empresa seleccionada.
+   * @return {Promise<object>} Resuelve con el payload de la respuesta.
+   * @throws {Error} Si no se pudo enviar la factura a Sunat o actualizar el estado de la factura.
+   */
 export async function updateFacturaStateRequestClient(ventaId, counterFactura, selectedEmpresa) {
   try {
     await delay();
 
+    // Paso 1: Enviar la factura a Sunat
+    const urlEnviarFactura = `${updateFacturaStateClientUrl}/${ventaId}/enviar-factura`;
+    const responseEnviarFactura = await patchData(urlEnviarFactura, {
+      empresa: {
+        ...selectedEmpresa,
+      },
+    });
+
+    if (
+      responseEnviarFactura?.status !== 200 ||
+      !responseEnviarFactura?.data?.payload?.success
+    ) {
+      throw new Error(
+        'No se pudo enviar la factura a Sunat: ' +
+          responseEnviarFactura?.data?.payload?.estadoSunat ||
+          responseEnviarFactura?.data?.error
+      );
+    }
+
+    // Paso 2: Actualizar el estado de la factura e incrementar el contador
     const urlUpdateStateFactura = `${updateFacturaStateClientUrl}/${ventaId}`;
-    
     const responseUpdateStateFactura = await patchData(urlUpdateStateFactura, {
       comprobante: 'Factura Impresa',
       counter: counterFactura,
       empresa: {
-        ...selectedEmpresa
+        ...selectedEmpresa,
       },
     });
 
     const urlIncrementCounterFactura = `${incrementCounterFacturaClientUrl}`;
-
     const responseIncrementCounterFactura = await patchData(
       urlIncrementCounterFactura,
       {

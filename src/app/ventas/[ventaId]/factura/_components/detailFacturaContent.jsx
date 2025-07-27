@@ -1,6 +1,9 @@
-import { User, Package, Gift, Hash } from "lucide-react";
-import { RiInfoCardFill } from "@remixicon/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+'use client';
+
+import { useState } from 'react';
+import { User, Package, Gift, Hash, Loader2 } from 'lucide-react';
+import { RiInfoCardFill } from '@remixicon/react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -8,16 +11,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { formatDateLong, formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import {
+  formatDateLong,
+  formatearCodigoCounterBoletaFactura,
+} from '@/lib/formateador';
+import { Label } from '@/components/ui/label';
 
-import { ImprimirFacturaButton } from "@/app/ventas/[ventaId]/factura/_components/buttons/imprimirFacturaButton";
-import { Separator } from "@/components/ui/separator";
-import { FinalizarVentaButton } from "@/app/ventas/[ventaId]/_components/buttons/finalizarVentaButton";
+import { ImprimirFacturaButton } from '@/app/ventas/[ventaId]/factura/_components/buttons/imprimirFacturaButton';
+import { Separator } from '@/components/ui/separator';
+import { FinalizarVentaButton } from '@/app/ventas/[ventaId]/_components/buttons/finalizarVentaButton';
 
 export function DetailFacturaContent({ ventaData, empresas }) {
+  const [loading, setLoading] = useState(false);
+
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col lg:flex-row items-center justify-between space-y-0 pb-4">
@@ -30,10 +38,12 @@ export function DetailFacturaContent({ ventaData, empresas }) {
             ventaData={ventaData}
             empresas={empresas}
             reimprimir={!!ventaData?.counter}
+            loading={loading}
+            setLoading={setLoading}
           />
           <FinalizarVentaButton
             ventaId={ventaData?._id}
-            disabled={ventaData?.comprobante !== "Factura Impresa"}
+            disabled={ventaData?.comprobante !== 'Factura Impresa'}
           />
         </div>
       </CardHeader>
@@ -48,11 +58,11 @@ export function DetailFacturaContent({ ventaData, empresas }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {ventaData?.clienteId?.tipo === "persona" ? (
+              {ventaData?.clienteId?.tipo === 'persona' ? (
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{" "}
-                    {ventaData?.clienteId?.datos?.nombres}{" "}
+                    <strong>Nombre:</strong>{' '}
+                    {ventaData?.clienteId?.datos?.nombres}{' '}
                     {ventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
@@ -60,19 +70,19 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                   </p>
                   {ventaData?.clienteId?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong>{" "}
+                      <strong>Dirección:</strong>{' '}
                       {ventaData?.clienteId?.datos?.direccion}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -80,29 +90,29 @@ export function DetailFacturaContent({ ventaData, empresas }) {
               ) : (
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{" "}
+                    <strong>Razon Social:</strong>{' '}
                     {ventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
                     <strong>RUC:</strong> {ventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Representante Legal:</strong>{" "}
+                    <strong>Representante Legal:</strong>{' '}
                     {ventaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
-                    <strong>Dirección:</strong>{" "}
+                    <strong>Dirección:</strong>{' '}
                     {ventaData?.clienteId?.datos?.direccion}
                   </p>
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -123,29 +133,39 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                   <strong>Código:</strong> {ventaData?.code}
                 </p>
                 <p>
-                  <strong>Fecha:</strong>{" "}
+                  <strong>Fecha:</strong>{' '}
                   {formatDateLong(ventaData?.fecha, true)}
                 </p>
                 <p>
-                  <strong>Vendedor:</strong>{" "}
+                  <strong>Vendedor:</strong>{' '}
                   {ventaData?.usuario?.nombres +
-                    " " +
-                    ventaData?.usuario?.apellidos}{" "}
-                </p>
-                <p>
-                  <strong>Comprobante:</strong> {ventaData?.comprobante}
+                    ' ' +
+                    ventaData?.usuario?.apellidos}{' '}
                 </p>
                 {ventaData?.counter && (
                   <p>
-                    <strong>Número de comprobante:</strong>{" "}
+                    <strong>Número de comprobante:</strong>{' '}
                     {formatearCodigoCounterBoletaFactura(
                       ventaData?.counter,
-                      "factura"
+                      'factura'
                     )}
                   </p>
                 )}
-                <p>
-                  <strong>Estado SUNAT:</strong> {ventaData?.estadoSunat}
+                <p className="flex items-center gap-2">
+                  <strong>Comprobante:</strong>
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    ventaData?.comprobante
+                  )}
+                </p>
+                <p className="flex items-center gap-2">
+                  <strong>Estado SUNAT:</strong>
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    ventaData?.estadoSunat
+                  )}
                 </p>
               </div>
             </CardContent>
@@ -185,7 +205,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{" "}
+                        S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
                           2
                         )}
@@ -249,8 +269,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {ventaData?.obsequios &&
-                ventaData.obsequios.length > 0 ? (
+                {ventaData?.obsequios && ventaData.obsequios.length > 0 ? (
                   ventaData.obsequios.map((obsequio) => (
                     <TableRow key={obsequio?.code}>
                       <TableCell className="font-medium">
@@ -266,10 +285,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                   ))
                 ) : (
                   <TableRow>
-                    <TableCell
-                      colSpan={5}
-                      className="h-24 text-center"
-                    >
+                    <TableCell colSpan={5} className="h-24 text-center">
                       Sin obsequios.
                     </TableCell>
                   </TableRow>

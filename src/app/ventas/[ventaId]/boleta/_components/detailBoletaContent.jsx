@@ -1,8 +1,7 @@
-"use client";
+'use client';
 import { useState } from 'react';
 import { User, Package, Gift, Hash, Loader2 } from 'lucide-react';
 import { RiInfoCardFill } from '@remixicon/react';
-
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -26,6 +25,7 @@ import { FinalizarVentaButton } from '@/app/ventas/[ventaId]/_components/buttons
 
 export function DetailBoletaContent({ ventaData, empresas }) {
   const [loading, setLoading] = useState(false);
+
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col lg:flex-row items-center justify-between space-y-0 pb-4">
