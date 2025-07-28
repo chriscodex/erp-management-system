@@ -267,7 +267,6 @@ export function PdfBoleta({
             </Text>
           </View>
           <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>SON:</Text>
             <Text style={styles.totalCell}>
               {formatNumeroALetras(
                 ordenDeServicioData?.productos
