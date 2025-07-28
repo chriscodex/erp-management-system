@@ -431,4 +431,152 @@ export class VentaService {
       };
     }
   }
+  async enviarFacturaASunat(ventaId, body) {
+    try {
+      // 1. Obtener la venta
+      const venta = await this.ventaRepository.getVentaByData({ id: ventaId });
+      if (!venta) {
+        return {
+          status: 404,
+          payload: 'Venta no encontrada',
+        };
+      }
+
+      // 2. Obtener el contador de facturas
+      const numeroFactura = await this.counterRepository.getCounterByType(
+        'facturas'
+      );
+      if (!numeroFactura) {
+        return {
+          status: 500,
+          payload: 'No se pudo obtener el contador de facturas',
+        };
+      }
+
+      // 3. Calcular serie y correlativo
+      const { serie, correlativo } = obtenerSerieYCorrelativo(
+        numeroFactura,
+        'factura'
+      );
+
+      // 4. Mapear la venta al formato JSON de factura
+      // Datos del cliente
+      const { clienteId } = venta;
+      const { datos } = clienteId;
+      const { ruc, nombres, apellidos, direccion } = datos;
+
+      // Datos de la empresa
+      const { empresa } = body;
+      const {
+        ruc: rucEmpresa,
+        nombre: razonSocialEmpresa,
+        direccion: direccionEmpresa,
+        distrito: distritoEmpresa,
+        provincia: provinciaEmpresa,
+        departamento: departamentoEmpresa,
+        ubigeo: ubigeoEmpresa,
+      } = empresa;
+
+      // Datos del producto
+      const invoiceData = {
+        ublVersion: '2.1',
+        tipoOperacion: '0101',
+        tipoDoc: '01',
+        serie,
+        correlativo,
+        fechaEmision: obtenerFechaEmisionPeru(),
+        formaPago: {
+          moneda: 'PEN',
+          tipo: 'Contado',
+        },
+        tipoMoneda: 'PEN',
+        client: {
+          tipoDoc: '6',
+          numDoc: ruc,
+          rznSocial: `${nombres} ${apellidos}`,
+          address: {
+            direccion: direccion,
+          },
+        },
+        company: {
+          ruc: rucEmpresa,
+          razonSocial: razonSocialEmpresa,
+          nombreComercial: razonSocialEmpresa,
+          address: {
+            direccion: direccionEmpresa,
+            provincia: provinciaEmpresa,
+            departamento: departamentoEmpresa,
+            distrito: distritoEmpresa,
+            ubigueo: ubigeoEmpresa,
+          },
+        },
+        mtoOperGravadas: 100,
+        mtoIGV: 18,
+        valorVenta: 100,
+        totalImpuestos: 18,
+        subTotal: 118,
+        mtoImpVenta: 118,
+        details: [
+          {
+            codProducto: 'P001',
+            unidad: 'NIU',
+            descripcion: 'PRODUCTO 1',
+            cantidad: 2,
+            mtoValorUnitario: 50,
+            mtoValorVenta: 100,
+            mtoBaseIgv: 100,
+            porcentajeIgv: 18,
+            igv: 18,
+            tipAfeIgv: 10,
+            totalImpuestos: 18,
+            mtoPrecioUnitario: 59,
+          },
+        ],
+        legends: [
+          {
+            code: '1000',
+            value: 'SON CIENTO DIECIOCHO CON 00/100 SOLES',
+          },
+        ],
+      };
+
+      // 5. Enviar a Sunat
+      const sunatResponse = await sendInvoiceToSunat(invoiceData);
+
+      // 6. Si la respuesta es exitosa, actualizar solo estadoSunat
+      let estadoSunat = 'Error al enviar a Sunat';
+      if (
+        sunatResponse &&
+        sunatResponse.payload &&
+        sunatResponse.payload.sunatResponse &&
+        sunatResponse.payload.sunatResponse.cdrResponse
+      ) {
+        estadoSunat =
+          sunatResponse.payload.sunatResponse.cdrResponse.description;
+      }
+
+      // 7. Guardar la venta actualizada
+      await this.ventaRepository.updateVenta(ventaId, { estadoSunat });
+
+      // 8. Devolver la venta y la respuesta de Sunat
+      const success = estadoSunat !== 'Error al enviar a Sunat';
+      return {
+        status: 200,
+        payload: {
+          success,
+          estadoSunat,
+          sunat: sunatResponse.payload,
+        },
+      };
+    } catch (error) {
+      console.error(
+        'Venta Service: Error al enviar factura a Sunat:',
+        error.message
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
 }

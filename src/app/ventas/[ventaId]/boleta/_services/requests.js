@@ -29,6 +29,15 @@ export async function getCurrentCounterBoletaRequestClient() {
   }
 }
 
+/**
+ * Actualiza el estado de la boleta y envía la boleta a Sunat.
+ * 
+ * @param {number} ventaId - El id de la venta para la cual se va a realizar la actualización.
+ * @param {number} counterBoleta - El valor actual del contador de boletas.
+ * @param {object} selectedEmpresa - La empresa seleccionada para el envío de la boleta.
+ * @throws {Error} Si no se pudo enviar la boleta a Sunat o actualizar el estado de la boleta.
+ */
+
 export async function updateBoletaStateRequestClient(
   ventaId,
   counterBoleta,
