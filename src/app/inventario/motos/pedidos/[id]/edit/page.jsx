@@ -20,8 +20,31 @@ export default async function Page({ params }) {
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
-  const { pedido } = await getPedidoRequestServer(params.id);
-  
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getPedidoRequestServer(params.id),
+    getAllModelosRequestServer(),
+    getAllModelosPedidosRequestServer(),
+    getAllProveedoresRequestServer(),
+    getAllAlmacenesRequestServer(),
+    getCategoriesBySegmentDataForModelosRequestServer({
+      segmentName: "Motos",
+      categoryEstado: "activo",
+    }),
+    getMarcasBySegmentDataForModelosRequestServer({
+      nombre: "Motos",
+      marcaEstado: "activo",
+    }),
+  ]);
+
+  const { pedido } = results[0].value;
+  const modelos = results[1].value?.modelos ?? [];
+  const modelosPedidos = results[2].value?.modelosPedidos ?? [];
+  const proveedores = results[3].value?.proveedores ?? [];
+  const almacenes = results[4].value?.almacenes ?? [];
+  const categories = results[5].value?.categories ?? [];
+  const marcas = results[6].value?.marcas ?? [];
+
   if (!pedido) {
     notFound();
   }
@@ -44,8 +67,8 @@ export default async function Page({ params }) {
     },
     {
       title: pedido?.code,
-      href: "",
-      active: false,
+      href: "/inventario/motos/pedidos/" + params.id,
+      active: true,
     },
     {
       title: "Editar",
@@ -53,35 +76,7 @@ export default async function Page({ params }) {
       active: false,
     },
   ];
-  const [
-    modelosPedidoResponse,
-    modelosPedidosResponse,
-    proveedoresPedidoResponse,
-    almacenesPedidoResponse,
-    categoriesPedidoResponse,
-    marcasPedidoResponse,
-    // eslint-disable-next-line no-undef
-  ] = await Promise.all([
-    getAllModelosRequestServer(),
-    getAllModelosPedidosRequestServer(),
-    getAllProveedoresRequestServer(),
-    getAllAlmacenesRequestServer(),
-    getCategoriesBySegmentDataForModelosRequestServer({
-      segmentName: "Motos",
-      categoryEstado: "activo",
-    }),
-    getMarcasBySegmentDataForModelosRequestServer({
-      nombre: "Motos",
-      marcaEstado: "activo",
-    }),
-  ]);
 
-  const { modelos = [] } = modelosPedidoResponse || {};
-  const { modelosPedidos = [] } = modelosPedidosResponse || {};
-  const { proveedores = [] } = proveedoresPedidoResponse || {};
-  const { almacenes = [] } = almacenesPedidoResponse || {};
-  const { categories = [] } = categoriesPedidoResponse || {};
-  const { marcas = [] } = marcasPedidoResponse || {};
   return (
     <NavbarDynamic titles={navbarTitles}>
       <Card className="w-full max-w-7xl mx-auto">

@@ -16,10 +16,15 @@ import { getAllModelosRequestServer } from "@/app/inventario/motos/modelos/_serv
 import { sortByUpdateDateDesc } from "@/lib/utils";
 
 export async function MotosModelosPage() {
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getServerSession(authOptions),
+    getAllModelosRequestServer(),
+  ]);
 
-  const session = await getServerSession(authOptions);
-
-  const { modelos } = await getAllModelosRequestServer();
+  const session = results[0].value;
+  const { modelos } = results[1].value;
+  const modelosSorted = sortByUpdateDateDesc(modelos);
 
   const titles = [
     {
@@ -38,8 +43,6 @@ export async function MotosModelosPage() {
       active: false,
     },
   ];
-
-  const modelosSorted = sortByUpdateDateDesc(modelos);
 
   return (
     <>

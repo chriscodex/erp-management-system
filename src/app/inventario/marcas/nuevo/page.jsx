@@ -9,11 +9,10 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
-  const { segments } = await getAllSegmentsRequestServer();
-
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
+  const { segments } = await getAllSegmentsRequestServer();
 
   const titles = [
     {

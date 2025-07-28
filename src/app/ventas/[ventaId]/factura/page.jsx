@@ -8,14 +8,22 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
-  const { venta } = await getVentaRequestServer(params.ventaId);
-  const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
-
   if (
-    !venta ||
-    (session?.user?.rol !== "Administrador" &&
-      session?.user?.rol !== "Vendedor")
+    session?.user?.rol !== "Administrador" &&
+    session?.user?.rol !== "Vendedor"
   ) {
+    notFound();
+  }
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getVentaRequestServer(params.ventaId),
+    getAllEmpresasForComprobanteVentaRequestServer(),
+  ]);
+
+  const { venta } = results[0].value;
+  const { empresas } = results[1].value ?? [];
+
+  if (!venta) {
     notFound();
   }
 

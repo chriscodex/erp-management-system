@@ -17,16 +17,13 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function VentasPage() {
-
   const session = await getServerSession(authOptions);
 
   if (session?.user?.rol !== "Administrador" && session?.user?.rol !== "Tecnico") {
     notFound();
   }
 
-  const { ordenesDeServicio, status } =
-    await getAllOrdenesDeServicioRequestServer();
-
+  const { ordenesDeServicio, status } = await getAllOrdenesDeServicioRequestServer();
   const ordenesDeServicioSorted = sortByUpdateDateDesc(ordenesDeServicio);
 
   const titles = [

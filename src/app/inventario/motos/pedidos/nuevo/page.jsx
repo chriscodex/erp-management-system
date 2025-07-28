@@ -13,34 +13,13 @@ import {
 } from "@/app/inventario/motos/pedidos/_services/requests";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-export default async function NuevaReservacionPage() {
+export default async function NuevoPedidoPage() {
   const session = await getServerSession(authOptions);
+
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
-  const titles = [
-    {
-      title: "Inventario",
-      href: "",
-      active: false,
-    },
-    {
-      title: "Motos",
-      href: "",
-      active: false,
-    },
-    {
-      title: "Pedidos",
-      href: "/inventario/motos/pedidos",
-      active: true,
-    },
-    {
-      title: "Nuevo Pedido",
-      href: "",
-      active: false,
-    },
-  ];
-
+  
   const [
     modelosPedidoResponse,
     modelosPedidosResponse,
@@ -63,13 +42,35 @@ export default async function NuevaReservacionPage() {
       marcaEstado: "activo",
     }),
   ]);
-
   const { modelos = [] } = modelosPedidoResponse || {};
   const { modelosPedidos = [] } = modelosPedidosResponse || {};
   const { proveedores = [] } = proveedoresPedidoResponse || {};
   const { almacenes = [] } = almacenesPedidoResponse || {};
   const { categories = [] } = categoriesPedidoResponse || {};
   const { marcas = [] } = marcasPedidoResponse || {};
+
+  const titles = [
+    {
+      title: "Inventario",
+      href: "",
+      active: false,
+    },
+    {
+      title: "Motos",
+      href: "",
+      active: false,
+    },
+    {
+      title: "Pedidos",
+      href: "/inventario/motos/pedidos",
+      active: true,
+    },
+    {
+      title: "Nuevo Pedido",
+      href: "",
+      active: false,
+    },
+  ];
 
   return (
     <NavbarDynamic titles={titles}>

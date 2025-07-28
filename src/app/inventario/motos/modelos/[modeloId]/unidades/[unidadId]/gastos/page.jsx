@@ -1,43 +1,49 @@
-import { notFound } from 'next/navigation';
-import { RiAuctionFill } from '@remixicon/react';
+import { notFound } from "next/navigation";
+import { RiAuctionFill } from "@remixicon/react";
 
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
-import { StatCard } from '@/components/customCards/statCard';
-import { DollarSign } from 'lucide-react';
-import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
-import { SheetAddGastoMotoWrapper } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/sheets/addGastoMoto/sheetAddGastoMotoWrapper';
-import { DataTableGastosMoto } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/gastosMotoTable/data-table';
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { agregarNumeracionTable, sortByUpdateDateDesc } from "@/lib/utils";
+import { StatCard } from "@/components/customCards/statCard";
+import { DollarSign } from "lucide-react";
+import { getMotoByIdRequestServer } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests";
+import { SheetAddGastoMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/sheets/addGastoMoto/sheetAddGastoMotoWrapper";
+import { DataTableGastosMoto } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/gastos/_components/gastosMotoTable/data-table";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function ProductGastoPage({ params }) {
-  const session = await getServerSession(authOptions);
   const unidadId = params.unidadId;
-  const { moto, status } = await getMotoByIdRequestServer(unidadId);
+  const session = await getServerSession(authOptions);
 
-  if (!moto || session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== "Administrador") {
     notFound();
   }
 
+  const { moto, status } = await getMotoByIdRequestServer(unidadId);
   const { gastos } = moto;
+  const gastosSorted = sortByUpdateDateDesc(gastos);
+  const gastosEnumerados = agregarNumeracionTable(gastosSorted);
+
+  if (!moto) {
+    notFound();
+  }
 
   const navbarTitles = [
     {
-      title: 'Inventario',
-      href: '',
+      title: "Inventario",
+      href: "",
       active: false,
     },
     {
-      title: 'Motos',
-      href: '',
+      title: "Motos",
+      href: "",
       active: false,
     },
     {
-      title: 'Modelos',
-      href: '/inventario/motos/modelos',
+      title: "Modelos",
+      href: "/inventario/motos/modelos",
       active: true,
     },
     {
@@ -51,14 +57,12 @@ export default async function ProductGastoPage({ params }) {
       active: true,
     },
     {
-      title: 'Gastos',
-      href: '',
+      title: "Gastos",
+      href: "",
       active: false,
     },
   ];
 
-  const gastosSorted = sortByUpdateDateDesc(gastos);
-  const gastosEnumerados = agregarNumeracionTable(gastosSorted);
   const totalMonto = gastosEnumerados.reduce(
     (sum, gasto) => sum + gasto.monto,
     0

@@ -6,11 +6,12 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Page({}) {
   const session = await getServerSession(authOptions);
+  
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
-  //Data para vendedores y productos mas vendidos
 
+  //Data para vendedores y productos mas vendidos
   const dataVentasHistoricas = await getAllVentasHistoricasRequestServer();
 
   const navbarTitles = [

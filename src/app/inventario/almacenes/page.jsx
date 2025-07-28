@@ -28,11 +28,11 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function CompaniesPage() {
+  const session = await getServerSession(authOptions);
 
-const session = await getServerSession(authOptions);
   if (session?.user?.rol !== "Administrador") {
-      notFound();
-    }
+    notFound();
+  }
 
   const { almacenes } = await getAllAlmacenesRequestServer();
 

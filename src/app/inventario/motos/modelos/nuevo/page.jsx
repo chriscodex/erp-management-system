@@ -22,6 +22,20 @@ export default async function AddModeloMotoPage() {
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getCategoriesBySegmentDataForModelosRequestServer({
+      segmentName: "Motos",
+      categoryEstado: "activo",
+    }),
+    getMarcasBySegmentDataForModelosRequestServer({
+      nombre: "Motos",
+      marcaEstado: "activo",
+    }),
+  ]);
+
+  const { categories } = results[0].value ?? [];
+  const { marcas } = results[1].value ?? [];
 
   /* Secciones del navbar */
   const navbarTitles = [
@@ -46,24 +60,6 @@ export default async function AddModeloMotoPage() {
       active: false,
     },
   ];
-
-  const [
-    categoriesProductResponse,
-    marcasProductResponse,
-    // eslint-disable-next-line no-undef
-  ] = await Promise.all([
-    getCategoriesBySegmentDataForModelosRequestServer({
-      segmentName: "Motos",
-      categoryEstado: "activo",
-    }),
-    getMarcasBySegmentDataForModelosRequestServer({
-      nombre: "Motos",
-      marcaEstado: "activo",
-    }),
-  ]);
-
-  const { categories = [] } = categoriesProductResponse || {};
-  const { marcas = [] } = marcasProductResponse || {};
 
   return (
     <NavbarDynamic titles={navbarTitles}>

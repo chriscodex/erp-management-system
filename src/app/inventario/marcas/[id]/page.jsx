@@ -7,11 +7,11 @@ import { formatDateLong } from "@/lib/formateador";
 
 export default async function Page({ params }) {
   const { marca } = await getMarcaRequestServer(params.id);
+  const { nombre: marcaName, updatedAt } = marca;
 
   if (!marca) {
     notFound();
   }
-  const { nombre: marcaName, updatedAt } = marca;
 
   const updatedAtFormated = formatDateLong(updatedAt);
 

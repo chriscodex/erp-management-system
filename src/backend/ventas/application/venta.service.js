@@ -5,7 +5,7 @@ import { ventasHistoricasRepository } from '@/backend/ventas/domain/repositories
 import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
 import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
 import { sendInvoiceToSunat } from '@/backend/shared/apisPeru.js';
-import { obtenerSerieYCorrelativo } from '@/lib/formateador.js';
+import { formatNumeroALetras, obtenerSerieYCorrelativo } from '@/lib/formateador.js';
 import { obtenerFechaEmisionPeru } from '@/lib/utils';
 
 export class VentaService {
@@ -314,7 +314,34 @@ export class VentaService {
         ubigeo: ubigeoEmpresa,
       } = empresa;
 
-      // Datos del producto
+      // Datos de la venta
+      const detailsVenta = venta.productos.map((product) => {
+        const cantidad = product.cantidad;
+        const valorUnitario = +(product.precioVenta / 1.18).toFixed(2);
+        const igv = +(valorUnitario * 0.18).toFixed(2);
+        const precioUnitario = +(valorUnitario + igv).toFixed(2);
+
+        return {
+          codProducto: product.code,
+          unidad: 'NIU',
+          descripcion: product.nombre,
+          cantidad,
+          mtoValorUnitario: valorUnitario,
+          mtoValorVenta: +(valorUnitario * cantidad).toFixed(2),
+          mtoBaseIgv: +(valorUnitario * cantidad).toFixed(2),
+          porcentajeIgv: 18,
+          igv: +(igv * cantidad).toFixed(2),
+          tipAfeIgv: 10,
+          totalImpuestos: +(igv * cantidad).toFixed(2),
+          mtoPrecioUnitario: precioUnitario,
+        };
+      });
+
+      const montoOperGravadas = +detailsVenta.reduce((sum, i) => sum + i.mtoValorVenta, 0).toFixed(2);
+      const valorDeVenta = montoOperGravadas;
+      const montoIGV = +detailsVenta.reduce((sum, i) => sum + i.igv, 0).toFixed(2);
+      const subTotal = +(montoOperGravadas + montoIGV).toFixed(2);
+      const montoImpVenta = subTotal;
 
       const invoiceData = {
         ublVersion: '2.1',
@@ -348,35 +375,22 @@ export class VentaService {
             ubigueo: ubigeoEmpresa,
           },
         },
-        mtoOperGravadas: 100,
-        mtoIGV: 18,
-        valorVenta: 100,
-        totalImpuestos: 18,
-        subTotal: 118,
-        mtoImpVenta: 118,
-        details: [
-          {
-            codProducto: 'P001',
-            unidad: 'NIU',
-            descripcion: 'PRODUCTO 1',
-            cantidad: 2,
-            mtoValorUnitario: 50,
-            mtoValorVenta: 100,
-            mtoBaseIgv: 100,
-            porcentajeIgv: 18,
-            igv: 18,
-            tipAfeIgv: 10,
-            totalImpuestos: 18,
-            mtoPrecioUnitario: 59,
-          },
-        ],
+        mtoOperGravadas: montoOperGravadas,
+        mtoIGV: montoIGV,
+        valorVenta: valorDeVenta,
+        totalImpuestos: montoIGV,
+        subTotal: subTotal,
+        mtoImpVenta: montoImpVenta,
+        details: detailsVenta,
         legends: [
           {
             code: '1000',
-            value: 'SON CIENTO DIECIOCHO CON 00/100 SOLES',
+            value: formatNumeroALetras(montoImpVenta),
           },
         ],
       };
+
+      console.log('Esto es invoiceData', invoiceData);
 
       // 5. Enviar a Sunat
       const sunatResponse = await sendInvoiceToSunat(invoiceData);

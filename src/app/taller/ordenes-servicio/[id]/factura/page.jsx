@@ -9,19 +9,26 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
-  const { ordenDeServicio } = await getOrdenDeServicioRequestServer(params.id);
+  if (
+    session?.user?.rol !== "Administrador" &&
+    session?.user?.rol !== "Tecnico"
+  ) {
+    notFound();
+  }
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getOrdenDeServicioRequestServer(params.id),
+    getAllEmpresasForComprobanteVentaRequestServer(),
+  ]);
 
-  const { empresas } = await getAllEmpresasForComprobanteVentaRequestServer();
+  const { ordenDeServicio } = results[0].value;
+  const { empresas } = results[1].value;
 
   const hayProductosServicios =
     (ordenDeServicio?.productos?.length ?? 0) > 0 ||
     (ordenDeServicio?.servicios?.length ?? 0) > 0;
 
-  if (
-    !ordenDeServicio ||
-    !hayProductosServicios ||
-    (session?.user?.rol !== "Administrador" && session?.user?.rol !== "Tecnico")
-  ) {
+  if (!ordenDeServicio || !hayProductosServicios) {
     notFound();
   }
 

@@ -11,10 +11,16 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function EditarReservacionPage({ params }) {
   const session = await getServerSession(authOptions);
+
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
+
   const { reservacion } = await getReservacionRequestServer(params.id);
+
+  if (!reservacion) {
+    notFound();
+  }
 
   const titles = [
     {

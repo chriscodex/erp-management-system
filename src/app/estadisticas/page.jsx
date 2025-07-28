@@ -33,7 +33,6 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { getAllOrdenesDeServicioHistoricasRequestServer } from "../taller/ordenes-servicio-historial/_services/requests";
 
-
 export default async function Page() {
   const session = await getServerSession(authOptions);
 
@@ -41,28 +40,26 @@ export default async function Page() {
     notFound();
   }
 
-  //Data para IncomeExpenseBarChart
-  const dataProductos = await getAllProductsRequestServer();
-  const dataMotos = await getAllMotosRequestServer();
-  const dataGastosGenerales = await getAllGastosGeneralesRequestServer();
-
-  //Data para contadores de boletas y facturas
-
-  const dataCounterBoletas = await getCounterByTypeRequestServer("boletas");
-  const dataCounterFacturas = await getCounterByTypeRequestServer("facturas");
-
-  //Data para vendedores y productos mas vendidos
-  const dataVentasHistoricas = await getAllVentasHistoricasRequestServer();
-
-  //Data para pedidos
-
-  const dataPedidosHistoricos = await getAllPedidosHistoricosRequestServer();
-
-  //Data para ordenes de servicio
-
-  const dataOrdenesDeServicioHistoricas =
-    await getAllOrdenesDeServicioHistoricasRequestServer();
-
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getAllProductsRequestServer(),
+    getAllMotosRequestServer(),
+    getAllGastosGeneralesRequestServer(),
+    getCounterByTypeRequestServer("boletas"),
+    getCounterByTypeRequestServer("facturas"),
+    getAllVentasHistoricasRequestServer(),
+    getAllPedidosHistoricosRequestServer(),
+    getAllOrdenesDeServicioHistoricasRequestServer(),
+  ]);
+  const dataProductos = results[0].value;
+  const dataMotos = results[1].value;
+  const dataGastosGenerales = results[2].value;
+  const dataCounterBoletas = results[3].value;
+  const dataCounterFacturas = results[4].value;
+  const dataVentasHistoricas = results[5].value;
+  const dataPedidosHistoricos = results[6].value;
+  const dataOrdenesDeServicioHistoricas = results[7].value;
+  
   return (
     <>
       <NavbarSimple title="Estadísticas">

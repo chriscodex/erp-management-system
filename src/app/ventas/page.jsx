@@ -20,8 +20,8 @@ export default async function VentasPage() {
   ) {
     notFound();
   }
-  const { ventas, status } = await getAllVentasRequestServer();
 
+  const { ventas, status } = await getAllVentasRequestServer();
   const ventasSorted = sortByUpdateDateDesc(ventas);
 
   const titles = [

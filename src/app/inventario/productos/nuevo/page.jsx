@@ -1,34 +1,29 @@
-import { FormAddProduct } from '@/app/inventario/productos/nuevo/_components/FormAddProduct';
+import { notFound } from "next/navigation";
+import { FormAddProduct } from "@/app/inventario/productos/nuevo/_components/FormAddProduct";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { sortByUpdateDateAsc } from '@/lib/utils';
-import { getAllAlmacenesByDataForProductsRequestServer, getAllProveedoresByDataForProductsRequestServer, getCategoriesBySegmentDataForProductsRequestServer, getMarcasBySegmentDataForProductsRequestServer } from '@/app/inventario/productos/_services/requests';
+} from "@/components/ui/card";
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { sortByUpdateDateAsc } from "@/lib/utils";
+import {
+  getAllAlmacenesByDataForProductsRequestServer,
+  getAllProveedoresByDataForProductsRequestServer,
+  getCategoriesBySegmentDataForProductsRequestServer,
+  getMarcasBySegmentDataForProductsRequestServer,
+} from "@/app/inventario/productos/_services/requests";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function AddProductPage() {
-  /* Secciones del navbar */
-  const navbarTitles = [
-    {
-      title: 'Inventario',
-      href: '',
-      active: false,
-    },
-    {
-      title: 'Productos',
-      href: '/inventario/productos',
-      active: true,
-    },
-    {
-      title: 'Agregar Producto',
-      href: '',
-      active: false,
-    },
-  ];
+  const session = await getServerSession(authOptions);
+
+  if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
 
   const [
     categoriesProductResponse,
@@ -38,23 +33,41 @@ export default async function AddProductPage() {
     // eslint-disable-next-line no-undef
   ] = await Promise.all([
     getCategoriesBySegmentDataForProductsRequestServer({
-      segmentName: 'Productos',
-      categoryEstado: 'activo',
+      segmentName: "Productos",
+      categoryEstado: "activo",
     }),
     getMarcasBySegmentDataForProductsRequestServer({
-      nombre: 'Productos',
-      marcaEstado: 'activo',
+      nombre: "Productos",
+      marcaEstado: "activo",
     }),
-    getAllProveedoresByDataForProductsRequestServer({ estado: 'activo' }),
-    getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' })
+    getAllProveedoresByDataForProductsRequestServer({ estado: "activo" }),
+    getAllAlmacenesByDataForProductsRequestServer({ estado: "activo" }),
   ]);
-
   const { categories = [] } = categoriesProductResponse || {};
   const { marcas = [] } = marcasProductResponse || {};
   const { proveedores = [] } = proveedoresResponse || {};
   const { almacenes = [] } = almacenesResponse || {};
 
   const almacenesOrderedByCreation = sortByUpdateDateAsc(almacenes);
+
+  /* Secciones del navbar */
+  const navbarTitles = [
+    {
+      title: "Inventario",
+      href: "",
+      active: false,
+    },
+    {
+      title: "Productos",
+      href: "/inventario/productos",
+      active: true,
+    },
+    {
+      title: "Agregar Producto",
+      href: "",
+      active: false,
+    },
+  ];
 
   return (
     <NavbarDynamic titles={navbarTitles}>
