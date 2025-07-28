@@ -19,12 +19,7 @@ export default async function ProveedoresPage() {
   }
 
   // eslint-disable-next-line no-undef
-  const [proveedoresResponse] = await Promise.all([
-    getAllProveedoresRequestServer(),
-  ]);
-
-  const { proveedores, status } = proveedoresResponse;
-
+  const { proveedores, status } = await getAllProveedoresRequestServer();
   const proveedoresSorted = sortByUpdateDateDesc(proveedores);
 
   const titles = [

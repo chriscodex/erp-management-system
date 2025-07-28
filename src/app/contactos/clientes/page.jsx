@@ -9,10 +9,7 @@ import { DataTableClientes } from "@/app/contactos/clientes/_components/clientes
 
 export default async function ClientesPage() {
   // eslint-disable-next-line no-undef
-  const [clientesResponse] = await Promise.all([getAllClientesRequestServer()]);
-
-  const { clientes, status } = clientesResponse;
-
+  const { clientes, status } = await getAllClientesRequestServer();
   const clientesSorted = sortByUpdateDateDesc(clientes);
 
   const titles = [
