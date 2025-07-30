@@ -24,7 +24,9 @@ export default async function Page({ params }) {
   const { venta } = results[0].value;
   const { empresas } = results[1].value;
 
-  if (!venta) {
+  const facturaEmitida = venta.comprobante.toLowerCase().includes("factura");
+
+  if (!venta || facturaEmitida) {
     notFound();
   }
 

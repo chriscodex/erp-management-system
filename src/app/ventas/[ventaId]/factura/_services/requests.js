@@ -3,6 +3,7 @@ import {
   getCurrentCounterFacturaClientUrl,
   incrementCounterFacturaClientUrl,
   updateFacturaStateClientUrl,
+  updateVentaClientUrl,
 } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
@@ -96,4 +97,31 @@ export async function updateFacturaStateRequestClient(ventaId, counterFactura, s
     console.error('Error en updateFacturaStateRequestClient:', error);
     throw error;
   }
+}
+
+export async function updateVentaRequestClient(ventaData, setLoading) {
+  /* eslint-disable */
+  return new Promise(async (resolve, reject) => {
+    /* eslint-enable */
+    try {
+      setLoading(true);
+
+      const updateVentaUrl = `${updateVentaClientUrl}/${ventaData?._id}`;
+
+      const response = await patchData(updateVentaUrl, ventaData);
+      if (response?.status !== 200) {
+        setLoading(false);
+        reject(
+          'No se pudo actualizar la venta: ' + response.response?.data?.error
+        );
+        return;
+      }
+
+      setLoading(false);
+      resolve(response?.response?.data?.payload);
+    } catch (error) {
+      setLoading(false);
+      reject(error);
+    }
+  });
 }

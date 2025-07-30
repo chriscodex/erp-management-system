@@ -1,9 +1,22 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { User, Package, Gift, Hash, Loader2 } from 'lucide-react';
-import { RiInfoCardFill } from '@remixicon/react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import {
+  User,
+  Package,
+  Gift,
+  Hash,
+  Loader2,
+  Plus,
+  IdCardIcon,
+  Save,
+} from "lucide-react";
+import { RiInfoCardFill } from "@remixicon/react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -11,20 +24,79 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
+} from "@/components/ui/table";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 import {
   formatDateLong,
   formatearCodigoCounterBoletaFactura,
-} from '@/lib/formateador';
-import { Label } from '@/components/ui/label';
+} from "@/lib/formateador";
+import { Label } from "@/components/ui/label";
 
-import { ImprimirFacturaButton } from '@/app/ventas/[ventaId]/factura/_components/buttons/imprimirFacturaButton';
-import { Separator } from '@/components/ui/separator';
-import { FinalizarVentaButton } from '@/app/ventas/[ventaId]/_components/buttons/finalizarVentaButton';
+import { ImprimirFacturaButton } from "@/app/ventas/[ventaId]/factura/_components/buttons/imprimirFacturaButton";
+import { Separator } from "@/components/ui/separator";
+import { FinalizarVentaButton } from "@/app/ventas/[ventaId]/_components/buttons/finalizarVentaButton";
+import { addRucSchemaForm } from "@/app/ventas/[ventaId]/factura/_services/validations/addRucSchemaForm";
+import { updateVentaRequestClient } from "../_services/requests";
 
 export function DetailFacturaContent({ ventaData, empresas }) {
+  const router = useRouter();
+
+  const [showRucInput, setShowRucInput] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const form = useForm({
+    resolver: zodResolver(addRucSchemaForm),
+    defaultValues: {
+      ruc: "",
+    },
+  });
+
+  const { handleSubmit, watch, control, clearErrors } = form;
+
+  const formData = watch();
+
+  // Estados de carga
+  const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
+
+  // Manejo de formulario
+  const onSubmit = handleSubmit(async () => {
+    let updateObject = {
+      _id: ventaData._id,
+      clienteRuc: formData?.ruc,
+    };
+    // Toast promise
+    toast.promise(
+      updateVentaRequestClient(updateObject, setFormSubmitIsLoading),
+      {
+        loading: "Agregando RUC...",
+        success: (response) => {
+          console.log(response);
+          clearErrors();
+          router.refresh();
+          return `RUC agregado correctamente, puede imprimir la factura`;
+        },
+        error: (error) => {
+          setFormSubmitIsLoading(false);
+          return error;
+        },
+      }
+    );
+  });
 
   return (
     <Card className="w-full max-w-7xl mx-auto">
@@ -34,16 +106,32 @@ export function DetailFacturaContent({ ventaData, empresas }) {
           <Label className="sm:text-4xl text-xl font-bold">Factura</Label>
         </div>
         <div className="flex flex-col items-center lg:flex-row gap-4">
-          <ImprimirFacturaButton
-            ventaData={ventaData}
-            empresas={empresas}
-            reimprimir={!!ventaData?.counter}
-            loading={loading}
-            setLoading={setLoading}
-          />
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div>
+                  <ImprimirFacturaButton
+                    ventaData={ventaData}
+                    empresas={empresas}
+                    reimprimir={!!ventaData?.counter}
+                    loading={loading}
+                    setLoading={setLoading}
+                    disabled={!ventaData?.clienteId?.datos?.ruc && !ventaData?.clienteRuc}
+                  />
+                </div>
+              </TooltipTrigger>
+              {!ventaData?.clienteId?.datos?.ruc && !ventaData?.clienteRuc && (
+                <TooltipContent>
+                  <p>
+                    Registre el RUC del cliente para imprimir la factura
+                  </p>
+                </TooltipContent>
+              )}
+            </Tooltip>
+          </TooltipProvider>
           <FinalizarVentaButton
             ventaId={ventaData?._id}
-            disabled={ventaData?.comprobante !== 'Factura Impresa'}
+            disabled={ventaData?.comprobante !== "Factura Impresa"}
           />
         </div>
       </CardHeader>
@@ -58,11 +146,11 @@ export function DetailFacturaContent({ ventaData, empresas }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {ventaData?.clienteId?.tipo === 'persona' ? (
+              {ventaData?.clienteId?.tipo === "persona" ? (
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{' '}
-                    {ventaData?.clienteId?.datos?.nombres}{' '}
+                    <strong>Nombre:</strong>{" "}
+                    {ventaData?.clienteId?.datos?.nombres}{" "}
                     {ventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
@@ -70,49 +158,111 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                   </p>
                   {ventaData?.clienteId?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong>{' '}
+                      <strong>Dirección:</strong>{" "}
                       {ventaData?.clienteId?.datos?.direccion}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{' '}
+                      <strong>Email:</strong>{" "}
                       {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{' '}
+                      <strong>Celular:</strong>{" "}
                       {ventaData?.clienteId?.datos?.celular}
                     </p>
+                  )}
+                  {ventaData?.clienteRuc && (
+                    <p>
+                      <strong>RUC:</strong> {ventaData?.clienteRuc}
+                    </p>
+                  )}
+                  {!ventaData?.clienteId?.datos?.ruc && !ventaData?.clienteRuc && (
+                    <div>
+                      {/* Botón toggle */}
+                      <Button
+                        type="button"
+                        className="mb-4"
+                        onClick={() => setShowRucInput((prev) => !prev)}
+                      >
+                        Agregar RUC
+                        <Plus className="h-4 w-4" />
+                      </Button>
+
+                      {showRucInput && (
+                        <Form {...form}>
+                          <form onSubmit={onSubmit} className="gap-4 pb-4">
+                            <FormField
+                              control={control}
+                              name="ruc"
+                              render={({ field }) => (
+                                <FormItem className="space-y-2">
+                                  <div className="relative">
+                                    <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                                    <FormControl>
+                                      <Input
+                                        type="text"
+                                        placeholder="RUC"
+                                        className="pl-8"
+                                        autoComplete="off"
+                                        disabled={formSubmitIsLoading}
+                                        {...field}
+                                      />
+                                    </FormControl>
+                                    <FormMessage />
+                                  </div>
+                                </FormItem>
+                              )}
+                            />
+                            <div className="mt-4 flex items-center justify-start space-x-2">
+                              <Button
+                                type="submit"
+                                disabled={formSubmitIsLoading}
+                              >
+                                {formSubmitIsLoading ? (
+                                  "Registrando..."
+                                ) : (
+                                  <>
+                                    <Save className="mr-2 h-4 w-4" />
+                                    Guardar
+                                  </>
+                                )}
+                              </Button>
+                            </div>
+                          </form>
+                        </Form>
+                      )}
+                    </div>
                   )}
                 </div>
               ) : (
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{' '}
+                    <strong>Razon Social:</strong>{" "}
                     {ventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
                     <strong>RUC:</strong> {ventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Representante Legal:</strong>{' '}
+                    <strong>Representante Legal:</strong>{" "}
                     {ventaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
-                    <strong>Dirección:</strong>{' '}
+                    <strong>Dirección:</strong>{" "}
                     {ventaData?.clienteId?.datos?.direccion}
                   </p>
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{' '}
+                      <strong>Email:</strong>{" "}
                       {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{' '}
+                      <strong>Celular:</strong>{" "}
                       {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -133,21 +283,21 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                   <strong>Código:</strong> {ventaData?.code}
                 </p>
                 <p>
-                  <strong>Fecha:</strong>{' '}
+                  <strong>Fecha:</strong>{" "}
                   {formatDateLong(ventaData?.fecha, true)}
                 </p>
                 <p>
-                  <strong>Vendedor:</strong>{' '}
+                  <strong>Vendedor:</strong>{" "}
                   {ventaData?.usuario?.nombres +
-                    ' ' +
-                    ventaData?.usuario?.apellidos}{' '}
+                    " " +
+                    ventaData?.usuario?.apellidos}{" "}
                 </p>
                 {ventaData?.counter && (
                   <p>
-                    <strong>Número de comprobante:</strong>{' '}
+                    <strong>Número de comprobante:</strong>{" "}
                     {formatearCodigoCounterBoletaFactura(
                       ventaData?.counter,
-                      'factura'
+                      "factura"
                     )}
                   </p>
                 )}
@@ -205,7 +355,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{' '}
+                        S/.{" "}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
                           2
                         )}

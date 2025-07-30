@@ -122,6 +122,7 @@ export class VentaRepository {
   }
 
   async updateVenta(ventaId, ventaData) {
+    console.log('xxxx', ventaId, ventaData);
     try {
       const updatedVenta = await this.ventaModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(ventaId) },
