@@ -15,6 +15,10 @@ const ventasHistoricasSchema = new Schema(
       ref: "Cliente",
       required: [true, "El cliente es requerido en el schema de preventas."],
     },
+    clienteRuc: {
+      type: String,
+      required: false,
+    },
     usuario: {
       id: {
         type: Schema.Types.ObjectId,

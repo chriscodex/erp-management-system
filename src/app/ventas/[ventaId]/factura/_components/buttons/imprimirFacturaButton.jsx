@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { pdf } from '@react-pdf/renderer';
-import { RiPrinterLine } from '@remixicon/react';
-import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { RiPrinterLine } from "@remixicon/react";
+import { useRouter } from "next/navigation";
 
-import { Button } from '@/components/ui/button';
-import { PdfFactura } from '@/app/ventas/[ventaId]/factura/_components/pdf/pdfFactura';
-import { useQrBase64 } from '@/hooks/useQrBase64';
+import { Button } from "@/components/ui/button";
+import { PdfFactura } from "@/app/ventas/[ventaId]/factura/_components/pdf/pdfFactura";
+import { useQrBase64 } from "@/hooks/useQrBase64";
 import {
   getCurrentCounterFacturaRequestClient,
   updateFacturaStateRequestClient,
-} from '@/app/ventas/[ventaId]/factura/_services/requests';
-import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
-import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
+} from "@/app/ventas/[ventaId]/factura/_services/requests";
+import { formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
+import { EmpresasSelect } from "@/app/ventas/[ventaId]/_components/empresasSelect";
 
 export function ImprimirFacturaButton({
   ventaData,
@@ -21,6 +21,7 @@ export function ImprimirFacturaButton({
   reimprimir,
   loading,
   setLoading,
+  disabled = false,
 }) {
   const router = useRouter();
 
@@ -32,7 +33,7 @@ export function ImprimirFacturaButton({
     try {
       const facturaEmitida = ventaData?.comprobante
         .toLowerCase()
-        .includes('factura');
+        .includes("factura");
 
       const counterFactura = facturaEmitida
         ? ventaData?.counter
@@ -44,9 +45,13 @@ export function ImprimirFacturaButton({
           ruc: selectedEmpresa.ruc,
           nombre: selectedEmpresa.nombre,
           descripcion: selectedEmpresa.descripcion,
-          direccion: selectedEmpresa.direccion,
           telefono: selectedEmpresa.telefono,
           email: selectedEmpresa.email,
+          direccion: selectedEmpresa.direccion,
+          distrito: selectedEmpresa.distrito,
+          provincia: selectedEmpresa.provincia,
+          departamento: selectedEmpresa.departamento,
+          ubigeo: selectedEmpresa.ubigeo,
         };
 
         await updateFacturaStateRequestClient(
@@ -58,7 +63,7 @@ export function ImprimirFacturaButton({
 
       const codigoFactura = formatearCodigoCounterBoletaFactura(
         counterFactura,
-        'factura'
+        "factura"
       );
 
       const empresaSeleccionada = facturaEmitida
@@ -76,14 +81,14 @@ export function ImprimirFacturaButton({
       const blob = await pdf(doc).toBlob();
 
       // Crear un enlace temporal y forzar la descarga
-      const link = document.createElement('a');
+      const link = document.createElement("a");
       link.href = URL.createObjectURL(blob);
       link.download = `factura-${codigoFactura}.pdf`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
     } catch (error) {
-      console.error('Error al generar el PDF:', error);
+      console.error("Error al generar el PDF:", error);
     }
     router.refresh();
     setLoading(false);
@@ -101,11 +106,11 @@ export function ImprimirFacturaButton({
         variant="default"
         className="flex items-center gap-2"
         onClick={handleDownloadPDF}
-        disabled={loading}
+        disabled={loading || disabled}
       >
         <RiPrinterLine className="h-4 w-4" />
         <p>
-          {loading ? 'Generando...' : reimprimir ? 'Reimprimir' : 'Imprimir'}
+          {loading ? "Generando..." : reimprimir ? "Reimprimir" : "Imprimir"}
         </p>
       </Button>
     </div>

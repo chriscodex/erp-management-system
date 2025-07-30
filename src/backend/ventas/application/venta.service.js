@@ -217,6 +217,7 @@ export class VentaService {
         code: venta.code,
         fecha: venta.fecha,
         clienteId: venta.clienteId,
+        clienteRuc: venta.clienteRuc,
         usuario: venta.usuario,
         sucursalId: venta.sucursalId,
         productos: venta.productos,
@@ -390,8 +391,6 @@ export class VentaService {
         ],
       };
 
-      console.log('Esto es invoiceData', invoiceData);
-
       // 5. Enviar a Sunat
       const sunatResponse = await sendInvoiceToSunat(invoiceData);
 
@@ -461,9 +460,20 @@ export class VentaService {
 
       // 4. Mapear la venta al formato JSON de factura
       // Datos del cliente
-      const { clienteId } = venta;
-      const { datos } = clienteId;
-      const { ruc, nombres, apellidos, direccion } = datos;
+      const { clienteId, clienteRuc } = venta;
+      const { tipo, datos } = clienteId;
+      const { ruc, nombres, apellidos, razonSocial, direccion } = datos;
+
+      let rucCliente;
+      let razonSocialCliente;
+
+      if (tipo === 'empresa') {
+        rucCliente = ruc;
+        razonSocialCliente = razonSocial;
+      } else {
+        rucCliente = clienteRuc;
+        razonSocialCliente = `${nombres} ${apellidos}`;
+      }
 
       // Datos de la empresa
       const { empresa } = body;
@@ -476,6 +486,35 @@ export class VentaService {
         departamento: departamentoEmpresa,
         ubigeo: ubigeoEmpresa,
       } = empresa;
+
+      // Datos de la venta
+      const detailsVenta = venta.productos.map((product) => {
+        const cantidad = product.cantidad;
+        const valorUnitario = +(product.precioVenta / 1.18).toFixed(2);
+        const igv = +(valorUnitario * 0.18).toFixed(2);
+        const precioUnitario = +(valorUnitario + igv).toFixed(2);
+
+        return {
+          codProducto: product.code,
+          unidad: 'NIU',
+          descripcion: product.nombre,
+          cantidad,
+          mtoValorUnitario: valorUnitario,
+          mtoValorVenta: +(valorUnitario * cantidad).toFixed(2),
+          mtoBaseIgv: +(valorUnitario * cantidad).toFixed(2),
+          porcentajeIgv: 18,
+          igv: +(igv * cantidad).toFixed(2),
+          tipAfeIgv: 10,
+          totalImpuestos: +(igv * cantidad).toFixed(2),
+          mtoPrecioUnitario: precioUnitario,
+        };
+      });
+
+      const montoOperGravadas = +detailsVenta.reduce((sum, i) => sum + i.mtoValorVenta, 0).toFixed(2);
+      const valorDeVenta = montoOperGravadas;
+      const montoIGV = +detailsVenta.reduce((sum, i) => sum + i.igv, 0).toFixed(2);
+      const subTotal = +(montoOperGravadas + montoIGV).toFixed(2);
+      const montoImpVenta = subTotal;
 
       // Datos del producto
       const invoiceData = {
@@ -492,8 +531,8 @@ export class VentaService {
         tipoMoneda: 'PEN',
         client: {
           tipoDoc: '6',
-          numDoc: ruc,
-          rznSocial: `${nombres} ${apellidos}`,
+          numDoc: rucCliente,
+          rznSocial: razonSocialCliente,
           address: {
             direccion: direccion,
           },
@@ -510,36 +549,21 @@ export class VentaService {
             ubigueo: ubigeoEmpresa,
           },
         },
-        mtoOperGravadas: 100,
-        mtoIGV: 18,
-        valorVenta: 100,
-        totalImpuestos: 18,
-        subTotal: 118,
-        mtoImpVenta: 118,
-        details: [
-          {
-            codProducto: 'P001',
-            unidad: 'NIU',
-            descripcion: 'PRODUCTO 1',
-            cantidad: 2,
-            mtoValorUnitario: 50,
-            mtoValorVenta: 100,
-            mtoBaseIgv: 100,
-            porcentajeIgv: 18,
-            igv: 18,
-            tipAfeIgv: 10,
-            totalImpuestos: 18,
-            mtoPrecioUnitario: 59,
-          },
-        ],
+        mtoOperGravadas: montoOperGravadas,
+        mtoIGV: montoIGV,
+        valorVenta: valorDeVenta,
+        totalImpuestos: montoIGV,
+        subTotal: subTotal,
+        mtoImpVenta: montoImpVenta,
+        details: detailsVenta,
         legends: [
           {
             code: '1000',
-            value: 'SON CIENTO DIECIOCHO CON 00/100 SOLES',
+            value: formatNumeroALetras(montoImpVenta),
           },
         ],
       };
-
+      console.log(invoiceData);
       // 5. Enviar a Sunat
       const sunatResponse = await sendInvoiceToSunat(invoiceData);
 

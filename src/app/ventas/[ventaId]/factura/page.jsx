@@ -23,7 +23,9 @@ export default async function Page({ params }) {
   const { venta } = results[0].value;
   const { empresas } = results[1].value ?? [];
 
-  if (!venta) {
+  const boletaEmitida = venta.comprobante.toLowerCase().includes("boleta");
+
+  if (!venta || boletaEmitida) {
     notFound();
   }
 
