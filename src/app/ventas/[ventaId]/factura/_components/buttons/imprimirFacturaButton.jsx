@@ -5,15 +5,18 @@ import { pdf } from "@react-pdf/renderer";
 import { RiPrinterLine } from "@remixicon/react";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@/components/ui/button";
-import { PdfFactura } from "@/app/ventas/[ventaId]/factura/_components/pdf/pdfFactura";
-import { useQrBase64 } from "@/hooks/useQrBase64";
+import { Button } from '@/components/ui/button';
+import { PdfFactura } from '@/app/ventas/[ventaId]/factura/_components/pdf/pdfFactura';
+import QRCode from 'qrcode';
 import {
   getCurrentCounterFacturaRequestClient,
   updateFacturaStateRequestClient,
-} from "@/app/ventas/[ventaId]/factura/_services/requests";
-import { formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
-import { EmpresasSelect } from "@/app/ventas/[ventaId]/_components/empresasSelect";
+} from '@/app/ventas/[ventaId]/factura/_services/requests';
+import {
+  formatearCodigoCounterBoletaFactura,
+  obtenerSerieYCorrelativo,
+} from '@/lib/formateador';
+import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
 export function ImprimirFacturaButton({
   ventaData,
@@ -25,8 +28,13 @@ export function ImprimirFacturaButton({
 }) {
   const router = useRouter();
 
-  const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
-  const qrBase64 = useQrBase64(selectedEmpresa?.ruc);
+  const selectedEmpresaSinFormatear = empresas.find(
+    (empresa) => empresa.ruc === ventaData?.empresa?.ruc
+  );
+
+  const [selectedEmpresa, setSelectedEmpresa] = useState(
+    selectedEmpresaSinFormatear || empresas[0]
+  );
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -69,6 +77,34 @@ export function ImprimirFacturaButton({
       const empresaSeleccionada = facturaEmitida
         ? ventaData?.empresa
         : selectedEmpresa;
+
+      // Lógica QR igual que boleta
+      // Serie y correlativo
+      const { serie, correlativo } = obtenerSerieYCorrelativo(
+        counterFactura,
+        'factura'
+      );
+
+      // Total y IGV
+      const total = ventaData?.productos?.reduce(
+        (acc, producto) => acc + producto?.precioVenta * producto?.cantidad,
+        0
+      );
+      const montoIgv = (0.18 * total).toFixed(2);
+
+      // Fecha
+      const fechaFormateada = new Date(ventaData?.fecha)
+        .toISOString()
+        .slice(0, 10);
+
+      let clienteDocumento = ventaData?.clienteRuc;
+
+      // Valor QR SUNAT
+      const value = `${
+        selectedEmpresa.ruc
+      }|${'01'}|${serie}|${correlativo}|${montoIgv}|${total}|${fechaFormateada}|6|${clienteDocumento}`;
+
+      const qrBase64 = await QRCode.toDataURL(value, { width: 80 });
 
       const doc = (
         <PdfFactura

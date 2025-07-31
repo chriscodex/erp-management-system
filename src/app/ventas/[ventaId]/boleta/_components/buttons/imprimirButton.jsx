@@ -4,15 +4,18 @@ import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { RiPrinterLine } from '@remixicon/react';
 import { useRouter } from 'next/navigation';
+import QRCode from 'qrcode';
 
 import { Button } from '@/components/ui/button';
-import { useQrBase64 } from '@/hooks/useQrBase64';
 import { PdfBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta';
 import {
   getCurrentCounterBoletaRequestClient,
   updateBoletaStateRequestClient,
 } from '@/app/ventas/[ventaId]/boleta/_services/requests';
-import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
+import {
+  formatearCodigoCounterBoletaFactura,
+  obtenerSerieYCorrelativo,
+} from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 export function ImprimirBoletaButton({
   ventaData,
@@ -23,21 +26,27 @@ export function ImprimirBoletaButton({
 }) {
   const router = useRouter();
 
-  const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
-  const qrBase64 = useQrBase64(selectedEmpresa?.ruc);
+  const selectedEmpresaSinFormatear = empresas.find(
+    (empresa) => empresa.ruc === ventaData?.empresa?.ruc
+  );
+
+  const [selectedEmpresa, setSelectedEmpresa] = useState(
+    selectedEmpresaSinFormatear || empresas[0]
+  );
 
   const handleDownloadPDF = async () => {
     setLoading(true);
     try {
-      const boletaEmitida = ventaData?.comprobante
+      const isBoletaEmitida = ventaData?.comprobante
         .toLowerCase()
         .includes('boleta');
 
-      const counterBoleta = boletaEmitida
+      const counterBoleta = isBoletaEmitida
         ? ventaData?.counter
         : await getCurrentCounterBoletaRequestClient();
 
-      if (!boletaEmitida) {
+      if (!isBoletaEmitida) {
+        // Actualizar el estado de la boleta en el backend
         const selectedEmpresaFormateada = {
           empresaId: selectedEmpresa._id,
           ruc: selectedEmpresa.ruc,
@@ -59,14 +68,41 @@ export function ImprimirBoletaButton({
         );
       }
 
+      /* Formatear los datos para mostrar en el comprobante */
       const codigoBoleta = formatearCodigoCounterBoletaFactura(
         counterBoleta,
         'boleta'
       );
 
-      const empresaSeleccionada = boletaEmitida
+      const empresaSeleccionada = isBoletaEmitida
         ? ventaData?.empresa
         : selectedEmpresa;
+
+      const { serie, correlativo } = obtenerSerieYCorrelativo(
+        counterBoleta,
+        'boleta'
+      );
+
+      const montoTotal = ventaData?.productos.reduce(
+        (acc, producto) => acc + producto?.precioVenta * producto?.cantidad,
+        0
+      );
+
+      const montoIgv = (0.18 * montoTotal).toFixed(2);
+
+      const fechaFormateada = new Date(ventaData?.fecha)
+        .toISOString()
+        .slice(0, 10);
+
+        console.log("ventaData", ventaData);
+
+      const clienteDni = ventaData?.clienteId?.datos?.dni || '';
+
+      const value = `${
+        selectedEmpresa.ruc
+      }|${'03'}|${serie}|${correlativo}|${montoIgv}|${montoTotal}|${fechaFormateada}|6|${clienteDni}`;
+
+      const qrBase64 = await QRCode.toDataURL(value, { width: 80 });
 
       const doc = (
         <PdfBoleta

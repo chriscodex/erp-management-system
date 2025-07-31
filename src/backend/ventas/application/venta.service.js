@@ -5,7 +5,10 @@ import { ventasHistoricasRepository } from '@/backend/ventas/domain/repositories
 import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
 import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
 import { sendInvoiceToSunat } from '@/backend/shared/apisPeru.js';
-import { formatNumeroALetras, obtenerSerieYCorrelativo } from '@/lib/formateador.js';
+import {
+  formatNumeroALetras,
+  obtenerSerieYCorrelativo,
+} from '@/lib/formateador.js';
 import { obtenerFechaEmisionPeru } from '@/lib/utils';
 
 export class VentaService {
@@ -318,9 +321,9 @@ export class VentaService {
       // Datos de la venta
       const detailsVenta = venta.productos.map((product) => {
         const cantidad = product.cantidad;
-        const valorUnitario = +(product.precioVenta / 1.18).toFixed(2);
-        const igv = +(valorUnitario * 0.18).toFixed(2);
-        const precioUnitario = +(valorUnitario + igv).toFixed(2);
+        const valorUnitario = Number((product.precioVenta / 1.18).toFixed(2));
+        const igv = Number((valorUnitario * 0.18).toFixed(2));
+        const precioUnitario = Number((valorUnitario + igv).toFixed(2));
 
         return {
           codProducto: product.code,
@@ -328,20 +331,31 @@ export class VentaService {
           descripcion: product.nombre,
           cantidad,
           mtoValorUnitario: valorUnitario,
-          mtoValorVenta: +(valorUnitario * cantidad).toFixed(2),
-          mtoBaseIgv: +(valorUnitario * cantidad).toFixed(2),
+          mtoValorVenta: Number((valorUnitario * cantidad).toFixed(2)),
+          mtoBaseIgv: Number((valorUnitario * cantidad).toFixed(2)),
           porcentajeIgv: 18,
-          igv: +(igv * cantidad).toFixed(2),
+          igv: Number((igv * cantidad).toFixed(2)),
           tipAfeIgv: 10,
-          totalImpuestos: +(igv * cantidad).toFixed(2),
+          totalImpuestos: Number((igv * cantidad).toFixed(2)),
           mtoPrecioUnitario: precioUnitario,
         };
       });
 
-      const montoOperGravadas = +detailsVenta.reduce((sum, i) => sum + i.mtoValorVenta, 0).toFixed(2);
+      const montoOperGravadas = Number(
+        detailsVenta
+          .reduce(
+            (acumulador, elemento) => acumulador + elemento.mtoValorVenta,
+            0
+          )
+          .toFixed(2)
+      );
       const valorDeVenta = montoOperGravadas;
-      const montoIGV = +detailsVenta.reduce((sum, i) => sum + i.igv, 0).toFixed(2);
-      const subTotal = +(montoOperGravadas + montoIGV).toFixed(2);
+      const montoIGV = Number(
+        detailsVenta
+          .reduce((acumulador, elemento) => acumulador + elemento.igv, 0)
+          .toFixed(2)
+      );
+      const subTotal = Number((montoOperGravadas + montoIGV).toFixed(2));
       const montoImpVenta = subTotal;
 
       const invoiceData = {
