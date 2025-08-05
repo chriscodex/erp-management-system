@@ -30,9 +30,12 @@ export function ImprimirBoletaButton({
     (empresa) => empresa.ruc === ventaData?.empresa?.ruc
   );
 
-  const [selectedEmpresa, setSelectedEmpresa] = useState(
-    selectedEmpresaSinFormatear || empresas[0]
+  const [selectedEmpresaId, setSelectedEmpresaId] = useState(
+    selectedEmpresaSinFormatear?._id || empresas[0]?._id || ''
   );
+
+  // Siempre obtener el objeto empresa seleccionado a partir del id
+  const empresaSeleccionada = empresas.find(e => e._id === selectedEmpresaId);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -45,20 +48,20 @@ export function ImprimirBoletaButton({
         ? ventaData?.counter
         : await getCurrentCounterBoletaRequestClient();
 
-      if (!isBoletaEmitida) {
+      if (!isBoletaEmitida && empresaSeleccionada) {
         // Actualizar el estado de la boleta en el backend
         const selectedEmpresaFormateada = {
-          empresaId: selectedEmpresa._id,
-          ruc: selectedEmpresa.ruc,
-          nombre: selectedEmpresa.nombre,
-          descripcion: selectedEmpresa.descripcion,
-          telefono: selectedEmpresa.telefono,
-          email: selectedEmpresa.email,
-          direccion: selectedEmpresa.direccion,
-          distrito: selectedEmpresa.distrito,
-          provincia: selectedEmpresa.provincia,
-          departamento: selectedEmpresa.departamento,
-          ubigeo: selectedEmpresa.ubigeo,
+          empresaId: empresaSeleccionada._id,
+          ruc: empresaSeleccionada.ruc,
+          nombre: empresaSeleccionada.nombre,
+          descripcion: empresaSeleccionada.descripcion,
+          telefono: empresaSeleccionada.telefono,
+          email: empresaSeleccionada.email,
+          direccion: empresaSeleccionada.direccion,
+          distrito: empresaSeleccionada.distrito,
+          provincia: empresaSeleccionada.provincia,
+          departamento: empresaSeleccionada.departamento,
+          ubigeo: empresaSeleccionada.ubigeo,
         };
 
         await updateBoletaStateRequestClient(
@@ -74,9 +77,9 @@ export function ImprimirBoletaButton({
         'boleta'
       );
 
-      const empresaSeleccionada = isBoletaEmitida
+      const empresaParaPDF = isBoletaEmitida
         ? ventaData?.empresa
-        : selectedEmpresa;
+        : empresaSeleccionada;
 
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         counterBoleta,
@@ -94,13 +97,11 @@ export function ImprimirBoletaButton({
         .toISOString()
         .slice(0, 10);
 
-        console.log("ventaData", ventaData);
-
       const clienteDni = ventaData?.clienteId?.datos?.dni || '';
 
       const value = `${
-        selectedEmpresa.ruc
-      }|${'03'}|${serie}|${correlativo}|${montoIgv}|${montoTotal}|${fechaFormateada}|6|${clienteDni}`;
+        empresaSeleccionada?.ruc || ''
+      }|${'03'}|${serie}|${correlativo}|${montoIgv}|${montoTotal}|${fechaFormateada}|1|${clienteDni}`;
 
       const qrBase64 = await QRCode.toDataURL(value, { width: 80 });
 
@@ -108,7 +109,7 @@ export function ImprimirBoletaButton({
         <PdfBoleta
           ventaData={ventaData}
           counterBoleta={counterBoleta}
-          selectedEmpresa={empresaSeleccionada}
+          selectedEmpresa={empresaParaPDF}
           qrBase64={qrBase64}
         />
       );
@@ -132,8 +133,8 @@ export function ImprimirBoletaButton({
     <div className="flex flex-col items-center gap-4 md:flex-row">
       <EmpresasSelect
         empresas={empresas}
-        selectedEmpresa={selectedEmpresa}
-        setSelectedEmpresa={setSelectedEmpresa}
+        selectedEmpresaId={selectedEmpresaId}
+        setSelectedEmpresaId={setSelectedEmpresaId}
         disabled={!!ventaData?.empresa}
       />
 

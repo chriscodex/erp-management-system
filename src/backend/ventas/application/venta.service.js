@@ -129,7 +129,11 @@ export class VentaService {
         ventaId,
         ventaData
       );
-      return updatedVenta;
+
+      return {
+        status: 200,
+        payload: updatedVenta,
+      };
     } catch (error) {
       console.error(
         `Venta Service: Error interno al actualizar la venta: ${error.message}`
@@ -524,9 +528,13 @@ export class VentaService {
         };
       });
 
-      const montoOperGravadas = +detailsVenta.reduce((sum, i) => sum + i.mtoValorVenta, 0).toFixed(2);
+      const montoOperGravadas = +detailsVenta
+        .reduce((sum, i) => sum + i.mtoValorVenta, 0)
+        .toFixed(2);
       const valorDeVenta = montoOperGravadas;
-      const montoIGV = +detailsVenta.reduce((sum, i) => sum + i.igv, 0).toFixed(2);
+      const montoIGV = +detailsVenta
+        .reduce((sum, i) => sum + i.igv, 0)
+        .toFixed(2);
       const subTotal = +(montoOperGravadas + montoIGV).toFixed(2);
       const montoImpVenta = subTotal;
 

@@ -25,6 +25,7 @@ export function PdfFactura({
   counterFactura,
   selectedEmpresa,
   qrBase64,
+  clienteRuc,
 }) {
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
@@ -126,14 +127,8 @@ export function PdfFactura({
                 : `${ventaData?.clienteId?.datos?.apellidos} ${ventaData?.clienteId?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
-              <Text style={styles.datosClienteInfoTitle}>
-                {ventaData?.clienteId?.tipo === 'empresa' ? `RUC: ` : `DNI: `}
-              </Text>
-              <Text>
-                {ventaData?.clienteId?.tipo === 'empresa'
-                  ? `${ventaData?.clienteId?.datos?.ruc}`
-                  : `${ventaData?.clienteId?.datos?.dni}`}
-              </Text>
+              <Text style={styles.datosClienteInfoTitle}>RUC:</Text>
+              <Text>{clienteRuc}</Text>
             </View>
             {ventaData?.clienteId?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>

@@ -105,7 +105,11 @@ const ventaSchema = new Schema(
         type: String,
         required: false,
       },
-    }
+    },
+    clienteRuc : {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,

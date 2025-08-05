@@ -18,26 +18,23 @@ import { useEffect } from 'react';
 
 export function EmpresasSelect({
   empresas,
-  selectedEmpresa,
-  setSelectedEmpresa,
+  selectedEmpresaId,
+  setSelectedEmpresaId,
   disabled = false,
 }) {
   useEffect(() => {
-    if (
-      (!selectedEmpresa || Object.keys(selectedEmpresa).length === 0) &&
-      empresas?.length > 0
-    ) {
-      setSelectedEmpresa(empresas[0]);
-    }
-  }, [empresas, selectedEmpresa, setSelectedEmpresa]);
+  if (empresas.length > 0 && !selectedEmpresaId) {
+    setSelectedEmpresaId(empresas[0]._id);
+  }
+}, [empresas, selectedEmpresaId, setSelectedEmpresaId]);
 
   return (
     <div className="flex items-center gap-2">
       <p className="text-sm font-bold">Empresa:</p>
       <div className="relative flex gap-2 items-center">
         <Select
-          value={selectedEmpresa || ''}
-          onValueChange={setSelectedEmpresa}
+          value={selectedEmpresaId || ''}
+          onValueChange={setSelectedEmpresaId}
           disabled={disabled}
         >
           <SelectTrigger className="w-full pl-2">
@@ -45,7 +42,7 @@ export function EmpresasSelect({
           </SelectTrigger>
           <SelectContent>
             {empresas?.map((empresa) => (
-              <SelectItem key={empresa?._id} value={empresa}>
+              <SelectItem key={empresa?._id} value={empresa._id}>
                 {empresa?.nombre}
               </SelectItem>
             ))}

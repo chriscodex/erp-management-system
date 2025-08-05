@@ -82,3 +82,26 @@ export async function finalizarOrdenDeServicioController(contextRoute) {
   }
 }
 
+export async function enviarBoletaASunatDeOrdenDeServicioController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id: ordenDeServicioId } = params;
+    if (request.headers.get('content-length') === '0') {
+      return {
+        status: 400,
+        payload: 'No se proporcionaron datos para enviar la boleta a Sunat',
+      };
+    }
+    const body = await request.json();
+    await connectDB();
+
+    const resultado = await ordenServicioService.enviarBoletaASunatDeOrdenDeServicio(ordenDeServicioId, body);
+    return resultado;
+  } catch (error) {
+    console.error(
+      'Venta Controller: Error interno al enviar boleta a Sunat:',
+      error.message
+    );
+    throw new Error('Venta Controller: Error interno al enviar boleta a Sunat');
+  }
+}

@@ -1,4 +1,4 @@
-import { fetchData, patchData } from '@/lib/fetchData';
+import { fetchData, patchData, postData } from '@/lib/fetchData';
 import {
   getCurrentCounterBoletaClientUrl,
   incrementCounterBoletaClientUrl,
@@ -29,17 +29,40 @@ export async function getCurrentCounterBoletaRequestClient() {
   }
 }
 
-export async function updateBoletaStateRequestClient(ordenDeServicioId, counterBoleta, selectedEmpresa) {
+export async function updateBoletaStateRequestClient(
+  ordenDeServicioId,
+  counterBoleta,
+  selectedEmpresa
+) {
   try {
     await delay();
 
+    const urlEnviarBoleta = `${updateBoletaOrdenDeServicioStateClientUrl}/${ordenDeServicioId}/enviar-boleta`;
+    const responseEnviarBoleta = await postData(urlEnviarBoleta, {
+      empresa: {
+        ...selectedEmpresa,
+      },
+    });
+
+    if (
+      responseEnviarBoleta?.status !== 200 ||
+      !responseEnviarBoleta?.data?.payload?.success
+    ) {
+      throw new Error(
+        'No se pudo enviar la boleta a Sunat: ' +
+          responseEnviarBoleta?.data?.payload?.estadoSunat ||
+          responseEnviarBoleta?.data?.error
+      );
+    }
+
+    // Actualización del estado de la boleta e incremento del contador
     const urlUpdateStateBoleta = `${updateBoletaOrdenDeServicioStateClientUrl}/${ordenDeServicioId}`;
 
     const responseUpdateStateBoleta = await patchData(urlUpdateStateBoleta, {
       comprobante: 'Boleta Impresa',
       counter: counterBoleta,
       empresa: {
-        ...selectedEmpresa
+        ...selectedEmpresa,
       },
     });
 

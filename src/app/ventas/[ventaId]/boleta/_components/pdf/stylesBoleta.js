@@ -1,3 +1,5 @@
+/* Estilos Boleta de Ventas */
+
 export const stylesBoleta = {
   header: {
     fontSize: 12,
