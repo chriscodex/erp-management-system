@@ -15,10 +15,16 @@ import { Label } from "@/components/ui/label";
 import { sortByUpdateDateDesc } from "@/lib/utils";
 
 export default async function ProductsPage() {
-  const session = await getServerSession(authOptions);
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getServerSession(authOptions),
+    getAllProductsRequestServer(),
+  ]);
 
-  const { products } = await getAllProductsRequestServer();
-
+  const session = results[0].value;
+  const { products } = results[1].value;
+  const productsSorted = sortByUpdateDateDesc(products);
+  
   /* Secciones del navbar */
   const navbarTitles = [
     {
@@ -32,8 +38,6 @@ export default async function ProductsPage() {
       active: false,
     },
   ];
-
-  const productsSorted = sortByUpdateDateDesc(products);
 
   return (
     <NavbarDynamic titles={navbarTitles}>

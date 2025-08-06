@@ -17,15 +17,12 @@ export default async function Page() {
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
-  
-  const { gastosGenerales, status } =
-    await getAllGastosGeneralesRequestServer();
+
+  const { gastosGenerales, status } = await getAllGastosGeneralesRequestServer();
 
   const gastosGeneralesSorted = sortByUpdateDateDesc(gastosGenerales);
 
-  const gastosGeneralesEnumerados = agregarNumeracionTable(
-    gastosGeneralesSorted
-  );
+  const gastosGeneralesEnumerados = agregarNumeracionTable(gastosGeneralesSorted);
 
   return (
     <>

@@ -59,8 +59,7 @@ import {
   SheetClose,
   SheetFooter,
 } from "@/components/ui/sheet";
-import { formatMoney, generarNumeroAleatorioSeisDigitos } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
+import { generarNumeroAleatorioSeisDigitos } from "@/lib/utils";
 import { SheetAddProductoExternoWrapper } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/sheets/addProductoExterno/sheetAddProductoExternoWrapper";
 import { formatDateShort } from "@/lib/formateador";
 import { zodResolver } from "@hookform/resolvers/zod";

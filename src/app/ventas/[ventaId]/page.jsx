@@ -7,13 +7,15 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
-  const { venta } = await getVentaRequestServer(params.ventaId);
-
   if (
-    !venta ||
-    (session?.user?.rol !== "Administrador" &&
-      session?.user?.rol !== "Vendedor")
+    session?.user?.rol !== "Administrador" &&
+    session?.user?.rol !== "Vendedor"
   ) {
+    notFound();
+  }
+  
+  const { venta } = await getVentaRequestServer(params.ventaId);
+  if (!venta) {
     notFound();
   }
 

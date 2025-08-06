@@ -9,16 +9,24 @@ import { getAllSucursalesRequestServer } from "@/app/usuarios/_services/requests
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
-
-  const userId = params.id;
-  const { user } = await getUserRequestServer(userId);
-  const { sucursales } = await getAllSucursalesRequestServer();
-
-  const fullName = user.nombres + " " + user.apellidos;
-
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
+
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getUserRequestServer(params.id),
+    getAllSucursalesRequestServer(),
+  ]);
+
+  const { user } = results[0].value;
+  const { sucursales } = results[1].value ?? [];
+
+  if (!user) {
+    notFound();
+  }
+
+  const fullName = user.nombres + " " + user.apellidos;
 
   const titles = [
     {
@@ -32,10 +40,6 @@ export default async function Page({ params }) {
       active: false,
     },
   ];
-
-  if (!user) {
-    notFound();
-  }
 
   return (
     <NavbarDynamic titles={titles}>

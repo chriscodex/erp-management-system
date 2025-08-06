@@ -83,6 +83,11 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                       {ventaHistoricaData?.clienteId?.datos?.celular}
                     </p>
                   )}
+                  {ventaHistoricaData?.clienteRuc && (
+                    <p>
+                      <strong>RUC:</strong> {ventaHistoricaData?.clienteRuc}
+                    </p>
+                  )}
                 </div>
               </CardContent>
             ) : (

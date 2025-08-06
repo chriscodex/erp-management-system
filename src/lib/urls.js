@@ -102,6 +102,7 @@ export const updatePreventaClientUrl = '/api/preventas';
 
 /* Ventas */
 export const createVentaClientUrl = '/api/ventas';
+export const updateVentaClientUrl = '/api/ventas';
 export const deleteVentaClientUrl = '/api/ventas';
 export const finalizarVentaClientUrl = '/api/ventas';
 

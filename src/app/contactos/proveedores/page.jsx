@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 import { RiTeamFill } from "@remixicon/react";
 
 import { sortByUpdateDateDesc } from "@/lib/utils";
@@ -18,6 +18,10 @@ export default async function ProveedoresPage() {
     notFound();
   }
 
+  // eslint-disable-next-line no-undef
+  const { proveedores, status } = await getAllProveedoresRequestServer();
+  const proveedoresSorted = sortByUpdateDateDesc(proveedores);
+
   const titles = [
     {
       title: "Contactos",
@@ -30,15 +34,6 @@ export default async function ProveedoresPage() {
       active: false,
     },
   ];
-
-  // eslint-disable-next-line no-undef
-  const [proveedoresResponse] = await Promise.all([
-    getAllProveedoresRequestServer(),
-  ]);
-
-  const { proveedores, status } = proveedoresResponse;
-
-  const proveedoresSorted = sortByUpdateDateDesc(proveedores);
 
   return (
     <>

@@ -1,12 +1,12 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 
-import { getProductByIdRequestServer } from '@/app/inventario/productos/[id]/_services/requests';
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { DataTableProduct } from '@/app/inventario/productos/[id]/_components/ProductTable/data-table';
-import { agregarNumeracionTable } from '@/lib/utils';
-import ProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/card';
-import GraphicSingleProductCard from '@/app/inventario/productos/[id]/_components/ProductCard/graphic';
+import { getProductByIdRequestServer } from "@/app/inventario/productos/[id]/_services/requests";
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { DataTableProduct } from "@/app/inventario/productos/[id]/_components/ProductTable/data-table";
+import { agregarNumeracionTable } from "@/lib/utils";
+import ProductCard from "@/app/inventario/productos/[id]/_components/ProductCard/card";
+import GraphicSingleProductCard from "@/app/inventario/productos/[id]/_components/ProductCard/graphic";
 
 export default async function Page({ params }) {
   const { product, status } = await getProductByIdRequestServer(params.id);
@@ -19,13 +19,13 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: 'Inventario',
-      href: '',
+      title: "Inventario",
+      href: "",
       active: false,
     },
     {
-      title: 'Productos',
-      href: '/inventario/productos',
+      title: "Productos",
+      href: "/inventario/productos",
       active: true,
     },
     {

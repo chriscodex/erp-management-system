@@ -8,18 +8,26 @@ import { DetailPedidoContent } from "@/app/inventario/motos/pedidos/[id]/_compon
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 export default async function Page({ params }) {
-  
-  const session = await getServerSession(authOptions);
-  if (session?.user?.rol !== "Administrador") {
-    notFound();
-  }
-  const { pedido } = await getPedidoRequestServer(params.id);
-  const { marca } = await getMarcaRequestServer(pedido.modelo.marca);
-  const { category } = await getCategoryRequestServer(pedido.modelo.categoria);
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getServerSession(authOptions),
+    getPedidoRequestServer(params.id),
+  ]);
 
-  if (!pedido) {
+  const session = results[0].value;
+  const { pedido } = results[1].value;
+
+  if (session?.user?.rol !== "Administrador" || !pedido) {
     notFound();
   }
+
+  // eslint-disable-next-line no-undef
+  const results2 = await Promise.allSettled([
+    getMarcaRequestServer(pedido.modelo.marca),
+    getCategoryRequestServer(pedido.modelo.categoria),
+  ]);
+  const { marca } = results2[0].value;
+  const { category } = results2[1].value;
 
   const navbarTitles = [
     {

@@ -10,16 +10,15 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
-  const session = await getServerSession(authOptions);
   const sucursalId = params.id;
-
-  const { sucursal } = await getSucursalRequestServer(sucursalId);
-
-  const { users } = await getUsersPerSucursalRequestServer(params.id);
+  const session = await getServerSession(authOptions);
 
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
+
+  const { sucursal } = await getSucursalRequestServer(sucursalId);
+  const { users } = await getUsersPerSucursalRequestServer(params.id);
 
   const navbarTitles = [
     {

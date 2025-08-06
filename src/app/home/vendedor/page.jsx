@@ -30,21 +30,16 @@ export default async function HomePage() {
     notFound();
   }
 
-  const [
-    productsResponse = {},
-    motosResponse = {},
-    preventasResponse,
-    // eslint-disable-next-line no-undef
-  ] = await Promise.all([
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
     getAllProductsRequestServer(),
     getAllMotosRequestServer(),
     getAllPreventasRequestServer(),
   ]);
 
-  const { products } = productsResponse;
-  const { motos } = motosResponse;
-
-  const { preventas } = preventasResponse;
+  const { products } = results[0].value;
+  const { motos } = results[1].value;
+  const { preventas } = results[2].value;
 
   let totalPreventas = 0;
 

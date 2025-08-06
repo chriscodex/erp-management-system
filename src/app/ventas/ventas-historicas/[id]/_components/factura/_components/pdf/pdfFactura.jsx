@@ -238,7 +238,6 @@ export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa
             </Text>
           </View>
           <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>SON:</Text>
             <Text style={styles.totalCell}>
               {formatNumeroALetras(
                 ventaHistoricaData?.productos

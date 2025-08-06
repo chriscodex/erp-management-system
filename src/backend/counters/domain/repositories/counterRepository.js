@@ -38,11 +38,16 @@ export class CounterRepository {
   }
 
   async aumentarContadorByType(type) {
-    const counter = await this.counterModel.findOneAndUpdate(
-      { name: type },
-      { $inc: { sequenceValue: 1 } },
-      { new: true, upsert: true } // Crea el contador si no existe
-    );
-    return counter.sequenceValue;
+    try {
+      const counter = await this.counterModel.findOneAndUpdate(
+        { name: type },
+        { $inc: { sequenceValue: 1 } },
+        { new: true, upsert: true } // Crea el contador si no existe
+      );
+      return counter.sequenceValue;
+    } catch (error) {
+      console.error('Error al aumentar el contador:', error);
+      throw new Error('Error al aumentar el contador');
+    }
   }
 }

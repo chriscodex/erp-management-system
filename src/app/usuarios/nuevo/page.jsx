@@ -13,6 +13,8 @@ export default async function Page() {
   if (session?.user?.rol !== "Administrador") {
     notFound();
   }
+  const { sucursales } = await getAllSucursalesRequestServer();
+
   /* Secciones del navbar */
   const navbarTitles = [
     {
@@ -26,13 +28,6 @@ export default async function Page() {
       active: false,
     },
   ];
-
-  const [
-    sucursalesResponse,
-    // eslint-disable-next-line no-undef
-  ] = await Promise.all([getAllSucursalesRequestServer()]);
-
-  const { sucursales = [] } = sucursalesResponse || {};
 
   return (
     <>

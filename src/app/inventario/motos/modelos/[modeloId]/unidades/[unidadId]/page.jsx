@@ -31,8 +31,14 @@ import { DetailButtons } from "@/app/inventario/motos/modelos/[modeloId]/unidade
 import { RiExternalLinkLine, RiMotorbikeLine } from "@remixicon/react";
 
 export default async function MotoDetailPage({ params }) {
-  const session = await getServerSession(authOptions);
-  const { moto } = await getMotoByIdRequestServer(params.unidadId);
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getServerSession(authOptions),
+    getMotoByIdRequestServer(params.unidadId),
+  ]);
+
+  const session = results[0].value;
+  const { moto } = results[1].value;
 
   if (!moto) {
     notFound();
@@ -334,7 +340,13 @@ export default async function MotoDetailPage({ params }) {
                 </CardContent>
               </Card>
             )}
-            <Card className={session?.user?.rol === "Administrador" ? "md:col-span-2" : "md:col-span-3"}>
+            <Card
+              className={
+                session?.user?.rol === "Administrador"
+                  ? "md:col-span-2"
+                  : "md:col-span-3"
+              }
+            >
               <CardHeader>
                 <CardTitle className="flex items-center">
                   <DollarSign className="mr-2" />

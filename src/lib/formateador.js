@@ -161,6 +161,6 @@ export function formatNumeroALetras(numero) {
   const letrasParteDecimal = parteDecimal.toString().padStart(2, '0');
 
   //Concatenar las partes
-  return `${letrasParteEntera.toUpperCase()} CON ${letrasParteDecimal}/100 SOLES`;
+  return `SON ${letrasParteEntera.toUpperCase()} CON ${letrasParteDecimal}/100 SOLES`;
 }
 

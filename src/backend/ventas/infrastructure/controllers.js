@@ -29,6 +29,7 @@ export async function updateVentaController(request, contextRoute) {
     await connectDB();
 
     const updatedVenta = await ventaService.updateVenta(ventaId, body);
+
     return updatedVenta;
   } catch (error) {
     console.error(
@@ -96,5 +97,31 @@ export async function enviarBoletaASunatController(request, contextRoute) {
       error.message
     );
     throw new Error('Venta Controller: Error interno al enviar boleta a Sunat');
+  }
+}
+
+export async function enviarFacturaASunatController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { ventaId } = params;
+    if (request.headers.get('content-length') === '0') {
+      return {
+        status: 400,
+        payload: 'No se proporcionaron datos para enviar la factura a Sunat',
+      };
+    }
+    const body = await request.json();
+    await connectDB();
+
+    const resultado = await ventaService.enviarFacturaASunat(ventaId, body);
+    return resultado;
+  } catch (error) {
+    console.error(
+      'Venta Controller: Error interno al enviar factura a Sunat:',
+      error.message
+    );
+    throw new Error(
+      'Venta Controller: Error interno al enviar factura a Sunat'
+    );
   }
 }

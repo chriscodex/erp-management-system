@@ -1,59 +1,62 @@
-import { notFound } from 'next/navigation';
+import { notFound } from "next/navigation";
 
-import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
-} from '@/components/ui/card';
-import { getModeloByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/_services/requests';
-import { RiMotorbikeFill } from '@remixicon/react';
-import { Label } from '@/components/ui/label';
-import { ModeloDataCard } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_components/modeloDataCard/modeloDataCard';
-import { FormAddUnidadMoto } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_components/formAddUnidadMoto';
-import { sortByUpdateDateAsc } from '@/lib/utils';
+} from "@/components/ui/card";
+import { getModeloByIdRequestServer } from "@/app/inventario/motos/modelos/[modeloId]/_services/requests";
+import { RiMotorbikeFill } from "@remixicon/react";
+import { Label } from "@/components/ui/label";
+import { ModeloDataCard } from "@/app/inventario/motos/modelos/[modeloId]/nuevo/_components/modeloDataCard/modeloDataCard";
+import { FormAddUnidadMoto } from "@/app/inventario/motos/modelos/[modeloId]/nuevo/_components/formAddUnidadMoto";
+import { sortByUpdateDateAsc } from "@/lib/utils";
 import {
   getAllAlmacenesByDataForMotosRequestServer,
   getAllProveedoresByDataForMotosRequestServer,
-} from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests';
+} from "@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
-  const { modelo } = await getModeloByIdRequestServer(params.modeloId);
 
-  if (!modelo || session?.user?.rol !== "Administrador") {
+    if (session?.user?.rol !== "Administrador") {
+    notFound();
+  }
+  // eslint-disable-next-line no-undef
+  const results = await Promise.allSettled([
+    getModeloByIdRequestServer(params.modeloId),
+    getAllProveedoresByDataForMotosRequestServer({ estado: "activo" }),
+    getAllAlmacenesByDataForMotosRequestServer({ estado: "activo" }),
+  ]);
+  const { modelo } = results[0].value;
+  const proveedores = results[1].value.proveedores ?? [];
+  const almacenes = results[2].value.almacenes ?? [];
+
+  const { nombre: modeloName, _id: modeloId } = modelo;
+  const almacenesOrderedByCreation = sortByUpdateDateAsc(almacenes);
+
+  if (!modelo) {
     notFound();
   }
 
-  const { nombre: modeloName, _id: modeloId } = modelo;
-
-  // eslint-disable-next-line no-undef
-  const results = await Promise.allSettled([
-    getAllProveedoresByDataForMotosRequestServer({ estado: 'activo' }),
-    getAllAlmacenesByDataForMotosRequestServer({ estado: 'activo' }),
-  ]);
-
-  const proveedores = results[0].value?.proveedores;
-  const almacenes = results[1].value?.almacenes;
-  const almacenesOrderedByCreation = sortByUpdateDateAsc(almacenes);
-
   const navbarTitles = [
     {
-      title: 'Inventario',
-      href: '',
+      title: "Inventario",
+      href: "",
       active: false,
     },
     {
-      title: 'Motos',
-      href: '',
+      title: "Motos",
+      href: "",
       active: false,
     },
     {
-      title: 'Modelos',
-      href: '/inventario/motos/modelos',
+      title: "Modelos",
+      href: "/inventario/motos/modelos",
       active: true,
     },
     {
@@ -62,13 +65,11 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: 'Agregar Unidad',
-      href: '',
+      title: "Agregar Unidad",
+      href: "",
       active: false,
     },
   ];
-
-  // const unidadesEnumeradas = agregarNumeracionTable(unidades);
 
   return (
     <NavbarDynamic titles={navbarTitles}>

@@ -8,13 +8,17 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
+  if (
+    session?.user?.rol !== "Administrador" &&
+    session?.user?.rol !== "Tecnico"
+  ) {
+    notFound();
+  }
+
   const { ordenDeServicioHistorica } =
     await getOrdenDeServicioHistoricaRequestServer(params.id);
 
-  if (
-    !ordenDeServicioHistorica ||
-    (session?.user?.rol !== "Administrador" && session?.user?.rol !== "Tecnico")
-  ) {
+  if (!ordenDeServicioHistorica) {
     notFound();
   }
 
