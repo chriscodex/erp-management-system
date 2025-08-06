@@ -36,7 +36,7 @@ export function ImprimirBoletaButton({
   );
 
   // Siempre obtener el objeto empresa seleccionado a partir del id
-  const empresaSeleccionada = empresas.find(e => e._id === selectedEmpresaId);
+  const empresaSeleccionada = empresas.find((e) => e._id === selectedEmpresaId);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -48,6 +48,10 @@ export function ImprimirBoletaButton({
       const counterBoleta = isBoletaEmitida
         ? ordenDeServicioData?.counter
         : await getCurrentCounterBoletaRequestClient();
+
+      let fechaParaImprimir = isBoletaEmitida
+        ? ordenDeServicioData?.fechaEmisionComprobante
+        : '';
 
       if (!isBoletaEmitida && empresaSeleccionada) {
         const selectedEmpresaFormateada = {
@@ -64,11 +68,13 @@ export function ImprimirBoletaButton({
           ubigeo: empresaSeleccionada.ubigeo,
         };
 
-        await updateBoletaStateRequestClient(
+        const responseUpdate = await updateBoletaStateRequestClient(
           ordenDeServicioData?._id,
           counterBoleta,
           selectedEmpresaFormateada
         );
+
+        fechaParaImprimir = responseUpdate?.fechaEmisionComprobante;
       }
 
       const codigoBoleta = formatearCodigoCounterBoletaFactura(
@@ -100,7 +106,14 @@ export function ImprimirBoletaButton({
 
       const montoIgv = (0.18 * montoTotal).toFixed(2);
 
-      const fechaFormateada = new Date().toISOString().slice(0, 10);
+      // Fecha
+      const fechaFormateada = new Date(
+        fechaParaImprimir ||
+          ordenDeServicioData?.fechaEmisionComprobante ||
+          new Date()
+      )
+        .toISOString()
+        .slice(0, 10);
 
       const clienteDni = ordenDeServicioData?.cliente?.datos?.dni || '';
 

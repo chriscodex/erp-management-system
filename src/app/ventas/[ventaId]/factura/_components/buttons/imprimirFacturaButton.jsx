@@ -18,6 +18,7 @@ import {
 } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
+
 export function ImprimirFacturaButton({
   ventaData,
   clienteRuc,
@@ -33,9 +34,12 @@ export function ImprimirFacturaButton({
     (empresa) => empresa.ruc === ventaData?.empresa?.ruc
   );
 
-  const [selectedEmpresa, setSelectedEmpresa] = useState(
-    selectedEmpresaSinFormatear || empresas[0]
+  const [selectedEmpresaId, setSelectedEmpresaId] = useState(
+    selectedEmpresaSinFormatear?._id || empresas[0]?._id || ''
   );
+
+  // Siempre obtener el objeto empresa seleccionado a partir del id
+  const empresaSeleccionada = empresas.find(e => e._id === selectedEmpresaId);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -48,20 +52,20 @@ export function ImprimirFacturaButton({
         ? ventaData?.counter
         : await getCurrentCounterFacturaRequestClient();
 
-      if (!isFacturaEmitida) {
+      if (!isFacturaEmitida && empresaSeleccionada) {
         // Actualizar el estado de la factura en el backend
         const selectedEmpresaFormateada = {
-          empresaId: selectedEmpresa._id,
-          ruc: selectedEmpresa.ruc,
-          nombre: selectedEmpresa.nombre,
-          descripcion: selectedEmpresa.descripcion,
-          telefono: selectedEmpresa.telefono,
-          email: selectedEmpresa.email,
-          direccion: selectedEmpresa.direccion,
-          distrito: selectedEmpresa.distrito,
-          provincia: selectedEmpresa.provincia,
-          departamento: selectedEmpresa.departamento,
-          ubigeo: selectedEmpresa.ubigeo,
+          empresaId: empresaSeleccionada._id,
+          ruc: empresaSeleccionada.ruc,
+          nombre: empresaSeleccionada.nombre,
+          descripcion: empresaSeleccionada.descripcion,
+          telefono: empresaSeleccionada.telefono,
+          email: empresaSeleccionada.email,
+          direccion: empresaSeleccionada.direccion,
+          distrito: empresaSeleccionada.distrito,
+          provincia: empresaSeleccionada.provincia,
+          departamento: empresaSeleccionada.departamento,
+          ubigeo: empresaSeleccionada.ubigeo,
         };
 
         await updateFacturaStateRequestClient(
@@ -76,11 +80,10 @@ export function ImprimirFacturaButton({
         'factura'
       );
 
-      const empresaSeleccionada = isFacturaEmitida
+      const empresaParaPDF = isFacturaEmitida
         ? ventaData?.empresa
-        : selectedEmpresa;
+        : empresaSeleccionada;
 
-      // Lógica QR igual que boleta
       // Serie y correlativo
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         counterFactura,
@@ -101,7 +104,7 @@ export function ImprimirFacturaButton({
 
       // Valor QR SUNAT
       const value = `${
-        selectedEmpresa.ruc
+        empresaSeleccionada?.ruc || ''
       }|${'01'}|${serie}|${correlativo}|${montoIgv}|${total}|${fechaFormateada}|6|${clienteRuc}`;
 
       const qrBase64 = await QRCode.toDataURL(value, { width: 80 });
@@ -110,7 +113,7 @@ export function ImprimirFacturaButton({
         <PdfFactura
           ventaData={ventaData}
           counterFactura={counterFactura}
-          selectedEmpresa={empresaSeleccionada}
+          selectedEmpresa={empresaParaPDF}
           qrBase64={qrBase64}
           clienteRuc={clienteRuc}
         />
@@ -131,13 +134,15 @@ export function ImprimirFacturaButton({
     setLoading(false);
   };
 
+  const isClienteRucAdded = Boolean(ventaData?.clienteRuc)
+
   return (
     <div className="flex items-center gap-4">
       <EmpresasSelect
         empresas={empresas}
-        selectedEmpresa={selectedEmpresa}
-        setSelectedEmpresa={setSelectedEmpresa}
-        disabled={!!ventaData?.empresa}
+        selectedEmpresaId={selectedEmpresaId}
+        setSelectedEmpresaId={setSelectedEmpresaId}
+        disabled={!isClienteRucAdded || !!ventaData?.empresa}
       />
       <Button
         variant="default"

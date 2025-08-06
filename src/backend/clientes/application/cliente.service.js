@@ -65,6 +65,8 @@ export class ClienteService {
         };
       }
 
+      console.log(identificador);
+
       // Si es búsqueda por DNI
       if (identificador.length === 8) {
         const searchedUserFound =

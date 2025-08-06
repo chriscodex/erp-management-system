@@ -26,7 +26,10 @@ export function PdfBoleta({
   selectedEmpresa,
   qrBase64,
 }) {
-  const currentTime = formatDateLong(new Date().toISOString(), true);
+  const fechaEmisionComprobante = formatDateLong(
+    new Date(ordenDeServicioData?.fechaEmisionComprobante).toISOString(),
+    true
+  );
 
   const codigoBoleta = formatearCodigoCounterBoletaFactura(
     counterBoleta,
@@ -111,7 +114,7 @@ export function PdfBoleta({
               </View>
               <View style={styles.datosBoleta}>
                 <Text style={styles.datosBoletaBold}>Fecha de emisión: </Text>
-                <Text>{currentTime}</Text>
+                <Text>{fechaEmisionComprobante}</Text>
               </View>
             </View>
           </View>

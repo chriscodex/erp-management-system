@@ -1,6 +1,6 @@
 'use client';
 
-import { User, Package, Hash } from 'lucide-react';
+import { User, Package, Hash, Loader2 } from 'lucide-react';
 import { RiInfoCardFill } from '@remixicon/react';
 import { useState } from 'react';
 
@@ -182,10 +182,6 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                     </strong>
                   </p>
                 )}
-                <p>
-                  <strong>Comprobante:</strong>{' '}
-                  {ordenDeServicioData?.comprobante}
-                </p>
                 {ordenDeServicioData?.counter && (
                   <p>
                     <strong>Número de comprobante:</strong>{' '}
@@ -195,9 +191,21 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                     )}
                   </p>
                 )}
-                <p>
-                  <strong>Estado SUNAT:</strong>{' '}
-                  {ordenDeServicioData?.estadoSunat}
+                <p className="flex items-center gap-2">
+                  <strong>Comprobante:</strong>
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    ordenDeServicioData?.comprobante
+                  )}
+                </p>
+                <p className="flex items-center gap-2">
+                  <strong>Estado SUNAT:</strong>
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    ordenDeServicioData?.estadoSunat
+                  )}
                 </p>
               </div>
             </CardContent>

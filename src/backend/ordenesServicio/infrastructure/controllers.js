@@ -9,14 +9,17 @@ export async function createOrdenDeServicioController(request) {
 
     await connectDB();
 
-    const createdOrdenDeServicio = await ordenServicioService.createOrdenDeServicio(body);
+    const createdOrdenDeServicio =
+      await ordenServicioService.createOrdenDeServicio(body);
     return createdOrdenDeServicio;
   } catch (error) {
     console.error(
       'Orden de Servicio Controller: Error interno al crear la orden de servicio:',
       error.message
     );
-    throw new Error('Orden de Servicio Controller: Error interno al crear la orden de servicio');
+    throw new Error(
+      'Orden de Servicio Controller: Error interno al crear la orden de servicio'
+    );
   }
 }
 
@@ -28,9 +31,11 @@ export async function updateOrdenDeServicioController(request, contextRoute) {
 
     await connectDB();
 
-    const result = await ordenServicioService.updateOrdenDeServicio(ordenDeServicioId, body);
+    const result = await ordenServicioService.updateOrdenDeServicio(
+      ordenDeServicioId,
+      body
+    );
     return result;
-    
   } catch (error) {
     console.error(
       'Orden de Servicio Controller: Error interno actualizando la orden de servicio',
@@ -44,45 +49,51 @@ export async function updateOrdenDeServicioController(request, contextRoute) {
 
 export async function deleteOrdenDeServicioController(contextRoute) {
   try {
-
     const { params } = contextRoute;
     const { id: ordenDeServicioId } = params;
 
     await connectDB();
 
-    const deletedOrdenDeServicio = await ordenServicioService.deleteOrdenDeServicio(ordenDeServicioId);
+    const deletedOrdenDeServicio =
+      await ordenServicioService.deleteOrdenDeServicio(ordenDeServicioId);
     return deletedOrdenDeServicio;
   } catch (error) {
     console.error(
-      "Orden de Servicio Controller: Error interno eliminando la orden de servicio",
+      'Orden de Servicio Controller: Error interno eliminando la orden de servicio',
       error.message
     );
-    throw new Error("Orden de Servicio Controller: Error interno eliminando la orden de servicio");
+    throw new Error(
+      'Orden de Servicio Controller: Error interno eliminando la orden de servicio'
+    );
   }
 }
 
 export async function finalizarOrdenDeServicioController(contextRoute) {
   try {
-
     const { params } = contextRoute;
     const { id } = params;
 
     await connectDB();
 
-    const ordenDeServicioFinalizada = await ordenServicioService.finalizarOrdenDeServicio(id);
+    const ordenDeServicioFinalizada =
+      await ordenServicioService.finalizarOrdenDeServicio(id);
 
     return ordenDeServicioFinalizada;
-
   } catch (error) {
     console.error(
       'Orden de Servicio Controller: Error interno al finalizar la orden de servicio',
       error.message
     );
-    throw new Error('Orden de Servicio Controller: Error interno al finalizar la orden de servicio');
+    throw new Error(
+      'Orden de Servicio Controller: Error interno al finalizar la orden de servicio'
+    );
   }
 }
 
-export async function enviarBoletaASunatDeOrdenDeServicioController(request, contextRoute) {
+export async function enviarBoletaASunatDeOrdenDeServicioController(
+  request,
+  contextRoute
+) {
   try {
     const { params } = contextRoute;
     const { id: ordenDeServicioId } = params;
@@ -95,7 +106,11 @@ export async function enviarBoletaASunatDeOrdenDeServicioController(request, con
     const body = await request.json();
     await connectDB();
 
-    const resultado = await ordenServicioService.enviarBoletaASunatDeOrdenDeServicio(ordenDeServicioId, body);
+    const resultado =
+      await ordenServicioService.enviarBoletaASunatDeOrdenDeServicio(
+        ordenDeServicioId,
+        body
+      );
     return resultado;
   } catch (error) {
     console.error(
@@ -103,5 +118,34 @@ export async function enviarBoletaASunatDeOrdenDeServicioController(request, con
       error.message
     );
     throw new Error('Venta Controller: Error interno al enviar boleta a Sunat');
+  }
+}
+
+export async function enviarFacturaASunatController(request, contextRoute) {
+  try {
+    const { params } = contextRoute;
+    const { id: ordenDeServicioId } = params;
+    if (request.headers.get('content-length') === '0') {
+      return {
+        status: 400,
+        payload: 'No se proporcionaron datos para enviar la factura a Sunat',
+      };
+    }
+    const body = await request.json();
+    await connectDB();
+
+    const resultado = await ordenServicioService.enviarFacturaASunat(
+      ordenDeServicioId,
+      body
+    );
+    return resultado;
+  } catch (error) {
+    console.error(
+      'Venta Controller: Error interno al enviar factura a Sunat:',
+      error.message
+    );
+    throw new Error(
+      'Venta Controller: Error interno al enviar factura a Sunat'
+    );
   }
 }
