@@ -7,7 +7,6 @@ import {
 } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
-
 export async function getCurrentCounterFacturaRequestClient() {
   try {
     // Simular tiempo de retraso
@@ -31,15 +30,19 @@ export async function getCurrentCounterFacturaRequestClient() {
   }
 }
 
-  /**
-   * Actualiza el estado de la factura y env a Sunat.
-   * @param {number} ventaId - El id de la venta que se va a imprimir.
-   * @param {number} counterFactura - El valor actual del contador de facturas.
-   * @param {object} selectedEmpresa - La empresa seleccionada.
-   * @return {Promise<object>} Resuelve con el payload de la respuesta.
-   * @throws {Error} Si no se pudo enviar la factura a Sunat o actualizar el estado de la factura.
-   */
-export async function updateFacturaStateRequestClient(ventaId, counterFactura, selectedEmpresa) {
+/**
+ * Actualiza el estado de la factura y env a Sunat.
+ * @param {number} ventaId - El id de la venta que se va a imprimir.
+ * @param {number} counterFactura - El valor actual del contador de facturas.
+ * @param {object} selectedEmpresa - La empresa seleccionada.
+ * @return {Promise<object>} Resuelve con el payload de la respuesta.
+ * @throws {Error} Si no se pudo enviar la factura a Sunat o actualizar el estado de la factura.
+ */
+export async function updateFacturaStateRequestClient(
+  ventaId,
+  counterFactura,
+  selectedEmpresa
+) {
   try {
     await delay();
 
@@ -93,20 +96,22 @@ export async function updateFacturaStateRequestClient(ventaId, counterFactura, s
           responseIncrementCounterFactura?.data?.error
       );
     }
+
+    return responseUpdateStateFactura?.data?.payload;
   } catch (error) {
     console.error('Error en updateFacturaStateRequestClient:', error);
     throw error;
   }
 }
 
-export async function updateVentaRequestClient(ventaData, setLoading) {
+export async function updateVentaRequestClient(ventaId, ventaData, setLoading) {
   /* eslint-disable */
   return new Promise(async (resolve, reject) => {
     /* eslint-enable */
     try {
       setLoading(true);
 
-      const updateVentaUrl = `${updateVentaClientUrl}/${ventaData?._id}`;
+      const updateVentaUrl = `${updateVentaClientUrl}/${ventaId}`;
 
       const response = await patchData(updateVentaUrl, ventaData);
       if (response?.status !== 200) {
@@ -118,7 +123,7 @@ export async function updateVentaRequestClient(ventaData, setLoading) {
       }
 
       setLoading(false);
-      resolve(response?.response?.data?.payload);
+      resolve(response?.data?.payload);
     } catch (error) {
       setLoading(false);
       reject(error);

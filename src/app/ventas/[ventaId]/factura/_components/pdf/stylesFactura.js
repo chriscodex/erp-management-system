@@ -1,3 +1,5 @@
+/* Estilos factura de la venta */
+
 export const stylesFactura = {
   header: {
     fontSize: 12,

@@ -1,9 +1,10 @@
-"use client";
+'use client';
 
-import { User, Package, Hash } from "lucide-react";
-import { RiInfoCardFill } from "@remixicon/react";
+import { User, Package, Hash, Loader2 } from 'lucide-react';
+import { RiInfoCardFill } from '@remixicon/react';
+import { useState } from 'react';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -11,22 +12,24 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 import {
   formatDateLong,
   formatDateShort,
   formatearCodigoCounterBoletaFactura,
-} from "@/lib/formateador";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
+} from '@/lib/formateador';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 
-import { ImprimirBoletaButton } from "@/app/taller/ordenes-servicio/[id]/boleta/_components/buttons/imprimirBoletaButton";
-import { FinalizarOrdenDeServicioButton } from "@/app/taller/ordenes-servicio/[id]/_components/buttons/FinalizarOrdenDeServicioButton";
-import { HomeRepairService } from "@mui/icons-material";
-import { formatMoney } from "@/lib/utils";
-import { DeleteProductoFromInventarioButton } from "@/app/taller/ordenes-servicio/[id]/_components/buttons/deleteProductoFromInventarioButton";
+import { ImprimirBoletaButton } from '@/app/taller/ordenes-servicio/[id]/boleta/_components/buttons/imprimirBoletaButton';
+import { FinalizarOrdenDeServicioButton } from '@/app/taller/ordenes-servicio/[id]/_components/buttons/FinalizarOrdenDeServicioButton';
+import { HomeRepairService } from '@mui/icons-material';
+import { formatMoney } from '@/lib/utils';
+import { DeleteProductoFromInventarioButton } from '@/app/taller/ordenes-servicio/[id]/_components/buttons/deleteProductoFromInventarioButton';
 
 export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
+  const [loading, setLoading] = useState(false);
+
   const precioTotalProductos = ordenDeServicioData?.productos?.reduce(
     (acc, product) => {
       return acc + product.precioVenta;
@@ -53,10 +56,12 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
             ordenDeServicioData={ordenDeServicioData}
             empresas={empresas}
             reimprimir={!!ordenDeServicioData?.counter}
+            loading={loading}
+            setLoading={setLoading}
           />
           <FinalizarOrdenDeServicioButton
             ordenDeServicioId={ordenDeServicioData?._id}
-            disabled={ordenDeServicioData?.comprobante !== "Boleta Impresa"}
+            disabled={ordenDeServicioData?.comprobante !== 'Boleta Impresa'}
           />
         </div>
       </CardHeader>
@@ -71,32 +76,32 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {ordenDeServicioData?.cliente?.tipo === "persona" ? (
+              {ordenDeServicioData?.cliente?.tipo === 'persona' ? (
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{" "}
-                    {ordenDeServicioData?.cliente?.datos?.nombres}{" "}
+                    <strong>Nombre:</strong>{' '}
+                    {ordenDeServicioData?.cliente?.datos?.nombres}{' '}
                     {ordenDeServicioData?.cliente?.datos?.apellidos}
                   </p>
                   <p>
-                    <strong>DNI:</strong>{" "}
+                    <strong>DNI:</strong>{' '}
                     {ordenDeServicioData?.cliente?.datos?.dni}
                   </p>
                   {ordenDeServicioData?.cliente?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong>{" "}
+                      <strong>Dirección:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.direccion}
                     </p>
                   )}
                   {ordenDeServicioData?.cliente?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.email}
                     </p>
                   )}
                   {ordenDeServicioData?.cliente?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.celular}
                     </p>
                   )}
@@ -104,30 +109,30 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
               ) : (
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{" "}
+                    <strong>Razon Social:</strong>{' '}
                     {ordenDeServicioData?.cliente?.datos?.razonSocial}
                   </p>
                   <p>
-                    <strong>RUC:</strong>{" "}
+                    <strong>RUC:</strong>{' '}
                     {ordenDeServicioData?.cliente?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Representante Legal:</strong>{" "}
+                    <strong>Representante Legal:</strong>{' '}
                     {ordenDeServicioData?.cliente?.datos?.representanteLegal}
                   </p>
                   <p>
-                    <strong>Dirección:</strong>{" "}
+                    <strong>Dirección:</strong>{' '}
                     {ordenDeServicioData?.cliente?.datos?.direccion}
                   </p>
                   {ordenDeServicioData?.cliente?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.email}
                     </p>
                   )}
                   {ordenDeServicioData?.cliente?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.celular}
                     </p>
                   )}
@@ -149,7 +154,7 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                   <strong>Código:</strong> {ordenDeServicioData?.code}
                 </p>
                 <p>
-                  <strong>Fecha de ingreso:</strong>{" "}
+                  <strong>Fecha de ingreso:</strong>{' '}
                   {formatDateLong(ordenDeServicioData?.fechaIngreso, true)}
                 </p>
                 {ordenDeServicioData?.pago?.montoAdelanto != null && (
@@ -161,13 +166,13 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                 {(ordenDeServicioData?.productos?.length > 0 ||
                   ordenDeServicioData?.servicios?.length > 0) && (
                   <p>
-                    <strong>Importe total:</strong>{" "}
+                    <strong>Importe total:</strong>{' '}
                     {(precioTotalProductos + precioTotalServicios).toFixed(2)}
                   </p>
                 )}
                 {ordenDeServicioData?.pago?.montoAdelanto != null && (
                   <p>
-                    <strong>Importe restante:</strong>{" "}
+                    <strong>Importe restante:</strong>{' '}
                     <strong>
                       {(
                         precioTotalProductos +
@@ -177,22 +182,30 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                     </strong>
                   </p>
                 )}
-                <p>
-                  <strong>Comprobante:</strong>{" "}
-                  {ordenDeServicioData?.comprobante}
-                </p>
                 {ordenDeServicioData?.counter && (
                   <p>
-                    <strong>Número de comprobante:</strong>{" "}
+                    <strong>Número de comprobante:</strong>{' '}
                     {formatearCodigoCounterBoletaFactura(
                       ordenDeServicioData?.counter,
-                      "boleta"
+                      'boleta'
                     )}
                   </p>
                 )}
-                <p>
-                  <strong>Estado SUNAT:</strong>{" "}
-                  {ordenDeServicioData?.estadoSunat}
+                <p className="flex items-center gap-2">
+                  <strong>Comprobante:</strong>
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    ordenDeServicioData?.comprobante
+                  )}
+                </p>
+                <p className="flex items-center gap-2">
+                  <strong>Estado SUNAT:</strong>
+                  {loading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    ordenDeServicioData?.estadoSunat
+                  )}
                 </p>
               </div>
             </CardContent>
@@ -217,7 +230,7 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                   <TableHead>Cantidad</TableHead>
                   <TableHead>Total</TableHead>
                   <TableHead>Inventario</TableHead>
-                  {ordenDeServicioData?.comprobante === "Boleta Impresa" && (
+                  {ordenDeServicioData?.comprobante === 'Boleta Impresa' && (
                     <TableHead>Acciones</TableHead>
                   )}
                 </TableRow>
@@ -236,13 +249,13 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{" "}
+                        S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
                           2
                         )}
                       </TableCell>
                       <TableCell>
-                        {producto.inventario === "eliminado" ? (
+                        {producto.inventario === 'eliminado' ? (
                           <Badge
                             variant="outline"
                             className="text-red-600 border-red-600"
@@ -259,11 +272,11 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                         )}
                       </TableCell>
                       {ordenDeServicioData?.comprobante ===
-                        "Boleta Impresa" && (
+                        'Boleta Impresa' && (
                         <TableCell>
-                          {producto.inventario !== "eliminado" &&
+                          {producto.inventario !== 'eliminado' &&
                             ordenDeServicioData?.comprobante ===
-                              "Boleta Impresa" && (
+                              'Boleta Impresa' && (
                               <DeleteProductoFromInventarioButton
                                 ordenDeServicioData={ordenDeServicioData}
                                 productoOrdenDeServicio={producto}

@@ -1,3 +1,5 @@
+/* Estilos factura de la orden de servicio */
+
 export const stylesFactura = {
   header: {
     fontSize: 12,
@@ -14,24 +16,25 @@ export const stylesFactura = {
   },
   title: {
     marginVertical: 10,
-    fontSize: 36,
+    fontSize: 28,
     marginLeft: 10,
     color: "#000",
   },
   body: {
-    padding: 35,
-    fontSize: 14,
+    paddingLeft: 30,
+    paddingRight: 30,
+    paddingTop: 15,
+    fontSize: 12,
   },
   datosEmpresa: {
     marginTop: "5px",
     marginBottom: "5px",
   },
   datosEmpresaTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     marginBottom: "5px",
   },
-
   datosEmpresaContacto: {
     flexDirection: "row",
     justifyContent: "flex-start",
@@ -46,7 +49,6 @@ export const stylesFactura = {
     flexDirection: "row",
     marginBottom: 5,
   },
-
   datosFacturaBold: {
     fontWeight: "bold",
   },
@@ -57,8 +59,31 @@ export const stylesFactura = {
     marginVertical: 10,
     alignSelf: "center",
   },
+  qrContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    marginTop: 10,
+    marginBottom: 10,
+    width: "100%",
+    gap: 10,
+  },
+  qrMessage: {
+    backgroundColor: "#f5f5f5",
+    border: "1px solid #ccc",
+    fontSize: 10,
+    padding: 6,
+    flex: 1,
+    color: "#222",
+    marginRight: 8,
+  },
+  qrImage: {
+    width: 80,
+    height: 80,
+    marginRight: 10,
+  },
   datosCliente: {
-    fontSize: 14,
+    fontSize: 12,
     marginTop: "5px",
     marginBottom: "5px",
     gap: "5px",
@@ -67,7 +92,7 @@ export const stylesFactura = {
     marginBottom: "5px",
   },
   datosClienteTitle: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: "bold",
     marginBottom: 5,
   },
@@ -81,9 +106,8 @@ export const stylesFactura = {
     width: "100%",
     height: "auto",
   },
-
   facturaTitle: {
-    fontSize: "24px",
+    fontSize: "14px",
     fontWeight: "bold",
     marginTop: 10,
     marginBottom: 10,
@@ -92,7 +116,6 @@ export const stylesFactura = {
     width: "100%",
     justifyContent: "center",
   },
-
   table: {
     width: "100%",
     border: "1px solid black",
@@ -118,7 +141,7 @@ export const stylesFactura = {
   },
   totalRow: {
     marginTop: 5,
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: "bold",
     textAlign: "right",
     display: "flex",

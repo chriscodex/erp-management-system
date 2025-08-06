@@ -29,6 +29,7 @@ export async function updateVentaController(request, contextRoute) {
     await connectDB();
 
     const updatedVenta = await ventaService.updateVenta(ventaId, body);
+
     return updatedVenta;
   } catch (error) {
     console.error(
