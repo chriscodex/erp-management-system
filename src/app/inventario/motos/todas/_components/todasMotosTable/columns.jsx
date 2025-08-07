@@ -105,7 +105,6 @@ export const columnsTodasMotos = [
       );
     },
     cell: ({ row }) => {
-      console.log(row.getValue('estado'));
       return (
         <div className="text-start">
           {row.getValue('estado')?.titulo === 'disponible' && (
