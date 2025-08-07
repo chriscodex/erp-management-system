@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-
 import { CounterRepository } from '@/backend/counters/domain/repositories/counterRepository';
 
 /**
@@ -11,6 +10,10 @@ import { CounterRepository } from '@/backend/counters/domain/repositories/counte
  */
 export const connectDB = async () => {
   try {
+    if (mongoose.connection.readyState === 1) {
+      // Ya está conectado
+      return true;
+    }
     const { MONGODB_URI } = process.env;
 
     if (!MONGODB_URI) {
@@ -20,15 +23,18 @@ export const connectDB = async () => {
     const { connection } = await mongoose.connect(MONGODB_URI, {
       dbName: 'motorock',
     });
+
     if (connection.readyState === 1) {
       console.log('MongoDB connected');
-      // Inicializar la colección de contadores si no existe
+
+      // Solo inicializamos los contadores en la primera conexión
       const counterRepository = new CounterRepository();
       await counterRepository.initializeCounters();
+
       return true;
     }
   } catch (error) {
-    console.log('Error', error);
+    console.error('Error al conectar a MongoDB:', error);
     throw error;
   }
 };
