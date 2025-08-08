@@ -16,6 +16,6 @@ export const config = {
     '/estadisticas/:path*',
     '/taller/:path*',
     '/home/:path*',
+    '/api/:path*'
   ],
-  // matcher: ['/api/:path*'],
 };
