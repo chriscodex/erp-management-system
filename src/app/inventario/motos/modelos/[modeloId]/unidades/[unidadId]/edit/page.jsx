@@ -26,10 +26,10 @@ export default async function Page({ params }) {
     getAllProveedoresByDataForProductsRequestServer({ estado: 'activo' }),
     getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' }),
   ]);
-  const { moto } = results[0].value;
-  const { modelos } = results[1].value ?? [];
-  const { proveedores } = results[2].value ?? [];
-  const { almacenes } = results[3].value ?? [];
+  const { moto } = results[1].value;
+  const { modelos } = results[2].value ?? [];
+  const { proveedores } = results[3].value ?? [];
+  const { almacenes } = results[4].value ?? [];
 
   const { nombre, modeloId: modeloData } = moto;
   const almacenesOrderedByCreation = sortByUpdateDateAsc(almacenes);

@@ -109,6 +109,10 @@ export default async function HomePage() {
             <RiHome2Line className="h-9 w-9" />
             <Label className="sm:text-4xl text-xl font-bold">Inicio</Label>
           </div>
+          <QuickAccessCollapsible />
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+            Resumen General
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-4 mb-8">
             <StatHomeCard title="Motos" value={totalMotos} icon={<Bike />} />
             <StatHomeCard
@@ -158,13 +162,12 @@ export default async function HomePage() {
               />
             </div>
           </div>
-          <QuickAccessCollapsible />
         </div>
       </NavbarSimple>
       <div className="mt-3 mr-4 xl:hidden">
         <Notifications />
       </div>
-      <div className="hidden xl:block h-screen w-full max-w-sm bg-white border-l border-b z-40 overflow-y-auto dark:bg-black">
+      <div className="hidden xl:block h-full max-h-[300vh] w-full max-w-sm bg-white border-l border-b z-40 overflow-y-auto dark:bg-black">
         <Notifications />
       </div>
     </>

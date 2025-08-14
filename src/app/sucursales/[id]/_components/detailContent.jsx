@@ -1,12 +1,13 @@
 'use client';
 
-import { Calendar, Phone, MapPin, Mail, Text } from 'lucide-react';
+import { Calendar, Phone, MapPin, Mail, Text, User2Icon } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { DetailDropdown } from '@/app/sucursales/[id]/_components/detailDropdown';
+import { Button } from '@/components/ui/button';
 
 export default function DetailContent({ sucursalData, updatedAt }) {
   const router = useRouter();
@@ -29,7 +30,18 @@ export default function DetailContent({ sucursalData, updatedAt }) {
       <CardHeader>
         <div className="flex justify-between items-center">
           <CardTitle className="text-2xl font-bold">{sucursalName}</CardTitle>
-          <DetailDropdown sucursalId={sucursalId} />
+          <div className="flex gap-2">
+            <Button
+              variant="outline"
+              size="icon"
+              title="Ver usuarios de la sucursal"
+              onClick={() => router.push(`/sucursales/${sucursalId}/usuarios`)}
+              className="h-8 w-full flex items-center justify-center px-2"
+            >
+              <User2Icon className="h-5 w-5" /> Ver Usuarios
+            </Button>
+            <DetailDropdown sucursalId={sucursalId} />
+          </div>
         </div>
       </CardHeader>
       <CardContent>
