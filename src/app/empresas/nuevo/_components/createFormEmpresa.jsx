@@ -288,7 +288,7 @@ export function CreateFormEmpresa() {
             name="email"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel>Correo electrónico</FormLabel>
+                <FormLabel>Correo electrónico (opcional)</FormLabel>
                 <div className="relative">
                   <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
