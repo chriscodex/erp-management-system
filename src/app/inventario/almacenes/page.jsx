@@ -164,9 +164,6 @@ export default async function CompaniesPage() {
                 </div>
               </CardContent>
               <CardFooter className="grid lg:grid-cols-2 grid-cols-1 gap-4">
-                {/* {session?.user?.rol === "Administrador" && (
-                  <SheetUpdateAlmacenWrapper almacenData={almacen} />
-                )} */}
                 <SheetUpdateAlmacenWrapper almacenData={almacen} />
                 <div>
                   <Sheet>
@@ -179,16 +176,6 @@ export default async function CompaniesPage() {
                     <AlmacenDetail almacenData={almacen} />
                   </Sheet>
                 </div>
-                {/* <Button
-                  className="lg:col-start-2 col-start-1"
-                  variant="default"
-                  asChild
-                >
-                  <Link href={`/empresas/${almacen?._id}/dashboard`}>
-                    Movimientos
-                    <ExternalLink className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button> */}
               </CardFooter>
             </Card>
           ))}
