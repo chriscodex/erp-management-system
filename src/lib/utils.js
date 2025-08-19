@@ -157,11 +157,21 @@ export function contarEstadoDeUnidades(lista) {
     (unidad) => unidad.estado === 'desaparecido',
   ).length;
 
+  const unidadesTaller = lista?.filter(
+    (unidad) => unidad.estado === 'taller',
+  ).length;
+
+  const unidadesPrevendidas = lista?.filter(
+    (unidad) => unidad.estado === 'prevendido',
+  ).length;
+
   return {
     unidadesDisponibles,
     unidadesDanadas,
     unidadesReparadas,
     unidadesDesaparecidas,
+    unidadesTaller,
+    unidadesPrevendidas,
   };
 }
 

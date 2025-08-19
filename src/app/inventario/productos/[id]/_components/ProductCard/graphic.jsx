@@ -34,6 +34,8 @@ export default function GraphicSingleProductCard({ unidades, product }) {
     unidadesDanadas,
     unidadesReparadas,
     unidadesDesaparecidas,
+    unidadesTaller,
+    unidadesPrevendidas,
   } = contarEstadoDeUnidades(unidades);
 
   // Datos para los gráficos
@@ -56,7 +58,17 @@ export default function GraphicSingleProductCard({ unidades, product }) {
     {
       name: `Desaparecidos`,
       unidades: unidadesDesaparecidas,
+      fill: '#f97316',
+    },
+    {
+      name: `Taller`,
+      unidades: unidadesTaller,
       fill: '#f59e0b',
+    },
+    {
+      name: `Prevendidos`,
+      unidades: unidadesPrevendidas,
+      fill: '#a855f7',
     },
   ];
 
@@ -92,11 +104,13 @@ export default function GraphicSingleProductCard({ unidades, product }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 px-2">
-        <div className="flex flex-row items-center justify-between space-y-0 pb-2 gap-1">
-          <Label className="sm:block font-bold text-green-600">{`Disponibles: ${unidadesDisponibles}`}</Label>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pb-2">
+          <Label className="font-bold text-green-600">{`Disponibles: ${unidadesDisponibles}`}</Label>
           <Label className="font-bold text-red-500">{`Dañados: ${unidadesDanadas}`}</Label>
           <Label className="font-bold text-blue-500">{`Reparados: ${unidadesReparadas}`}</Label>
-          <Label className="font-bold text-amber-500">{`Desaparecidos: ${unidadesDesaparecidas}`}</Label>
+          <Label className="font-bold text-orange-500">{`Desaparecidos: ${unidadesDesaparecidas}`}</Label>
+          <Label className="font-bold text-amber-500">{`Taller: ${unidadesTaller}`}</Label>
+          <Label className="font-bold text-purple-500">{`Prevendidos: ${unidadesPrevendidas}`}</Label>
         </div>
         <ChartContainer config={chartConfig}>
           <ResponsiveContainer width="100%" height={'100%'}>
