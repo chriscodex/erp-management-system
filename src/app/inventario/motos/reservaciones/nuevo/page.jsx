@@ -24,8 +24,8 @@ export default async function NuevaReservacionPage() {
     },
     {
       title: 'Reservaciones',
-      href: '',
-      active: false,
+      href: '/inventario/motos/reservaciones',
+      active: true,
     },
     {
       title: 'Nueva Reservacion',

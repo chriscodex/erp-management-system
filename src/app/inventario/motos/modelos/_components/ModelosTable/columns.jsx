@@ -107,39 +107,6 @@ export const columnsModelos = [
     },
   },
   {
-    accessorFn: (row) => row?.estado,
-    id: 'estado',
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Estado
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-    cell: ({ row }) => {
-      return (
-        <div className="text-start">
-          {row.getValue('estado') === 'activo' ? (
-            <Badge
-              variant="successTable"
-              className="text-sm w-[71px] flex justify-center"
-            >
-              Activo
-            </Badge>
-          ) : (
-            <Badge variant="error" className="text-sm">
-              Inactivo
-            </Badge>
-          )}
-        </div>
-      );
-    },
-  },
-  {
     id: 'actions',
     header: 'Acciones',
     cell: ({ row }) => {

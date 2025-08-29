@@ -73,7 +73,10 @@ export function AddCaracteristicasMotoForm({ onSave, onClose, defaultValues }) {
         </SheetDescription>
       </SheetHeader>
       <Form {...addCaracteriscasMotoForm}>
-        <form onSubmit={onSubmit} className="grid gap-4 py-4">
+        <form
+          onSubmit={onSubmit}
+          className="grid gap-4 py-4 overflow-y-auto max-h-[80vh]"
+        >
           <FormField
             control={control}
             name="motor"

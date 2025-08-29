@@ -55,8 +55,10 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                 <p className="flex gap-4 justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Descripción:
-                  </span>{' '}
-                  {pedidoData?.modelo?.descripcion}
+                  </span>
+                  <span className="text-justify">
+                    {pedidoData?.modelo?.descripcion}
+                  </span>
                 </p>
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
@@ -119,10 +121,10 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                   S/. {pedidoData?.montoTotal}
                 </p>
                 <p className="flex justify-between">
-                  <span className="text-gray-500 dark:text-gray-400">
+                  <span className="text-gray-500 dark:text-gray-400 mr-10">
                     Comentario:
                   </span>{' '}
-                  {pedidoData?.comentario}
+                  <span className="text-justify">{pedidoData?.comentario}</span>
                 </p>
               </div>
             </CardContent>

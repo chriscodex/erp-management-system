@@ -82,7 +82,6 @@ export default async function ModelosPage({ params }) {
             )}
           </div>
           <ModeloCard modelo={modelo} />
-          {/* <GraphicSingleProductCard unidades={unidades} /> */}
         </CardHeader>
         <CardContent>
           <DataTableModelo

@@ -104,7 +104,10 @@ export function AddModeloForm({
         </SheetDescription>
       </SheetHeader>
       <Form {...addModeloForm}>
-        <form onSubmit={onSubmit} className="grid gap-4 py-4">
+        <form
+          onSubmit={onSubmit}
+          className="grid gap-4 py-4 overflow-y-auto max-h-[80vh]"
+        >
           <div className="space-y-4">
             <div className="flex flex-col gap-4">
               <FormField

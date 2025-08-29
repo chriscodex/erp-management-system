@@ -84,7 +84,10 @@ export function UpdateCaracteristicasMotoForm({
         </SheetDescription>
       </SheetHeader>
       <Form {...updateCaracteristicasMotoForm}>
-        <form onSubmit={onSubmit} className="grid gap-4 py-4">
+        <form
+          onSubmit={onSubmit}
+          className="grid gap-4 py-4 overflow-y-auto max-h-[80vh]"
+        >
           <FormField
             control={control}
             name="motor"

@@ -2,6 +2,12 @@ import mongoose from 'mongoose';
 
 import { Moto } from '@/backend/motos/domain/models/moto';
 
+// Importamos otros modelos necesarios para las referencias en el populate
+// eslint-disable-next-line no-unused-vars
+import { Marca } from '@/backend/marcas/domain/models/marca';
+// eslint-disable-next-line no-unused-vars
+import { Category } from '@/backend/categorias/domain/models/category';
+
 export class MotoRepository {
   constructor() {
     this.motoModel = Moto;

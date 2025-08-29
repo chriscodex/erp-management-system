@@ -23,8 +23,8 @@ export default async function ReservacionesPage() {
   }
 
   const { reservaciones, status } = await getAllReservacionesRequestServer();
-  const reservacionesEnumeradas = agregarNumeracionTable(reservaciones);
-  const reservacionesSorted = sortByUpdateDateDesc(reservacionesEnumeradas);
+  const reservacionesSorted = sortByUpdateDateDesc(reservaciones);
+  const reservacionesEnumeradas = agregarNumeracionTable(reservacionesSorted);
 
   const titles = [
     {
@@ -68,7 +68,7 @@ export default async function ReservacionesPage() {
           <CardContent>
             <DataTableReservaciones
               columns={columnsReservaciones}
-              data={reservacionesSorted}
+              data={reservacionesEnumeradas}
               status={status}
             />
           </CardContent>
