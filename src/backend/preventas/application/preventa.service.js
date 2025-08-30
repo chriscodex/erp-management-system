@@ -43,8 +43,9 @@ export class PreventaService {
 
   async getPreventaByData(preventaData) {
     try {
-      const preventaFound =
-        await this.preventaRepository.getPreventaByData(preventaData);
+      const preventaFound = await this.preventaRepository.getPreventaByData(
+        preventaData,
+      );
 
       if (!preventaFound) {
         console.log('Preventa Service: La preventa no existe');
@@ -71,31 +72,49 @@ export class PreventaService {
   }
   async createPreventa(preventaData) {
     try {
-      // Lógica para buscar o crear cliente
-
       const clienteTipo = preventaData?.cliente?.tipo;
       const clienteDatos = preventaData?.cliente?.datos;
 
-      const clienteExistente =
-        await this.clienteRepository.getClienteByData(clienteDatos);
-
+      const clienteExistente = await this.clienteRepository.getClienteByData(
+        clienteDatos,
+      );
       let clienteFinal = clienteExistente;
 
       if (!clienteExistente) {
-        // Crear el cliente si no existe
         clienteFinal = await this.clienteRepository.createCliente({
           tipo: clienteTipo,
           datos: clienteDatos,
         });
 
         if (!clienteFinal?._id) {
-          return {
-            status: 400,
-            payload: 'No se pudo crear el cliente.',
-          };
+          return { status: 400, payload: 'No se pudo crear el cliente.' };
+        }
+      } else {
+        // Merge parcial: preferimos los campos nuevos de clienteDatos
+        const mergedDatos = { ...clienteExistente.datos, ...clienteDatos };
+
+        // Detectar cambios (simple comparador JSON; para objetos complejos adapta)
+        const hasChanges =
+          JSON.stringify(mergedDatos) !==
+            JSON.stringify(clienteExistente.datos) ||
+          clienteTipo !== clienteExistente.tipo;
+
+        if (hasChanges) {
+          // Ojo: no sobrescribas identificadores únicos sin validar
+          clienteFinal = await this.clienteRepository.updateCliente(
+            clienteExistente._id,
+            {
+              tipo: clienteTipo ?? clienteExistente.tipo,
+              datos: mergedDatos,
+              updatedAt: new Date(),
+            },
+          );
+        } else {
+          clienteFinal = clienteExistente;
         }
       }
-      // Reemplazar cliente en preventaData por clienteId
+
+      // reemplazar cliente en preventaData por clienteId
       preventaData.clienteId = clienteFinal._id.toString();
       delete preventaData.cliente;
 
@@ -151,8 +170,9 @@ export class PreventaService {
         ...preventaData,
         code: generarNumeroAleatorio(13),
       };
-      const newPreventa =
-        await this.preventaRepository.createPreventa(preventaObject);
+      const newPreventa = await this.preventaRepository.createPreventa(
+        preventaObject,
+      );
       console.log('Preventa Service: Preventa creada correctamente');
       return {
         status: 201,
@@ -192,8 +212,9 @@ export class PreventaService {
 
       const clienteTipo = preventaData?.cliente?.tipo;
       const clienteDatos = preventaData?.cliente?.datos;
-      const clienteExistente =
-        await this.clienteRepository.getClienteByData(clienteDatos);
+      const clienteExistente = await this.clienteRepository.getClienteByData(
+        clienteDatos,
+      );
 
       let clienteFinal = clienteExistente;
 
@@ -390,8 +411,9 @@ export class PreventaService {
         }),
       );
 
-      const deletedPreventa =
-        await this.preventaRepository.deletePreventa(preventaId);
+      const deletedPreventa = await this.preventaRepository.deletePreventa(
+        preventaId,
+      );
 
       if (!deletedPreventa) {
         console.log('Preventa Service: La preventa no existe');
@@ -419,8 +441,9 @@ export class PreventaService {
 
   async deletePreventa(preventaId) {
     try {
-      const deletedPreventa =
-        await this.preventaRepository.deletePreventa(preventaId);
+      const deletedPreventa = await this.preventaRepository.deletePreventa(
+        preventaId,
+      );
 
       if (!deletedPreventa) {
         console.log('Preventa Service: La preventa no existe');
