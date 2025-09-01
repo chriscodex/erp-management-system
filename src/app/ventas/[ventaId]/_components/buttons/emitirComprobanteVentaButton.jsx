@@ -25,8 +25,14 @@ export function EmitirComprobanteVentaButton({ ventaData }) {
   const router = useRouter();
   const comprobante = ventaData?.comprobante.toLowerCase();
 
-  const boletaEmitida = comprobante?.includes('boleta');
   const facturaEmitida = comprobante?.includes('factura');
+
+  const boletaEmitida = comprobante?.includes('boleta');
+
+  const noPuedeEmitirBoleta =
+    facturaEmitida || ventaData?.clienteId?.tipo === 'empresa';
+
+  const noPuedeEmitirFactura = boletaEmitida;
 
   return (
     <TooltipProvider>
@@ -39,7 +45,7 @@ export function EmitirComprobanteVentaButton({ ventaData }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="center">
           {/* Boleta */}
-          {facturaEmitida ? (
+          {noPuedeEmitirBoleta ? (
             <Tooltip>
               <TooltipTrigger asChild>
                 <div>
@@ -50,7 +56,10 @@ export function EmitirComprobanteVentaButton({ ventaData }) {
                 </div>
               </TooltipTrigger>
               <TooltipContent>
-                <p>Ya se emitió una factura, no puedes emitir boleta</p>
+                <p>
+                  No puedes emitir una boleta, ya se emitió una factura o el
+                  cliente es una empresa
+                </p>
               </TooltipContent>
             </Tooltip>
           ) : (
@@ -66,7 +75,7 @@ export function EmitirComprobanteVentaButton({ ventaData }) {
           <DropdownMenuSeparator />
 
           {/* Factura */}
-          {boletaEmitida ? (
+          {noPuedeEmitirFactura ? (
             <Tooltip>
               <TooltipTrigger asChild>
                 <div>

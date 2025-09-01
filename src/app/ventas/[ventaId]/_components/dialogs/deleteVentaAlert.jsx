@@ -39,6 +39,10 @@ export function DeleteVentaAlert({
       toast.promise(deleteVentaRequestClient(ventaId), {
         loading: 'Eliminando...',
         success: () => {
+          if (actionAfterComplete === 'refresh') {
+            router.refresh();
+            return `Venta eliminada correctamente`;
+          }
           if (actionAfterComplete === 'push') {
             router.push(`/ventas`);
             return `Venta eliminada correctamente`;

@@ -25,7 +25,8 @@ export function ImprimirFacturaButton({
   reimprimir,
   loading,
   setLoading,
-  disabled = false,
+  isImprimirEnabled = false,
+  isFacturaImpresa = false,
 }) {
   const router = useRouter();
 
@@ -133,21 +134,19 @@ export function ImprimirFacturaButton({
     setLoading(false);
   };
 
-  const isClienteRucAdded = Boolean(ventaData?.clienteRuc);
-
   return (
     <div className="flex items-center gap-4">
       <EmpresasSelect
         empresas={empresas}
         selectedEmpresaId={selectedEmpresaId}
         setSelectedEmpresaId={setSelectedEmpresaId}
-        disabled={!isClienteRucAdded || !!ventaData?.empresa}
+        disabled={isFacturaImpresa}
       />
       <Button
         variant="default"
         className="flex items-center gap-2"
         onClick={handleDownloadPDF}
-        disabled={loading || disabled}
+        disabled={loading || !isImprimirEnabled}
       >
         <RiPrinterLine className="h-4 w-4" />
         <p>

@@ -53,6 +53,16 @@ import { addRucSchemaForm } from '@/app/ventas/[ventaId]/factura/_services/valid
 import { updateVentaRequestClient } from '../_services/requests';
 
 export function DetailFacturaContent({ ventaData, empresas }) {
+  const isFacturaImpresa = ventaData?.comprobante === 'Factura Impresa';
+
+  let isImprimirEnabled = false;
+
+  if (ventaData?.clienteId?.tipo === 'persona') {
+    isImprimirEnabled = Boolean(ventaData?.clienteRuc);
+  } else if (ventaData?.clienteId?.tipo === 'empresa') {
+    isImprimirEnabled = Boolean(ventaData?.clienteId?.datos?.ruc);
+  }
+
   const [showRucInput, setShowRucInput] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -116,13 +126,11 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                     ventaData={ventaData}
                     clienteRuc={clienteRuc}
                     empresas={empresas}
-                    reimprimir={!!ventaData?.counter}
+                    reimprimir={isFacturaImpresa}
                     loading={loading}
                     setLoading={setLoading}
-                    disabled={
-                      !ventaData?.clienteId?.datos?.ruc &&
-                      !ventaData?.clienteRuc
-                    }
+                    isImprimirEnabled={isImprimirEnabled}
+                    isFacturaImpresa={isFacturaImpresa}
                   />
                 </div>
               </TooltipTrigger>
@@ -135,7 +143,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
           </TooltipProvider>
           <FinalizarVentaButton
             ventaId={ventaData?._id}
-            disabled={ventaData?.comprobante !== 'Factura Impresa'}
+            disabled={!isFacturaImpresa}
           />
         </div>
       </CardHeader>

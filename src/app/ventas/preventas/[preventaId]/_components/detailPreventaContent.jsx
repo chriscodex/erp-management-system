@@ -25,6 +25,8 @@ export function DetailPreventaContent({ preventaData, empresa }) {
   const precioTotal = preventaData?.productos?.reduce((acc, product) => {
     return acc + product.precioVenta;
   }, 0);
+
+  console.log(preventaData);
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col gap-2 items-center justify-between space-y-0 pb-4 md:flex-row  ">
