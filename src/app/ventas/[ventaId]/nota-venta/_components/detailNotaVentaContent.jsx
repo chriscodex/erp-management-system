@@ -15,7 +15,7 @@ import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
 import { DetailBoletaButtons } from '@/app/ventas/[ventaId]/boleta/_components/buttons/detailBoletaButtons';
-import { ImprimirBoletaButton } from '@/app/ventas/[ventaId]/boleta/_components/buttons/imprimirButton';
+import { ImprimirBoletaButton } from '@/app/ventas/[ventaId]/nota-venta/_components/imprimirButton.jsx';
 
 export function DetailNotaVentaContent({ ventaData, empresas }) {
   return (
@@ -25,7 +25,10 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Nota de Venta</Label>
         </div>
-        <ImprimirBoletaButton ventaData={ventaData} empresas={empresas} />
+        <ImprimirBoletaButton
+          ventaData={ventaData}
+          empresas={empresas}
+        />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -38,33 +41,33 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {ventaData?.cliente?.tipo === 'persona' ? (
+              {ventaData?.clienteId?.tipo === 'persona' ? (
                 <div className="space-y-2">
                   <p>
                     <strong>Nombre:</strong>{' '}
-                    {ventaData?.cliente?.datos?.nombres}{' '}
-                    {ventaData?.cliente?.datos?.apellidos}
+                    {ventaData?.clienteId?.datos?.nombres}{' '}
+                    {ventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
-                    <strong>DNI:</strong> {ventaData?.cliente?.datos?.dni}
+                    <strong>DNI:</strong> {ventaData?.clienteId?.datos?.dni}
                   </p>
                   <p>
                     <strong>Celular:</strong>{' '}
-                    {ventaData?.cliente?.datos?.celular}
+                    {ventaData?.clienteId?.datos?.celular}
                   </p>
                 </div>
               ) : (
                 <div className="space-y-2">
                   <p>
                     <strong>Razon Social:</strong>{' '}
-                    {ventaData?.cliente?.datos?.razonSocial}
+                    {ventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
-                    <strong>RUC:</strong> {ventaData?.cliente?.datos?.ruc}
+                    <strong>RUC:</strong> {ventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
                     <strong>Celular:</strong>{' '}
-                    {ventaData?.cliente?.datos?.celular}
+                    {ventaData?.clienteId?.datos?.celular}
                   </p>
                 </div>
               )}
@@ -216,7 +219,7 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
           </CardContent>
         </Card>
         <div className="mt-4">
-          <DetailBoletaButtons ventaId={ventaData._id} ventaData={ventaData} />
+          <DetailBoletaButtons ventaId={ventaData._id} />
         </div>
       </CardContent>
     </Card>
