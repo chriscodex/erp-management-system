@@ -32,7 +32,11 @@ import { DataTableViewOptions } from "@/components/ui/table-view-options";
 import { serverErrorToast } from "@/components/toast/serverErrorToast";
 import { TIME_DEBOUNCE } from "@/lib/utils";
 
-export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 200 }) {
+export function DataTableOrdenesDeServicioHistoricas({
+  columns,
+  data,
+  status = 200,
+}) {
   const router = useRouter();
 
   const [filtrosAvanzados, setFiltrosAvanzados] = useState(false);
@@ -45,8 +49,7 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
   /*Filtrar datos*/
 
   const datosFiltrados = useMemo(() => {
-
-    return data.filter((ventaHistorica) => {
+    return data.filter((ordenDeServicioHistorica) => {
       const codigoFiltro = filtrosAvanzados?.codigo;
       const montoMinimo = filtrosAvanzados?.montoMinimo
         ? parseFloat(filtrosAvanzados?.montoMinimo)
@@ -63,17 +66,21 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
       const tipoFiltro = filtrosAvanzados?.tipo;
       const identificadorFiltro = filtrosAvanzados?.identificador?.trim();
 
-      // Extraemos datos de la ventaHistorica
-      const codigo = ventaHistorica?.code || "";
+      // Extraemos datos de la ordenDeServicioHistorica
+      const codigo = ordenDeServicioHistorica?.code || "";
       const montoTotal =
-        ventaHistorica?.productos.reduce((sum, prod) => {
+        (ordenDeServicioHistorica?.productos?.reduce((sum, prod) => {
           const precio = prod.precioVenta || 0;
           const cantidad = prod.cantidad || 0;
           return sum + precio * cantidad;
-        }, 0) || 0;
-      const fechaVenta = new Date(ventaHistorica?.fecha);
-      const tipoCliente = ventaHistorica?.cliente?.tipo;
-      const datosCliente = ventaHistorica?.cliente?.datos || {};
+        }, 0) || 0) +
+        (ordenDeServicioHistorica?.servicios?.reduce((sum, serv) => {
+          const precio = serv.precio || 0;
+          return sum + precio;
+        }, 0) || 0);
+      const fechaVenta = new Date(ordenDeServicioHistorica?.fechaIngreso);
+      const tipoCliente = ordenDeServicioHistorica?.cliente?.tipo;
+      const datosCliente = ordenDeServicioHistorica?.cliente?.datos || {};
       const dniCliente = datosCliente?.dni || "";
       const rucCliente = datosCliente?.ruc || "";
 
@@ -142,7 +149,6 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
 
     return filtros;
   };
-
 
   /* Table */
   const table = useReactTable({
@@ -244,7 +250,11 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
           <p className="font-semibold text-sm">Filtros aplicados:</p>
           <div className="flex gap-2 flex-wrap">
             {obtenerFiltrosAplicados().map((filtro, index) => (
-              <Badge key={index} variant="outline" className="text-sm font-thin">
+              <Badge
+                key={index}
+                variant="outline"
+                className="text-sm font-thin"
+              >
                 {filtro}
               </Badge>
             ))}

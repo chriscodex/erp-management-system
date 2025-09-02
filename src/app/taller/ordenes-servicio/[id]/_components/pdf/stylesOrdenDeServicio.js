@@ -69,12 +69,10 @@ export const stylesOrdenDeServicio = {
     fontWeight: "bold",
   },
   datosContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "column",
     gap: "5px",
   },
   datosCliente: {
-    flex: 1,
     fontSize: 14,
     marginTop: '5px',
     marginBottom: '5px',
@@ -96,12 +94,12 @@ export const stylesOrdenDeServicio = {
   },
 
   datosMoto: {
-    flex: 1,
     fontSize: 14,
     marginTop: '5px',
     marginBottom: '5px',
     gap: '5px',
   },
+  
   datosMotoTitle: {
     fontSize: 16,
     fontWeight: 'bold',

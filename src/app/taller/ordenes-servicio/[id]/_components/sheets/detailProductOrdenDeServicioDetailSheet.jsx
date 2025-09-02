@@ -56,8 +56,7 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Marca
                         </label>
                         <p className="col-span-2">
-                          {productPreventa?.marcaId?.nombre ||
-                            productPreventa?.id?.marcaId?.nombre ||
+                          { productPreventa?.productId?.marcaId?.nombre ||
                             "Desconocida"}
                         </p>
                       </div>
@@ -66,8 +65,7 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Categoría
                         </label>
                         <p className="col-span-2">
-                          {productPreventa?.categoryId?.nombre ||
-                            productPreventa?.id?.categoryId?.nombre ||
+                          {productPreventa?.productId?.categoryId?.nombre ||
                             "Desconocida"}
                         </p>
                       </div>
@@ -84,8 +82,7 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Almacén
                         </label>
                         <p className="col-span-2">
-                          {productPreventa?.almacenId?.nombre ||
-                            productPreventa?.id?.almacenId?.nombre ||
+                          {productPreventa?.productId?.almacenId?.nombre ||
                             "Desconocido"}
                         </p>
                       </div>

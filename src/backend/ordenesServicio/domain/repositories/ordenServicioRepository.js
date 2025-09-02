@@ -4,6 +4,11 @@ import { OrdenServicio } from '@/backend/ordenesServicio/domain/models/ordenServ
 import { Cliente } from '@/backend/clientes/domain/models/cliente';
 import { Product } from '@/backend/products/domain/models/product';
 import { User } from '@/backend/users/domain/models/user';
+/* eslint-disable no-unused-vars */
+import { Marca } from '@/backend/marcas/domain/models/marca';
+import { Category } from '@/backend/categorias/domain/models/category';
+import { Almacen } from '@/backend/almacenes/domain/models/almacen';
+/* eslint-enable no-unused-vars */
 
 export class OrdenServicioRepository {
   constructor() {
@@ -15,7 +20,14 @@ export class OrdenServicioRepository {
 
   async getAllOrdenesDeServicio() {
     try {
-      const ordenesDeServicio = await this.ordenServicioModel.find({}).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
+      const ordenesDeServicio = await this.ordenServicioModel.find({}).populate('cliente.clienteId').populate('mecanicos.userId').populate({
+        path: 'productos.productId',
+        populate: [
+          { path: 'marcaId', select: 'nombre' },
+          { path: 'categoryId', select: 'nombre' },
+          { path: 'almacenId', select: 'nombre' }
+        ]
+      });
 
       if (ordenesDeServicio?.length === 0) {
         console.log('Orden De Servicio Repository: No se encontraron ordenes de servicios');
@@ -49,7 +61,14 @@ export class OrdenServicioRepository {
       if (ordenDeServicioData.code) {
         filter.code = { $regex: new RegExp(`^${ordenDeServicioData.code}$`, 'i') };
       }
-      const ordenDeServicioFound = await this.ordenServicioModel.findOne(filter).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
+      const ordenDeServicioFound = await this.ordenServicioModel.findOne(filter).populate('cliente.clienteId').populate('mecanicos.userId').populate({
+        path: 'productos.productId',
+        populate: [
+          { path: 'marcaId', select: 'nombre' },
+          { path: 'categoryId', select: 'nombre' },
+          { path: 'almacenId', select: 'nombre' }
+        ]
+      });
 
       if (!ordenDeServicioFound) {
         console.log('Orden De Servicio Repository: Orden de servicio no encontrada');
