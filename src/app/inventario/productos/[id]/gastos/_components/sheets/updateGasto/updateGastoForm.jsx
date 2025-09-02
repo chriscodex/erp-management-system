@@ -73,13 +73,14 @@ export function UpdateGastoForm({ onClose, gastoData, productId }) {
     const gastoDataToUpdate = Object.keys(currentValues).reduce(
       (datosCambiados, key) => {
         if (
-          currentValues[key] !== updateGastoProductoForm.formState.defaultValues[key]
+          currentValues[key] !==
+          updateGastoProductoForm.formState.defaultValues[key]
         ) {
           datosCambiados[key] = currentValues[key];
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
     if (new Date(gastoData?.fecha).getTime() !== date.getTime()) {
       gastoDataToUpdate['fecha'] = date;
@@ -99,7 +100,7 @@ export function UpdateGastoForm({ onClose, gastoData, productId }) {
         gastoData?._id,
         productId,
         gastoDataForm,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -114,7 +115,7 @@ export function UpdateGastoForm({ onClose, gastoData, productId }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -162,7 +163,7 @@ export function UpdateGastoForm({ onClose, gastoData, productId }) {
                   className={cn(
                     'w-[280px] justify-start text-left font-normal',
                     !date && 'text-muted-foreground',
-                    formSubmitIsLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    formSubmitIsLoading ? 'opacity-50 cursor-not-allowed' : '',
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />

@@ -16,11 +16,11 @@ export async function GET(_, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Users Route: Error interno al obtener el usuario: ${error.message}`
+      `Users Route: Error interno al obtener el usuario: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno obteniendo el usuario' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -29,7 +29,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateUserController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -39,11 +39,11 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Users Route: Error interno al actualizar el usuario: ${error.message}`
+      `Users Route: Error interno al actualizar el usuario: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno al actualizar el usuario' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -59,11 +59,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Users Route: Error interno al eliminar el usuario: ${error.message}`
+      `Users Route: Error interno al eliminar el usuario: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno eliminando el usuario' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

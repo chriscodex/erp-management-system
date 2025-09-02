@@ -1,19 +1,19 @@
-import { Bike, DollarSign, Package } from "lucide-react";
+import { Bike, DollarSign, Package } from 'lucide-react';
 import {
   RiBox2Fill,
   RiCalendarScheduleLine,
   RiHome2Line,
-} from "@remixicon/react";
-import { notFound } from "next/navigation";
-import { NavbarSimple } from "@/components/navbar/NavbarSimple";
-import { Notifications } from "@/app/home/_components/notifications";
-import { Label } from "@/components/ui/label";
-import { StatHomeCard } from "@/app/home/_components/statCard";
-import { Card, CardContent } from "@/components/ui/card";
+} from '@remixicon/react';
+import { notFound } from 'next/navigation';
+import { NavbarSimple } from '@/components/navbar/NavbarSimple';
+import { Notifications } from '@/app/home/_components/notifications';
+import { Label } from '@/components/ui/label';
+import { StatHomeCard } from '@/app/home/_components/statCard';
+import { Card, CardContent } from '@/components/ui/card';
 import {
   getAllMotosForHomeRequestServer,
   getAllProductsForHomeRequestServer,
-} from "@/app/home/_services/requests";
+} from '@/app/home/_services/requests';
 
 import {
   getAllProductsRequestServer,
@@ -22,20 +22,19 @@ import {
   getAllPedidosRequestServer,
   getAllGastosGeneralesRequestServer,
   getAllVentasHistoricasRequestServer,
-} from "@/app/home/administrador/_services/requests";
+} from '@/app/home/administrador/_services/requests';
 
-import IncomeExpenseBarChart from "@/app/home/administrador/_components/IncomeExpenseBarChart";
-import VentasTotalesBarChart from "@/app/home/administrador/_components/VentasTotalesBarChart";
-import QuickAccessCollapsible from "@/app/home/administrador/_components/QuickAccessCollapsible";
+import IncomeExpenseBarChart from '@/app/home/administrador/_components/IncomeExpenseBarChart';
+import VentasTotalesBarChart from '@/app/home/administrador/_components/VentasTotalesBarChart';
+import QuickAccessCollapsible from '@/app/home/administrador/_components/QuickAccessCollapsible';
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function HomePage() {
-
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
 

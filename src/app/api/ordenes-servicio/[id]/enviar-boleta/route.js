@@ -6,7 +6,7 @@ export async function POST(request, contextRoute) {
     const { payload, status } =
       await enviarBoletaASunatDeOrdenDeServicioController(
         request,
-        contextRoute
+        contextRoute,
       );
 
     if (status !== 200) {
@@ -17,11 +17,11 @@ export async function POST(request, contextRoute) {
   } catch (error) {
     console.error(
       'Ordenes de Servicio Route: Error al enviar boleta a Sunat:',
-      error.message
+      error.message,
     );
     return NextResponse.json(
       { error: 'Error interno enviando boleta a Sunat' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

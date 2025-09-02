@@ -1,16 +1,16 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { getPreventaRequestServer } from "@/app/ventas/preventas/_services/requests";
-import { DetailPreventaContent } from "@/app/ventas/preventas/[preventaId]/_components/detailPreventaContent";
-import { getFirstEmpresaForCotizacionRequestServer } from "@/app/ventas/preventas/[preventaId]/_services/requests";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { getPreventaRequestServer } from '@/app/ventas/preventas/_services/requests';
+import { DetailPreventaContent } from '@/app/ventas/preventas/[preventaId]/_components/detailPreventaContent';
+import { getFirstEmpresaForCotizacionRequestServer } from '@/app/ventas/preventas/[preventaId]/_services/requests';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
   if (
-    session?.user?.rol !== "Administrador" &&
-    session?.user?.rol !== "Vendedor"
+    session?.user?.rol !== 'Administrador' &&
+    session?.user?.rol !== 'Vendedor'
   ) {
     notFound();
   }
@@ -29,23 +29,23 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "/inventario/todos",
+      title: 'Inventario',
+      href: '/inventario/todos',
       active: false,
     },
     {
-      title: "Ventas",
-      href: "",
+      title: 'Ventas',
+      href: '',
       active: false,
     },
     {
-      title: "Preventas",
-      href: "/ventas/preventas",
+      title: 'Preventas',
+      href: '/ventas/preventas',
       active: true,
     },
     {
       title: preventa?.code,
-      href: "",
+      href: '',
       active: false,
     },
   ];

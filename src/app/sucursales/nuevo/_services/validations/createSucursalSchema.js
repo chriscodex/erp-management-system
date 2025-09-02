@@ -32,7 +32,9 @@ export const createSucursalSchema = z.object({
       required_error: 'El teléfono es requerido',
     })
     .min(4, { message: 'El teléfono debe tener al menos 4 dígitos' }),
-  email: z.string({
-    required_error: 'El correo electrónico es requerido',
-  }).email({ message: 'Ingrese un correo válido' }),
+  email: z
+    .string({
+      required_error: 'El correo electrónico es requerido',
+    })
+    .email({ message: 'Ingrese un correo válido' }),
 });

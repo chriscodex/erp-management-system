@@ -26,7 +26,7 @@ export class CategoryService {
       };
     } catch (error) {
       console.error(
-        `Service: Error interno al obtener todas las categorías: ${error.message}`
+        `Service: Error interno al obtener todas las categorías: ${error.message}`,
       );
       return {
         status: 500,
@@ -41,7 +41,7 @@ export class CategoryService {
 
       if (!categoriesFiltered) {
         console.log(
-          'Category Service: No se encontraron categorías filtradas por segmento'
+          'Category Service: No se encontraron categorías filtradas por segmento',
         );
         return {
           status: 200,
@@ -50,7 +50,7 @@ export class CategoryService {
       }
 
       console.log(
-        'Category Service: Categorías filtradas por segmento encontradas'
+        'Category Service: Categorías filtradas por segmento encontradas',
       );
       return {
         status: 200,
@@ -58,7 +58,7 @@ export class CategoryService {
       };
     } catch (error) {
       console.error(
-        `Category Service: Error interno al obtener categorías filtradas por segmento: ${error.message}`
+        `Category Service: Error interno al obtener categorías filtradas por segmento: ${error.message}`,
       );
       return {
         status: 500,
@@ -72,7 +72,7 @@ export class CategoryService {
 
       if (!categoryDeleted) {
         console.log(
-          'Category Service: Categoría no encontrada para ser eliminada'
+          'Category Service: Categoría no encontrada para ser eliminada',
         );
         return {
           status: 404,
@@ -87,7 +87,7 @@ export class CategoryService {
       };
     } catch (error) {
       console.error(
-        `Category Service: Error interno al borrar categoría: ${error.message}`
+        `Category Service: Error interno al borrar categoría: ${error.message}`,
       );
       return {
         status: 500,
@@ -102,7 +102,7 @@ export class CategoryService {
 
       if (!categoryValidated.success) {
         console.log(
-          `Category Service: Error de validación de schema de categoría al crear ${categoryValidated}`
+          `Category Service: Error de validación de schema de categoría al crear ${categoryValidated}`,
         );
         return {
           status: 400,
@@ -123,12 +123,11 @@ export class CategoryService {
       }
 
       // Validar si una categoría con ese nombre y en el mismo segmento ya existe
-      const categoryFound = await this.categoryRepository.getCategoryByData(
-        category
-      );
+      const categoryFound =
+        await this.categoryRepository.getCategoryByData(category);
       if (categoryFound) {
         console.log(
-          'Category Service: La categoría ya existe en este segmento'
+          'Category Service: La categoría ya existe en este segmento',
         );
         return {
           status: 409,
@@ -143,9 +142,8 @@ export class CategoryService {
       };
 
       // Crear el usuario
-      const categoryCreated = await this.categoryRepository.createCategory(
-        categoryObject
-      );
+      const categoryCreated =
+        await this.categoryRepository.createCategory(categoryObject);
 
       console.log('Category Service: Categoría creada correctamente');
       return {
@@ -154,7 +152,7 @@ export class CategoryService {
       };
     } catch (error) {
       console.error(
-        `Category Service: Error interno al crear categoría: ${error.message}`
+        `Category Service: Error interno al crear categoría: ${error.message}`,
       );
       return {
         status: 500,
@@ -177,7 +175,7 @@ export class CategoryService {
 
       if (!categoryValidated.success) {
         console.log(
-          'Category Service: Error de validación de schema de categoría al actualizar'
+          'Category Service: Error de validación de schema de categoría al actualizar',
         );
         return {
           status: 400,
@@ -201,12 +199,11 @@ export class CategoryService {
 
       // Validar si una categoría con ese nombre y en el mismo segmento ya existe
       if (categoryData.nombre) {
-        const categoryFound = await this.categoryRepository.getCategoryByData(
-          categoryData
-        );
+        const categoryFound =
+          await this.categoryRepository.getCategoryByData(categoryData);
         if (categoryFound && categoryFound?._id !== categoryId) {
           console.log(
-            'Category Service: Una categoría con el mismo nombre ya existe en el segmento seleccionado'
+            'Category Service: Una categoría con el mismo nombre ya existe en el segmento seleccionado',
           );
           return {
             status: 409,
@@ -218,7 +215,7 @@ export class CategoryService {
 
       const categoryUpdated = await this.categoryRepository.updateCategory(
         categoryId,
-        categoryData
+        categoryData,
       );
 
       if (!categoryUpdated) {
@@ -236,7 +233,7 @@ export class CategoryService {
       };
     } catch (error) {
       console.error(
-        `Category Service: Error interno al actualizar una categoría: ${error.message}`
+        `Category Service: Error interno al actualizar una categoría: ${error.message}`,
       );
       return {
         status: 500,
@@ -246,7 +243,8 @@ export class CategoryService {
   }
   async getCategoryByData(categoryData) {
     try {
-      const categoryFound = await this.categoryRepository.getCategoryByData(categoryData);
+      const categoryFound =
+        await this.categoryRepository.getCategoryByData(categoryData);
 
       if (!categoryFound) {
         console.log('Category Service: La categoria no existe');
@@ -263,7 +261,7 @@ export class CategoryService {
       };
     } catch (error) {
       console.error(
-        `Category Service: Error interno al buscar la categoria: ${error.message}`
+        `Category Service: Error interno al buscar la categoria: ${error.message}`,
       );
       return {
         status: 500,

@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { ArrowUpDown, CalendarIcon, Edit, Text } from "lucide-react";
-import { RiDeleteBinLine } from "@remixicon/react";
+import { useEffect, useState } from 'react';
+import { ArrowUpDown, CalendarIcon, Edit, Text } from 'lucide-react';
+import { RiDeleteBinLine } from '@remixicon/react';
 
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -12,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 
 import {
   flexRender,
@@ -21,25 +21,25 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/popover';
+import { Textarea } from '@/components/ui/textarea';
 
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 import {
   Table,
   TableBody,
@@ -47,8 +47,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
@@ -58,21 +58,21 @@ import {
   SheetTrigger,
   SheetClose,
   SheetFooter,
-} from "@/components/ui/sheet";
-import { formatMoney, generarNumeroAleatorioSeisDigitos } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { SheetAddServicioWrapper } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/sheets/addServicio/sheetAddServicioWrapper";
-import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
-import { formatDateShort } from "@/lib/formateador";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { servicioSchema } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/servicioSchemaForm";
+} from '@/components/ui/sheet';
+import { formatMoney, generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
+import { SheetAddServicioWrapper } from '@/app/taller/ordenes-servicio/[id]/mecanico/_components/sheets/addServicio/sheetAddServicioWrapper';
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
+import { formatDateShort } from '@/lib/formateador';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { servicioSchema } from '@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/servicioSchemaForm';
 
 export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
   const updateRowValue = (internalId, key, value) => {
     setServiciosTaller((prevData) =>
       prevData.map((row) =>
-        row.internalId === internalId ? { ...row, [key]: value } : row
-      )
+        row.internalId === internalId ? { ...row, [key]: value } : row,
+      ),
     );
   };
 
@@ -80,7 +80,7 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
     setServiciosTaller((prevData) => {
       // Filtra el producto a eliminar
       const updatedData = prevData.filter(
-        (row) => row.internalId !== internalId
+        (row) => row.internalId !== internalId,
       );
       // Reasigna la numeración
       return updatedData.map((row, index) => ({
@@ -92,13 +92,13 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
 
   const columns = [
     {
-      accessorKey: "numeracion",
+      accessorKey: 'numeracion',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             className="w-1"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             N°
             <ArrowUpDown className="h-4 w-4" />
@@ -106,17 +106,17 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("numeracion")}</div>;
+        return <div className="text-start">{row.getValue('numeracion')}</div>;
       },
     },
 
     {
-      accessorKey: "descripcion",
+      accessorKey: 'descripcion',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Descripcion
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -124,16 +124,16 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("descripcion")}</div>;
+        return <div className="text-start">{row.getValue('descripcion')}</div>;
       },
     },
     {
-      accessorKey: "fecha",
+      accessorKey: 'fecha',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Fecha
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -143,18 +143,18 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
       cell: ({ row }) => {
         return (
           <div className="text-start">
-            {formatDateShort(row.getValue("fecha"), false)}
+            {formatDateShort(row.getValue('fecha'), false)}
           </div>
         );
       },
     },
     {
-      accessorKey: "precio",
+      accessorKey: 'precio',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Precio
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -162,13 +162,13 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
         );
       },
       cell: ({ row }) => {
-        const precio = row.getValue("precio");
+        const precio = row.getValue('precio');
         return <div className="text-start">S/. {formatMoney(precio)}</div>;
       },
     },
     {
-      id: "actions",
-      header: "Acciones",
+      id: 'actions',
+      header: 'Acciones',
       cell: ({ row }) => {
         const servicioData = row.original;
 
@@ -185,8 +185,8 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
         const updateForm = useForm({
           resolver: zodResolver(servicioSchema),
           defaultValues: {
-            descripcion: servicioData.descripcion || "",
-            precio: servicioData.precio || "",
+            descripcion: servicioData.descripcion || '',
+            precio: servicioData.precio || '',
             fecha: new Date(servicioData.fecha),
           },
         });
@@ -198,18 +198,18 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
 
           updateRowValue(
             servicioData.internalId,
-            "descripcion",
-            data.descripcion
+            'descripcion',
+            data.descripcion,
           );
           updateRowValue(
             servicioData.internalId,
-            "precio",
-            parseFloat(data.precio)
+            'precio',
+            parseFloat(data.precio),
           );
           updateRowValue(
             servicioData.internalId,
-            "fecha",
-            data.fecha.toISOString()
+            'fecha',
+            data.fecha.toISOString(),
           );
         });
 
@@ -272,15 +272,15 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
                                     <Popover open={open} onOpenChange={setOpen}>
                                       <PopoverTrigger asChild>
                                         <Button
-                                          variant={"outline"}
+                                          variant={'outline'}
                                           className={cn(
-                                            "w-[280px] justify-start text-left font-normal",
-                                            !date && "text-muted-foreground"
+                                            'w-[280px] justify-start text-left font-normal',
+                                            !date && 'text-muted-foreground',
                                           )}
                                         >
                                           <CalendarIcon className="mr-2 h-4 w-4" />
                                           {date ? (
-                                            format(date, "PPP", { locale: es })
+                                            format(date, 'PPP', { locale: es })
                                           ) : (
                                             <span>Selecciona una fecha</span>
                                           )}
@@ -401,9 +401,7 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
     <div>
       {/* Input */}
       <div className="flex gap-2 items-center py-4 w-full">
-        <SheetAddServicioWrapper
-          onAgregarServicio={handleAgregarServicio}
-        />
+        <SheetAddServicioWrapper onAgregarServicio={handleAgregarServicio} />
       </div>
       <div className="rounded-md border w-auto">
         <Table>
@@ -417,7 +415,7 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -430,13 +428,13 @@ export function ServiciosTallerTable({ serviciosTaller, setServiciosTaller }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

@@ -29,5 +29,5 @@ export const createEmpresaSchema = z.object({
   telefono: z
     .string()
     .min(4, { message: 'El teléfono debe tener al menos 4 dígitos' }),
-  email: z.string().email({message: 'Ingrese un correo válido' }),
+  email: z.string().email({ message: 'Ingrese un correo válido' }),
 });

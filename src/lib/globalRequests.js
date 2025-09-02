@@ -19,7 +19,7 @@ export function buscarPorDniClientRequest(dni, setLoading) {
 
       // Obtener los datos de la persona
       const response = await fetchData(
-        `${getSearchedUserClientUrl}?dni=${dni}`
+        `${getSearchedUserClientUrl}?dni=${dni}`,
       );
 
       if (response?.status !== 200) {

@@ -25,7 +25,7 @@ export class AlmacenService {
       };
     } catch (error) {
       console.error(
-        `Almacen Service: Error interno al buscar todas los almacenes: ${error.message}`
+        `Almacen Service: Error interno al buscar todas los almacenes: ${error.message}`,
       );
       return {
         status: 500,
@@ -35,9 +35,8 @@ export class AlmacenService {
   }
   async getAllAlmacenesByData(almacenData) {
     try {
-      const almacenes = await this.almacenRepository.getAllAlmacenesByData(
-        almacenData
-      );
+      const almacenes =
+        await this.almacenRepository.getAllAlmacenesByData(almacenData);
 
       if (almacenes?.length === 0) {
         console.log('Almacen Service: No se encontraron almacenes');
@@ -54,7 +53,7 @@ export class AlmacenService {
       };
     } catch (error) {
       console.error(
-        `Almacen Service: Error interno al buscar todas los almacenes: ${error.message}`
+        `Almacen Service: Error interno al buscar todas los almacenes: ${error.message}`,
       );
       return {
         status: 500,
@@ -64,9 +63,8 @@ export class AlmacenService {
   }
   async getAlmacenByData(almacenData) {
     try {
-      const almacenFound = await this.almacenRepository.getAlmacenByData(
-        almacenData
-      );
+      const almacenFound =
+        await this.almacenRepository.getAlmacenByData(almacenData);
 
       if (!almacenFound) {
         console.log('Almacen Service: La almacen no existe');
@@ -83,7 +81,7 @@ export class AlmacenService {
       };
     } catch (error) {
       console.error(
-        `Almacen Service: Error interno al buscar el almacen: ${error.message}`
+        `Almacen Service: Error interno al buscar el almacen: ${error.message}`,
       );
       return {
         status: 500,
@@ -97,7 +95,7 @@ export class AlmacenService {
 
       if (!almacenValidated.success) {
         console.log(
-          `Almacen Service: Error de validación de schema de almacen al crear ${almacenValidated}`
+          `Almacen Service: Error de validación de schema de almacen al crear ${almacenValidated}`,
         );
         return {
           status: 400,
@@ -106,12 +104,11 @@ export class AlmacenService {
       }
 
       // Validar si un almacen con ese nombre y en el mismo segmento ya existe
-      const almacenFound = await this.almacenRepository.getAlmacenByData(
-        almacenData
-      );
+      const almacenFound =
+        await this.almacenRepository.getAlmacenByData(almacenData);
       if (almacenFound) {
         console.log(
-          'Almacen Service: Un almacen con el mismo nombre ya existe'
+          'Almacen Service: Un almacen con el mismo nombre ya existe',
         );
         return {
           status: 409,
@@ -125,9 +122,8 @@ export class AlmacenService {
         estado: 'activo',
       };
 
-      const almacenCreated = await this.almacenRepository.createAlmacen(
-        almacenObject
-      );
+      const almacenCreated =
+        await this.almacenRepository.createAlmacen(almacenObject);
       console.log('Almacen Service: Almacen creado correctamente');
       return {
         status: 201,
@@ -135,7 +131,7 @@ export class AlmacenService {
       };
     } catch (error) {
       console.error(
-        `Almacen Service: Error interno al crear un almacen: ${error.message}`
+        `Almacen Service: Error interno al crear un almacen: ${error.message}`,
       );
       return {
         status: 500,
@@ -151,7 +147,7 @@ export class AlmacenService {
 
       if (!almacenValidated.success) {
         console.log(
-          'Almacen Service: Error de validación de schema de almacén al actualizar'
+          'Almacen Service: Error de validación de schema de almacén al actualizar',
         );
         return {
           status: 400,
@@ -161,12 +157,11 @@ export class AlmacenService {
 
       // Validar si una marca con ese nombre y en el mismo segmento ya existe
       if (almacenData.nombre) {
-        const almacenFound = await this.almacenRepository.getAlmacenByData(
-          almacenData
-        );
+        const almacenFound =
+          await this.almacenRepository.getAlmacenByData(almacenData);
         if (almacenFound && almacenFound?._id !== almacenId) {
           console.log(
-            'Almacen Service: Un almacen con el mismo nombre ya existe'
+            'Almacen Service: Un almacen con el mismo nombre ya existe',
           );
           return {
             status: 409,
@@ -177,7 +172,7 @@ export class AlmacenService {
 
       const almacenUpdated = await this.almacenRepository.updateAlmacen(
         almacenId,
-        almacenData
+        almacenData,
       );
 
       if (!almacenUpdated) {
@@ -195,7 +190,7 @@ export class AlmacenService {
       };
     } catch (error) {
       console.error(
-        `Almacen Service: Error interno al actualizar el almacén: ${error.message}`
+        `Almacen Service: Error interno al actualizar el almacén: ${error.message}`,
       );
       return {
         status: 500,
@@ -205,13 +200,12 @@ export class AlmacenService {
   }
   async deleteAlmacen(almacenId) {
     try {
-      const almacenDeleted = await this.almacenRepository.deleteAlmacen(
-        almacenId
-      );
+      const almacenDeleted =
+        await this.almacenRepository.deleteAlmacen(almacenId);
 
       if (!almacenDeleted) {
         console.log(
-          'Almacen Service: Almacén no encontrado para ser eliminado'
+          'Almacen Service: Almacén no encontrado para ser eliminado',
         );
         return {
           status: 404,
@@ -226,7 +220,7 @@ export class AlmacenService {
       };
     } catch (error) {
       console.error(
-        `Almacen Service: Error interno al eliminar el almacén: ${error.message}`
+        `Almacen Service: Error interno al eliminar el almacén: ${error.message}`,
       );
       return {
         status: 500,

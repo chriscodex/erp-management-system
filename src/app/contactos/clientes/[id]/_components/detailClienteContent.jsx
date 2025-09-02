@@ -1,16 +1,14 @@
-"use client";
+'use client';
 
-import { User } from "lucide-react";
-import { RiFileListLine, RiFolderHistoryLine } from "@remixicon/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { User } from 'lucide-react';
+import { RiFileListLine, RiFolderHistoryLine } from '@remixicon/react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { Label } from "@/components/ui/label";
-import { columns } from "@/app/contactos/clientes/[id]/_components/ComprasPerUserTable/columns";
-import { DataTableComprasPerUser } from "@/app/contactos/clientes/[id]/_components/ComprasPerUserTable/data-table";
-
+import { Label } from '@/components/ui/label';
+import { columns } from '@/app/contactos/clientes/[id]/_components/ComprasPerUserTable/columns';
+import { DataTableComprasPerUser } from '@/app/contactos/clientes/[id]/_components/ComprasPerUserTable/data-table';
 
 export function DetailClienteContent({ clienteData, ventasHistoricasData }) {
-
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col gap-2 items-center justify-between space-y-0 pb-4 md:flex-row  ">
@@ -32,10 +30,10 @@ export function DetailClienteContent({ clienteData, ventasHistoricasData }) {
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-y-2 gap-x-4">
-              {clienteData?.tipo === "persona" ? (
+              {clienteData?.tipo === 'persona' ? (
                 <>
                   <p>
-                    <strong>Nombre:</strong> {clienteData?.datos?.nombres}{" "}
+                    <strong>Nombre:</strong> {clienteData?.datos?.nombres}{' '}
                     {clienteData?.datos?.apellidos}
                   </p>
                   <p>
@@ -45,14 +43,14 @@ export function DetailClienteContent({ clienteData, ventasHistoricasData }) {
               ) : (
                 <>
                   <p>
-                    <strong>Razón Social:</strong>{" "}
+                    <strong>Razón Social:</strong>{' '}
                     {clienteData?.datos?.razonSocial}
                   </p>
                   <p>
                     <strong>RUC:</strong> {clienteData?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Representante Legal:</strong>{" "}
+                    <strong>Representante Legal:</strong>{' '}
                     {clienteData?.datos?.representanteLegal}
                   </p>
                 </>

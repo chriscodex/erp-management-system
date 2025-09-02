@@ -22,7 +22,7 @@ const searchedUserSchema = new Schema({
   razonSocial: {
     type: String,
     required: false,
-  }
+  },
 });
 
 const SearchedUser =

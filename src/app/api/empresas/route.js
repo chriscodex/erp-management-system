@@ -15,11 +15,11 @@ export async function GET() {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Empresas Route: Error interno al obtener las empresas: ${error.message}`
+      `Empresas Route: Error interno al obtener las empresas: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error obteniendo las empresas' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -35,11 +35,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Empresa Route: Error interno al crear la empresa: ${error.message}`
+      `Empresa Route: Error interno al crear la empresa: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear la empresa' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

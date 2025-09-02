@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { CalendarIcon, Save } from "lucide-react";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { CalendarIcon, Save } from 'lucide-react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+} from '@/components/ui/select';
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   RiArrowLeftLine,
   RiBikeFill,
   RiFileTextFill,
   RiWallet3Line,
-} from "@remixicon/react";
-import { Switch } from "@/components/ui/switch";
+} from '@remixicon/react';
+import { Switch } from '@/components/ui/switch';
 import {
   Form,
   FormControl,
@@ -30,30 +30,30 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useWatch } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from '@/components/ui/form';
+import { useWatch } from 'react-hook-form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { cn } from "@/lib/utils";
-import { shortDelay } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
+import { cn } from '@/lib/utils';
+import { shortDelay } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { estadosPagos } from "@/app/inventario/motos/_services/helpers";
-import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
-import { createPedidoRequestClient } from "@/app/inventario/motos/pedidos/nuevo/_services/requests";
+} from '@/components/ui/popover';
+import { estadosPagos } from '@/app/inventario/motos/_services/helpers';
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
+import { createPedidoRequestClient } from '@/app/inventario/motos/pedidos/nuevo/_services/requests';
 
-import { Textarea } from "@/components/ui/textarea";
+import { Textarea } from '@/components/ui/textarea';
 
-import { SheetAddCaracteristicasMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/addCaracteristicasMoto/sheetAddCaracteristicasMoto";
-import { createPedidoSchema } from "@/app/inventario/motos/pedidos/nuevo/_services/validations/createPedidoSchema";
-import { SheetAddModeloWrapper } from "@/app/inventario/motos/pedidos/_components/sheets/addModelo/sheetAddModelo";
-import { SheetAddProveedorWrapper } from "@/app/inventario/motos/pedidos/_components/sheets/addProveedor/sheetAddProveedor";
+import { SheetAddCaracteristicasMotoWrapper } from '@/app/inventario/motos/modelos/[modeloId]/_components/sheets/addCaracteristicasMoto/sheetAddCaracteristicasMoto';
+import { createPedidoSchema } from '@/app/inventario/motos/pedidos/nuevo/_services/validations/createPedidoSchema';
+import { SheetAddModeloWrapper } from '@/app/inventario/motos/pedidos/_components/sheets/addModelo/sheetAddModelo';
+import { SheetAddProveedorWrapper } from '@/app/inventario/motos/pedidos/_components/sheets/addProveedor/sheetAddProveedor';
 export function NuevoPedidoForm({
   modelos = [],
   modelosPedidos = [],
@@ -65,20 +65,20 @@ export function NuevoPedidoForm({
   const router = useRouter();
 
   const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false); 
+  const [open, setOpen] = useState(false);
 
   const [limitDate, setLimitDate] = useState(new Date());
-  const [limitOpen, setLimitOpen] = useState(false); 
+  const [limitOpen, setLimitOpen] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(createPedidoSchema),
     defaultValues: {
       moto: {
-        descripcion: "",
+        descripcion: '',
       },
-      importado: "no",
+      importado: 'no',
       fechaPago: new Date(),
-      comentario: "",
+      comentario: '',
       fechaLimite: new Date(),
     },
   });
@@ -87,10 +87,10 @@ export function NuevoPedidoForm({
 
   const selectedModelIdWithPrefix = useWatch({
     control,
-    name: "modeloId",
+    name: 'modeloId',
   });
 
-  const [tipoModelo, idModelo] = selectedModelIdWithPrefix?.split("-") || [];
+  const [tipoModelo, idModelo] = selectedModelIdWithPrefix?.split('-') || [];
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
@@ -111,7 +111,7 @@ export function NuevoPedidoForm({
   const [listaProveedores, setListaProveedores] = useState(proveedores);
 
   const modeloSeleccionado =
-    tipoModelo === "modelo"
+    tipoModelo === 'modelo'
       ? modelos.find((m) => m._id === idModelo)
       : listaModelosPedidos.find((m) => m._id === idModelo);
 
@@ -132,10 +132,10 @@ export function NuevoPedidoForm({
       createPedidoRequestClient(
         createPedidoObject,
         setFormSubmitIsLoading,
-        setError
+        setError,
       ),
       {
-        loading: "Registrando...",
+        loading: 'Registrando...',
 
         success: (response) => {
           console.log(response);
@@ -147,18 +147,18 @@ export function NuevoPedidoForm({
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
   useEffect(() => {
     if (selectedModeloId) {
-      setValue("modeloId", `pedido-${selectedModeloId}`);
+      setValue('modeloId', `pedido-${selectedModeloId}`);
     }
   }, [selectedModeloId, setValue]);
 
   useEffect(() => {
     if (selectedProveedorId) {
-      setValue("proveedorId", selectedProveedorId);
+      setValue('proveedorId', selectedProveedorId);
     }
   }, [selectedProveedorId, setValue]);
 
@@ -234,15 +234,15 @@ export function NuevoPedidoForm({
               {modeloSeleccionado && (
                 <div className="mt-4 text-sm space-y-1 border rounded-lg p-4 bg-muted/20">
                   <div>
-                    <Label className="font-semibold">Nombre:</Label>{" "}
+                    <Label className="font-semibold">Nombre:</Label>{' '}
                     {modeloSeleccionado?.nombre}
                   </div>
                   <div>
-                    <Label className="font-semibold">Categoría:</Label>{" "}
+                    <Label className="font-semibold">Categoría:</Label>{' '}
                     {modeloSeleccionado?.categoryId?.nombre}
                   </div>
                   <div>
-                    <Label className="font-semibold">Marca:</Label>{" "}
+                    <Label className="font-semibold">Marca:</Label>{' '}
                     {modeloSeleccionado?.marcaId?.nombre}
                   </div>
                   {/* Agrega más campos según tu estructura */}
@@ -317,7 +317,7 @@ export function NuevoPedidoForm({
                   (() => {
                     const count = Object.values(caracteristicas).filter(
                       (valor) =>
-                        valor !== "" && valor !== null && valor !== undefined
+                        valor !== '' && valor !== null && valor !== undefined,
                     ).length;
                     return count > 0 ? (
                       <span className="text-green-600 text-sm">
@@ -387,15 +387,15 @@ export function NuevoPedidoForm({
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !date && "text-muted-foreground"
+                              'w-[280px] justify-start text-left font-normal',
+                              !date && 'text-muted-foreground',
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {date ? (
-                              format(date, "PPP", { locale: es })
+                              format(date, 'PPP', { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -542,9 +542,9 @@ export function NuevoPedidoForm({
                       </div>
                       <FormControl>
                         <Switch
-                          checked={field.value === "si"}
+                          checked={field.value === 'si'}
                           onCheckedChange={(checked) =>
-                            field.onChange(checked ? "si" : "no")
+                            field.onChange(checked ? 'si' : 'no')
                           }
                           disabled={formSubmitIsLoading}
                         />
@@ -566,15 +566,15 @@ export function NuevoPedidoForm({
                       <Popover open={limitOpen} onOpenChange={setLimitOpen}>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !limitDate && "text-muted-foreground"
+                              'w-[280px] justify-start text-left font-normal',
+                              !limitDate && 'text-muted-foreground',
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {limitDate ? (
-                              format(limitDate, "PPP", { locale: es })
+                              format(limitDate, 'PPP', { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -622,7 +622,7 @@ export function NuevoPedidoForm({
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                "Creando..."
+                'Creando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

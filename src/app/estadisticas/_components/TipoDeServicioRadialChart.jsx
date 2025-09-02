@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from "recharts";
-import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { Label, PolarRadiusAxis, RadialBar, RadialBarChart } from 'recharts';
+import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Card,
@@ -11,14 +11,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';
 
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
+import { MesAnioPicker } from '@/components/calendars/MesAnioPicker';
 
 export default function TipoDeServicioRadialChart({
   dataOrdenesDeServicioHistoricas,
@@ -35,12 +35,12 @@ export default function TipoDeServicioRadialChart({
 
   const chartConfig = {
     Reparación: {
-      label: "Reparación",
-      color: "hsl(var(--chart-2))",
+      label: 'Reparación',
+      color: 'hsl(var(--chart-2))',
     },
     Mantenimiento: {
-      label: "Mantenimiento",
-      color: "hsl(var(--chart-3))",
+      label: 'Mantenimiento',
+      color: 'hsl(var(--chart-3))',
     },
   };
 
@@ -51,7 +51,7 @@ export default function TipoDeServicioRadialChart({
     const reparacion = ordenes.filter((orden) => {
       const fecha = new Date(orden.fechaIngreso);
       return (
-        orden.tipoServicio === "reparacion" &&
+        orden.tipoServicio === 'reparacion' &&
         fecha.getMonth() + 1 === mes &&
         fecha.getFullYear() === anio
       );
@@ -60,7 +60,7 @@ export default function TipoDeServicioRadialChart({
     const mantenimiento = ordenes.filter((orden) => {
       const fecha = new Date(orden.fechaIngreso);
       return (
-        orden.tipoServicio === "mantenimiento" &&
+        orden.tipoServicio === 'mantenimiento' &&
         fecha.getMonth() + 1 === mes &&
         fecha.getFullYear() === anio
       );
@@ -68,7 +68,7 @@ export default function TipoDeServicioRadialChart({
 
     return [
       {
-        name: "total",
+        name: 'total',
         reparacion,
         mantenimiento,
       },
@@ -109,7 +109,7 @@ export default function TipoDeServicioRadialChart({
             <PolarRadiusAxis tick={false} axisLine={false}>
               <Label
                 content={({ viewBox }) => {
-                  if (!viewBox || !("cx" in viewBox && "cy" in viewBox))
+                  if (!viewBox || !('cx' in viewBox && 'cy' in viewBox))
                     return null;
                   const { cx, cy } = viewBox;
 
@@ -170,7 +170,7 @@ export default function TipoDeServicioRadialChart({
         <div className="flex items-center gap-2 leading-none font-medium">
           {total > 0
             ? `${total} órdenes registradas este mes`
-            : "Sin registros este mes"}
+            : 'Sin registros este mes'}
         </div>
         <div className="text-muted-foreground leading-none">
           Distribución de órdenes de servicio por tipo de servicio

@@ -30,11 +30,11 @@ export function ImprimirFacturaButton({
   const router = useRouter();
 
   const selectedEmpresaSinFormatear = empresas.find(
-    (empresa) => empresa.ruc === ordenDeServicioData?.empresa?.ruc
+    (empresa) => empresa.ruc === ordenDeServicioData?.empresa?.ruc,
   );
 
   const [selectedEmpresaId, setSelectedEmpresaId] = useState(
-    selectedEmpresaSinFormatear?._id || empresas[0]?._id || ''
+    selectedEmpresaSinFormatear?._id || empresas[0]?._id || '',
   );
 
   // Siempre obtener el objeto empresa seleccionado a partir del id
@@ -74,7 +74,7 @@ export function ImprimirFacturaButton({
         const responseUpdate = await updateFacturaStateRequestClient(
           ordenDeServicioData?._id,
           counterFactura,
-          selectedEmpresaFormateada
+          selectedEmpresaFormateada,
         );
 
         fechaParaImprimir = responseUpdate?.fechaEmisionComprobante;
@@ -82,7 +82,7 @@ export function ImprimirFacturaButton({
 
       const codigoFactura = formatearCodigoCounterBoletaFactura(
         counterFactura,
-        'factura'
+        'factura',
       );
 
       const empresaParaPDF = isFacturaEmitida
@@ -92,13 +92,13 @@ export function ImprimirFacturaButton({
       // Serie y correlativo
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         counterFactura,
-        'factura'
+        'factura',
       );
 
       // Total y IGV
       const total = ordenDeServicioData?.productos?.reduce(
         (acc, producto) => acc + producto?.precioVenta * producto?.cantidad,
-        0
+        0,
       );
 
       const montoIgv = (0.18 * total).toFixed(2);
@@ -107,7 +107,7 @@ export function ImprimirFacturaButton({
       const fechaFormateada = new Date(
         fechaParaImprimir ||
           ordenDeServicioData?.fechaEmisionComprobante ||
-          new Date()
+          new Date(),
       )
         .toISOString()
         .slice(0, 10);
@@ -152,7 +152,7 @@ export function ImprimirFacturaButton({
         await updateFacturaStateRequestClient(
           ordenDeServicioData?._id,
           counterFactura,
-          selectedEmpresaFormateada
+          selectedEmpresaFormateada,
         );
       }
     } catch (error) {

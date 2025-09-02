@@ -50,18 +50,21 @@ export function CreateFormMarca({ segments }) {
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(createMarcaRequestClient(data, setFormSubmitIsLoading, setError), {
-      loading: 'Creando...',
-      success: () => {
-        clearErrors();
-        router.push('/inventario/marcas');
-        return `Marca creada correctamente`;
+    toast.promise(
+      createMarcaRequestClient(data, setFormSubmitIsLoading, setError),
+      {
+        loading: 'Creando...',
+        success: () => {
+          clearErrors();
+          router.push('/inventario/marcas');
+          return `Marca creada correctamente`;
+        },
+        error: (error) => {
+          setFormSubmitIsLoading(false);
+          return error;
+        },
       },
-      error: (error) => {
-        setFormSubmitIsLoading(false);
-        return error;
-      },
-    });
+    );
   });
 
   return (

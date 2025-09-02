@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { toast } from "sonner";
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { useForm } from 'react-hook-form';
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
 import {
   User,
   Shield,
@@ -17,15 +17,15 @@ import {
   IdCardIcon,
   Trash,
   CalendarIcon, //Calendar
-} from "lucide-react";
+} from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   Dialog,
   DialogContent,
@@ -34,14 +34,14 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Form,
   FormControl,
@@ -49,25 +49,25 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
+} from '@/components/formInputs/onChange';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { UpdateFormCalendar } from "@/components/calendars/updateFormCalendar";
+} from '@/components/ui/popover';
+import { UpdateFormCalendar } from '@/components/calendars/updateFormCalendar';
 
-import { formatDateLong, CrearFullName } from "@/lib/formateador";
-import { updateUserSchema } from "@/app/usuarios/[id]/_validations/updateUserSchema";
-import { updatePasswordSchema } from "@/app/usuarios/[id]/_validations/updatePasswordSchema";
-import { updateUserRequestClient } from "@/app/usuarios/[id]/_services/requests";
-import { DeleteUserAlert } from "@/app/usuarios/_components/Dialog/DeleteUserAlert";
-import { cn } from "@/lib/utils";
-import { RiBuilding4Line } from "@remixicon/react";
+import { formatDateLong, CrearFullName } from '@/lib/formateador';
+import { updateUserSchema } from '@/app/usuarios/[id]/_validations/updateUserSchema';
+import { updatePasswordSchema } from '@/app/usuarios/[id]/_validations/updatePasswordSchema';
+import { updateUserRequestClient } from '@/app/usuarios/[id]/_services/requests';
+import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
+import { cn } from '@/lib/utils';
+import { RiBuilding4Line } from '@remixicon/react';
 
 function FormUserDetail({ userDetail, sucursales }) {
   const router = useRouter();
@@ -85,8 +85,8 @@ function FormUserDetail({ userDetail, sucursales }) {
     direccion: userDetail?.direccion,
     rol: userDetail?.rol,
     estado: userDetail?.estado,
-    password: "",
-    confirmPassword: "",
+    password: '',
+    confirmPassword: '',
     fechaIngreso: userDetail?.fechaIngreso,
     sucursalId: userDetail?.sucursalId?._id,
   };
@@ -122,15 +122,15 @@ function FormUserDetail({ userDetail, sucursales }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (new Date(userDetail?.fechaIngreso).getTime() !== date.getTime()) {
-      userDataToUpdate["fechaIngreso"] = date;
+      userDataToUpdate['fechaIngreso'] = date;
     }
 
     if (Object.keys(userDataToUpdate).length === 0) {
-      toast.error("No se han realizado cambios.");
+      toast.error('No se han realizado cambios.');
       setFormUpdateUserSubmitIsLoading(false);
       return;
     }
@@ -140,10 +140,10 @@ function FormUserDetail({ userDetail, sucursales }) {
       updateUserRequestClient(
         userDetail?._id,
         userDataToUpdate,
-        setFormUpdateUserSubmitIsLoading
+        setFormUpdateUserSubmitIsLoading,
       ),
       {
-        loading: "Actualizando...",
+        loading: 'Actualizando...',
         success: () => {
           clearErrorsUserUpdate();
           setIsEditUserOpen(false);
@@ -154,7 +154,7 @@ function FormUserDetail({ userDetail, sucursales }) {
           setFormUpdateUserSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -167,8 +167,8 @@ function FormUserDetail({ userDetail, sucursales }) {
   const passwordForm = useForm({
     resolver: zodResolver(updatePasswordSchema),
     defaultValues: {
-      password: "",
-      confirmPassword: "",
+      password: '',
+      confirmPassword: '',
     },
   });
 
@@ -188,10 +188,10 @@ function FormUserDetail({ userDetail, sucursales }) {
       updateUserRequestClient(
         userDetail?._id,
         passwordForm,
-        setFormUpdateUserSubmitIsLoading
+        setFormUpdateUserSubmitIsLoading,
       ),
       {
-        loading: "Actualizando...",
+        loading: 'Actualizando...',
         success: () => {
           clearPasswordErrors();
           resetPasswordForm();
@@ -203,7 +203,7 @@ function FormUserDetail({ userDetail, sucursales }) {
           setFormUpdateUserSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -233,9 +233,9 @@ function FormUserDetail({ userDetail, sucursales }) {
                 />
                 <AvatarFallback>
                   {userDetail?.nombres
-                    .split(" ")
+                    .split(' ')
                     .map((n) => n[0])
-                    .join("")}
+                    .join('')}
                 </AvatarFallback>
               </Avatar>
               <div>
@@ -518,18 +518,18 @@ function FormUserDetail({ userDetail, sucursales }) {
                               <Popover open={open} onOpenChange={setOpen}>
                                 <PopoverTrigger asChild>
                                   <Button
-                                    variant={"outline"}
+                                    variant={'outline'}
                                     className={cn(
-                                      "w-auto px-2 justify-start text-left font-normal",
-                                      !date && "text-muted-foreground",
+                                      'w-auto px-2 justify-start text-left font-normal',
+                                      !date && 'text-muted-foreground',
                                       formUpdateUserSubmitIsLoading
-                                        ? "opacity-50 cursor-not-allowed"
-                                        : ""
+                                        ? 'opacity-50 cursor-not-allowed'
+                                        : '',
                                     )}
                                   >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                     {date ? (
-                                      format(date, "PPP", { locale: es })
+                                      format(date, 'PPP', { locale: es })
                                     ) : (
                                       <span>Selecciona una fecha</span>
                                     )}
@@ -623,39 +623,39 @@ function FormUserDetail({ userDetail, sucursales }) {
                   <div className="space-y-8 mt-4">
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">Apellidos:</span>{" "}
+                      <span className="font-semibold">Apellidos:</span>{' '}
                       <span>{userDetail?.apellidos}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <User className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold gap">Nombres:</span>{" "}
+                      <span className="font-semibold gap">Nombres:</span>{' '}
                       <span>{userDetail?.nombres}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <IdCardIcon className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">DNI:</span>{" "}
+                      <span className="font-semibold">DNI:</span>{' '}
                       <span>{userDetail?.dni}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Phone className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">Celular:</span>{" "}
+                      <span className="font-semibold">Celular:</span>{' '}
                       <span>{userDetail?.celular}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <MapPin className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">Dirección:</span>{" "}
+                      <span className="font-semibold">Dirección:</span>{' '}
                       <span>{userDetail?.direccion}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Shield className="h-4 w-4 text-muted-foreground" />
-                      <span className="font-semibold">Rol:</span>{" "}
+                      <span className="font-semibold">Rol:</span>{' '}
                       <span>{userDetail?.rol}</span>
                     </div>
                     <div className="flex items-center space-x-2">
                       <CalendarIcon className="h-4 w-4 text-muted-foreground" />
                       <span className="font-semibold">
                         Fecha de ingreso:
-                      </span>{" "}
+                      </span>{' '}
                       <span>
                         {formatDateLong(userDetail?.fechaIngreso, false)}
                       </span>
@@ -663,7 +663,7 @@ function FormUserDetail({ userDetail, sucursales }) {
                     {userDetail?.sucursalId?.nombre && (
                       <div className="flex items-center space-x-2">
                         <RiBuilding4Line className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-semibold">Sucursal:</span>{" "}
+                        <span className="font-semibold">Sucursal:</span>{' '}
                         <span>{userDetail?.sucursalId?.nombre}</span>
                       </div>
                     )}
@@ -686,7 +686,7 @@ function FormUserDetail({ userDetail, sucursales }) {
                         Estado de la cuenta:
                       </span>
                     </div>
-                    {userDetail?.estado === "activo" ? (
+                    {userDetail?.estado === 'activo' ? (
                       <Badge
                         variant="secondary"
                         className="mt-1 bg-green-600 text-white hover:bg-green-600"

@@ -26,7 +26,7 @@ const sucursalSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Sucursal = models?.Sucursal || model('Sucursal', sucursalSchema);

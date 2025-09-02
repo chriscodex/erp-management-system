@@ -1,21 +1,21 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { Save, CalendarIcon } from "lucide-react";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { RiArrowLeftLine } from "@remixicon/react";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { Save, CalendarIcon } from 'lucide-react';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { RiArrowLeftLine } from '@remixicon/react';
 
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 import {
   Form,
   FormControl,
@@ -23,37 +23,37 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-import { agregarNumeracionTable, cn } from "@/lib/utils";
-import { updateOrdenDeServicioRequestClient } from "@/app/taller/ordenes-servicio/[id]/edit/_services/requests";
+import { agregarNumeracionTable, cn } from '@/lib/utils';
+import { updateOrdenDeServicioRequestClient } from '@/app/taller/ordenes-servicio/[id]/edit/_services/requests';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { ProductsTallerTable } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/productsTallerTable/data-table";
-import { ServiciosTallerTable } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/serviciosTallerTable/data-table";
-import { ProductosExternosTallerTable } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/productosExternosTallerTable/data-table";
-import { updateOrdenDeServicioMecanicoSchema } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/updateOrdenDeServicioMecanicoSchemaForm";
+} from '@/components/ui/select';
+import { ProductsTallerTable } from '@/app/taller/ordenes-servicio/[id]/mecanico/_components/productsTallerTable/data-table';
+import { ServiciosTallerTable } from '@/app/taller/ordenes-servicio/[id]/mecanico/_components/serviciosTallerTable/data-table';
+import { ProductosExternosTallerTable } from '@/app/taller/ordenes-servicio/[id]/mecanico/_components/productosExternosTallerTable/data-table';
+import { updateOrdenDeServicioMecanicoSchema } from '@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/updateOrdenDeServicioMecanicoSchemaForm';
 
 export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
   const router = useRouter();
 
   const [productsTaller, setProductsTaller] = useState(
-    agregarNumeracionTable(ordenDeServicioData?.productos) || []
+    agregarNumeracionTable(ordenDeServicioData?.productos) || [],
   );
 
   const [serviciosTaller, setServiciosTaller] = useState(
-    agregarNumeracionTable(ordenDeServicioData?.servicios) || []
+    agregarNumeracionTable(ordenDeServicioData?.servicios) || [],
   );
 
   const [productosExternosTaller, setProductosExternosTaller] = useState(
-    agregarNumeracionTable(ordenDeServicioData?.productosExternos) || []
+    agregarNumeracionTable(ordenDeServicioData?.productosExternos) || [],
   );
 
   const defaultDate = ordenDeServicioData?.fechaEntregaEstimada
@@ -67,7 +67,7 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
     resolver: zodResolver(updateOrdenDeServicioMecanicoSchema),
     defaultValues: {
       fechaEntregaEstimada: defaultDate,
-      estado: ordenDeServicioData?.estado || "",
+      estado: ordenDeServicioData?.estado || '',
     },
   });
 
@@ -89,7 +89,6 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
 
     if (productsTaller.length > 0) {
       productosFormateados = productsTaller.map((producto) => {
-
         const unitProducto = Array.isArray(producto?.unidades)
           ? producto?.unidades?.find((unit) => unit?.code === producto?.code)
           : null;
@@ -105,7 +104,7 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
           cantidad: producto.cantidad,
           precioCompra: producto.precioCompra,
           precioVenta: producto.precioVenta,
-          inventario: producto.inventario ?? 'existente'
+          inventario: producto.inventario ?? 'existente',
         };
 
         return productoObject;
@@ -123,10 +122,10 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
     toast.promise(
       updateOrdenDeServicioRequestClient(
         updateOrdenDeServicioObject,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
-        loading: "Registrando...",
+        loading: 'Registrando...',
         success: (response) => {
           console.log(response);
           clearErrors();
@@ -137,7 +136,7 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
           setFormSubmitIsLoading(false);
           return error instanceof Error ? error.message : String(error);
         },
-      }
+      },
     );
   });
 
@@ -160,15 +159,15 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !date && "text-muted-foreground"
+                              'w-[280px] justify-start text-left font-normal',
+                              !date && 'text-muted-foreground',
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {date ? (
-                              format(date, "PPP", { locale: es })
+                              format(date, 'PPP', { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -292,7 +291,7 @@ export function NuevaInformacionMecanicoForm({ ordenDeServicioData }) {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                "Registrando..."
+                'Registrando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

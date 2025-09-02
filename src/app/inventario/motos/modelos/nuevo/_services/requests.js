@@ -3,9 +3,8 @@ import { createModeloClientUrl } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
 export async function createModeloRequestClient(modeloData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso para pruebas en la UI

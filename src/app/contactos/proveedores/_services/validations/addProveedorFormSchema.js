@@ -9,9 +9,7 @@ export const addProveedorFormSchema = z.object({
     .max(50, {
       message: 'El nombre debe tener menos de 50 caracteres',
     }),
-  ruc: z
-    .string()
-    .length(11, { message: 'El RUC debe tener 11 dígitos' }),
+  ruc: z.string().length(11, { message: 'El RUC debe tener 11 dígitos' }),
   direccion: z
     .string()
     .min(1, {

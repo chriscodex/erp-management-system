@@ -1,10 +1,10 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 import {
   RiArchiveLine,
   RiFileListLine,
   RiMotorbikeFill,
-} from "@remixicon/react";
-import { Package, DollarSign } from "lucide-react";
+} from '@remixicon/react';
+import { Package, DollarSign } from 'lucide-react';
 import {
   Card,
   CardContent,
@@ -12,25 +12,25 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import {
   getAllAlmacenesRequestServer,
   getAllMotosByAlmacenIdRequestServer,
   getAllProductsByAlmacenIdRequestServer,
-} from "@/app/inventario/almacenes/_services/requests.js";
-import { SheetAddAlmacenWrapper } from "@/app/inventario/almacenes/_components/sheets/addAlmacen/sheetAddAlmacenWrapper";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { AlmacenDetail } from "@/app/inventario/almacenes/_components/sheets/almacenDetail";
-import { Sheet, SheetTrigger } from "@/components/ui/sheet";
-import { SheetUpdateAlmacenWrapper } from "@/app/inventario/almacenes/_components/sheets/updateAlmacen/sheetUpdateAlmacenWrapper";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+} from '@/app/inventario/almacenes/_services/requests.js';
+import { SheetAddAlmacenWrapper } from '@/app/inventario/almacenes/_components/sheets/addAlmacen/sheetAddAlmacenWrapper';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { AlmacenDetail } from '@/app/inventario/almacenes/_components/sheets/almacenDetail';
+import { Sheet, SheetTrigger } from '@/components/ui/sheet';
+import { SheetUpdateAlmacenWrapper } from '@/app/inventario/almacenes/_components/sheets/updateAlmacen/sheetUpdateAlmacenWrapper';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function CompaniesPage() {
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
 
@@ -38,13 +38,13 @@ export default async function CompaniesPage() {
 
   const titles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Almacén",
-      href: "",
+      title: 'Almacén',
+      href: '',
       active: false,
     },
   ];
@@ -53,24 +53,24 @@ export default async function CompaniesPage() {
   await Promise.all(
     almacenes.map(async (almacen) => {
       const motosByAlmacen = await getAllMotosByAlmacenIdRequestServer(
-        almacen._id
+        almacen._id,
       );
       const productsByAlmacen = await getAllProductsByAlmacenIdRequestServer(
-        almacen._id
+        almacen._id,
       );
 
       const totalProductos = productsByAlmacen?.products?.reduce(
         (acumulador, producto) => {
           return acumulador + producto?.stock;
         },
-        0
+        0,
       );
 
       const totalPrecioCompraProductos = productsByAlmacen?.products?.reduce(
         (acumulador, producto) => {
           return acumulador + producto?.stock * producto?.precioCompra;
         },
-        0
+        0,
       );
 
       const totalTiposProductos = productsByAlmacen?.products?.length;
@@ -79,7 +79,7 @@ export default async function CompaniesPage() {
       almacen.totalProducts = totalProductos;
       almacen.totalTiposProductos = totalTiposProductos;
       almacen.totalPrecioCompraProductos = totalPrecioCompraProductos;
-    })
+    }),
   );
 
   return (
@@ -113,7 +113,7 @@ export default async function CompaniesPage() {
                   </div>
                   <div className="flex flex-col gap-2">
                     <div>
-                      {almacen?.estado === "activo" ? (
+                      {almacen?.estado === 'activo' ? (
                         <Badge
                           variant="successTable"
                           className="text-sm flex justify-center"
@@ -155,9 +155,9 @@ export default async function CompaniesPage() {
                   <div className="flex items-center">
                     <DollarSign className="h-5 w-5 mr-2 text-muted-foreground" />
                     <span className="text-sm">
-                      P.C Total: S/.{" "}
+                      P.C Total: S/.{' '}
                       {parseFloat(almacen?.totalPrecioCompraProductos).toFixed(
-                        2
+                        2,
                       )}
                     </span>
                   </div>

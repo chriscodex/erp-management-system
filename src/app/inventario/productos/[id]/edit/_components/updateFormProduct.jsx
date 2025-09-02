@@ -88,7 +88,7 @@ export function UpdateFormProduct({
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(DataToUpdate).length === 0) {
@@ -102,7 +102,7 @@ export function UpdateFormProduct({
       updateProductRequestClient(
         productData?._id,
         DataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -116,7 +116,7 @@ export function UpdateFormProduct({
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 

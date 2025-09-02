@@ -14,7 +14,7 @@ export async function createVentaController(request) {
   } catch (error) {
     console.error(
       'Venta Controller: Error interno al crear la venta:',
-      error.message
+      error.message,
     );
     throw new Error('Venta Controller: Error interno al crear la venta');
   }
@@ -34,7 +34,7 @@ export async function updateVentaController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Venta Controller: Error interno al actualizar la venta:',
-      error.message
+      error.message,
     );
     throw new Error('Venta Controller: Error interno al actualizar la venta');
   }
@@ -52,7 +52,7 @@ export async function deleteVentaController(contextRoute) {
   } catch (error) {
     console.error(
       'Venta Controller: Error interno al eliminar la venta:',
-      error.message
+      error.message,
     );
     throw new Error('Venta Controller: Error interno al eliminar la venta');
   }
@@ -70,7 +70,7 @@ export async function finalizarVentaController(contextRoute) {
   } catch (error) {
     console.error(
       'Venta Controller: Error interno al finalizar la venta:',
-      error.message
+      error.message,
     );
     throw new Error('Venta Controller: Error interno al finalizar la venta');
   }
@@ -94,7 +94,7 @@ export async function enviarBoletaASunatController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Venta Controller: Error interno al enviar boleta a Sunat:',
-      error.message
+      error.message,
     );
     throw new Error('Venta Controller: Error interno al enviar boleta a Sunat');
   }
@@ -118,10 +118,10 @@ export async function enviarFacturaASunatController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Venta Controller: Error interno al enviar factura a Sunat:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Venta Controller: Error interno al enviar factura a Sunat'
+      'Venta Controller: Error interno al enviar factura a Sunat',
     );
   }
 }

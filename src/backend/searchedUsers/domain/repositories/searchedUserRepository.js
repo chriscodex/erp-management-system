@@ -13,7 +13,7 @@ export class SearchedUserRepository {
       return searchedUser;
     } catch (error) {
       throw new Error(
-        `Error al buscar un searchedUser en la base de datos: ${error.message}`
+        `Error al buscar un searchedUser en la base de datos: ${error.message}`,
       );
     }
   }
@@ -29,7 +29,7 @@ export class SearchedUserRepository {
       return searchedUser;
     } catch (error) {
       throw new Error(
-        `Error al buscar un searchedUser en la base de datos: ${error.message}`
+        `Error al buscar un searchedUser en la base de datos: ${error.message}`,
       );
     }
   }
@@ -41,7 +41,7 @@ export class SearchedUserRepository {
       return searchedUser;
     } catch (error) {
       throw new Error(
-        `Error al crear el searchedUser en la base de datos: ${error.message}`
+        `Error al crear el searchedUser en la base de datos: ${error.message}`,
       );
     }
   }
@@ -53,7 +53,7 @@ export class SearchedUserRepository {
       return searchedUser;
     } catch (error) {
       throw new Error(
-        `Error al crear el searchedUser en la base de datos: ${error.message}`
+        `Error al crear el searchedUser en la base de datos: ${error.message}`,
       );
     }
   }

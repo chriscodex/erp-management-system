@@ -1,7 +1,7 @@
-import { User, Package, Gift, Hash } from "lucide-react";
-import { RiInfoCardFill } from "@remixicon/react";
+import { User, Package, Gift, Hash } from 'lucide-react';
+import { RiInfoCardFill } from '@remixicon/react';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -9,13 +9,16 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { formatDateLong, formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
+} from '@/components/ui/table';
+import {
+  formatDateLong,
+  formatearCodigoCounterBoletaFactura,
+} from '@/lib/formateador';
+import { Label } from '@/components/ui/label';
+import { Separator } from '@/components/ui/separator';
 
-import { ImprimirBoletaButton } from "@/app/ventas/[ventaId]/boleta/_components/buttons/imprimirButton";
-import { FinalizarVentaButton } from "@/app/ventas/[ventaId]/_components/buttons/finalizarVentaButton";
+import { ImprimirBoletaButton } from '@/app/ventas/[ventaId]/boleta/_components/buttons/imprimirButton';
+import { FinalizarVentaButton } from '@/app/ventas/[ventaId]/_components/buttons/finalizarVentaButton';
 
 export function DetailBoletaContent({ ventaData, empresas }) {
   return (
@@ -33,7 +36,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
           />
           <FinalizarVentaButton
             ventaId={ventaData?._id}
-            disabled={ventaData?.comprobante !== "Boleta Impresa"}
+            disabled={ventaData?.comprobante !== 'Boleta Impresa'}
           />
         </div>
       </CardHeader>
@@ -48,11 +51,11 @@ export function DetailBoletaContent({ ventaData, empresas }) {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {ventaData?.clienteId?.tipo === "persona" ? (
+              {ventaData?.clienteId?.tipo === 'persona' ? (
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{" "}
-                    {ventaData?.clienteId?.datos?.nombres}{" "}
+                    <strong>Nombre:</strong>{' '}
+                    {ventaData?.clienteId?.datos?.nombres}{' '}
                     {ventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
@@ -60,19 +63,19 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                   </p>
                   {ventaData?.clienteId?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong>{" "}
+                      <strong>Dirección:</strong>{' '}
                       {ventaData?.clienteId?.datos?.direccion}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -80,29 +83,29 @@ export function DetailBoletaContent({ ventaData, empresas }) {
               ) : (
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{" "}
+                    <strong>Razon Social:</strong>{' '}
                     {ventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
                     <strong>RUC:</strong> {ventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Representante Legal:</strong>{" "}
+                    <strong>Representante Legal:</strong>{' '}
                     {ventaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
-                    <strong>Dirección:</strong>{" "}
+                    <strong>Dirección:</strong>{' '}
                     {ventaData?.clienteId?.datos?.direccion}
                   </p>
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -124,24 +127,24 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                   <strong>Código:</strong> {ventaData?.code}
                 </p>
                 <p>
-                  <strong>Fecha:</strong>{" "}
+                  <strong>Fecha:</strong>{' '}
                   {formatDateLong(ventaData?.fecha, true)}
                 </p>
                 <p>
-                  <strong>Vendedor:</strong>{" "}
+                  <strong>Vendedor:</strong>{' '}
                   {ventaData?.usuario?.nombres +
-                    " " +
-                    ventaData?.usuario?.apellidos}{" "}
+                    ' ' +
+                    ventaData?.usuario?.apellidos}{' '}
                 </p>
                 <p>
                   <strong>Comprobante:</strong> {ventaData?.comprobante}
                 </p>
                 {ventaData?.counter && (
                   <p>
-                    <strong>Número de comprobante:</strong>{" "}
+                    <strong>Número de comprobante:</strong>{' '}
                     {formatearCodigoCounterBoletaFactura(
                       ventaData?.counter,
-                      "boleta"
+                      'boleta',
                     )}
                   </p>
                 )}
@@ -186,9 +189,9 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{" "}
+                        S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
-                          2
+                          2,
                         )}
                       </TableCell>
                     </TableRow>
@@ -204,7 +207,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </div>
@@ -215,7 +218,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </div>
@@ -225,7 +228,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </div>

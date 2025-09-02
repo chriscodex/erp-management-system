@@ -40,7 +40,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al buscar todas las ventas: ${error.message}`
+        `Venta Service: Error interno al buscar todas las ventas: ${error.message}`,
       );
       return {
         status: 500,
@@ -68,7 +68,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al buscar la venta: ${error.message}`
+        `Venta Service: Error interno al buscar la venta: ${error.message}`,
       );
       return {
         status: 500,
@@ -127,7 +127,7 @@ export class VentaService {
     try {
       const updatedVenta = await this.ventaRepository.updateVenta(
         ventaId,
-        ventaData
+        ventaData,
       );
 
       return {
@@ -136,7 +136,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al actualizar la venta: ${error.message}`
+        `Venta Service: Error interno al actualizar la venta: ${error.message}`,
       );
       throw new Error(`Error al actualizar la venta: ${error.message}`);
     }
@@ -204,7 +204,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al eliminar la venta: ${error.message}`
+        `Venta Service: Error interno al eliminar la venta: ${error.message}`,
       );
       return {
         status: 500,
@@ -222,7 +222,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`
+        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`,
       );
       return {
         status: 500,
@@ -240,7 +240,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`
+        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`,
       );
       return {
         status: 500,
@@ -279,7 +279,7 @@ export class VentaService {
 
       const ventaHistoricaCreated =
         await this.ventasHistoricasRepository.createVentaHistorica(
-          ventaHistorica
+          ventaHistorica,
         );
       console.log('Venta Service: Venta finalizada correctamente');
 
@@ -295,10 +295,10 @@ export class VentaService {
           } else {
             await this.productRepository.deleteSingleUnitFromProduct(
               producto.productId,
-              producto.unitId
+              producto.unitId,
             );
           }
-        })
+        }),
       );
       //Eliminar los obsequios del inventario
       // eslint-disable-next-line no-undef
@@ -321,7 +321,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al finalizar la venta: ${error.message}`
+        `Venta Service: Error interno al finalizar la venta: ${error.message}`,
       );
       return {
         status: 500,
@@ -342,9 +342,8 @@ export class VentaService {
       }
 
       // 2. Obtener el contador de boletas
-      const numeroBoleta = await this.counterRepository.getCounterByType(
-        'boletas'
-      );
+      const numeroBoleta =
+        await this.counterRepository.getCounterByType('boletas');
       if (!numeroBoleta) {
         return {
           status: 500,
@@ -355,7 +354,7 @@ export class VentaService {
       // 3. Calcular serie y correlativo
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         numeroBoleta,
-        'boleta'
+        'boleta',
       );
 
       // 4. Mapear la venta al formato JSON de boleta
@@ -403,15 +402,15 @@ export class VentaService {
         detailsVenta
           .reduce(
             (acumulador, elemento) => acumulador + elemento.mtoValorVenta,
-            0
+            0,
           )
-          .toFixed(2)
+          .toFixed(2),
       );
       const valorDeVenta = montoOperGravadas;
       const montoIGV = Number(
         detailsVenta
           .reduce((acumulador, elemento) => acumulador + elemento.igv, 0)
-          .toFixed(2)
+          .toFixed(2),
       );
       const subTotal = Number((montoOperGravadas + montoIGV).toFixed(2));
       const montoImpVenta = subTotal;
@@ -494,7 +493,7 @@ export class VentaService {
     } catch (error) {
       console.error(
         'Venta Service: Error al enviar boleta a Sunat:',
-        error.message
+        error.message,
       );
       return {
         status: 500,
@@ -514,9 +513,8 @@ export class VentaService {
       }
 
       // 2. Obtener el contador de facturas
-      const numeroFactura = await this.counterRepository.getCounterByType(
-        'facturas'
-      );
+      const numeroFactura =
+        await this.counterRepository.getCounterByType('facturas');
       if (!numeroFactura) {
         return {
           status: 500,
@@ -527,7 +525,7 @@ export class VentaService {
       // 3. Calcular serie y correlativo
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         numeroFactura,
-        'factura'
+        'factura',
       );
 
       // 4. Mapear la venta al formato JSON de factura
@@ -671,7 +669,7 @@ export class VentaService {
     } catch (error) {
       console.error(
         'Venta Service: Error al enviar factura a Sunat:',
-        error.message
+        error.message,
       );
       return {
         status: 500,

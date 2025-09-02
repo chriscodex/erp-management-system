@@ -1,22 +1,22 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { Plus } from "lucide-react";
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { Plus } from 'lucide-react';
 
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-import { agregarNumeracionTable, sortByUpdateDateDesc } from "@/lib/utils";
+import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
 import {
   getAllMotosByModeloIdRequestServer,
   getModeloByIdRequestServer,
-} from "@/app/inventario/motos/modelos/[modeloId]/_services/requests";
-import { ModeloCard } from "@/app/inventario/motos/modelos/[modeloId]/_components/modeloCard/modeloCard";
-import { RiMotorbikeFill } from "@remixicon/react";
-import { Label } from "@/components/ui/label";
-import { Button } from "@/components/ui/button";
-import { DataTableModelo } from "@/app/inventario/motos/modelos/[modeloId]/_components/modeloTable/data-table";
+} from '@/app/inventario/motos/modelos/[modeloId]/_services/requests';
+import { ModeloCard } from '@/app/inventario/motos/modelos/[modeloId]/_components/modeloCard/modeloCard';
+import { RiMotorbikeFill } from '@remixicon/react';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { DataTableModelo } from '@/app/inventario/motos/modelos/[modeloId]/_components/modeloTable/data-table';
 
 export default async function ModelosPage({ params }) {
   // eslint-disable-next-line no-undef
@@ -41,23 +41,23 @@ export default async function ModelosPage({ params }) {
 
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Motos",
-      href: "",
+      title: 'Motos',
+      href: '',
       active: false,
     },
     {
-      title: "Modelos",
-      href: "/inventario/motos/modelos",
+      title: 'Modelos',
+      href: '/inventario/motos/modelos',
       active: true,
     },
     {
       title: modeloName,
-      href: "",
+      href: '',
       active: false,
     },
   ];
@@ -73,7 +73,7 @@ export default async function ModelosPage({ params }) {
                 {modeloName}
               </Label>
             </div>
-            {session?.user?.rol === "Administrador" && (
+            {session?.user?.rol === 'Administrador' && (
               <Button asChild>
                 <Link href={`/inventario/motos/modelos/${modeloId}/nuevo`}>
                   <Plus className="h-4 w-4" /> Agregar Moto

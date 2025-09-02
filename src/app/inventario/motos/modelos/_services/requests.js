@@ -7,7 +7,6 @@ import { MarcaService } from '@/backend/marcas/application/marca.service';
 import { ModeloService } from '@/backend/modelos/application/modelo.service';
 import { CategoryService } from '@/backend/categorias/application/category.service';
 
-
 export async function getAllModelosRequestServer() {
   try {
     await connectDB();
@@ -30,9 +29,8 @@ export async function getAllModelosRequestServer() {
 }
 
 export async function deleteModeloRequestClient(modeloId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -43,7 +41,7 @@ export async function deleteModeloRequestClient(modeloId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar el modelo: ' + response.response?.data?.error
+          'No se pudo eliminar el modelo: ' + response.response?.data?.error,
         );
         return;
       }
@@ -56,15 +54,14 @@ export async function deleteModeloRequestClient(modeloId) {
 }
 
 export async function getMarcasBySegmentDataForModelosRequestServer(
-  marcaAndSegmentData
+  marcaAndSegmentData,
 ) {
   try {
     await connectDB();
     const marcaService = new MarcaService();
 
-    const response = await marcaService.getMarcasBySegmentData(
-      marcaAndSegmentData
-    );
+    const response =
+      await marcaService.getMarcasBySegmentData(marcaAndSegmentData);
 
     if (response?.status !== 200) {
       console.log('Error al obtener marcas por segmento');
@@ -78,14 +75,14 @@ export async function getMarcasBySegmentDataForModelosRequestServer(
 }
 
 export async function getCategoriesBySegmentDataForModelosRequestServer(
-  categoryAndSegmentData
+  categoryAndSegmentData,
 ) {
   try {
     await connectDB();
     const categoryService = new CategoryService();
 
     const response = await categoryService.getCategoriesBySegmentData(
-      categoryAndSegmentData
+      categoryAndSegmentData,
     );
 
     if (response?.status !== 200) {

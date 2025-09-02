@@ -1,9 +1,9 @@
-import { Package, User, Hash } from "lucide-react";
-import { RiFileListLine, RiMotorbikeFill } from "@remixicon/react";
+import { Package, User, Hash } from 'lucide-react';
+import { RiFileListLine, RiMotorbikeFill } from '@remixicon/react';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { formatDateLong } from "@/lib/formateador";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { formatDateLong } from '@/lib/formateador';
 import {
   RiArrowUpDownLine,
   RiDashboard2Line,
@@ -15,11 +15,11 @@ import {
   RiSpeedLine,
   RiStopMiniFill,
   RiMotorbikeLine,
-} from "@remixicon/react";
-import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { DetailPedidoButtons } from "@/app/inventario/motos/pedidos/[id]/_components/buttons/DetailPedidoButtons";
-import { GenerarInventariadoButton } from "@/app/inventario/motos/pedidos/[id]/_components/buttons/GenerarInventariadoButton";
+} from '@remixicon/react';
+import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
+import { DetailPedidoButtons } from '@/app/inventario/motos/pedidos/[id]/_components/buttons/DetailPedidoButtons';
+import { GenerarInventariadoButton } from '@/app/inventario/motos/pedidos/[id]/_components/buttons/GenerarInventariadoButton';
 
 export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
   return (
@@ -49,25 +49,25 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Modelo:
-                  </span>{" "}
+                  </span>{' '}
                   {pedidoData?.modelo?.nombre}
                 </p>
                 <p className="flex gap-4 justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Descripción:
-                  </span>{" "}
+                  </span>{' '}
                   {pedidoData?.modelo?.descripcion}
                 </p>
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Marca:
-                  </span>{" "}
+                  </span>{' '}
                   {marcaData?.nombre}
                 </p>
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Categoría:
-                  </span>{" "}
+                  </span>{' '}
                   {categoryData?.nombre}
                 </p>
               </div>
@@ -88,13 +88,13 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                   </span>
                   <Badge
                     className={cn(
-                      "capitalize",
-                      pedidoData?.estadoPago === "pendiente" &&
-                        "bg-red-500 text-white",
-                      pedidoData?.estadoPago === "parcial" &&
-                        "bg-yellow-500 text-white",
-                      pedidoData?.estadoPago === "completado" &&
-                        "bg-green-500 text-white"
+                      'capitalize',
+                      pedidoData?.estadoPago === 'pendiente' &&
+                        'bg-red-500 text-white',
+                      pedidoData?.estadoPago === 'parcial' &&
+                        'bg-yellow-500 text-white',
+                      pedidoData?.estadoPago === 'completado' &&
+                        'bg-green-500 text-white',
                     )}
                   >
                     {pedidoData?.estadoPago}
@@ -103,25 +103,25 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Monto pagado:
-                  </span>{" "}
+                  </span>{' '}
                   S/. {pedidoData?.montoPagado}
                 </p>
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Fecha de pago:
-                  </span>{" "}
+                  </span>{' '}
                   {formatDateLong(pedidoData?.fechaPago, false)}
                 </p>
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Monto total:
-                  </span>{" "}
+                  </span>{' '}
                   S/. {pedidoData?.montoTotal}
                 </p>
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Comentario:
-                  </span>{" "}
+                  </span>{' '}
                   {pedidoData?.comentario}
                 </p>
               </div>
@@ -139,25 +139,25 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Nombre:
-                  </span>{" "}
+                  </span>{' '}
                   {pedidoData?.moto?.nombre}
                 </p>
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Descripción:
-                  </span>{" "}
+                  </span>{' '}
                   {pedidoData?.moto?.descripcion}
                 </p>
                 <p className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">
                     Cantidad:
-                  </span>{" "}
+                  </span>{' '}
                   {pedidoData?.moto?.cantidad}
                 </p>
               </div>
               {pedidoData?.moto?.caracteristicas &&
                 Object.values(pedidoData?.moto?.caracteristicas).some((v) =>
-                  v?.trim?.()
+                  v?.trim?.(),
                 ) && (
                   <Card className="mt-2">
                     <CardHeader className="flex flex-row items-start gap-2">
@@ -168,7 +168,7 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                       {pedidoData?.moto?.caracteristicas.motor?.trim() && (
                         <div className="flex items-center gap-2">
                           <RiDashboard2Line className="text-muted-foreground" />
-                          <p className="text-muted-foreground">Motor:</p>{" "}
+                          <p className="text-muted-foreground">Motor:</p>{' '}
                           {pedidoData?.moto?.caracteristicas.motor}
                         </div>
                       )}
@@ -177,7 +177,7 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                           <RiSpeedLine className="text-muted-foreground" />
                           <p className="text-muted-foreground">
                             Cilindrada:
-                          </p>{" "}
+                          </p>{' '}
                           {pedidoData?.moto?.caracteristicas.cilindrada}
                         </div>
                       )}
@@ -186,14 +186,14 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                           <RiFlashlightFill className="text-muted-foreground" />
                           <p className="text-muted-foreground">
                             Potencia:
-                          </p>{" "}
+                          </p>{' '}
                           {pedidoData?.moto?.caracteristicas.potencia}
                         </div>
                       )}
                       {pedidoData?.moto?.caracteristicas.frenos?.trim() && (
                         <div className="flex items-center gap-2">
                           <RiStopMiniFill className="text-muted-foreground" />
-                          <p className="text-muted-foreground">Frenos:</p>{" "}
+                          <p className="text-muted-foreground">Frenos:</p>{' '}
                           {pedidoData?.moto?.caracteristicas.frenos}
                         </div>
                       )}
@@ -202,7 +202,7 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                           <RiRepeatLine className="text-muted-foreground" />
                           <p className="text-muted-foreground">
                             Transmisión:
-                          </p>{" "}
+                          </p>{' '}
                           {pedidoData?.moto?.caracteristicas.transmision}
                         </div>
                       )}
@@ -211,7 +211,7 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                           <RiRuler2Fill className="text-muted-foreground" />
                           <p className="text-muted-foreground">
                             Dimensiones:
-                          </p>{" "}
+                          </p>{' '}
                           {pedidoData?.moto?.caracteristicas.dimensiones}
                         </div>
                       )}
@@ -220,7 +220,7 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                           <RiOilLine className="text-muted-foreground" />
                           <p className="text-muted-foreground">
                             Capacidad de combustible:
-                          </p>{" "}
+                          </p>{' '}
                           {
                             pedidoData?.moto?.caracteristicas
                               .capacidadCombustible
@@ -230,14 +230,14 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                       {pedidoData?.moto?.caracteristicas.suspension?.trim() && (
                         <div className="flex items-center gap-2">
                           <RiArrowUpDownLine className="text-muted-foreground" />
-                          <p className="text-muted-foreground">Suspensión:</p>{" "}
+                          <p className="text-muted-foreground">Suspensión:</p>{' '}
                           {pedidoData?.moto?.caracteristicas.suspension}
                         </div>
                       )}
                       {pedidoData?.moto?.caracteristicas.colores?.trim() && (
                         <div className="flex items-center gap-2">
                           <RiPaletteLine className="text-muted-foreground" />
-                          <p className="text-muted-foreground">Colores:</p>{" "}
+                          <p className="text-muted-foreground">Colores:</p>{' '}
                           {pedidoData?.moto?.caracteristicas.colores}
                         </div>
                       )}
@@ -268,7 +268,7 @@ export function DetailPedidoContent({ pedidoData, marcaData, categoryData }) {
                     Importado:
                   </span>
 
-                  {pedidoData?.moto?.importado === "si" ? "Sí" : "No"}
+                  {pedidoData?.moto?.importado === 'si' ? 'Sí' : 'No'}
                 </div>
                 <div className="flex justify-between">
                   <span className="text-gray-500 dark:text-gray-400">

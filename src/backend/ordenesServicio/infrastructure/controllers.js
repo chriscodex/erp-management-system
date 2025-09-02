@@ -15,10 +15,10 @@ export async function createOrdenDeServicioController(request) {
   } catch (error) {
     console.error(
       'Orden de Servicio Controller: Error interno al crear la orden de servicio:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Orden de Servicio Controller: Error interno al crear la orden de servicio'
+      'Orden de Servicio Controller: Error interno al crear la orden de servicio',
     );
   }
 }
@@ -33,16 +33,16 @@ export async function updateOrdenDeServicioController(request, contextRoute) {
 
     const result = await ordenServicioService.updateOrdenDeServicio(
       ordenDeServicioId,
-      body
+      body,
     );
     return result;
   } catch (error) {
     console.error(
       'Orden de Servicio Controller: Error interno actualizando la orden de servicio',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Orden de Servicio Controller: Error interno actualizando la orden de servicio'
+      'Orden de Servicio Controller: Error interno actualizando la orden de servicio',
     );
   }
 }
@@ -60,10 +60,10 @@ export async function deleteOrdenDeServicioController(contextRoute) {
   } catch (error) {
     console.error(
       'Orden de Servicio Controller: Error interno eliminando la orden de servicio',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Orden de Servicio Controller: Error interno eliminando la orden de servicio'
+      'Orden de Servicio Controller: Error interno eliminando la orden de servicio',
     );
   }
 }
@@ -82,17 +82,17 @@ export async function finalizarOrdenDeServicioController(contextRoute) {
   } catch (error) {
     console.error(
       'Orden de Servicio Controller: Error interno al finalizar la orden de servicio',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Orden de Servicio Controller: Error interno al finalizar la orden de servicio'
+      'Orden de Servicio Controller: Error interno al finalizar la orden de servicio',
     );
   }
 }
 
 export async function enviarBoletaASunatDeOrdenDeServicioController(
   request,
-  contextRoute
+  contextRoute,
 ) {
   try {
     const { params } = contextRoute;
@@ -109,13 +109,13 @@ export async function enviarBoletaASunatDeOrdenDeServicioController(
     const resultado =
       await ordenServicioService.enviarBoletaASunatDeOrdenDeServicio(
         ordenDeServicioId,
-        body
+        body,
       );
     return resultado;
   } catch (error) {
     console.error(
       'Venta Controller: Error interno al enviar boleta a Sunat:',
-      error.message
+      error.message,
     );
     throw new Error('Venta Controller: Error interno al enviar boleta a Sunat');
   }
@@ -136,16 +136,16 @@ export async function enviarFacturaASunatController(request, contextRoute) {
 
     const resultado = await ordenServicioService.enviarFacturaASunat(
       ordenDeServicioId,
-      body
+      body,
     );
     return resultado;
   } catch (error) {
     console.error(
       'Venta Controller: Error interno al enviar factura a Sunat:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Venta Controller: Error interno al enviar factura a Sunat'
+      'Venta Controller: Error interno al enviar factura a Sunat',
     );
   }
 }

@@ -23,7 +23,9 @@ export async function getProductsController(request) {
     if (productUnitCode !== null) {
       const product = await productService.getProductByData({
         unitCode: productUnitCode,
-        unitEstado: { $in: ['disponible', 'reparado', 'dañado', 'desaparecido'] },
+        unitEstado: {
+          $in: ['disponible', 'reparado', 'dañado', 'desaparecido'],
+        },
       });
       return product;
     }
@@ -33,10 +35,10 @@ export async function getProductsController(request) {
   } catch (error) {
     console.error(
       'Product Controller: Error interno al obtener todas los productos:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Product Controller: Error interno al obtener todas los productos'
+      'Product Controller: Error interno al obtener todas los productos',
     );
   }
 }
@@ -53,7 +55,7 @@ export async function getProductByDataController(contextRoute) {
   } catch (error) {
     console.error(
       'Product Controller: Error interno buscando el producto:',
-      error.message
+      error.message,
     );
     throw new Error('Product Controller: Error interno buscando el producto');
   }
@@ -70,7 +72,7 @@ export async function createProductController(request) {
   } catch (error) {
     console.error(
       'Product Controller: Error interno al crear el producto:',
-      error.message
+      error.message,
     );
     throw new Error('Product Controller: Error interno al crear el producto');
   }
@@ -89,17 +91,17 @@ export async function updateUnitProductController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Product Controller: Error interno actualizando el unitProduct:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Product Controller: Error interno actualizando el unitProduct'
+      'Product Controller: Error interno actualizando el unitProduct',
     );
   }
 }
 
 export async function updateOrAddOrReduceUnitsToProductController(
   request,
-  contextRoute
+  contextRoute,
 ) {
   try {
     const { params } = contextRoute;
@@ -123,10 +125,10 @@ export async function updateOrAddOrReduceUnitsToProductController(
   } catch (error) {
     console.error(
       'Product Controller: Error interno agregando unidades al producto:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Product Controller: Error interno agregando unidades al producto'
+      'Product Controller: Error interno agregando unidades al producto',
     );
   }
 }
@@ -144,10 +146,10 @@ export async function deleteProductController(contextRoute) {
   } catch (error) {
     console.error(
       'Product Controller: Error interno al eliminar un producto:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Product Controller: Error interno al eliminar un producto'
+      'Product Controller: Error interno al eliminar un producto',
     );
   }
 }
@@ -163,17 +165,17 @@ export async function deleteSingleUnitFromProductController(contextRoute) {
 
     const deletedProduct = await productService.deleteSingleUnitFromProduct(
       productId,
-      unitId
+      unitId,
     );
 
     return deletedProduct;
   } catch (error) {
     console.error(
       'Product Controller: Error interno al eliminar una unidad del producto:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Product Controller: Error interno al eliminar una unidad del producto'
+      'Product Controller: Error interno al eliminar una unidad del producto',
     );
   }
 }
@@ -191,7 +193,7 @@ export async function createGastoController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Product Controller: Error interno al crear un gasto:',
-      error.message
+      error.message,
     );
     throw new Error('Product Controller: Error interno al crear un gasto');
   }
@@ -209,7 +211,7 @@ export async function deleteGastoController(contextRoute) {
   } catch (error) {
     console.error(
       'Product Controller: Error interno al eliminar un gasto:',
-      error.message
+      error.message,
     );
     throw new Error('Product Controller: Error interno al eliminar un gasto');
   }
@@ -228,7 +230,7 @@ export async function updateGastoController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Product Controller: Error interno actualizando el gasto:',
-      error.message
+      error.message,
     );
     throw new Error('Product Controller: Error interno actualizando el gasto');
   }

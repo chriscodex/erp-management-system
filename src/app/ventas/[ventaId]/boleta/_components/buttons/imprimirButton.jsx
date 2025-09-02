@@ -27,15 +27,15 @@ export function ImprimirBoletaButton({
   const router = useRouter();
 
   const selectedEmpresaSinFormatear = empresas.find(
-    (empresa) => empresa.ruc === ventaData?.empresa?.ruc
+    (empresa) => empresa.ruc === ventaData?.empresa?.ruc,
   );
 
   const [selectedEmpresaId, setSelectedEmpresaId] = useState(
-    selectedEmpresaSinFormatear?._id || empresas[0]?._id || ''
+    selectedEmpresaSinFormatear?._id || empresas[0]?._id || '',
   );
 
   // Siempre obtener el objeto empresa seleccionado a partir del id
-  const empresaSeleccionada = empresas.find(e => e._id === selectedEmpresaId);
+  const empresaSeleccionada = empresas.find((e) => e._id === selectedEmpresaId);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -67,14 +67,14 @@ export function ImprimirBoletaButton({
         await updateBoletaStateRequestClient(
           ventaData?._id,
           counterBoleta,
-          selectedEmpresaFormateada
+          selectedEmpresaFormateada,
         );
       }
 
       /* Formatear los datos para mostrar en el comprobante */
       const codigoBoleta = formatearCodigoCounterBoletaFactura(
         counterBoleta,
-        'boleta'
+        'boleta',
       );
 
       const empresaParaPDF = isBoletaEmitida
@@ -83,12 +83,12 @@ export function ImprimirBoletaButton({
 
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         counterBoleta,
-        'boleta'
+        'boleta',
       );
 
       const montoTotal = ventaData?.productos.reduce(
         (acc, producto) => acc + producto?.precioVenta * producto?.cantidad,
-        0
+        0,
       );
 
       const montoIgv = (0.18 * montoTotal).toFixed(2);

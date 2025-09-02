@@ -2,12 +2,12 @@ import {
   createGastoGeneralClientUrl,
   updateGastoGeneralClientUrl,
   deleteGastoGeneralClientUrl,
-} from "@/lib/urls.js";
-import { postData, patchData, deleteData } from "@/lib/fetchData";
-import { delay, simplificadorParaClientComponent } from "@/lib/utils";
+} from '@/lib/urls.js';
+import { postData, patchData, deleteData } from '@/lib/fetchData';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
-import { connectDB } from "@/db/mongodb";
-import { GastoGeneralService } from "@/backend/gastosGenerales/application/gastoGeneral.service";
+import { connectDB } from '@/db/mongodb';
+import { GastoGeneralService } from '@/backend/gastosGenerales/application/gastoGeneral.service';
 
 export async function getAllGastosGeneralesRequestServer() {
   try {
@@ -16,7 +16,7 @@ export async function getAllGastosGeneralesRequestServer() {
 
     const response = await gastoGeneralService.getAllGastosGenerales();
     if (response?.status !== 200) {
-      console.log("Error al obtener todos los gastos generales");
+      console.log('Error al obtener todos los gastos generales');
       return { gastosGenerales: [], status: response?.status };
     }
     const gastosGenerales = response?.payload;
@@ -30,9 +30,8 @@ export async function getAllGastosGeneralesRequestServer() {
 }
 
 export async function createGastoGeneralRequestClient(gastoData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -47,7 +46,8 @@ export async function createGastoGeneralRequestClient(gastoData, setLoading) {
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          "No se pudo crear el gasto general: " + response.response?.data?.error
+          'No se pudo crear el gasto general: ' +
+            response.response?.data?.error,
         );
         return;
       }
@@ -60,10 +60,13 @@ export async function createGastoGeneralRequestClient(gastoData, setLoading) {
     }
   });
 }
-export async function updateGastoGeneralRequestClient(gastoGeneralId, gastoGeneralData, setLoading) {
-  /* eslint-disable */
+export async function updateGastoGeneralRequestClient(
+  gastoGeneralId,
+  gastoGeneralData,
+  setLoading,
+) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -76,7 +79,8 @@ export async function updateGastoGeneralRequestClient(gastoGeneralId, gastoGener
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          "No se pudo actualizar el gasto general: " + response.response?.data?.error
+          'No se pudo actualizar el gasto general: ' +
+            response.response?.data?.error,
         );
         return;
       }
@@ -90,9 +94,8 @@ export async function updateGastoGeneralRequestClient(gastoGeneralId, gastoGener
   });
 }
 export async function deleteGastoGeneralRequestClient(gastoGeneralId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -103,8 +106,8 @@ export async function deleteGastoGeneralRequestClient(gastoGeneralId) {
       const response = await deleteData(url);
       if (response?.status === 500) {
         reject(
-          "No se pudo eliminar el gasto general: " +
-            response.response?.data?.error
+          'No se pudo eliminar el gasto general: ' +
+            response.response?.data?.error,
         );
         return;
       }

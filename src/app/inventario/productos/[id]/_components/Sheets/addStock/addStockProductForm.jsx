@@ -58,7 +58,7 @@ export function AddStockProductForm({ productData, onClose }) {
       addUnitProductRequestClient(
         productData?._id,
         cantidadAAgregar,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Procesando...',
@@ -73,7 +73,7 @@ export function AddStockProductForm({ productData, onClose }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 

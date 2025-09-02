@@ -139,7 +139,7 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
                       <TableCell>
                         S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
-                          2
+                          2,
                         )}
                       </TableCell>
                     </TableRow>
@@ -155,7 +155,7 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </div>
@@ -166,7 +166,7 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </div>
@@ -176,7 +176,7 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </div>

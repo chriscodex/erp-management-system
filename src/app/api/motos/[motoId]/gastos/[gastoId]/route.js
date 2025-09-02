@@ -16,11 +16,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `GastoMoto Route: Error interno eliminando el gasto de la moto: ${error.message}`
+      `GastoMoto Route: Error interno eliminando el gasto de la moto: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno eliminando el gasto de la moto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -29,7 +29,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateGastoMotoController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -39,11 +39,11 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `GastoMoto Route: Error interno al actualizar el gasto de la moto: ${error.message}`
+      `GastoMoto Route: Error interno al actualizar el gasto de la moto: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno al actualizar el gasto de la moto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

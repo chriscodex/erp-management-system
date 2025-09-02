@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { CalendarIcon, Save } from "lucide-react";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { CalendarIcon, Save } from 'lucide-react';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+} from '@/components/ui/select';
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   RiArrowLeftLine,
   RiBikeFill,
   RiFileTextFill,
   RiWallet3Line,
-} from "@remixicon/react";
-import { Switch } from "@/components/ui/switch";
+} from '@remixicon/react';
+import { Switch } from '@/components/ui/switch';
 import {
   Form,
   FormControl,
@@ -30,29 +30,29 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { useWatch } from "react-hook-form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { cn } from "@/lib/utils";
-import { shortDelay } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/form';
+import { useWatch } from 'react-hook-form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import { shortDelay } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { estadosPagos } from "@/app/inventario/motos/_services/helpers";
-import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
-import { updatePedidoRequestClient } from "@/app/inventario/motos/pedidos/[id]/edit/_services/requests";
+} from '@/components/ui/popover';
+import { estadosPagos } from '@/app/inventario/motos/_services/helpers';
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
+import { updatePedidoRequestClient } from '@/app/inventario/motos/pedidos/[id]/edit/_services/requests';
 
-import { Textarea } from "@/components/ui/textarea";
-import { updatePedidoSchema } from "@/app/inventario/motos/pedidos/[id]/edit/_services/validations/updatePedidoSchema";
-import { SheetUpdateCaracteristicasMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/updateCaracteristicasMoto/sheetUpdateCaracteristicasMoto";
+import { Textarea } from '@/components/ui/textarea';
+import { updatePedidoSchema } from '@/app/inventario/motos/pedidos/[id]/edit/_services/validations/updatePedidoSchema';
+import { SheetUpdateCaracteristicasMotoWrapper } from '@/app/inventario/motos/modelos/[modeloId]/_components/sheets/updateCaracteristicasMoto/sheetUpdateCaracteristicasMoto';
 
-import { SheetAddModeloWrapper } from "@/app/inventario/motos/pedidos/_components/sheets/addModelo/sheetAddModelo";
-import { SheetAddProveedorWrapper } from "@/app/inventario/motos/pedidos/_components/sheets/addProveedor/sheetAddProveedor";
+import { SheetAddModeloWrapper } from '@/app/inventario/motos/pedidos/_components/sheets/addModelo/sheetAddModelo';
+import { SheetAddProveedorWrapper } from '@/app/inventario/motos/pedidos/_components/sheets/addProveedor/sheetAddProveedor';
 export function EditarPedidoForm({
   modelos = [],
   modelosPedidos = [],
@@ -65,26 +65,26 @@ export function EditarPedidoForm({
   const router = useRouter();
 
   const [date, setDate] = useState(new Date());
-  const [open, setOpen] = useState(false); 
+  const [open, setOpen] = useState(false);
 
-    const [limitDate, setLimitDate] = useState(new Date());
-    const [limitOpen, setLimitOpen] = useState(false); 
+  const [limitDate, setLimitDate] = useState(new Date());
+  const [limitOpen, setLimitOpen] = useState(false);
 
   const form = useForm({
     resolver: zodResolver(updatePedidoSchema),
     defaultValues: {
       modeloId: (() => {
         const matchModeloInventario = modelos.find(
-          (m) => m.nombre === pedidoData?.modelo?.nombre
+          (m) => m.nombre === pedidoData?.modelo?.nombre,
         );
         if (matchModeloInventario) return `modelo-${matchModeloInventario._id}`;
 
         const matchModeloPedido = modelosPedidos.find(
-          (m) => m.nombre === pedidoData?.modelo?.nombre
+          (m) => m.nombre === pedidoData?.modelo?.nombre,
         );
         if (matchModeloPedido) return `pedido-${matchModeloPedido._id}`;
 
-        return "";
+        return '';
       })(),
       moto: {
         nombre: pedidoData?.moto?.nombre,
@@ -108,10 +108,10 @@ export function EditarPedidoForm({
 
   const selectedModelIdWithPrefix = useWatch({
     control,
-    name: "modeloId",
+    name: 'modeloId',
   });
 
-  const [tipoModelo, idModelo] = selectedModelIdWithPrefix?.split("-") || [];
+  const [tipoModelo, idModelo] = selectedModelIdWithPrefix?.split('-') || [];
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
@@ -132,7 +132,7 @@ export function EditarPedidoForm({
   const [listaProveedores, setListaProveedores] = useState(proveedores);
 
   const modeloSeleccionado =
-    tipoModelo === "modelo"
+    tipoModelo === 'modelo'
       ? modelos.find((m) => m._id === idModelo)
       : listaModelosPedidos.find((m) => m._id === idModelo);
 
@@ -143,7 +143,7 @@ export function EditarPedidoForm({
 
   const contarCaracteristicasValidas = (obj) =>
     Object.values(obj || {}).filter(
-      (valor) => valor !== "" && valor !== null && valor !== undefined
+      (valor) => valor !== '' && valor !== null && valor !== undefined,
     ).length;
 
   // Manejo de formulario
@@ -158,7 +158,7 @@ export function EditarPedidoForm({
 
     if (Object.keys(dataToUpdate).length === 0) {
       {
-        toast.error("No se han realizado cambios.");
+        toast.error('No se han realizado cambios.');
         setFormSubmitIsLoading(false);
         return;
       }
@@ -170,29 +170,31 @@ export function EditarPedidoForm({
       // caracteristicas: caracteristicas,
     };
 
-    (updateObject["modelo"] = {
+    ((updateObject['modelo'] = {
       nombre: modeloSeleccionado?.nombre,
       descripcion: modeloSeleccionado?.descripcion,
       stockMinimo: modeloSeleccionado?.stockMinimo,
       categoryId: modeloSeleccionado?.categoryId?._id,
       marcaId: modeloSeleccionado?.marcaId?._id,
     }),
-      (updateObject["moto"] = {
+      (updateObject['moto'] = {
         nombre: data.moto?.nombre,
         descripcion: data.moto?.descripcion,
         caracteristicas: caracteristicas,
         cantidad: 1,
         importado: data.importado,
-      });
+      }));
 
-    updateObject["comentario"] = data.comentario;
-    updateObject["estadoPago"] = data.estadoTitle;
+    updateObject['comentario'] = data.comentario;
+    updateObject['estadoPago'] = data.estadoTitle;
     // updateObject["montoPagado"] = Number(data.montoPagado);
-    updateObject["montoPagado"] = data.montoPagado ? Number(data.montoPagado) : 0;
-    updateObject["montoTotal"] = Number(data.montoTotal);
-    updateObject["fechaPago"] = data.fechaPago;
-    updateObject["proveedorId"] = data.proveedorId;
-    updateObject["almacenId"] = data.almacenId;
+    updateObject['montoPagado'] = data.montoPagado
+      ? Number(data.montoPagado)
+      : 0;
+    updateObject['montoTotal'] = Number(data.montoTotal);
+    updateObject['fechaPago'] = data.fechaPago;
+    updateObject['proveedorId'] = data.proveedorId;
+    updateObject['almacenId'] = data.almacenId;
 
     // delete updateObject.createdAt;
     delete updateObject.updatedAt;
@@ -201,7 +203,7 @@ export function EditarPedidoForm({
     toast.promise(
       updatePedidoRequestClient(updateObject, setFormSubmitIsLoading),
       {
-        loading: "Editando...",
+        loading: 'Editando...',
         success: (response) => {
           console.log(response);
           clearErrors();
@@ -212,19 +214,19 @@ export function EditarPedidoForm({
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
   useEffect(() => {
     if (selectedModeloId) {
-      setValue("modeloId", `pedido-${selectedModeloId}`);
+      setValue('modeloId', `pedido-${selectedModeloId}`);
     }
   }, [selectedModeloId, setValue]);
 
   useEffect(() => {
     if (selectedProveedorId) {
-      setValue("proveedorId", selectedProveedorId);
+      setValue('proveedorId', selectedProveedorId);
     }
   }, [selectedProveedorId, setValue]);
 
@@ -300,15 +302,15 @@ export function EditarPedidoForm({
               {modeloSeleccionado && (
                 <div className="mt-4 text-sm space-y-1 border rounded-lg p-4 bg-muted/20">
                   <div>
-                    <Label className="font-semibold">Nombre:</Label>{" "}
+                    <Label className="font-semibold">Nombre:</Label>{' '}
                     {modeloSeleccionado?.nombre}
                   </div>
                   <div>
-                    <Label className="font-semibold">Categoría:</Label>{" "}
+                    <Label className="font-semibold">Categoría:</Label>{' '}
                     {modeloSeleccionado?.categoryId?.nombre}
                   </div>
                   <div>
-                    <Label className="font-semibold">Marca:</Label>{" "}
+                    <Label className="font-semibold">Marca:</Label>{' '}
                     {modeloSeleccionado?.marcaId?.nombre}
                   </div>
                   {/* Agrega más campos según tu estructura */}
@@ -391,12 +393,12 @@ export function EditarPedidoForm({
                   // Calcular cuántas fueron modificadas
                   const modificadas = Object.keys(actuales).reduce(
                     (count, key) => {
-                      const original = originales[key] ?? "";
-                      const actual = actuales[key] ?? "";
+                      const original = originales[key] ?? '';
+                      const actual = actuales[key] ?? '';
 
                       return original !== actual ? count + 1 : count;
                     },
-                    0
+                    0,
                   );
 
                   if (totalActuales > 0) {
@@ -407,7 +409,7 @@ export function EditarPedidoForm({
                             {totalOriginales} característica(s) previa(s)
                             {modificadas > 0 && (
                               <>
-                                {" "}
+                                {' '}
                                 <span className="text-orange-600">
                                   y {modificadas} modificada(s)
                                 </span>
@@ -485,15 +487,15 @@ export function EditarPedidoForm({
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !date && "text-muted-foreground"
+                              'w-[280px] justify-start text-left font-normal',
+                              !date && 'text-muted-foreground',
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {date ? (
-                              format(date, "PPP", { locale: es })
+                              format(date, 'PPP', { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -640,9 +642,9 @@ export function EditarPedidoForm({
                       </div>
                       <FormControl>
                         <Switch
-                          checked={field.value === "si"}
+                          checked={field.value === 'si'}
                           onCheckedChange={(checked) =>
-                            field.onChange(checked ? "si" : "no")
+                            field.onChange(checked ? 'si' : 'no')
                           }
                           disabled={formSubmitIsLoading}
                         />
@@ -654,7 +656,7 @@ export function EditarPedidoForm({
                   </FormItem>
                 )}
               />
-            <FormField
+              <FormField
                 control={control}
                 name="fechaLimite"
                 render={({ field }) => (
@@ -664,15 +666,15 @@ export function EditarPedidoForm({
                       <Popover open={limitOpen} onOpenChange={setLimitOpen}>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !limitDate && "text-muted-foreground"
+                              'w-[280px] justify-start text-left font-normal',
+                              !limitDate && 'text-muted-foreground',
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {limitDate ? (
-                              format(limitDate, "PPP", { locale: es })
+                              format(limitDate, 'PPP', { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -720,7 +722,7 @@ export function EditarPedidoForm({
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                "Creando..."
+                'Creando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

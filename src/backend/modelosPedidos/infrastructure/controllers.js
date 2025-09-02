@@ -1,5 +1,5 @@
-import { ModeloPedidoService } from "@/backend/modelosPedidos/application/modeloPedido.service";
-import { connectDB } from "@/db/mongodb";
+import { ModeloPedidoService } from '@/backend/modelosPedidos/application/modeloPedido.service';
+import { connectDB } from '@/db/mongodb';
 
 const modeloPedidoService = new ModeloPedidoService();
 
@@ -9,17 +9,16 @@ export async function createModeloPedidoController(request) {
 
     await connectDB();
 
-    const modeloPedidoCreated = await modeloPedidoService.createModeloPedido(
-      body
-    );
+    const modeloPedidoCreated =
+      await modeloPedidoService.createModeloPedido(body);
     return modeloPedidoCreated;
   } catch (error) {
     console.error(
-      "Modelo Pedido Controller: Error interno al crear el modelo:",
-      error.message
+      'Modelo Pedido Controller: Error interno al crear el modelo:',
+      error.message,
     );
     throw new Error(
-      "Modelo Pedido Controller: Error interno al crear el modelo"
+      'Modelo Pedido Controller: Error interno al crear el modelo',
     );
   }
 }
@@ -34,16 +33,16 @@ export async function updateModeloPedidoController(request, contextRoute) {
 
     const updatedModeloPedido = await modeloPedidoService.updateModeloPedido(
       modeloPedidoId,
-      body
+      body,
     );
     return updatedModeloPedido;
   } catch (error) {
     console.error(
-      "Modelo Pedido Controller: Error interno al actualizar el modelo:",
-      error.message
+      'Modelo Pedido Controller: Error interno al actualizar el modelo:',
+      error.message,
     );
     throw new Error(
-      "Modelo Pedido Controller: Error interno al actualizar el modelo"
+      'Modelo Pedido Controller: Error interno al actualizar el modelo',
     );
   }
 }
@@ -54,18 +53,17 @@ export async function deleteModeloPedidoController(contextRoute) {
 
     await connectDB();
 
-    const deletedModeloPedido = await modeloPedidoService.deleteModeloPedido(
-      modeloPedidoId
-    );
+    const deletedModeloPedido =
+      await modeloPedidoService.deleteModeloPedido(modeloPedidoId);
 
     return deletedModeloPedido;
   } catch (error) {
     console.error(
-      "Modelo Pedido Controller: Error interno al eliminar un modelo:",
-      error.message
+      'Modelo Pedido Controller: Error interno al eliminar un modelo:',
+      error.message,
     );
     throw new Error(
-      "Modelo Pedido Controller: Error interno al eliminar un modelo"
+      'Modelo Pedido Controller: Error interno al eliminar un modelo',
     );
   }
 }

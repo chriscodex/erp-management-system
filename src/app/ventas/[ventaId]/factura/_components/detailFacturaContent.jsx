@@ -53,7 +53,6 @@ import { addRucSchemaForm } from '@/app/ventas/[ventaId]/factura/_services/valid
 import { updateVentaRequestClient } from '../_services/requests';
 
 export function DetailFacturaContent({ ventaData, empresas }) {
-
   const [showRucInput, setShowRucInput] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -76,7 +75,6 @@ export function DetailFacturaContent({ ventaData, empresas }) {
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async () => {
-    
     let updateObject = {
       clienteRuc: formData?.ruc,
     };
@@ -85,7 +83,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
       updateVentaRequestClient(
         ventaData._id,
         updateObject,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Agregando RUC...',
@@ -98,7 +96,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -304,7 +302,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                     <strong>Número de comprobante:</strong>{' '}
                     {formatearCodigoCounterBoletaFactura(
                       ventaData?.counter,
-                      'factura'
+                      'factura',
                     )}
                   </p>
                 )}
@@ -364,7 +362,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                       <TableCell>
                         S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
-                          2
+                          2,
                         )}
                       </TableCell>
                     </TableRow>
@@ -380,7 +378,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </div>
@@ -391,7 +389,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </div>
@@ -401,7 +399,7 @@ export function DetailFacturaContent({ ventaData, empresas }) {
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </div>

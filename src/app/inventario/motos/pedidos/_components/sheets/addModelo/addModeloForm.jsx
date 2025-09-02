@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { toast } from "sonner";
+import { useForm } from 'react-hook-form';
+import { useState } from 'react';
+import { toast } from 'sonner';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -13,14 +13,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   SheetClose,
   SheetContent,
@@ -28,16 +28,16 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
+} from '@/components/ui/sheet';
 
-import { StringInputField } from "@/components/formInputs/StringInputField";
-import { Textarea } from "@/components/ui/textarea";
-import { Separator } from "@/components/ui/separator";
+import { StringInputField } from '@/components/formInputs/StringInputField';
+import { Textarea } from '@/components/ui/textarea';
+import { Separator } from '@/components/ui/separator';
 
-import { createModeloSchema } from "@/app/inventario/motos/pedidos/_services/validations/createModeloSchema";
-import { createModeloPedidoRequestClient } from "@/app/inventario/motos/pedidos/_services/requests";
+import { createModeloSchema } from '@/app/inventario/motos/pedidos/_services/validations/createModeloSchema';
+import { createModeloPedidoRequestClient } from '@/app/inventario/motos/pedidos/_services/requests';
 
-import {} from "@remixicon/react";
+import {} from '@remixicon/react';
 
 export function AddModeloForm({
   onClose,
@@ -73,7 +73,7 @@ export function AddModeloForm({
     toast.promise(
       createModeloPedidoRequestClient(data, setFormSubmitIsLoading),
       {
-        loading: "Creando...",
+        loading: 'Creando...',
         success: (nuevoModelo) => {
           if (nuevoModelo && onAddModelo) {
             onAddModelo(nuevoModelo);
@@ -82,16 +82,16 @@ export function AddModeloForm({
           resetForm();
           onClose();
 
-          return "Modelo pedido creado correctamente";
+          return 'Modelo pedido creado correctamente';
         },
 
         error: (error) => {
-          console.error("❌ Error inesperado:", error);
-          return typeof error === "string"
+          console.error('❌ Error inesperado:', error);
+          return typeof error === 'string'
             ? error
-            : error?.message || "Error desconocido";
+            : error?.message || 'Error desconocido';
         },
-      }
+      },
     );
   });
 
@@ -223,11 +223,11 @@ export function AddModeloForm({
                           {...field}
                           onChange={(e) => {
                             // Filtramos cualquier valor que no sea un número
-                            const value = e.target.value.replace(/[^0-9]/g, "");
+                            const value = e.target.value.replace(/[^0-9]/g, '');
                             field.onChange(value); // Actualizamos el valor del campo
                           }}
                           onKeyDown={(e) => {
-                            if (e.key === "Enter") {
+                            if (e.key === 'Enter') {
                               e.preventDefault();
                             }
                           }}

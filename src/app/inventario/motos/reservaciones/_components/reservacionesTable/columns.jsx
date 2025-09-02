@@ -6,10 +6,16 @@ import { useState } from 'react';
 import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
 
 import { Button } from '@/components/ui/button';
-import {DropdownMenu,DropdownMenuContent,DropdownMenuItem,DropdownMenuLabel,DropdownMenuSeparator,DropdownMenuTrigger,
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-import { formatDateShort, } from '@/lib/formateador';
+import { formatDateShort } from '@/lib/formateador';
 import { formatMoney } from '@/lib/utils';
 import { DeleteReservacionAlert } from '@/app/inventario/motos/reservaciones/_components/dialogs/DeleteReservacionAlert';
 
@@ -127,7 +133,7 @@ export const columnsReservaciones = [
         : row.cliente?.datos?.dni;
     },
   },
-  
+
   {
     accessorKey: 'pagoInicial',
     header: ({ column }) => {
@@ -189,7 +195,9 @@ export const columnsReservaciones = [
             </DropdownMenuLabel>
             <DropdownMenuItem
               className="cursor-pointer"
-              onClick={() => router.push(`/inventario/motos/reservaciones/${id}`)}
+              onClick={() =>
+                router.push(`/inventario/motos/reservaciones/${id}`)
+              }
             >
               <RiFileListLine />
               Detalle

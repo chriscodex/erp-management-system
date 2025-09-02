@@ -63,8 +63,8 @@ export function DeleteEmpresaAlert({
           <AlertDialogHeader>
             <AlertDialogTitle>Estás completamente seguro?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esta empresa será permanentemente
-              eliminado y no podrás recuperar sus datos.
+              Esta acción no se puede deshacer. Esta empresa será
+              permanentemente eliminado y no podrás recuperar sus datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

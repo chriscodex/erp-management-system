@@ -1,10 +1,10 @@
-import { notFound } from "next/navigation";
-import { RiEditFill } from "@remixicon/react";
+import { notFound } from 'next/navigation';
+import { RiEditFill } from '@remixicon/react';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { getPedidoRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
-import { EditarPedidoForm } from "@/app/inventario/motos/pedidos/[id]/edit/_components/EditarPedidoForm";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { getPedidoRequestServer } from '@/app/inventario/motos/pedidos/_services/requests';
+import { EditarPedidoForm } from '@/app/inventario/motos/pedidos/[id]/edit/_components/EditarPedidoForm';
 import {
   getAllModelosRequestServer,
   getAllModelosPedidosRequestServer,
@@ -12,12 +12,12 @@ import {
   getAllAlmacenesRequestServer,
   getCategoriesBySegmentDataForModelosRequestServer,
   getMarcasBySegmentDataForModelosRequestServer,
-} from "@/app/inventario/motos/pedidos/_services/requests";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+} from '@/app/inventario/motos/pedidos/_services/requests';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
   // eslint-disable-next-line no-undef
@@ -28,12 +28,12 @@ export default async function Page({ params }) {
     getAllProveedoresRequestServer(),
     getAllAlmacenesRequestServer(),
     getCategoriesBySegmentDataForModelosRequestServer({
-      segmentName: "Motos",
-      categoryEstado: "activo",
+      segmentName: 'Motos',
+      categoryEstado: 'activo',
     }),
     getMarcasBySegmentDataForModelosRequestServer({
-      nombre: "Motos",
-      marcaEstado: "activo",
+      nombre: 'Motos',
+      marcaEstado: 'activo',
     }),
   ]);
 
@@ -51,28 +51,28 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Motos",
-      href: "",
+      title: 'Motos',
+      href: '',
       active: false,
     },
     {
-      title: "Pedidos",
-      href: "/inventario/motos/pedidos",
+      title: 'Pedidos',
+      href: '/inventario/motos/pedidos',
       active: true,
     },
     {
       title: pedido?.code,
-      href: "/inventario/motos/pedidos/" + params.id,
+      href: '/inventario/motos/pedidos/' + params.id,
       active: true,
     },
     {
-      title: "Editar",
-      href: "",
+      title: 'Editar',
+      href: '',
       active: false,
     },
   ];

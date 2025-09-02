@@ -12,8 +12,6 @@ export const createClienteClientUrl = '/api/clientes';
 export const updateClienteClientUrl = '/api/clientes';
 export const deleteClienteClientUrl = '/api/clientes';
 export const searchClienteClientUrl = '/api/clientes';
-// export const getClientByDniOrRucClientUrl = '/api/clientes';
-// export const createClienteClientUrl = '/api/clientes';
 
 /* Empresas */
 export const createEmpresaClientUrl = '/api/empresas';
@@ -98,8 +96,6 @@ export const createPreventaClientUrl = '/api/preventas';
 export const deletePreventaClientUrl = '/api/preventas';
 export const updatePreventaClientUrl = '/api/preventas';
 
-
-
 /* Ventas */
 export const createVentaClientUrl = '/api/ventas';
 export const updateVentaClientUrl = '/api/ventas';
@@ -109,13 +105,15 @@ export const finalizarVentaClientUrl = '/api/ventas';
 /* Boleta */
 export const getCurrentCounterBoletaClientUrl = '/api/counters';
 export const updateBoletaStateClientUrl = '/api/ventas';
-export const updateBoletaOrdenDeServicioStateClientUrl = '/api/ordenes-servicio';
+export const updateBoletaOrdenDeServicioStateClientUrl =
+  '/api/ordenes-servicio';
 export const incrementCounterBoletaClientUrl = '/api/counters/increment';
 
 /*Factura*/
 export const getCurrentCounterFacturaClientUrl = '/api/counters';
 export const updateFacturaStateClientUrl = '/api/ventas';
-export const updateFacturaOrdenDeServicioStateClientUrl = '/api/ordenes-servicio';
+export const updateFacturaOrdenDeServicioStateClientUrl =
+  '/api/ordenes-servicio';
 export const incrementCounterFacturaClientUrl = '/api/counters/increment';
 
 /* Nota de Venta */
@@ -127,7 +125,6 @@ export const incrementCounterNotaVentaClientUrl = '/api/counters/increment';
 export const getCurrentCounterCotizacionClientUrl = '/api/counters';
 export const incrementCounterCotizacionClientUrl = '/api/counters/increment';
 
-
 /* Empresas */
 export const createGastoGeneralClientUrl = '/api/gastos-generales';
 export const updateGastoGeneralClientUrl = '/api/gastos-generales';
@@ -136,7 +133,6 @@ export const deleteGastoGeneralClientUrl = '/api/gastos-generales';
 /* Inventariar pedido */
 
 export const inventariarPedidoClientUrl = '/api/pedidos';
-
 
 /* Ordenes de servicio */
 export const createOrdenDeServicioClientUrl = '/api/ordenes-servicio';

@@ -1,17 +1,10 @@
-"use client";
-import {
-  Building,
-  Text,
-  Mail,
-  MapPin,
-  Phone,
-  User2Icon,
-} from "lucide-react";
-import { RiBuilding4Line} from "@remixicon/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import { columns } from "@/app/sucursales/[id]/usuarios/_components/UsersPerSucursalTable/columns";
-import { DataTableUsersPerSucursal } from "@/app/sucursales/[id]/usuarios/_components/UsersPerSucursalTable/data-table";
+'use client';
+import { Building, Text, Mail, MapPin, Phone, User2Icon } from 'lucide-react';
+import { RiBuilding4Line } from '@remixicon/react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Label } from '@/components/ui/label';
+import { columns } from '@/app/sucursales/[id]/usuarios/_components/UsersPerSucursalTable/columns';
+import { DataTableUsersPerSucursal } from '@/app/sucursales/[id]/usuarios/_components/UsersPerSucursalTable/data-table';
 
 export function DetailUsersPerSucursalContent({ sucursalData, usersData }) {
   return (

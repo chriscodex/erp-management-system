@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { Pie, PieChart } from "recharts";
-import { useMemo, useState } from "react";
+import { Pie, PieChart } from 'recharts';
+import { useMemo, useState } from 'react';
 import {
   Card,
   CardContent,
@@ -9,14 +9,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';
 
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
+import { MesAnioPicker } from '@/components/calendars/MesAnioPicker';
 
 export default function OrigenDeServicioPieChart({
   dataOrdenesDeServicioHistoricas,
@@ -54,35 +54,35 @@ export default function OrigenDeServicioPieChart({
 
   const chartData = [
     {
-      tipoComprobante: "Pagado",
+      tipoComprobante: 'Pagado',
       cantidad: pagado,
       cantidad: 10,
       fill: "hsl(var(--chart-4))",
     },
     {
-      tipoComprobante: "Interno",
+      tipoComprobante: 'Interno',
       cantidad: interno,
-      fill: "hsl(var(--chart-5))",
+      fill: 'hsl(var(--chart-5))',
     },
     {
-      tipoComprobante: "Garantía",
+      tipoComprobante: 'Garantía',
       cantidad: garantia,
-      fill: "hsl(var(--chart-1))",
+      fill: 'hsl(var(--chart-1))',
     },
   ];
 
   const chartConfig = {
     pagado: {
-      label: "Pagado",
-      color: "hsl(var(--chart-4))",
+      label: 'Pagado',
+      color: 'hsl(var(--chart-4))',
     },
     interno: {
-      label: "Interno",
-      color: "hsl(var(--chart-5))",
+      label: 'Interno',
+      color: 'hsl(var(--chart-5))',
     },
     garantia: {
-      label: "Garantía",
-      color: "hsl(var(--chart-1))",
+      label: 'Garantía',
+      color: 'hsl(var(--chart-1))',
     },
   };
 
@@ -116,7 +116,9 @@ export default function OrigenDeServicioPieChart({
               />
             </PieChart>
           ) : (
-            <div className="text-6xl font-bold text-muted-foreground text-center pt-20">0</div>
+            <div className="text-6xl font-bold text-muted-foreground text-center pt-20">
+              0
+            </div>
           )}
         </ChartContainer>
       </CardContent>
@@ -124,7 +126,7 @@ export default function OrigenDeServicioPieChart({
         <div className="flex items-center gap-2 font-medium leading-none">
           {total > 0
             ? `Total de servicios: ${total}`
-            : "Sin registros este mes"}
+            : 'Sin registros este mes'}
         </div>
         <div className="leading-none text-muted-foreground">
           Distribución de órdenes de servicio por origen del servicio

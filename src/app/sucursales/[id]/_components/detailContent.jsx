@@ -1,18 +1,12 @@
-"use client";
+'use client';
 
-import {
-  Calendar,
-  Phone,
-  MapPin,
-  Mail,
-  Text,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Calendar, Phone, MapPin, Mail, Text } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { DetailDropdown } from "@/app/sucursales/[id]/_components/detailDropdown";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { DetailDropdown } from '@/app/sucursales/[id]/_components/detailDropdown';
 
 export default function DetailContent({ sucursalData, updatedAt }) {
   const router = useRouter();

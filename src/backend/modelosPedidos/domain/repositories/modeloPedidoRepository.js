@@ -7,7 +7,6 @@ export class ModeloPedidoRepository {
     this.modeloPedidoModel = ModeloPedido;
   }
 
-
   async getAllModelosPedidos() {
     try {
       const modelosPedidos = await this.modeloPedidoModel
@@ -24,17 +23,16 @@ export class ModeloPedidoRepository {
       return modelosPedidos;
     } catch (error) {
       console.error(
-        `Modelo Pedido Repository: Error al buscar todos los modelos: ${error.message}`
+        `Modelo Pedido Repository: Error al buscar todos los modelos: ${error.message}`,
       );
       throw new Error(
-        `Modelo Pedido Repository: Error al buscar todos los modelos: ${error.message}`
+        `Modelo Pedido Repository: Error al buscar todos los modelos: ${error.message}`,
       );
     }
   }
   async getAllModelosPedidosUnpopulated() {
     try {
-      const modelosPedidos = await this.modeloPedidoModel
-        .find()
+      const modelosPedidos = await this.modeloPedidoModel.find();
 
       if (modelosPedidos?.length === 0) {
         console.log('Modelo Pedido Repository: No se encontraron modelos');
@@ -45,10 +43,10 @@ export class ModeloPedidoRepository {
       return modelosPedidos;
     } catch (error) {
       console.error(
-        `Modelo Pedido Repository: Error al buscar todos los modelos: ${error.message}`
+        `Modelo Pedido Repository: Error al buscar todos los modelos: ${error.message}`,
       );
       throw new Error(
-        `Modelo Pedido Repository: Error al buscar todos los modelos: ${error.message}`
+        `Modelo Pedido Repository: Error al buscar todos los modelos: ${error.message}`,
       );
     }
   }
@@ -71,7 +69,9 @@ export class ModeloPedidoRepository {
       }
 
       if (modeloPedidoData.categoryId) {
-        filter.categoryId = new mongoose.Types.ObjectId(modeloPedidoData.categoryId);
+        filter.categoryId = new mongoose.Types.ObjectId(
+          modeloPedidoData.categoryId,
+        );
       }
 
       if (modeloPedidoData.code) {
@@ -79,7 +79,9 @@ export class ModeloPedidoRepository {
       }
 
       if (modeloPedidoData.nombre) {
-        filter.nombre = { $regex: new RegExp(`^${modeloPedidoData.nombre}$`, 'i') };
+        filter.nombre = {
+          $regex: new RegExp(`^${modeloPedidoData.nombre}$`, 'i'),
+        };
       }
 
       const modeloPedidoFound = await this.modeloPedidoModel
@@ -96,7 +98,7 @@ export class ModeloPedidoRepository {
       return modeloPedidoFound;
     } catch (error) {
       console.error(
-        `Modelo Pedido Repository: Error al buscar el modelo: ${error.message}`
+        `Modelo Pedido Repository: Error al buscar el modelo: ${error.message}`,
       );
       throw new Error(`Error al buscar el modelo: ${error.message}`);
     }
@@ -117,7 +119,7 @@ export class ModeloPedidoRepository {
       return populatedModeloPedido;
     } catch (error) {
       console.log(
-        `Modelo Pedido Repository: Error al crear el modelo: ${error.message}`
+        `Modelo Pedido Repository: Error al crear el modelo: ${error.message}`,
       );
       throw new Error(`Error al crear el modelo: ${error.message}`);
     }
@@ -129,12 +131,12 @@ export class ModeloPedidoRepository {
         modeloPedidoData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedModeloPedido) {
         console.log(
-          'Modelo Pedido Repository: Modelo no encontrado para ser actualizado'
+          'Modelo Pedido Repository: Modelo no encontrado para ser actualizado',
         );
         return null;
       }
@@ -143,20 +145,22 @@ export class ModeloPedidoRepository {
       return updatedModeloPedido;
     } catch (error) {
       console.error(
-        `Modelo Pedido Repository: Error al actualizar el modelo: ${error.message}`
+        `Modelo Pedido Repository: Error al actualizar el modelo: ${error.message}`,
       );
       throw new Error(`Error al actualizar el modelo: ${error.message}`);
     }
   }
   async deleteModeloPedido(id) {
     try {
-      const modeloPedidoDeleted = await this.modeloPedidoModel.findOneAndDelete({
-        _id: new mongoose.Types.ObjectId(id),
-      });
+      const modeloPedidoDeleted = await this.modeloPedidoModel.findOneAndDelete(
+        {
+          _id: new mongoose.Types.ObjectId(id),
+        },
+      );
 
       if (!modeloPedidoDeleted) {
         console.log(
-          'Modelo Pedido Repository: Modelo no encontrado para ser eliminado'
+          'Modelo Pedido Repository: Modelo no encontrado para ser eliminado',
         );
         return null;
       }
@@ -165,7 +169,7 @@ export class ModeloPedidoRepository {
       return modeloPedidoDeleted;
     } catch (error) {
       console.error(
-        `Modelo Pedido Repository: Error al eliminar el modelo: ${error.message}`
+        `Modelo Pedido Repository: Error al eliminar el modelo: ${error.message}`,
       );
       throw new Error(`Error al eliminar el modelo: ${error.message}`);
     }

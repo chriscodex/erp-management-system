@@ -1,8 +1,8 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-import { Pedido } from "@/backend/pedidos/domain/models/pedido";
-import { Proveedor } from "@/backend/proveedores/domain/models/proveedor";
-import { Almacen } from "@/backend/almacenes/domain/models/almacen";
+import { Pedido } from '@/backend/pedidos/domain/models/pedido';
+import { Proveedor } from '@/backend/proveedores/domain/models/proveedor';
+import { Almacen } from '@/backend/almacenes/domain/models/almacen';
 
 export class PedidoRepository {
   constructor() {
@@ -15,22 +15,22 @@ export class PedidoRepository {
     try {
       const pedidos = await this.pedidoModel
         .find()
-        .populate("proveedorId")
-        .populate("almacenId");
+        .populate('proveedorId')
+        .populate('almacenId');
 
       if (pedidos?.length === 0) {
-        console.log("Pedido Repository: No se encontraron pedidos");
+        console.log('Pedido Repository: No se encontraron pedidos');
         return [];
       }
 
-      console.log("Pedido Repository: Pedidos encontrados");
+      console.log('Pedido Repository: Pedidos encontrados');
       return pedidos;
     } catch (error) {
       console.error(
-        `Pedido Repository: Error al buscar todos los pedidos: ${error.message}`
+        `Pedido Repository: Error al buscar todos los pedidos: ${error.message}`,
       );
       throw new Error(
-        `Pedido Repository: Error al buscar todos los pedidos: ${error.message}`
+        `Pedido Repository: Error al buscar todos los pedidos: ${error.message}`,
       );
     }
   }
@@ -38,21 +38,21 @@ export class PedidoRepository {
     try {
       const totalPedidos = await this.pedidoModel.countDocuments();
 
-      console.log("Pedido Repository: Pedidos contados");
+      console.log('Pedido Repository: Pedidos contados');
       return totalPedidos;
     } catch (error) {
       console.error(
-        `Pedido Repository: Error al contar todos los pedidos: ${error.message}`
+        `Pedido Repository: Error al contar todos los pedidos: ${error.message}`,
       );
       throw new Error(
-        `Pedido Repository: Error al contar todos los pedidos: ${error.message}`
+        `Pedido Repository: Error al contar todos los pedidos: ${error.message}`,
       );
     }
   }
   async getAllPedidosByData(pedidoData) {
     try {
       if (!pedidoData) {
-        console.log("Pedido Repository: Pedido no proporcionado");
+        console.log('Pedido Repository: Pedido no proporcionado');
         return null;
       }
 
@@ -68,7 +68,7 @@ export class PedidoRepository {
 
       if (pedidoData.proveedorId) {
         filter.proveedorId = new mongoose.Types.ObjectId(
-          pedidoData.proveedorId
+          pedidoData.proveedorId,
         );
       }
 
@@ -81,19 +81,19 @@ export class PedidoRepository {
 
       const pedidoFound = await this.pedidoModel
         .find(filter)
-        .populate("proveedorId")
-        .populate("almacenId");
+        .populate('proveedorId')
+        .populate('almacenId');
 
       if (!pedidoFound) {
-        console.log("Pedido Repository: Pedidos no encontrados");
+        console.log('Pedido Repository: Pedidos no encontrados');
         return null;
       }
 
-      console.log("Pedido Repository: Pedidos encontrados");
+      console.log('Pedido Repository: Pedidos encontrados');
       return pedidoFound;
     } catch (error) {
       console.error(
-        `Pedido Repository: Error al buscar los pedidos: ${error.message}`
+        `Pedido Repository: Error al buscar los pedidos: ${error.message}`,
       );
       throw new Error(`Error al buscar los pedidos: ${error.message}`);
     }
@@ -101,7 +101,7 @@ export class PedidoRepository {
   async getPedidoByData(pedidoData) {
     try {
       if (!pedidoData) {
-        console.log("Pedido Repository: Pedido no proporcionado");
+        console.log('Pedido Repository: Pedido no proporcionado');
         return null;
       }
       const filter = {};
@@ -116,7 +116,7 @@ export class PedidoRepository {
 
       if (pedidoData.proveedorId) {
         filter.proveedorId = new mongoose.Types.ObjectId(
-          pedidoData.proveedorId
+          pedidoData.proveedorId,
         );
       }
 
@@ -125,7 +125,7 @@ export class PedidoRepository {
       }
 
       if (pedidoData.code) {
-        filter.code = { $regex: new RegExp(`^${pedidoData.code}$`, "i") };
+        filter.code = { $regex: new RegExp(`^${pedidoData.code}$`, 'i') };
       }
 
       if (pedidoData.importado) {
@@ -134,17 +134,17 @@ export class PedidoRepository {
 
       const pedidoFound = await this.pedidoModel
         .findOne(filter)
-        .populate("proveedorId")
-        .populate("almacenId");
+        .populate('proveedorId')
+        .populate('almacenId');
 
       if (!pedidoFound) {
-        console.log("Pedido Repository: Pedido no encontrado");
+        console.log('Pedido Repository: Pedido no encontrado');
         return null;
       }
       return pedidoFound;
     } catch (error) {
       console.error(
-        `Pedido Repository: Error al buscar el pedido: ${error.message}`
+        `Pedido Repository: Error al buscar el pedido: ${error.message}`,
       );
       throw new Error(`Error al buscar el pedido: ${error.message}`);
     }
@@ -155,42 +155,41 @@ export class PedidoRepository {
       const savedPedido = await newPedido.save();
 
       const populatedPedido = await savedPedido.populate([
-        { path: "proveedorId" },
-        { path: "almacenId" },
+        { path: 'proveedorId' },
+        { path: 'almacenId' },
       ]);
 
-      console.log("Pedido Repository: Pedido creado correctamente");
+      console.log('Pedido Repository: Pedido creado correctamente');
       return populatedPedido;
     } catch (error) {
       console.log(
-        `Pedido Repository: Error al crear el pedido: ${error.message}`
+        `Pedido Repository: Error al crear el pedido: ${error.message}`,
       );
       throw new Error(`Error al crear el pedido: ${error.message}`);
     }
   }
   async updatePedido(pedidoId, pedidoData) {
     try {
-
       const updatedPedido = await this.pedidoModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(pedidoId) },
         pedidoData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedPedido) {
         console.log(
-          "Pedido Repository: Pedido no encontrado para ser actualizado"
+          'Pedido Repository: Pedido no encontrado para ser actualizado',
         );
         return null;
       }
 
-      console.log("Pedido Repository: Pedido actualizado correctamente");
+      console.log('Pedido Repository: Pedido actualizado correctamente');
       return updatedPedido;
     } catch (error) {
       console.error(
-        `Pedido Repository: Error al actualizar el pedido: ${error.message}`
+        `Pedido Repository: Error al actualizar el pedido: ${error.message}`,
       );
       throw new Error(`Error al actualizar el pedido: ${error.message}`);
     }
@@ -204,16 +203,16 @@ export class PedidoRepository {
 
       if (!deletedPedido) {
         console.log(
-          "Pedido Repository: Pedido no encontrado para ser eliminado"
+          'Pedido Repository: Pedido no encontrado para ser eliminado',
         );
         return null;
       }
 
-      console.log("Pedido Repository: Pedido encontrado y eliminado");
+      console.log('Pedido Repository: Pedido encontrado y eliminado');
       return deletedPedido;
     } catch (error) {
       console.error(
-        `Pedido Repository: Error al eliminar el pedido: ${error.message}`
+        `Pedido Repository: Error al eliminar el pedido: ${error.message}`,
       );
       throw new Error(`Error al eliminar el pedido: ${error.message}`);
     }

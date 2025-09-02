@@ -58,8 +58,8 @@ export function DeleteVentaAlert({
           <AlertDialogHeader>
             <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esta venta será
-              permanentemente eliminada y no podrás recuperar sus datos.
+              Esta acción no se puede deshacer. Esta venta será permanentemente
+              eliminada y no podrás recuperar sus datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

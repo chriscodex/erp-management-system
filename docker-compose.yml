@@ -1,4 +1,4 @@
-version: '3.8'  # (opcional, pero recomendable incluirlo)
+version: '3.8' # (opcional, pero recomendable incluirlo)
 
 services:
   # mongodb:
@@ -31,7 +31,7 @@ services:
     # depends_on:
     #   - mongodb
     volumes:
-      - .:/app  # Montar el código fuente desde la raíz en /app del contenedor
+      - .:/app # Montar el código fuente desde la raíz en /app del contenedor
 
 volumes:
-  mongo-data:  # Definición del volumen
+  mongo-data: # Definición del volumen

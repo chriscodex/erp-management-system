@@ -1,16 +1,16 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { getVentaRequestServer } from "@/app/ventas/_services/requests";
-import { getAllEmpresasForComprobanteVentaRequestServer } from "@/app/ventas/[ventaId]/_services/requests";
-import { DetailNotaVentaContent } from "@/app/ventas/[ventaId]/nota-venta/_components/detailNotaVentaContent";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { getVentaRequestServer } from '@/app/ventas/_services/requests';
+import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
+import { DetailNotaVentaContent } from '@/app/ventas/[ventaId]/nota-venta/_components/detailNotaVentaContent';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
   if (
-    session?.user?.rol !== "Administrador" &&
-    session?.user?.rol !== "Vendedor"
+    session?.user?.rol !== 'Administrador' &&
+    session?.user?.rol !== 'Vendedor'
   ) {
     notFound();
   }
@@ -28,13 +28,13 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "/inventario/todos",
+      title: 'Inventario',
+      href: '/inventario/todos',
       active: false,
     },
     {
-      title: "Ventas",
-      href: "/ventas",
+      title: 'Ventas',
+      href: '/ventas',
       active: true,
     },
     {
@@ -43,8 +43,8 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: "Nota de Venta",
-      href: "",
+      title: 'Nota de Venta',
+      href: '',
       active: false,
     },
   ];

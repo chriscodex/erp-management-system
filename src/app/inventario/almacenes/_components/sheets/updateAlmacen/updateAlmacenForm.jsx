@@ -75,7 +75,7 @@ export function UpdateAlmacenForm({ onClose, almacenData }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(dataToUpdate).length === 0) {
@@ -89,7 +89,7 @@ export function UpdateAlmacenForm({ onClose, almacenData }) {
       updateAlmacenRequestClient(
         almacenData?._id,
         dataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -104,7 +104,7 @@ export function UpdateAlmacenForm({ onClose, almacenData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 

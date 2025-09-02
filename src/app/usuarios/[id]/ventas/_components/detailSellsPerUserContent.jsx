@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   CalendarIcon,
   IdCardIcon,
@@ -6,14 +6,14 @@ import {
   MapPin,
   Phone,
   User,
-} from "lucide-react";
-import { RiFolderHistoryLine, RiShoppingCartLine } from "@remixicon/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { formatDateLong } from "@/lib/formateador";
-import { Label } from "@/components/ui/label";
-import { columns } from "@/app/usuarios/[id]/ventas/_components/SellsPerUserTable/columns";
-import { DataTableSellsPerUser } from "@/app/usuarios/[id]/ventas/_components/SellsPerUserTable/data-table";
+} from 'lucide-react';
+import { RiFolderHistoryLine, RiShoppingCartLine } from '@remixicon/react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { formatDateLong } from '@/lib/formateador';
+import { Label } from '@/components/ui/label';
+import { columns } from '@/app/usuarios/[id]/ventas/_components/SellsPerUserTable/columns';
+import { DataTableSellsPerUser } from '@/app/usuarios/[id]/ventas/_components/SellsPerUserTable/data-table';
 
 export function DetailSellsPerUserContent({ userData, ventasHistoricasData }) {
   return (
@@ -33,7 +33,7 @@ export function DetailSellsPerUserContent({ userData, ventasHistoricasData }) {
             <CardTitle className="flex items-center">
               <User className="mr-2" />
               <span className="mr-2">Información del Usuario</span>
-              {userData?.rol === "Vendedor" ? (
+              {userData?.rol === 'Vendedor' ? (
                 <Badge variant="successTable" className="text-sm">
                   Vendedor
                 </Badge>
@@ -50,7 +50,7 @@ export function DetailSellsPerUserContent({ userData, ventasHistoricasData }) {
                 <div className="flex gap-2 items-center justify-start">
                   <User className="h-4 w-4" />
                   <p>
-                    <strong>Nombre:</strong> {userData.nombres}{" "}
+                    <strong>Nombre:</strong> {userData.nombres}{' '}
                     {userData.apellidos}
                   </p>
                 </div>
@@ -96,7 +96,7 @@ export function DetailSellsPerUserContent({ userData, ventasHistoricasData }) {
                 <div className="flex gap-2 items-center justify-start">
                   <CalendarIcon className="h-4 w-4" />
                   <p>
-                    <strong>Fecha de ingreso:</strong>{" "}
+                    <strong>Fecha de ingreso:</strong>{' '}
                     {formatDateLong(userData.fechaIngreso, false)}
                   </p>
                 </div>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState} from "react";
 import { ArrowUpDown, Plus } from "lucide-react";
@@ -12,7 +12,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 import {
   Select,
   SelectContent,
@@ -54,13 +54,13 @@ export function MecanicosTallerTable({
 
   const columns = [
     {
-      accessorKey: "numeracion",
+      accessorKey: 'numeracion',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             className="w-1"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             N°
             <ArrowUpDown className="h-4 w-4" />
@@ -68,16 +68,16 @@ export function MecanicosTallerTable({
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("numeracion")}</div>;
+        return <div className="text-start">{row.getValue('numeracion')}</div>;
       },
     },
     {
-      accessorKey: "dni",
+      accessorKey: 'dni',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             DNI
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -85,16 +85,16 @@ export function MecanicosTallerTable({
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("dni")}</div>;
+        return <div className="text-start">{row.getValue('dni')}</div>;
       },
     },
     {
-      accessorKey: "nombre",
+      accessorKey: 'nombre',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Nombre completo
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -109,8 +109,8 @@ export function MecanicosTallerTable({
       },
     },
     {
-      id: "actions",
-      header: "Acciones",
+      id: 'actions',
+      header: 'Acciones',
       cell: ({ row }) => {
         const mecanicoData = row.original;
         return (
@@ -236,7 +236,7 @@ export function MecanicosTallerTable({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -249,13 +249,13 @@ export function MecanicosTallerTable({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

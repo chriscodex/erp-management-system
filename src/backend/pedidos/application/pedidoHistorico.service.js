@@ -7,10 +7,13 @@ export class PedidoHistoricoService {
 
   async getAllPedidosHistoricos() {
     try {
-      const pedidosHistoricos = await this.pedidoHistoricoRepository.getAllPedidosHistoricos();
+      const pedidosHistoricos =
+        await this.pedidoHistoricoRepository.getAllPedidosHistoricos();
 
       if (pedidosHistoricos?.length === 0) {
-        console.log('Pedido Historico Service: No se encontraron pedidos históricos');
+        console.log(
+          'Pedido Historico Service: No se encontraron pedidos históricos',
+        );
         return {
           status: 200,
           payload: [],
@@ -23,7 +26,7 @@ export class PedidoHistoricoService {
       };
     } catch (error) {
       console.error(
-        `Pedido Historico Service: Error interno al buscar todos los pedidos históricos: ${error.message}`
+        `Pedido Historico Service: Error interno al buscar todos los pedidos históricos: ${error.message}`,
       );
       return {
         status: 500,

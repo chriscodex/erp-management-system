@@ -21,7 +21,7 @@ export class CategoryRepository {
       return categories;
     } catch (error) {
       console.error(
-        `Category Repository: Error al buscar todas las categorías: ${error}`
+        `Category Repository: Error al buscar todas las categorías: ${error}`,
       );
       throw new Error(`Error interno al buscar todas las categorías: ${error}`);
     }
@@ -60,10 +60,10 @@ export class CategoryRepository {
       return categoryFound;
     } catch (error) {
       console.error(
-        `Category Repository: Error al buscar categoría por filtro: ${error.message}`
+        `Category Repository: Error al buscar categoría por filtro: ${error.message}`,
       );
       throw new Error(
-        `Error interno al buscar categoría por filtro: ${error.message}`
+        `Error interno al buscar categoría por filtro: ${error.message}`,
       );
     }
   }
@@ -76,7 +76,7 @@ export class CategoryRepository {
       /* Filtros para el segmento */
       if (categoryAndSegmentData.segmentId) {
         segmentFilter._id = new mongoose.Types.ObjectId(
-          categoryAndSegmentData.segmentId
+          categoryAndSegmentData.segmentId,
         );
       }
 
@@ -98,26 +98,26 @@ export class CategoryRepository {
           match: segmentFilter,
         })
         .then(
-          (results) => results.filter((category) => category.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+          (results) => results.filter((category) => category.segmentId), // Solo incluye resultados donde `segmentId` cumple la condición
         );
 
       if (categoriesFilteredBySegmentData?.length === 0) {
         console.log(
-          'Category Repository: No se encontraron categorías filtradas por segmento'
+          'Category Repository: No se encontraron categorías filtradas por segmento',
         );
         return null;
       }
 
       console.log(
-        'Category Repository: Categorías filtradas por segmento encontradas'
+        'Category Repository: Categorías filtradas por segmento encontradas',
       );
       return categoriesFilteredBySegmentData;
     } catch (error) {
       console.error(
-        `Category Repository: Error al buscar categorías filtradas por segmento: ${error.message}`
+        `Category Repository: Error al buscar categorías filtradas por segmento: ${error.message}`,
       );
       throw new Error(
-        `Error interno al buscar categorías filtradas por segmento: ${error.message}`
+        `Error interno al buscar categorías filtradas por segmento: ${error.message}`,
       );
     }
   }
@@ -130,7 +130,7 @@ export class CategoryRepository {
       return savedCategory;
     } catch (error) {
       console.log(
-        `Category Repository: Error al crear categoría: ${error.message}`
+        `Category Repository: Error al crear categoría: ${error.message}`,
       );
       throw new Error(`Error al crear categoría: ${error.message}`);
     }
@@ -142,12 +142,12 @@ export class CategoryRepository {
         categoryData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedCategory) {
         console.log(
-          'Category Repository: Categoría no encontrada para ser actualizada'
+          'Category Repository: Categoría no encontrada para ser actualizada',
         );
         return null;
       }
@@ -156,7 +156,7 @@ export class CategoryRepository {
       return updatedCategory;
     } catch (error) {
       console.error(
-        `Category Repository: Error al actualizar la categoría: ${error.message}`
+        `Category Repository: Error al actualizar la categoría: ${error.message}`,
       );
       throw new Error(`Error al actualizar la categoría: ${error.message}`);
     }
@@ -169,7 +169,7 @@ export class CategoryRepository {
 
       if (!deletedCategory) {
         console.log(
-          'Category Repository: Categoría no encontrada para ser eliminado'
+          'Category Repository: Categoría no encontrada para ser eliminado',
         );
         return null;
       }
@@ -178,7 +178,7 @@ export class CategoryRepository {
       return deletedCategory;
     } catch (error) {
       console.error(
-        `Category Repository: Error al eliminar una categoría: ${error.message}`
+        `Category Repository: Error al eliminar una categoría: ${error.message}`,
       );
       throw new Error(`Error al eliminar categoría: ${error.message}`);
     }

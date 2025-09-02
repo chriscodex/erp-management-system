@@ -31,7 +31,7 @@ export function PdfFactura({
 
   const codigoFactura = formatearCodigoCounterBoletaFactura(
     counterFactura,
-    'factura'
+    'factura',
   );
 
   const MapPin = () => (
@@ -194,7 +194,7 @@ export function PdfFactura({
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -207,7 +207,7 @@ export function PdfFactura({
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -219,7 +219,7 @@ export function PdfFactura({
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -231,7 +231,7 @@ export function PdfFactura({
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -243,9 +243,9 @@ export function PdfFactura({
                   .reduce(
                     (acc, producto) =>
                       acc + producto?.precioVenta * producto?.cantidad,
-                    0
+                    0,
                   )
-                  .toFixed(2)
+                  .toFixed(2),
               )}
             </Text>
           </View>

@@ -23,10 +23,13 @@ export async function getEmpresaRequestServer(id) {
   }
 }
 
-export async function updateEmpresaRequestClient(empresaId, empresaData, setLoading) {
-  /* eslint-disable */
+export async function updateEmpresaRequestClient(
+  empresaId,
+  empresaData,
+  setLoading,
+) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -39,7 +42,7 @@ export async function updateEmpresaRequestClient(empresaId, empresaData, setLoad
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar la empresa: ' + response.response?.data?.error
+          'No se pudo actualizar la empresa: ' + response.response?.data?.error,
         );
         return;
       }

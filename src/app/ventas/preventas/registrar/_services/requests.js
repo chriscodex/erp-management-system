@@ -9,7 +9,7 @@ import { delay } from '@/lib/utils';
 
 export function searchClientePorDniOrRucClientRequest(
   identificador,
-  setLoading
+  setLoading,
 ) {
   // eslint-disable-next-line
   return new Promise(async (resolve, reject) => {
@@ -27,7 +27,7 @@ export function searchClientePorDniOrRucClientRequest(
 
       if (identificador?.length === 8) {
         const response = await fetchData(
-          `${searchClienteClientUrl}?dni=${identificador}`
+          `${searchClienteClientUrl}?dni=${identificador}`,
         );
         if (response?.status !== 200) {
           setLoading(false);
@@ -40,7 +40,7 @@ export function searchClientePorDniOrRucClientRequest(
 
       if (identificador?.length === 11) {
         const response = await fetchData(
-          `${searchClienteClientUrl}?ruc=${identificador}`
+          `${searchClienteClientUrl}?ruc=${identificador}`,
         );
         if (response?.status !== 200) {
           setLoading(false);
@@ -67,7 +67,7 @@ export function getProductByCodeClientRequest(code, setLoading) {
       await delay();
 
       const responseProduct = await fetchData(
-        `${getProductByCodeClientUrl}/?unit-code=${code}`
+        `${getProductByCodeClientUrl}/?unit-code=${code}`,
       );
 
       if (responseProduct?.status === 200 && responseProduct?.data?.payload) {
@@ -86,14 +86,11 @@ export function getProductByCodeClientRequest(code, setLoading) {
       }
 
       const responseMoto = await fetchData(
-        `${getMotoByCodeClientUrl}/?code=${code}`
+        `${getMotoByCodeClientUrl}/?code=${code}`,
       );
 
       //Para el error prevendido
-      if (
-        responseMoto?.status === 201 &&
-        responseMoto?.data?.error?.message
-      ) {
+      if (responseMoto?.status === 201 && responseMoto?.data?.error?.message) {
         setLoading(false);
         return reject(responseMoto.data.error.message);
       }
@@ -106,7 +103,6 @@ export function getProductByCodeClientRequest(code, setLoading) {
 
       setLoading(false);
       reject('No se ha encontrado un producto o moto con ese código');
-
     } catch (error) {
       setLoading(false);
       reject(error);
@@ -124,7 +120,7 @@ export function getObsequioByCodeClientRequest(code, setLoading) {
       await delay();
 
       const responseProduct = await fetchData(
-        `${getProductByCodeClientUrl}/?obsequio-code=${code}`
+        `${getProductByCodeClientUrl}/?obsequio-code=${code}`,
       );
 
       if (responseProduct?.status === 200 && responseProduct?.data?.payload) {
@@ -133,13 +129,13 @@ export function getObsequioByCodeClientRequest(code, setLoading) {
         return;
       } else {
         const responseProduct = await fetchData(
-          `${getProductByCodeClientUrl}/?unit-code=${code}`
+          `${getProductByCodeClientUrl}/?unit-code=${code}`,
         );
 
         if (responseProduct?.status === 200 && responseProduct?.data?.payload) {
           setLoading(false);
           reject(
-            'Se ha encontrado el producto, pero no está marcado como obsequio'
+            'Se ha encontrado el producto, pero no está marcado como obsequio',
           );
           return;
         }
@@ -155,9 +151,8 @@ export function getObsequioByCodeClientRequest(code, setLoading) {
 }
 
 export async function createPreventaRequestClient(preventaData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -182,10 +177,9 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
             delete motoObject?.numeracion;
 
             return motoObject;
-
           } else {
             const unitProducto = producto?.unidades?.find(
-              (unit) => unit?.code === producto?.code
+              (unit) => unit?.code === producto?.code,
             );
             const productoObject = {
               ...producto,
@@ -214,7 +208,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
       if (preventaData?.obsequios?.length > 0) {
         obsequiosFormated = preventaData?.obsequios?.map((obsequio) => {
           const unitObsequio = obsequio?.unidades?.find(
-            (unit) => unit?.code === obsequio?.code
+            (unit) => unit?.code === obsequio?.code,
           );
 
           const obsequioObject = {
@@ -248,15 +242,15 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           nombres: preventaData?.nombres,
           apellidos: preventaData?.apellidos,
           direccion:
-            preventaData?.direccion?.trim() === ""
+            preventaData?.direccion?.trim() === ''
               ? undefined
               : preventaData?.direccion?.trim(),
           email:
-            preventaData?.email?.trim() === ""
+            preventaData?.email?.trim() === ''
               ? undefined
               : preventaData?.email?.trim(),
           celular:
-            preventaData?.celular?.trim() === ""
+            preventaData?.celular?.trim() === ''
               ? undefined
               : preventaData?.celular?.trim(),
         };
@@ -268,11 +262,11 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
           representanteLegal: preventaData?.representanteLegal,
           direccion: preventaData?.direccion,
           email:
-            preventaData?.email?.trim() === ""
+            preventaData?.email?.trim() === ''
               ? undefined
               : preventaData?.email?.trim(),
           celular:
-            preventaData?.celular?.trim() === ""
+            preventaData?.celular?.trim() === ''
               ? undefined
               : preventaData?.celular?.trim(),
         };
@@ -293,7 +287,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
         },
         sucursalId: preventaData?.sucursalId,
         comentarios:
-          preventaData?.comentarios?.trim() === ""
+          preventaData?.comentarios?.trim() === ''
             ? undefined
             : preventaData?.comentarios?.trim(),
         cotizacion: preventaData?.cotizacion,
@@ -306,7 +300,7 @@ export async function createPreventaRequestClient(preventaData, setLoading) {
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          'No se pudo crear la preventa: ' + response.response?.data?.error
+          'No se pudo crear la preventa: ' + response.response?.data?.error,
         );
         return;
       }

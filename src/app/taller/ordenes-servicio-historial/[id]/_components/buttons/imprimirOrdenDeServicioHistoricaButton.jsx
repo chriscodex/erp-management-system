@@ -1,13 +1,14 @@
-"use client";
+'use client';
 import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { RiPrinterLine } from '@remixicon/react';
 import { useRouter } from 'next/navigation';
-import { Button } from "@/components/ui/button";
-import { PdfOrdenDeServicioHistorica} from '@/app/taller/ordenes-servicio-historial/[id]/_components/pdf/pdfOrdenDeServicioHistorica';
+import { Button } from '@/components/ui/button';
+import { PdfOrdenDeServicioHistorica } from '@/app/taller/ordenes-servicio-historial/[id]/_components/pdf/pdfOrdenDeServicioHistorica';
 
-export function ImprimirOrdenDeServicioHistoricaButton({ ordenDeServicioHistoricaData }) {
-
+export function ImprimirOrdenDeServicioHistoricaButton({
+  ordenDeServicioHistoricaData,
+}) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -23,7 +24,7 @@ export function ImprimirOrdenDeServicioHistoricaButton({ ordenDeServicioHistoric
       const blob = await pdf(doc).toBlob();
 
       // Crear un enlace temporal y forzar la descarga
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = `orden-de-servicio-${ordenDeServicioHistoricaData?.code}.pdf`;
       document.body.appendChild(link);
@@ -31,7 +32,7 @@ export function ImprimirOrdenDeServicioHistoricaButton({ ordenDeServicioHistoric
       document.body.removeChild(link);
       router.refresh();
     } catch (error) {
-      console.error("Error al generar el PDF:", error);
+      console.error('Error al generar el PDF:', error);
     }
     setLoading(false);
   };
@@ -43,7 +44,7 @@ export function ImprimirOrdenDeServicioHistoricaButton({ ordenDeServicioHistoric
         onClick={handleDownloadPDF}
         disabled={loading}
       >
-        <RiPrinterLine/>
+        <RiPrinterLine />
         Imprimir Orden de Servicio
       </Button>
     </>

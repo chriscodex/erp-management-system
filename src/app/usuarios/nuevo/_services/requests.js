@@ -15,7 +15,7 @@ export async function createUserRequestClient(user, setLoading) {
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          'No se pudo crear el usuario: ' + response.response?.data?.error
+          'No se pudo crear el usuario: ' + response.response?.data?.error,
         );
         return;
       }

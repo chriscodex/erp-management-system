@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { MoreHorizontal, ArrowUpDown, Edit, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { Button } from "@/components/ui/button";
+import { MoreHorizontal, ArrowUpDown, Edit, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,19 +12,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { RiFileListLine } from "@remixicon/react";
-import { DeleteModeloAlert } from "../Dialogs/DeleteModeloAlert";
-import { Badge } from "@/components/ui/badge";
+} from '@/components/ui/dropdown-menu';
+import { RiFileListLine } from '@remixicon/react';
+import { DeleteModeloAlert } from '../Dialogs/DeleteModeloAlert';
+import { Badge } from '@/components/ui/badge';
 
 export const columnsModelos = [
   {
-    accessorKey: "nombre",
+    accessorKey: 'nombre',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Nombre
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -32,17 +32,17 @@ export const columnsModelos = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("nombre")}</div>;
+      return <div className="text-start">{row.getValue('nombre')}</div>;
     },
   },
   {
     accessorFn: (row) => row?.marcaId?.nombre,
-    id: "marca",
+    id: 'marca',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Marca
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -56,12 +56,12 @@ export const columnsModelos = [
   },
   {
     accessorFn: (row) => row?.categoryId?.nombre,
-    id: "category",
+    id: 'category',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Categoría
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -75,12 +75,12 @@ export const columnsModelos = [
   },
   {
     accessorFn: (row) => row?.estado,
-    id: "estado",
+    id: 'estado',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Estado
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -90,7 +90,7 @@ export const columnsModelos = [
     cell: ({ row }) => {
       return (
         <div className="text-start">
-          {row.getValue("estado") === "activo" ? (
+          {row.getValue('estado') === 'activo' ? (
             <Badge
               variant="successTable"
               className="text-sm w-[71px] flex justify-center"
@@ -108,12 +108,12 @@ export const columnsModelos = [
   },
   {
     accessorFn: (row) => row?.estado,
-    id: "estado",
+    id: 'estado',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Estado
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -123,7 +123,7 @@ export const columnsModelos = [
     cell: ({ row }) => {
       return (
         <div className="text-start">
-          {row.getValue("estado") === "activo" ? (
+          {row.getValue('estado') === 'activo' ? (
             <Badge
               variant="successTable"
               className="text-sm w-[71px] flex justify-center"
@@ -140,8 +140,8 @@ export const columnsModelos = [
     },
   },
   {
-    id: "actions",
-    header: "Acciones",
+    id: 'actions',
+    header: 'Acciones',
     cell: ({ row }) => {
       const { _id: modeloId } = row.original;
 
@@ -172,7 +172,7 @@ export const columnsModelos = [
               <RiFileListLine />
               Ver
             </DropdownMenuItem>
-            {session?.user?.rol === "Administrador" && (
+            {session?.user?.rol === 'Administrador' && (
               <>
                 <DropdownMenuItem
                   className="cursor-pointer"

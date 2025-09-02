@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   BarChart,
@@ -7,22 +7,22 @@ import {
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
-} from "recharts";
-import { RiDownload2Line } from "@remixicon/react";
-import { useSession } from "next-auth/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { contarEstadoDeUnidades } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { useIsMobile } from "@/hooks/use-mobile";
+} from 'recharts';
+import { RiDownload2Line } from '@remixicon/react';
+import { useSession } from 'next-auth/react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { contarEstadoDeUnidades } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { Button } from "@/components/ui/button";
-import { generateExcelFileForProductsCode } from "@/app/inventario/productos/[id]/_services/helpers";
-import { SheetAddStockProductWrapper } from "@/app/inventario/productos/[id]/_components/Sheets/addStock/addStockProductWrapper";
-import { SheetReduceStockProductWrapper } from "@/app/inventario/productos/[id]/_components/Sheets/reduceStock/reduceStockProductWrapper";
+} from '@/components/ui/chart';
+import { Button } from '@/components/ui/button';
+import { generateExcelFileForProductsCode } from '@/app/inventario/productos/[id]/_services/helpers';
+import { SheetAddStockProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/addStock/addStockProductWrapper';
+import { SheetReduceStockProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/reduceStock/reduceStockProductWrapper';
 
 export default function GraphicSingleProductCard({ unidades, product }) {
   const { data: session } = useSession();
@@ -41,22 +41,22 @@ export default function GraphicSingleProductCard({ unidades, product }) {
     {
       name: `Disponibles`,
       unidades: unidadesDisponibles,
-      fill: "#16a34a",
+      fill: '#16a34a',
     },
     {
       name: `Dañados`,
       unidades: unidadesDanadas,
-      fill: "#ef4444",
+      fill: '#ef4444',
     },
     {
       name: `Reparados`,
       unidades: unidadesReparadas,
-      fill: "#3b82f6",
+      fill: '#3b82f6',
     },
     {
       name: `Desaparecidos`,
       unidades: unidadesDesaparecidas,
-      fill: "#f59e0b",
+      fill: '#f59e0b',
     },
   ];
 
@@ -65,7 +65,7 @@ export default function GraphicSingleProductCard({ unidades, product }) {
 
   const chartConfig = {
     unidades: {
-      label: "Unidades",
+      label: 'Unidades',
     },
   };
 
@@ -73,7 +73,7 @@ export default function GraphicSingleProductCard({ unidades, product }) {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="w-full flex-col">
-          {session?.user?.rol === "Administrador" && (
+          {session?.user?.rol === 'Administrador' && (
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-6">
               <SheetAddStockProductWrapper productData={product} />
               <SheetReduceStockProductWrapper productData={product} />
@@ -99,7 +99,7 @@ export default function GraphicSingleProductCard({ unidades, product }) {
           <Label className="font-bold text-amber-500">{`Desaparecidos: ${unidadesDesaparecidas}`}</Label>
         </div>
         <ChartContainer config={chartConfig}>
-          <ResponsiveContainer width="100%" height={"100%"}>
+          <ResponsiveContainer width="100%" height={'100%'}>
             <BarChart data={salesData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis

@@ -15,10 +15,10 @@ export async function getCurrentCounterByType(request) {
   } catch (error) {
     console.error(
       'Counter Controller: Error interno al obtener los datos del counter:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Counter Controller: Error interno al obtener los datos del counter'
+      'Counter Controller: Error interno al obtener los datos del counter',
     );
   }
 }
@@ -33,10 +33,10 @@ export async function aumentarContadorByType(request) {
   } catch (error) {
     console.error(
       'Counter Controller: Error interno al aumentar el contador:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Counter Controller: Error interno al aumentar el contador'
+      'Counter Controller: Error interno al aumentar el contador',
     );
   }
 }

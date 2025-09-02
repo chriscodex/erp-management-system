@@ -13,7 +13,6 @@ const authOptions = {
         password: { label: 'Contraseña', type: 'password' },
       },
       async authorize(credentials, req) {
-        // eslint-disable-line
         await connectDB();
 
         const userFound = await User.findOne({
@@ -26,7 +25,7 @@ const authOptions = {
 
         const passwordMatch = await bcryptjs?.compare(
           credentials?.password,
-          userFound?.password
+          userFound?.password,
         );
         if (!passwordMatch) throw new Error('Contraseña incorrecta');
 
@@ -38,7 +37,6 @@ const authOptions = {
   ],
   callbacks: {
     jwt({ account, token, user, profile, session }) {
-      // eslint-disable-line
       if (user) {
         delete user?.password;
         token.user = user;

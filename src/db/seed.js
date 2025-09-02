@@ -34,14 +34,13 @@ export async function seedUsers() {
     console.log('Usuarios existentes eliminados.');
 
     // Hashear las contraseñas de los datos de ejemplo
-    /* eslint-disable */
+    // eslint-disable-next-line no-undef
     const hashedData = await Promise.all(
       userMockData.map(async (user) => {
         const hashedPassword = await bcryptjs.hash(user.password, 12);
         return { ...user, password: hashedPassword };
-      })
+      }),
     );
-    /* eslint-enable */
 
     // Insertar los nuevos datos
     await User.insertMany(hashedData);
@@ -101,7 +100,7 @@ export async function seedCategories() {
     const segmentos = await Segment.find({});
     if (segmentos.length === 0) {
       throw new Error(
-        'No se encontraron segmentos en la base de datos. Asegúrate de ejecutar el seed de segmentos primero.'
+        'No se encontraron segmentos en la base de datos. Asegúrate de ejecutar el seed de segmentos primero.',
       );
     }
 
@@ -145,7 +144,7 @@ export async function seedMarcas() {
     const segments = await Segment.find({});
     if (segments.length === 0) {
       throw new Error(
-        'No se encontraron categorías en la base de datos. Asegúrate de ejecutar el seed de segmentos primero.'
+        'No se encontraron categorías en la base de datos. Asegúrate de ejecutar el seed de segmentos primero.',
       );
     }
 
@@ -242,7 +241,7 @@ export async function seedProveedor() {
   } catch (error) {
     console.error(
       'Error al poblar los proveedores en la base de datos:',
-      error
+      error,
     );
   }
 }
@@ -251,11 +250,12 @@ export async function seedProducts() {
   try {
     if (Product) {
       delete models.Product;
-    }        
+    }
     // Eliminar todos los productos existentes
     await Product.deleteMany({});
     console.log('Productos existentes eliminados.');
 
+    // eslint-disable-next-line no-undef
     // Obtener todos los segmentos, marcas, categorías, almacenes y proveedores
     const [segments, marcas, categorias, almacenes, proveedores] =
       await Promise.all([
@@ -280,23 +280,23 @@ export async function seedProducts() {
     // Crear mapas para acceder a los datos por nombre
     const segmentMap = segments.reduce(
       (map, segment) => ({ ...map, [segment.nombre]: segment._id }),
-      {}
+      {},
     );
     const marcaMap = marcas.reduce(
       (map, marca) => ({ ...map, [marca.nombre]: marca._id }),
-      {}
+      {},
     );
     const categoriaMap = categorias.reduce(
       (map, categoria) => ({ ...map, [categoria.nombre]: categoria._id }),
-      {}
+      {},
     );
     const almacenMap = almacenes.reduce(
       (map, almacen) => ({ ...map, [almacen.nombre]: almacen._id }),
-      {}
+      {},
     );
     const proveedorMap = proveedores.reduce(
       (map, proveedor) => ({ ...map, [proveedor.nombre]: proveedor._id }),
-      {}
+      {},
     );
 
     // Rellenar los campos vacíos en el mock

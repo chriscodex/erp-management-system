@@ -1,11 +1,10 @@
-import { ClienteRepository } from "@/backend/clientes/domain/repositories/clienteRepository";
-import { createClienteSchema } from "@/backend/clientes/application/validations/createClienteSchema";
-import { updateClienteSchema } from "@/backend/clientes/application/validations/updateClienteSchema";
-import { SearchedUserRepository } from "@/backend/searchedUsers/domain/repositories/searchedUserRepository";
+import { ClienteRepository } from '@/backend/clientes/domain/repositories/clienteRepository';
+import { createClienteSchema } from '@/backend/clientes/application/validations/createClienteSchema';
+import { updateClienteSchema } from '@/backend/clientes/application/validations/updateClienteSchema';
+import { SearchedUserRepository } from '@/backend/searchedUsers/domain/repositories/searchedUserRepository';
 import { MayusculasATitulo } from '@/lib/formateador';
 
 export class ClienteService {
-
   constructor(getDataByDniFromExternalApi, getDataByRucFromExternalApi) {
     this.clienteRepository = new ClienteRepository();
     this.searchedUserRepository = new SearchedUserRepository();
@@ -17,21 +16,21 @@ export class ClienteService {
       const clientes = await this.clienteRepository.getAllClientes();
 
       if (clientes?.length === 0) {
-        console.log("Cliente Service: No se encontraron clientes");
+        console.log('Cliente Service: No se encontraron clientes');
         return {
           status: 200,
           payload: [],
         };
       }
 
-      console.log("Cliente Service: Clientes encontrados");
+      console.log('Cliente Service: Clientes encontrados');
       return {
         status: 200,
         payload: clientes,
       };
     } catch (error) {
       console.error(
-        `Cliente Service: Error interno al buscar todas las clientes: ${error.message}`
+        `Cliente Service: Error interno al buscar todas las clientes: ${error.message}`,
       );
       return {
         status: 500,
@@ -41,19 +40,18 @@ export class ClienteService {
   }
   async getClienteByData(clienteData) {
     try {
-      const clienteFound = await this.clienteRepository.getClienteByData(
-        clienteData
-      );
+      const clienteFound =
+        await this.clienteRepository.getClienteByData(clienteData);
 
       if (clienteFound) {
-        console.log("Cliente Service: El cliente existe");
+        console.log('Cliente Service: El cliente existe');
         return {
           status: 200,
           payload: clienteFound,
         };
       }
 
-      console.log("Cliente Service: Cliente no encontrado en la base de datos");
+      console.log('Cliente Service: Cliente no encontrado en la base de datos');
 
       const identificador =
         clienteData.dni || clienteData.ruc || clienteData._id;
@@ -61,7 +59,7 @@ export class ClienteService {
       if (!identificador) {
         return {
           status: 400,
-          payload: "Debe proporcionar un DNI, RUC o ID",
+          payload: 'Debe proporcionar un DNI, RUC o ID',
         };
       }
 
@@ -71,7 +69,7 @@ export class ClienteService {
       if (identificador.length === 8) {
         const searchedUserFound =
           await this.searchedUserRepository.getSearchedUserFromDatabaseByDni(
-            identificador
+            identificador,
           );
 
         if (searchedUserFound) {
@@ -85,9 +83,8 @@ export class ClienteService {
           };
         }
 
-        const userFromExternalApi = await this.getDataByDniFromExternalApi(
-          identificador
-        );
+        const userFromExternalApi =
+          await this.getDataByDniFromExternalApi(identificador);
 
         if (userFromExternalApi.status !== 200) {
           return {
@@ -100,9 +97,9 @@ export class ClienteService {
           await this.searchedUserRepository.createSearchedUserByDni(
             identificador,
             MayusculasATitulo(
-              `${userFromExternalApi.payload.apellidoPaterno} ${userFromExternalApi.payload.apellidoMaterno}`
+              `${userFromExternalApi.payload.apellidoPaterno} ${userFromExternalApi.payload.apellidoMaterno}`,
             ),
-            MayusculasATitulo(userFromExternalApi.payload.nombres)
+            MayusculasATitulo(userFromExternalApi.payload.nombres),
           );
 
         return {
@@ -119,7 +116,7 @@ export class ClienteService {
       if (identificador.length === 11) {
         const searchedUserFound =
           await this.searchedUserRepository.getSearchedUserFromDatabaseByRuc(
-            identificador
+            identificador,
           );
 
         if (searchedUserFound) {
@@ -132,9 +129,8 @@ export class ClienteService {
           };
         }
 
-        const userFromExternalApi = await this.getDataByRucFromExternalApi(
-          identificador
-        );
+        const userFromExternalApi =
+          await this.getDataByRucFromExternalApi(identificador);
 
         if (userFromExternalApi.status !== 200) {
           return {
@@ -146,7 +142,7 @@ export class ClienteService {
         const searchedUserCreated =
           await this.searchedUserRepository.createSearchedUserByRuc(
             identificador,
-            userFromExternalApi?.payload?.razonSocial
+            userFromExternalApi?.payload?.razonSocial,
           );
 
         return {
@@ -160,11 +156,11 @@ export class ClienteService {
       // Si no es un dni ni ruc válido
       return {
         status: 400,
-        payload: "Identificador inválido",
+        payload: 'Identificador inválido',
       };
     } catch (error) {
       console.error(
-        `Cliente Service: Error interno al buscar el cliente: ${error.message}`
+        `Cliente Service: Error interno al buscar el cliente: ${error.message}`,
       );
       return {
         status: 500,
@@ -179,7 +175,7 @@ export class ClienteService {
 
       if (!clienteValidated.success) {
         console.log(
-          "Cliente Service: Error de validación de schema de cliente al crear"
+          'Cliente Service: Error de validación de schema de cliente al crear',
         );
         return {
           status: 400,
@@ -192,20 +188,19 @@ export class ClienteService {
       };
 
       // Crear la cliente
-      const clienteCreated = await this.clienteRepository.createCliente(
-        clienteObject
-      );
+      const clienteCreated =
+        await this.clienteRepository.createCliente(clienteObject);
 
       const clienteCreatedObject = clienteCreated.toObject();
 
-      console.log("Cliente Service: Cliente creado correctamente");
+      console.log('Cliente Service: Cliente creado correctamente');
       return {
         status: 201,
         payload: clienteCreatedObject,
       };
     } catch (error) {
       console.error(
-        `Cliente Service: Error interno al crear un cliente: ${error.message}`
+        `Cliente Service: Error interno al crear un cliente: ${error.message}`,
       );
       return {
         status: 500,
@@ -221,7 +216,7 @@ export class ClienteService {
 
       if (!clienteValidated.success) {
         console.log(
-          "Cliente Service: Error de validación de schema de cliente al actualizar"
+          'Cliente Service: Error de validación de schema de cliente al actualizar',
         );
         return {
           status: 400,
@@ -231,25 +226,25 @@ export class ClienteService {
 
       const clienteUpdated = await this.clienteRepository.updateCliente(
         clienteId,
-        clienteData
+        clienteData,
       );
 
       if (!clienteUpdated) {
-        console.log("Cliente Service: El cliente no existe");
+        console.log('Cliente Service: El cliente no existe');
         return {
           status: 200,
           payload: clienteUpdated,
         };
       }
 
-      console.log("Cliente Service: Cliente actualizada correctamente");
+      console.log('Cliente Service: Cliente actualizada correctamente');
       return {
         status: 200,
         payload: clienteUpdated,
       };
     } catch (error) {
       console.error(
-        `Cliente Service: Error interno al actualizar un cliente: ${error.message}`
+        `Cliente Service: Error interno al actualizar un cliente: ${error.message}`,
       );
       return {
         status: 500,
@@ -259,19 +254,18 @@ export class ClienteService {
   }
   async deleteCliente(clienteId) {
     try {
-      const clienteDeleted = await this.clienteRepository.deleteCliente(
-        clienteId
-      );
+      const clienteDeleted =
+        await this.clienteRepository.deleteCliente(clienteId);
 
       if (!clienteDeleted) {
-        console.log("Cliente Service: El cliente no existe");
+        console.log('Cliente Service: El cliente no existe');
         return {
           status: 200,
           payload: null,
         };
       }
 
-      console.log("Cliente Service: Cliente eliminado correctamente");
+      console.log('Cliente Service: Cliente eliminado correctamente');
       return {
         status: 204,
         payload: clienteDeleted,

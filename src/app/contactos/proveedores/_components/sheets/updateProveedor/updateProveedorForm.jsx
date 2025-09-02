@@ -77,7 +77,7 @@ export function UpdateProveedorForm({ onClose, proveedorData }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(proveedorDataToUpdate).length === 0) {
@@ -91,7 +91,7 @@ export function UpdateProveedorForm({ onClose, proveedorData }) {
       updateProveedorRequestClient(
         proveedorData?._id,
         proveedorDataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -106,7 +106,7 @@ export function UpdateProveedorForm({ onClose, proveedorData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 

@@ -1,5 +1,5 @@
-import { Bike, Package } from "lucide-react";
-import { notFound } from "next/navigation";
+import { Bike, Package } from 'lucide-react';
+import { notFound } from 'next/navigation';
 import {
   RiHome2Line,
   RiFolderHistoryLine,
@@ -7,26 +7,26 @@ import {
   RiMotorbikeFill,
   RiShoppingBag3Line,
   RiVipDiamondLine,
-} from "@remixicon/react";
-import { NavbarSimple } from "@/components/navbar/NavbarSimple";
-import { Label } from "@/components/ui/label";
-import { StatHomeCard } from "@/app/home/_components/statCard";
+} from '@remixicon/react';
+import { NavbarSimple } from '@/components/navbar/NavbarSimple';
+import { Label } from '@/components/ui/label';
+import { StatHomeCard } from '@/app/home/_components/statCard';
 
 import {
   getAllProductsRequestServer,
   getAllMotosRequestServer,
   getAllPreventasRequestServer,
-} from "@/app/home/vendedor/_services/requests";
+} from '@/app/home/vendedor/_services/requests';
 
-import { QuickAccessCard } from "@/app/home/_components/quickAccesCard";
+import { QuickAccessCard } from '@/app/home/_components/quickAccesCard';
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.rol !== "Vendedor") {
+  if (session?.user?.rol !== 'Vendedor') {
     notFound();
   }
 

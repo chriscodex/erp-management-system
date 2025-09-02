@@ -75,9 +75,8 @@ export async function getAllProductsByAlmacenIdRequestServer(almacenId) {
 }
 
 export async function createAlmacenRequestClient(almacenData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -88,7 +87,7 @@ export async function createAlmacenRequestClient(almacenData, setLoading) {
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          'No se pudo crear el almacén: ' + response.response?.data?.error
+          'No se pudo crear el almacén: ' + response.response?.data?.error,
         );
         return;
       }
@@ -105,11 +104,10 @@ export async function createAlmacenRequestClient(almacenData, setLoading) {
 export async function updateAlmacenRequestClient(
   almacenId,
   almacenData,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -122,7 +120,7 @@ export async function updateAlmacenRequestClient(
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar el almacén: ' + response.response?.data?.error
+          'No se pudo actualizar el almacén: ' + response.response?.data?.error,
         );
         return;
       }
@@ -137,9 +135,8 @@ export async function updateAlmacenRequestClient(
 }
 
 export async function deleteAlmacenRequestClient(almacenId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -150,7 +147,7 @@ export async function deleteAlmacenRequestClient(almacenId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar el almacén: ' + response.response?.data?.error
+          'No se pudo eliminar el almacén: ' + response.response?.data?.error,
         );
         return;
       }

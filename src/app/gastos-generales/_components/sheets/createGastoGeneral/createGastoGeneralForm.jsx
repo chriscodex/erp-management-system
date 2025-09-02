@@ -39,14 +39,12 @@ import { createGastoGeneralRequestClient } from '@/app/gastos-generales/_service
 import { cn } from '@/lib/utils';
 import { Label } from '@/components/ui/label';
 
-export function CreateGastoGeneralForm({onClose}) {
-
+export function CreateGastoGeneralForm({ onClose }) {
   const router = useRouter();
 
   const [date, setDate] = useState(new Date());
 
   const createGastoGeneralForm = useForm({
-
     resolver: zodResolver(createGastoGeneralSchema),
 
     defaultValues: {
@@ -54,7 +52,6 @@ export function CreateGastoGeneralForm({onClose}) {
       monto: '',
       fecha: new Date(),
     },
-    
   });
 
   const {
@@ -68,7 +65,6 @@ export function CreateGastoGeneralForm({onClose}) {
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
-    
     setFormSubmitIsLoading(true);
 
     const gastoGeneralData = {
@@ -92,7 +88,7 @@ export function CreateGastoGeneralForm({onClose}) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -139,7 +135,7 @@ export function CreateGastoGeneralForm({onClose}) {
                   variant={'outline'}
                   className={cn(
                     'w-[280px] justify-start text-left font-normal',
-                    !date && 'text-muted-foreground'
+                    !date && 'text-muted-foreground',
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />

@@ -18,11 +18,11 @@ export async function GET(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Marcas Route: Error interno al obtener todas las marcas: ${error.message}`
+      `Marcas Route: Error interno al obtener todas las marcas: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno obteniendo todas las marcas' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -38,11 +38,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Marcas Route: Error interno al crear la marca: ${error.message}`
+      `Marcas Route: Error interno al crear la marca: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear la marca' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

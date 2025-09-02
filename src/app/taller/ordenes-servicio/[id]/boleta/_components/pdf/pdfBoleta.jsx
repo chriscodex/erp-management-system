@@ -28,12 +28,12 @@ export function PdfBoleta({
 }) {
   const fechaEmisionComprobante = formatDateLong(
     new Date(ordenDeServicioData?.fechaEmisionComprobante).toISOString(),
-    true
+    true,
   );
 
   const codigoBoleta = formatearCodigoCounterBoletaFactura(
     counterBoleta,
-    'boleta'
+    'boleta',
   );
 
   const MapPin = () => (
@@ -222,7 +222,7 @@ export function PdfBoleta({
                   .reduce(
                     (acc, item) =>
                       acc + (item?.precioVenta || item?.precio) * 1,
-                    0
+                    0,
                   )
               ).toFixed(2)}
             </Text>
@@ -237,7 +237,7 @@ export function PdfBoleta({
                   .reduce(
                     (acc, item) =>
                       acc + (item?.precioVenta || item?.precio) * 1,
-                    0
+                    0,
                   )
               ).toFixed(2)}
             </Text>
@@ -249,7 +249,7 @@ export function PdfBoleta({
                 .concat(ordenDeServicioData?.servicios || [])
                 .reduce(
                   (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -261,7 +261,7 @@ export function PdfBoleta({
                 .concat(ordenDeServicioData?.servicios || [])
                 .reduce(
                   (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -274,9 +274,9 @@ export function PdfBoleta({
                   .reduce(
                     (acc, item) =>
                       acc + (item?.precioVenta || item?.precio) * 1,
-                    0
+                    0,
                   )
-                  .toFixed(2)
+                  .toFixed(2),
               )}
             </Text>
           </View>

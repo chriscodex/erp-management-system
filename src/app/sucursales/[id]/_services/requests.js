@@ -18,16 +18,22 @@ export async function getSucursalRequestServer(id) {
       return { sucursal: null, status: response?.status };
     }
     const sucursal = response?.payload;
-    return { sucursal: simplificadorParaClientComponent(sucursal), status: 200 };
+    return {
+      sucursal: simplificadorParaClientComponent(sucursal),
+      status: 200,
+    };
   } catch (error) {
     console.log(error);
   }
 }
 
-export async function updateSucursalRequestClient(sucursalId, sucursalData, setLoading) {
-  /* eslint-disable */
+export async function updateSucursalRequestClient(
+  sucursalId,
+  sucursalData,
+  setLoading,
+) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -40,7 +46,8 @@ export async function updateSucursalRequestClient(sucursalId, sucursalData, setL
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar la sucursal: ' + response.response?.data?.error
+          'No se pudo actualizar la sucursal: ' +
+            response.response?.data?.error,
         );
         return;
       }

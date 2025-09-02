@@ -12,13 +12,13 @@ const preventaSchema = new Schema(
     },
     clienteId: {
       type: Schema.Types.ObjectId,
-      ref: "Cliente",
-      required: [true, "El cliente es requerido en el schema de preventas."],
+      ref: 'Cliente',
+      required: [true, 'El cliente es requerido en el schema de preventas.'],
     },
     usuario: {
       id: {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
         required: [true, 'El id es requerido en el schema de preventas'],
       },
       dni: {
@@ -46,7 +46,7 @@ const preventaSchema = new Schema(
     },
     sucursalId: {
       type: Schema.Types.ObjectId,
-      ref: "Sucursal",
+      ref: 'Sucursal',
       required: [false],
     },
     comentarios: {
@@ -70,8 +70,11 @@ const preventaSchema = new Schema(
     ],
     cotizacion: {
       type: String,
-      required: [true, 'Elegir si es cotización o no es requerido en el schema de preventas'],
-      enum: ["si", "no"],
+      required: [
+        true,
+        'Elegir si es cotización o no es requerido en el schema de preventas',
+      ],
+      enum: ['si', 'no'],
     },
     fechaValidez: {
       type: Date,
@@ -80,7 +83,7 @@ const preventaSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // // Crear el modelo base para productos

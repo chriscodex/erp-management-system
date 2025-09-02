@@ -28,11 +28,11 @@ export function ImprimirBoletaButton({
   const router = useRouter();
 
   const selectedEmpresaSinFormatear = empresas.find(
-    (empresa) => empresa.ruc === ordenDeServicioData?.empresa?.ruc
+    (empresa) => empresa.ruc === ordenDeServicioData?.empresa?.ruc,
   );
 
   const [selectedEmpresaId, setSelectedEmpresaId] = useState(
-    selectedEmpresaSinFormatear?._id || empresas[0]?._id || ''
+    selectedEmpresaSinFormatear?._id || empresas[0]?._id || '',
   );
 
   // Siempre obtener el objeto empresa seleccionado a partir del id
@@ -71,7 +71,7 @@ export function ImprimirBoletaButton({
         const responseUpdate = await updateBoletaStateRequestClient(
           ordenDeServicioData?._id,
           counterBoleta,
-          selectedEmpresaFormateada
+          selectedEmpresaFormateada,
         );
 
         fechaParaImprimir = responseUpdate?.fechaEmisionComprobante;
@@ -79,7 +79,7 @@ export function ImprimirBoletaButton({
 
       const codigoBoleta = formatearCodigoCounterBoletaFactura(
         counterBoleta,
-        'boleta'
+        'boleta',
       );
 
       const empresaParaPDF = isBoletaEmitida
@@ -88,18 +88,18 @@ export function ImprimirBoletaButton({
 
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         counterBoleta,
-        'boleta'
+        'boleta',
       );
 
       const montoTotalProductos = ordenDeServicioData?.productos.reduce(
         (acumulador, producto) =>
           acumulador + producto?.precioVenta * producto?.cantidad,
-        0
+        0,
       );
 
       const montoTotalServicios = ordenDeServicioData?.servicios.reduce(
         (acumulador, servicio) => acumulador + servicio?.precio,
-        0
+        0,
       );
 
       const montoTotal = montoTotalProductos + montoTotalServicios;
@@ -110,7 +110,7 @@ export function ImprimirBoletaButton({
       const fechaFormateada = new Date(
         fechaParaImprimir ||
           ordenDeServicioData?.fechaEmisionComprobante ||
-          new Date()
+          new Date(),
       )
         .toISOString()
         .slice(0, 10);

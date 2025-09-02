@@ -61,9 +61,12 @@ export function FinalizarReservacionAlert({
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>¿Desea finalizar la reservación?</AlertDialogTitle>
+            <AlertDialogTitle>
+              ¿Desea finalizar la reservación?
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esta reservación finalizará y no podrás recuperar sus datos.
+              Esta acción no se puede deshacer. Esta reservación finalizará y no
+              podrás recuperar sus datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -71,7 +74,7 @@ export function FinalizarReservacionAlert({
               className="bg-secondary text-secondary-foreground hover:opacity-80"
               onClick={() => setIsOpen(false)}
             >
-              Cancelar  
+              Cancelar
             </AlertDialogCancel>
             <AlertDialogAction
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"

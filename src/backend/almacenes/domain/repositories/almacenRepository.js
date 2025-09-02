@@ -18,10 +18,10 @@ export class AlmacenRepository {
       return almacenes;
     } catch (error) {
       console.error(
-        `Almacén Repository: Error al buscar todas los almacenes: ${error.message}`
+        `Almacén Repository: Error al buscar todas los almacenes: ${error.message}`,
       );
       throw new Error(
-        `Almacén Repository: Error al buscar todas los almacenes: ${error.message}`
+        `Almacén Repository: Error al buscar todas los almacenes: ${error.message}`,
       );
     }
   }
@@ -49,7 +49,7 @@ export class AlmacenRepository {
       return almacenesFound;
     } catch (error) {
       console.error(
-        `Almacén Repository: Error al buscar los almacenes: ${error.message}`
+        `Almacén Repository: Error al buscar los almacenes: ${error.message}`,
       );
       throw new Error(`Error al buscar los almacenes: ${error.message}`);
     }
@@ -86,7 +86,7 @@ export class AlmacenRepository {
       return almacenFound;
     } catch (error) {
       console.error(
-        `Almacén Repository: Error al buscar el almacen: ${error.message}`
+        `Almacén Repository: Error al buscar el almacen: ${error.message}`,
       );
       throw new Error(`Error al buscar el almacen: ${error.message}`);
     }
@@ -100,7 +100,7 @@ export class AlmacenRepository {
       return almacenSaved;
     } catch (error) {
       console.log(
-        `Almacen Repository: Error al crear el almacen: ${error.message}`
+        `Almacen Repository: Error al crear el almacen: ${error.message}`,
       );
       throw new Error(`Error al crear el almacen: ${error.message}`);
     }
@@ -112,12 +112,12 @@ export class AlmacenRepository {
         almacenData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedAlmacen) {
         console.log(
-          'Almacen Repository: Almacen no encontrado para ser actualizada'
+          'Almacen Repository: Almacen no encontrado para ser actualizada',
         );
         return null;
       }
@@ -126,7 +126,7 @@ export class AlmacenRepository {
       return updatedAlmacen;
     } catch (error) {
       console.error(
-        `Almacen Repository: Error al actualizar el almacen: ${error.message}`
+        `Almacen Repository: Error al actualizar el almacen: ${error.message}`,
       );
       throw new Error(`Error al actualizar el almacen: ${error.message}`);
     }
@@ -139,7 +139,7 @@ export class AlmacenRepository {
 
       if (!deletedAlmacen) {
         console.log(
-          'Almacen Repository: Almacén no encontrado para ser eliminado'
+          'Almacen Repository: Almacén no encontrado para ser eliminado',
         );
         return null;
       }
@@ -148,7 +148,7 @@ export class AlmacenRepository {
       return deletedAlmacen;
     } catch (error) {
       console.error(
-        `Almacen Repository: Error al eliminar el almacén: ${error.message}`
+        `Almacen Repository: Error al eliminar el almacén: ${error.message}`,
       );
       throw new Error(`Error al eliminar el almacén: ${error.message}`);
     }

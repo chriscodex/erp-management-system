@@ -29,9 +29,8 @@ export async function getAllProveedoresRequestServer() {
 }
 
 export async function createProveedorRequestClient(proveedorData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -42,7 +41,7 @@ export async function createProveedorRequestClient(proveedorData, setLoading) {
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          'No se pudo crear el proveedor: ' + response.response?.data?.error
+          'No se pudo crear el proveedor: ' + response.response?.data?.error,
         );
         return;
       }
@@ -59,11 +58,10 @@ export async function createProveedorRequestClient(proveedorData, setLoading) {
 export async function updateProveedorRequestClient(
   proveedorId,
   proveedorData,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -77,7 +75,7 @@ export async function updateProveedorRequestClient(
         setLoading(false);
         reject(
           'No se pudo actualizar el proveedor: ' +
-            response.response?.data?.error
+            response.response?.data?.error,
         );
         return;
       }
@@ -92,9 +90,8 @@ export async function updateProveedorRequestClient(
 }
 
 export async function deleteProveedorRequestClient(proveedorId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -105,7 +102,7 @@ export async function deleteProveedorRequestClient(proveedorId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar el proveedor: ' + response.response?.data?.error
+          'No se pudo eliminar el proveedor: ' + response.response?.data?.error,
         );
         return;
       }

@@ -16,11 +16,11 @@ export async function GET(_, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Empresas Route: Error interno al obtener la empresa: ${error.message}`
+      `Empresas Route: Error interno al obtener la empresa: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno obteniendo la empresa' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -29,7 +29,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateEmpresaController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -39,11 +39,11 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Empresas Route: Error interno al actualizar la empresa: ${error.message}`
+      `Empresas Route: Error interno al actualizar la empresa: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno al actualizar la empresa' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -59,11 +59,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Empresas Route: Error interno al eliminar la empresa: ${error.message}`
+      `Empresas Route: Error interno al eliminar la empresa: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno eliminando la empresa' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

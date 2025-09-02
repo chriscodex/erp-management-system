@@ -1,8 +1,8 @@
-import { User, Package, Calendar, Hash, FileText } from "lucide-react";
-import { RiBikeLine, RiFileListLine } from "@remixicon/react";
+import { User, Package, Calendar, Hash, FileText } from 'lucide-react';
+import { RiBikeLine, RiFileListLine } from '@remixicon/react';
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -10,21 +10,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 import {
   formatDateLong,
   formatDateShort,
   formatearCodigoCounterBoletaFactura,
-} from "@/lib/formateador";
-import { Label } from "@/components/ui/label";
+} from '@/lib/formateador';
+import { Label } from '@/components/ui/label';
 
-import { DetailProductOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductOrdenDeServicioDetailSheet";
-import { DetailProductExternoOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductExternoOrdenDeServicioDetailSheet";
-import { DetailServicioOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailServicioOrdenDeServicioDetailSheet";
-import { DetailMecanicoOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailMecanicoOrdenDeServicioDetailSheet";
-import { formatMoney } from "@/lib/utils";
-import { HomeRepairService } from "@mui/icons-material";
-import { ImprimirComprobanteOrdenDeServicioHistoricaButton } from "./buttons/imprimirComprobanteOrdenDeServicioHistorica";
+import { DetailProductOrdenDeServicioDetailSheet } from '@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductOrdenDeServicioDetailSheet';
+import { DetailProductExternoOrdenDeServicioDetailSheet } from '@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductExternoOrdenDeServicioDetailSheet';
+import { DetailServicioOrdenDeServicioDetailSheet } from '@/app/taller/ordenes-servicio/[id]/_components/sheets/detailServicioOrdenDeServicioDetailSheet';
+import { DetailMecanicoOrdenDeServicioDetailSheet } from '@/app/taller/ordenes-servicio/[id]/_components/sheets/detailMecanicoOrdenDeServicioDetailSheet';
+import { formatMoney } from '@/lib/utils';
+import { HomeRepairService } from '@mui/icons-material';
+import { ImprimirComprobanteOrdenDeServicioHistoricaButton } from './buttons/imprimirComprobanteOrdenDeServicioHistorica';
 
 export function DetailOrdenDeServicioHistoricaContent({
   ordenDeServicioHistoricaData,
@@ -33,14 +33,14 @@ export function DetailOrdenDeServicioHistoricaContent({
     (acc, product) => {
       return acc + product.precioVenta;
     },
-    0
+    0,
   );
 
   const precioTotalServicios = ordenDeServicioHistoricaData?.servicios?.reduce(
     (acc, servicio) => {
       return acc + servicio.precio;
     },
-    0
+    0,
   );
 
   return (
@@ -74,33 +74,33 @@ export function DetailOrdenDeServicioHistoricaContent({
                 Información del Cliente
               </CardTitle>
             </CardHeader>
-            {ordenDeServicioHistoricaData?.cliente?.tipo === "persona" ? (
+            {ordenDeServicioHistoricaData?.cliente?.tipo === 'persona' ? (
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{" "}
-                    {ordenDeServicioHistoricaData?.cliente?.datos?.nombres}{" "}
+                    <strong>Nombre:</strong>{' '}
+                    {ordenDeServicioHistoricaData?.cliente?.datos?.nombres}{' '}
                     {ordenDeServicioHistoricaData?.cliente?.datos?.apellidos}
                   </p>
                   <p>
-                    <strong>DNI:</strong>{" "}
+                    <strong>DNI:</strong>{' '}
                     {ordenDeServicioHistoricaData?.cliente?.datos?.dni}
                   </p>
                   {ordenDeServicioHistoricaData?.cliente?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong>{" "}
+                      <strong>Dirección:</strong>{' '}
                       {ordenDeServicioHistoricaData?.cliente?.datos?.direccion}
                     </p>
                   )}
                   {ordenDeServicioHistoricaData?.cliente?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ordenDeServicioHistoricaData?.cliente?.datos?.email}
                     </p>
                   )}
                   {ordenDeServicioHistoricaData?.cliente?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ordenDeServicioHistoricaData?.cliente?.datos?.celular}
                     </p>
                   )}
@@ -110,34 +110,34 @@ export function DetailOrdenDeServicioHistoricaContent({
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{" "}
+                    <strong>Razon Social:</strong>{' '}
                     {ordenDeServicioHistoricaData?.cliente?.datos?.razonSocial}
                   </p>
                   <p>
-                    <strong>RUC:</strong>{" "}
+                    <strong>RUC:</strong>{' '}
                     {ordenDeServicioHistoricaData?.cliente?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Represante Legal:</strong>{" "}
+                    <strong>Represante Legal:</strong>{' '}
                     {
                       ordenDeServicioHistoricaData?.cliente?.datos
                         ?.representanteLegal
                     }
                   </p>
                   <p>
-                    <strong>Dirección:</strong>{" "}
+                    <strong>Dirección:</strong>{' '}
                     {ordenDeServicioHistoricaData?.cliente?.datos?.direccion}
                   </p>
                   {ordenDeServicioHistoricaData?.cliente?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ordenDeServicioHistoricaData?.cliente?.datos?.email}
                     </p>
                   )}
                   {(ordenDeServicioHistoricaData?.cliente?.datos?.celular ??
                     ordenDeServicioHistoricaData?.cliente?.datos?.celular) && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ordenDeServicioHistoricaData?.cliente?.datos?.celular ??
                         ordenDeServicioHistoricaData?.cliente?.datos?.celular}
                     </p>
@@ -160,25 +160,25 @@ export function DetailOrdenDeServicioHistoricaContent({
                   <strong>Código:</strong> {ordenDeServicioHistoricaData?.code}
                 </p>
                 <p>
-                  <strong>Origen del servicio:</strong>{" "}
-                  {ordenDeServicioHistoricaData?.origenServicio === "garantia"
-                    ? "Garantía"
-                    : ordenDeServicioHistoricaData?.origenServicio === "pagado"
-                    ? "Pagado"
-                    : "Interno"}
+                  <strong>Origen del servicio:</strong>{' '}
+                  {ordenDeServicioHistoricaData?.origenServicio === 'garantia'
+                    ? 'Garantía'
+                    : ordenDeServicioHistoricaData?.origenServicio === 'pagado'
+                      ? 'Pagado'
+                      : 'Interno'}
                 </p>
                 <p>
-                  <strong>Tipo de servicio:</strong>{" "}
+                  <strong>Tipo de servicio:</strong>{' '}
                   {ordenDeServicioHistoricaData?.tipoServicio ===
-                  "mantenimiento"
-                    ? "Mantenimiento"
-                    : "Reparación"}
+                  'mantenimiento'
+                    ? 'Mantenimiento'
+                    : 'Reparación'}
                 </p>
                 <p>
-                  <strong>Fecha de ingreso:</strong>{" "}
+                  <strong>Fecha de ingreso:</strong>{' '}
                   {formatDateLong(
                     ordenDeServicioHistoricaData?.fechaIngreso,
-                    false
+                    false,
                   )}
                 </p>
                 {ordenDeServicioHistoricaData?.fechaEntregaEstimada && (
@@ -186,7 +186,7 @@ export function DetailOrdenDeServicioHistoricaContent({
                     <strong>Fecha de entrega estimada: </strong>
                     {formatDateLong(
                       ordenDeServicioHistoricaData?.fechaEntregaEstimada,
-                      false
+                      false,
                     )}
                   </p>
                 )}
@@ -194,36 +194,36 @@ export function DetailOrdenDeServicioHistoricaContent({
                   <p>
                     <strong>Monto adelantado:</strong> S/.
                     {formatMoney(
-                      ordenDeServicioHistoricaData?.pago?.montoAdelanto
+                      ordenDeServicioHistoricaData?.pago?.montoAdelanto,
                     )}
                   </p>
                 )}
                 {ordenDeServicioHistoricaData?.estado && (
                   <div className="flex items-center gap-2">
                     <strong>Estado:</strong>
-                    {ordenDeServicioHistoricaData.estado === "pendiente" && (
+                    {ordenDeServicioHistoricaData.estado === 'pendiente' && (
                       <Badge variant="secondary">Pendiente</Badge>
                     )}
                     {ordenDeServicioHistoricaData.estado ===
-                      "diagnosticando" && (
+                      'diagnosticando' && (
                       <Badge variant="outline">Diagnosticando</Badge>
                     )}
                     {ordenDeServicioHistoricaData.estado ===
-                      "esperando-repuestos" && (
+                      'esperando-repuestos' && (
                       <Badge variant="destructive">Esperando repuestos</Badge>
                     )}
                     {ordenDeServicioHistoricaData.estado ===
-                      "en-reparacion" && (
+                      'en-reparacion' && (
                       <Badge variant="default">En reparación</Badge>
                     )}
                     {ordenDeServicioHistoricaData.estado ===
-                      "en-mantenimiento" && (
+                      'en-mantenimiento' && (
                       <Badge variant="secondary">En mantenimiento</Badge>
                     )}
-                    {ordenDeServicioHistoricaData.estado === "finalizado" && (
+                    {ordenDeServicioHistoricaData.estado === 'finalizado' && (
                       <Badge variant="success">Finalizado</Badge>
                     )}
-                    {ordenDeServicioHistoricaData.estado === "entregado" && (
+                    {ordenDeServicioHistoricaData.estado === 'entregado' && (
                       <Badge variant="success">Entregado</Badge>
                     )}
                   </div>
@@ -237,16 +237,16 @@ export function DetailOrdenDeServicioHistoricaContent({
                 {ordenDeServicioHistoricaData?.counter &&
                   ordenDeServicioHistoricaData?.comprobante && (
                     <p>
-                      <strong>Número de comprobante:</strong>{" "}
+                      <strong>Número de comprobante:</strong>{' '}
                       {formatearCodigoCounterBoletaFactura(
                         ordenDeServicioHistoricaData.counter,
                         ordenDeServicioHistoricaData.comprobante ===
-                          "Boleta Impresa"
-                          ? "boleta"
+                          'Boleta Impresa'
+                          ? 'boleta'
                           : ordenDeServicioHistoricaData.comprobante ===
-                            "Factura Impresa"
-                          ? "factura"
-                          : ""
+                              'Factura Impresa'
+                            ? 'factura'
+                            : '',
                       )}
                     </p>
                   )}
@@ -327,7 +327,7 @@ export function DetailOrdenDeServicioHistoricaContent({
                           {mecanico?.dni}
                         </TableCell>
                         <TableCell>
-                          {mecanico?.nombres + " " + mecanico?.apellidos}
+                          {mecanico?.nombres + ' ' + mecanico?.apellidos}
                         </TableCell>
                         <TableCell>
                           <DetailMecanicoOrdenDeServicioDetailSheet
@@ -442,7 +442,7 @@ export function DetailOrdenDeServicioHistoricaContent({
                           </TableCell>
                         </TableRow>
                       );
-                    }
+                    },
                   )}
                 </TableBody>
               </Table>
@@ -532,14 +532,14 @@ export function DetailOrdenDeServicioHistoricaContent({
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <p>
-                      <strong>Cantidad de productos:</strong>{" "}
+                      <strong>Cantidad de productos:</strong>{' '}
                       {ordenDeServicioHistoricaData?.productos?.reduce(
                         (acc, producto) => acc + producto?.cantidad,
-                        0
+                        0,
                       )}
                     </p>
                     <p>
-                      <strong>Cantidad de servicios:</strong>{" "}
+                      <strong>Cantidad de servicios:</strong>{' '}
                       {ordenDeServicioHistoricaData?.servicios?.length}
                     </p>
                   </div>

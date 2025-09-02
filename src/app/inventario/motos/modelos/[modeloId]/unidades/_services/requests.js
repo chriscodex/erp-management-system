@@ -3,9 +3,8 @@ import { deleteMotoClientUrl } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
 export async function deleteMotoRequestClient(motoId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -16,7 +15,7 @@ export async function deleteMotoRequestClient(motoId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la moto: ' + response.response?.data?.error
+          'No se pudo eliminar la moto: ' + response.response?.data?.error,
         );
         return;
       }

@@ -38,9 +38,9 @@ export class SearchedUserService {
         await this.searchedUserRepository.createSearchedUserByDni(
           dni,
           MayusculasATitulo(
-            `${userFromExternalApi.payload.apellidoPaterno} ${userFromExternalApi.payload.apellidoMaterno}`
+            `${userFromExternalApi.payload.apellidoPaterno} ${userFromExternalApi.payload.apellidoMaterno}`,
           ),
-          MayusculasATitulo(userFromExternalApi.payload.nombres)
+          MayusculasATitulo(userFromExternalApi.payload.nombres),
         );
 
       const searchedUserCreatedFormated = {
@@ -56,7 +56,7 @@ export class SearchedUserService {
     } catch (error) {
       console.error('SearchedUser Service: Error al buscar el usuario');
       throw new Error(
-        `SearchedUser Service: Error al buscar el usuario: ${error.message}`
+        `SearchedUser Service: Error al buscar el usuario: ${error.message}`,
       );
     }
   }

@@ -29,12 +29,12 @@ export function PdfFactura({
 }) {
   const fechaEmisionComprobante = formatDateLong(
     new Date(ordenDeServicioData?.fechaEmisionComprobante).toISOString(),
-    true
+    true,
   );
 
   const codigoFactura = formatearCodigoCounterBoletaFactura(
     counterFactura,
-    'factura'
+    'factura',
   );
 
   const MapPin = () => (
@@ -212,7 +212,7 @@ export function PdfFactura({
                   .reduce(
                     (acc, item) =>
                       acc + (item?.precioVenta || item?.precio) * 1,
-                    0
+                    0,
                   )
               ).toFixed(2)}
             </Text>
@@ -227,7 +227,7 @@ export function PdfFactura({
                   .reduce(
                     (acc, item) =>
                       acc + (item?.precioVenta || item?.precio) * 1,
-                    0
+                    0,
                   )
               ).toFixed(2)}
             </Text>
@@ -239,7 +239,7 @@ export function PdfFactura({
                 .concat(ordenDeServicioData?.servicios || [])
                 .reduce(
                   (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -251,7 +251,7 @@ export function PdfFactura({
                 .concat(ordenDeServicioData?.servicios || [])
                 .reduce(
                   (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -264,9 +264,9 @@ export function PdfFactura({
                   .reduce(
                     (acc, item) =>
                       acc + (item?.precioVenta || item?.precio) * 1,
-                    0
+                    0,
                   )
-                  .toFixed(2)
+                  .toFixed(2),
               )}
             </Text>
           </View>

@@ -8,7 +8,10 @@ const notificacionSchema = new Schema(
     },
     message: {
       type: String,
-      required: [true, 'El mensaje es requerido en el schema de notificaciones'],
+      required: [
+        true,
+        'El mensaje es requerido en el schema de notificaciones',
+      ],
     },
     type: {
       type: String,
@@ -46,7 +49,8 @@ const notificacionSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-export const Notificacion = models?.Notificacion || model('Notificacion', notificacionSchema);
+export const Notificacion =
+  models?.Notificacion || model('Notificacion', notificacionSchema);

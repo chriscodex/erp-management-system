@@ -18,7 +18,7 @@ export async function getCurrentCounterNotaDeVentaRequestClient() {
 
     if (response?.status === 500) {
       throw new Error(
-        'No se pudo obtener el contador de boletas: ' + response?.data?.error
+        'No se pudo obtener el contador de boletas: ' + response?.data?.error,
       );
     }
 
@@ -39,7 +39,7 @@ export async function updateNotaDeVentaStateRequestClient(ordenDeServicioId) {
       urlUpdateStateNotaVenta,
       {
         comprobante: 'Nota de Venta Impresa',
-      }
+      },
     );
 
     const urlIncrementCounterNotaVenta = `${incrementCounterNotaVentaClientUrl}`;
@@ -48,20 +48,20 @@ export async function updateNotaDeVentaStateRequestClient(ordenDeServicioId) {
       urlIncrementCounterNotaVenta,
       {
         type: 'nota-venta',
-      }
+      },
     );
 
     if (responseUpdateStateNotaVenta?.status !== 200) {
       throw new Error(
         'No se pudo actualizar el estado de la nota de venta: ' +
-          responseUpdateStateNotaVenta?.data?.error
+          responseUpdateStateNotaVenta?.data?.error,
       );
     }
 
     if (responseIncrementCounterNotaVenta?.status !== 200) {
       throw new Error(
         'No se pudo incrementar el contador de notas de venta: ' +
-          responseIncrementCounterNotaVenta?.data?.error
+          responseIncrementCounterNotaVenta?.data?.error,
       );
     }
 

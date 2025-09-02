@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { MoreHorizontal, ArrowUpDown, Edit } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useSession } from "next-auth/react";
+import { MoreHorizontal, ArrowUpDown, Edit } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { useSession } from 'next-auth/react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,19 +13,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Badge } from "@/components/ui/badge";
-import { DeleteMarcaAlert } from "@/app/inventario/marcas/_components/Dialogs/DeleteCategoryAlert.jsx";
-import { RiDeleteBinLine, RiFileListLine } from "@remixicon/react";
+} from '@/components/ui/dropdown-menu';
+import { Badge } from '@/components/ui/badge';
+import { DeleteMarcaAlert } from '@/app/inventario/marcas/_components/Dialogs/DeleteCategoryAlert.jsx';
+import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
 
 export const columnsMarcas = [
   {
-    accessorKey: "nombre",
+    accessorKey: 'nombre',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Nombre
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -33,17 +33,17 @@ export const columnsMarcas = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("nombre")}</div>;
+      return <div className="text-start">{row.getValue('nombre')}</div>;
     },
   },
   {
     accessorFn: (row) => row?.segmentId?.nombre,
-    id: "Segmento",
+    id: 'Segmento',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Segmento
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -56,12 +56,12 @@ export const columnsMarcas = [
     },
   },
   {
-    accessorKey: "estado",
+    accessorKey: 'estado',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Estado
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -71,7 +71,7 @@ export const columnsMarcas = [
     cell: ({ row }) => {
       return (
         <div className="text-start">
-          {row.getValue("estado") === "activo" ? (
+          {row.getValue('estado') === 'activo' ? (
             <Badge variant="successTable" className="text-sm">
               Activo
             </Badge>
@@ -86,8 +86,8 @@ export const columnsMarcas = [
   },
 
   {
-    id: "actions",
-    header: "Acciones",
+    id: 'actions',
+    header: 'Acciones',
     cell: ({ row }) => {
       const { _id: id } = row.original;
 
@@ -116,7 +116,7 @@ export const columnsMarcas = [
               <RiFileListLine />
               Detalle
             </DropdownMenuItem>
-            {session?.user?.rol === "Administrador" && (
+            {session?.user?.rol === 'Administrador' && (
               <>
                 <DropdownMenuItem
                   className="cursor-pointer"

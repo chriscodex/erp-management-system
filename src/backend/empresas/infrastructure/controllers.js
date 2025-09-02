@@ -1,5 +1,5 @@
-import { EmpresaService } from "@/backend/empresas/application/empresa.service";
-import { connectDB } from "@/db/mongodb";
+import { EmpresaService } from '@/backend/empresas/application/empresa.service';
+import { connectDB } from '@/db/mongodb';
 
 const empresaService = new EmpresaService();
 
@@ -10,11 +10,11 @@ export async function getEmpresasController() {
     return empresas;
   } catch (error) {
     console.error(
-      "Empresas Controller: Error interno al obtener todos las empresas:",
-      error.message
+      'Empresas Controller: Error interno al obtener todos las empresas:',
+      error.message,
     );
     throw new Error(
-      "Empresas Controller: Error interno al obtener todos las empresas"
+      'Empresas Controller: Error interno al obtener todos las empresas',
     );
   }
 }
@@ -30,10 +30,10 @@ export async function getEmpresaByDataController(contextRoute) {
     return empresa;
   } catch (error) {
     console.error(
-      "Empresas Controller: Error interno al obtener la empresa:",
-      error.message
+      'Empresas Controller: Error interno al obtener la empresa:',
+      error.message,
     );
-    throw new Error("Empresas Controller: Error interno al obtener la empresa");
+    throw new Error('Empresas Controller: Error interno al obtener la empresa');
   }
 }
 
@@ -49,10 +49,10 @@ export async function createEmpresaController(request) {
     return createdEmpresa;
   } catch (error) {
     console.error(
-      "Empresas Controller: Error interno al crear la empresa:",
-      error.message
+      'Empresas Controller: Error interno al crear la empresa:',
+      error.message,
     );
-    throw new Error("Empresas Controller: Error interno al crear la empresa");
+    throw new Error('Empresas Controller: Error interno al crear la empresa');
   }
 }
 
@@ -68,11 +68,11 @@ export async function updateEmpresaController(request, contextRoute) {
     return updatedEmpresa;
   } catch (error) {
     console.error(
-      "Empresas Controller: Error interno al actualizar la empresa:",
-      error.message
+      'Empresas Controller: Error interno al actualizar la empresa:',
+      error.message,
     );
     throw new Error(
-      "Empresas Controller: Error interno al actualizar la empresa"
+      'Empresas Controller: Error interno al actualizar la empresa',
     );
   }
 }
@@ -88,9 +88,9 @@ export async function deleteEmpresaController(contextRoute) {
     return deletedEmpresa;
   } catch (error) {
     console.error(
-      "Empresas Controller: Error interno eliminando la empresa:",
-      error.message
+      'Empresas Controller: Error interno eliminando la empresa:',
+      error.message,
     );
-    throw new Error("Empresas Controller: Error interno eliminando la empresa");
+    throw new Error('Empresas Controller: Error interno eliminando la empresa');
   }
 }

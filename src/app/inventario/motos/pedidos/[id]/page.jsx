@@ -1,12 +1,12 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { getPedidoRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
-import { getMarcaRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
-import { getCategoryRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
-import { DetailPedidoContent } from "@/app/inventario/motos/pedidos/[id]/_components/DetailPedidoContent";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { getPedidoRequestServer } from '@/app/inventario/motos/pedidos/_services/requests';
+import { getMarcaRequestServer } from '@/app/inventario/motos/pedidos/_services/requests';
+import { getCategoryRequestServer } from '@/app/inventario/motos/pedidos/_services/requests';
+import { DetailPedidoContent } from '@/app/inventario/motos/pedidos/[id]/_components/DetailPedidoContent';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 export default async function Page({ params }) {
   // eslint-disable-next-line no-undef
   const results = await Promise.allSettled([
@@ -17,7 +17,7 @@ export default async function Page({ params }) {
   const session = results[0].value;
   const { pedido } = results[1].value;
 
-  if (session?.user?.rol !== "Administrador" || !pedido) {
+  if (session?.user?.rol !== 'Administrador' || !pedido) {
     notFound();
   }
 
@@ -31,23 +31,23 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Motos",
-      href: "",
+      title: 'Motos',
+      href: '',
       active: false,
     },
     {
-      title: "Pedidos",
-      href: "/inventario/motos/pedidos",
+      title: 'Pedidos',
+      href: '/inventario/motos/pedidos',
       active: true,
     },
     {
       title: pedido?.code,
-      href: "",
+      href: '',
       active: false,
     },
   ];

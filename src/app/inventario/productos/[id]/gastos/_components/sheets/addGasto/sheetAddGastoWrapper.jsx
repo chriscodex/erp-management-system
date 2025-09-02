@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Sheet } from '@/components/ui/sheet';
 import { AddGastoForm } from '@/app/inventario/productos/[id]/gastos/_components/sheets/addGasto/addGastoForm';
 
-export function SheetAddGastoWrapper({productId}) {
+export function SheetAddGastoWrapper({ productId }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {

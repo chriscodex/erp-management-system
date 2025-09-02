@@ -1,23 +1,23 @@
-import { notFound } from "next/navigation";
-import { RiBox2Fill } from "@remixicon/react";
+import { notFound } from 'next/navigation';
+import { RiBox2Fill } from '@remixicon/react';
 
-import { Plus } from "lucide-react";
-import Link from "next/link";
+import { Plus } from 'lucide-react';
+import Link from 'next/link';
 
-import { agregarNumeracionTable, sortByUpdateDateDesc } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 
-import { columnsPedidos } from "@/app/inventario/motos/pedidos/_components/pedidosTable/columns";
-import { DataTablePedidos } from "@/app/inventario/motos/pedidos/_components/pedidosTable/data-table";
-import { getAllPedidosRequestServer } from "@/app/inventario/motos/pedidos/_services/requests";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { columnsPedidos } from '@/app/inventario/motos/pedidos/_components/pedidosTable/columns';
+import { DataTablePedidos } from '@/app/inventario/motos/pedidos/_components/pedidosTable/data-table';
+import { getAllPedidosRequestServer } from '@/app/inventario/motos/pedidos/_services/requests';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 export default async function PedidosPage() {
   const session = await getServerSession(authOptions);
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
   const { pedidos, status } = await getAllPedidosRequestServer();
@@ -27,18 +27,18 @@ export default async function PedidosPage() {
 
   const titles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Motos",
-      href: "",
+      title: 'Motos',
+      href: '',
       active: false,
     },
     {
-      title: "Pedidos",
-      href: "",
+      title: 'Pedidos',
+      href: '',
       active: false,
     },
   ];

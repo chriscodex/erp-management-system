@@ -1,8 +1,8 @@
-import { User, Package, Hash, FileText, Calendar } from "lucide-react";
-import { RiBikeLine, RiFileListLine } from "@remixicon/react";
+import { User, Package, Hash, FileText, Calendar } from 'lucide-react';
+import { RiBikeLine, RiFileListLine } from '@remixicon/react';
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -10,20 +10,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { formatDateLong, formatDateShort } from "@/lib/formateador";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/table';
+import { formatDateLong, formatDateShort } from '@/lib/formateador';
+import { Label } from '@/components/ui/label';
 
-import { DetailOrdenDeServicioButtons } from "@/app/taller/ordenes-servicio/[id]/_components/buttons/detailOrdenDeServicioButtons";
-import { formatMoney } from "@/lib/utils";
-import { EmitirComprobanteOrdenDeServicioButton } from "@/app/taller/ordenes-servicio/[id]/_components/buttons/emitirComprobanteOrdenDeServicioButton";
-import { HomeRepairService } from "@mui/icons-material";
-import { DetailProductOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductOrdenDeServicioDetailSheet";
-import { DetailServicioOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailServicioOrdenDeServicioDetailSheet";
-import { DetailMecanicoOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailMecanicoOrdenDeServicioDetailSheet";
-import { DetailProductExternoOrdenDeServicioDetailSheet } from "@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductExternoOrdenDeServicioDetailSheet";
-import { ImprimirOrdenDeServicioButton } from "@/app/taller/ordenes-servicio/[id]/_components/buttons/imprimirOrdenDeServicioButton";
-
+import { DetailOrdenDeServicioButtons } from '@/app/taller/ordenes-servicio/[id]/_components/buttons/detailOrdenDeServicioButtons';
+import { formatMoney } from '@/lib/utils';
+import { EmitirComprobanteOrdenDeServicioButton } from '@/app/taller/ordenes-servicio/[id]/_components/buttons/emitirComprobanteOrdenDeServicioButton';
+import { HomeRepairService } from '@mui/icons-material';
+import { DetailProductOrdenDeServicioDetailSheet } from '@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductOrdenDeServicioDetailSheet';
+import { DetailServicioOrdenDeServicioDetailSheet } from '@/app/taller/ordenes-servicio/[id]/_components/sheets/detailServicioOrdenDeServicioDetailSheet';
+import { DetailMecanicoOrdenDeServicioDetailSheet } from '@/app/taller/ordenes-servicio/[id]/_components/sheets/detailMecanicoOrdenDeServicioDetailSheet';
+import { DetailProductExternoOrdenDeServicioDetailSheet } from '@/app/taller/ordenes-servicio/[id]/_components/sheets/detailProductExternoOrdenDeServicioDetailSheet';
+import { ImprimirOrdenDeServicioButton } from '@/app/taller/ordenes-servicio/[id]/_components/buttons/imprimirOrdenDeServicioButton';
 
 export function DetailOrdenDeServicioContent({
   ordenDeServicioData,
@@ -33,14 +32,14 @@ export function DetailOrdenDeServicioContent({
     (acc, product) => {
       return acc + product.precioVenta;
     },
-    0
+    0,
   );
 
   const precioTotalServicios = ordenDeServicioData?.servicios?.reduce(
     (acc, servicio) => {
       return acc + servicio.precio;
     },
-    0
+    0,
   );
 
   return (
@@ -72,33 +71,33 @@ export function DetailOrdenDeServicioContent({
                 Información del Cliente
               </CardTitle>
             </CardHeader>
-            {ordenDeServicioData?.cliente?.tipo === "persona" ? (
+            {ordenDeServicioData?.cliente?.tipo === 'persona' ? (
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{" "}
-                    {ordenDeServicioData?.cliente?.datos?.nombres}{" "}
+                    <strong>Nombre:</strong>{' '}
+                    {ordenDeServicioData?.cliente?.datos?.nombres}{' '}
                     {ordenDeServicioData?.cliente?.datos?.apellidos}
                   </p>
                   <p>
-                    <strong>DNI:</strong>{" "}
+                    <strong>DNI:</strong>{' '}
                     {ordenDeServicioData?.cliente?.datos?.dni}
                   </p>
                   {ordenDeServicioData?.cliente?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong>{" "}
+                      <strong>Dirección:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.direccion}
                     </p>
                   )}
                   {ordenDeServicioData?.cliente?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.email}
                     </p>
                   )}
                   {ordenDeServicioData?.cliente?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.celular}
                     </p>
                   )}
@@ -108,33 +107,33 @@ export function DetailOrdenDeServicioContent({
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{" "}
+                    <strong>Razon Social:</strong>{' '}
                     {ordenDeServicioData?.cliente?.datos?.razonSocial}
                   </p>
                   <p>
-                    <strong>RUC:</strong>{" "}
+                    <strong>RUC:</strong>{' '}
                     {ordenDeServicioData?.cliente?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Represante Legal:</strong>{" "}
+                    <strong>Represante Legal:</strong>{' '}
                     {ordenDeServicioData?.cliente?.datos?.representanteLegal}
                   </p>
                   {ordenDeServicioData?.cliente?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong>{" "}
+                      <strong>Dirección:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.direccion}
                     </p>
                   )}
                   {ordenDeServicioData?.cliente?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.email}
                     </p>
                   )}
                   {(ordenDeServicioData?.cliente?.datos?.celular ??
                     ordenDeServicioData?.cliente?.datos?.celular) && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ordenDeServicioData?.cliente?.datos?.celular ??
                         ordenDeServicioData?.cliente?.datos?.celular}
                     </p>
@@ -156,21 +155,21 @@ export function DetailOrdenDeServicioContent({
                   <strong>Código:</strong> {ordenDeServicioData?.code}
                 </p>
                 <p>
-                  <strong>Origen del servicio:</strong>{" "}
-                  {ordenDeServicioData?.origenServicio === "garantia"
-                    ? "Garantía"
-                    : ordenDeServicioData?.origenServicio === "pagado"
-                    ? "Pagado"
-                    : "Interno"}
+                  <strong>Origen del servicio:</strong>{' '}
+                  {ordenDeServicioData?.origenServicio === 'garantia'
+                    ? 'Garantía'
+                    : ordenDeServicioData?.origenServicio === 'pagado'
+                      ? 'Pagado'
+                      : 'Interno'}
                 </p>
                 <p>
-                  <strong>Tipo de servicio:</strong>{" "}
-                  {ordenDeServicioData?.tipoServicio === "mantenimiento"
-                    ? "Mantenimiento"
-                    : "Reparación"}
+                  <strong>Tipo de servicio:</strong>{' '}
+                  {ordenDeServicioData?.tipoServicio === 'mantenimiento'
+                    ? 'Mantenimiento'
+                    : 'Reparación'}
                 </p>
                 <p>
-                  <strong>Fecha de ingreso:</strong>{" "}
+                  <strong>Fecha de ingreso:</strong>{' '}
                   {formatDateLong(ordenDeServicioData?.fechaIngreso, false)}
                 </p>
                 {ordenDeServicioData?.fechaEntregaEstimada && (
@@ -178,7 +177,7 @@ export function DetailOrdenDeServicioContent({
                     <strong>Fecha de entrega estimada:</strong>
                     {formatDateLong(
                       ordenDeServicioData?.fechaEntregaEstimada,
-                      false
+                      false,
                     )}
                   </p>
                 )}
@@ -191,32 +190,32 @@ export function DetailOrdenDeServicioContent({
                 {ordenDeServicioData?.estado && (
                   <div className="flex items-center gap-2">
                     <strong>Estado:</strong>
-                    {ordenDeServicioData.estado === "pendiente" && (
+                    {ordenDeServicioData.estado === 'pendiente' && (
                       <Badge variant="secondary">Pendiente</Badge>
                     )}
-                    {ordenDeServicioData.estado === "diagnosticando" && (
+                    {ordenDeServicioData.estado === 'diagnosticando' && (
                       <Badge variant="outline">Diagnosticando</Badge>
                     )}
-                    {ordenDeServicioData.estado === "esperando-repuestos" && (
+                    {ordenDeServicioData.estado === 'esperando-repuestos' && (
                       <Badge variant="destructive">Esperando repuestos</Badge>
                     )}
-                    {ordenDeServicioData.estado === "en-reparacion" && (
+                    {ordenDeServicioData.estado === 'en-reparacion' && (
                       <Badge variant="default">En reparación</Badge>
                     )}
-                    {ordenDeServicioData.estado === "en-mantenimiento" && (
+                    {ordenDeServicioData.estado === 'en-mantenimiento' && (
                       <Badge variant="secondary">En mantenimiento</Badge>
                     )}
-                    {ordenDeServicioData.estado === "finalizado" && (
+                    {ordenDeServicioData.estado === 'finalizado' && (
                       <Badge variant="success">Finalizado</Badge>
                     )}
-                    {ordenDeServicioData.estado === "entregado" && (
+                    {ordenDeServicioData.estado === 'entregado' && (
                       <Badge variant="success">Entregado</Badge>
                     )}
                   </div>
                 )}
                 {ordenDeServicioData?.comprobante && (
                   <p>
-                    <strong>Comprobante:</strong>{" "}
+                    <strong>Comprobante:</strong>{' '}
                     {ordenDeServicioData?.comprobante}
                   </p>
                 )}
@@ -297,7 +296,7 @@ export function DetailOrdenDeServicioContent({
                           {mecanico?.dni}
                         </TableCell>
                         <TableCell>
-                          {mecanico?.nombres + " " + mecanico?.apellidos}
+                          {mecanico?.nombres + ' ' + mecanico?.apellidos}
                         </TableCell>
                         <TableCell>
                           <DetailMecanicoOrdenDeServicioDetailSheet
@@ -395,23 +394,25 @@ export function DetailOrdenDeServicioContent({
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {ordenDeServicioData?.productosExternos?.map((productoExterno) => {
-                    return (
-                      <TableRow key={productoExterno?.code}>
-                        <TableCell>{productoExterno?.nombre}</TableCell>
-                        <TableCell>{productoExterno?.descripcion}</TableCell>
-                        <TableCell>{productoExterno?.cantidad}</TableCell>
-                        <TableCell>
-                          {formatDateShort(productoExterno?.fecha, false)}
-                        </TableCell>
-                        <TableCell>
-                          <DetailProductExternoOrdenDeServicioDetailSheet
-                            productoExternoOrdenDeServicio={productoExterno}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    );
-                  })}
+                  {ordenDeServicioData?.productosExternos?.map(
+                    (productoExterno) => {
+                      return (
+                        <TableRow key={productoExterno?.code}>
+                          <TableCell>{productoExterno?.nombre}</TableCell>
+                          <TableCell>{productoExterno?.descripcion}</TableCell>
+                          <TableCell>{productoExterno?.cantidad}</TableCell>
+                          <TableCell>
+                            {formatDateShort(productoExterno?.fecha, false)}
+                          </TableCell>
+                          <TableCell>
+                            <DetailProductExternoOrdenDeServicioDetailSheet
+                              productoExternoOrdenDeServicio={productoExterno}
+                            />
+                          </TableCell>
+                        </TableRow>
+                      );
+                    },
+                  )}
                 </TableBody>
               </Table>
             </CardContent>
@@ -498,14 +499,14 @@ export function DetailOrdenDeServicioContent({
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <p>
-                      <strong>Cantidad de productos:</strong>{" "}
+                      <strong>Cantidad de productos:</strong>{' '}
                       {ordenDeServicioData?.productos?.reduce(
                         (acc, producto) => acc + producto?.cantidad,
-                        0
+                        0,
                       )}
                     </p>
                     <p>
-                      <strong>Cantidad de servicios:</strong>{" "}
+                      <strong>Cantidad de servicios:</strong>{' '}
                       {ordenDeServicioData?.servicios?.length}
                     </p>
                   </div>
@@ -533,8 +534,8 @@ export function DetailOrdenDeServicioContent({
           <DetailOrdenDeServicioButtons
             ordenDeServicioId={ordenDeServicioData._id}
             disabled={
-              ordenDeServicioData?.comprobante === "Boleta Impresa" ||
-              ordenDeServicioData?.comprobante === "Factura Impresa"
+              ordenDeServicioData?.comprobante === 'Boleta Impresa' ||
+              ordenDeServicioData?.comprobante === 'Factura Impresa'
             }
           />
         </div>

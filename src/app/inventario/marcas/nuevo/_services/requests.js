@@ -27,9 +27,8 @@ export async function getAllSegmentsRequestServer() {
 }
 
 export async function createMarcaRequestClient(marca, setLoading, setError) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso

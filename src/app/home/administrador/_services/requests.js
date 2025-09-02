@@ -3,7 +3,7 @@ import { simplificadorParaClientComponent } from '@/lib/utils';
 import { CounterService } from '@/backend/counters/application/counterService';
 import { ProductService } from '@/backend/products/application/products.service';
 import { MotoService } from '@/backend/motos/application/moto.service';
-import { GastoGeneralService } from "@/backend/gastosGenerales/application/gastoGeneral.service";
+import { GastoGeneralService } from '@/backend/gastosGenerales/application/gastoGeneral.service';
 import { VentaHistoricaService } from '@/backend/ventas/application/ventaHistorica.service';
 import { PedidoService } from '@/backend/pedidos/application/pedido.service';
 import { OrdenServicioHistoricaService } from '@/backend/ordenesServicio/application/ordenServicioHistorica.service';
@@ -81,7 +81,7 @@ export async function getAllGastosGeneralesRequestServer() {
 
     const response = await gastoGeneralService.getAllGastosGenerales();
     if (response?.status !== 200) {
-      console.log("Error al obtener todos los gastos generales");
+      console.log('Error al obtener todos los gastos generales');
       return { gastosGenerales: [], status: response?.status };
     }
     const gastosGenerales = response?.payload;
@@ -115,7 +115,6 @@ export async function getAllVentasHistoricasRequestServer() {
   }
 }
 
-
 export async function getAllReservacionesRequestServer() {
   try {
     await connectDB();
@@ -146,7 +145,7 @@ export async function getAllPedidosRequestServer() {
     const response = await pedidoService.getAllPedidos();
 
     if (response?.status !== 200) {
-      console.log("Error al obtener todos los pedidos");
+      console.log('Error al obtener todos los pedidos');
       return { pedidos: [], status: 500 };
     }
     const pedidos = response?.payload;
@@ -163,9 +162,11 @@ export async function getAllOrdenesServicioHistoricasRequestServer() {
   try {
     await connectDB();
 
-    const ordenesServicioHistoricasService = new OrdenServicioHistoricaService();
+    const ordenesServicioHistoricasService =
+      new OrdenServicioHistoricaService();
 
-    const response = await ordenesServicioHistoricasService.getAllOrdenesDeServicioHistoricas();
+    const response =
+      await ordenesServicioHistoricasService.getAllOrdenesDeServicioHistoricas();
 
     if (response?.status !== 200) {
       console.log('Error al obtener todas las órdenes históricas');
@@ -173,7 +174,9 @@ export async function getAllOrdenesServicioHistoricasRequestServer() {
     }
     const ordenesServicioHistoricas = response?.payload;
     return {
-      ordenesServicioHistoricas: simplificadorParaClientComponent(ordenesServicioHistoricas),
+      ordenesServicioHistoricas: simplificadorParaClientComponent(
+        ordenesServicioHistoricas,
+      ),
       status: 200,
     };
   } catch (error) {

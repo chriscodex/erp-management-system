@@ -14,11 +14,11 @@ export async function GET(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Segments Route: Error interno al obtener todas los segmentos: ${error.message}`
+      `Segments Route: Error interno al obtener todas los segmentos: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno obteniendo todas los segmentos' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

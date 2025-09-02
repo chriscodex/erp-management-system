@@ -14,8 +14,12 @@ import { deleteGastoGeneralRequestClient } from '@/app/gastos-generales/_service
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 
-
-function DeleteGastoGeneralAlert({ isOpen, setIsOpen, gastoGeneralId, actionAfterComplete }) {
+function DeleteGastoGeneralAlert({
+  isOpen,
+  setIsOpen,
+  gastoGeneralId,
+  actionAfterComplete,
+}) {
   const router = useRouter();
 
   const handleConfirmationDeleteGastoGeneral = async () => {

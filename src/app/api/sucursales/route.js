@@ -15,11 +15,11 @@ export async function GET() {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Sucursales Route: Error interno al obtener las sucursales: ${error.message}`
+      `Sucursales Route: Error interno al obtener las sucursales: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error obteniendo las sucursales' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -35,11 +35,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `SucursaleS Route: Error interno al crear la sucursal: ${error.message}`
+      `SucursaleS Route: Error interno al crear la sucursal: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear la sucursal' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -4,7 +4,10 @@ const gastoGeneralSchema = new Schema(
   {
     descripcion: {
       type: String,
-      required: [true, 'La descripción es requerida en el schema de gasto general'],
+      required: [
+        true,
+        'La descripción es requerida en el schema de gasto general',
+      ],
     },
     monto: {
       type: Number,
@@ -17,7 +20,8 @@ const gastoGeneralSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-export const GastoGeneral = models?.GastoGeneral || model('GastoGeneral', gastoGeneralSchema);
+export const GastoGeneral =
+  models?.GastoGeneral || model('GastoGeneral', gastoGeneralSchema);

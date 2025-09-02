@@ -9,7 +9,7 @@ import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 export function searchClientePorDniOrRucClientRequest(
   identificador,
-  setLoading
+  setLoading,
 ) {
   // eslint-disable-next-line
   return new Promise(async (resolve, reject) => {
@@ -27,7 +27,7 @@ export function searchClientePorDniOrRucClientRequest(
 
       if (identificador?.length === 8) {
         const response = await fetchData(
-          `${searchClienteClientUrl}?dni=${identificador}`
+          `${searchClienteClientUrl}?dni=${identificador}`,
         );
         if (response?.status !== 200) {
           setLoading(false);
@@ -40,7 +40,7 @@ export function searchClientePorDniOrRucClientRequest(
 
       if (identificador?.length === 11) {
         const response = await fetchData(
-          `${searchClienteClientUrl}?ruc=${identificador}`
+          `${searchClienteClientUrl}?ruc=${identificador}`,
         );
         if (response?.status !== 200) {
           setLoading(false);
@@ -78,12 +78,13 @@ export async function getAllMecanicosRequestServer() {
   }
 }
 
-export async function createOrdenDeServicioRequestClient(ordenDeServicioData, setLoading) {
-  /* eslint-disable */
+export async function createOrdenDeServicioRequestClient(
+  ordenDeServicioData,
+  setLoading,
+) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
-
       setLoading(true);
       // Simular tiempo de retraso
       await delay();
@@ -113,11 +114,6 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
         });
       }
 
-      const ordenDeServicioDataFormated = {
-        ...ordenDeServicioData,
-        mecanicos: mecanicosFormated,
-      };
-
       let clienteData = {};
       if (ordenDeServicioData?.tipo === 'persona') {
         clienteData = {
@@ -125,15 +121,15 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
           nombres: ordenDeServicioData?.nombres,
           apellidos: ordenDeServicioData?.apellidos,
           direccion:
-            ordenDeServicioData?.direccion?.trim() === ""
+            ordenDeServicioData?.direccion?.trim() === ''
               ? undefined
               : ordenDeServicioData?.direccion?.trim(),
           email:
-            ordenDeServicioData?.email?.trim() === ""
+            ordenDeServicioData?.email?.trim() === ''
               ? undefined
               : ordenDeServicioData?.email?.trim(),
           celular:
-            ordenDeServicioData?.celular?.trim() === ""
+            ordenDeServicioData?.celular?.trim() === ''
               ? undefined
               : ordenDeServicioData?.celular?.trim(),
         };
@@ -145,11 +141,11 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
           representanteLegal: ordenDeServicioData?.representanteLegal,
           direccion: ordenDeServicioData?.direccion?.trim(),
           email:
-            ordenDeServicioData?.email?.trim() === ""
+            ordenDeServicioData?.email?.trim() === ''
               ? undefined
               : ordenDeServicioData?.email?.trim(),
           celular:
-            ordenDeServicioData?.celular?.trim() === ""
+            ordenDeServicioData?.celular?.trim() === ''
               ? undefined
               : ordenDeServicioData?.celular?.trim(),
         };
@@ -157,27 +153,27 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
 
       let motoData = {
         nombre:
-          ordenDeServicioData?.nombre?.trim() === ""
+          ordenDeServicioData?.nombre?.trim() === ''
             ? undefined
             : ordenDeServicioData?.nombre?.trim(),
         vin:
-          ordenDeServicioData?.vin?.trim() === ""
+          ordenDeServicioData?.vin?.trim() === ''
             ? undefined
             : ordenDeServicioData?.vin?.trim(),
         placa:
-          ordenDeServicioData?.placa?.trim() === ""
+          ordenDeServicioData?.placa?.trim() === ''
             ? undefined
             : ordenDeServicioData?.placa?.trim(),
         descripcion:
-          ordenDeServicioData?.descripcion?.trim() === ""
+          ordenDeServicioData?.descripcion?.trim() === ''
             ? undefined
             : ordenDeServicioData?.descripcion?.trim(),
         categoria:
-          ordenDeServicioData?.categoria?.trim() === ""
+          ordenDeServicioData?.categoria?.trim() === ''
             ? undefined
             : ordenDeServicioData?.categoria?.trim(),
         marca:
-          ordenDeServicioData?.marca?.trim() === ""
+          ordenDeServicioData?.marca?.trim() === ''
             ? undefined
             : ordenDeServicioData?.marca?.trim(),
       };
@@ -198,18 +194,22 @@ export async function createOrdenDeServicioRequestClient(ordenDeServicioData, se
         origenServicio: ordenDeServicioData?.origenServicio,
         tipoServicio: ordenDeServicioData?.tipoServicio,
         comentarios:
-          ordenDeServicioData?.comentarios?.trim() === ""
+          ordenDeServicioData?.comentarios?.trim() === ''
             ? undefined
             : ordenDeServicioData?.comentarios?.trim(),
       };
 
       // Obtener los datos de la persona
-      const response = await postData(createOrdenDeServicioClientUrl, ordenDeServicioObject);
+      const response = await postData(
+        createOrdenDeServicioClientUrl,
+        ordenDeServicioObject,
+      );
 
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          'No se pudo crear la orden de servicio: ' + response.response?.data?.error
+          'No se pudo crear la orden de servicio: ' +
+            response.response?.data?.error,
         );
         return;
       }

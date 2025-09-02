@@ -94,7 +94,11 @@ export function DataTableGastos({ data, status = 200, productId }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">S/. {parseFloat(row.getValue('monto')).toFixed(2)}</div>;
+        return (
+          <div className="text-start">
+            S/. {parseFloat(row.getValue('monto')).toFixed(2)}
+          </div>
+        );
       },
     },
     {
@@ -252,7 +256,7 @@ export function DataTableGastos({ data, status = 200, productId }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -271,7 +275,7 @@ export function DataTableGastos({ data, status = 200, productId }) {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

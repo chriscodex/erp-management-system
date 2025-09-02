@@ -1,5 +1,5 @@
-import { SucursalService } from "@/backend/sucursales/application/sucursal.service";
-import { connectDB } from "@/db/mongodb";
+import { SucursalService } from '@/backend/sucursales/application/sucursal.service';
+import { connectDB } from '@/db/mongodb';
 
 const sucursalService = new SucursalService();
 
@@ -10,11 +10,11 @@ export async function getSucursalesController() {
     return sucursales;
   } catch (error) {
     console.error(
-      "Sucursales Controller: Error interno al obtener todos las sucursales:",
-      error.message
+      'Sucursales Controller: Error interno al obtener todos las sucursales:',
+      error.message,
     );
     throw new Error(
-      "Sucursales Controller: Error interno al obtener todos las sucursales"
+      'Sucursales Controller: Error interno al obtener todos las sucursales',
     );
   }
 }
@@ -30,10 +30,12 @@ export async function getSucursalByDataController(contextRoute) {
     return sucursal;
   } catch (error) {
     console.error(
-      "Sucursales Controller: Error interno al obtener la sucursal:",
-      error.message
+      'Sucursales Controller: Error interno al obtener la sucursal:',
+      error.message,
     );
-    throw new Error("Sucursales Controller: Error interno al obtener la sucursal");
+    throw new Error(
+      'Sucursales Controller: Error interno al obtener la sucursal',
+    );
   }
 }
 
@@ -49,10 +51,12 @@ export async function createSucursalController(request) {
     return createdSucursal;
   } catch (error) {
     console.error(
-      "Sucursales Controller: Error interno al crear la sucursal:",
-      error.message
+      'Sucursales Controller: Error interno al crear la sucursal:',
+      error.message,
     );
-    throw new Error("Sucursales Controller: Error interno al crear la sucursal");
+    throw new Error(
+      'Sucursales Controller: Error interno al crear la sucursal',
+    );
   }
 }
 
@@ -68,11 +72,11 @@ export async function updateSucursalController(request, contextRoute) {
     return updatedSucursal;
   } catch (error) {
     console.error(
-      "Sucursales Controller: Error interno al actualizar la sucursal:",
-      error.message
+      'Sucursales Controller: Error interno al actualizar la sucursal:',
+      error.message,
     );
     throw new Error(
-      "Sucursales Controller: Error interno al actualizar la sucursal"
+      'Sucursales Controller: Error interno al actualizar la sucursal',
     );
   }
 }
@@ -88,9 +92,11 @@ export async function deleteSucursalController(contextRoute) {
     return deletedSucursal;
   } catch (error) {
     console.error(
-      "Sucursales Controller: Error interno eliminando la sucursal:",
-      error.message
+      'Sucursales Controller: Error interno eliminando la sucursal:',
+      error.message,
     );
-    throw new Error("Sucursales Controller: Error interno eliminando la sucursal");
+    throw new Error(
+      'Sucursales Controller: Error interno eliminando la sucursal',
+    );
   }
 }

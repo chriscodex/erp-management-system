@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { User2Icon } from "lucide-react";
+import * as React from 'react';
+import { User2Icon } from 'lucide-react';
 import {
   RiBox3Line,
   RiShoppingCartLine,
@@ -27,51 +27,51 @@ import {
   RiFileCopy2Line,
   RiFileCopy2Fill,
   RiBuilding4Line,
-} from "@remixicon/react";
+} from '@remixicon/react';
 
-import { NavMain } from "@/components/sidebar/nav-main";
-import { NavAdministracion } from "@/components/sidebar/nav-projects";
-import { NavHome } from "@/components/sidebar/nav-home";
-import { NavUser } from "@/components/sidebar/nav-user";
-import { NavVentas } from "@/components/sidebar/nav-ventas";
-import { NavTaller } from "@/components/sidebar/nav-taller";
+import { NavMain } from '@/components/sidebar/nav-main';
+import { NavAdministracion } from '@/components/sidebar/nav-projects';
+import { NavHome } from '@/components/sidebar/nav-home';
+import { NavUser } from '@/components/sidebar/nav-user';
+import { NavVentas } from '@/components/sidebar/nav-ventas';
+import { NavTaller } from '@/components/sidebar/nav-taller';
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 
-import { usePathname } from "next/navigation";
-import { useSession } from "next-auth/react";
-import { RiCalendarScheduleLine } from "@remixicon/react";
+import { usePathname } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { RiCalendarScheduleLine } from '@remixicon/react';
 
 // This is sample data.
 const adminData = {
   home: {
-    name: "Inicio",
+    name: 'Inicio',
     icon: RiHome2Line,
-    url: "/",
+    url: '/',
   },
   navVentas: [
     {
-      title: "Ventas",
-      url: "#",
+      title: 'Ventas',
+      url: '#',
       icon: RiShoppingCartLine,
       items: [
         {
-          title: "Pre-Ventas",
-          url: "/ventas/preventas/",
+          title: 'Pre-Ventas',
+          url: '/ventas/preventas/',
           icon: RiShoppingBag3Line,
         },
         {
-          title: "Ventas",
-          url: "/ventas/",
+          title: 'Ventas',
+          url: '/ventas/',
           icon: RiVipDiamondLine,
         },
         {
-          title: "Historial de Ventas",
-          url: "/ventas/ventas-historicas/",
+          title: 'Historial de Ventas',
+          url: '/ventas/ventas-historicas/',
           icon: RiFolderHistoryLine,
         },
       ],
@@ -79,75 +79,75 @@ const adminData = {
   ],
   navPlataforma: [
     {
-      title: "Inventario",
-      url: "#",
+      title: 'Inventario',
+      url: '#',
       icon: RiBox3Line,
       items: [
         {
-          title: "Motos",
-          url: "/inventario/modelos",
+          title: 'Motos',
+          url: '/inventario/modelos',
           items: [
             {
-              title: "Modelos",
-              url: "/inventario/motos/modelos",
+              title: 'Modelos',
+              url: '/inventario/motos/modelos',
               icon: RiMotorbikeFill,
             },
             {
-              title: "Todas",
-              url: "/inventario/motos/todas",
+              title: 'Todas',
+              url: '/inventario/motos/todas',
               icon: RiRidingLine,
             },
             {
-              title: "Reservaciones",
-              url: "/inventario/motos/reservaciones",
+              title: 'Reservaciones',
+              url: '/inventario/motos/reservaciones',
               icon: RiCalendarScheduleLine,
             },
             {
-              title: "Pedidos",
-              url: "/inventario/motos/pedidos",
+              title: 'Pedidos',
+              url: '/inventario/motos/pedidos',
               icon: RiBox2Fill,
             },
           ],
           icon: RiMotorbikeLine,
         },
         {
-          title: "Productos",
-          url: "/inventario/productos/",
+          title: 'Productos',
+          url: '/inventario/productos/',
           icon: RiGalleryView2,
         },
         {
-          title: "Marcas",
-          url: "/inventario/marcas",
+          title: 'Marcas',
+          url: '/inventario/marcas',
           items: [],
           icon: RiInstanceFill,
         },
         {
-          title: "Categorías",
-          url: "/inventario/categorias",
+          title: 'Categorías',
+          url: '/inventario/categorias',
           items: [],
           icon: RiAppsLine,
         },
         {
-          title: "Almacenes",
-          url: "/inventario/almacenes",
+          title: 'Almacenes',
+          url: '/inventario/almacenes',
           items: [],
           icon: RiArchiveLine,
         },
       ],
     },
     {
-      title: "Contactos",
-      url: "#",
+      title: 'Contactos',
+      url: '#',
       icon: RiGroupFill,
       items: [
         {
-          title: "Clientes",
-          url: "/contactos/clientes/",
+          title: 'Clientes',
+          url: '/contactos/clientes/',
           icon: RiGroup3Line,
         },
         {
-          title: "Proveedores",
-          url: "/contactos/proveedores/",
+          title: 'Proveedores',
+          url: '/contactos/proveedores/',
           icon: RiTeamFill,
         },
       ],
@@ -155,18 +155,18 @@ const adminData = {
   ],
   navTaller: [
     {
-      title: "Taller",
-      url: "#",
+      title: 'Taller',
+      url: '#',
       icon: RiToolsFill,
       items: [
         {
-          title: "Órdenes de Servicio",
-          url: "/taller/ordenes-servicio/",
+          title: 'Órdenes de Servicio',
+          url: '/taller/ordenes-servicio/',
           icon: RiFileCopy2Line,
         },
         {
-          title: "Historial de Órdenes de Servicio",
-          url: "/taller/ordenes-servicio-historial",
+          title: 'Historial de Órdenes de Servicio',
+          url: '/taller/ordenes-servicio-historial',
           icon: RiFileCopy2Fill,
         },
       ],
@@ -174,28 +174,28 @@ const adminData = {
   ],
   navAdministracion: [
     {
-      name: "Estadísticas",
-      url: "/estadisticas",
+      name: 'Estadísticas',
+      url: '/estadisticas',
       icon: RiBarChartLine,
     },
     {
-      name: "Gastos generales",
-      url: "/gastos-generales",
+      name: 'Gastos generales',
+      url: '/gastos-generales',
       icon: RiWallet2Fill,
     },
     {
-      name: "Usuarios",
-      url: "/usuarios",
+      name: 'Usuarios',
+      url: '/usuarios',
       icon: User2Icon,
     },
     {
-      name: "Empresas",
-      url: "/empresas",
+      name: 'Empresas',
+      url: '/empresas',
       icon: RiBuildingLine,
     },
     {
-      name: "Sucursales",
-      url: "/sucursales",
+      name: 'Sucursales',
+      url: '/sucursales',
       icon: RiBuilding4Line,
     },
   ],
@@ -205,7 +205,7 @@ export function AppSidebar({ ...props }) {
   const pathname = usePathname();
   const { data: session } = useSession();
 
-  const isLoginPage = pathname === "/login";
+  const isLoginPage = pathname === '/login';
 
   return (
     <>
@@ -222,32 +222,31 @@ export function AppSidebar({ ...props }) {
 
           <SidebarContent>
             {/* Sección Home */}
-            {session?.user?.rol === "Administrador" && (
+            {session?.user?.rol === 'Administrador' && (
               <NavHome home={adminData.home} />
             )}
 
             {/* Sección de Ventas*/}
 
-            {(session?.user?.rol === "Administrador" ||
-              session?.user?.rol === "Vendedor") && (
-              <NavVentas navTitle={"Ventas"} items={adminData.navVentas} />
+            {(session?.user?.rol === 'Administrador' ||
+              session?.user?.rol === 'Vendedor') && (
+              <NavVentas navTitle={'Ventas'} items={adminData.navVentas} />
             )}
 
             {/* Sección de Plataforma*/}
 
-            <NavMain navTitle={"Plataforma"} items={adminData.navPlataforma} />
+            <NavMain navTitle={'Plataforma'} items={adminData.navPlataforma} />
 
             {/* Solo para Administrador */}
 
-            {(session?.user?.rol === "Administrador" ||
-              session?.user?.rol === "Tecnico") && (
-              <NavTaller navTitle={"Taller"} items={adminData.navTaller} />
+            {(session?.user?.rol === 'Administrador' ||
+              session?.user?.rol === 'Tecnico') && (
+              <NavTaller navTitle={'Taller'} items={adminData.navTaller} />
             )}
 
-            {session?.user?.rol === "Administrador" && (
+            {session?.user?.rol === 'Administrador' && (
               <NavAdministracion projects={adminData.navAdministracion} />
             )}
-            
           </SidebarContent>
 
           <SidebarFooter>

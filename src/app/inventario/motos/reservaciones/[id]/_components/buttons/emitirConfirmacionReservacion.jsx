@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { pdf } from "@react-pdf/renderer";
-import { RiPrinterLine, RiCheckboxCircleLine } from "@remixicon/react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
+import { useState } from 'react';
+import { pdf } from '@react-pdf/renderer';
+import { RiPrinterLine, RiCheckboxCircleLine } from '@remixicon/react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 
-import { PdfConfirmacionReservacion } from "@/app/inventario/motos/reservaciones/[id]/_components/pdf/PdfConfirmacionReservacion";
-import { FinalizarReservacionAlert } from "@/app/inventario/motos/reservaciones/_components/dialogs/FinalizarReservacionAlert";
+import { PdfConfirmacionReservacion } from '@/app/inventario/motos/reservaciones/[id]/_components/pdf/PdfConfirmacionReservacion';
+import { FinalizarReservacionAlert } from '@/app/inventario/motos/reservaciones/_components/dialogs/FinalizarReservacionAlert';
 
 export function EmitirConfirmacionReservacionButton({ reservacionData }) {
   const router = useRouter();
@@ -25,7 +25,7 @@ export function EmitirConfirmacionReservacionButton({ reservacionData }) {
       const blob = await pdf(doc).toBlob();
 
       // Crear un enlace temporal y forzar la descarga
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = `reservacion-${reservacionData?.code}.pdf`;
       document.body.appendChild(link);
@@ -33,7 +33,7 @@ export function EmitirConfirmacionReservacionButton({ reservacionData }) {
       document.body.removeChild(link);
       router.refresh();
     } catch (error) {
-      console.error("Error al generar el PDF:", error);
+      console.error('Error al generar el PDF:', error);
     }
     setLoading(false);
   };

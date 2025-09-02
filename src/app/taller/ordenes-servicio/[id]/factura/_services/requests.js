@@ -19,7 +19,7 @@ export async function getCurrentCounterFacturaRequestClient() {
 
     if (response?.status === 500) {
       throw new Error(
-        'No se pudo obtener el contador de facturas: ' + response?.data?.error
+        'No se pudo obtener el contador de facturas: ' + response?.data?.error,
       );
     }
 
@@ -33,7 +33,7 @@ export async function getCurrentCounterFacturaRequestClient() {
 export async function updateFacturaStateRequestClient(
   ordenDeServicioId,
   counterFactura,
-  selectedEmpresa
+  selectedEmpresa,
 ) {
   try {
     await delay();
@@ -53,7 +53,7 @@ export async function updateFacturaStateRequestClient(
       throw new Error(
         'No se pudo enviar la factura a Sunat: ' +
           responseEnviarFactura?.data?.payload?.estadoSunat ||
-          responseEnviarFactura?.data?.error
+          responseEnviarFactura?.data?.error,
       );
     }
 
@@ -73,20 +73,20 @@ export async function updateFacturaStateRequestClient(
       urlIncrementCounterFactura,
       {
         type: 'facturas',
-      }
+      },
     );
 
     if (responseUpdateStateFactura?.status !== 200) {
       throw new Error(
         'No se pudo actualizar el estado de la factura: ' +
-          responseUpdateStateFactura?.data?.error
+          responseUpdateStateFactura?.data?.error,
       );
     }
 
     if (responseIncrementCounterFactura?.status !== 200) {
       throw new Error(
         'No se pudo incrementar el contador de facturas: ' +
-          responseIncrementCounterFactura?.data?.error
+          responseIncrementCounterFactura?.data?.error,
       );
     }
 
@@ -100,11 +100,10 @@ export async function updateFacturaStateRequestClient(
 export async function updateOrdenServicioRequestClient(
   ordenServicioId,
   ordenServicioData,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
 
@@ -112,13 +111,13 @@ export async function updateOrdenServicioRequestClient(
 
       const response = await patchData(
         updateOrdenDeServicioUrl,
-        ordenServicioData
+        ordenServicioData,
       );
       if (response?.status !== 200) {
         setLoading(false);
         reject(
           'No se pudo actualizar la orden de servicio: ' +
-            response.response?.data?.error
+            response.response?.data?.error,
         );
         return;
       }

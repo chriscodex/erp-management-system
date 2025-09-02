@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { Edit } from "lucide-react";
-import { Sheet } from "@/components/ui/sheet";
+import { useState } from 'react';
+import { Edit } from 'lucide-react';
+import { Sheet } from '@/components/ui/sheet';
 
-import { UpdateCaracteristicasMotoForm } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/updateCaracteristicasMoto/updateCaracteristicasMotoForm";
+import { UpdateCaracteristicasMotoForm } from '@/app/inventario/motos/modelos/[modeloId]/_components/sheets/updateCaracteristicasMoto/updateCaracteristicasMotoForm';
 
 export function SheetUpdateCaracteristicasMotoWrapper({
   onSave,

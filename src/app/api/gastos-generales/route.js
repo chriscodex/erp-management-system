@@ -15,11 +15,11 @@ export async function GET() {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Gastos Generales Route: Error interno al obtener los gastos generales: ${error.message}`
+      `Gastos Generales Route: Error interno al obtener los gastos generales: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error obteniendo los gastos generales' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -35,11 +35,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Gastos Generales Route: Error interno al crear el gasto general: ${error.message}`
+      `Gastos Generales Route: Error interno al crear el gasto general: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear el gasto general' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

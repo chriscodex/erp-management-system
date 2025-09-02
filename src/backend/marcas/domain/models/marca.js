@@ -1,6 +1,5 @@
 import { Schema, model, models } from 'mongoose';
 
-
 const marcaSchema = new Schema(
   {
     nombre: {
@@ -23,7 +22,7 @@ const marcaSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Marca = models?.Marca || model('Marca', marcaSchema);

@@ -1,7 +1,6 @@
 import { User, Hash } from 'lucide-react';
 import { RiFileListLine, RiMotorbikeFill } from '@remixicon/react';
 
-
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import { formatDateLong } from '@/lib/formateador';
@@ -11,7 +10,6 @@ import { DetailReservacionButtons } from '@/app/inventario/motos/reservaciones/[
 import { EmitirConfirmacionReservacionButton } from '@/app/inventario/motos/reservaciones/[id]/_components/buttons/emitirConfirmacionReservacion';
 
 export function DetailReservacionContent({ reservacionData }) {
-
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex lg:flex-row flex-col items-center justify-between space-y-0 pb-4">
@@ -21,7 +19,9 @@ export function DetailReservacionContent({ reservacionData }) {
             Detalle de la Reservación
           </Label>
         </div>
-        <EmitirConfirmacionReservacionButton reservacionData={reservacionData} />
+        <EmitirConfirmacionReservacionButton
+          reservacionData={reservacionData}
+        />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -86,12 +86,12 @@ export function DetailReservacionContent({ reservacionData }) {
             <CardContent>
               <div className="space-y-2">
                 <p>
-                  <strong>Pago Inicial:</strong> S/. {reservacionData?.pagoInicial}
+                  <strong>Pago Inicial:</strong> S/.{' '}
+                  {reservacionData?.pagoInicial}
                 </p>
                 <p>
                   <strong>Fecha Límite:</strong>{' '}
                   {formatDateLong(reservacionData?.fechaLimite, false)}
-                  
                 </p>
                 <p>
                   <strong>Comentario:</strong> {reservacionData?.comentario}
@@ -112,10 +112,12 @@ export function DetailReservacionContent({ reservacionData }) {
                   <strong>Nombre:</strong> {reservacionData?.moto?.nombre}
                 </p>
                 <p>
-                  <strong>Descripción:</strong> {reservacionData?.moto?.descripcion}
+                  <strong>Descripción:</strong>{' '}
+                  {reservacionData?.moto?.descripcion}
                 </p>
                 <p>
-                  <strong>Categoría:</strong> {reservacionData?.moto?.categoria?.nombre}
+                  <strong>Categoría:</strong>{' '}
+                  {reservacionData?.moto?.categoria?.nombre}
                 </p>
                 <p>
                   <strong>Marca:</strong> {reservacionData?.moto?.marca?.nombre}
@@ -125,7 +127,6 @@ export function DetailReservacionContent({ reservacionData }) {
           </Card>
         </div>
 
-        
         <div className="mt-4">
           <DetailReservacionButtons reservacionId={reservacionData._id} />
         </div>

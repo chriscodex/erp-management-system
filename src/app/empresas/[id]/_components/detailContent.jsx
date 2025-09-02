@@ -1,19 +1,12 @@
-"use client";
+'use client';
 
-import {
-  Calendar,
-  Phone,
-  MapPin,
-  Mail,
-  IdCardIcon,
-  Text,
-} from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { Calendar, Phone, MapPin, Mail, IdCardIcon, Text } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { DetailDropdown } from "@/app/empresas/[id]/_components/detailDropdown";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Separator } from '@/components/ui/separator';
+import { DetailDropdown } from '@/app/empresas/[id]/_components/detailDropdown';
 
 export default function DetailContent({ empresaData, updatedAt }) {
   const router = useRouter();
@@ -66,7 +59,9 @@ export default function DetailContent({ empresaData, updatedAt }) {
           <Separator />
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
-              <span className="text-sm text-muted-foreground">Departamento:</span>
+              <span className="text-sm text-muted-foreground">
+                Departamento:
+              </span>
               <p>{departamento}</p>
             </div>
             <div>

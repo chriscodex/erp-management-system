@@ -13,7 +13,7 @@ export async function getAllAlmacenesController() {
   } catch (error) {
     console.error(
       'Almacen Controller: Error interno al obtener el almacen:',
-      error.message
+      error.message,
     );
     throw new Error('Almacen Controller: Error interno al obtener el almacen');
   }
@@ -31,7 +31,7 @@ export async function getAlmacenController(contextRoute) {
   } catch (error) {
     console.error(
       'Almacen Controller: Error interno al obtener el almacen:',
-      error.message
+      error.message,
     );
     throw new Error('Almacen Controller: Error interno al obtener el almacen');
   }
@@ -48,7 +48,7 @@ export async function createAlmacenController(request) {
   } catch (error) {
     console.error(
       'Almacen Controller: Error interno al crear el almacen:',
-      error.message
+      error.message,
     );
     throw new Error('Almacen Controller: Error interno al crear el almacen');
   }
@@ -67,10 +67,10 @@ export async function updateAlmacenController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Almacen Controller: Error interno al actualizar el almacén:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Almacen Controller: Error interno al actualizar el almacén'
+      'Almacen Controller: Error interno al actualizar el almacén',
     );
   }
 }
@@ -88,7 +88,7 @@ export async function deleteAlmacenController(contextRoute) {
   } catch (error) {
     console.error(
       'Delete Almacen: Error interno al eliminar el almacén:',
-      error.message
+      error.message,
     );
     throw new Error('Delete Almacen: Error interno al eliminar el almacén');
   }

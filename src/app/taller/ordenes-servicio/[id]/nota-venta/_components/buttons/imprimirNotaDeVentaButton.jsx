@@ -14,9 +14,7 @@ import {
 import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
-
 export function ImprimirNotaDeVentaButton({ ordenDeServicioData, empresas }) {
-
   const router = useRouter();
 
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
@@ -25,11 +23,12 @@ export function ImprimirNotaDeVentaButton({ ordenDeServicioData, empresas }) {
   const handleDownloadPDF = async () => {
     setLoading(true);
     try {
-      const counterNotaDeVenta = await getCurrentCounterNotaDeVentaRequestClient();
+      const counterNotaDeVenta =
+        await getCurrentCounterNotaDeVentaRequestClient();
 
       const codigoNotaDeVenta = formatearCodigoCounterBoletaFactura(
         counterNotaDeVenta,
-        'nota-venta'
+        'nota-venta',
       );
 
       const doc = (

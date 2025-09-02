@@ -30,25 +30,31 @@ export class OrdenServicioRepository {
       });
 
       if (ordenesDeServicio?.length === 0) {
-        console.log('Orden De Servicio Repository: No se encontraron ordenes de servicios');
+        console.log(
+          'Orden De Servicio Repository: No se encontraron ordenes de servicios',
+        );
         return [];
       }
 
-      console.log('Orden De Servicio Repository: Ordenes de servicios encontradas');
+      console.log(
+        'Orden De Servicio Repository: Ordenes de servicios encontradas',
+      );
       return ordenesDeServicio;
     } catch (error) {
       console.error(
-        `Orden De Servicio Repository: Error al buscar todas las órdenes de servicio: ${error}`
+        `Orden De Servicio Repository: Error al buscar todas las órdenes de servicio: ${error}`,
       );
       throw new Error(
-        `Orden De Servicio Repository: Error al buscar todas las órdenes de servicio: ${error}`
+        `Orden De Servicio Repository: Error al buscar todas las órdenes de servicio: ${error}`,
       );
     }
   }
   async getOrdenDeServicioByData(ordenDeServicioData) {
     try {
       if (!ordenDeServicioData) {
-        console.log('Orden De Servicio Repository: Orden de servicio no proporcionada');
+        console.log(
+          'Orden De Servicio Repository: Orden de servicio no proporcionada',
+        );
         return null;
       }
 
@@ -59,7 +65,9 @@ export class OrdenServicioRepository {
       }
 
       if (ordenDeServicioData.code) {
-        filter.code = { $regex: new RegExp(`^${ordenDeServicioData.code}$`, 'i') };
+        filter.code = {
+          $regex: new RegExp(`^${ordenDeServicioData.code}$`, 'i'),
+        };
       }
       const ordenDeServicioFound = await this.ordenServicioModel.findOne(filter).populate('cliente.clienteId').populate('mecanicos.userId').populate({
         path: 'productos.productId',
@@ -71,7 +79,9 @@ export class OrdenServicioRepository {
       });
 
       if (!ordenDeServicioFound) {
-        console.log('Orden De Servicio Repository: Orden de servicio no encontrada');
+        console.log(
+          'Orden De Servicio Repository: Orden de servicio no encontrada',
+        );
         return null;
       }
 
@@ -79,22 +89,28 @@ export class OrdenServicioRepository {
       return ordenDeServicioFound;
     } catch (error) {
       console.error(
-        `Orden De Servicio Repository: Error al buscar la orden de servicio: ${error.message}`
+        `Orden De Servicio Repository: Error al buscar la orden de servicio: ${error.message}`,
       );
-      throw new Error(`Error al buscar una orden de servicio: ${error.message}`);
+      throw new Error(
+        `Error al buscar una orden de servicio: ${error.message}`,
+      );
     }
   }
 
   async createOrdenDeServicio(ordenDeServicioData) {
     try {
-      const newOrdenDeServicio = new this.ordenServicioModel(ordenDeServicioData);
+      const newOrdenDeServicio = new this.ordenServicioModel(
+        ordenDeServicioData,
+      );
       const savedOrdenDeServicio = await newOrdenDeServicio.save();
 
-      console.log('Orden De Servicio Repository: Orden de servicio creada correctamente');
+      console.log(
+        'Orden De Servicio Repository: Orden de servicio creada correctamente',
+      );
       return savedOrdenDeServicio;
     } catch (error) {
       console.log(
-        `Orden De Servicio Repository: Error al crear orden de servicio: ${error.message}`
+        `Orden De Servicio Repository: Error al crear orden de servicio: ${error.message}`,
       );
       throw new Error(`Error al crear orden de servicio: ${error.message}`);
     }
@@ -102,51 +118,61 @@ export class OrdenServicioRepository {
 
   async updateOrdenDeServicio(ordenDeServicioId, ordenDeServicioData) {
     try {
-      const updatedOrdenDeServicio = await this.ordenServicioModel.findOneAndUpdate(
-        { _id: new mongoose.Types.ObjectId(ordenDeServicioId) },
-        ordenDeServicioData,
-        {
-          new: true,
-        }
-      );
+      const updatedOrdenDeServicio =
+        await this.ordenServicioModel.findOneAndUpdate(
+          { _id: new mongoose.Types.ObjectId(ordenDeServicioId) },
+          ordenDeServicioData,
+          {
+            new: true,
+          },
+        );
 
       if (!updatedOrdenDeServicio) {
         console.log(
-          'Orden De Servicio Repository: Ordne de servicio no encontrada para ser actualizada'
+          'Orden De Servicio Repository: Ordne de servicio no encontrada para ser actualizada',
         );
         return null;
       }
 
-      console.log('Orden De Servicio Repository: Orden de servicio actualizada correctamente');
+      console.log(
+        'Orden De Servicio Repository: Orden de servicio actualizada correctamente',
+      );
       return updatedOrdenDeServicio;
     } catch (error) {
       console.error(
-        `Orden De Servicio Repository: Error al actualizar la orden de servicio: ${error.message}`
+        `Orden De Servicio Repository: Error al actualizar la orden de servicio: ${error.message}`,
       );
-      throw new Error(`Error al actualizar la orden de servicio: ${error.message}`);
+      throw new Error(
+        `Error al actualizar la orden de servicio: ${error.message}`,
+      );
     }
   }
 
   async deleteOrdenDeServicio(ordenDeServicioId) {
     try {
-      const deletedOrdenDeServicio = await this.ordenServicioModel.findOneAndDelete({
-        _id: new mongoose.Types.ObjectId(ordenDeServicioId),
-      });
+      const deletedOrdenDeServicio =
+        await this.ordenServicioModel.findOneAndDelete({
+          _id: new mongoose.Types.ObjectId(ordenDeServicioId),
+        });
 
       if (!deletedOrdenDeServicio) {
         console.log(
-          'Orden De Servicio Repository: Orden de servicio no encontrada para ser eliminada'
+          'Orden De Servicio Repository: Orden de servicio no encontrada para ser eliminada',
         );
         return null;
       }
 
-      console.log('Orden De Servicio Repository: Orden de servicio encontrada y eliminada');
+      console.log(
+        'Orden De Servicio Repository: Orden de servicio encontrada y eliminada',
+      );
       return deletedOrdenDeServicio;
     } catch (error) {
       console.error(
-        `Orden De Servicio Repository: Error al eliminar una orden de servicio: ${error.message}`
+        `Orden De Servicio Repository: Error al eliminar una orden de servicio: ${error.message}`,
       );
-      throw new Error(`Error al eliminar la orden de servicio: ${error.message}`);
+      throw new Error(
+        `Error al eliminar la orden de servicio: ${error.message}`,
+      );
     }
   }
 }

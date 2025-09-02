@@ -3,7 +3,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 import {
   Sheet,
   SheetContent,
@@ -11,9 +11,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { RiFileListLine } from "@remixicon/react";
-import { BadgeUnitProduct } from "@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct";
+} from '@/components/ui/sheet';
+import { RiFileListLine } from '@remixicon/react';
+import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 
 export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
   return (
@@ -56,8 +56,14 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Marca
                         </label>
                         <p className="col-span-2">
+<<<<<<< HEAD
                           { productPreventa?.productId?.marcaId?.nombre ||
                             "Desconocida"}
+=======
+                          {productPreventa?.marcaId?.nombre ||
+                            productPreventa?.id?.marcaId?.nombre ||
+                            'Desconocida'}
+>>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -65,8 +71,14 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Categoría
                         </label>
                         <p className="col-span-2">
+<<<<<<< HEAD
                           {productPreventa?.productId?.categoryId?.nombre ||
                             "Desconocida"}
+=======
+                          {productPreventa?.categoryId?.nombre ||
+                            productPreventa?.id?.categoryId?.nombre ||
+                            'Desconocida'}
+>>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -74,7 +86,7 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Importado
                         </label>
                         <p className="col-span-2">
-                          {productPreventa?.importado === "si" ? "Si" : "No"}
+                          {productPreventa?.importado === 'si' ? 'Si' : 'No'}
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -82,8 +94,14 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Almacén
                         </label>
                         <p className="col-span-2">
+<<<<<<< HEAD
                           {productPreventa?.productId?.almacenId?.nombre ||
                             "Desconocido"}
+=======
+                          {productPreventa?.almacenId?.nombre ||
+                            productPreventa?.id?.almacenId?.nombre ||
+                            'Desconocido'}
+>>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -91,22 +109,22 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Estado
                         </label>
                         <div className="col-span-2">
-                          {productPreventa?.estado === "disponible" && (
+                          {productPreventa?.estado === 'disponible' && (
                             <BadgeUnitProduct variant="successTable">
                               Disponible
                             </BadgeUnitProduct>
                           )}
-                          {productPreventa?.estado === "reparado" && (
+                          {productPreventa?.estado === 'reparado' && (
                             <BadgeUnitProduct variant="blueTable">
                               Reparado
                             </BadgeUnitProduct>
                           )}
-                          {productPreventa?.estado === "desaparecido" && (
+                          {productPreventa?.estado === 'desaparecido' && (
                             <BadgeUnitProduct variant="orangeTable">
                               Desaparecido
                             </BadgeUnitProduct>
                           )}
-                          {productPreventa?.estado === "dañado" && (
+                          {productPreventa?.estado === 'dañado' && (
                             <BadgeUnitProduct variant="redTable">
                               Dañado
                             </BadgeUnitProduct>

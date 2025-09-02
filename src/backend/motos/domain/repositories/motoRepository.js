@@ -22,10 +22,10 @@ export class MotoRepository {
       return motos;
     } catch (error) {
       console.error(
-        `Moto Repository: Error al buscar todas las motos: ${error.message}`
+        `Moto Repository: Error al buscar todas las motos: ${error.message}`,
       );
       throw new Error(
-        `Moto Repository: Error al buscar todas las motos: ${error.message}`
+        `Moto Repository: Error al buscar todas las motos: ${error.message}`,
       );
     }
   }
@@ -61,10 +61,10 @@ export class MotoRepository {
       return motos;
     } catch (error) {
       console.error(
-        `Moto Repository: Error al buscar todas las motos de un modelo: ${error.message}`
+        `Moto Repository: Error al buscar todas las motos de un modelo: ${error.message}`,
       );
       throw new Error(
-        `Moto Repository: Error al buscar todas las motos de un modelo: ${error.message}`
+        `Moto Repository: Error al buscar todas las motos de un modelo: ${error.message}`,
       );
     }
   }
@@ -76,10 +76,10 @@ export class MotoRepository {
       return totalMotos;
     } catch (error) {
       console.error(
-        `Moto Repository: Error al contar todas las motos: ${error.message}`
+        `Moto Repository: Error al contar todas las motos: ${error.message}`,
       );
       throw new Error(
-        `Moto Repository: Error al contar todas las motos: ${error.message}`
+        `Moto Repository: Error al contar todas las motos: ${error.message}`,
       );
     }
   }
@@ -120,7 +120,6 @@ export class MotoRepository {
         filter.importado = motoData.importado;
       }
 
-
       if (motoData['estado.titulo']) {
         filter['estado.titulo'] = motoData['estado.titulo'];
       }
@@ -141,10 +140,14 @@ export class MotoRepository {
         console.log('Moto Repository: Moto no encontrada');
 
         if (motoData.code) {
-          const existsByCode = await this.motoModel.findOne({ code: motoData.code });
+          const existsByCode = await this.motoModel.findOne({
+            code: motoData.code,
+          });
 
           if (existsByCode) {
-            console.log('Moto Repository: Moto encontrada, pero está prevendida');
+            console.log(
+              'Moto Repository: Moto encontrada, pero está prevendida',
+            );
             return 'invalid_state';
           }
         }
@@ -156,7 +159,7 @@ export class MotoRepository {
       return motoFound;
     } catch (error) {
       console.error(
-        `Moto Repository: Error al buscar la moto: ${error.message}`
+        `Moto Repository: Error al buscar la moto: ${error.message}`,
       );
       throw new Error(`Error al buscar la moto: ${error.message}`);
     }
@@ -188,7 +191,7 @@ export class MotoRepository {
         motoData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedMoto) {
@@ -200,7 +203,7 @@ export class MotoRepository {
       return updatedMoto;
     } catch (error) {
       console.error(
-        `Moto Repository: Error al actualizar la moto: ${error.message}`
+        `Moto Repository: Error al actualizar la moto: ${error.message}`,
       );
       throw new Error(`Error al actualizar la moto: ${error.message}`);
     }
@@ -220,7 +223,7 @@ export class MotoRepository {
       return deletedMoto;
     } catch (error) {
       console.error(
-        `Moto Repository: Error al eliminar una moto: ${error.message}`
+        `Moto Repository: Error al eliminar una moto: ${error.message}`,
       );
       throw new Error(`Error al eliminar una moto: ${error.message}`);
     }

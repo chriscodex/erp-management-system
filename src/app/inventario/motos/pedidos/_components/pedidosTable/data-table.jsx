@@ -51,10 +51,7 @@ export function DataTablePedidos({ columns, data, status = 200 }) {
       // Filtrar por código
       const code = row.original?.code;
 
-      return (
-        code.includes(filterValue) ||
-        String(code).includes(filterValue)
-      );
+      return code.includes(filterValue) || String(code).includes(filterValue);
     },
   });
 
@@ -109,7 +106,7 @@ export function DataTablePedidos({ columns, data, status = 200 }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -128,7 +125,7 @@ export function DataTablePedidos({ columns, data, status = 200 }) {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

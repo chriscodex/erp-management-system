@@ -42,7 +42,7 @@ export class CounterRepository {
       const counter = await this.counterModel.findOneAndUpdate(
         { name: type },
         { $inc: { sequenceValue: 1 } },
-        { new: true, upsert: true } // Crea el contador si no existe
+        { new: true, upsert: true }, // Crea el contador si no existe
       );
       return counter.sequenceValue;
     } catch (error) {

@@ -9,9 +9,8 @@ import {
 import { deleteData, postData, patchData } from '@/lib/fetchData';
 
 export async function deleteOrdenDeServicioRequestClient(ordenDeServicioId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -22,7 +21,8 @@ export async function deleteOrdenDeServicioRequestClient(ordenDeServicioId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la orden de servicio: ' + response.response?.data?.error
+          'No se pudo eliminar la orden de servicio: ' +
+            response.response?.data?.error,
         );
         return;
       }
@@ -35,10 +35,9 @@ export async function deleteOrdenDeServicioRequestClient(ordenDeServicioId) {
 }
 
 export async function finalizarOrdenDeServicioRequestClient(ordenDeServicioId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
 
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -50,23 +49,26 @@ export async function finalizarOrdenDeServicioRequestClient(ordenDeServicioId) {
 
       if (response?.status !== 201) {
         reject(
-          'No se pudo eliminar la orden de servicio: ' + response.response?.data?.error
+          'No se pudo eliminar la orden de servicio: ' +
+            response.response?.data?.error,
         );
         return;
       }
 
       resolve(response?.data?.payload);
-
     } catch (error) {
       reject(error);
     }
   });
 }
 
-export async function deleteUnitProductRequestClient(ordenDeServicioData, productId, unitProductId) {
-  /* eslint-disable */
+export async function deleteUnitProductRequestClient(
+  ordenDeServicioData,
+  productId,
+  unitProductId,
+) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -76,7 +78,7 @@ export async function deleteUnitProductRequestClient(ordenDeServicioData, produc
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar el producto: ' + response.response?.data?.error
+          'No se pudo eliminar el producto: ' + response.response?.data?.error,
         );
         return;
       }
@@ -88,7 +90,7 @@ export async function deleteUnitProductRequestClient(ordenDeServicioData, produc
           if (producto.unitId === unitProductId) {
             return {
               ...producto,
-              inventario: "eliminado",
+              inventario: 'eliminado',
             };
           }
           return producto;
@@ -96,15 +98,18 @@ export async function deleteUnitProductRequestClient(ordenDeServicioData, produc
         isDelete: true,
       };
 
-
       const updateOrdenDeServicioUrl = `${updateOrdenDeServicioClientUrl}/${ordenDeServicioData?._id}`;
 
       // Obtener los datos de la orden de servicio
-      const updateResponse = await patchData(updateOrdenDeServicioUrl, ordenActualizada);
+      const updateResponse = await patchData(
+        updateOrdenDeServicioUrl,
+        ordenActualizada,
+      );
 
       if (updateResponse?.status !== 200) {
         reject(
-          'No se pudo actualizar la orden de servicio: ' + response.response?.data?.error
+          'No se pudo actualizar la orden de servicio: ' +
+            response.response?.data?.error,
         );
         return;
       }

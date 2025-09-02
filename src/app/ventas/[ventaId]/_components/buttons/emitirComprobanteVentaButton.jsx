@@ -1,32 +1,32 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   RiFileList2Fill,
   RiFileList3Line,
   RiFileListLine,
-} from "@remixicon/react";
+} from '@remixicon/react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useRouter } from "next/navigation";
+} from '@/components/ui/tooltip';
+import { useRouter } from 'next/navigation';
 
 export function EmitirComprobanteVentaButton({ ventaData }) {
   const router = useRouter();
   const comprobante = ventaData?.comprobante.toLowerCase();
 
-  const boletaEmitida = comprobante?.includes("boleta");
-  const facturaEmitida = comprobante?.includes("factura");
+  const boletaEmitida = comprobante?.includes('boleta');
+  const facturaEmitida = comprobante?.includes('factura');
 
   return (
     <TooltipProvider>

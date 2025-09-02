@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import {
   CalendarIcon,
   IdCardIcon,
@@ -12,12 +12,12 @@ import {
   Save,
   SearchIcon,
   User,
-} from "lucide-react";
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+} from 'lucide-react';
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   RiInstanceFill,
   RiFileTextFill,
@@ -25,7 +25,7 @@ import {
   RiBikeFill,
   RiChat3Line,
   RiArrowLeftLine,
-} from "@remixicon/react";
+} from '@remixicon/react';
 
 import {
   Form,
@@ -34,34 +34,34 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
+} from '@/components/formInputs/onChange';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 
-import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
-import { searchClientePorDniOrRucClientRequest } from "@/app/ventas/preventas/registrar/_services/requests";
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
+import { searchClientePorDniOrRucClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
 
-import { Textarea } from "@/components/ui/textarea";
-import { updateReservacionSchema } from "@/app/inventario/motos/reservaciones/[id]/edit/_services/validations/updateReservacionSchema";
-import { updateReservacionRequestClient } from "../_services/requests";
+import { Textarea } from '@/components/ui/textarea';
+import { updateReservacionSchema } from '@/app/inventario/motos/reservaciones/[id]/edit/_services/validations/updateReservacionSchema';
+import { updateReservacionRequestClient } from '../_services/requests';
 
 export function EditarReservacionForm({ reservacionData }) {
   const router = useRouter();
@@ -76,29 +76,29 @@ export function EditarReservacionForm({ reservacionData }) {
       identificador:
         reservacionData?.cliente?.datos?.dni ||
         reservacionData?.cliente?.datos?.ruc ||
-        "",
+        '',
       moto: {
-        nombre: reservacionData?.moto?.nombre || "",
-        descripcion: reservacionData?.moto?.descripcion || "",
+        nombre: reservacionData?.moto?.nombre || '',
+        descripcion: reservacionData?.moto?.descripcion || '',
         categoria: {
-          nombre: reservacionData?.moto?.categoria?.nombre || "",
+          nombre: reservacionData?.moto?.categoria?.nombre || '',
         },
         marca: {
-          nombre: reservacionData?.moto?.marca?.nombre || "",
+          nombre: reservacionData?.moto?.marca?.nombre || '',
         },
       },
-      pagoInicial: reservacionData?.pagoInicial || "",
+      pagoInicial: reservacionData?.pagoInicial || '',
       fechaLimite: new Date(reservacionData?.fechaLimite) || new Date(),
-      comentario: reservacionData?.comentario || "",
+      comentario: reservacionData?.comentario || '',
 
       cliente: {
-        tipo: "persona",
+        tipo: 'persona',
         datos: {
-          nombres: reservacionData?.cliente?.datos?.nombres || "",
-          apellidos: reservacionData?.cliente?.datos?.apellidos || "",
-          nombre: reservacionData?.cliente?.datos?.nombre || "",
-          celular: reservacionData?.cliente?.datos?.celular || "",
-          email: reservacionData?.cliente?.datos?.email || "",
+          nombres: reservacionData?.cliente?.datos?.nombres || '',
+          apellidos: reservacionData?.cliente?.datos?.apellidos || '',
+          nombre: reservacionData?.cliente?.datos?.nombre || '',
+          celular: reservacionData?.cliente?.datos?.celular || '',
+          email: reservacionData?.cliente?.datos?.email || '',
         },
       },
     },
@@ -125,7 +125,7 @@ export function EditarReservacionForm({ reservacionData }) {
 
     if (Object.keys(dataToUpdate).length === 0) {
       {
-        toast.error("No se han realizado cambios.");
+        toast.error('No se han realizado cambios.');
         setFormSubmitIsLoading(false);
         return;
       }
@@ -135,8 +135,8 @@ export function EditarReservacionForm({ reservacionData }) {
       ...reservacionData,
     };
 
-    if (reservacionData?.cliente?.tipo === "persona") {
-      updateObject["cliente"] = {
+    if (reservacionData?.cliente?.tipo === 'persona') {
+      updateObject['cliente'] = {
         tipo: formData?.cliente?.tipo,
         datos: {
           dni: formData?.identificador,
@@ -148,8 +148,8 @@ export function EditarReservacionForm({ reservacionData }) {
       };
     }
 
-    if (reservacionData?.cliente?.tipo === "empresa") {
-      updateObject["cliente"] = {
+    if (reservacionData?.cliente?.tipo === 'empresa') {
+      updateObject['cliente'] = {
         tipo: formData?.tipo,
         datos: {
           ruc: formData?.identificador,
@@ -160,7 +160,7 @@ export function EditarReservacionForm({ reservacionData }) {
       };
     }
 
-    updateObject["moto"] = {
+    updateObject['moto'] = {
       nombre: formData?.moto?.nombre,
       descripcion: formData?.moto?.descripcion,
       categoria: {
@@ -171,9 +171,9 @@ export function EditarReservacionForm({ reservacionData }) {
       },
     };
 
-    updateObject["comentario"] = formData?.comentario;
-    updateObject["pagoInicial"] = formData?.pagoInicial;
-    updateObject["fechaLimite"] = formData?.fechaLimite;
+    updateObject['comentario'] = formData?.comentario;
+    updateObject['pagoInicial'] = formData?.pagoInicial;
+    updateObject['fechaLimite'] = formData?.fechaLimite;
 
     // delete updateObject.createdAt;
     delete updateObject.updatedAt;
@@ -182,7 +182,7 @@ export function EditarReservacionForm({ reservacionData }) {
     toast.promise(
       updateReservacionRequestClient(updateObject, setFormSubmitIsLoading),
       {
-        loading: "Editando...",
+        loading: 'Editando...',
         success: (response) => {
           console.log(response);
           clearErrors();
@@ -193,89 +193,88 @@ export function EditarReservacionForm({ reservacionData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
   // Busqueda por DNI o RUC
   const handleSearchByDniOrRuc = async (e) => {
-      e.preventDefault();
-      try {
-        setSearchByDniOrRucIsLoading(true);
-  
-        const tipo = formData.cliente.tipo;
-        const identificador = formData.identificador;
-  
-        if (tipo === "persona") {
-          if (!identificador || identificador.length !== 8) {
-            setSearchByDniOrRucIsLoading(false);
-            toast.warning("Por favor, ingrese un DNI válido", {
-              description: "El DNI debe tener 8 dígitos",
-            });
-            return;
-          }
-          toast.promise(
-            searchClientePorDniOrRucClientRequest(
-              identificador,
-              setSearchByDniOrRucIsLoading
-            ),
-            {
-              loading: "Buscando...",
-              success: (persona) => {
-                setValue("cliente.datos.apellidos", persona?.apellidos);
-                setValue("cliente.datos.nombres", persona?.nombres);
-                setValue("celular", persona?.celular);
-                clearErrors("apellidos");
-                clearErrors("nombres");
-                clearErrors("celular");
-                return `Persona encontrada`;
-              },
-              error: (error) => {
-                setSearchByDniOrRucIsLoading(false);
-                return error;
-              },
-            }
-          );
+    e.preventDefault();
+    try {
+      setSearchByDniOrRucIsLoading(true);
+
+      const tipo = formData.cliente.tipo;
+      const identificador = formData.identificador;
+
+      if (tipo === 'persona') {
+        if (!identificador || identificador.length !== 8) {
+          setSearchByDniOrRucIsLoading(false);
+          toast.warning('Por favor, ingrese un DNI válido', {
+            description: 'El DNI debe tener 8 dígitos',
+          });
+          return;
         }
-  
-        if (tipo === "empresa") {
-          if (!identificador || identificador.length !== 11) {
-            setSearchByDniOrRucIsLoading(false);
-            toast.warning("Por favor, ingrese un RUC válido", {
-              description: "El RUC debe tener 11 dígitos",
-            });
-            return;
-          }
-          toast.promise(
-            searchClientePorDniOrRucClientRequest(
-              identificador,
-              setSearchByDniOrRucIsLoading
-            ),
-            {
-              loading: "Buscando...",
-              success: (empresa) => {
-  
-                console.log("empresa",empresa);
-  
-                setValue("cliente.datos.nombre", empresa?.razonSocial);
-                setValue("telefono", empresa?.telefono);
-                clearErrors("nombre");
-                clearErrors("telefono");
-                return `Empresa encontrada`;
-              },
-              error: (error) => {
-                setSearchByDniOrRucIsLoading(false);
-                return error;
-              },
-            }
-          );
-        }
-      } catch (error) {
-        setSearchByDniOrRucIsLoading(false);
-        toast.error("Error al buscar persona por DNI");
-        console.error("Error al buscar persona por DNI:", error);
+        toast.promise(
+          searchClientePorDniOrRucClientRequest(
+            identificador,
+            setSearchByDniOrRucIsLoading,
+          ),
+          {
+            loading: 'Buscando...',
+            success: (persona) => {
+              setValue('cliente.datos.apellidos', persona?.apellidos);
+              setValue('cliente.datos.nombres', persona?.nombres);
+              setValue('celular', persona?.celular);
+              clearErrors('apellidos');
+              clearErrors('nombres');
+              clearErrors('celular');
+              return `Persona encontrada`;
+            },
+            error: (error) => {
+              setSearchByDniOrRucIsLoading(false);
+              return error;
+            },
+          },
+        );
       }
-    };
+
+      if (tipo === 'empresa') {
+        if (!identificador || identificador.length !== 11) {
+          setSearchByDniOrRucIsLoading(false);
+          toast.warning('Por favor, ingrese un RUC válido', {
+            description: 'El RUC debe tener 11 dígitos',
+          });
+          return;
+        }
+        toast.promise(
+          searchClientePorDniOrRucClientRequest(
+            identificador,
+            setSearchByDniOrRucIsLoading,
+          ),
+          {
+            loading: 'Buscando...',
+            success: (empresa) => {
+              console.log('empresa', empresa);
+
+              setValue('cliente.datos.nombre', empresa?.razonSocial);
+              setValue('telefono', empresa?.telefono);
+              clearErrors('nombre');
+              clearErrors('telefono');
+              return `Empresa encontrada`;
+            },
+            error: (error) => {
+              setSearchByDniOrRucIsLoading(false);
+              return error;
+            },
+          },
+        );
+      }
+    } catch (error) {
+      setSearchByDniOrRucIsLoading(false);
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
+    }
+  };
 
   return (
     <>
@@ -389,16 +388,16 @@ export function EditarReservacionForm({ reservacionData }) {
                       <RadioGroup
                         onValueChange={(value) => {
                           field.onChange(value);
-                          setValue("identificador", "");
-                          clearErrors("identificador");
-                          clearErrors("apellidos");
-                          clearErrors("nombres");
-                          clearErrors("nombre");
-                          clearErrors("celular");
-                          setValue("apellidos", "");
-                          setValue("nombres", "");
-                          setValue("nombre", "");
-                          setValue("celular", "");
+                          setValue('identificador', '');
+                          clearErrors('identificador');
+                          clearErrors('apellidos');
+                          clearErrors('nombres');
+                          clearErrors('nombre');
+                          clearErrors('celular');
+                          setValue('apellidos', '');
+                          setValue('nombres', '');
+                          setValue('nombre', '');
+                          setValue('celular', '');
                         }}
                         defaultValue={field.value}
                         className="flex flex-row space-x-4"
@@ -429,7 +428,7 @@ export function EditarReservacionForm({ reservacionData }) {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>
-                      {watch("cliente.tipo") === "persona" ? "DNI" : "RUC"}
+                      {watch('cliente.tipo') === 'persona' ? 'DNI' : 'RUC'}
                     </FormLabel>
                     <div className="relative">
                       <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -437,7 +436,7 @@ export function EditarReservacionForm({ reservacionData }) {
                         <Input
                           type="text"
                           placeholder={
-                            watch("cliente.tipo") === "persona" ? "DNI" : "RUC"
+                            watch('cliente.tipo') === 'persona' ? 'DNI' : 'RUC'
                           }
                           className="pl-8"
                           autoComplete="off"
@@ -453,10 +452,10 @@ export function EditarReservacionForm({ reservacionData }) {
                       <FormMessage />
                       <div
                         className={cn(
-                          "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
+                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
                           searchByDniOrRucIsLoading
-                            ? "opacity-75 pointer-events-none"
-                            : "cursor-pointer"
+                            ? 'opacity-75 pointer-events-none'
+                            : 'cursor-pointer',
                         )}
                         onClick={handleSearchByDniOrRuc}
                       >
@@ -481,7 +480,7 @@ export function EditarReservacionForm({ reservacionData }) {
                   </FormItem>
                 )}
               />
-              {watch("cliente.tipo") === "persona" ? (
+              {watch('cliente.tipo') === 'persona' ? (
                 <>
                   <FormField
                     control={control}
@@ -648,15 +647,15 @@ export function EditarReservacionForm({ reservacionData }) {
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !date && "text-muted-foreground"
+                              'w-[280px] justify-start text-left font-normal',
+                              !date && 'text-muted-foreground',
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {date ? (
-                              format(date, "PPP", { locale: es })
+                              format(date, 'PPP', { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -725,7 +724,7 @@ export function EditarReservacionForm({ reservacionData }) {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                "Creando..."
+                'Creando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

@@ -3,10 +3,10 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useState } from "react";
-import { RiDeleteBinLine } from "@remixicon/react";
-import { DeleteUnitProductAlert } from "@/app/taller/ordenes-servicio/[id]/_components/dialogs/deleteUnitProductAlert";
+} from '@/components/ui/tooltip';
+import { useState } from 'react';
+import { RiDeleteBinLine } from '@remixicon/react';
+import { DeleteUnitProductAlert } from '@/app/taller/ordenes-servicio/[id]/_components/dialogs/deleteUnitProductAlert';
 
 export function DeleteProductoFromInventarioButton({
   ordenDeServicioData,
@@ -35,7 +35,7 @@ export function DeleteProductoFromInventarioButton({
         isOpen={isOpenDialogDelete}
         setIsOpen={setIsOpenDialogDelete}
         actionAfterComplete="refresh"
-        ordenDeServicioData= {ordenDeServicioData}
+        ordenDeServicioData={ordenDeServicioData}
         unitProductId={productoOrdenDeServicio?.unitId}
         productId={productoOrdenDeServicio?.productId?._id}
       />

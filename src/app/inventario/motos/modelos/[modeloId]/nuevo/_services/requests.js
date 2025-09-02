@@ -6,9 +6,8 @@ import { createMotoClientUrl } from '@/lib/urls';
 import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 export async function createUnidadMotoRequestClient(motoData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso para pruebas en la UI
@@ -19,8 +18,8 @@ export async function createUnidadMotoRequestClient(motoData, setLoading) {
         estado: {
           titulo: motoData?.estadoTitle,
           observaciones: motoData?.observacionesEstado,
-        }
-      }
+        },
+      };
       delete motoObj?.estadoTitle;
       delete motoObj?.estadoObservaciones;
 
@@ -41,15 +40,14 @@ export async function createUnidadMotoRequestClient(motoData, setLoading) {
 }
 
 export async function getAllProveedoresByDataForMotosRequestServer(
-  proveedorData
+  proveedorData,
 ) {
   try {
     await connectDB();
     const proveedorService = new ProveedorService();
 
-    const response = await proveedorService.getAllProveedoresByData(
-      proveedorData
-    );
+    const response =
+      await proveedorService.getAllProveedoresByData(proveedorData);
     if (response?.status !== 200) {
       console.log('Error al obtener todas los proveedores');
       return { proveedores: [], status: response?.status };

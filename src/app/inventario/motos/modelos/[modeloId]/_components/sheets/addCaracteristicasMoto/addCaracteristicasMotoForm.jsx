@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
   Form,
   FormControl,
@@ -11,7 +11,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   SheetClose,
   SheetContent,
@@ -19,7 +19,7 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
+} from '@/components/ui/sheet';
 
 import {
   RiArrowUpDownLine,
@@ -31,21 +31,20 @@ import {
   RiRuler2Fill,
   RiSpeedLine,
   RiStopMiniFill,
-} from "@remixicon/react";
+} from '@remixicon/react';
 
 export function AddCaracteristicasMotoForm({ onSave, onClose, defaultValues }) {
-
   const addCaracteriscasMotoForm = useForm({
     defaultValues: defaultValues || {
-      motor: "",
-      cilindrada: "",
-      potencia: "",
-      frenos: "",
-      transmision: "",
-      dimensiones: "",
-      capacidadCombustible: "",
-      suspension: "",
-      colores: "",
+      motor: '',
+      cilindrada: '',
+      potencia: '',
+      frenos: '',
+      transmision: '',
+      dimensiones: '',
+      capacidadCombustible: '',
+      suspension: '',
+      colores: '',
     },
   });
 
@@ -74,7 +73,7 @@ export function AddCaracteristicasMotoForm({ onSave, onClose, defaultValues }) {
         </SheetDescription>
       </SheetHeader>
       <Form {...addCaracteriscasMotoForm}>
-      <form onSubmit={onSubmit} className="grid gap-4 py-4">
+        <form onSubmit={onSubmit} className="grid gap-4 py-4">
           <FormField
             control={control}
             name="motor"

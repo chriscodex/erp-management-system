@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { RiCheckboxCircleLine, RiEditFill } from "@remixicon/react";
+import { Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { RiEditFill } from '@remixicon/react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
-import { DeleteReservacionAlert } from "@/app/inventario/motos/reservaciones/_components/dialogs/DeleteReservacionAlert";
+import { DeleteReservacionAlert } from '@/app/inventario/motos/reservaciones/_components/dialogs/DeleteReservacionAlert';
 
 export function DetailReservacionButtons({ reservacionId }) {
   const router = useRouter();
@@ -24,7 +24,7 @@ export function DetailReservacionButtons({ reservacionId }) {
         <Button
           onClick={() => {
             router.push(
-              `/inventario/motos/reservaciones/${reservacionId}/edit`
+              `/inventario/motos/reservaciones/${reservacionId}/edit`,
             );
           }}
           variant="outline"
