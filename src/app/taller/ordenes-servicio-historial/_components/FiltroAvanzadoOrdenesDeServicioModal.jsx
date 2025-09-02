@@ -156,7 +156,7 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
                           <RiHashtag className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                           <FormControl>
                             <Input
-                              placeholder="Escriba el código de la venta"
+                              placeholder="Escriba el código de la orden de servicio"
                               className="pl-8"
                               autoComplete="off"
                               disabled={codigoDeshabilitado}

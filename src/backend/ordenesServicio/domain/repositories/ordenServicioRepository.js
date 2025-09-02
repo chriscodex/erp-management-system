@@ -15,7 +15,14 @@ export class OrdenServicioRepository {
 
   async getAllOrdenesDeServicio() {
     try {
-      const ordenesDeServicio = await this.ordenServicioModel.find({}).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
+      const ordenesDeServicio = await this.ordenServicioModel.find({}).populate('cliente.clienteId').populate('mecanicos.userId').populate({
+        path: 'productos.productId',
+        populate: [
+          { path: 'marcaId', select: 'nombre' },
+          { path: 'categoryId', select: 'nombre' },
+          { path: 'almacenId', select: 'nombre' }
+        ]
+      });
 
       if (ordenesDeServicio?.length === 0) {
         console.log('Orden De Servicio Repository: No se encontraron ordenes de servicios');
@@ -49,7 +56,14 @@ export class OrdenServicioRepository {
       if (ordenDeServicioData.code) {
         filter.code = { $regex: new RegExp(`^${ordenDeServicioData.code}$`, 'i') };
       }
-      const ordenDeServicioFound = await this.ordenServicioModel.findOne(filter).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
+      const ordenDeServicioFound = await this.ordenServicioModel.findOne(filter).populate('cliente.clienteId').populate('mecanicos.userId').populate({
+        path: 'productos.productId',
+        populate: [
+          { path: 'marcaId', select: 'nombre' },
+          { path: 'categoryId', select: 'nombre' },
+          { path: 'almacenId', select: 'nombre' }
+        ]
+      });
 
       if (!ordenDeServicioFound) {
         console.log('Orden De Servicio Repository: Orden de servicio no encontrada');
