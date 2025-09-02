@@ -4,6 +4,11 @@ import { OrdenServicio } from '@/backend/ordenesServicio/domain/models/ordenServ
 import { Cliente } from '@/backend/clientes/domain/models/cliente';
 import { Product } from '@/backend/products/domain/models/product';
 import { User } from '@/backend/users/domain/models/user';
+/* eslint-disable no-unused-vars */
+import { Marca } from '@/backend/marcas/domain/models/marca';
+import { Category } from '@/backend/categorias/domain/models/category';
+import { Almacen } from '@/backend/almacenes/domain/models/almacen';
+/* eslint-enable no-unused-vars */
 
 export class OrdenServicioRepository {
   constructor() {
