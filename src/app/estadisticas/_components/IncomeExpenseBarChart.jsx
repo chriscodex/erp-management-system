@@ -30,10 +30,6 @@ export default function IncomeExpenseBarChart({
   dataVentasHistoricas,
   dataOrdenesDeServicioHistoricas,
 }) {
-  console.log(
-    "dataOrdenesDeServicioHistoricas:",
-    dataOrdenesDeServicioHistoricas
-  );
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
@@ -44,36 +40,6 @@ export default function IncomeExpenseBarChart({
     setMes(month);
     setAnio(year);
   }
-
-  //Cálculos para CingresosCalculados.totalGeneral (ventas)
-
-  // function sumarIngresos(dataVentasHistoricas, anio, mes) {
-  //   if (
-  //     !dataVentasHistoricas ||
-  //     !Array.isArray(dataVentasHistoricas.ventasHistoricas)
-  //   ) {
-  //     console.error("Ventas históricas no válidas");
-  //     return 0;
-  //   }
-
-  //   return dataVentasHistoricas.ventasHistoricas.reduce((total, venta) => {
-  //     const fechaVenta = new Date(venta.fecha);
-  //     const mesVenta = fechaVenta.getMonth() + 1;
-  //     const anioVenta = fechaVenta.getFullYear();
-
-  //     if (mesVenta === mes && anioVenta === anio) {
-  //       const sumaVenta = (venta.productos || []).reduce((suma, producto) => {
-  //         return suma + (producto.precioVenta || 0);
-  //       }, 0);
-
-  //       return total + sumaVenta;
-  //     }
-
-  //     return total;
-  //   }, 0);
-  // }
-
-  // const totalIngresos = sumarIngresos(dataVentasHistoricas, anio, mes);
 
   // Ingresos por ventas históricas
   function sumarIngresosVentas(dataVentasHistoricas, anio, mes) {

@@ -1,10 +1,5 @@
 import { Schema, model, models } from 'mongoose';
 
-// Eliminar el modelo en caso no considere los cambios
-// if (models.searchedUserSchema) {
-//   delete models.searchedUserSchema;
-// }
-
 const searchedUserSchema = new Schema({
   dni: {
     type: String,

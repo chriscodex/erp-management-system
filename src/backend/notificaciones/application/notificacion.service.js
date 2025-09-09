@@ -339,12 +339,6 @@ export class NotificacionService {
           data: { pedidoId: pedido._id }
         });
       }
-      //Eliminarla si se entregó
-
-      // if (!expired && notificationExists) {
-      //   await this.notificacionRepository.deleteNotificacion(notificationExists._id);
-      // }
-
     }
   }
 

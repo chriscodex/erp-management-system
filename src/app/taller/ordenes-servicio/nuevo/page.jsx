@@ -15,10 +15,6 @@ export default async function NuevaOrdenDeServicioPage() {
     
   const { mecanicos } = await getAllMecanicosRequestServer();
   
-// const { clientes, status } = await getAllClientesRequestServer();
-// const { proveedores, status } = await getAllProveedoresRequestServer();
-//   const proveedoresSorted = sortByUpdateDateDesc(proveedores);
-
   const titles = [
     {
       title: 'Taller',
