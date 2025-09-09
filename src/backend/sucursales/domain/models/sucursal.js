@@ -13,7 +13,7 @@ const sucursalSchema = new Schema(
     },
     direccion: {
       type: String,
-      required: [true, 'La dirección es requerida en el schema de empresa'],
+      required: false,
     },
     telefono: {
       type: String,

@@ -25,9 +25,10 @@ export function PdfBoleta({
   counterBoleta,
   selectedEmpresa,
   qrBase64,
+  fecha,
 }) {
   const fechaEmisionComprobante = formatDateLong(
-    new Date(ordenDeServicioData?.fechaEmisionComprobante).toISOString(),
+    new Date(fecha).toISOString(),
     true,
   );
 

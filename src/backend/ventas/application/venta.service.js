@@ -342,9 +342,11 @@ export class VentaService {
       }
 
       // 2. Obtener el contador de boletas
-      const numeroBoleta =
-        await this.counterRepository.getCounterByType('boletas');
-      if (!numeroBoleta) {
+      const numeroBoleta = await this.counterRepository.getCounterByType(
+        'boletas',
+      );
+
+      if (numeroBoleta === null || numeroBoleta === undefined) {
         return {
           status: 500,
           payload: 'No se pudo obtener el contador de boletas',
@@ -465,6 +467,8 @@ export class VentaService {
       // 5. Enviar a Sunat
       const sunatResponse = await sendInvoiceToSunat(invoiceData);
 
+      console.log('Respuesta de Sunat:', sunatResponse);
+
       // 6. Si la respuesta es exitosa, actualizar solo estadoSunat
       let estadoSunat = 'Error al enviar a Sunat';
       if (
@@ -513,8 +517,9 @@ export class VentaService {
       }
 
       // 2. Obtener el contador de facturas
-      const numeroFactura =
-        await this.counterRepository.getCounterByType('facturas');
+      const numeroFactura = await this.counterRepository.getCounterByType(
+        'facturas',
+      );
       if (!numeroFactura) {
         return {
           status: 500,

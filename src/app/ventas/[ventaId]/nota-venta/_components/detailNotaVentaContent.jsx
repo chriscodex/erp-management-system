@@ -14,8 +14,8 @@ import { formatDateLong } from '@/lib/formateador';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 
-import { DetailBoletaButtons } from '@/app/ventas/[ventaId]/boleta/_components/buttons/detailBoletaButtons';
-import { ImprimirBoletaButton } from '@/app/ventas/[ventaId]/nota-venta/_components/imprimirButton.jsx';
+import { ImprimirNotaDeVentaButton } from '@/app/ventas/[ventaId]/nota-venta/_components/buttons/imprimirNotaDeVentaButton';
+import { DetailNotaVentaButtons } from '@/app/ventas/[ventaId]/nota-venta/_components/buttons/detailNotaVentaButtons';
 
 export function DetailNotaVentaContent({ ventaData, empresas }) {
   return (
@@ -25,10 +25,7 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
           <RiInfoCardFill className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">Nota de Venta</Label>
         </div>
-        <ImprimirBoletaButton
-          ventaData={ventaData}
-          empresas={empresas}
-        />
+        <ImprimirNotaDeVentaButton ventaData={ventaData} empresas={empresas} />
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -97,9 +94,6 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
                     ventaData?.usuario?.apellidos}{' '}
                 </p>
                 <p>
-                  <strong>Comprobante:</strong> {ventaData?.comprobante}
-                </p>
-                <p>
                   <strong>Estado SUNAT:</strong> {ventaData?.estadoSunat}
                 </p>
               </div>
@@ -151,28 +145,6 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
               </TableBody>
             </Table>
             <Separator className="my-4" />
-            <div className="text-right">
-              <strong>Subtotal:</strong> S/.
-              {(
-                0.82 *
-                ventaData?.productos.reduce(
-                  (acc, producto) =>
-                    acc + producto?.precioVenta * producto?.cantidad,
-                  0,
-                )
-              ).toFixed(2)}
-            </div>
-            <div className="mt-2 text-right">
-              <strong>IGV:</strong> S/.
-              {(
-                0.18 *
-                ventaData?.productos.reduce(
-                  (acc, producto) =>
-                    acc + producto?.precioVenta * producto?.cantidad,
-                  0,
-                )
-              ).toFixed(2)}
-            </div>
             <div className="mt-2 text-right">
               <strong>Total a Pagar:</strong> S/.
               {ventaData?.productos
@@ -219,7 +191,7 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
           </CardContent>
         </Card>
         <div className="mt-4">
-          <DetailBoletaButtons ventaId={ventaData._id} />
+          <DetailNotaVentaButtons ventaId={ventaData._id} />
         </div>
       </CardContent>
     </Card>

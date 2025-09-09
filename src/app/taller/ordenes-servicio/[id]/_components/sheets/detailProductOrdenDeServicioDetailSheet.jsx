@@ -56,14 +56,8 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Marca
                         </label>
                         <p className="col-span-2">
-<<<<<<< HEAD
                           { productPreventa?.productId?.marcaId?.nombre ||
                             "Desconocida"}
-=======
-                          {productPreventa?.marcaId?.nombre ||
-                            productPreventa?.id?.marcaId?.nombre ||
-                            'Desconocida'}
->>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -71,14 +65,8 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Categoría
                         </label>
                         <p className="col-span-2">
-<<<<<<< HEAD
                           {productPreventa?.productId?.categoryId?.nombre ||
                             "Desconocida"}
-=======
-                          {productPreventa?.categoryId?.nombre ||
-                            productPreventa?.id?.categoryId?.nombre ||
-                            'Desconocida'}
->>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -94,14 +82,8 @@ export function DetailProductOrdenDeServicioDetailSheet({ productPreventa }) {
                           Almacén
                         </label>
                         <p className="col-span-2">
-<<<<<<< HEAD
                           {productPreventa?.productId?.almacenId?.nombre ||
                             "Desconocido"}
-=======
-                          {productPreventa?.almacenId?.nombre ||
-                            productPreventa?.id?.almacenId?.nombre ||
-                            'Desconocido'}
->>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">

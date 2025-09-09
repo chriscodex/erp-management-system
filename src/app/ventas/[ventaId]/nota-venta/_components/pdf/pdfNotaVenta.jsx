@@ -11,13 +11,19 @@ import {
   Path,
 } from '@react-pdf/renderer';
 
-import { stylesNotaVenta } from '@/app/ventas/[ventaId]/nota-venta/_components/pdf/stylesNotaVenta.js';
-import { formatDateLong, formatNumeroALetras } from '@/lib/formateador';
+import { stylesNotaDeVenta } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/pdf/stylesNotaDeVenta.js';
+import {
+  formatDateLong,
+} from '@/lib/formateador';
 
-const styles = StyleSheet.create(stylesNotaVenta);
+const styles = StyleSheet.create(stylesNotaDeVenta);
 
-export function PdfNotaVenta({ ventaData, selectedEmpresa }) {
-  const currentTime = formatDateLong(new Date().toISOString(), false);
+export function PdfNotaDeVenta({
+  ventaData,
+  codigoNotaDeVenta,
+  empresaSeleccionada,
+}) {
+  const currentTime = formatDateLong(new Date().toISOString(), true);
 
   const MapPin = () => (
     <Svg
@@ -58,45 +64,49 @@ export function PdfNotaVenta({ ventaData, selectedEmpresa }) {
       <Page size="A4">
         <View style={styles.header}>
           <Image src={'/logoB.jpeg'} style={styles.image} alt="logo" />
-          <Text style={styles.title}>Nota de Venta</Text>
+          <Text style={styles.title}>Nota de venta</Text>
         </View>
-
         <View style={styles.body}>
           <View style={styles.datosEmpresa}>
             <View>
               <Text style={styles.datosEmpresaTitle}>
-                {selectedEmpresa?.nombre || 'Moto Rock Ruta 33 E.I.R.L'}
+                {empresaSeleccionada?.nombre || 'Moto Rock Ruta 33 E.I.R.L'}
               </Text>
               <Text style={styles.datosEmpresaTitle}>
-                RUC N° {selectedEmpresa?.ruc || '20202020202'}
+                RUC N° {empresaSeleccionada?.ruc || '20202020202'}
               </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
                 <Text>
-                  {selectedEmpresa?.direccion ||
+                  {empresaSeleccionada?.direccion ||
                     'Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz'}
                 </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>{selectedEmpresa?.telefono || '01-442-1210'}</Text>
+                <Text>{empresaSeleccionada?.telefono || '01-442-1210'}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
                 <Text>
-                  {selectedEmpresa?.email || 'gerencia@motorock33.com'}
+                  {empresaSeleccionada?.email || 'gerencia@motorock33.com'}
                 </Text>
               </View>
             </View>
 
-            <View style={styles.datosBoletaContainer}>
-              <View style={styles.datosBoleta}>
-                <Text style={styles.datosBoletaBold}>Nota de Venta</Text>
+            <View style={styles.datosNotaDeVentaContainer}>
+              <View style={styles.datosNotaDeVenta}>
+                <Text style={styles.datosNotaDeVentaBold}>
+                  Nota de Venta N°
+                </Text>
+                <Text> {codigoNotaDeVenta}</Text>
               </View>
-              <View style={styles.datosBoleta}>
-                <Text style={styles.datosBoletaBold}>Fecha de emisión: </Text>
+              <View style={styles.datosNotaDeVenta}>
+                <Text style={styles.datosNotaDeVentaBold}>
+                  Fecha de emisión:{' '}
+                </Text>
                 <Text>{currentTime}</Text>
               </View>
             </View>
@@ -129,37 +139,37 @@ export function PdfNotaVenta({ ventaData, selectedEmpresa }) {
                 <Text>{ventaData?.clienteId?.datos?.representanteLegal}</Text>
               </View>
             )}
-            {ventaData?.clienteId?.datos?.direccion && (
+            {ventaData?.clienteId?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {'Dirección: '}
                 </Text>
-                <Text>{ventaData.clienteId.datos.direccion}</Text>
+                <Text>{ventaData?.clienteId?.datos?.direccion}</Text>
               </View>
             )}
             {ventaData?.clienteId?.datos?.email && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{'Email: '}</Text>
-                <Text>{ventaData.clienteId.datos.email}</Text>
+                <Text>{ventaData?.clienteId?.datos?.email}</Text>
               </View>
             )}
             {ventaData?.clienteId?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{'Celular: '}</Text>
-                <Text>{ventaData.clienteId.datos.celular}</Text>
+                <Text>{ventaData?.clienteId?.datos?.celular}</Text>
               </View>
             )}
           </View>
 
-          <View style={styles.boletaTitleCntainer}>
-            <Text style={styles.boletaTitle}>Productos</Text>
+          <View style={styles.facturaTitleContainer}>
+            <Text style={styles.facturaTitle}>Nota de Venta</Text>
           </View>
           {/* Tabla */}
           <View style={styles.table}>
             {/* Encabezados */}
             <View style={styles.tableRow}>
               <Text style={styles.tableCellHeader}>Descripción</Text>
-              <Text style={styles.tableCellHeader}>Precio Venta</Text>
+              <Text style={styles.tableCellHeader}>Precio</Text>
               <Text style={styles.tableCellHeader}>Cantidad</Text>
               <Text style={styles.tableCellHeader}>Importe</Text>
             </View>
@@ -176,68 +186,48 @@ export function PdfNotaVenta({ ventaData, selectedEmpresa }) {
                 </Text>
               </View>
             ))}
+            {ventaData?.servicios?.map((item) => (
+              <View key={`servicio-${item._id}`} style={styles.tableRow}>
+                <Text style={styles.tableCell}>{item?.descripcion}</Text>
+                <Text style={styles.tableCell}>{item?.precio?.toFixed(2)}</Text>
+                <Text style={styles.tableCell}>{1}</Text>
+                <Text style={styles.tableCell}>
+                  {(item?.precio * 1)?.toFixed(2)}
+                </Text>
+              </View>
+            ))}
           </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>Op. Gravada: S/.</Text>
-            <Text>
-              {(
-                0.82 *
-                ventaData?.productos.reduce(
-                  (acc, producto) =>
-                    acc + producto?.precioVenta * producto?.cantidad,
-                  0,
-                )
-              ).toFixed(2)}
-            </Text>
-          </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>I.G.V.: S/.</Text>
-            <Text>
-              {(
-                0.18 *
-                ventaData?.productos.reduce(
-                  (acc, producto) =>
-                    acc + producto?.precioVenta * producto?.cantidad,
-                  0,
-                )
-              ).toFixed(2)}
-            </Text>
-          </View>
+          {/* Totales */}
           <View style={styles.totalRow}>
             <Text style={styles.totalCell}>Importe Total: S/.</Text>
             <Text style={styles.totalCell}>
               {ventaData?.productos
+                .concat(ventaData?.servicios || [])
                 .reduce(
-                  (acc, producto) =>
-                    acc + producto?.precioVenta * producto?.cantidad,
+                  (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
                   0,
                 )
                 .toFixed(2)}
+            </Text>
+          </View>
+          <View style={styles.totalRow}>
+            <Text style={styles.totalCell}>Adelanto recibido: S/.</Text>
+            <Text style={styles.totalCell}>
+              {(ventaData?.pago?.montoAdelanto || 0).toFixed(2)}
             </Text>
           </View>
           <View style={styles.totalRow}>
             <Text style={styles.totalCell}>Importe a Pagar: S/.</Text>
             <Text style={styles.totalCell}>
-              {ventaData?.productos
-                .reduce(
-                  (acc, producto) =>
-                    acc + producto?.precioVenta * producto?.cantidad,
-                  0,
-                )
-                .toFixed(2)}
-            </Text>
-          </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>
-              {formatNumeroALetras(
+              {(
                 ventaData?.productos
+                  .concat(ventaData?.servicios || [])
                   .reduce(
-                    (acc, producto) =>
-                      acc + producto?.precioVenta * producto?.cantidad,
+                    (acc, item) =>
+                      acc + (item?.precioVenta || item?.precio) * 1,
                     0,
-                  )
-                  .toFixed(2),
-              )}
+                  ) - (ventaData?.pago?.montoAdelanto || 0)
+              ).toFixed(2)}
             </Text>
           </View>
         </View>

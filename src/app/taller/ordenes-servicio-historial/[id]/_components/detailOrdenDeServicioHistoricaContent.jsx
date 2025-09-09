@@ -43,6 +43,12 @@ export function DetailOrdenDeServicioHistoricaContent({
     0,
   );
 
+  const isFacturaImpresa =
+    ordenDeServicioHistoricaData?.comprobante === 'Factura Impresa';
+
+  const isBoletaImpresa =
+    ordenDeServicioHistoricaData?.comprobante === 'Boleta Impresa';
+
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col items-center justify-between space-y-0 pb-4 md:flex-row">
@@ -164,8 +170,8 @@ export function DetailOrdenDeServicioHistoricaContent({
                   {ordenDeServicioHistoricaData?.origenServicio === 'garantia'
                     ? 'Garantía'
                     : ordenDeServicioHistoricaData?.origenServicio === 'pagado'
-                      ? 'Pagado'
-                      : 'Interno'}
+                    ? 'Pagado'
+                    : 'Interno'}
                 </p>
                 <p>
                   <strong>Tipo de servicio:</strong>{' '}
@@ -190,12 +196,16 @@ export function DetailOrdenDeServicioHistoricaContent({
                     )}
                   </p>
                 )}
-                {ordenDeServicioHistoricaData?.pago?.montoAdelanto && (
+                {ordenDeServicioHistoricaData?.pago?.montoAdelanto ? (
                   <p>
                     <strong>Monto adelantado:</strong> S/.
                     {formatMoney(
                       ordenDeServicioHistoricaData?.pago?.montoAdelanto,
                     )}
+                  </p>
+                ) : (
+                  <p>
+                    <strong>Monto adelantado:</strong> S/.0.00
                   </p>
                 )}
                 {ordenDeServicioHistoricaData?.estado && (
@@ -238,16 +248,18 @@ export function DetailOrdenDeServicioHistoricaContent({
                   ordenDeServicioHistoricaData?.comprobante && (
                     <p>
                       <strong>Número de comprobante:</strong>{' '}
-                      {formatearCodigoCounterBoletaFactura(
-                        ordenDeServicioHistoricaData.counter,
-                        ordenDeServicioHistoricaData.comprobante ===
-                          'Boleta Impresa'
-                          ? 'boleta'
-                          : ordenDeServicioHistoricaData.comprobante ===
-                              'Factura Impresa'
-                            ? 'factura'
-                            : '',
-                      )}
+                      {(isBoletaImpresa ||
+                        (isFacturaImpresa) ?
+                          formatearCodigoCounterBoletaFactura(
+                            ordenDeServicioHistoricaData.counter,
+                            ordenDeServicioHistoricaData.comprobante ===
+                              'Boleta Impresa'
+                              ? 'boleta'
+                              : ordenDeServicioHistoricaData.comprobante ===
+                                'Factura Impresa'
+                              ? 'factura'
+                              : '',
+                          ) : 'No aplica')}
                     </p>
                   )}
               </div>

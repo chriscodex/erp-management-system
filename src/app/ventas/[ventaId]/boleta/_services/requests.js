@@ -53,6 +53,8 @@ export async function updateBoletaStateRequestClient(
       },
     });
 
+    console.log('updateBoletaStateRequestClient', responseEnviarBoleta);
+
     if (
       responseEnviarBoleta?.status !== 200 ||
       !responseEnviarBoleta?.data?.payload?.success

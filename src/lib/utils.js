@@ -41,7 +41,7 @@ export const TIME_DEBOUNCE = 0;
  */
 export async function delay() {
   try {
-    return new Promise((resolve) => setTimeout(resolve, 1500)); // eslint-disable-line
+    return new Promise((resolve) => setTimeout(resolve, 0)); // eslint-disable-line
   } catch (error) {
     console.log(error);
   }

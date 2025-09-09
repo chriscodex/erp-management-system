@@ -119,13 +119,16 @@ export function getObsequioByCodeClientRequest(code, setLoading) {
 
       await delay();
 
-      const responseProduct = await fetchData(
+      const responseProductObsequio = await fetchData(
         `${getProductByCodeClientUrl}/?obsequio-code=${code}`,
       );
 
-      if (responseProduct?.status === 200 && responseProduct?.data?.payload) {
+      if (
+        responseProductObsequio?.status === 200 &&
+        responseProductObsequio?.data?.payload
+      ) {
         setLoading(false);
-        resolve(responseProduct?.data?.payload);
+        resolve(responseProductObsequio?.data?.payload);
         return;
       } else {
         const responseProduct = await fetchData(
@@ -134,10 +137,7 @@ export function getObsequioByCodeClientRequest(code, setLoading) {
 
         if (responseProduct?.status === 200 && responseProduct?.data?.payload) {
           setLoading(false);
-          reject(
-            'Se ha encontrado el producto, pero no está marcado como obsequio',
-          );
-          return;
+          resolve(responseProduct?.data?.payload);
         }
       }
 

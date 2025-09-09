@@ -3,39 +3,34 @@
 import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { RiPrinterLine } from '@remixicon/react';
-import { useRouter } from 'next/navigation';
 
 import { Button } from '@/components/ui/button';
 import { PdfNotaDeVenta } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/pdf/pdfNotaDeVenta';
-import {
-  getCurrentCounterNotaDeVentaRequestClient,
-  updateNotaDeVentaStateRequestClient,
-} from '@/app/taller/ordenes-servicio/[id]/nota-venta/_services/requests';
-import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
 export function ImprimirNotaDeVentaButton({ ordenDeServicioData, empresas }) {
-  const router = useRouter();
+  const selectedEmpresaSinFormatear = empresas.find(
+    (empresa) => empresa.ruc === ordenDeServicioData?.empresa?.ruc,
+  );
 
-  const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
+  const [selectedEmpresaId, setSelectedEmpresaId] = useState(
+    selectedEmpresaSinFormatear?._id || empresas[0]?._id || '',
+  );
+
+  const empresaSeleccionada = empresas.find((e) => e._id === selectedEmpresaId);
+
   const [loading, setLoading] = useState(false);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
     try {
-      const counterNotaDeVenta =
-        await getCurrentCounterNotaDeVentaRequestClient();
-
-      const codigoNotaDeVenta = formatearCodigoCounterBoletaFactura(
-        counterNotaDeVenta,
-        'nota-venta',
-      );
+      const codigoNotaDeVenta = ordenDeServicioData?.code;
 
       const doc = (
         <PdfNotaDeVenta
           ordenDeServicioData={ordenDeServicioData}
-          counterNotaDeVenta={counterNotaDeVenta}
-          empresaSeleccionada={selectedEmpresa}
+          codigoNotaDeVenta={codigoNotaDeVenta}
+          empresaSeleccionada={empresaSeleccionada}
         />
       );
       const blob = await pdf(doc).toBlob();
@@ -47,9 +42,6 @@ export function ImprimirNotaDeVentaButton({ ordenDeServicioData, empresas }) {
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-
-      await updateNotaDeVentaStateRequestClient(ordenDeServicioData?._id);
-      router.refresh();
     } catch (error) {
       console.error('Error al generar el PDF:', error);
     }
@@ -60,8 +52,9 @@ export function ImprimirNotaDeVentaButton({ ordenDeServicioData, empresas }) {
     <div className="flex items-center gap-4">
       <EmpresasSelect
         empresas={empresas}
-        selectedEmpresa={selectedEmpresa}
-        setSelectedEmpresa={setSelectedEmpresa}
+        selectedEmpresaId={selectedEmpresaId}
+        setSelectedEmpresaId={setSelectedEmpresaId}
+        disabled={false}
       />
       <Button
         variant="default"

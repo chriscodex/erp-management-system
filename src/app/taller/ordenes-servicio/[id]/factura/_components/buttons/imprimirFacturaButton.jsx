@@ -51,10 +51,6 @@ export function ImprimirFacturaButton({
         ? ordenDeServicioData?.counter
         : await getCurrentCounterFacturaRequestClient();
 
-      let fechaParaImprimir = isFacturaEmitida
-        ? ordenDeServicioData?.fechaEmisionComprobante
-        : '';
-
       if (!isFacturaEmitida && empresaSeleccionada) {
         // Actualizar el estado de la factura en el backend
         const selectedEmpresaFormateada = {
@@ -71,13 +67,11 @@ export function ImprimirFacturaButton({
           ubigeo: empresaSeleccionada.ubigeo,
         };
 
-        const responseUpdate = await updateFacturaStateRequestClient(
+        await updateFacturaStateRequestClient(
           ordenDeServicioData?._id,
           counterFactura,
           selectedEmpresaFormateada,
         );
-
-        fechaParaImprimir = responseUpdate?.fechaEmisionComprobante;
       }
 
       const codigoFactura = formatearCodigoCounterBoletaFactura(
@@ -103,14 +97,12 @@ export function ImprimirFacturaButton({
 
       const montoIgv = (0.18 * total).toFixed(2);
 
+      const fecha = isFacturaEmitida
+        ? new Date(ordenDeServicioData?.fechaEmisionComprobante)
+        : new Date();
+
       // Fecha
-      const fechaFormateada = new Date(
-        fechaParaImprimir ||
-          ordenDeServicioData?.fechaEmisionComprobante ||
-          new Date(),
-      )
-        .toISOString()
-        .slice(0, 10);
+      const fechaFormateada = fecha.toISOString().slice(0, 10);
 
       // Valor QR SUNAT
       const value = `${
@@ -126,6 +118,7 @@ export function ImprimirFacturaButton({
           selectedEmpresa={empresaParaPDF}
           qrBase64={qrBase64}
           clienteRuc={clienteRuc}
+          fecha={fecha}
         />
       );
       const blob = await pdf(doc).toBlob();

@@ -53,7 +53,6 @@ export async function getAllEmpresasForComprobanteVentaRequestServer() {
 
 export async function finalizarVentaRequestClient(ventaId) {
   // eslint-disable-next-line no-undef
-
   return new Promise(async (resolve, reject) => {
     try {
       // Simular tiempo de retraso

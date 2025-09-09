@@ -3,7 +3,6 @@ import { Schema, model, models } from 'mongoose';
 const searchedUserSchema = new Schema({
   dni: {
     type: String,
-    unique: true,
     required: false,
   },
   apellidos: {
@@ -16,7 +15,6 @@ const searchedUserSchema = new Schema({
   },
   ruc: {
     type: String,
-    unique: true,
     required: false,
   },
   razonSocial: {

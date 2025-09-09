@@ -26,8 +26,10 @@ export function PdfFactura({
   selectedEmpresa,
   qrBase64,
   clienteRuc,
+  fecha,
 }) {
-  const currentTime = formatDateLong(new Date().toISOString(), false);
+  console.log('ventaData', ventaData);
+  const currentTime = formatDateLong(new Date(fecha).toISOString(), true);
 
   const codigoFactura = formatearCodigoCounterBoletaFactura(
     counterFactura,
@@ -128,7 +130,7 @@ export function PdfFactura({
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>RUC:</Text>
-              <Text>{clienteRuc}</Text>
+              <Text>{clienteRuc || ventaData?.clienteId?.datos?.ruc}</Text>
             </View>
             {ventaData?.clienteId?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>

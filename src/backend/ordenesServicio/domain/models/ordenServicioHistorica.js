@@ -280,7 +280,7 @@ const ordenServicioHistoricaSchema = new Schema(
     },
     counter: {
       type: Number,
-      required: true,
+      required: false,
     },
     estadoSunat: {
       type: String,

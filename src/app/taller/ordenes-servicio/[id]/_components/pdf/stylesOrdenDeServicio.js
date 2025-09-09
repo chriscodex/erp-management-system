@@ -69,14 +69,8 @@ export const stylesOrdenDeServicio = {
     fontWeight: 'bold',
   },
   datosContainer: {
-<<<<<<< HEAD
     flexDirection: "column",
     gap: "5px",
-=======
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: '5px',
->>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
   },
   datosCliente: {
     fontSize: 14,

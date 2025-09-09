@@ -7,9 +7,9 @@ export class CounterRepository {
   async initializeCounters() {
     try {
       const countersToInitialize = [
-        { name: 'boletas', sequenceValue: 0 },
-        { name: 'facturas', sequenceValue: 0 },
-        { name: 'nota-venta', sequenceValue: 0 },
+        { name: 'boletas', sequenceValue: 1 },
+        { name: 'facturas', sequenceValue: 1 },
+        { name: 'nota-venta', sequenceValue: 1 },
       ];
 
       for (const counter of countersToInitialize) {

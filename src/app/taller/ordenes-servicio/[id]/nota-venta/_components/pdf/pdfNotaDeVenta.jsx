@@ -14,23 +14,16 @@ import {
 import { stylesNotaDeVenta } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/pdf/stylesNotaDeVenta.js';
 import {
   formatDateLong,
-  formatNumeroALetras,
-  formatearCodigoCounterBoletaFactura,
 } from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesNotaDeVenta);
 
 export function PdfNotaDeVenta({
   ordenDeServicioData,
-  counterNotaDeVenta,
+  codigoNotaDeVenta,
   empresaSeleccionada,
 }) {
   const currentTime = formatDateLong(new Date().toISOString(), true);
-
-  const codigoNotaDeVenta = formatearCodigoCounterBoletaFactura(
-    counterNotaDeVenta,
-    'nota-venta',
-  );
 
   const MapPin = () => (
     <Svg
@@ -210,36 +203,6 @@ export function PdfNotaDeVenta({
           </View>
           {/* Totales */}
           <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>Op. Gravada: S/.</Text>
-            <Text>
-              {(
-                0.82 *
-                ordenDeServicioData?.productos
-                  .concat(ordenDeServicioData?.servicios || [])
-                  .reduce(
-                    (acc, item) =>
-                      acc + (item?.precioVenta || item?.precio) * 1,
-                    0,
-                  )
-              ).toFixed(2)}
-            </Text>
-          </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>I.G.V.: S/.</Text>
-            <Text>
-              {(
-                0.18 *
-                ordenDeServicioData?.productos
-                  .concat(ordenDeServicioData?.servicios || [])
-                  .reduce(
-                    (acc, item) =>
-                      acc + (item?.precioVenta || item?.precio) * 1,
-                    0,
-                  )
-              ).toFixed(2)}
-            </Text>
-          </View>
-          <View style={styles.totalRow}>
             <Text style={styles.totalCell}>Importe Total: S/.</Text>
             <Text style={styles.totalCell}>
               {ordenDeServicioData?.productos
@@ -271,28 +234,6 @@ export function PdfNotaDeVenta({
               ).toFixed(2)}
             </Text>
           </View>
-          {(
-            ordenDeServicioData?.productos
-              .concat(ordenDeServicioData?.servicios || [])
-              .reduce(
-                (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
-                0,
-              ) - (ordenDeServicioData?.pago?.montoAdelanto || 0)
-          ).toFixed(2) > 0 && (
-            <View style={styles.totalRow}>
-              <Text style={styles.totalCell}>
-                {formatNumeroALetras(
-                  ordenDeServicioData?.productos
-                    .concat(ordenDeServicioData?.servicios || [])
-                    .reduce(
-                      (acc, item) =>
-                        acc + (item?.precioVenta || item?.precio) * 1,
-                      0,
-                    ) - (ordenDeServicioData?.pago?.montoAdelanto || 0),
-                )}
-              </Text>
-            </View>
-          )}
         </View>
       </Page>
     </Document>

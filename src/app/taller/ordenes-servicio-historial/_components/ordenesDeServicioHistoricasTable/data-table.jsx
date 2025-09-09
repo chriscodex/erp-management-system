@@ -49,11 +49,7 @@ export function DataTableOrdenesDeServicioHistoricas({
   /*Filtrar datos*/
 
   const datosFiltrados = useMemo(() => {
-<<<<<<< HEAD
     return data.filter((ordenDeServicioHistorica) => {
-=======
-    return data.filter((ventaHistorica) => {
->>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
       const codigoFiltro = filtrosAvanzados?.codigo;
       const montoMinimo = filtrosAvanzados?.montoMinimo
         ? parseFloat(filtrosAvanzados?.montoMinimo)
@@ -70,19 +66,13 @@ export function DataTableOrdenesDeServicioHistoricas({
       const tipoFiltro = filtrosAvanzados?.tipo;
       const identificadorFiltro = filtrosAvanzados?.identificador?.trim();
 
-<<<<<<< HEAD
       // Extraemos datos de la ordenDeServicioHistorica
       const codigo = ordenDeServicioHistorica?.code || "";
-=======
-      // Extraemos datos de la ventaHistorica
-      const codigo = ventaHistorica?.code || '';
->>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
       const montoTotal =
         (ordenDeServicioHistorica?.productos?.reduce((sum, prod) => {
           const precio = prod.precioVenta || 0;
           const cantidad = prod.cantidad || 0;
           return sum + precio * cantidad;
-<<<<<<< HEAD
         }, 0) || 0) +
         (ordenDeServicioHistorica?.servicios?.reduce((sum, serv) => {
           const precio = serv.precio || 0;
@@ -93,14 +83,6 @@ export function DataTableOrdenesDeServicioHistoricas({
       const datosCliente = ordenDeServicioHistorica?.cliente?.datos || {};
       const dniCliente = datosCliente?.dni || "";
       const rucCliente = datosCliente?.ruc || "";
-=======
-        }, 0) || 0;
-      const fechaVenta = new Date(ventaHistorica?.fecha);
-      const tipoCliente = ventaHistorica?.cliente?.tipo;
-      const datosCliente = ventaHistorica?.cliente?.datos || {};
-      const dniCliente = datosCliente?.dni || '';
-      const rucCliente = datosCliente?.ruc || '';
->>>>>>> 048488a (feat: Enhance formateador.js with detailed JSDoc comments for functions and improve formatting logic)
 
       //Comparamos
 

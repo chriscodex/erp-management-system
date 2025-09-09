@@ -26,9 +26,10 @@ export function PdfFactura({
   empresaSeleccionada,
   qrBase64,
   clienteRuc,
+  fecha,
 }) {
   const fechaEmisionComprobante = formatDateLong(
-    new Date(ordenDeServicioData?.fechaEmisionComprobante).toISOString(),
+    new Date(fecha).toISOString(),
     true,
   );
 

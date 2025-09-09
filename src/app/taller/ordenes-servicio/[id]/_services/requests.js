@@ -36,7 +36,6 @@ export async function deleteOrdenDeServicioRequestClient(ordenDeServicioId) {
 
 export async function finalizarOrdenDeServicioRequestClient(ordenDeServicioId) {
   // eslint-disable-next-line no-undef
-
   return new Promise(async (resolve, reject) => {
     try {
       // Simular tiempo de retraso

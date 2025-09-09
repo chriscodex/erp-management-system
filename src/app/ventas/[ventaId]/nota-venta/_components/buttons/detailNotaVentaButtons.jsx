@@ -2,16 +2,18 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-
-import { FinalizarNotaVentaAlert } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/dialogs/finalizarNotaVentaAlert';
 import { RiLock2Fill } from '@remixicon/react';
+
 import { Button } from '@/components/ui/button';
 
-export function DetailNotaVentaButtons({ ordenServicioId }) {
+import { FinalizarNotaVentaAlert } from '@/app/ventas/[ventaId]/nota-venta/_components/dialogs/finalizarNotaVentaAlert';
+
+export function DetailNotaVentaButtons({ ventaId }) {
   const router = useRouter();
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
   useEffect(() => {
+    // Fuerza la actualización de los datos cada vez que se accede a la página
     router.refresh();
   }, [router]);
 
@@ -24,14 +26,14 @@ export function DetailNotaVentaButtons({ ordenServicioId }) {
           onClick={() => setIsOpenDialogDelete(true)}
         >
           <RiLock2Fill className="mr-1 h-4 w-4" />
-          Finalizar Orden de Servicio
+          Finalizar Venta
         </Button>
       </div>
       {/* Dialog Delete */}
       <FinalizarNotaVentaAlert
         isOpen={isOpenDialogDelete}
         setIsOpen={setIsOpenDialogDelete}
-        ordenServicioId={ordenServicioId}
+        ventaId={ventaId}
         actionAfterComplete="push"
       />
     </>

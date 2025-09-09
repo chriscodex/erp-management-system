@@ -93,9 +93,9 @@ export function ImprimirBoletaButton({
 
       const montoIgv = (0.18 * montoTotal).toFixed(2);
 
-      const fechaFormateada = new Date(ventaData?.fecha)
-        .toISOString()
-        .slice(0, 10);
+      const fecha = isBoletaEmitida ? new Date(ventaData?.fecha) : new Date();
+
+      const fechaFormateada = new Date(fecha).toISOString().slice(0, 10);
 
       const clienteDni = ventaData?.clienteId?.datos?.dni || '';
 
@@ -111,6 +111,7 @@ export function ImprimirBoletaButton({
           counterBoleta={counterBoleta}
           selectedEmpresa={empresaParaPDF}
           qrBase64={qrBase64}
+          fecha={fecha}
         />
       );
       const blob = await pdf(doc).toBlob();

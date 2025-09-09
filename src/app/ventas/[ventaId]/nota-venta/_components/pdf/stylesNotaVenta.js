@@ -1,6 +1,4 @@
-/* Estilos Nota de Venta */
-
-export const stylesNotaVenta = {
+export const stylesNotaDeVenta = {
   header: {
     fontSize: 12,
     flexDirection: 'row',
@@ -16,22 +14,20 @@ export const stylesNotaVenta = {
   },
   title: {
     marginVertical: 10,
-    fontSize: 28,
+    fontSize: 36,
     marginLeft: 10,
     color: '#000',
   },
   body: {
-    paddingLeft: 30,
-    paddingRight: 30,
-    paddingTop: 15,
-    fontSize: 12,
+    padding: 35,
+    fontSize: 14,
   },
   datosEmpresa: {
     marginTop: '5px',
     marginBottom: '5px',
   },
   datosEmpresaTitle: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: '5px',
   },
@@ -42,19 +38,18 @@ export const stylesNotaVenta = {
     alignItems: 'center',
     marginBottom: 5,
   },
-
-  datosBoletaContainer: {
+  datosNotaDeVentaContainer: {
     flexDirection: 'column',
     marginTop: '10px',
   },
-  datosBoleta: {
+  datosNotaDeVenta: {
     flexDirection: 'row',
     marginBottom: 5,
   },
-  datosBoletaBold: {
+
+  datosNotaDeVentaBold: {
     fontWeight: 'bold',
   },
-
   separator: {
     width: '100%',
     height: 1,
@@ -62,33 +57,8 @@ export const stylesNotaVenta = {
     marginVertical: 10,
     alignSelf: 'center',
   },
-
-  qrContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    marginTop: 10,
-    marginBottom: 10,
-    width: '100%',
-    gap: 10,
-  },
-  qrMessage: {
-    backgroundColor: '#f5f5f5',
-    border: '1px solid #ccc',
-    fontSize: 10,
-    padding: 6,
-    flex: 1,
-    color: '#222',
-    marginRight: 8,
-  },
-  qrImage: {
-    width: 80,
-    height: 80,
-    marginRight: 10,
-  },
-
   datosCliente: {
-    fontSize: 12,
+    fontSize: 14,
     marginTop: '5px',
     marginBottom: '5px',
     gap: '5px',
@@ -97,7 +67,7 @@ export const stylesNotaVenta = {
     marginBottom: '5px',
   },
   datosClienteTitle: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
   },
@@ -107,13 +77,13 @@ export const stylesNotaVenta = {
   datosClienteInfoTitle: {
     fontWeight: 'bold',
   },
-
-  boletaTitleContainer: {
+  facturaTitleContainer: {
     width: '100%',
     height: 'auto',
   },
-  boletaTitle: {
-    fontSize: '14px',
+
+  facturaTitle: {
+    fontSize: '24px',
     fontWeight: 'bold',
     marginTop: 10,
     marginBottom: 10,
@@ -148,7 +118,7 @@ export const stylesNotaVenta = {
   },
   totalRow: {
     marginTop: 5,
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'right',
     display: 'flex',

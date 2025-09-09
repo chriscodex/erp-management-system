@@ -97,10 +97,10 @@ export function ImprimirFacturaButton({
       );
       const montoIgv = (0.18 * total).toFixed(2);
 
+      const fecha = isFacturaEmitida ? new Date(ventaData?.fecha) : new Date();
+
       // Fecha
-      const fechaFormateada = new Date(ventaData?.fecha)
-        .toISOString()
-        .slice(0, 10);
+      const fechaFormateada = new Date(fecha).toISOString().slice(0, 10);
 
       // Valor QR SUNAT
       const value = `${
@@ -116,6 +116,7 @@ export function ImprimirFacturaButton({
           selectedEmpresa={empresaParaPDF}
           qrBase64={qrBase64}
           clienteRuc={clienteRuc}
+          fecha={fecha}
         />
       );
       const blob = await pdf(doc).toBlob();

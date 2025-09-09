@@ -22,6 +22,14 @@ import { ImprimirComprobanteVentaHistoricaButton } from '@/app/ventas/ventas-his
 import { DetailObsequioPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailObsequioPreventaDetailSheet';
 
 export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
+  const isBoletaEmitida = ventaHistoricaData?.comprobante
+    .toLowerCase()
+    .includes('boleta');
+
+  const isFacturaEmitida = ventaHistoricaData?.comprobante
+    .toLowerCase()
+    .includes('factura');
+
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col items-center justify-between space-y-0 pb-4 md:flex-row">
@@ -164,14 +172,17 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                   ventaHistoricaData?.comprobante && (
                     <p>
                       <strong>Número de comprobante:</strong>{' '}
-                      {formatearCodigoCounterBoletaFactura(
-                        ventaHistoricaData.counter,
-                        ventaHistoricaData.comprobante === 'Boleta Impresa'
-                          ? 'boleta'
-                          : ventaHistoricaData.comprobante === 'Factura Impresa'
-                            ? 'factura'
-                            : '',
-                      )}
+                      {isBoletaEmitida || isFacturaEmitida
+                        ? formatearCodigoCounterBoletaFactura(
+                            ventaHistoricaData.counter,
+                            ventaHistoricaData.comprobante === 'Boleta Impresa'
+                              ? 'boleta'
+                              : ventaHistoricaData.comprobante ===
+                                'Factura Impresa'
+                              ? 'factura'
+                              : '',
+                          )
+                        : ventaHistoricaData?.code}
                     </p>
                   )}
                 <p>

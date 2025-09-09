@@ -1,5 +1,6 @@
 import { User, Package, Hash } from 'lucide-react';
 import { RiInfoCardFill } from '@remixicon/react';
+import { HomeRepairService } from '@mui/icons-material';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
@@ -15,7 +16,8 @@ import { Label } from '@/components/ui/label';
 
 import { ImprimirNotaDeVentaButton } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/buttons/imprimirNotaDeVentaButton';
 import { formatMoney } from '@/lib/utils';
-import { HomeRepairService } from '@mui/icons-material';
+
+import { DetailNotaVentaButtons } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/buttons/detailNotaDeVentaButtons';
 
 export function DetailNotaDeVentaContent({ ordenDeServicioData, empresas }) {
   return (
@@ -30,9 +32,6 @@ export function DetailNotaDeVentaContent({ ordenDeServicioData, empresas }) {
             ordenDeServicioData={ordenDeServicioData}
             empresas={empresas}
           />
-          {/* <FinalizarOrdenDeServicioButton
-              ordenDeServicioId={ordenDeServicioData?._id}
-            /> */}
         </div>
       </CardHeader>
 
@@ -226,6 +225,9 @@ export function DetailNotaDeVentaContent({ ordenDeServicioData, empresas }) {
             </CardContent>
           </Card>
         )}
+        <div className="mt-4">
+          <DetailNotaVentaButtons ordenServicioId={ordenDeServicioData._id} />
+        </div>
       </CardContent>
     </Card>
   );
