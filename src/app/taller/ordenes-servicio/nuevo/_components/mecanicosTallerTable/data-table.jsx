@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState} from "react";
 import { ArrowUpDown, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { RiDeleteBinLine } from "@remixicon/react";
@@ -14,12 +14,18 @@ import {
   getFilteredRowModel,
 } from "@tanstack/react-table";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -29,18 +35,15 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
-import { getMecanicoByDNIClientRequest } from "@/app/taller/ordenes-servicio/nuevo/_services/requests";
-
-
-export function MecanicosTallerTable({ mecanicosTaller, setMecanicosTaller }) {
-  const searchMecanicosInputRef = useRef(null);
-
+export function MecanicosTallerTable({
+  mecanicosTaller,
+  setMecanicosTaller,
+  mecanicos = [],
+}) {
   const deleteMecanico = (id) => {
     setMecanicosTaller((prevData) => {
       // Filtra el producto a eliminar
-      const updatedData = prevData.filter(
-        (row) => row._id !== id
-      );
+      const updatedData = prevData.filter((row) => row._id !== id);
       // Reasigna la numeración
       return updatedData.map((row, index) => ({
         ...row,
@@ -152,87 +155,68 @@ export function MecanicosTallerTable({ mecanicosTaller, setMecanicosTaller }) {
     },
   });
 
-  /* Search */
-  const [searchValue, setSearchValue] = useState("");
+  /* Nuevo estado: ID del mecánico seleccionado */
+  const [selectedMecanicoId, setSelectedMecanicoId] = useState("");
 
-  /* Agregar Mecánico */
-  const [searchMecanicoIsLoading, setSearchMecanicoIsLoading] = useState(false);
-  const handleAgregarMecanico = async (event) => {
-    event.preventDefault();
-
-    if (!searchValue) {
-      toast.error("Ingrese el DNI del mecánico");
-      return;
-    }
-    if (searchValue.length === !8) {
-      toast.error("El DNI debe tener 8 caracteres");
+  const handleAgregarMecanico = () => {
+    if (!selectedMecanicoId) {
+      toast.error("Seleccione un mecánico");
       return;
     }
 
+    // Verificar duplicado
     const duplicado = mecanicosTaller.some(
-      (mecanico) => mecanico?.dni === searchValue
+      (mecanico) => mecanico._id === selectedMecanicoId
     );
     if (duplicado) {
-      toast.error("El mecanico ya se encuentra en la lista");
+      toast.error("El mecánico ya está en la lista");
       return;
     }
 
-    setSearchMecanicoIsLoading(true);
-
-    // Toast para buscar mecanico
-    toast.promise(
-      getMecanicoByDNIClientRequest(searchValue, setSearchMecanicoIsLoading),
-      {
-        loading: "Buscando...",
-        success: (response) => {
-          console.log("RESPONSE", response);
-          setMecanicosTaller([
-            ...mecanicosTaller,
-            {
-              ...response,
-              dni: searchValue,
-              numeracion: mecanicosTaller.length + 1,
-            },
-          ]);
-          setSearchValue("");
-          if (searchMecanicosInputRef.current) {
-            searchMecanicosInputRef.current.focus();
-          }
-          setSearchMecanicoIsLoading(false);
-          return `Mecánico asignado a la orden de servicio correctamente`;
-        },
-        error: (error) => {
-          setSearchMecanicoIsLoading(false);
-          return error;
-        },
-      }
+    // Buscar el mecánico en la lista global
+    const mecanicoToAdd = mecanicos.find(
+      (mecanico) => mecanico._id === selectedMecanicoId
     );
+    if (!mecanicoToAdd) {
+      toast.error("No se encontró el mecánico seleccionado");
+      return;
+    }
+
+    // Agregar con numeración
+    setMecanicosTaller((prev) => [
+      ...prev,
+      { ...mecanicoToAdd, numeracion: prev.length + 1 },
+    ]);
+
+    // Limpiar selección
+    setSelectedMecanicoId("");
+    toast.success("Mecánico agregado");
   };
 
   return (
     <div>
-      {/* Input */}
       <div className="flex gap-2 items-center py-4 w-full">
-        <Input
-          ref={searchMecanicosInputRef}
-          placeholder="Ingrese el DNI del mecánico"
-          value={searchValue}
-          onChange={(e) => {
-            const trimmedValue = e.target.value.trim();
-            setSearchValue(trimmedValue);
-          }}
-          className="max-w-sm"
-          onKeyDown={(event) => {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              handleAgregarMecanico(event);
-            }
-          }}
-        />
+        <Select
+          value={selectedMecanicoId}
+          onValueChange={(value) => setSelectedMecanicoId(value)}
+        >
+          {/* <FormControl> */}
+          <SelectTrigger className="w-full pl-2">
+            <SelectValue placeholder="Seleccione un mecánico" />
+          </SelectTrigger>
+          {/* </FormControl> */}
+          <SelectContent>
+            {mecanicos?.map((mecanico) => (
+              <SelectItem key={mecanico._id} value={mecanico._id}>
+                {mecanico.apellidos} {mecanico.nombres}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
         <div>
           <Button
             type="button"
-            disabled={searchMecanicoIsLoading}
+            disabled={!selectedMecanicoId}
             onClick={(event) => handleAgregarMecanico(event)}
           >
             Agregar
