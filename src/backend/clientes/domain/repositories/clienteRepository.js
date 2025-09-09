@@ -22,9 +22,6 @@ export class ClienteRepository {
     }
   }
   async getClienteByData(clienteData) {
-
-    console.log("Desde repository", clienteData);
-
     try {
       if (!clienteData) {
         console.log("Cliente Repository: Cliente no proporcionado");

@@ -257,7 +257,18 @@ export class VentaService {
           }
         })
       );
-
+      //Eliminar los obsequios del inventario
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        venta?.obsequios?.map(async (obsequio) => {
+          if (obsequio.productId) {
+            await this.productRepository.deleteSingleUnitFromProduct(
+              obsequio.productId,
+              obsequio.unitId
+            );
+          }
+        })
+      );
       return {
         status: 201,
         payload: {

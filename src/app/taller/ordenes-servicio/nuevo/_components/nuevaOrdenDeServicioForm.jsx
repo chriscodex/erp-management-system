@@ -73,7 +73,7 @@ import { createOrdenDeServicioSchema } from "@/app/taller/ordenes-servicio/nuevo
 import { MecanicosTallerTable } from "@/app/taller/ordenes-servicio/nuevo/_components/mecanicosTallerTable/data-table";
 import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
 
-export function NuevaOrdenDeServicioForm() {
+export function NuevaOrdenDeServicioForm(mecanicos) {
   const router = useRouter();
 
   const [mecanicosTaller, setMecanicosTaller] = useState([]);
@@ -756,6 +756,7 @@ export function NuevaOrdenDeServicioForm() {
                     <MecanicosTallerTable
                       mecanicosTaller={mecanicosTaller}
                       setMecanicosTaller={setMecanicosTaller}
+                      mecanicos={mecanicos?.mecanicos}
                     />
                     {/* Campo oculto para que el valor entre al form y valide */}
                     <input

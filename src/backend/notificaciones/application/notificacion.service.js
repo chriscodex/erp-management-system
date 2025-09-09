@@ -265,13 +265,13 @@ export class NotificacionService {
     if (notificationExists && !isSameMonth(new Date(notificationExists.fecha), new Date())) {
       await this.notificacionRepository.deleteNotificacion(notificationExists._id);
     }
-    //Eliminar la notificación si ya existe y el total es menor a 150000
-    if (total <= 150000 && notificationExists) {
+    //Eliminar la notificación si ya existe y el total es menor a 130000
+    if (total <= 130000 && notificationExists) {
       await this.notificacionRepository.deleteNotificacion(notificationExists._id);
     }
     //Crea la notificación si no existe
 
-    if (total > 150000 && !notificationExists) {
+    if (total > 130000 && !notificationExists) {
       await this.notificacionRepository.createNotificacion({
         title: "Ventas altas",
         message: `Las ventas del mes superan los S/ 150,000.`,
@@ -339,12 +339,6 @@ export class NotificacionService {
           data: { pedidoId: pedido._id }
         });
       }
-      //Eliminarla si se entregó
-
-      // if (!expired && notificationExists) {
-      //   await this.notificacionRepository.deleteNotificacion(notificationExists._id);
-      // }
-
     }
   }
 

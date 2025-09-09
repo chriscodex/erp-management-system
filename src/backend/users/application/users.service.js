@@ -62,6 +62,34 @@ export class UsersService {
       };
     }
   }
+  async getAllMecanicos() {
+    try {
+      const mecanicos = await this.userRepository.getAllMecanicos();
+
+      if (mecanicos?.length === 0) {
+        
+        console.log('User Service: No se encontraron mecanicos');
+        return {
+          status: 200,
+          payload: [],
+        };
+      }
+
+      console.log('User Service: Mecanicos encontrados');
+      return {
+        status: 200,
+        payload: mecanicos,
+      };
+    } catch (error) {
+      console.error(
+        `User Service: Error interno al buscar todos los mecanicos: ${error.message}`
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
+    }
+  }
   async getUsersBySucursal(sucursalId) {
       try {
         const usersFound = await this.userRepository.getUsersBySucursal(sucursalId);

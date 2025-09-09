@@ -1,10 +1,11 @@
+import { connectDB } from '@/db/mongodb';
 import { fetchData, postData } from '@/lib/fetchData';
 import {
   createOrdenDeServicioClientUrl,
   searchClienteClientUrl,
-  getUserByDNIClientUrl,
 } from '@/lib/urls';
-import { delay } from '@/lib/utils';
+import { UsersService } from '@/backend/users/application/users.service';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 export function searchClientePorDniOrRucClientRequest(
   identificador,
@@ -56,32 +57,25 @@ export function searchClientePorDniOrRucClientRequest(
   });
 }
 
-export function getMecanicoByDNIClientRequest(dni, setLoading) {
-  // eslint-disable-next-line
-  return new Promise(async (resolve, reject) => {
-    try {
-      setLoading(true);
-      // Simular tiempo de retraso
+export async function getAllMecanicosRequestServer() {
+  try {
+    await connectDB();
+    const userService = new UsersService();
 
-      await delay();
+    const response = await userService.getAllMecanicos();
 
-      const responseMecanico = await fetchData(
-        `${getUserByDNIClientUrl}/?dni=${dni}`
-      );
-
-      if (responseMecanico?.status === 200 && responseMecanico?.data?.payload) {
-        setLoading(false);
-        resolve(responseMecanico?.data?.payload);
-        return;
-      }
-
-      setLoading(false);
-      reject('No se ha encontrado un mecanico con ese DNI o está inactivo.');
-    } catch (error) {
-      setLoading(false);
-      reject(error);
+    if (response?.status !== 200) {
+      console.log('Error al obtener todos los mecanicos');
+      return { mecanicos: [], status: 500 };
     }
-  });
+    const mecanicos = response?.payload;
+    return {
+      mecanicos: simplificadorParaClientComponent(mecanicos),
+      status: 200,
+    };
+  } catch (error) {
+    console.error(error);
+  }
 }
 
 export async function createOrdenDeServicioRequestClient(ordenDeServicioData, setLoading) {

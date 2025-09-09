@@ -56,6 +56,7 @@ export default function OrigenDeServicioPieChart({
     {
       tipoComprobante: "Pagado",
       cantidad: pagado,
+      cantidad: 10,
       fill: "hsl(var(--chart-4))",
     },
     {

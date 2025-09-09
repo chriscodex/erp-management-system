@@ -71,6 +71,26 @@ export class UserRepository {
     }
   }
 
+
+  async getAllMecanicos() {
+    try {
+      const mecanicos = await User.find({ rol: 'Tecnico', estado: 'activo' }).populate('sucursalId').select('-password');
+
+      if (mecanicos?.length === 0) {
+        console.log('User Repository: No se encontraron mecanicos');
+        return [];
+      }
+
+      console.log('User Repository: Mecanicos encontrados');
+      return mecanicos;
+    } catch (error) {
+      console.error(
+        `User Repository: Error al buscar todos los mecanicos: ${error.message}`
+      );
+      throw new Error(`Error al buscar todos los mecanicos: ${error.message}`);
+    }
+  }
+
   async getUsersBySucursal(sucursalId) {
     try {
       const users = await this.userModel

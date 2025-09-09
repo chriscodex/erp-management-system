@@ -1,9 +1,5 @@
 import { Schema, model, models } from 'mongoose';
 
-// if (models.Product) {
-//   delete models.Product;
-// }
-
 const productSchema = new Schema(
   {
     estado: {

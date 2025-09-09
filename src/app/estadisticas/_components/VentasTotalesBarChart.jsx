@@ -21,6 +21,7 @@ import {
 import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
 
 export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
+
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);

@@ -84,9 +84,7 @@ export class NotificacionRepository {
       throw new Error(`Error al buscar un usuario: ${error.message}`);
     }
   }
-  // async create(data) {
-  //   return await Notificacion.create(data);
-  // }
+  
   async createNotificacion(notificacion) {
     try {
       const newNotificacion = new Notificacion(notificacion);
