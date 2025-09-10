@@ -332,7 +332,7 @@ export class PreventaService {
         _id: preventaId,
       });
 
-      // Cambiar el estado de los productos y motos a prevendidos
+      // Cambiar el estado de los productos y motos a disponible
       // eslint-disable-next-line no-undef
       await Promise.all(
         preventaFound?.productos?.map(async (producto) => {
