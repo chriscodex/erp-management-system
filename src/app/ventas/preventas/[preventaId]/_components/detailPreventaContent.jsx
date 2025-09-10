@@ -1,8 +1,8 @@
-import { User, Package, Gift, Calendar, Hash, FileText } from "lucide-react";
-import { RiFileListLine } from "@remixicon/react";
+import { User, Package, Gift, Calendar, Hash, FileText } from 'lucide-react';
+import { RiFileListLine } from '@remixicon/react';
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -10,34 +10,36 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { formatDateLong } from "@/lib/formateador";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/table';
+import { formatDateLong } from '@/lib/formateador';
+import { Label } from '@/components/ui/label';
 
-import { DetailProductPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet";
-import { DetailPreventaButtons } from "@/app/ventas/preventas/[preventaId]/_components/buttons/detailPreventaButtons";
-import { GenerarVentaButton } from "@/app/ventas/preventas/[preventaId]/_components/buttons/generarVentaButton";
-import { formatMoney } from "@/lib/utils";
-import { ImprimirCotizacionButton } from "@/app/ventas/preventas/[preventaId]/_components/buttons/imprimirCotizacionButton";
-import { DetailObsequioPreventaDetailSheet } from "./sheets/detailObsequioPreventaDetailSheet";
+import { DetailProductPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet';
+import { DetailPreventaButtons } from '@/app/ventas/preventas/[preventaId]/_components/buttons/detailPreventaButtons';
+import { GenerarVentaButton } from '@/app/ventas/preventas/[preventaId]/_components/buttons/generarVentaButton';
+import { formatMoney } from '@/lib/utils';
+import { ImprimirCotizacionButton } from '@/app/ventas/preventas/[preventaId]/_components/buttons/imprimirCotizacionButton';
+import { DetailObsequioPreventaDetailSheet } from './sheets/detailObsequioPreventaDetailSheet';
 
 export function DetailPreventaContent({ preventaData, empresa }) {
   const precioTotal = preventaData?.productos?.reduce((acc, product) => {
     return acc + product.precioVenta;
   }, 0);
+
+  console.log(preventaData);
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col gap-2 items-center justify-between space-y-0 pb-4 md:flex-row  ">
         <div className="flex items-center gap-2">
           <RiFileListLine className="h-9 w-9" />
           <Label className="sm:text-4xl text-xl font-bold">
-            {preventaData?.cotizacion === "si"
-              ? "Detalle de la Cotización"
-              : "Detalle de la Pre-Venta"}
+            {preventaData?.cotizacion === 'si'
+              ? 'Detalle de la Cotización'
+              : 'Detalle de la Pre-Venta'}
           </Label>
         </div>
         <div className="flex flex-col items-center gap-2 md:items-end xl:flex-row">
-          {preventaData?.cotizacion === "si" && (
+          {preventaData?.cotizacion === 'si' && (
             <ImprimirCotizacionButton
               preventaData={preventaData}
               empresa={empresa}
@@ -56,12 +58,12 @@ export function DetailPreventaContent({ preventaData, empresa }) {
                 Información del Cliente
               </CardTitle>
             </CardHeader>
-            {preventaData?.clienteId?.tipo === "persona" ? (
+            {preventaData?.clienteId?.tipo === 'persona' ? (
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{" "}
-                    {preventaData?.clienteId?.datos?.nombres}{" "}
+                    <strong>Nombre:</strong>{' '}
+                    {preventaData?.clienteId?.datos?.nombres}{' '}
                     {preventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
@@ -69,13 +71,13 @@ export function DetailPreventaContent({ preventaData, empresa }) {
                   </p>
                   {preventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Dirección:</strong>{" "}
+                      <strong>Dirección:</strong>{' '}
                       {preventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {preventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {preventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -85,23 +87,23 @@ export function DetailPreventaContent({ preventaData, empresa }) {
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{" "}
+                    <strong>Razon Social:</strong>{' '}
                     {preventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
                     <strong>RUC:</strong> {preventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Represante Legal:</strong>{" "}
+                    <strong>Represante Legal:</strong>{' '}
                     {preventaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
-                    <strong>Dirección:</strong>{" "}
+                    <strong>Dirección:</strong>{' '}
                     {preventaData?.clienteId?.datos?.direccion}
                   </p>
                   {preventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {preventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -114,9 +116,9 @@ export function DetailPreventaContent({ preventaData, empresa }) {
             <CardHeader>
               <CardTitle className="flex items-center">
                 <Hash className="mr-2" />
-                {preventaData?.cotizacion === "si"
-                  ? "Detalle de la Cotización"
-                  : "Detalle de la Pre-Venta"}
+                {preventaData?.cotizacion === 'si'
+                  ? 'Detalle de la Cotización'
+                  : 'Detalle de la Pre-Venta'}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -125,24 +127,25 @@ export function DetailPreventaContent({ preventaData, empresa }) {
                   <strong>Código:</strong> {preventaData?.code}
                 </p>
                 <p>
-                  <strong>Fecha:</strong>{" "}
+                  <strong>Fecha:</strong>{' '}
                   {formatDateLong(preventaData?.fecha, true)}
                 </p>
                 {preventaData?.fechaValidez && (
                   <p>
-                    <strong>Válido hasta el:</strong>{" "}
+                    <strong>Válido hasta el:</strong>{' '}
                     {formatDateLong(preventaData?.fechaValidez, false)}
                   </p>
                 )}
                 <p>
-                  <strong>Vendedor:</strong>{" "}
+                  <strong>Vendedor:</strong>{' '}
                   {preventaData?.usuario?.nombres +
-                    " " +
-                    preventaData?.usuario?.apellidos}{" "}
+                    ' ' +
+                    preventaData?.usuario?.apellidos}{' '}
                 </p>
                 {preventaData?.sucursalId?.nombre && (
                   <p>
-                    <strong>Sucursal:</strong> {preventaData?.sucursalId?.nombre}
+                    <strong>Sucursal:</strong>{' '}
+                    {preventaData?.sucursalId?.nombre}
                   </p>
                 )}
               </div>
@@ -182,7 +185,7 @@ export function DetailPreventaContent({ preventaData, empresa }) {
                       <TableCell>{producto?.descripcion}</TableCell>
                       <TableCell>
                         <Badge variant="outline">
-                          {producto?.tipo === "moto"
+                          {producto?.tipo === 'moto'
                             ? producto?.estado?.titulo
                             : producto?.estado}
                         </Badge>
@@ -295,17 +298,17 @@ export function DetailPreventaContent({ preventaData, empresa }) {
             <CardContent>
               <div className="space-y-2">
                 <p>
-                  <strong>Total de Productos:</strong>{" "}
+                  <strong>Total de Productos:</strong>{' '}
                   {preventaData?.productos?.reduce(
                     (acc, producto) => acc + producto?.cantidad,
-                    0
+                    0,
                   )}
                 </p>
                 <p>
-                  <strong>Total de Obsequios:</strong>{" "}
+                  <strong>Total de Obsequios:</strong>{' '}
                   {preventaData?.obsequios?.reduce(
                     (acc, obsequio) => acc + obsequio?.cantidad,
-                    0
+                    0,
                   )}
                 </p>
                 <p>
@@ -314,7 +317,7 @@ export function DetailPreventaContent({ preventaData, empresa }) {
                     .reduce(
                       (acc, producto) =>
                         acc + producto?.precioVenta * producto?.cantidad,
-                      0
+                      0,
                     )
                     .toFixed(2)}
                 </p>

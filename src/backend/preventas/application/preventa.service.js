@@ -1,9 +1,9 @@
-import { PreventaRepository } from "@/backend/preventas/domain/repositories/preventaRepository";
-import { createPreventaSchema } from "@/backend/preventas/application/validations/createPreventaSchema";
-import { generarNumeroAleatorio } from "@/lib/utils";
-import { ProductRepository } from "@/backend/products/domain/repositories/productRepository";
-import { MotoRepository } from "@/backend/motos/domain/repositories/motoRepository";
-import { ClienteRepository } from "@/backend/clientes/domain/repositories/clienteRepository";
+import { PreventaRepository } from '@/backend/preventas/domain/repositories/preventaRepository';
+import { createPreventaSchema } from '@/backend/preventas/application/validations/createPreventaSchema';
+import { generarNumeroAleatorio } from '@/lib/utils';
+import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
+import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
+import { ClienteRepository } from '@/backend/clientes/domain/repositories/clienteRepository';
 
 export class PreventaService {
   constructor() {
@@ -18,21 +18,21 @@ export class PreventaService {
       const preventas = await this.preventaRepository.getAllPreventas();
 
       if (preventas?.length === 0) {
-        console.log("Preventa Service: No se encontraron preventas");
+        console.log('Preventa Service: No se encontraron preventas');
         return {
           status: 200,
           payload: [],
         };
       }
 
-      console.log("Preventa Service: Preventas encontradas");
+      console.log('Preventa Service: Preventas encontradas');
       return {
         status: 200,
         payload: preventas,
       };
     } catch (error) {
       console.error(
-        `Preventa Service: Error interno al buscar todas las preventas: ${error.message}`
+        `Preventa Service: Error interno al buscar todas las preventas: ${error.message}`,
       );
       return {
         status: 500,
@@ -44,25 +44,25 @@ export class PreventaService {
   async getPreventaByData(preventaData) {
     try {
       const preventaFound = await this.preventaRepository.getPreventaByData(
-        preventaData
+        preventaData,
       );
 
       if (!preventaFound) {
-        console.log("Preventa Service: La preventa no existe");
+        console.log('Preventa Service: La preventa no existe');
         return {
           status: 200,
           payload: null,
         };
       }
 
-      console.log("Preventa Service: La preventa existe");
+      console.log('Preventa Service: La preventa existe');
       return {
         status: 200,
         payload: preventaFound,
       };
     } catch (error) {
       console.error(
-        `Preventa Service: Error interno al buscar la preventa: ${error.message}`
+        `Preventa Service: Error interno al buscar la preventa: ${error.message}`,
       );
       return {
         status: 500,
@@ -72,33 +72,49 @@ export class PreventaService {
   }
   async createPreventa(preventaData) {
     try {
-
-      // Lógica para buscar o crear cliente
-
       const clienteTipo = preventaData?.cliente?.tipo;
       const clienteDatos = preventaData?.cliente?.datos;
 
       const clienteExistente = await this.clienteRepository.getClienteByData(
-        clienteDatos
+        clienteDatos,
       );
-
       let clienteFinal = clienteExistente;
 
       if (!clienteExistente) {
-        // Crear el cliente si no existe
         clienteFinal = await this.clienteRepository.createCliente({
           tipo: clienteTipo,
           datos: clienteDatos,
         });
 
         if (!clienteFinal?._id) {
-          return {
-            status: 400,
-            payload: "No se pudo crear el cliente.",
-          };
+          return { status: 400, payload: 'No se pudo crear el cliente.' };
+        }
+      } else {
+        // Merge parcial: preferimos los campos nuevos de clienteDatos
+        const mergedDatos = { ...clienteExistente.datos, ...clienteDatos };
+
+        // Detectar cambios (simple comparador JSON; para objetos complejos adapta)
+        const hasChanges =
+          JSON.stringify(mergedDatos) !==
+            JSON.stringify(clienteExistente.datos) ||
+          clienteTipo !== clienteExistente.tipo;
+
+        if (hasChanges) {
+          // Ojo: no sobrescribas identificadores únicos sin validar
+          clienteFinal = await this.clienteRepository.updateCliente(
+            clienteExistente._id,
+            {
+              tipo: clienteTipo ?? clienteExistente.tipo,
+              datos: mergedDatos,
+              updatedAt: new Date(),
+            },
+          );
+        } else {
+          clienteFinal = clienteExistente;
         }
       }
-      // Reemplazar cliente en preventaData por clienteId
+
+      // reemplazar cliente en preventaData por clienteId
       preventaData.clienteId = clienteFinal._id.toString();
       delete preventaData.cliente;
 
@@ -108,7 +124,7 @@ export class PreventaService {
       if (!preventaValidated.success) {
         console.log(
           `Preventa Service: Error de validación de schema de preventa al crear`,
-          preventaValidated.error.format?.() || preventaValidated.error
+          preventaValidated.error.format?.() || preventaValidated.error,
         );
         return {
           status: 400,
@@ -120,21 +136,21 @@ export class PreventaService {
       // eslint-disable-next-line no-undef
       await Promise.all(
         preventaData?.productos?.map(async (producto) => {
-          if (producto.modeloId && preventaData?.cotizacion !== "si") {
+          if (producto.modeloId && preventaData?.cotizacion !== 'si') {
             await this.motoRepository.updateMoto(producto._id, {
               estado: {
-                titulo: "prevendido",
+                titulo: 'prevendido',
                 observaciones: producto?.estado?.observaciones,
               },
             });
           } else {
-            if (preventaData?.cotizacion !== "si") {
+            if (preventaData?.cotizacion !== 'si') {
               await this.productRepository.updateUnitProduct(producto.unitId, {
-                estado: "prevendido",
+                estado: 'prevendido',
               });
             }
           }
-        })
+        }),
       );
 
       // Cambiar el estado de los obsequios incluidos en la preventa
@@ -142,12 +158,12 @@ export class PreventaService {
       await Promise.all(
         preventaData?.obsequios?.map(async (obsequio) => {
           // En caso de ser SOAT, salta a la siguiente iteración
-          if (obsequio.nombre === "SOAT") return;
+          if (obsequio.nombre === 'SOAT') return;
 
           await this.productRepository.updateUnitProduct(obsequio.unitId, {
-            estado: "prevendido",
+            estado: 'prevendido',
           });
-        })
+        }),
       );
 
       const preventaObject = {
@@ -155,16 +171,16 @@ export class PreventaService {
         code: generarNumeroAleatorio(13),
       };
       const newPreventa = await this.preventaRepository.createPreventa(
-        preventaObject
+        preventaObject,
       );
-      console.log("Preventa Service: Preventa creada correctamente");
+      console.log('Preventa Service: Preventa creada correctamente');
       return {
         status: 201,
         payload: newPreventa,
       };
     } catch (error) {
       console.log(
-        `Preventa Service: Error interno al crear una preventa ${error}`
+        `Preventa Service: Error interno al crear una preventa ${error}`,
       );
       return {
         status: 400,
@@ -176,10 +192,10 @@ export class PreventaService {
   async updatePreventa(preventaId, preventaData) {
     try {
       if (!preventaId) {
-        console.log("Preventa Service: PreventaId no enviado");
+        console.log('Preventa Service: PreventaId no enviado');
         return {
           status: 400,
-          payload: "PreventaId no enviado",
+          payload: 'PreventaId no enviado',
         };
       }
       //Obtener la preventa antes de editar
@@ -189,14 +205,16 @@ export class PreventaService {
       });
 
       if (!preventaBefore) {
-        return { status: 404, payload: "La preventa no existe" };
+        return { status: 404, payload: 'La preventa no existe' };
       }
 
       // Lógica para buscar o crear cliente
 
       const clienteTipo = preventaData?.cliente?.tipo;
       const clienteDatos = preventaData?.cliente?.datos;
-      const clienteExistente = await this.clienteRepository.getClienteByData(clienteDatos);
+      const clienteExistente = await this.clienteRepository.getClienteByData(
+        clienteDatos,
+      );
 
       let clienteFinal = clienteExistente;
 
@@ -210,7 +228,7 @@ export class PreventaService {
         if (!clienteFinal?._id) {
           return {
             status: 400,
-            payload: "No se pudo crear el cliente.",
+            payload: 'No se pudo crear el cliente.',
           };
         }
       }
@@ -219,105 +237,134 @@ export class PreventaService {
       preventaData.clienteId = clienteFinal._id.toString();
       delete preventaData.cliente;
 
-      //Identificar productos/motos/obsequios 
+      //Identificar productos/motos/obsequios
       const antiguosProductos = preventaBefore?.productos || [];
       const nuevosProductos = preventaData?.productos || [];
 
       const antiguosObsequios = preventaBefore?.obsequios || [];
       const nuevosObsequios = preventaData?.obsequios || [];
 
-      const idsAntiguos = antiguosProductos.map(product => product.unitId || product._id);
-      const idsNuevos = nuevosProductos.map(product => product.unitId || product._id);
+      const idsAntiguos = antiguosProductos.map(
+        (product) => product.unitId || product._id,
+      );
+      const idsNuevos = nuevosProductos.map(
+        (product) => product.unitId || product._id,
+      );
 
-      const obsequiosAntiguosIds = antiguosObsequios.map(obsequio => obsequio.unitId || obsequio._id);
-      const obsequiosNuevosIds = nuevosObsequios.map(obsequio => obsequio.unitId || obsequio._id);
+      const obsequiosAntiguosIds = antiguosObsequios.map(
+        (obsequio) => obsequio.unitId || obsequio._id,
+      );
+      const obsequiosNuevosIds = nuevosObsequios.map(
+        (obsequio) => obsequio.unitId || obsequio._id,
+      );
 
       // Productos quitados
-      const productosQuitados = antiguosProductos.filter(product => {
+      const productosQuitados = antiguosProductos.filter((product) => {
         const id = product.unitId || product._id;
         return !idsNuevos.includes(id);
       });
 
       // Productos agregados
-      const productosAgregados = nuevosProductos.filter(product => {
+      const productosAgregados = nuevosProductos.filter((product) => {
         const id = product.unitId || product._id;
         return !idsAntiguos.includes(id);
       });
 
       // Obsequios quitados (excepto SOAT)
-      const obsequiosQuitados = antiguosObsequios.filter(obsequio => {
-        return obsequio.nombre !== "SOAT" && !obsequiosNuevosIds.includes(obsequio.unitId);
+      const obsequiosQuitados = antiguosObsequios.filter((obsequio) => {
+        return (
+          obsequio.nombre !== 'SOAT' &&
+          !obsequiosNuevosIds.includes(obsequio.unitId)
+        );
       });
 
       // Obsequios agregados (excepto SOAT)
-      const obsequiosAgregados = nuevosObsequios.filter(obsequio => {
-        return obsequio.nombre !== "SOAT" && !obsequiosAntiguosIds.includes(obsequio.unitId);
+      const obsequiosAgregados = nuevosObsequios.filter((obsequio) => {
+        return (
+          obsequio.nombre !== 'SOAT' &&
+          !obsequiosAntiguosIds.includes(obsequio.unitId)
+        );
       });
 
       // Cambiar estado a "disponible" de productos quitados
       // eslint-disable-next-line no-undef
-      await Promise.all(productosQuitados.map(async product => {
-        if (product.modeloId) {
-          await this.motoRepository.updateMoto(product._id, {
-            estado: {
-              titulo: "disponible",
-              observaciones: product?.estado?.observaciones,
-            },
-          });
-        } else {
-          await this.productRepository.updateUnitProduct(product.unitId, { estado: "disponible" });
-        }
-      }));
+      await Promise.all(
+        productosQuitados.map(async (product) => {
+          if (product.modeloId) {
+            await this.motoRepository.updateMoto(product._id, {
+              estado: {
+                titulo: 'disponible',
+                observaciones: product?.estado?.observaciones,
+              },
+            });
+          } else {
+            await this.productRepository.updateUnitProduct(product.unitId, {
+              estado: 'disponible',
+            });
+          }
+        }),
+      );
 
       // Cambiar estado a "prevendido" de productos agregados
       // eslint-disable-next-line no-undef
-      await Promise.all(productosAgregados.map(async product => {
-        if (product.modeloId && preventaData?.cotizacion !== "si") {
-          await this.motoRepository.updateMoto(product._id, {
-            estado: {
-              titulo: "prevendido",
-              observaciones: product?.estado?.observaciones,
-            },
-          });
-        } else if (preventaData?.cotizacion !== "si") {
-          await this.productRepository.updateUnitProduct(product.unitId, { estado: "prevendido" });
-        }
-      }));
+      await Promise.all(
+        productosAgregados.map(async (product) => {
+          if (product.modeloId && preventaData?.cotizacion !== 'si') {
+            await this.motoRepository.updateMoto(product._id, {
+              estado: {
+                titulo: 'prevendido',
+                observaciones: product?.estado?.observaciones,
+              },
+            });
+          } else if (preventaData?.cotizacion !== 'si') {
+            await this.productRepository.updateUnitProduct(product.unitId, {
+              estado: 'prevendido',
+            });
+          }
+        }),
+      );
 
       // Obsequios quitados => "disponible"
       // eslint-disable-next-line no-undef
-      await Promise.all(obsequiosQuitados.map(async obsequio => {
-        await this.productRepository.updateUnitProduct(obsequio.unitId, { estado: "disponible" });
-      }));
+      await Promise.all(
+        obsequiosQuitados.map(async (obsequio) => {
+          await this.productRepository.updateUnitProduct(obsequio.unitId, {
+            estado: 'disponible',
+          });
+        }),
+      );
 
       // Obsequios agregados => "prevendido"
       // eslint-disable-next-line no-undef
-      await Promise.all(obsequiosAgregados.map(async obsequio => {
-        await this.productRepository.updateUnitProduct(obsequio.unitId, { estado: "prevendido" });
-      }));
+      await Promise.all(
+        obsequiosAgregados.map(async (obsequio) => {
+          await this.productRepository.updateUnitProduct(obsequio.unitId, {
+            estado: 'prevendido',
+          });
+        }),
+      );
       // Actualizar preventa
       const preventaUpdated = await this.preventaRepository.updatePreventa(
         preventaId,
-        preventaData
+        preventaData,
       );
 
-
       if (!preventaUpdated) {
-        console.log("Preventa Service: La preventa no existe");
+        console.log('Preventa Service: La preventa no existe');
         return {
           status: 404,
-          payload: "La preventa no existe",
+          payload: 'La preventa no existe',
         };
       }
 
-      console.log("Preventa Service: Preventa actualizada correctamente");
+      console.log('Preventa Service: Preventa actualizada correctamente');
       return {
         status: 200,
         payload: preventaUpdated,
       };
     } catch (error) {
       console.error(
-        `Preventa Service: Error interno al actualizar la preventa: ${error.message}`
+        `Preventa Service: Error interno al actualizar la preventa: ${error.message}`,
       );
       return {
         status: 500,
@@ -339,16 +386,16 @@ export class PreventaService {
           if (producto.modeloId) {
             await this.motoRepository.updateMoto(producto._id, {
               estado: {
-                titulo: "disponible",
+                titulo: 'disponible',
                 observaciones: producto?.estado?.observaciones,
               },
             });
           } else {
             await this.productRepository.updateUnitProduct(producto.unitId, {
-              estado: "disponible",
+              estado: 'disponible',
             });
           }
-        })
+        }),
       );
 
       // Cambiar el estado de los obsequios incluidos en la preventa
@@ -356,34 +403,34 @@ export class PreventaService {
       await Promise.all(
         preventaFound?.obsequios?.map(async (obsequio) => {
           // En caso de ser SOAT, salta a la siguiente iteración
-          if (obsequio.nombre === "SOAT") return;
+          if (obsequio.nombre === 'SOAT') return;
 
           await this.productRepository.updateUnitProduct(obsequio.unitId, {
-            estado: "disponible",
+            estado: 'disponible',
           });
-        })
+        }),
       );
 
       const deletedPreventa = await this.preventaRepository.deletePreventa(
-        preventaId
+        preventaId,
       );
 
       if (!deletedPreventa) {
-        console.log("Preventa Service: La preventa no existe");
+        console.log('Preventa Service: La preventa no existe');
         return {
           status: 200,
-          payload: "La preventa no existe",
+          payload: 'La preventa no existe',
         };
       }
 
-      console.log("Preventa Service: Preventa eliminada correctamente");
+      console.log('Preventa Service: Preventa eliminada correctamente');
       return {
         status: 204,
         payload: preventaFound,
       };
     } catch (error) {
       console.error(
-        `Preventa Service: Error interno al cancelar la preventa: ${error.message}`
+        `Preventa Service: Error interno al cancelar la preventa: ${error.message}`,
       );
       return {
         status: 500,
@@ -395,25 +442,25 @@ export class PreventaService {
   async deletePreventa(preventaId) {
     try {
       const deletedPreventa = await this.preventaRepository.deletePreventa(
-        preventaId
+        preventaId,
       );
 
       if (!deletedPreventa) {
-        console.log("Preventa Service: La preventa no existe");
+        console.log('Preventa Service: La preventa no existe');
         return {
           status: 200,
-          payload: "La preventa no existe",
+          payload: 'La preventa no existe',
         };
       }
 
-      console.log("Preventa Service: Preventa eliminada correctamente");
+      console.log('Preventa Service: Preventa eliminada correctamente');
       return {
         status: 204,
         payload: deletedPreventa,
       };
     } catch (error) {
       console.error(
-        `Preventa Service: Error interno al eliminar la preventa: ${error.message}`
+        `Preventa Service: Error interno al eliminar la preventa: ${error.message}`,
       );
       return {
         status: 500,

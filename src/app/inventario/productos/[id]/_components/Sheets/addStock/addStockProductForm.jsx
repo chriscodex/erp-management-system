@@ -58,7 +58,7 @@ export function AddStockProductForm({ productData, onClose }) {
       addUnitProductRequestClient(
         productData?._id,
         cantidadAAgregar,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Procesando...',
@@ -73,7 +73,7 @@ export function AddStockProductForm({ productData, onClose }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -84,10 +84,6 @@ export function AddStockProductForm({ productData, onClose }) {
         <SheetDescription>Ingrese la cantidad a aumentar</SheetDescription>
       </SheetHeader>
       <div className="grid gap-4 py-4">
-        <div className="grid grid-cols-3 items-center gap-4">
-          <Label className="col-span-1 text-left">Código del producto</Label>
-          <p className="col-span-2">{productData?.code}</p>
-        </div>
         <div className="grid grid-cols-3 items-center gap-4">
           <Label className="col-span-1 text-left">Stock actual</Label>
           <p className="col-span-2">{productData?.stock}</p>

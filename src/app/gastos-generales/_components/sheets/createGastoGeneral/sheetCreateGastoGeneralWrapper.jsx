@@ -28,7 +28,7 @@ export function SheetCreateGastoGeneralWrapper() {
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <CreateGastoGeneralForm onClose={handleCloseSheet}/>
+          <CreateGastoGeneralForm onClose={handleCloseSheet} />
         </Sheet>
       )}
     </div>

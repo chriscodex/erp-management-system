@@ -27,7 +27,6 @@ import { serverErrorToast } from '@/components/toast/serverErrorToast';
 import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTablePreventas({ columns, data, status = 200 }) {
-
   const router = useRouter();
 
   /* Sorting */
@@ -115,7 +114,7 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -134,7 +133,7 @@ export function DataTablePreventas({ columns, data, status = 200 }) {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

@@ -17,6 +17,7 @@ export async function POST() {
       celular: '931140269',
       direccion: 'Jr. 9 de diciembre 686 Carhuaz Carhuaz',
       rol: 'Administrador',
+      fechaIngreso: new Date(),
       password: await bcrypt.hash('123', 12), // Contraseña encriptada
       estado: 'activo',
     };
@@ -59,8 +60,11 @@ export async function POST() {
   } catch (error) {
     console.error('Error al verificar/crear superusuario o segmentos:', error);
     return NextResponse.json(
-      { error: 'Error interno del servidor al verificar/crear superusuario o segmentos' },
-      { status: 500 }
+      {
+        error:
+          'Error interno del servidor al verificar/crear superusuario o segmentos',
+      },
+      { status: 500 },
     );
   }
 }

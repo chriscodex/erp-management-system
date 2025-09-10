@@ -1,16 +1,16 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { getOrdenDeServicioHistoricaRequestServer } from "@/app/taller/ordenes-servicio-historial/_services/requests";
-import { DetailOrdenDeServicioHistoricaContent } from "@/app/taller/ordenes-servicio-historial/[id]/_components/detailOrdenDeServicioHistoricaContent";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { getOrdenDeServicioHistoricaRequestServer } from '@/app/taller/ordenes-servicio-historial/_services/requests';
+import { DetailOrdenDeServicioHistoricaContent } from '@/app/taller/ordenes-servicio-historial/[id]/_components/detailOrdenDeServicioHistoricaContent';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
   if (
-    session?.user?.rol !== "Administrador" &&
-    session?.user?.rol !== "Tecnico"
+    session?.user?.rol !== 'Administrador' &&
+    session?.user?.rol !== 'Tecnico'
   ) {
     notFound();
   }
@@ -24,18 +24,18 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Taller",
-      href: "",
+      title: 'Taller',
+      href: '',
       active: false,
     },
     {
-      title: "Historial de Órdenes de Servicio",
-      href: "/taller/ordenes-servicio-historial",
+      title: 'Historial de Órdenes de Servicio',
+      href: '/taller/ordenes-servicio-historial',
       active: true,
     },
     {
       title: ordenDeServicioHistorica?.code,
-      href: "",
+      href: '',
       active: false,
     },
   ];

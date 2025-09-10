@@ -1,21 +1,20 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models } from 'mongoose';
 
 const clienteSchema = new Schema(
   {
     tipo: {
       type: String,
-      required: [true, "El tipo es requerido en el schema de cliente"],
-      enum: ["persona", "empresa"],
+      required: [true, 'El tipo es requerido en el schema de cliente'],
+      enum: ['persona', 'empresa'],
     },
     datos: {
       type: Schema.Types.Mixed,
-      required: [true, "Los datos son requeridos en el schema de cliente"],
+      required: [true, 'Los datos son requeridos en el schema de cliente'],
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-export const Cliente = models?.Cliente || model("Cliente", clienteSchema);
-
+export const Cliente = models?.Cliente || model('Cliente', clienteSchema);

@@ -1,12 +1,12 @@
-"use client";
-import { useState } from "react";
-import { pdf } from "@react-pdf/renderer";
-import { RiPrinterLine } from "@remixicon/react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { PdfBoleta } from "@/app/ventas/ventas-historicas/[id]/_components/boleta/_components/pdf/pdfBoleta";
-import { PdfFactura } from "@/app/ventas/ventas-historicas/[id]/_components/factura/_components/pdf/pdfFactura";
-import { formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
+'use client';
+import { useState } from 'react';
+import { pdf } from '@react-pdf/renderer';
+import { RiPrinterLine } from '@remixicon/react';
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
+import { PdfBoleta } from '@/app/ventas/ventas-historicas/[id]/_components/boleta/_components/pdf/pdfBoleta';
+import { PdfFactura } from '@/app/ventas/ventas-historicas/[id]/_components/factura/_components/pdf/pdfFactura';
+import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 
 export function ImprimirComprobanteVentaHistoricaButton({
   ventaHistoricaData,
@@ -21,19 +21,19 @@ export function ImprimirComprobanteVentaHistoricaButton({
       const { comprobante, counter, empresa } = ventaHistoricaData;
 
       // Elegir si es boleta o factura
-      const tipoComprobante = comprobante?.toLowerCase().includes("boleta")
-        ? "boleta"
-        : comprobante?.toLowerCase().includes("factura")
-        ? "factura"
-        : "undefined";
+      const tipoComprobante = comprobante?.toLowerCase().includes('boleta')
+        ? 'boleta'
+        : comprobante?.toLowerCase().includes('factura')
+          ? 'factura'
+          : 'undefined';
 
       const codigo = formatearCodigoCounterBoletaFactura(
         counter,
-        tipoComprobante
+        tipoComprobante,
       );
 
       const doc =
-        tipoComprobante === "boleta" ? (
+        tipoComprobante === 'boleta' ? (
           <PdfBoleta
             ventaHistoricaData={ventaHistoricaData}
             counterBoleta={counter}
@@ -50,7 +50,7 @@ export function ImprimirComprobanteVentaHistoricaButton({
       const blob = await pdf(doc).toBlob();
 
       // Crear un enlace temporal y forzar la descarga
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = `${tipoComprobante}-${codigo}.pdf`;
       document.body.appendChild(link);
@@ -58,7 +58,7 @@ export function ImprimirComprobanteVentaHistoricaButton({
       document.body.removeChild(link);
       router.refresh();
     } catch (error) {
-      console.error("Error al generar el PDF:", error);
+      console.error('Error al generar el PDF:', error);
     }
     setLoading(false);
   };

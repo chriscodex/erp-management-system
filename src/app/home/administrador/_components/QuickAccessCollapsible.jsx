@@ -1,10 +1,6 @@
-"use client";
+'use client';
 
-import {
-  Package,
-  User2Icon,
-  ChevronDown,
-} from "lucide-react";
+import { Package, User2Icon, ChevronDown } from 'lucide-react';
 import {
   RiBox2Fill,
   RiCalendarScheduleLine,
@@ -15,24 +11,26 @@ import {
   RiShoppingBag3Line,
   RiTeamFill,
   RiVipDiamondLine,
-} from "@remixicon/react";
+} from '@remixicon/react';
 
 import {
   Collapsible,
   CollapsibleTrigger,
   CollapsibleContent,
-} from "@/components/ui/collapsible";
+} from '@/components/ui/collapsible';
 
-import { QuickAccessCard } from "@/app/home/_components/quickAccesCard";
+import { QuickAccessCard } from '@/app/home/_components/quickAccesCard';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 export default function QuickAccessCollapsible() {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="space-y-6 mb-8">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white">Accesos rápidos</h2>
+      <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
+        Accesos rápidos
+      </h2>
       <Collapsible open={open} onOpenChange={setOpen}>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <QuickAccessCard
@@ -127,10 +125,10 @@ export default function QuickAccessCollapsible() {
         </CollapsibleContent>
         {/* Botón de colapsado */}
         <CollapsibleTrigger className="mt-4 flex items-center gap-1 text-primary hover:underline text-sm">
-          <span>{open ? "Ver menos" : "Ver más"}</span>
+          <span>{open ? 'Ver menos' : 'Ver más'}</span>
           <ChevronDown
             className={`h-4 w-4 transition-transform ${
-              open ? "rotate-180" : ""
+              open ? 'rotate-180' : ''
             }`}
           />
         </CollapsibleTrigger>

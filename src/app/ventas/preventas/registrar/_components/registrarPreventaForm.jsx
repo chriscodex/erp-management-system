@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useWatch } from "react-hook-form";
-import { toast } from "sonner";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, useWatch } from 'react-hook-form';
+import { toast } from 'sonner';
 import {
   IdCardIcon,
   Loader2,
@@ -14,20 +14,20 @@ import {
   User,
   UserCheck,
   CalendarIcon,
-} from "lucide-react";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { RiArrowLeftLine } from "@remixicon/react";
-import { useSession } from "next-auth/react";
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { RiArrowLeftLine } from '@remixicon/react';
+import { useSession } from 'next-auth/react';
 
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 import {
   Form,
   FormControl,
@@ -35,31 +35,31 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
-import { ProductsPreventaTable } from "@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table";
+} from '@/components/formInputs/onChange';
+import { ProductsPreventaTable } from '@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table';
 import {
   createPreventaRequestClient,
   searchClientePorDniOrRucClientRequest,
-} from "@/app/ventas/preventas/registrar/_services/requests";
-import { ObsequiosPreventaTable } from "@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table";
-import { Textarea } from "@/components/ui/textarea";
-import { createPreventaSchemaForm } from "@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm";
+} from '@/app/ventas/preventas/registrar/_services/requests';
+import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table';
+import { Textarea } from '@/components/ui/textarea';
+import { createPreventaSchemaForm } from '@/app/ventas/preventas/registrar/_services/validations/createPreventaSchemaForm';
 
 export function RegistrarPreventaForm() {
   const { data: session } = useSession();
@@ -75,22 +75,22 @@ export function RegistrarPreventaForm() {
   const form = useForm({
     resolver: zodResolver(createPreventaSchemaForm),
     defaultValues: {
-      identificador: "",
-      tipo: "persona",
-      nombres: "",
-      apellidos: "",
-      razonSocial: "",
-      representanteLegal: "",
-      email: "",
-      direccion: "",
-      celular: "",
+      identificador: '',
+      tipo: 'persona',
+      nombres: '',
+      apellidos: '',
+      razonSocial: '',
+      representanteLegal: '',
+      email: '',
+      direccion: '',
+      celular: '',
 
       //Productos
 
       productos: [],
 
-      comentarios: "",
-      cotizacion: "no",
+      comentarios: '',
+      cotizacion: 'no',
       fechaValidez: new Date(),
     },
   });
@@ -116,7 +116,7 @@ export function RegistrarPreventaForm() {
     toast.promise(
       createPreventaRequestClient(createPreventaObject, setFormSubmitIsLoading),
       {
-        loading: "Registrando...",
+        loading: 'Registrando...',
         success: (response) => {
           console.log(response);
           clearErrors();
@@ -127,7 +127,7 @@ export function RegistrarPreventaForm() {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -140,108 +140,108 @@ export function RegistrarPreventaForm() {
       const tipo = formData.tipo;
       const identificador = formData.identificador;
 
-      if (tipo === "persona") {
+      if (tipo === 'persona') {
         if (!identificador || identificador.length !== 8) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un DNI válido", {
-            description: "El DNI debe tener 8 dígitos",
+          toast.warning('Por favor, ingrese un DNI válido', {
+            description: 'El DNI debe tener 8 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (persona) => {
               setValue(
-                "apellidos",
-                persona?.apellidos || persona?.datos?.apellidos
+                'apellidos',
+                persona?.apellidos || persona?.datos?.apellidos,
               );
-              setValue("nombres", persona?.nombres || persona?.datos?.nombres);
+              setValue('nombres', persona?.nombres || persona?.datos?.nombres);
               setValue(
-                "direccion",
-                persona?.direccion || persona?.datos?.direccion
+                'direccion',
+                persona?.direccion || persona?.datos?.direccion,
               );
-              setValue("email", persona?.email || persona?.datos?.email);
-              setValue("celular", persona?.celular || persona?.datos?.celular);
-              clearErrors("apellidos");
-              clearErrors("nombres");
-              clearErrors("direccion");
-              clearErrors("email");
-              clearErrors("celular");
+              setValue('email', persona?.email || persona?.datos?.email);
+              setValue('celular', persona?.celular || persona?.datos?.celular);
+              clearErrors('apellidos');
+              clearErrors('nombres');
+              clearErrors('direccion');
+              clearErrors('email');
+              clearErrors('celular');
               return `Persona encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
 
-      if (tipo === "empresa") {
+      if (tipo === 'empresa') {
         if (!identificador || identificador.length !== 11) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un RUC válido", {
-            description: "El RUC debe tener 11 dígitos",
+          toast.warning('Por favor, ingrese un RUC válido', {
+            description: 'El RUC debe tener 11 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (empresa) => {
               setValue(
-                "razonSocial",
-                empresa?.razonSocial || empresa?.datos?.razonSocial
+                'razonSocial',
+                empresa?.razonSocial || empresa?.datos?.razonSocial,
               );
               setValue(
-                "representanteLegal",
+                'representanteLegal',
                 empresa?.representanteLegal ||
-                  empresa?.datos?.representanteLegal
+                  empresa?.datos?.representanteLegal,
               );
               setValue(
-                "direccion",
-                empresa?.direccion || empresa?.datos?.direccion
+                'direccion',
+                empresa?.direccion || empresa?.datos?.direccion,
               );
-              setValue("email", empresa?.email || empresa?.datos?.email);
-              setValue("celular", empresa?.celular || empresa?.datos?.celular);
-              clearErrors("razonSocial");
-              clearErrors("representanteLegal");
-              clearErrors("direccion");
-              clearErrors("email");
-              clearErrors("celular");
+              setValue('email', empresa?.email || empresa?.datos?.email);
+              setValue('celular', empresa?.celular || empresa?.datos?.celular);
+              clearErrors('razonSocial');
+              clearErrors('representanteLegal');
+              clearErrors('direccion');
+              clearErrors('email');
+              clearErrors('celular');
               return `Empresa encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
     } catch (error) {
       setSearchByDniOrRucIsLoading(false);
-      toast.error("Error al buscar persona por DNI");
-      console.error("Error al buscar persona por DNI:", error);
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
     }
   };
 
   const cotizacionValue = useWatch({
     control,
-    name: "cotizacion",
+    name: 'cotizacion',
   });
 
   useEffect(() => {
-    if (cotizacionValue === "no") {
-      setValue("fechaValidez", undefined);
+    if (cotizacionValue === 'no') {
+      setValue('fechaValidez', undefined);
       setDate(undefined); // Si estás manejando la fecha localmente
     } else {
       setDate(new Date());
@@ -249,8 +249,8 @@ export function RegistrarPreventaForm() {
   }, [cotizacionValue, setValue]);
 
   useEffect(() => {
-    form.setValue("productos", productsPreventa);
-    form.clearErrors("productos");
+    form.setValue('productos', productsPreventa);
+    form.clearErrors('productos');
   }, [productsPreventa]);
 
   return (
@@ -271,22 +271,22 @@ export function RegistrarPreventaForm() {
                       <RadioGroup
                         onValueChange={(value) => {
                           field.onChange(value);
-                          setValue("identificador", "");
-                          clearErrors("identificador");
-                          clearErrors("apellidos");
-                          clearErrors("nombres");
-                          clearErrors("razonSocial");
-                          clearErrors("representanteLegal");
-                          clearErrors("direccion");
-                          clearErrors("email");
-                          clearErrors("celular");
-                          setValue("apellidos", "");
-                          setValue("nombres", "");
-                          setValue("razonSocial", "");
-                          setValue("representanteLegal", "");
-                          setValue("direccion", "");
-                          setValue("email", "");
-                          setValue("celular", "");
+                          setValue('identificador', '');
+                          clearErrors('identificador');
+                          clearErrors('apellidos');
+                          clearErrors('nombres');
+                          clearErrors('razonSocial');
+                          clearErrors('representanteLegal');
+                          clearErrors('direccion');
+                          clearErrors('email');
+                          clearErrors('celular');
+                          setValue('apellidos', '');
+                          setValue('nombres', '');
+                          setValue('razonSocial', '');
+                          setValue('representanteLegal', '');
+                          setValue('direccion', '');
+                          setValue('email', '');
+                          setValue('celular', '');
                         }}
                         defaultValue={field.value}
                         className="flex flex-row space-x-4"
@@ -317,7 +317,7 @@ export function RegistrarPreventaForm() {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>
-                      {watch("tipo") === "persona" ? "DNI" : "RUC"}
+                      {watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
                     </FormLabel>
                     <div className="relative">
                       <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -325,7 +325,7 @@ export function RegistrarPreventaForm() {
                         <Input
                           type="text"
                           placeholder={
-                            watch("tipo") === "persona" ? "DNI" : "RUC"
+                            watch('tipo') === 'persona' ? 'DNI' : 'RUC'
                           }
                           className="pl-8"
                           autoComplete="off"
@@ -341,10 +341,10 @@ export function RegistrarPreventaForm() {
                       <FormMessage />
                       <div
                         className={cn(
-                          "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
+                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
                           searchByDniOrRucIsLoading
-                            ? "opacity-75 pointer-events-none"
-                            : "cursor-pointer"
+                            ? 'opacity-75 pointer-events-none'
+                            : 'cursor-pointer',
                         )}
                         onClick={handleSearchByDniOrRuc}
                       >
@@ -369,7 +369,7 @@ export function RegistrarPreventaForm() {
                   </FormItem>
                 )}
               />
-              {watch("tipo") === "persona" ? (
+              {watch('tipo') === 'persona' ? (
                 <>
                   <FormField
                     control={control}
@@ -674,9 +674,9 @@ export function RegistrarPreventaForm() {
                       </div>
                       <FormControl>
                         <Switch
-                          checked={field.value === "si"}
+                          checked={field.value === 'si'}
                           onCheckedChange={(checked) =>
-                            field.onChange(checked ? "si" : "no")
+                            field.onChange(checked ? 'si' : 'no')
                           }
                           disabled={formSubmitIsLoading}
                         />
@@ -688,7 +688,7 @@ export function RegistrarPreventaForm() {
                   </FormItem>
                 )}
               />
-              {cotizacionValue === "si" && (
+              {cotizacionValue === 'si' && (
                 <FormField
                   control={control}
                   name="fechaValidez"
@@ -699,15 +699,15 @@ export function RegistrarPreventaForm() {
                         <Popover open={open} onOpenChange={setOpen}>
                           <PopoverTrigger asChild>
                             <Button
-                              variant={"outline"}
+                              variant={'outline'}
                               className={cn(
-                                "w-[280px] justify-start text-left font-normal",
-                                !date && "text-muted-foreground"
+                                'w-[280px] justify-start text-left font-normal',
+                                !date && 'text-muted-foreground',
                               )}
                             >
                               <CalendarIcon className="mr-2 h-4 w-4" />
                               {date ? (
-                                format(date, "PPP", { locale: es })
+                                format(date, 'PPP', { locale: es })
                               ) : (
                                 <span>Selecciona una fecha</span>
                               )}
@@ -756,7 +756,7 @@ export function RegistrarPreventaForm() {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                "Registrando..."
+                'Registrando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

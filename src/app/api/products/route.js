@@ -18,11 +18,11 @@ export async function GET(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Products Route: Error interno al obtener todos los productos: ${error.message}`
+      `Products Route: Error interno al obtener todos los productos: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno obteniendo todos los products' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -38,11 +38,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Products Route: Error interno al crear el producto: ${error.message}`
+      `Products Route: Error interno al crear el producto: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear el producto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

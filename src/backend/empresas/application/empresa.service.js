@@ -25,7 +25,7 @@ export class EmpresaService {
       };
     } catch (error) {
       console.error(
-        `Empresa Service: Error interno al buscar todas las empresas: ${error.message}`
+        `Empresa Service: Error interno al buscar todas las empresas: ${error.message}`,
       );
       return {
         status: 500,
@@ -35,7 +35,8 @@ export class EmpresaService {
   }
   async getEmpresaByData(empresaData) {
     try {
-      const empresaFound = await this.empresaRepository.getEmpresaByData(empresaData);
+      const empresaFound =
+        await this.empresaRepository.getEmpresaByData(empresaData);
 
       if (!empresaFound) {
         console.log('Empresa Service: La empresa no existe');
@@ -52,7 +53,7 @@ export class EmpresaService {
       };
     } catch (error) {
       console.error(
-        `Empresa Service: Error interno al buscar una empresa: ${error.message}`
+        `Empresa Service: Error interno al buscar una empresa: ${error.message}`,
       );
       return {
         status: 500,
@@ -61,7 +62,7 @@ export class EmpresaService {
     }
   }
 
-    async getFirstEmpresa() {
+  async getFirstEmpresa() {
     try {
       const empresaFound = await this.empresaRepository.getFirstEmpresa();
 
@@ -80,7 +81,7 @@ export class EmpresaService {
       };
     } catch (error) {
       console.error(
-        `Empresa Service: Error interno al buscar una empresa: ${error.message}`
+        `Empresa Service: Error interno al buscar una empresa: ${error.message}`,
       );
       return {
         status: 500,
@@ -91,12 +92,11 @@ export class EmpresaService {
 
   async createEmpresa(empresa) {
     try {
-
       const empresaValidated = createEmpresaSchema.safeParse(empresa);
 
       if (!empresaValidated.success) {
         console.log(
-          'Empresa Service: Error de validación de schema de empresa al crear'
+          'Empresa Service: Error de validación de schema de empresa al crear',
         );
         return {
           status: 400,
@@ -105,7 +105,8 @@ export class EmpresaService {
       }
 
       // Validar si la empresa
-      const empresaFound = await this.empresaRepository.getEmpresaByData(empresa);
+      const empresaFound =
+        await this.empresaRepository.getEmpresaByData(empresa);
       if (empresaFound) {
         console.log('Empresa Service: La empresa ya existe');
         return {
@@ -120,7 +121,8 @@ export class EmpresaService {
       };
 
       // Crear la empresa
-      const empresaCreated = await this.empresaRepository.createEmpresa(empresaObject);
+      const empresaCreated =
+        await this.empresaRepository.createEmpresa(empresaObject);
 
       const empresaCreatedObject = empresaCreated.toObject();
 
@@ -131,7 +133,7 @@ export class EmpresaService {
       };
     } catch (error) {
       console.error(
-        `Empresa Service: Error interno al crear una empresa: ${error.message}`
+        `Empresa Service: Error interno al crear una empresa: ${error.message}`,
       );
       return {
         status: 500,
@@ -146,7 +148,7 @@ export class EmpresaService {
 
       if (!empresaValidated.success) {
         console.log(
-          'Empresa Service: Error de validación de schema de empresa al actualizar'
+          'Empresa Service: Error de validación de schema de empresa al actualizar',
         );
         return {
           status: 400,
@@ -156,9 +158,12 @@ export class EmpresaService {
 
       // Validar si una empresa con el mismo RUC existe
       if (empresaData.ruc) {
-        const empresaFound = await this.empresaRepository.getEmpresaByData(empresaData);
+        const empresaFound =
+          await this.empresaRepository.getEmpresaByData(empresaData);
         if (empresaFound && empresaFound?._id !== empresaId) {
-          console.log('Empresa Service: Una empresa con el mismo ruc ya existe');
+          console.log(
+            'Empresa Service: Una empresa con el mismo ruc ya existe',
+          );
           return {
             status: 409,
             payload: 'Una empresa con el mismo ruc ya existe',
@@ -168,7 +173,7 @@ export class EmpresaService {
 
       const empresaUpdated = await this.empresaRepository.updateEmpresa(
         empresaId,
-        empresaData
+        empresaData,
       );
 
       if (!empresaUpdated) {
@@ -186,7 +191,7 @@ export class EmpresaService {
       };
     } catch (error) {
       console.error(
-        `Empresa Service: Error interno al actualizar una empresa: ${error.message}`
+        `Empresa Service: Error interno al actualizar una empresa: ${error.message}`,
       );
       return {
         status: 500,
@@ -196,7 +201,8 @@ export class EmpresaService {
   }
   async deleteEmpresa(empresaId) {
     try {
-      const empresaDeleted = await this.empresaRepository.deleteEmpresa(empresaId);
+      const empresaDeleted =
+        await this.empresaRepository.deleteEmpresa(empresaId);
 
       if (!empresaDeleted) {
         console.log('Empresa Service: La empresa no existe');
@@ -219,4 +225,3 @@ export class EmpresaService {
     }
   }
 }
-

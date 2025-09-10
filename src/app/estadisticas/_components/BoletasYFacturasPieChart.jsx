@@ -1,8 +1,8 @@
-"use client";
-import { TrendingUp } from "lucide-react";
-import { Pie, PieChart } from "recharts";
-import { useState, useMemo ,useEffect } from "react";
-import { useRouter } from "next/navigation";
+'use client';
+import { TrendingUp } from 'lucide-react';
+import { Pie, PieChart } from 'recharts';
+import { useState, useMemo, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Card,
   CardContent,
@@ -10,13 +10,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
+} from '@/components/ui/chart';
+import { MesAnioPicker } from '@/components/calendars/MesAnioPicker';
 export default function BoletasYFacturasPieChart({
   dataVentasHistoricas,
   dataOrdenesDeServicioHistoricas,
@@ -38,8 +38,8 @@ export default function BoletasYFacturasPieChart({
     dataVentasHistoricas?.ventasHistoricas?.forEach((venta) => {
       const fecha = new Date(venta.fecha);
       if (fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio) {
-        if (venta.comprobante === "Boleta impresa") boletas++;
-        if (venta.comprobante === "Factura impresa") facturas++;
+        if (venta.comprobante === 'Boleta impresa') boletas++;
+        if (venta.comprobante === 'Factura impresa') facturas++;
       }
     });
 
@@ -48,10 +48,10 @@ export default function BoletasYFacturasPieChart({
       (orden) => {
         const fecha = new Date(orden.fechaIngreso);
         if (fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio) {
-          if (orden.comprobante === "Boleta impresa") boletas++;
-          if (orden.comprobante === "Factura impresa") facturas++;
+          if (orden.comprobante === 'Boleta impresa') boletas++;
+          if (orden.comprobante === 'Factura impresa') facturas++;
         }
-      }
+      },
     );
 
     return { boletas, facturas };
@@ -60,22 +60,22 @@ export default function BoletasYFacturasPieChart({
   const total = boletas + facturas;
 
   function ComparacionBoletasFacturas({ boletas, facturas }) {
-    let mensaje = "";
+    let mensaje = '';
 
     if (boletas === 0 && facturas === 0) {
-      mensaje = "No hay datos suficientes.";
+      mensaje = 'No hay datos suficientes.';
     } else if (boletas === 0 || facturas === 0) {
-      const tipo = boletas > 0 ? "boletas" : "facturas";
+      const tipo = boletas > 0 ? 'boletas' : 'facturas';
       mensaje = `Solo se han emitido ${tipo} este mes.`;
     } else {
-      const mayor = boletas > facturas ? "boletas" : "facturas";
-      const menor = boletas > facturas ? "facturas" : "boletas";
+      const mayor = boletas > facturas ? 'boletas' : 'facturas';
+      const menor = boletas > facturas ? 'facturas' : 'boletas';
       const diferencia =
         ((Math.max(boletas, facturas) - Math.min(boletas, facturas)) /
           Math.min(boletas, facturas)) *
         100;
       mensaje = `Se han emitido un ${diferencia.toFixed(
-        1
+        1,
       )}% más de ${mayor} que ${menor} este mes.`;
     }
     return mensaje;
@@ -85,25 +85,25 @@ export default function BoletasYFacturasPieChart({
 
   const chartData = [
     {
-      tipoComprobante: "Boletas",
+      tipoComprobante: 'Boletas',
       cantidad: boletas,
-      fill: "hsl(var(--chart-5))",
+      fill: 'hsl(var(--chart-5))',
     },
     {
-      tipoComprobante: "Facturas",
+      tipoComprobante: 'Facturas',
       cantidad: facturas,
-      fill: "hsl(var(--chart-1))",
+      fill: 'hsl(var(--chart-1))',
     },
   ];
 
   const chartConfig = {
     boletas: {
-      label: "Boletas",
-      color: "hsl(var(--chart-5))",
+      label: 'Boletas',
+      color: 'hsl(var(--chart-5))',
     },
     facturas: {
-      label: "Facturas",
-      color: "hsl(var(--chart-1))",
+      label: 'Facturas',
+      color: 'hsl(var(--chart-1))',
     },
   };
 

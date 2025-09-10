@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   Document,
   Text,
@@ -8,9 +8,9 @@ import {
   Image,
   Svg,
   Path,
-} from "@react-pdf/renderer";
-import { stylesConfirmacionReservacion } from "@/app/inventario/motos/reservaciones/[id]/_components/pdf/stylesConfirmacionReservacion.js";
-import { formatDateLong} from "@/lib/formateador";
+} from '@react-pdf/renderer';
+import { stylesConfirmacionReservacion } from '@/app/inventario/motos/reservaciones/[id]/_components/pdf/stylesConfirmacionReservacion.js';
+import { formatDateLong } from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesConfirmacionReservacion);
 
@@ -56,11 +56,7 @@ export function PdfConfirmacionReservacion({ reservacionData }) {
     <Document>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Image
-            src={"/logoB.jpeg"}
-            alt={"logo"}
-            style={styles.image}
-          />
+          <Image src={'/logoB.jpeg'} alt={'logo'} style={styles.image} />
           <Text style={styles.headerMotorock}>Moto Rock Ruta 33 E.I.R.L</Text>
           <View style={styles.headerInfo}>
             <View style={styles.headerInfoText}>
@@ -102,28 +98,28 @@ export function PdfConfirmacionReservacion({ reservacionData }) {
         <View style={styles.datosCliente}>
           <Text style={styles.datosClienteTitle}>Reservado por</Text>
           <Text style={styles.datosClienteName}>
-            {reservacionData?.cliente?.tipo === "empresa"
+            {reservacionData?.cliente?.tipo === 'empresa'
               ? reservacionData?.cliente?.datos?.nombre
               : `${reservacionData?.cliente?.datos?.apellidos} ${reservacionData?.cliente?.datos?.nombres}`}
           </Text>
           <View style={styles.datosClienteInfo}>
             <Text style={styles.datosClienteInfoTitle}>
-              {reservacionData?.cliente?.tipo === "empresa" ? `RUC: ` : `DNI: `}
+              {reservacionData?.cliente?.tipo === 'empresa' ? `RUC: ` : `DNI: `}
             </Text>
             <Text>
-              {reservacionData?.cliente?.tipo === "empresa"
+              {reservacionData?.cliente?.tipo === 'empresa'
                 ? `${reservacionData?.cliente?.datos?.ruc}`
                 : `${reservacionData?.cliente?.datos?.dni}`}
             </Text>
           </View>
           <View style={styles.datosClienteInfo}>
-            <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
+            <Text style={styles.datosClienteInfoTitle}>{'Email: '}</Text>
             <Text>{reservacionData?.cliente?.datos?.email}</Text>
           </View>
           <View style={styles.datosClienteInfo}>
-            <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
+            <Text style={styles.datosClienteInfoTitle}>{'Celular: '}</Text>
             <Text>
-              {reservacionData?.cliente?.tipo === "empresa"
+              {reservacionData?.cliente?.tipo === 'empresa'
                 ? reservacionData?.cliente?.datos?.celular
                 : reservacionData?.cliente?.datos?.celular}
             </Text>
@@ -172,7 +168,7 @@ export function PdfConfirmacionReservacion({ reservacionData }) {
         <View style={styles.AdditionalInfo}>
           <Text style={styles.AdditionalInfoTitle}>Información adicional</Text>
           <Text>
-            La entrega de este pedido deberá realizarse a más tardar el{" "}
+            La entrega de este pedido deberá realizarse a más tardar el{' '}
             {formatDateLong(reservacionData?.fechaLimite, false)}. Ante
             cualquier consulta, no dude en contactarnos.
           </Text>

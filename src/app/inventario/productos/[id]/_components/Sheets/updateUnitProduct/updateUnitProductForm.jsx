@@ -76,7 +76,7 @@ export function UpdateUnitProductForm({
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(unitProductDataToUpdate).length === 0) {
@@ -90,7 +90,7 @@ export function UpdateUnitProductForm({
       updateUnitProductRequestClient(
         unitProductData?._id,
         unitProductDataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -105,7 +105,7 @@ export function UpdateUnitProductForm({
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -135,7 +135,9 @@ export function UpdateUnitProductForm({
               name="estado"
               render={({ field }) => (
                 <FormItem className="space-y-2 grid grid-cols-3">
-                  <FormLabel className="col-span-1 flex items-center">Estado</FormLabel>
+                  <FormLabel className="col-span-1 flex items-center">
+                    Estado
+                  </FormLabel>
                   <div className="relative w-full col-span-2">
                     <Select
                       defaultValue={unitProductData?.estado}
@@ -153,7 +155,9 @@ export function UpdateUnitProductForm({
                         <SelectItem value="taller">Taller</SelectItem>
                         <SelectItem value="dañado">Dañado</SelectItem>
                         <SelectItem value="reparado">Reparado</SelectItem>
-                        <SelectItem value="desaparecido">Desaparecido</SelectItem>
+                        <SelectItem value="desaparecido">
+                          Desaparecido
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

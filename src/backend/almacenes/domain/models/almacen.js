@@ -26,7 +26,7 @@ const almacenSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Almacen = models?.Almacen || model('Almacen', almacenSchema);

@@ -27,15 +27,15 @@ export function ImprimirBoletaButton({
   const router = useRouter();
 
   const selectedEmpresaSinFormatear = empresas.find(
-    (empresa) => empresa.ruc === ventaData?.empresa?.ruc
+    (empresa) => empresa.ruc === ventaData?.empresa?.ruc,
   );
 
   const [selectedEmpresaId, setSelectedEmpresaId] = useState(
-    selectedEmpresaSinFormatear?._id || empresas[0]?._id || ''
+    selectedEmpresaSinFormatear?._id || empresas[0]?._id || '',
   );
 
   // Siempre obtener el objeto empresa seleccionado a partir del id
-  const empresaSeleccionada = empresas.find(e => e._id === selectedEmpresaId);
+  const empresaSeleccionada = empresas.find((e) => e._id === selectedEmpresaId);
 
   const handleDownloadPDF = async () => {
     setLoading(true);
@@ -67,14 +67,14 @@ export function ImprimirBoletaButton({
         await updateBoletaStateRequestClient(
           ventaData?._id,
           counterBoleta,
-          selectedEmpresaFormateada
+          selectedEmpresaFormateada,
         );
       }
 
       /* Formatear los datos para mostrar en el comprobante */
       const codigoBoleta = formatearCodigoCounterBoletaFactura(
         counterBoleta,
-        'boleta'
+        'boleta',
       );
 
       const empresaParaPDF = isBoletaEmitida
@@ -83,19 +83,19 @@ export function ImprimirBoletaButton({
 
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         counterBoleta,
-        'boleta'
+        'boleta',
       );
 
       const montoTotal = ventaData?.productos.reduce(
         (acc, producto) => acc + producto?.precioVenta * producto?.cantidad,
-        0
+        0,
       );
 
       const montoIgv = (0.18 * montoTotal).toFixed(2);
 
-      const fechaFormateada = new Date(ventaData?.fecha)
-        .toISOString()
-        .slice(0, 10);
+      const fecha = isBoletaEmitida ? new Date(ventaData?.fecha) : new Date();
+
+      const fechaFormateada = new Date(fecha).toISOString().slice(0, 10);
 
       const clienteDni = ventaData?.clienteId?.datos?.dni || '';
 
@@ -111,6 +111,7 @@ export function ImprimirBoletaButton({
           counterBoleta={counterBoleta}
           selectedEmpresa={empresaParaPDF}
           qrBase64={qrBase64}
+          fecha={fecha}
         />
       );
       const blob = await pdf(doc).toBlob();

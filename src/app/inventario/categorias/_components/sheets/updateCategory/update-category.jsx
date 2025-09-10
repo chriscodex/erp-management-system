@@ -73,7 +73,7 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(categoryDataToUpdate).length === 0) {
@@ -87,7 +87,7 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
       updateCategoryRequestClient(
         categoryData?._id,
         categoryDataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -102,7 +102,7 @@ export function UpdateCategoryForm({ segments, onClose, categoryData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 

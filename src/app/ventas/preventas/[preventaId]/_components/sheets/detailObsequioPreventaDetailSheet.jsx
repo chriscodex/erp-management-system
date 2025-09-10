@@ -3,7 +3,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 import {
   Sheet,
   SheetContent,
@@ -11,9 +11,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { RiFileListLine } from "@remixicon/react";
-import { BadgeUnitProduct } from "@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct";
+} from '@/components/ui/sheet';
+import { RiFileListLine } from '@remixicon/react';
+import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 
 export function DetailObsequioPreventaDetailSheet({ obsequioPreventa }) {
   return (
@@ -29,8 +29,12 @@ export function DetailObsequioPreventaDetailSheet({ obsequioPreventa }) {
                   </SheetTrigger>
                   <SheetContent>
                     <SheetHeader>
-                      <SheetTitle>Obsequio {obsequioPreventa?.nombre}</SheetTitle>
-                      <SheetDescription>{obsequioPreventa?.code}</SheetDescription>
+                      <SheetTitle>
+                        Obsequio {obsequioPreventa?.nombre}
+                      </SheetTitle>
+                      <SheetDescription>
+                        {obsequioPreventa?.code}
+                      </SheetDescription>
                     </SheetHeader>
                     <div className="grid gap-4 py-4">
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -68,7 +72,7 @@ export function DetailObsequioPreventaDetailSheet({ obsequioPreventa }) {
                           Importado
                         </label>
                         <p className="col-span-2">
-                          {obsequioPreventa?.importado === "si" ? "Si" : "No"}
+                          {obsequioPreventa?.importado === 'si' ? 'Si' : 'No'}
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -84,22 +88,22 @@ export function DetailObsequioPreventaDetailSheet({ obsequioPreventa }) {
                           Estado
                         </label>
                         <div className="col-span-2">
-                          {obsequioPreventa?.estado === "disponible" && (
+                          {obsequioPreventa?.estado === 'disponible' && (
                             <BadgeUnitProduct variant="successTable">
                               Disponible
                             </BadgeUnitProduct>
                           )}
-                          {obsequioPreventa?.estado === "reparado" && (
+                          {obsequioPreventa?.estado === 'reparado' && (
                             <BadgeUnitProduct variant="blueTable">
                               Reparado
                             </BadgeUnitProduct>
                           )}
-                          {obsequioPreventa?.estado === "desaparecido" && (
+                          {obsequioPreventa?.estado === 'desaparecido' && (
                             <BadgeUnitProduct variant="orangeTable">
                               Desaparecido
                             </BadgeUnitProduct>
                           )}
-                          {obsequioPreventa?.estado === "dañado" && (
+                          {obsequioPreventa?.estado === 'dañado' && (
                             <BadgeUnitProduct variant="redTable">
                               Dañado
                             </BadgeUnitProduct>

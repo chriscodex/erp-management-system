@@ -3,7 +3,7 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 import {
   Sheet,
   SheetContent,
@@ -11,9 +11,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { RiFileListLine } from "@remixicon/react";
-import { formatDateShort } from "@/lib/formateador";
+} from '@/components/ui/sheet';
+import { RiFileListLine } from '@remixicon/react';
+import { formatDateShort } from '@/lib/formateador';
 
 export function DetailServicioOrdenDeServicioDetailSheet({
   servicioOrdenDeServicio,
@@ -55,7 +55,7 @@ export function DetailServicioOrdenDeServicioDetailSheet({
                           <p className="col-span-2">
                             {formatDateShort(
                               servicioOrdenDeServicio?.fecha,
-                              false
+                              false,
                             )}
                           </p>
                         </div>

@@ -1,6 +1,5 @@
 import { Schema, model, models } from 'mongoose';
 
-
 const modeloPedidoSchema = new Schema(
   {
     code: {
@@ -11,7 +10,10 @@ const modeloPedidoSchema = new Schema(
     nombre: {
       type: String,
       unique: true,
-      required: [true, 'El nombre es requerido en el schema de modelo de pedidos'],
+      required: [
+        true,
+        'El nombre es requerido en el schema de modelo de pedidos',
+      ],
     },
     descripcion: {
       type: String,
@@ -43,8 +45,8 @@ const modeloPedidoSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-
-export const ModeloPedido = models?.ModeloPedido || model('ModeloPedido', modeloPedidoSchema);
+export const ModeloPedido =
+  models?.ModeloPedido || model('ModeloPedido', modeloPedidoSchema);

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { toast } from "sonner";
-import { RiMotorbikeFill } from "@remixicon/react";
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
+import { RiMotorbikeFill } from '@remixicon/react';
 
 import {
   Form,
@@ -14,41 +14,41 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Switch } from "@/components/ui/switch";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/form';
+import { Switch } from '@/components/ui/switch';
+import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import { StringInputField } from "@/components/formInputs/StringInputField";
-import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
-import { createUnidadMotoSchema } from "@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/validations/createUnidadMotoSchema";
-import { createUnidadMotoRequestClient } from "@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests";
-import { estadosMotos } from "@/app/inventario/motos/_services/helpers";
-import { shortDelay } from "@/lib/utils";
-import { SheetAddCaracteristicasMotoWrapper } from "@/app/inventario/motos/modelos/[modeloId]/_components/sheets/addCaracteristicasMoto/sheetAddCaracteristicasMoto";
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { StringInputField } from '@/components/formInputs/StringInputField';
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
+import { createUnidadMotoSchema } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/validations/createUnidadMotoSchema';
+import { createUnidadMotoRequestClient } from '@/app/inventario/motos/modelos/[modeloId]/nuevo/_services/requests';
+import { estadosMotos } from '@/app/inventario/motos/_services/helpers';
+import { shortDelay } from '@/lib/utils';
+import { SheetAddCaracteristicasMotoWrapper } from '@/app/inventario/motos/modelos/[modeloId]/_components/sheets/addCaracteristicasMoto/sheetAddCaracteristicasMoto';
 
 export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
   const router = useRouter();
   const addUnidadMotoForm = useForm({
     resolver: zodResolver(createUnidadMotoSchema),
     defaultValues: {
-      nombre: "",
-      descripcion: "",
-      precioCompra: "",
-      precioVenta: "",
-      proveedorId: "",
+      nombre: '',
+      descripcion: '',
+      precioCompra: '',
+      precioVenta: '',
+      proveedorId: '',
       almacenId: almacenes[0]?._id,
       modeloId,
-      importado: "no",
+      importado: 'no',
       estadoTitle: estadosMotos[0]?.id,
-      observacionesEstado: "",
+      observacionesEstado: '',
     },
   });
 
@@ -71,12 +71,12 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
       ...data,
       caracteristicas,
     };
-    
+
     // Toast promise para crear
     toast.promise(
       createUnidadMotoRequestClient(motoData, setFormSubmitIsLoading),
       {
-        loading: "Creando...",
+        loading: 'Creando...',
         success: () => {
           clearErrors();
           router.push(`/inventario/motos/modelos/${modeloId}`);
@@ -86,7 +86,7 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -131,7 +131,7 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
                 (() => {
                   const count = Object.values(caracteristicas).filter(
                     (valor) =>
-                      valor !== "" && valor !== null && valor !== undefined
+                      valor !== '' && valor !== null && valor !== undefined,
                   ).length;
                   return count > 0 ? (
                     <span className="text-green-600 text-sm">
@@ -235,9 +235,9 @@ export function FormAddUnidadMoto({ proveedores, almacenes, modeloId }) {
                     </div>
                     <FormControl>
                       <Switch
-                        checked={field.value === "si"}
+                        checked={field.value === 'si'}
                         onCheckedChange={(checked) =>
-                          field.onChange(checked ? "si" : "no")
+                          field.onChange(checked ? 'si' : 'no')
                         }
                         disabled={formSubmitIsLoading}
                       />

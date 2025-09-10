@@ -1,12 +1,11 @@
-"use client";
+'use client';
 import { useState } from 'react';
 import { pdf } from '@react-pdf/renderer';
 import { RiPrinterLine } from '@remixicon/react';
 import { useRouter } from 'next/navigation';
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import { PdfCotizacion } from '@/app/ventas/preventas/[preventaId]/_components/pdf/pdfCotizacion';
-export function ImprimirCotizacionButton({ preventaData, empresa}) {
-
+export function ImprimirCotizacionButton({ preventaData, empresa }) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(false);
@@ -15,15 +14,12 @@ export function ImprimirCotizacionButton({ preventaData, empresa}) {
     setLoading(true);
     try {
       const doc = (
-        <PdfCotizacion
-          preventaData={preventaData} 
-          empresa={empresa}
-        />
+        <PdfCotizacion preventaData={preventaData} empresa={empresa} />
       );
       const blob = await pdf(doc).toBlob();
 
       // Crear un enlace temporal y forzar la descarga
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = `cotizacion-${preventaData?.code}.pdf`;
       document.body.appendChild(link);
@@ -31,7 +27,7 @@ export function ImprimirCotizacionButton({ preventaData, empresa}) {
       document.body.removeChild(link);
       router.refresh();
     } catch (error) {
-      console.error("Error al generar el PDF:", error);
+      console.error('Error al generar el PDF:', error);
     }
     setLoading(false);
   };
@@ -43,7 +39,7 @@ export function ImprimirCotizacionButton({ preventaData, empresa}) {
         onClick={handleDownloadPDF}
         disabled={loading}
       >
-        <RiPrinterLine/>
+        <RiPrinterLine />
         Imprimir Cotización
       </Button>
     </>

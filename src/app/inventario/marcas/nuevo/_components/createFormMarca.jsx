@@ -40,7 +40,7 @@ export function CreateFormMarca({ segments }) {
     },
   });
 
-  const { handleSubmit, control, clearErrors, setError } = form;
+  const { handleSubmit, control, clearErrors } = form;
 
   // Estados de carga
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
@@ -50,7 +50,7 @@ export function CreateFormMarca({ segments }) {
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(createMarcaRequestClient(data, setFormSubmitIsLoading, setError), {
+    toast.promise(createMarcaRequestClient(data, setFormSubmitIsLoading), {
       loading: 'Creando...',
       success: () => {
         clearErrors();

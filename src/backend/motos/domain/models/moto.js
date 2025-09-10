@@ -1,17 +1,17 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models } from 'mongoose';
 
 const motoSchema = new Schema(
   {
     estado: {
       titulo: {
         type: String,
-        required: [true, "El estado es requerido en el schema de motos"],
-        enum: ["disponible", "dañado", "reparado", "desarmado", "prevendido"],
+        required: [true, 'El estado es requerido en el schema de motos'],
+        enum: ['disponible', 'dañado', 'reparado', 'desarmado', 'prevendido'],
       },
       observaciones: {
         type: String,
         required: false,
-        maxlength: [500, "La observación no puede tener más de 500 caracteres"],
+        maxlength: [500, 'La observación no puede tener más de 500 caracteres'],
       },
     },
     code: {
@@ -69,15 +69,15 @@ const motoSchema = new Schema(
       {
         descripcion: {
           type: String,
-          required: [true, "La descripción es requerida en el schema de motos"],
+          required: [true, 'La descripción es requerida en el schema de motos'],
         },
         monto: {
           type: Number,
-          required: [true, "El monto es requerido en el schema de motos"],
+          required: [true, 'El monto es requerido en el schema de motos'],
         },
         fecha: {
           type: Date,
-          required: [true, "La fecha es requerida en el schema de motos"],
+          required: [true, 'La fecha es requerida en el schema de motos'],
         },
       },
     ],
@@ -85,46 +85,46 @@ const motoSchema = new Schema(
       type: Number,
       required: [
         true,
-        "El precio de compra es requerido en el schema de motos",
+        'El precio de compra es requerido en el schema de motos',
       ],
-      min: [0, "El precio de compra no puede ser negativo"],
+      min: [0, 'El precio de compra no puede ser negativo'],
     },
     precioVenta: {
       type: Number,
-      required: [true, "El precio de venta es requerido en el schema de motos"],
-      min: [0, "El precio de venta no puede ser negativo"],
+      required: [true, 'El precio de venta es requerido en el schema de motos'],
+      min: [0, 'El precio de venta no puede ser negativo'],
     },
     importado: {
       type: String,
       required: [
         true,
-        "Indicar si es importado es requerido en el schema de motos",
+        'Indicar si es importado es requerido en el schema de motos',
       ],
-      enum: ["si", "no"],
+      enum: ['si', 'no'],
     },
     modeloId: {
       type: Schema.Types.ObjectId,
-      ref: "Modelo",
-      required: [true, "modeloId es requerido en el schema de motos"],
+      ref: 'Modelo',
+      required: [true, 'modeloId es requerido en el schema de motos'],
     },
     proveedorId: {
       type: Schema.Types.ObjectId,
-      ref: "Proveedor",
-      required: [true, "proveedorId es requerido en el schema de motos"],
+      ref: 'Proveedor',
+      required: [true, 'proveedorId es requerido en el schema de motos'],
     },
     almacenId: {
       type: Schema.Types.ObjectId,
-      ref: "Almacen",
-      required: [true, "almacenId es requerido en el schema de motos"],
+      ref: 'Almacen',
+      required: [true, 'almacenId es requerido en el schema de motos'],
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Index para mejorar búsquedas por nombre y modelo
 // motoSchema.index({ code: 1 });
 // motoSchema.index({ nombre: 1 });
 
-export const Moto = models?.Moto || model("Moto", motoSchema);
+export const Moto = models?.Moto || model('Moto', motoSchema);

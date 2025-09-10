@@ -32,7 +32,7 @@ async function fetchDataFromExternalApi(endpoint, id, referer) {
     if (error.response) {
       console.log(
         'Error en la petición a la API externa APIS.NET.PE:',
-        error.response.data
+        error.response.data,
       );
       return {
         payload: error.response.data.message,
@@ -59,7 +59,7 @@ export const getDataByDniFromExternalApi = async (dni) =>
   fetchDataFromExternalApi(
     '/reniec/dni',
     dni,
-    'https://apis.net.pe/consulta-dni-api'
+    'https://apis.net.pe/consulta-dni-api',
   );
 
 export const getDataByRucFromExternalApi = async (ruc) =>

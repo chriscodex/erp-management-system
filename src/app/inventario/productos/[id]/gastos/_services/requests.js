@@ -7,9 +7,8 @@ import {
 import { delay } from '@/lib/utils';
 
 export async function addGastoRequestClient(productId, gastoData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -39,9 +38,8 @@ export async function addGastoRequestClient(productId, gastoData, setLoading) {
 }
 
 export async function deleteGastoRequestClient(gastoId, productId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       console.log(gastoId, productId);
       // Simular tiempo de retraso
@@ -53,7 +51,7 @@ export async function deleteGastoRequestClient(gastoId, productId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar el gasto: ' + response.response?.data?.error
+          'No se pudo eliminar el gasto: ' + response.response?.data?.error,
         );
         return;
       }
@@ -69,11 +67,10 @@ export async function updateGastoRequestClient(
   gastoId,
   productId,
   productData,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -86,7 +83,7 @@ export async function updateGastoRequestClient(
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar el gasto: ' + response.response?.data?.error
+          'No se pudo actualizar el gasto: ' + response.response?.data?.error,
         );
         return;
       }

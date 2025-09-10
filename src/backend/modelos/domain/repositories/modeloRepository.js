@@ -23,17 +23,16 @@ export class ModeloRepository {
       return modelos;
     } catch (error) {
       console.error(
-        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`
+        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`,
       );
       throw new Error(
-        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`
+        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`,
       );
     }
   }
   async getAllModelosUnpopulated() {
     try {
-      const modelos = await this.modeloModel
-        .find()
+      const modelos = await this.modeloModel.find();
 
       if (modelos?.length === 0) {
         console.log('Modelo Repository: No se encontraron modelos');
@@ -44,10 +43,10 @@ export class ModeloRepository {
       return modelos;
     } catch (error) {
       console.error(
-        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`
+        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`,
       );
       throw new Error(
-        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`
+        `Modelo Repository: Error al buscar todos los modelos: ${error.message}`,
       );
     }
   }
@@ -95,7 +94,7 @@ export class ModeloRepository {
       return modeloFound;
     } catch (error) {
       console.error(
-        `Modelo Repository: Error al buscar el modelo: ${error.message}`
+        `Modelo Repository: Error al buscar el modelo: ${error.message}`,
       );
       throw new Error(`Error al buscar el modelo: ${error.message}`);
     }
@@ -116,7 +115,7 @@ export class ModeloRepository {
       return populatedModelo;
     } catch (error) {
       console.log(
-        `Modelo Repository: Error al crear el modelo: ${error.message}`
+        `Modelo Repository: Error al crear el modelo: ${error.message}`,
       );
       throw new Error(`Error al crear el modelo: ${error.message}`);
     }
@@ -128,12 +127,12 @@ export class ModeloRepository {
         modeloData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedModelo) {
         console.log(
-          'Modelo Repository: Modelo no encontrado para ser actualizado'
+          'Modelo Repository: Modelo no encontrado para ser actualizado',
         );
         return null;
       }
@@ -142,7 +141,7 @@ export class ModeloRepository {
       return updatedModelo;
     } catch (error) {
       console.error(
-        `Modelo Repository: Error al actualizar el modelo: ${error.message}`
+        `Modelo Repository: Error al actualizar el modelo: ${error.message}`,
       );
       throw new Error(`Error al actualizar el modelo: ${error.message}`);
     }
@@ -155,7 +154,7 @@ export class ModeloRepository {
 
       if (!modeloDeleted) {
         console.log(
-          'Modelo Repository: Modelo no encontrado para ser eliminado'
+          'Modelo Repository: Modelo no encontrado para ser eliminado',
         );
         return null;
       }
@@ -164,7 +163,7 @@ export class ModeloRepository {
       return modeloDeleted;
     } catch (error) {
       console.error(
-        `Modelo Repository: Error al eliminar el modelo: ${error.message}`
+        `Modelo Repository: Error al eliminar el modelo: ${error.message}`,
       );
       throw new Error(`Error al eliminar el modelo: ${error.message}`);
     }

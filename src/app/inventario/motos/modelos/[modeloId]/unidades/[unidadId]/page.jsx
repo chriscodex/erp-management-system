@@ -1,7 +1,7 @@
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   BikeIcon,
   Package,
@@ -10,7 +10,7 @@ import {
   FileText,
   Receipt,
   AlertCircle,
-} from "lucide-react";
+} from 'lucide-react';
 import {
   RiArrowUpDownLine,
   RiDashboard2Line,
@@ -21,14 +21,14 @@ import {
   RiRuler2Fill,
   RiSpeedLine,
   RiStopMiniFill,
-} from "@remixicon/react";
-import Link from "next/link";
-import { getMotoByIdRequestServer } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { notFound } from "next/navigation";
-import { DetailButtons } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_components/detailButtons";
-import { RiExternalLinkLine, RiMotorbikeLine } from "@remixicon/react";
+} from '@remixicon/react';
+import Link from 'next/link';
+import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { notFound } from 'next/navigation';
+import { DetailButtons } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_components/detailButtons';
+import { RiExternalLinkLine, RiMotorbikeLine } from '@remixicon/react';
 
 export default async function MotoDetailPage({ params }) {
   // eslint-disable-next-line no-undef
@@ -61,18 +61,18 @@ export default async function MotoDetailPage({ params }) {
 
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Motos",
-      href: "",
+      title: 'Motos',
+      href: '',
       active: false,
     },
     {
-      title: "Modelos",
-      href: "/inventario/motos/modelos",
+      title: 'Modelos',
+      href: '/inventario/motos/modelos',
       active: true,
     },
     {
@@ -82,7 +82,7 @@ export default async function MotoDetailPage({ params }) {
     },
     {
       title: `Moto ${nombre}`,
-      href: "",
+      href: '',
       active: false,
     },
   ];
@@ -154,7 +154,7 @@ export default async function MotoDetailPage({ params }) {
                     {moto.caracteristicas.motor?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiDashboard2Line className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Motor:</p>{" "}
+                        <p className="text-muted-foreground">Motor:</p>{' '}
                         {moto.caracteristicas.motor}
                       </div>
                     )}
@@ -163,21 +163,21 @@ export default async function MotoDetailPage({ params }) {
                         <RiSpeedLine className="text-muted-foreground" />
                         <p className="text-muted-foreground">
                           Cilindrada:
-                        </p>{" "}
+                        </p>{' '}
                         {moto.caracteristicas.cilindrada}
                       </div>
                     )}
                     {moto.caracteristicas.potencia?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiFlashlightFill className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Potencia:</p>{" "}
+                        <p className="text-muted-foreground">Potencia:</p>{' '}
                         {moto.caracteristicas.potencia}
                       </div>
                     )}
                     {moto.caracteristicas.frenos?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiStopMiniFill className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Frenos:</p>{" "}
+                        <p className="text-muted-foreground">Frenos:</p>{' '}
                         {moto.caracteristicas.frenos}
                       </div>
                     )}
@@ -186,7 +186,7 @@ export default async function MotoDetailPage({ params }) {
                         <RiRepeatLine className="text-muted-foreground" />
                         <p className="text-muted-foreground">
                           Transmisión:
-                        </p>{" "}
+                        </p>{' '}
                         {moto.caracteristicas.transmision}
                       </div>
                     )}
@@ -195,7 +195,7 @@ export default async function MotoDetailPage({ params }) {
                         <RiRuler2Fill className="text-muted-foreground" />
                         <p className="text-muted-foreground">
                           Dimensiones:
-                        </p>{" "}
+                        </p>{' '}
                         {moto.caracteristicas.dimensiones}
                       </div>
                     )}
@@ -204,7 +204,7 @@ export default async function MotoDetailPage({ params }) {
                         <RiOilLine className="text-muted-foreground" />
                         <p className="text-muted-foreground">
                           Capacidad de combustible:
-                        </p>{" "}
+                        </p>{' '}
                         {moto.caracteristicas.capacidadCombustible}
                       </div>
                     )}
@@ -213,14 +213,14 @@ export default async function MotoDetailPage({ params }) {
                         <RiArrowUpDownLine className="text-muted-foreground" />
                         <p className="text-muted-foreground">
                           Suspensión:
-                        </p>{" "}
+                        </p>{' '}
                         {moto.caracteristicas.suspension}
                       </div>
                     )}
                     {moto.caracteristicas.colores?.trim() && (
                       <div className="flex items-center gap-2">
                         <RiPaletteLine className="text-muted-foreground" />
-                        <p className="text-muted-foreground">Colores:</p>{" "}
+                        <p className="text-muted-foreground">Colores:</p>{' '}
                         {moto.caracteristicas.colores}
                       </div>
                     )}
@@ -247,7 +247,7 @@ export default async function MotoDetailPage({ params }) {
                       Importado:
                     </span>
                     <Badge variant="default">
-                      {moto?.importado === "si" ? "Sí" : "No"}
+                      {moto?.importado === 'si' ? 'Sí' : 'No'}
                     </Badge>
                   </div>
                   <div className="flex justify-between">
@@ -276,17 +276,17 @@ export default async function MotoDetailPage({ params }) {
                       Estado Actual
                     </p>
                     <p className="text-xl font-bold">
-                      {moto?.estado?.titulo === "disponible"
-                        ? "Disponible"
-                        : moto?.estado?.titulo === "dañado"
-                        ? "Dañado"
-                        : moto?.estado?.titulo === "reparado"
-                        ? "Reparado"
-                        : moto?.estado?.titulo === "desarmado"
-                        ? "Desarmado"
-                        : moto?.estado?.titulo === "prevendido"
-                        ? "Prevendido"
-                        : moto?.estado?.titulo}
+                      {moto?.estado?.titulo === 'disponible'
+                        ? 'Disponible'
+                        : moto?.estado?.titulo === 'dañado'
+                          ? 'Dañado'
+                          : moto?.estado?.titulo === 'reparado'
+                            ? 'Reparado'
+                            : moto?.estado?.titulo === 'desarmado'
+                              ? 'Desarmado'
+                              : moto?.estado?.titulo === 'prevendido'
+                                ? 'Prevendido'
+                                : moto?.estado?.titulo}
                     </p>
                   </div>
                   <div>
@@ -298,7 +298,7 @@ export default async function MotoDetailPage({ params }) {
                 </div>
               </CardContent>
             </Card>
-            {session?.user?.rol === "Administrador" && (
+            {session?.user?.rol === 'Administrador' && (
               <Card>
                 <CardHeader>
                   <CardTitle className="flex items-center">
@@ -342,9 +342,9 @@ export default async function MotoDetailPage({ params }) {
             )}
             <Card
               className={
-                session?.user?.rol === "Administrador"
-                  ? "md:col-span-2"
-                  : "md:col-span-3"
+                session?.user?.rol === 'Administrador'
+                  ? 'md:col-span-2'
+                  : 'md:col-span-3'
               }
             >
               <CardHeader>
@@ -376,8 +376,8 @@ export default async function MotoDetailPage({ params }) {
                     <p
                       className={`text-2xl font-bold ${
                         margenValue.toFixed(2) >= 0
-                          ? "text-green-600"
-                          : "text-red-600"
+                          ? 'text-green-600'
+                          : 'text-red-600'
                       }`}
                     >
                       {margenValue >= 0

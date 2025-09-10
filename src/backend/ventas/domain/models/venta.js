@@ -12,8 +12,8 @@ const ventaSchema = new Schema(
     },
     clienteId: {
       type: Schema.Types.ObjectId,
-      ref: "Cliente",
-      required: [true, "El cliente es requerido en el schema de preventas."],
+      ref: 'Cliente',
+      required: [true, 'El cliente es requerido en el schema de preventas.'],
     },
     clienteRuc: {
       type: String,
@@ -22,7 +22,7 @@ const ventaSchema = new Schema(
     usuario: {
       id: {
         type: Schema.Types.ObjectId,
-        ref: "User",
+        ref: 'User',
         required: [true, 'El id es requerido en el schema de ventas'],
       },
       dni: {
@@ -44,7 +44,7 @@ const ventaSchema = new Schema(
     },
     sucursalId: {
       type: Schema.Types.ObjectId,
-      ref: "Sucursal",
+      ref: 'Sucursal',
       required: [false],
     },
     comentarios: {
@@ -78,16 +78,25 @@ const ventaSchema = new Schema(
     empresa: {
       empresaId: {
         type: Schema.Types.ObjectId,
-        ref: "Empresa",
-        required: [false, "El id de la empresa es requerido en el schema de ordenes de servicio"],
+        ref: 'Empresa',
+        required: [
+          false,
+          'El id de la empresa es requerido en el schema de ordenes de servicio',
+        ],
       },
       ruc: {
         type: String,
-        required: [false, "El ruc de la empresa es requerido en el schema de ordenes de servicio"],
+        required: [
+          false,
+          'El ruc de la empresa es requerido en el schema de ordenes de servicio',
+        ],
       },
       nombre: {
         type: String,
-        required: [false, "El nombre de la empresa es requerido en el schema de ordenes de servicio"],
+        required: [
+          false,
+          'El nombre de la empresa es requerido en el schema de ordenes de servicio',
+        ],
       },
       descripcion: {
         type: String,
@@ -106,14 +115,14 @@ const ventaSchema = new Schema(
         required: false,
       },
     },
-    clienteRuc : {
+    clienteRuc: {
       type: String,
       required: false,
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Venta = models?.Venta || model('Venta', ventaSchema);

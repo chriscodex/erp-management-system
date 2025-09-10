@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   flexRender,
@@ -7,17 +7,17 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
-import { useEffect, useState, useMemo, useRef } from "react";
-import { useDebouncedCallback } from "use-debounce";
-import { useRouter } from "next/navigation";
+} from '@tanstack/react-table';
+import { useEffect, useState, useMemo, useRef } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+import { useRouter } from 'next/navigation';
 
-import { Badge } from "@/components/ui/badge";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { Badge } from '@/components/ui/badge';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -25,12 +25,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { FiltroAvanzadoOrdenesDeServicioModal } from "@/app/taller/ordenes-servicio-historial/_components/FiltroAvanzadoOrdenesDeServicioModal";
-import { DataTablePagination } from "@/components/ui/table-pagination";
-import { DataTableViewOptions } from "@/components/ui/table-view-options";
-import { serverErrorToast } from "@/components/toast/serverErrorToast";
-import { TIME_DEBOUNCE } from "@/lib/utils";
+} from '@/components/ui/table';
+import { FiltroAvanzadoOrdenesDeServicioModal } from '@/app/taller/ordenes-servicio-historial/_components/FiltroAvanzadoOrdenesDeServicioModal';
+import { DataTablePagination } from '@/components/ui/table-pagination';
+import { DataTableViewOptions } from '@/components/ui/table-view-options';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTableOrdenesDeServicioHistoricas({
   columns,
@@ -44,7 +44,7 @@ export function DataTableOrdenesDeServicioHistoricas({
 
   /* Sorting */
   const [sorting, setSorting] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState('');
 
   /*Filtrar datos*/
 
@@ -95,9 +95,9 @@ export function DataTableOrdenesDeServicioHistoricas({
       const coincideTipo = !tipoFiltro || tipoCliente === tipoFiltro;
       const coincideIdentificador =
         !identificadorFiltro ||
-        (tipoCliente === "persona" &&
+        (tipoCliente === 'persona' &&
           dniCliente.includes(identificadorFiltro)) ||
-        (tipoCliente === "empresa" && rucCliente.includes(identificadorFiltro));
+        (tipoCliente === 'empresa' && rucCliente.includes(identificadorFiltro));
 
       return (
         coincideCodigo &&
@@ -119,29 +119,29 @@ export function DataTableOrdenesDeServicioHistoricas({
       filtros.push(`Monto Máximo: ${filtrosAvanzados.montoMaximo}`);
     if (filtrosAvanzados?.fechaDesde)
       filtros.push(
-        `Fecha Desde: ${format(new Date(filtrosAvanzados.fechaDesde), "PPP", {
+        `Fecha Desde: ${format(new Date(filtrosAvanzados.fechaDesde), 'PPP', {
           locale: es,
-        })}`
+        })}`,
       );
     if (filtrosAvanzados?.fechaHasta)
       filtros.push(
-        `Fecha Hasta: ${format(new Date(filtrosAvanzados.fechaHasta), "PPP", {
+        `Fecha Hasta: ${format(new Date(filtrosAvanzados.fechaHasta), 'PPP', {
           locale: es,
-        })}`
+        })}`,
       );
     if (filtrosAvanzados?.tipo)
       filtros.push(
         `Cliente: ${
-          filtrosAvanzados.tipo === "persona" ? "Persona" : "Empresa"
-        }`
+          filtrosAvanzados.tipo === 'persona' ? 'Persona' : 'Empresa'
+        }`,
       );
     if (filtrosAvanzados?.identificador) {
       const labelIdentificador =
-        filtrosAvanzados.tipo === "persona"
-          ? "DNI"
-          : filtrosAvanzados.tipo === "empresa"
-          ? "RUC"
-          : "Identificador";
+        filtrosAvanzados.tipo === 'persona'
+          ? 'DNI'
+          : filtrosAvanzados.tipo === 'empresa'
+            ? 'RUC'
+            : 'Identificador';
       filtros.push(`${labelIdentificador}: ${filtrosAvanzados.identificador}`);
     }
     if (filtrosAvanzados?.codigo)
@@ -167,7 +167,7 @@ export function DataTableOrdenesDeServicioHistoricas({
     globalFilterFn: (row, columnId, filterValue) => {
       // Filtrar por identificador (RUC/DNI) o código
       const identificador =
-        row.original.cliente?.tipo === "empresa"
+        row.original.cliente?.tipo === 'empresa'
           ? row.original.cliente?.datos?.ruc
           : row.original.cliente?.datos?.dni;
 
@@ -181,7 +181,7 @@ export function DataTableOrdenesDeServicioHistoricas({
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const debouncedSearch = useDebouncedCallback((value) => {
     setGlobalFilter(value);
@@ -232,7 +232,7 @@ export function DataTableOrdenesDeServicioHistoricas({
         <Button
           variant="secondary"
           className={`ml-2 transition-opacity border ${
-            filtrosAvanzados ? "opacity-100" : "opacity-70 cursor-not-allowed"
+            filtrosAvanzados ? 'opacity-100' : 'opacity-70 cursor-not-allowed'
           }`}
           onClick={() => {
             setFiltrosAvanzados(false);
@@ -274,7 +274,7 @@ export function DataTableOrdenesDeServicioHistoricas({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -287,13 +287,13 @@ export function DataTableOrdenesDeServicioHistoricas({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

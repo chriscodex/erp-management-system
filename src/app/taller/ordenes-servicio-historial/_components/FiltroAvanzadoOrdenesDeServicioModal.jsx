@@ -1,27 +1,27 @@
 // Librerías base
-import { useForm, useWatch } from "react-hook-form";
+import { useForm, useWatch } from 'react-hook-form';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState, useEffect } from "react";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState, useEffect } from 'react';
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
-import { cn } from "@/lib/utils";
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { IdCardIcon } from "lucide-react";
+} from '@/components/ui/dialog';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
+import { cn } from '@/lib/utils';
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { IdCardIcon } from 'lucide-react';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 import {
   Form,
   FormControl,
@@ -29,15 +29,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { forwardRef, useImperativeHandle } from "react";
-import { onChangeNumero } from "@/components/formInputs/onChange";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { CalendarIcon } from "lucide-react";
-import { RiCalendarTodoLine, RiHashtag, RiUser3Line } from "@remixicon/react";
-import { filtroAvanzadoSchema } from "@/app/taller/ordenes-servicio-historial/_services/validations/filtroAvanzadoSchema";
+} from '@/components/ui/form';
+import { forwardRef, useImperativeHandle } from 'react';
+import { onChangeNumero } from '@/components/formInputs/onChange';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { CalendarIcon } from 'lucide-react';
+import { RiCalendarTodoLine, RiHashtag, RiUser3Line } from '@remixicon/react';
+import { filtroAvanzadoSchema } from '@/app/taller/ordenes-servicio-historial/_services/validations/filtroAvanzadoSchema';
 
 export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
   ({ abierto, setAbierto, onAplicarFiltros }, ref) => {
@@ -50,13 +50,13 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
     const form = useForm({
       resolver: zodResolver(filtroAvanzadoSchema),
       defaultValues: {
-        codigo: "",
-        montoMinimo: "",
-        montoMaximo: "",
+        codigo: '',
+        montoMinimo: '',
+        montoMaximo: '',
         fechaDesde: undefined,
         fechaHasta: undefined,
         tipo: undefined,
-        identificador: "",
+        identificador: '',
       },
     });
 
@@ -76,18 +76,18 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
 
     //Si codigo esta lleno, desactiva los otros inputs
 
-    const codigoActivo = watch("codigo")?.trim().length > 0;
+    const codigoActivo = watch('codigo')?.trim().length > 0;
 
     //Controlar si algún campo está lleno, para activar el input de código
     const [codigoDeshabilitado, setCodigoDeshabilitado] = useState(false);
 
     // Observamos los valores individuales con useWatch
-    const montoMinimo = useWatch({ control, name: "montoMinimo" });
-    const montoMaximo = useWatch({ control, name: "montoMaximo" });
-    const fechaDesde = useWatch({ control, name: "fechaDesde" });
-    const fechaHasta = useWatch({ control, name: "fechaHasta" });
-    const tipo = useWatch({ control, name: "tipo" });
-    const identificador = useWatch({ control, name: "identificador" });
+    const montoMinimo = useWatch({ control, name: 'montoMinimo' });
+    const montoMaximo = useWatch({ control, name: 'montoMaximo' });
+    const fechaDesde = useWatch({ control, name: 'fechaDesde' });
+    const fechaHasta = useWatch({ control, name: 'fechaHasta' });
+    const tipo = useWatch({ control, name: 'tipo' });
+    const identificador = useWatch({ control, name: 'identificador' });
 
     useEffect(() => {
       const otrosCampos = [
@@ -103,8 +103,8 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
         (valor) =>
           valor !== undefined &&
           valor !== null &&
-          valor !== "" &&
-          !(typeof valor === "string" && valor.trim() === "")
+          valor !== '' &&
+          !(typeof valor === 'string' && valor.trim() === ''),
       );
 
       setCodigoDeshabilitado(hayAlgunCampoLleno);
@@ -118,7 +118,7 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
         setFechaDesdeDate(undefined);
         setFechaHastaDate(undefined);
       } else {
-        console.error("Formulario no definido");
+        console.error('Formulario no definido');
       }
     }
 
@@ -136,7 +136,7 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
           <DialogContent className="w-full max-w-[95vw] sm:max-w-2xl">
             <Form {...form}>
               <form onSubmit={handleSubmit(onSubmit)}>
-                <DialogHeader className={"text-left mb-4"}>
+                <DialogHeader className={'text-left mb-4'}>
                   <DialogTitle>
                     Filtrar Órdenes de Servicio en el Historial
                   </DialogTitle>
@@ -207,16 +207,17 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
                               >
                                 <PopoverTrigger asChild>
                                   <Button
-                                    variant={"outline"}
+                                    variant={'outline'}
                                     disabled={codigoActivo}
                                     className={cn(
-                                      "w-[280px] justify-start text-left font-normal",
-                                      !fechaDesdeDate && "text-muted-foreground"
+                                      'w-[280px] justify-start text-left font-normal',
+                                      !fechaDesdeDate &&
+                                        'text-muted-foreground',
                                     )}
                                   >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                     {fechaDesdeDate ? (
-                                      format(fechaDesdeDate, "PPP", {
+                                      format(fechaDesdeDate, 'PPP', {
                                         locale: es,
                                       })
                                     ) : (
@@ -262,16 +263,17 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
                               >
                                 <PopoverTrigger asChild>
                                   <Button
-                                    variant={"outline"}
+                                    variant={'outline'}
                                     disabled={codigoActivo}
                                     className={cn(
-                                      "w-[280px] justify-start text-left font-normal",
-                                      !fechaHastaDate && "text-muted-foreground"
+                                      'w-[280px] justify-start text-left font-normal',
+                                      !fechaHastaDate &&
+                                        'text-muted-foreground',
                                     )}
                                   >
                                     <CalendarIcon className="mr-2 h-4 w-4" />
                                     {fechaHastaDate ? (
-                                      format(fechaHastaDate, "PPP", {
+                                      format(fechaHastaDate, 'PPP', {
                                         locale: es,
                                       })
                                     ) : (
@@ -323,8 +325,8 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
                               <RadioGroup
                                 onValueChange={(value) => {
                                   field.onChange(value);
-                                  setValue("identificador", "");
-                                  clearErrors("identificador");
+                                  setValue('identificador', '');
+                                  clearErrors('identificador');
                                 }}
                                 // defaultValue={field.value}
                                 value={field.value}
@@ -373,7 +375,7 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
                                 <Input
                                   type="text"
                                   placeholder={
-                                    watch("tipo") === "persona" ? "DNI" : "RUC"
+                                    watch('tipo') === 'persona' ? 'DNI' : 'RUC'
                                   }
                                   className="pl-8"
                                   autoComplete="off"
@@ -410,9 +412,9 @@ export const FiltroAvanzadoOrdenesDeServicioModal = forwardRef(
         </Dialog>
       </>
     );
-  }
+  },
 );
 
 //Asignar displayName
 FiltroAvanzadoOrdenesDeServicioModal.displayName =
-  "FiltroAvanzadoOrdenesDeServicioModal";
+  'FiltroAvanzadoOrdenesDeServicioModal';

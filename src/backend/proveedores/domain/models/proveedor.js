@@ -28,7 +28,7 @@ const proveedorSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Proveedor =

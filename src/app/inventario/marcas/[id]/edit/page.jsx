@@ -1,18 +1,18 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { getMarcaRequestServer } from "@/app/inventario/marcas/[id]/_services/requests.js";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { UpdateFormMarca } from "@/app/inventario/marcas/[id]/edit/_components/updateFormMarca";
-import { getAllSegmentsRequestServer } from "@/app/inventario/marcas/nuevo/_services/requests.js";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getMarcaRequestServer } from '@/app/inventario/marcas/[id]/_services/requests.js';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { UpdateFormMarca } from '@/app/inventario/marcas/[id]/edit/_components/updateFormMarca';
+import { getAllSegmentsRequestServer } from '@/app/inventario/marcas/nuevo/_services/requests.js';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
   // eslint-disable-next-line no-undef
@@ -31,13 +31,13 @@ export default async function Page({ params }) {
 
   const titles = [
     {
-      title: "Inventario",
-      href: "/inventario/todos",
+      title: 'Inventario',
+      href: '/inventario/todos',
       active: false,
     },
     {
-      title: "Marcas",
-      href: "/inventario/marcas",
+      title: 'Marcas',
+      href: '/inventario/marcas',
       active: true,
     },
     {
@@ -46,8 +46,8 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: "Editar",
-      href: "",
+      title: 'Editar',
+      href: '',
       active: false,
     },
   ];

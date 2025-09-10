@@ -15,7 +15,11 @@ export class PreventaRepository {
 
   async getAllPreventas() {
     try {
-      const preventas = await this.preventaModel.find({}).populate('clienteId').populate('usuario.id').populate('sucursalId');
+      const preventas = await this.preventaModel
+        .find({})
+        .populate('clienteId')
+        .populate('usuario.id')
+        .populate('sucursalId');
 
       if (preventas?.length === 0) {
         console.log('Preventa Repository: No se encontraron preventas');
@@ -26,10 +30,10 @@ export class PreventaRepository {
       return preventas;
     } catch (error) {
       console.error(
-        `Preventa Repository: Error al buscar todas las preventas: ${error}`
+        `Preventa Repository: Error al buscar todas las preventas: ${error}`,
       );
       throw new Error(
-        `Preventa Repository: Error al buscar todas las preventas: ${error}`
+        `Preventa Repository: Error al buscar todas las preventas: ${error}`,
       );
     }
   }
@@ -50,7 +54,11 @@ export class PreventaRepository {
       if (preventaData.code) {
         filter.code = { $regex: new RegExp(`^${preventaData.code}$`, 'i') };
       }
-      const preventaFound = await this.preventaModel.findOne(filter).populate('clienteId').populate('usuario.id').populate('sucursalId');
+      const preventaFound = await this.preventaModel
+        .findOne(filter)
+        .populate('clienteId')
+        .populate('usuario.id')
+        .populate('sucursalId');
 
       if (!preventaFound) {
         console.log('Preventa Repository: Preventa no encontrada');
@@ -61,7 +69,7 @@ export class PreventaRepository {
       return preventaFound;
     } catch (error) {
       console.error(
-        `Preventa Repository: Error al buscar la preventa: ${error.message}`
+        `Preventa Repository: Error al buscar la preventa: ${error.message}`,
       );
       throw new Error(`Error al buscar una preventa: ${error.message}`);
     }
@@ -76,7 +84,7 @@ export class PreventaRepository {
       return savedPreventa;
     } catch (error) {
       console.log(
-        `Preventa Repository: Error al crear preventa: ${error.message}`
+        `Preventa Repository: Error al crear preventa: ${error.message}`,
       );
       throw new Error(`Error al crear preventa: ${error.message}`);
     }
@@ -89,12 +97,12 @@ export class PreventaRepository {
         preventaData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedPreventa) {
         console.log(
-          'Preventa Repository: Preventa no encontrada para ser actualizada'
+          'Preventa Repository: Preventa no encontrada para ser actualizada',
         );
         return null;
       }
@@ -103,7 +111,7 @@ export class PreventaRepository {
       return updatedPreventa;
     } catch (error) {
       console.error(
-        `Preventa Repository: Error al actualizar la preventa: ${error.message}`
+        `Preventa Repository: Error al actualizar la preventa: ${error.message}`,
       );
       throw new Error(`Error al actualizar la preventa: ${error.message}`);
     }
@@ -117,7 +125,7 @@ export class PreventaRepository {
 
       if (!deletedPreventa) {
         console.log(
-          'Preventa Repository: Preventa no encontrada para ser eliminada'
+          'Preventa Repository: Preventa no encontrada para ser eliminada',
         );
         return null;
       }
@@ -126,7 +134,7 @@ export class PreventaRepository {
       return deletedPreventa;
     } catch (error) {
       console.error(
-        `Preventa Repository: Error al eliminar una preventa: ${error.message}`
+        `Preventa Repository: Error al eliminar una preventa: ${error.message}`,
       );
       throw new Error(`Error al eliminar la preventa: ${error.message}`);
     }

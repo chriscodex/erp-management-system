@@ -1,8 +1,15 @@
-"use client";
+'use client';
 
-import { CartesianGrid, LabelList, Line, LineChart, XAxis, YAxis } from "recharts"
-import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import {
+  CartesianGrid,
+  LabelList,
+  Line,
+  LineChart,
+  XAxis,
+  YAxis,
+} from 'recharts';
+import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Card,
@@ -11,14 +18,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';
 
-import { AnioPicker } from "@/components/calendars/AnioPicker";
+import { AnioPicker } from '@/components/calendars/AnioPicker';
 
 export default function ObsequiosLineChart({ dataVentasHistoricas }) {
   const router = useRouter();
@@ -31,7 +38,7 @@ export default function ObsequiosLineChart({ dataVentasHistoricas }) {
 
   const chartData = useMemo(() => {
     const data = Array.from({ length: 12 }, (_, i) => ({
-      month: new Date(0, i).toLocaleString("es-PE", { month: "long" }),
+      month: new Date(0, i).toLocaleString('es-PE', { month: 'long' }),
       obsequios: 0,
     }));
 
@@ -48,11 +55,10 @@ export default function ObsequiosLineChart({ dataVentasHistoricas }) {
     return data;
   }, [dataVentasHistoricas, anio]);
 
-
   const chartConfig = {
     obsequios: {
-      label: "Obsequios",
-      color: "hsl(var(--chart-2))",
+      label: 'Obsequios',
+      color: 'hsl(var(--chart-2))',
     },
   };
 
@@ -89,7 +95,6 @@ export default function ObsequiosLineChart({ dataVentasHistoricas }) {
             />
 
             <YAxis domain={[0, 'dataMax + 1']} />
-            
 
             <ChartTooltip
               cursor={false}
@@ -102,7 +107,7 @@ export default function ObsequiosLineChart({ dataVentasHistoricas }) {
               stroke="hsl(var(--chart-2))"
               strokeWidth={2}
               dot={{
-                fill: "hsl(var(--chart-2))",
+                fill: 'hsl(var(--chart-2))',
               }}
               activeDot={{
                 r: 6,

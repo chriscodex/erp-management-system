@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   flexRender,
@@ -7,13 +7,13 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
-import { useEffect, useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+} from '@tanstack/react-table';
+import { useEffect, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -21,22 +21,22 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { DataTablePagination } from "@/components/ui/table-pagination";
-import { DataTableViewOptions } from "@/components/ui/table-view-options";
-import { Button } from "@/components/ui/button";
-import { ArrowUpDown } from "lucide-react";
-import { RiFileListLine } from "@remixicon/react";
+} from '@/components/ui/table';
+import { DataTablePagination } from '@/components/ui/table-pagination';
+import { DataTableViewOptions } from '@/components/ui/table-view-options';
+import { Button } from '@/components/ui/button';
+import { ArrowUpDown } from 'lucide-react';
+import { RiFileListLine } from '@remixicon/react';
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { serverErrorToast } from "@/components/toast/serverErrorToast";
-import { TIME_DEBOUNCE } from "@/lib/utils";
-import { SheetUpdateClienteWrapper } from "@/app/contactos/clientes/_components/sheets/updateCliente/sheetUpdateClienteWrapper";
+} from '@/components/ui/tooltip';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { TIME_DEBOUNCE } from '@/lib/utils';
+import { SheetUpdateClienteWrapper } from '@/app/contactos/clientes/_components/sheets/updateCliente/sheetUpdateClienteWrapper';
 
 export function DataTableClientes({ data, status = 200 }) {
   const router = useRouter();
@@ -44,12 +44,12 @@ export function DataTableClientes({ data, status = 200 }) {
 
   const columns = [
     {
-      accessorKey: "tipo",
+      accessorKey: 'tipo',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Tipo
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -60,22 +60,22 @@ export function DataTableClientes({ data, status = 200 }) {
         const cliente = row?.original;
         return (
           <div className="text-start">
-            {cliente?.tipo === "empresa" ? "Empresa" : "Persona"}
+            {cliente?.tipo === 'empresa' ? 'Empresa' : 'Persona'}
           </div>
         );
       },
     },
     {
-      id: "nombre",
+      id: 'nombre',
       accessorFn: (row) =>
-        row.tipo === "empresa"
+        row.tipo === 'empresa'
           ? row.datos?.razonSocial
-          : `${row.datos?.nombres ?? ""} ${row.datos?.apellidos ?? ""}`,
+          : `${row.datos?.nombres ?? ''} ${row.datos?.apellidos ?? ''}`,
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Nombre
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -86,22 +86,22 @@ export function DataTableClientes({ data, status = 200 }) {
         const cliente = row?.original;
         return (
           <div className="text-start">
-            {cliente?.tipo === "empresa"
+            {cliente?.tipo === 'empresa'
               ? cliente?.datos?.razonSocial
-              : cliente?.datos?.nombres + " " + cliente?.datos?.apellidos}
+              : cliente?.datos?.nombres + ' ' + cliente?.datos?.apellidos}
           </div>
         );
       },
     },
     {
-      id: "identificador",
+      id: 'identificador',
       accessorFn: (row) =>
-        row.tipo === "empresa" ? row.datos?.ruc : row.datos?.dni,
+        row.tipo === 'empresa' ? row.datos?.ruc : row.datos?.dni,
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             DNI / RUC
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -113,10 +113,10 @@ export function DataTableClientes({ data, status = 200 }) {
         return (
           <div className="text-start flex">
             <p className="font-light mr-2 text-[0.8rem] border rounded-md px-1">
-              {cliente?.tipo === "empresa" ? "RUC" : "DNI"}
+              {cliente?.tipo === 'empresa' ? 'RUC' : 'DNI'}
             </p>
             <p>
-              {cliente?.tipo === "empresa"
+              {cliente?.tipo === 'empresa'
                 ? cliente?.datos?.ruc
                 : cliente?.datos?.dni}
             </p>
@@ -125,12 +125,12 @@ export function DataTableClientes({ data, status = 200 }) {
       },
     },
     {
-      accessorKey: "celular",
+      accessorKey: 'celular',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Celular
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -143,12 +143,12 @@ export function DataTableClientes({ data, status = 200 }) {
       },
     },
     {
-      accessorKey: "email",
+      accessorKey: 'email',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Email
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -161,8 +161,8 @@ export function DataTableClientes({ data, status = 200 }) {
       },
     },
     {
-      id: "actions",
-      header: "Acciones",
+      id: 'actions',
+      header: 'Acciones',
       cell: ({ row }) => {
         const clienteData = row.original;
 
@@ -187,7 +187,7 @@ export function DataTableClientes({ data, status = 200 }) {
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
-            {session?.user?.rol === "Administrador" && (
+            {session?.user?.rol === 'Administrador' && (
               <SheetUpdateClienteWrapper clienteData={clienteData} />
             )}
           </div>
@@ -198,7 +198,7 @@ export function DataTableClientes({ data, status = 200 }) {
 
   /* Sorting */
   const [sorting, setSorting] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState('');
 
   /* Table */
   const table = useReactTable({
@@ -216,15 +216,15 @@ export function DataTableClientes({ data, status = 200 }) {
     onGlobalFilterChange: setGlobalFilter,
     globalFilterFn: (row, filterValue) => {
       const identificador =
-        row.original?.tipo === "empresa"
+        row.original?.tipo === 'empresa'
           ? row.original?.datos?.ruc
           : row.original?.datos?.dni;
 
       const nombre =
-        row.original?.tipo === "empresa"
+        row.original?.tipo === 'empresa'
           ? row.original?.datos?.razonSocial
-          : `${row.original?.datos?.nombres ?? ""} ${
-              row.original?.datos?.apellidos ?? ""
+          : `${row.original?.datos?.nombres ?? ''} ${
+              row.original?.datos?.apellidos ?? ''
             }`;
 
       return (
@@ -237,7 +237,7 @@ export function DataTableClientes({ data, status = 200 }) {
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const debouncedSearch = useDebouncedCallback((value) => {
     setGlobalFilter(value);
@@ -287,7 +287,7 @@ export function DataTableClientes({ data, status = 200 }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -300,13 +300,13 @@ export function DataTableClientes({ data, status = 200 }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

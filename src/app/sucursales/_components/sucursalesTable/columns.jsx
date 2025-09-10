@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { MoreHorizontal, ArrowUpDown, Edit, User2Icon } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { MoreHorizontal, ArrowUpDown, Edit, User2Icon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,21 +12,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DeleteSucursalAlert } from "@/app/sucursales/_components/dialogs/DeleteSucursalAlert.jsx";
-import {
-  RiDeleteBinLine,
-  RiFileListLine,
-} from "@remixicon/react";
+} from '@/components/ui/dropdown-menu';
+import { DeleteSucursalAlert } from '@/app/sucursales/_components/dialogs/DeleteSucursalAlert.jsx';
+import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
 
 export const columns = [
   {
-    accessorKey: "nombre",
+    accessorKey: 'nombre',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Nombre
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -34,16 +31,16 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("nombre")}</div>;
+      return <div className="text-start">{row.getValue('nombre')}</div>;
     },
   },
   {
-    accessorKey: "direccion",
+    accessorKey: 'direccion',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Direccion
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -51,16 +48,16 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("direccion")}</div>;
+      return <div className="text-start">{row.getValue('direccion')}</div>;
     },
   },
   {
-    accessorKey: "telefono",
+    accessorKey: 'telefono',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Teléfono
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -69,16 +66,16 @@ export const columns = [
     },
 
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("telefono")}</div>;
+      return <div className="text-start">{row.getValue('telefono')}</div>;
     },
   },
   {
-    accessorKey: "email",
+    accessorKey: 'email',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Email
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -87,12 +84,12 @@ export const columns = [
     },
 
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("email")}</div>;
+      return <div className="text-start">{row.getValue('email')}</div>;
     },
   },
   {
-    id: "actions",
-    header: "Acciones",
+    id: 'actions',
+    header: 'Acciones',
     cell: ({ row }) => {
       const { _id: id } = row.original;
 

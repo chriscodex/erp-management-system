@@ -1,7 +1,7 @@
-import { ClienteService } from "@/backend/clientes/application/cliente.service";
-import { VentaHistoricaService } from "@/backend/ventas/application/ventaHistorica.service";
-import { connectDB } from "@/db/mongodb";
-import { simplificadorParaClientComponent } from "@/lib/utils";
+import { ClienteService } from '@/backend/clientes/application/cliente.service';
+import { VentaHistoricaService } from '@/backend/ventas/application/ventaHistorica.service';
+import { connectDB } from '@/db/mongodb';
+import { simplificadorParaClientComponent } from '@/lib/utils';
 
 export async function getClienteRequestServer(clienteId) {
   try {
@@ -13,7 +13,7 @@ export async function getClienteRequestServer(clienteId) {
     });
 
     if (response?.status !== 200) {
-      console.log("Error al obtener el cliente desde el servidor");
+      console.log('Error al obtener el cliente desde el servidor');
       return { cliente: null, status: response?.status };
     }
     const cliente = response?.payload;
@@ -31,12 +31,11 @@ export async function getVentasHistoricasRequestServer(clienteId) {
     await connectDB();
     const ventasHistoricasService = new VentaHistoricaService();
 
-    const response = await ventasHistoricasService.getVentasHistoricasByCliente(
-      clienteId
-    );
+    const response =
+      await ventasHistoricasService.getVentasHistoricasByCliente(clienteId);
 
     if (response?.status !== 200) {
-      console.log("Error al obtener las ventas históricas del cliente");
+      console.log('Error al obtener las ventas históricas del cliente');
       return { ventasHistoricas: [], status: response?.status };
     }
     const ventasHistoricas = response?.payload;

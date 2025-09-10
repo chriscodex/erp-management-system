@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Card,
@@ -11,13 +11,13 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { AnioPicker } from "@/components/calendars/AnioPicker";
+} from '@/components/ui/chart';
+import { AnioPicker } from '@/components/calendars/AnioPicker';
 
 export default function PedidosAreaChart({ dataPedidosHistoricos }) {
   const router = useRouter();
@@ -30,36 +30,36 @@ export default function PedidosAreaChart({ dataPedidosHistoricos }) {
 
   const chartData = useMemo(() => {
     const data = Array.from({ length: 12 }, (_, i) => ({
-      month: new Date(0, i).toLocaleString("es-PE", { month: "long" }),
+      month: new Date(0, i).toLocaleString('es-PE', { month: 'long' }),
       pedidos: 0,
     }));
-  
+
     dataPedidosHistoricos?.pedidosHistoricos?.forEach((pedido) => {
       const fecha = new Date(pedido.createdAt);
       const pedidoAnio = fecha.getFullYear();
       const mes = fecha.getMonth(); // de 0 a 11
-  
+
       if (pedidoAnio === anio) {
         data[mes].pedidos += 1;
       }
     });
-  
+
     return data;
   }, [dataPedidosHistoricos, anio]);
 
-  console.log("chartData de AreaChart", chartData);
+  console.log('chartData de AreaChart', chartData);
 
-    chartData[0].pedidos = 2
-    chartData[1].pedidos = 4
-    chartData[3].pedidos = 16
-    chartData[8].pedidos = 10
-    chartData[10].pedidos = 5
+  chartData[0].pedidos = 2;
+  chartData[1].pedidos = 4;
+  chartData[3].pedidos = 16;
+  chartData[8].pedidos = 10;
+  chartData[10].pedidos = 5;
 
   const chartConfig = {
     desktop: {
-      label: "Pedidos",
-      color: "hsl(var(--chart-3))",
-      dataKey: "pedidos",
+      label: 'Pedidos',
+      color: 'hsl(var(--chart-3))',
+      dataKey: 'pedidos',
     },
   };
 

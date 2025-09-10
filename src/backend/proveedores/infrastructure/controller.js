@@ -14,10 +14,10 @@ export async function createProveedorController(request) {
   } catch (error) {
     console.error(
       'Proveedor Controller: Error interno al crear el proveedor:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Proveedor Controller: Error interno al crear el proveedor'
+      'Proveedor Controller: Error interno al crear el proveedor',
     );
   }
 }
@@ -32,16 +32,16 @@ export async function updateProveedorController(request, contextRoute) {
 
     const updatedProveedor = await proveedorService.updateProveedor(
       proveedorId,
-      body
+      body,
     );
     return updatedProveedor;
   } catch (error) {
     console.error(
       'Proveedor Controller: Error interno al actualizar el proveedor:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Proveedor Controller: Error interno al actualizar el proveedor'
+      'Proveedor Controller: Error interno al actualizar el proveedor',
     );
   }
 }
@@ -53,18 +53,17 @@ export async function deleteProveedorController(contextRoute) {
 
     await connectDB();
 
-    const deletedProveedor = await proveedorService.deleteProveedor(
-      proveedorId
-    );
+    const deletedProveedor =
+      await proveedorService.deleteProveedor(proveedorId);
 
     return deletedProveedor;
   } catch (error) {
     console.error(
       'Proveedor Controller: Error interno al eliminar un proveedor:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Proveedor Controller: Error interno al eliminar un proveedor'
+      'Proveedor Controller: Error interno al eliminar un proveedor',
     );
   }
 }

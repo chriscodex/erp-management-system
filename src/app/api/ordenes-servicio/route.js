@@ -17,11 +17,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Ordenes de Servicio Route: Error interno al crear la orden de servicio: ${error.message}`
+      `Ordenes de Servicio Route: Error interno al crear la orden de servicio: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear la orden de servicio' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

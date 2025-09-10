@@ -19,9 +19,12 @@ export const updateMotoFormSchema = z.object({
     })
     .optional(),
   descripcion: z.string().optional(),
-  estadoTitle: z.string().min(1, {
-    message: 'El estado es requerido',
-  }).optional(),
+  estadoTitle: z
+    .string()
+    .min(1, {
+      message: 'El estado es requerido',
+    })
+    .optional(),
   observacionesEstado: z.string().optional(),
   precioCompra: z
     .union([
@@ -36,7 +39,8 @@ export const updateMotoFormSchema = z.object({
     .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
     .refine((val) => val >= 0, {
       message: 'El precio de compra debe ser un número mayor o igual a 0',
-    }).optional(),
+    })
+    .optional(),
   precioVenta: z
     .union([
       z.number({
@@ -50,12 +54,19 @@ export const updateMotoFormSchema = z.object({
     .transform((val) => (typeof val === 'string' ? Number(val) : val)) // Convierte cadenas válidas a números
     .refine((val) => val >= 0, {
       message: 'El precio de venta debe ser un número mayor o igual a 0',
-    }).optional(),
-  proveedorId: z.string().regex(objectIdRegex, {
-    message: 'Debe elegir un proveedor',
-  }).optional(),
-  almacenId: z.string().regex(objectIdRegex, {
-    message: 'Debe elegir un almacen',
-  }).optional(),
+    })
+    .optional(),
+  proveedorId: z
+    .string()
+    .regex(objectIdRegex, {
+      message: 'Debe elegir un proveedor',
+    })
+    .optional(),
+  almacenId: z
+    .string()
+    .regex(objectIdRegex, {
+      message: 'Debe elegir un almacen',
+    })
+    .optional(),
   importado: z.enum(['si', 'no']),
 });

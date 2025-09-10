@@ -11,7 +11,8 @@ export default function NotFound() {
             404 - Página no encontrada
           </h1>
           <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-            Lo sentimos, la página que estás buscando no existe o ha sido movida.
+            Lo sentimos, la página que estás buscando no existe o ha sido
+            movida.
           </p>
         </div>
         <div className="w-full max-w-sm space-y-4">
@@ -24,13 +25,11 @@ export default function NotFound() {
             </p>
             <Button asChild className="w-full">
               {/* // Redirección a la pagina de inicio */}
-              <Link href="/">
-                Volver al inicio
-              </Link>
+              <Link href="/">Volver al inicio</Link>
             </Button>
           </div>
         </div>
       </div>
     </div>
-  )
+  );
 }

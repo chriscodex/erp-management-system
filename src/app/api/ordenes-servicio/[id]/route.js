@@ -8,7 +8,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateOrdenDeServicioController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -18,18 +18,19 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Orden de Servicio Route: Error interno al actualizar la orden de servicio: ${error.message}`
+      `Orden de Servicio Route: Error interno al actualizar la orden de servicio: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno actualizando la orden de servicio' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function DELETE(_, contextRoute) {
   try {
-    const { payload, status } = await deleteOrdenDeServicioController(contextRoute);
+    const { payload, status } =
+      await deleteOrdenDeServicioController(contextRoute);
 
     if (status === 204) {
       return new NextResponse(null, { status });
@@ -38,11 +39,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Orden de Servicio Route: Error interno al eliminar la orden de servicio: ${error.message}`
+      `Orden de Servicio Route: Error interno al eliminar la orden de servicio: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno eliminando la orden de servicio' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

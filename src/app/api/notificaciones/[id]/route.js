@@ -1,13 +1,11 @@
 import { NextResponse } from 'next/server';
-import {
-  updateNotificacionController,
-} from '@/backend/notificaciones/infrastructure/controllers';
+import { updateNotificacionController } from '@/backend/notificaciones/infrastructure/controllers';
 
 export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateNotificacionController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -17,11 +15,11 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Notificacion Route: Error interno al remover la notificacion: ${error.message}`
+      `Notificacion Route: Error interno al remover la notificacion: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno al remover la notificacion' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

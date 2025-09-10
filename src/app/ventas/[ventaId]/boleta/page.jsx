@@ -1,16 +1,16 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { getVentaRequestServer } from "@/app/ventas/_services/requests";
-import { DetailBoletaContent } from "@/app/ventas/[ventaId]/boleta/_components/detailBoletaContent";
-import { getAllEmpresasForComprobanteVentaRequestServer } from "@/app/ventas/[ventaId]/_services/requests";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { getVentaRequestServer } from '@/app/ventas/_services/requests';
+import { DetailBoletaContent } from '@/app/ventas/[ventaId]/boleta/_components/detailBoletaContent';
+import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
   if (
-    session?.user?.rol !== "Administrador" &&
-    session?.user?.rol !== "Vendedor"
+    session?.user?.rol !== 'Administrador' &&
+    session?.user?.rol !== 'Vendedor'
   ) {
     notFound();
   }
@@ -24,7 +24,7 @@ export default async function Page({ params }) {
   const { venta } = results[0].value;
   const { empresas } = results[1].value;
 
-  const facturaEmitida = venta.comprobante.toLowerCase().includes("factura");
+  const facturaEmitida = venta.comprobante.toLowerCase().includes('factura');
 
   if (!venta || facturaEmitida) {
     notFound();
@@ -32,13 +32,8 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "/inventario/todos",
-      active: false,
-    },
-    {
-      title: "Ventas",
-      href: "/ventas",
+      title: 'Ventas',
+      href: '/ventas',
       active: true,
     },
     {
@@ -47,8 +42,8 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: "Boleta",
-      href: "",
+      title: 'Boleta',
+      href: '',
       active: false,
     },
   ];

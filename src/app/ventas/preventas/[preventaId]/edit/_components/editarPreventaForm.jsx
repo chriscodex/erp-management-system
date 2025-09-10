@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, useWatch } from "react-hook-form";
-import { toast } from "sonner";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm, useWatch } from 'react-hook-form';
+import { toast } from 'sonner';
 import {
   IdCardIcon,
   Loader2,
@@ -14,19 +14,19 @@ import {
   UserCheck,
   Mail,
   CalendarIcon,
-} from "lucide-react";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { RiArrowLeftLine } from "@remixicon/react";
-import { Switch } from "@/components/ui/switch";
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { RiArrowLeftLine } from '@remixicon/react';
+import { Switch } from '@/components/ui/switch';
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 import {
   Form,
   FormControl,
@@ -34,39 +34,39 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
+} from '@/components/formInputs/onChange';
 
-import { agregarNumeracionTable, cn } from "@/lib/utils";
+import { agregarNumeracionTable, cn } from '@/lib/utils';
 
-import { ProductsPreventaTable } from "@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table";
-import { searchClientePorDniOrRucClientRequest } from "@/app/ventas/preventas/registrar/_services/requests";
-import { ObsequiosPreventaTable } from "@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table";
-import { Textarea } from "@/components/ui/textarea";
-import { updatePreventaSchemaForm } from "@/app/ventas/preventas/[preventaId]/edit/_services/validations/updatePreventaSchemaForm";
-import { updatePreventaRequestClient } from "../_services/requests";
+import { ProductsPreventaTable } from '@/app/ventas/preventas/registrar/_components/productsPreventaTable.jsx/data-table';
+import { searchClientePorDniOrRucClientRequest } from '@/app/ventas/preventas/registrar/_services/requests';
+import { ObsequiosPreventaTable } from '@/app/ventas/preventas/registrar/_components/obsequiosPreventaTable.jsx/data-table';
+import { Textarea } from '@/components/ui/textarea';
+import { updatePreventaSchemaForm } from '@/app/ventas/preventas/[preventaId]/edit/_services/validations/updatePreventaSchemaForm';
+import { updatePreventaRequestClient } from '../_services/requests';
 
 export function EditarPreventaForm({ preventaData }) {
   const router = useRouter();
 
   const [obsequiosPreventa, setObsequiosPreventa] = useState(
-    agregarNumeracionTable(preventaData?.obsequios) || []
+    agregarNumeracionTable(preventaData?.obsequios) || [],
   );
   const [productsPreventa, setProductsPreventa] = useState(
-    agregarNumeracionTable(preventaData?.productos) || []
+    agregarNumeracionTable(preventaData?.productos) || [],
   );
 
   const [date, setDate] = useState(new Date());
@@ -78,18 +78,18 @@ export function EditarPreventaForm({ preventaData }) {
       identificador:
         preventaData?.clienteId?.datos?.dni ||
         preventaData?.clienteId?.datos?.ruc ||
-        "",
-      tipo: preventaData?.clienteId?.tipo || "persona",
-      nombres: preventaData?.clienteId?.datos?.nombres || "",
-      apellidos: preventaData?.clienteId?.datos?.apellidos || "",
-      razonSocial: preventaData?.clienteId?.datos?.razonSocial || "",
+        '',
+      tipo: preventaData?.clienteId?.tipo || 'persona',
+      nombres: preventaData?.clienteId?.datos?.nombres || '',
+      apellidos: preventaData?.clienteId?.datos?.apellidos || '',
+      razonSocial: preventaData?.clienteId?.datos?.razonSocial || '',
       representanteLegal:
-        preventaData?.clienteId?.datos?.representanteLegal || "",
-      direccion: preventaData?.clienteId?.datos?.direccion || "",
-      email: preventaData?.clienteId?.datos?.email || "",
-      celular: preventaData?.clienteId?.datos?.celular || "",
-      comentarios: preventaData?.comentarios || "",
-      cotizacion: preventaData?.cotizacion || "no",
+        preventaData?.clienteId?.datos?.representanteLegal || '',
+      direccion: preventaData?.clienteId?.datos?.direccion || '',
+      email: preventaData?.clienteId?.datos?.email || '',
+      celular: preventaData?.clienteId?.datos?.celular || '',
+      comentarios: preventaData?.comentarios || '',
+      cotizacion: preventaData?.cotizacion || 'no',
       fechaValidez: preventaData?.fechaValidez || new Date(),
     },
   });
@@ -120,7 +120,7 @@ export function EditarPreventaForm({ preventaData }) {
         JSON.stringify(productsPreventa) ===
           JSON.stringify(agregarNumeracionTable(preventaData?.productos))
       ) {
-        toast.error("No se han realizado cambios.");
+        toast.error('No se han realizado cambios.');
         setFormSubmitIsLoading(false);
         return;
       }
@@ -130,46 +130,46 @@ export function EditarPreventaForm({ preventaData }) {
       ...preventaData,
     };
 
-    if (formData?.tipo === "persona") {
-      updateObject["cliente"] = {
+    if (formData?.tipo === 'persona') {
+      updateObject['cliente'] = {
         tipo: formData?.tipo,
         datos: {
           dni: formData?.identificador,
           nombres: formData?.nombres,
           apellidos: formData?.apellidos,
           direccion:
-            preventaData?.direccion?.trim() === ""
+            preventaData?.direccion?.trim() === ''
               ? undefined
               : preventaData?.direccion?.trim(),
           email:
-            preventaData?.email?.trim() === ""
+            preventaData?.email?.trim() === ''
               ? undefined
               : preventaData?.email?.trim(),
           celular:
-            preventaData?.celular?.trim() === ""
+            preventaData?.celular?.trim() === ''
               ? undefined
               : preventaData?.celular?.trim(),
         },
       };
     }
 
-    if (formData?.tipo === "empresa") {
-      updateObject["cliente"] = {
+    if (formData?.tipo === 'empresa') {
+      updateObject['cliente'] = {
         tipo: formData?.tipo,
         datos: {
           ruc: formData?.identificador,
           razonSocial: formData?.razonSocial,
           representanteLegal: formData?.representanteLegal,
           direccion:
-            formData?.direccion?.trim() === ""
+            formData?.direccion?.trim() === ''
               ? undefined
               : formData?.direccion?.trim(),
           email:
-            formData?.email?.trim() === ""
+            formData?.email?.trim() === ''
               ? undefined
               : formData?.email?.trim(),
           celular:
-            formData?.celular?.trim() === ""
+            formData?.celular?.trim() === ''
               ? undefined
               : formData?.celular?.trim(),
         },
@@ -182,7 +182,7 @@ export function EditarPreventaForm({ preventaData }) {
     // Formatear los productos
     if (productsPreventa.length > 0) {
       productsFormated = productsPreventa.map((producto) => {
-        if (producto.tipo === "moto") {
+        if (producto.tipo === 'moto') {
           const motoObject = {
             ...producto,
             almacen: producto?.almacenId?.nombre,
@@ -236,7 +236,7 @@ export function EditarPreventaForm({ preventaData }) {
     if (obsequiosPreventa.length > 0) {
       obsequiosFormated = obsequiosPreventa.map((obsequio) => {
         const unitObsequio = obsequio?.unidades?.find(
-          (unit) => unit?.code === obsequio?.code
+          (unit) => unit?.code === obsequio?.code,
         );
 
         const obsequioObject = {
@@ -246,7 +246,9 @@ export function EditarPreventaForm({ preventaData }) {
           marca: obsequio?.marcaId?._id,
           proveedor: obsequio?.proveedorId?._id,
           estado:
-            obsequio?.nombre === "SOAT" ? "Disponible" : unitObsequio?.estado ?? obsequio?.estado,
+            obsequio?.nombre === 'SOAT'
+              ? 'Disponible'
+              : (unitObsequio?.estado ?? obsequio?.estado),
           unitId: unitObsequio?._id ?? obsequio?.unitId,
           productId: obsequio?._id,
         };
@@ -264,29 +266,27 @@ export function EditarPreventaForm({ preventaData }) {
 
         return obsequioObject;
       });
-
     }
 
-    updateObject["productos"] = productsFormated;
+    updateObject['productos'] = productsFormated;
 
-    updateObject["obsequios"] = obsequiosFormated;
+    updateObject['obsequios'] = obsequiosFormated;
 
-    (updateObject["comentarios"] =
-      formData?.comentarios?.trim() === ""
+    ((updateObject['comentarios'] =
+      formData?.comentarios?.trim() === ''
         ? undefined
         : formData?.comentarios?.trim()),
-      (updateObject["cotizacion"] = formData?.cotizacion);
-    updateObject["fechaValidez"] = formData?.fechaValidez;
+      (updateObject['cotizacion'] = formData?.cotizacion));
+    updateObject['fechaValidez'] = formData?.fechaValidez;
 
     delete updateObject.createdAt;
     delete updateObject.updatedAt;
-
 
     // Toast promise para buscar una persona
     toast.promise(
       updatePreventaRequestClient(updateObject, setFormSubmitIsLoading),
       {
-        loading: "Editando...",
+        loading: 'Editando...',
         success: (response) => {
           console.log(response);
           clearErrors();
@@ -297,7 +297,7 @@ export function EditarPreventaForm({ preventaData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -310,28 +310,28 @@ export function EditarPreventaForm({ preventaData }) {
       const tipo = formData.tipo;
       const identificador = formData.identificador;
 
-      if (tipo === "persona") {
+      if (tipo === 'persona') {
         if (!identificador || identificador.length !== 8) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un DNI válido", {
-            description: "El DNI debe tener 8 dígitos",
+          toast.warning('Por favor, ingrese un DNI válido', {
+            description: 'El DNI debe tener 8 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (persona) => {
-              setValue("apellidos", persona?.apellidos);
-              setValue("nombres", persona?.nombres);
-              setValue("celular", persona?.celular);
-              clearErrors("apellidos");
-              clearErrors("nombres");
-              clearErrors("celular");
+              setValue('apellidos', persona?.apellidos);
+              setValue('nombres', persona?.nombres);
+              setValue('celular', persona?.celular);
+              clearErrors('apellidos');
+              clearErrors('nombres');
+              clearErrors('celular');
               return `Persona encontrada`;
             },
 
@@ -339,61 +339,61 @@ export function EditarPreventaForm({ preventaData }) {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
 
-      if (tipo === "empresa") {
+      if (tipo === 'empresa') {
         if (!identificador || identificador.length !== 11) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un RUC válido", {
-            description: "El RUC debe tener 11 dígitos",
+          toast.warning('Por favor, ingrese un RUC válido', {
+            description: 'El RUC debe tener 11 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (empresa) => {
-              setValue("razonSocial", empresa?.razonSocial);
-              setValue("celular", empresa?.celular);
-              clearErrors("razonSocial");
-              clearErrors("celular");
+              setValue('razonSocial', empresa?.razonSocial);
+              setValue('celular', empresa?.celular);
+              clearErrors('razonSocial');
+              clearErrors('celular');
               return `Empresa encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
     } catch (error) {
       setSearchByDniOrRucIsLoading(false);
-      toast.error("Error al buscar persona por DNI");
-      console.error("Error al buscar persona por DNI:", error);
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
     }
   };
 
   const cotizacionValue = useWatch({
     control,
-    name: "cotizacion",
+    name: 'cotizacion',
   });
 
   useEffect(() => {
-    if (cotizacionValue === "no") {
-      setValue("fechaValidez", null);
+    if (cotizacionValue === 'no') {
+      setValue('fechaValidez', null);
       setDate(undefined); // Si estás manejando la fecha localmente
     }
   }, [cotizacionValue, setValue]);
 
   useEffect(() => {
-    form.setValue("productos", productsPreventa);
-    form.clearErrors("productos");
+    form.setValue('productos', productsPreventa);
+    form.clearErrors('productos');
   }, [productsPreventa]);
 
   return (
@@ -414,20 +414,20 @@ export function EditarPreventaForm({ preventaData }) {
                       <RadioGroup
                         onValueChange={(value) => {
                           field.onChange(value);
-                          setValue("identificador", "");
-                          clearErrors("identificador");
-                          clearErrors("apellidos");
-                          clearErrors("nombres");
-                          clearErrors("razonSocial");
-                          clearErrors("direccion");
-                          clearErrors("email");
-                          clearErrors("celular");
-                          setValue("apellidos", "");
-                          setValue("nombres", "");
-                          setValue("razonSocial", "");
-                          setValue("direccion", "");
-                          setValue("email", "");
-                          setValue("celular", "");
+                          setValue('identificador', '');
+                          clearErrors('identificador');
+                          clearErrors('apellidos');
+                          clearErrors('nombres');
+                          clearErrors('razonSocial');
+                          clearErrors('direccion');
+                          clearErrors('email');
+                          clearErrors('celular');
+                          setValue('apellidos', '');
+                          setValue('nombres', '');
+                          setValue('razonSocial', '');
+                          setValue('direccion', '');
+                          setValue('email', '');
+                          setValue('celular', '');
                         }}
                         defaultValue={field.value}
                         className="flex flex-row space-x-4"
@@ -458,7 +458,7 @@ export function EditarPreventaForm({ preventaData }) {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>
-                      {watch("tipo") === "persona" ? "DNI" : "RUC"}
+                      {watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
                     </FormLabel>
                     <div className="relative">
                       <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -466,7 +466,7 @@ export function EditarPreventaForm({ preventaData }) {
                         <Input
                           type="text"
                           placeholder={
-                            watch("tipo") === "persona" ? "DNI" : "RUC"
+                            watch('tipo') === 'persona' ? 'DNI' : 'RUC'
                           }
                           className="pl-8"
                           autoComplete="off"
@@ -482,10 +482,10 @@ export function EditarPreventaForm({ preventaData }) {
                       <FormMessage />
                       <div
                         className={cn(
-                          "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
+                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
                           searchByDniOrRucIsLoading
-                            ? "opacity-75 pointer-events-none"
-                            : "cursor-pointer"
+                            ? 'opacity-75 pointer-events-none'
+                            : 'cursor-pointer',
                         )}
                         onClick={handleSearchByDniOrRuc}
                       >
@@ -510,7 +510,7 @@ export function EditarPreventaForm({ preventaData }) {
                   </FormItem>
                 )}
               />
-              {watch("tipo") === "persona" ? (
+              {watch('tipo') === 'persona' ? (
                 <>
                   <FormField
                     control={control}
@@ -814,9 +814,9 @@ export function EditarPreventaForm({ preventaData }) {
                       </div>
                       <FormControl>
                         <Switch
-                          checked={field.value === "si"}
+                          checked={field.value === 'si'}
                           onCheckedChange={(checked) =>
-                            field.onChange(checked ? "si" : "no")
+                            field.onChange(checked ? 'si' : 'no')
                           }
                           disabled={formSubmitIsLoading}
                         />
@@ -828,7 +828,7 @@ export function EditarPreventaForm({ preventaData }) {
                   </FormItem>
                 )}
               />
-              {cotizacionValue === "si" && (
+              {cotizacionValue === 'si' && (
                 <FormField
                   control={control}
                   name="fechaValidez"
@@ -839,15 +839,15 @@ export function EditarPreventaForm({ preventaData }) {
                         <Popover open={open} onOpenChange={setOpen}>
                           <PopoverTrigger asChild>
                             <Button
-                              variant={"outline"}
+                              variant={'outline'}
                               className={cn(
-                                "w-[280px] justify-start text-left font-normal",
-                                !date && "text-muted-foreground"
+                                'w-[280px] justify-start text-left font-normal',
+                                !date && 'text-muted-foreground',
                               )}
                             >
                               <CalendarIcon className="mr-2 h-4 w-4" />
                               {date ? (
-                                format(date, "PPP", { locale: es })
+                                format(date, 'PPP', { locale: es })
                               ) : (
                                 <span>Selecciona una fecha</span>
                               )}
@@ -896,7 +896,7 @@ export function EditarPreventaForm({ preventaData }) {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                "Registrando..."
+                'Registrando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

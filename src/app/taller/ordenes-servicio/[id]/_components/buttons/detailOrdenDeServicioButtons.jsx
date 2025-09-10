@@ -1,24 +1,23 @@
-"use client";
+'use client';
 
-import { Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { RiEditFill, RiStethoscopeLine } from "@remixicon/react";
+import { Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { RiEditFill, RiStethoscopeLine } from '@remixicon/react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
-import { DeleteOrdenDeServicioAlert } from "@/app/taller/ordenes-servicio/[id]/_components/dialogs/deleteOrdenDeServicioAlert";
+import { DeleteOrdenDeServicioAlert } from '@/app/taller/ordenes-servicio/[id]/_components/dialogs/deleteOrdenDeServicioAlert';
 
 export function DetailOrdenDeServicioButtons({ ordenDeServicioId, disabled }) {
-
   console.log(disabled);
-  
+
   const router = useRouter();
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 
@@ -55,7 +54,7 @@ export function DetailOrdenDeServicioButtons({ ordenDeServicioId, disabled }) {
           <Button
             onClick={() =>
               router.push(
-                `/taller/ordenes-servicio/${ordenDeServicioId}/mecanico`
+                `/taller/ordenes-servicio/${ordenDeServicioId}/mecanico`,
               )
             }
             variant="outline"

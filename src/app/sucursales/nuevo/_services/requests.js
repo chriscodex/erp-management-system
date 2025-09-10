@@ -2,12 +2,9 @@ import { postData } from '@/lib/fetchData';
 import { createSucursalClientUrl } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
-
-
 export async function createSucursalRequestClient(sucursal, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -15,10 +12,12 @@ export async function createSucursalRequestClient(sucursal, setLoading) {
 
       // Obtener los datos de la sucursal
       const response = await postData(createSucursalClientUrl, sucursal);
-      
+
       if (response?.status !== 201) {
         setLoading(false);
-        reject('No se pudo crear la sucursal: ' + response.response?.data?.error);
+        reject(
+          'No se pudo crear la sucursal: ' + response.response?.data?.error,
+        );
         return;
       }
 

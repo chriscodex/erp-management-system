@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 import {
   Form,
@@ -13,7 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   SheetClose,
   SheetContent,
@@ -21,24 +21,17 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
-import {
-  IdCardIcon,
-  Mail,
-  MapPin,
-  Phone,
-  User,
-  UserCheck,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { updateClienteFormSchema } from "@/app/contactos/clientes/_services/validations/updateClienteFormSchema";
-import { updateClienteRequestClient } from "@/app/contactos/clientes/_services/requests";
+} from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
+import { IdCardIcon, Mail, MapPin, Phone, User, UserCheck } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { updateClienteFormSchema } from '@/app/contactos/clientes/_services/validations/updateClienteFormSchema';
+import { updateClienteRequestClient } from '@/app/contactos/clientes/_services/requests';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
+} from '@/components/formInputs/onChange';
 
 export function UpdateClienteForm({ onClose, clienteData }) {
   const router = useRouter();
@@ -87,11 +80,11 @@ export function UpdateClienteForm({ onClose, clienteData }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(clienteDataToUpdate).length === 0) {
-      toast.error("No se han realizado cambios.");
+      toast.error('No se han realizado cambios.');
       setFormSubmitIsLoading(false);
       return;
     }
@@ -100,7 +93,7 @@ export function UpdateClienteForm({ onClose, clienteData }) {
       ...clienteData,
     };
 
-    if (clienteData?.tipo && formData?.tipo === "persona") {
+    if (clienteData?.tipo && formData?.tipo === 'persona') {
       updateObject = {
         ...updateObject,
         tipo: formData?.tipo,
@@ -112,7 +105,7 @@ export function UpdateClienteForm({ onClose, clienteData }) {
       };
     }
 
-    if (clienteData?.tipo && formData?.tipo === "empresa") {
+    if (clienteData?.tipo && formData?.tipo === 'empresa') {
       updateObject = {
         ...updateObject,
         tipo: formData?.tipo,
@@ -137,7 +130,7 @@ export function UpdateClienteForm({ onClose, clienteData }) {
     toast.promise(
       updateClienteRequestClient(updateObject, setFormSubmitIsLoading),
       {
-        loading: "Actualizando...",
+        loading: 'Actualizando...',
         success: () => {
           clearErrors();
           resetForm();
@@ -149,7 +142,7 @@ export function UpdateClienteForm({ onClose, clienteData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -172,17 +165,16 @@ export function UpdateClienteForm({ onClose, clienteData }) {
                   <RadioGroup
                     onValueChange={(value) => {
                       field.onChange(value);
-                      setValue("identificador", "");
-                      clearErrors("identificador");
-                      clearErrors("apellidos");
-                      clearErrors("nombres");
-                      clearErrors("razonSocial");
-                      clearErrors("representanteLegal");
-                      setValue("apellidos", "");
-                      setValue("nombres", "");
-                      setValue("razonSocial", "");
-                      setValue("representanteLegal", "");
-
+                      setValue('identificador', '');
+                      clearErrors('identificador');
+                      clearErrors('apellidos');
+                      clearErrors('nombres');
+                      clearErrors('razonSocial');
+                      clearErrors('representanteLegal');
+                      setValue('apellidos', '');
+                      setValue('nombres', '');
+                      setValue('razonSocial', '');
+                      setValue('representanteLegal', '');
                     }}
                     defaultValue={field.value}
                     className="flex flex-row space-x-4"
@@ -213,14 +205,14 @@ export function UpdateClienteForm({ onClose, clienteData }) {
             render={({ field }) => (
               <FormItem className="space-y-2">
                 <FormLabel>
-                  {watch("tipo") === "persona" ? "DNI" : "RUC"}
+                  {watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
                 </FormLabel>
                 <div className="relative">
                   <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder={watch("tipo") === "persona" ? "DNI" : "RUC"}
+                      placeholder={watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
                       className="pl-8"
                       autoComplete="off"
                       disabled={formSubmitIsLoading}
@@ -235,7 +227,7 @@ export function UpdateClienteForm({ onClose, clienteData }) {
               </FormItem>
             )}
           />
-          {watch("tipo") === "persona" ? (
+          {watch('tipo') === 'persona' ? (
             <>
               <FormField
                 control={control}

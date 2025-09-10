@@ -1,6 +1,4 @@
-import {
-  generarUnidadesDelProducto,
-} from '@/backend/products/application/helpers';
+import { generarUnidadesDelProducto } from '@/backend/products/application/helpers';
 
 import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
 import { CategoryRepository } from '@/backend/categorias/domain/repositories/categoryRepository';
@@ -45,7 +43,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al buscar todos los productos: ${error.message}`
+        `Product Service: Error interno al buscar todos los productos: ${error.message}`,
       );
       return {
         status: 500,
@@ -64,7 +62,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al contar todos los productos: ${error.message}`
+        `Product Service: Error interno al contar todos los productos: ${error.message}`,
       );
       return {
         status: 500,
@@ -74,9 +72,8 @@ export class ProductService {
   }
   async getAllProductsByData(productData) {
     try {
-      const productFound = await this.productRepository.getAllProductsByData(
-        productData
-      );
+      const productFound =
+        await this.productRepository.getAllProductsByData(productData);
 
       if (!productFound) {
         console.log('Product Service: Ningún producto coincide con los datos');
@@ -93,7 +90,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al buscar los productos: ${error.message}`
+        `Product Service: Error interno al buscar los productos: ${error.message}`,
       );
       return {
         status: 500,
@@ -103,9 +100,8 @@ export class ProductService {
   }
   async getProductByData(productData) {
     try {
-      const productFound = await this.productRepository.getProductByData(
-        productData
-      );
+      const productFound =
+        await this.productRepository.getProductByData(productData);
 
       if (productFound === 'invalid_state') {
         console.log('Product Service: El producto existe pero está prevendido');
@@ -132,9 +128,8 @@ export class ProductService {
         payload: productFound,
       };
     } catch (error) {
-
       console.error(
-        `Product Service: Error interno al buscar el producto: ${error.message}`
+        `Product Service: Error interno al buscar el producto: ${error.message}`,
       );
       return {
         status: 500,
@@ -149,7 +144,7 @@ export class ProductService {
 
       if (!productValidated.success) {
         console.log(
-          `Product Service: Error de validación de schema de producto al crear ${productValidated}`
+          `Product Service: Error de validación de schema de producto al crear ${productValidated}`,
         );
         return {
           status: 400,
@@ -158,12 +153,11 @@ export class ProductService {
       }
 
       // Validar si un producto con ese nombre y en el mismo segmento ya existe
-      const productFound = await this.productRepository.getProductByData(
-        productData
-      );
+      const productFound =
+        await this.productRepository.getProductByData(productData);
       if (productFound) {
         console.log(
-          'Product Service: Un producto con el mismo nombre ya existe'
+          'Product Service: Un producto con el mismo nombre ya existe',
         );
         return {
           status: 409,
@@ -249,9 +243,8 @@ export class ProductService {
         unidades,
       };
       // Crear el producto
-      const productCreated = await this.productRepository.createProduct(
-        productObject
-      );
+      const productCreated =
+        await this.productRepository.createProduct(productObject);
       console.log('Product Service: Producto creado correctamente');
       return {
         status: 201,
@@ -259,7 +252,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al crear un producto: ${error.message}`
+        `Product Service: Error interno al crear un producto: ${error.message}`,
       );
       return {
         status: 500,
@@ -281,7 +274,7 @@ export class ProductService {
 
       if (!productValidated.success) {
         console.log(
-          'Product Service: Error de validación de schema de producto al actualizar'
+          'Product Service: Error de validación de schema de producto al actualizar',
         );
         return {
           status: 400,
@@ -296,7 +289,7 @@ export class ProductService {
         });
         if (productFound && productFound?._id !== productId) {
           console.log(
-            'Product Service: Un producto con el mismo nombre ya existe'
+            'Product Service: Un producto con el mismo nombre ya existe',
           );
           return {
             status: 409,
@@ -307,7 +300,7 @@ export class ProductService {
 
       const productUpdated = await this.productRepository.updateProduct(
         productId,
-        productData
+        productData,
       );
 
       if (!productUpdated) {
@@ -325,7 +318,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al actualizar un producto: ${error.message}`
+        `Product Service: Error interno al actualizar un producto: ${error.message}`,
       );
       return {
         status: 500,
@@ -335,13 +328,12 @@ export class ProductService {
   }
   async deleteProduct(productId) {
     try {
-      const productDeleted = await this.productRepository.deleteProduct(
-        productId
-      );
+      const productDeleted =
+        await this.productRepository.deleteProduct(productId);
 
       if (!productDeleted) {
         console.log(
-          'Product Service: Producto no encontrado para ser eliminado'
+          'Product Service: Producto no encontrado para ser eliminado',
         );
         return {
           status: 404,
@@ -356,7 +348,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al eliminar el producto: ${error.message}`
+        `Product Service: Error interno al eliminar el producto: ${error.message}`,
       );
       return {
         status: 500,
@@ -372,12 +364,12 @@ export class ProductService {
       };
       // Validar los datos del unitProduct enviado con el schema
       const productValidated = updateUnitProductSchema.safeParse(
-        unitProductForValidation
+        unitProductForValidation,
       );
 
       if (!productValidated.success) {
         console.log(
-          `Product Service: Error de validación de schema de producto al actualizar ${productValidated}`
+          `Product Service: Error de validación de schema de producto al actualizar ${productValidated}`,
         );
         return {
           status: 400,
@@ -387,12 +379,12 @@ export class ProductService {
 
       const unitProductUpdated = await this.productRepository.updateUnitProduct(
         unitProductId,
-        unitProductData
+        unitProductData,
       );
 
       if (!unitProductUpdated) {
         console.log(
-          'Product Service: UnitProduct no encontrado para actualizar'
+          'Product Service: UnitProduct no encontrado para actualizar',
         );
         return {
           status: 404,
@@ -407,7 +399,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al actualizar el unitProduct: ${error.message}`
+        `Product Service: Error interno al actualizar el unitProduct: ${error.message}`,
       );
       return {
         status: 500,
@@ -424,7 +416,7 @@ export class ProductService {
         !Number.isInteger(cantidadAAgregar)
       ) {
         console.log(
-          'Product Service: La cantidad de unidades debe ser un número entero mayor que 0'
+          'Product Service: La cantidad de unidades debe ser un número entero mayor que 0',
         );
         return {
           status: 400,
@@ -465,7 +457,7 @@ export class ProductService {
       const productUpdated = await this.productRepository.addUnitsToProduct(
         productId,
         nuevasUnidades,
-        cantidadAAgregar
+        cantidadAAgregar,
       );
       console.log('Product Service: Unidades agregadas correctamente');
       return {
@@ -474,7 +466,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al agregar unidades: ${error.message}`
+        `Product Service: Error interno al agregar unidades: ${error.message}`,
       );
       return {
         status: 500,
@@ -491,7 +483,7 @@ export class ProductService {
         !Number.isInteger(cantidadADisminuir)
       ) {
         console.log(
-          'Product Service: La cantidad de unidades a eliminar debe ser un número entero mayor que 0'
+          'Product Service: La cantidad de unidades a eliminar debe ser un número entero mayor que 0',
         );
         return {
           status: 400,
@@ -524,7 +516,7 @@ export class ProductService {
       // Verificar si hay suficiente stock para eliminar
       if (productFound?.unidades?.length < cantidadADisminuir) {
         console.log(
-          `Product Service: Stock insuficiente para eliminar. Stock actual: ${productFound?.unidades?.length}`
+          `Product Service: Stock insuficiente para eliminar. Stock actual: ${productFound?.unidades?.length}`,
         );
         return {
           status: 400,
@@ -535,7 +527,7 @@ export class ProductService {
       // Llamar al repositorio para eliminar las unidades
       const productUpdated = await this.productRepository.removeUnitsToProduct(
         productId,
-        cantidadADisminuir
+        cantidadADisminuir,
       );
       console.log('Product Service: Unidades disminuidas correctamente');
       return {
@@ -544,7 +536,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al disminuir unidades: ${error.message}`
+        `Product Service: Error interno al disminuir unidades: ${error.message}`,
       );
       return {
         status: 500,
@@ -579,7 +571,7 @@ export class ProductService {
       const productUpdated =
         await this.productRepository.deleteSingleUnitFromProduct(
           productId,
-          unitId
+          unitId,
         );
       console.log('Product Service: Unidad eliminada correctamente');
       return {
@@ -588,7 +580,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error al eliminar la unidad: ${error.message}`
+        `Product Service: Error al eliminar la unidad: ${error.message}`,
       );
       return {
         status: 500,
@@ -600,12 +592,12 @@ export class ProductService {
     try {
       const gastoCreated = await this.gastoRepository.createGasto(
         gastoData,
-        productId
+        productId,
       );
 
       if (!gastoCreated) {
         console.log(
-          'Product Service: Producto no encontrado para agregar gasto'
+          'Product Service: Producto no encontrado para agregar gasto',
         );
         return {
           status: 404,
@@ -620,7 +612,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al agregar un gasto al producto: ${error.message}`
+        `Product Service: Error interno al agregar un gasto al producto: ${error.message}`,
       );
       return {
         status: 500,
@@ -632,12 +624,12 @@ export class ProductService {
     try {
       const gastoDeleted = await this.gastoRepository.deleteGasto(
         gastoId,
-        productId
+        productId,
       );
 
       if (!gastoDeleted) {
         console.log(
-          'Product Service: Producto no encontrado para eliminar el gasto'
+          'Product Service: Producto no encontrado para eliminar el gasto',
         );
         return {
           status: 404,
@@ -652,7 +644,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al eliminar un gasto al producto: ${error.message}`
+        `Product Service: Error interno al eliminar un gasto al producto: ${error.message}`,
       );
       return {
         status: 500,
@@ -686,12 +678,12 @@ export class ProductService {
       const gastoUpdated = await this.gastoRepository.updateGasto(
         gastoId,
         productId,
-        gastoWithId
+        gastoWithId,
       );
 
       if (!gastoUpdated) {
         console.log(
-          'Product Service: Producto no encontrado para ser actualizado'
+          'Product Service: Producto no encontrado para ser actualizado',
         );
         return {
           status: 404,
@@ -706,7 +698,7 @@ export class ProductService {
       };
     } catch (error) {
       console.error(
-        `Product Service: Error interno al actualizar el gasto: ${error.message}`
+        `Product Service: Error interno al actualizar el gasto: ${error.message}`,
       );
       return {
         status: 500,

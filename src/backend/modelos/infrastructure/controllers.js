@@ -14,7 +14,7 @@ export async function createModeloController(request) {
   } catch (error) {
     console.error(
       'Modelo Controller: Error interno al crear el modelo:',
-      error.message
+      error.message,
     );
     throw new Error('Modelo Controller: Error interno al crear el modelo');
   }
@@ -33,7 +33,7 @@ export async function deleteModeloController(contextRoute) {
   } catch (error) {
     console.error(
       'Modelo Controller: Error interno al eliminar un modelo:',
-      error.message
+      error.message,
     );
     throw new Error('Modelo Controller: Error interno al eliminar un modelo');
   }
@@ -52,7 +52,7 @@ export async function updateModeloController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Modelo Controller: Error interno al actualizar el modelo:',
-      error.message
+      error.message,
     );
     throw new Error('Modelo Controller: Error interno al actualizar el modelo');
   }

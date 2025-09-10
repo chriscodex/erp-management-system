@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Card,
@@ -11,18 +11,21 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
+import { MesAnioPicker } from '@/components/calendars/MesAnioPicker';
 
-export default function LeaderboardSalesBarChart({ dataVendedores, cantidadVendedores }) {
+export default function LeaderboardSalesBarChart({
+  dataVendedores,
+  cantidadVendedores,
+}) {
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
@@ -57,20 +60,21 @@ export default function LeaderboardSalesBarChart({ dataVendedores, cantidadVende
       venta.productos.forEach((producto) => {
         const cantidad = producto.cantidad || 1;
 
-        if (producto.tipo === "moto") {
+        if (producto.tipo === 'moto') {
           resumenPorVendedor[vendedorId].motos += cantidad;
-        } else if (producto.tipo === "producto") {
+        } else if (producto.tipo === 'producto') {
           resumenPorVendedor[vendedorId].productos += cantidad;
         }
       });
     });
 
     // Convertir a array, ordenar por total (motos + productos) y tomar top 5
-    const topVendedores = Object.values(resumenPorVendedor)
-      .sort((a, b) => b.motos + b.productos - (a.motos + a.productos))
-      // .slice(0, 5);
+    const topVendedores = Object.values(resumenPorVendedor).sort(
+      (a, b) => b.motos + b.productos - (a.motos + a.productos),
+    );
+    // .slice(0, 5);
 
-      const dataFiltrada = cantidadVendedores
+    const dataFiltrada = cantidadVendedores
       ? topVendedores.slice(0, cantidadVendedores)
       : topVendedores;
 
@@ -83,15 +87,15 @@ export default function LeaderboardSalesBarChart({ dataVendedores, cantidadVende
 
   const chartConfig = {
     motos: {
-      label: "Motos",
-      color: "hsl(var(--chart-3))",
+      label: 'Motos',
+      color: 'hsl(var(--chart-3))',
     },
     productos: {
-      label: "Productos",
-      color: "hsl(var(--chart-4))",
+      label: 'Productos',
+      color: 'hsl(var(--chart-4))',
     },
     label: {
-      color: "hsl(var(--background))",
+      color: 'hsl(var(--background))',
     },
   };
 
@@ -106,7 +110,7 @@ export default function LeaderboardSalesBarChart({ dataVendedores, cantidadVende
         <CardDescription className="flex items-center gap-2">
           <span className="font-bold mr-2">Seleccione el mes y año: </span>
           <MesAnioPicker onChange={handleDateChange} />
-          <Button onClick={() => router.push("/estadisticas/vendedores")}>
+          <Button onClick={() => router.push('/estadisticas/vendedores')}>
             Ver Todos
           </Button>
         </CardDescription>
@@ -129,7 +133,7 @@ export default function LeaderboardSalesBarChart({ dataVendedores, cantidadVende
               tickLine={false}
               tickMargin={10}
               axisLine={false}
-              tick={{ fill: "hsl(var(--foreground))", fontSize: 12 }}
+              tick={{ fill: 'hsl(var(--foreground))', fontSize: 12 }}
             />
             <XAxis dataKey="motos" type="number" hide />
             <ChartTooltip
@@ -153,7 +157,9 @@ export default function LeaderboardSalesBarChart({ dataVendedores, cantidadVende
       </CardContent>
       <CardFooter className="flex-col items-center gap-2 text-sm">
         <div className="leading-none text-muted-foreground">
-          {cantidadVendedores ? "Mostrando top " + cantidadVendedores + " vendedores del mes." : "Mostrando todos los vendedores del mes."}
+          {cantidadVendedores
+            ? 'Mostrando top ' + cantidadVendedores + ' vendedores del mes.'
+            : 'Mostrando todos los vendedores del mes.'}
         </div>
       </CardFooter>
     </Card>

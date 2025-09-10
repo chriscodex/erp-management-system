@@ -1,8 +1,8 @@
-import { User, Package, Gift, Calendar, Hash, FileText } from "lucide-react";
-import { RiFileListLine } from "@remixicon/react";
+import { User, Package, Gift, Calendar, Hash, FileText } from 'lucide-react';
+import { RiFileListLine } from '@remixicon/react';
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -10,18 +10,26 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from '@/components/ui/table';
 import {
   formatDateLong,
   formatearCodigoCounterBoletaFactura,
-} from "@/lib/formateador";
-import { Label } from "@/components/ui/label";
+} from '@/lib/formateador';
+import { Label } from '@/components/ui/label';
 
-import { DetailProductPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet";
-import { ImprimirComprobanteVentaHistoricaButton } from "@/app/ventas/ventas-historicas/[id]/_components/buttons/imprimirComprobanteVentaHistoricaButton";
-import { DetailObsequioPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailObsequioPreventaDetailSheet";
+import { DetailProductPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet';
+import { ImprimirComprobanteVentaHistoricaButton } from '@/app/ventas/ventas-historicas/[id]/_components/buttons/imprimirComprobanteVentaHistoricaButton';
+import { DetailObsequioPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailObsequioPreventaDetailSheet';
 
 export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
+  const isBoletaEmitida = ventaHistoricaData?.comprobante
+    .toLowerCase()
+    .includes('boleta');
+
+  const isFacturaEmitida = ventaHistoricaData?.comprobante
+    .toLowerCase()
+    .includes('factura');
+
   return (
     <Card className="w-full max-w-7xl mx-auto">
       <CardHeader className="flex flex-col items-center justify-between space-y-0 pb-4 md:flex-row">
@@ -53,33 +61,33 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                 Información del Cliente
               </CardTitle>
             </CardHeader>
-            {ventaHistoricaData?.clienteId?.tipo === "persona" ? (
+            {ventaHistoricaData?.clienteId?.tipo === 'persona' ? (
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{" "}
-                    {ventaHistoricaData?.clienteId?.datos?.nombres}{" "}
+                    <strong>Nombre:</strong>{' '}
+                    {ventaHistoricaData?.clienteId?.datos?.nombres}{' '}
                     {ventaHistoricaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
-                    <strong>DNI:</strong>{" "}
+                    <strong>DNI:</strong>{' '}
                     {ventaHistoricaData?.clienteId?.datos?.dni}
                   </p>
                   {ventaHistoricaData?.clienteId?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong>{" "}
+                      <strong>Dirección:</strong>{' '}
                       {ventaHistoricaData?.clienteId?.datos?.direccion}
                     </p>
                   )}
                   {ventaHistoricaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ventaHistoricaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaHistoricaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ventaHistoricaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -94,30 +102,30 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{" "}
+                    <strong>Razon Social:</strong>{' '}
                     {ventaHistoricaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
-                    <strong>RUC:</strong>{" "}
+                    <strong>RUC:</strong>{' '}
                     {ventaHistoricaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Representante Legal:</strong>{" "}
+                    <strong>Representante Legal:</strong>{' '}
                     {ventaHistoricaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
-                    <strong>Direccion:</strong>{" "}
+                    <strong>Direccion:</strong>{' '}
                     {ventaHistoricaData?.clienteId?.datos?.direccion}
                   </p>
                   {ventaHistoricaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ventaHistoricaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaHistoricaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ventaHistoricaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -139,18 +147,18 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                   <strong>Código:</strong> {ventaHistoricaData?.code}
                 </p>
                 <p>
-                  <strong>Fecha:</strong>{" "}
+                  <strong>Fecha:</strong>{' '}
                   {formatDateLong(ventaHistoricaData?.fecha, true)}
                 </p>
                 <p>
-                  <strong>Vendedor:</strong>{" "}
+                  <strong>Vendedor:</strong>{' '}
                   {ventaHistoricaData?.usuario?.nombres +
-                    " " +
-                    ventaHistoricaData?.usuario?.apellidos}{" "}
+                    ' ' +
+                    ventaHistoricaData?.usuario?.apellidos}{' '}
                 </p>
                 {ventaHistoricaData?.sucursalId?.nombre && (
                   <p>
-                    <strong>Sucursal:</strong>{" "}
+                    <strong>Sucursal:</strong>{' '}
                     {ventaHistoricaData?.sucursalId?.nombre}
                   </p>
                 )}
@@ -163,19 +171,22 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                 {ventaHistoricaData?.counter &&
                   ventaHistoricaData?.comprobante && (
                     <p>
-                      <strong>Número de comprobante:</strong>{" "}
-                      {formatearCodigoCounterBoletaFactura(
-                        ventaHistoricaData.counter,
-                        ventaHistoricaData.comprobante === "Boleta Impresa"
-                          ? "boleta"
-                          : ventaHistoricaData.comprobante === "Factura Impresa"
-                          ? "factura"
-                          : ""
-                      )}
+                      <strong>Número de comprobante:</strong>{' '}
+                      {isBoletaEmitida || isFacturaEmitida
+                        ? formatearCodigoCounterBoletaFactura(
+                            ventaHistoricaData.counter,
+                            ventaHistoricaData.comprobante === 'Boleta Impresa'
+                              ? 'boleta'
+                              : ventaHistoricaData.comprobante ===
+                                'Factura Impresa'
+                              ? 'factura'
+                              : '',
+                          )
+                        : ventaHistoricaData?.code}
                     </p>
                   )}
                 <p>
-                  <strong>Estado SUNAT:</strong>{" "}
+                  <strong>Estado SUNAT:</strong>{' '}
                   {ventaHistoricaData?.estadoSunat}
                 </p>
               </div>
@@ -215,7 +226,7 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                       <TableCell>{producto?.descripcion}</TableCell>
                       <TableCell>
                         <Badge variant="outline">
-                          {producto?.tipo === "moto"
+                          {producto?.tipo === 'moto'
                             ? producto?.estado?.titulo
                             : producto?.estado}
                         </Badge>
@@ -225,9 +236,9 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{" "}
+                        S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
-                          2
+                          2,
                         )}
                       </TableCell>
                       <TableCell>
@@ -316,17 +327,17 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
             <CardContent>
               <div className="space-y-2">
                 <p>
-                  <strong>Total de Productos:</strong>{" "}
+                  <strong>Total de Productos:</strong>{' '}
                   {ventaHistoricaData?.productos?.reduce(
                     (acc, producto) => acc + producto?.cantidad,
-                    0
+                    0,
                   )}
                 </p>
                 <p>
-                  <strong>Total de Obsequios:</strong>{" "}
+                  <strong>Total de Obsequios:</strong>{' '}
                   {ventaHistoricaData?.obsequios?.reduce(
                     (acc, obsequio) => acc + obsequio?.cantidad,
-                    0
+                    0,
                   )}
                 </p>
                 <p>
@@ -335,7 +346,7 @@ export function DetailVentaHistoricaContent({ ventaHistoricaData }) {
                     .reduce(
                       (acc, producto) =>
                         acc + producto?.precioVenta * producto?.cantidad,
-                      0
+                      0,
                     )
                     .toFixed(2)}
                 </p>

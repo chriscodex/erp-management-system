@@ -30,7 +30,7 @@ export class OrdenServicioService {
 
       if (ordenesDeServicio?.length === 0) {
         console.log(
-          'Orden De Servicio Service: No se encontraron ordenes de servicio'
+          'Orden De Servicio Service: No se encontraron ordenes de servicio',
         );
         return {
           status: 200,
@@ -44,7 +44,7 @@ export class OrdenServicioService {
       };
     } catch (error) {
       console.error(
-        `Orden De Servicio Service: Error interno al buscar todas las ordenes de servicio: ${error.message}`
+        `Orden De Servicio Service: Error interno al buscar todas las ordenes de servicio: ${error.message}`,
       );
       return {
         status: 500,
@@ -57,12 +57,12 @@ export class OrdenServicioService {
     try {
       const ordenDeServicioFound =
         await this.ordenServicioRepository.getOrdenDeServicioByData(
-          ordenDeServicioData
+          ordenDeServicioData,
         );
 
       if (!ordenDeServicioFound) {
         console.log(
-          'Orden De Servicio Service: La orden de servicio no existe'
+          'Orden De Servicio Service: La orden de servicio no existe',
         );
         return {
           status: 200,
@@ -77,7 +77,7 @@ export class OrdenServicioService {
       };
     } catch (error) {
       console.error(
-        `Orden De Servicio Service: Error interno al buscar la orden de servicio: ${error.message}`
+        `Orden De Servicio Service: Error interno al buscar la orden de servicio: ${error.message}`,
       );
       return {
         status: 500,
@@ -93,9 +93,8 @@ export class OrdenServicioService {
       const clienteTipo = ordenDeServicioData?.cliente?.tipo;
       const clienteDatos = ordenDeServicioData?.cliente?.datos;
 
-      const clienteExistente = await this.clienteRepository.getClienteByData(
-        clienteDatos
-      );
+      const clienteExistente =
+        await this.clienteRepository.getClienteByData(clienteDatos);
 
       let clienteFinal = clienteExistente;
 
@@ -127,14 +126,14 @@ export class OrdenServicioService {
 
       // Validar los datos de la orden de servicio
       const ordenServicioValidated = createOrdenServicioSchema.safeParse(
-        ordenDeServicioObject
+        ordenDeServicioObject,
       );
 
       if (!ordenServicioValidated.success) {
         console.log(
           'Orden De Servicio Service: Error de validación de schema de orden de servicio al crear',
           ordenServicioValidated.error.format?.() ||
-            ordenServicioValidated.error
+            ordenServicioValidated.error,
         );
         return {
           status: 400,
@@ -143,10 +142,10 @@ export class OrdenServicioService {
       }
       const newOrdenDeServicio =
         await this.ordenServicioRepository.createOrdenDeServicio(
-          ordenDeServicioObject
+          ordenDeServicioObject,
         );
       console.log(
-        'Orden De Servicio Service: Orden de servicio creada correctamente'
+        'Orden De Servicio Service: Orden de servicio creada correctamente',
       );
       return {
         status: 201,
@@ -154,7 +153,7 @@ export class OrdenServicioService {
       };
     } catch (error) {
       console.log(
-        `Orden De Servicio Service: Error interno al crear una orden de servicio ${error}`
+        `Orden De Servicio Service: Error interno al crear una orden de servicio ${error}`,
       );
       return {
         status: 400,
@@ -193,9 +192,8 @@ export class OrdenServicioService {
         const clienteTipo = ordenDeServicioData?.cliente?.tipo;
         const clienteDatos = ordenDeServicioData?.cliente?.datos;
 
-        const clienteExistente = await this.clienteRepository.getClienteByData(
-          clienteDatos
-        );
+        const clienteExistente =
+          await this.clienteRepository.getClienteByData(clienteDatos);
 
         let clienteFinal = clienteExistente;
 
@@ -224,12 +222,12 @@ export class OrdenServicioService {
         const ordenDeServicioUpdated =
           await this.ordenServicioRepository.updateOrdenDeServicio(
             ordenDeServicioId,
-            cleanedOrdenDeServicioData
+            cleanedOrdenDeServicioData,
           );
 
         if (!ordenDeServicioUpdated) {
           console.log(
-            'Orden De Servicio Service: La orden de servicio no existe'
+            'Orden De Servicio Service: La orden de servicio no existe',
           );
           return {
             status: 404,
@@ -238,7 +236,7 @@ export class OrdenServicioService {
         }
 
         console.log(
-          'Orden De Servicio Service: Orden actualizada como eliminación'
+          'Orden De Servicio Service: Orden actualizada como eliminación',
         );
         return {
           status: 200,
@@ -278,7 +276,7 @@ export class OrdenServicioService {
             await this.productRepository.updateUnitProduct(product.unitId, {
               estado: 'disponible',
             });
-          })
+          }),
         );
 
         // Cambiar estado a "taller" de productos agregados
@@ -288,19 +286,19 @@ export class OrdenServicioService {
             await this.productRepository.updateUnitProduct(product.unitId, {
               estado: 'taller',
             });
-          })
+          }),
         );
       }
 
       const ordenDeServicioUpdated =
         await this.ordenServicioRepository.updateOrdenDeServicio(
           ordenDeServicioId,
-          ordenDeServicioData
+          ordenDeServicioData,
         );
 
       if (!ordenDeServicioUpdated) {
         console.log(
-          'Orden De Servicio Service: La orden de servicio no existe'
+          'Orden De Servicio Service: La orden de servicio no existe',
         );
         return {
           status: 404,
@@ -309,7 +307,7 @@ export class OrdenServicioService {
       }
 
       console.log(
-        'Orden De Servicio Service: Orden de servicio actualizada correctamente'
+        'Orden De Servicio Service: Orden de servicio actualizada correctamente',
       );
       return {
         status: 200,
@@ -317,7 +315,7 @@ export class OrdenServicioService {
       };
     } catch (error) {
       console.error(
-        `Orden De Servicio Service: Error interno al actualizar la orden de servicio: ${error.message}`
+        `Orden De Servicio Service: Error interno al actualizar la orden de servicio: ${error.message}`,
       );
       return {
         status: 500,
@@ -347,17 +345,17 @@ export class OrdenServicioService {
           await this.productRepository.updateUnitProduct(producto.unitId, {
             estado: 'disponible',
           });
-        })
+        }),
       );
 
       const deletedOrdenDeServicio =
         await this.ordenServicioRepository.deleteOrdenDeServicio(
-          ordenDeServicioId
+          ordenDeServicioId,
         );
 
       if (!deletedOrdenDeServicio) {
         console.log(
-          'Orden De Servicio Service: La orden de servicio no existe'
+          'Orden De Servicio Service: La orden de servicio no existe',
         );
         return {
           status: 200,
@@ -366,7 +364,7 @@ export class OrdenServicioService {
       }
 
       console.log(
-        'Orden De Servicio Service: Orden de servicio eliminada correctamente'
+        'Orden De Servicio Service: Orden de servicio eliminada correctamente',
       );
       return {
         status: 204,
@@ -374,7 +372,7 @@ export class OrdenServicioService {
       };
     } catch (error) {
       console.error(
-        `Orden De Servicio Service: Error interno al eliminar la orden de servicio: ${error.message}`
+        `Orden De Servicio Service: Error interno al eliminar la orden de servicio: ${error.message}`,
       );
       return {
         status: 500,
@@ -391,7 +389,7 @@ export class OrdenServicioService {
 
       if (!ordenDeServicio) {
         console.log(
-          'Orden De Servicio Service: La orden de servicio no existe'
+          'Orden De Servicio Service: La orden de servicio no existe',
         );
         return {
           status: 200,
@@ -425,19 +423,19 @@ export class OrdenServicioService {
 
       const ordenDeServicioHistoricaCreated =
         await this.ordenServicioHistoricaRepository.createOrdenDeServicioHistorica(
-          ordenDeServicioHistorica
+          ordenDeServicioHistorica,
         );
 
       console.log(
-        'Orden De Servicio Service: Orden de servicio finalizada correctamente'
+        'Orden De Servicio Service: Orden de servicio finalizada correctamente',
       );
 
       await this.ordenServicioRepository.deleteOrdenDeServicio(
-        ordenDeServicioId
+        ordenDeServicioId,
       );
 
       console.log(
-        'Orden De Servicio Service: Orden de servicio eliminada correctamente'
+        'Orden De Servicio Service: Orden de servicio eliminada correctamente',
       );
 
       return {
@@ -449,7 +447,7 @@ export class OrdenServicioService {
       };
     } catch (error) {
       console.error(
-        `Orden De Servicio Service: Error interno al finalizar la orden de servicio: ${error.message}`
+        `Orden De Servicio Service: Error interno al finalizar la orden de servicio: ${error.message}`,
       );
       return {
         status: 500,
@@ -460,7 +458,7 @@ export class OrdenServicioService {
 
   async enviarBoletaASunatDeOrdenDeServicio(
     ordenDeServicioId,
-    ordenDeServicioData
+    ordenDeServicioData,
   ) {
     try {
       // 1. Obtener la orden de servicio
@@ -476,9 +474,8 @@ export class OrdenServicioService {
       }
 
       // 2. Obtener el contador de boletas
-      const numeroBoleta = await this.counterRepository.getCounterByType(
-        'boletas'
-      );
+      const numeroBoleta =
+        await this.counterRepository.getCounterByType('boletas');
       if (!numeroBoleta) {
         return {
           status: 500,
@@ -489,7 +486,7 @@ export class OrdenServicioService {
       // 3. Calcular serie y correlativo
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         numeroBoleta,
-        'boleta'
+        'boleta',
       );
 
       // 4. Mapear la venta al formato JSON de boleta
@@ -560,15 +557,15 @@ export class OrdenServicioService {
         detallesCompletos
           .reduce(
             (acumulador, elemento) => acumulador + elemento.mtoValorVenta,
-            0
+            0,
           )
-          .toFixed(2)
+          .toFixed(2),
       );
       const valorDeVenta = montoOperGravadas;
       const montoIGV = Number(
         detallesCompletos
           .reduce((acumulador, elemento) => acumulador + elemento.igv, 0)
-          .toFixed(2)
+          .toFixed(2),
       );
       const subTotal = Number((montoOperGravadas + montoIGV).toFixed(2));
       const montoImpVenta = subTotal;
@@ -638,7 +635,7 @@ export class OrdenServicioService {
 
       await this.ordenServicioRepository.updateOrdenDeServicio(
         ordenDeServicioId,
-        { estadoSunat, fechaEmisionComprobante }
+        { estadoSunat, fechaEmisionComprobante },
       );
 
       // 8. Devolver la orden de servicio y la respuesta de Sunat
@@ -654,7 +651,7 @@ export class OrdenServicioService {
     } catch (error) {
       console.error(
         'Orden de Servicio Service: Error al enviar boleta a Sunat:',
-        error.message
+        error.message,
       );
       return {
         status: 500,
@@ -677,9 +674,8 @@ export class OrdenServicioService {
       }
 
       // 2. Obtener el contador de facturas
-      const numeroFactura = await this.counterRepository.getCounterByType(
-        'facturas'
-      );
+      const numeroFactura =
+        await this.counterRepository.getCounterByType('facturas');
       if (!numeroFactura) {
         return {
           status: 500,
@@ -690,7 +686,7 @@ export class OrdenServicioService {
       // 3. Calcular serie y correlativo
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         numeroFactura,
-        'factura'
+        'factura',
       );
 
       // 4. Mapear la venta al formato JSON de factura
@@ -772,15 +768,15 @@ export class OrdenServicioService {
         detallesCompletos
           .reduce(
             (acumulador, elemento) => acumulador + elemento.mtoValorVenta,
-            0
+            0,
           )
-          .toFixed(2)
+          .toFixed(2),
       );
       const valorDeVenta = montoOperGravadas;
       const montoIGV = Number(
         detallesCompletos
           .reduce((acumulador, elemento) => acumulador + elemento.igv, 0)
-          .toFixed(2)
+          .toFixed(2),
       );
       const subTotal = +(montoOperGravadas + montoIGV).toFixed(2);
       const montoImpVenta = subTotal;
@@ -852,7 +848,7 @@ export class OrdenServicioService {
 
       await this.ordenServicioRepository.updateOrdenDeServicio(
         ordenServicioId,
-        { estadoSunat, fechaEmisionComprobante }
+        { estadoSunat, fechaEmisionComprobante },
       );
 
       // 8. Devolver la orden de servicio y la respuesta de Sunat
@@ -868,7 +864,7 @@ export class OrdenServicioService {
     } catch (error) {
       console.error(
         'Orden de Servicio Service: Error al enviar factura a Sunat:',
-        error.message
+        error.message,
       );
       return {
         status: 500,

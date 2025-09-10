@@ -1,22 +1,21 @@
-import { ClienteService } from "@/backend/clientes/application/cliente.service";
+import { ClienteService } from '@/backend/clientes/application/cliente.service';
 import {
   getDataByDniFromExternalApi,
   getDataByRucFromExternalApi,
-} from "@/backend/shared/externalApi";
-import { connectDB } from "@/db/mongodb";
+} from '@/backend/shared/externalApi';
+import { connectDB } from '@/db/mongodb';
 
 // const clienteService = new ClienteService();
 
 const clienteService = new ClienteService(
   getDataByDniFromExternalApi,
-  getDataByRucFromExternalApi
+  getDataByRucFromExternalApi,
 );
 
 export async function getClientesRequestHandlerController(request) {
-
   const { searchParams } = new URL(request.url);
-  const dni = searchParams.get("dni");
-  const ruc = searchParams.get("ruc");
+  const dni = searchParams.get('dni');
+  const ruc = searchParams.get('ruc');
 
   if (dni || ruc) {
     return await getClienteByDataController(request);
@@ -32,11 +31,11 @@ export async function getAllClientesController() {
     return clientes;
   } catch (error) {
     console.error(
-      "Cliente Controller: Error interno al obtener todos las clientes:",
-      error.message
+      'Cliente Controller: Error interno al obtener todos las clientes:',
+      error.message,
     );
     throw new Error(
-      "Cliente Controller: Error interno al obtener todos las clientes"
+      'Cliente Controller: Error interno al obtener todos las clientes',
     );
   }
 }
@@ -45,20 +44,20 @@ export async function getClienteByDataController(contextRoute) {
   try {
     const { searchParams } = new URL(contextRoute.url);
 
-    const id = searchParams.get("id");
-    const dni = searchParams.get("dni");
-    const ruc = searchParams.get("ruc");
+    const id = searchParams.get('id');
+    const dni = searchParams.get('dni');
+    const ruc = searchParams.get('ruc');
 
     if ([id, dni, ruc].filter(Boolean).length === 0) {
       return {
-        payload: "Debe proporcionar un ID, DNI o RUC",
+        payload: 'Debe proporcionar un ID, DNI o RUC',
         status: 400,
       };
     }
 
     if ([id, dni, ruc].filter(Boolean).length > 1) {
       return {
-        payload: "Debe proporcionar solo un ID, DNI o RUC, no varios a la vez",
+        payload: 'Debe proporcionar solo un ID, DNI o RUC, no varios a la vez',
         status: 400,
       };
     }
@@ -80,10 +79,10 @@ export async function getClienteByDataController(contextRoute) {
     return cliente;
   } catch (error) {
     console.error(
-      "Cliente Controller: Error interno al obtener el cliente",
-      error.message
+      'Cliente Controller: Error interno al obtener el cliente',
+      error.message,
     );
-    throw new Error("Cliente Controller: Error interno al obtener el cliente");
+    throw new Error('Cliente Controller: Error interno al obtener el cliente');
   }
 }
 
@@ -99,10 +98,10 @@ export async function createClienteController(request) {
     return createdCliente;
   } catch (error) {
     console.error(
-      "Cliente Controller: Error interno al crear el cliente",
-      error.message
+      'Cliente Controller: Error interno al crear el cliente',
+      error.message,
     );
-    throw new Error("Cliente Controller: Error interno al crear el cliente");
+    throw new Error('Cliente Controller: Error interno al crear el cliente');
   }
 }
 
@@ -118,11 +117,11 @@ export async function updateClienteController(request, contextRoute) {
     return updatedCliente;
   } catch (error) {
     console.error(
-      "Cliente Controller: Error interno al actualizar el cliente",
-      error.message
+      'Cliente Controller: Error interno al actualizar el cliente',
+      error.message,
     );
     throw new Error(
-      "Cliente Controller: Error interno al actualizar el cliente"
+      'Cliente Controller: Error interno al actualizar el cliente',
     );
   }
 }
@@ -138,9 +137,9 @@ export async function deleteClienteController(contextRoute) {
     return deletedCliente;
   } catch (error) {
     console.error(
-      "Cliente Controller: Error interno eliminando el cliente",
-      error.message
+      'Cliente Controller: Error interno eliminando el cliente',
+      error.message,
     );
-    throw new Error("Cliente Controller: Error interno eliminando el cliente");
+    throw new Error('Cliente Controller: Error interno eliminando el cliente');
   }
 }

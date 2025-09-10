@@ -1,16 +1,16 @@
-import { connectDB } from "@/db/mongodb";
-import { postData,deleteData } from "@/lib/fetchData";
-import { createModeloPedidoClientUrl,deletePedidoClientUrl } from "@/lib/urls";
-import { delay, simplificadorParaClientComponent } from "@/lib/utils";
+import { connectDB } from '@/db/mongodb';
+import { postData, deleteData } from '@/lib/fetchData';
+import { createModeloPedidoClientUrl, deletePedidoClientUrl } from '@/lib/urls';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
-import { PedidoService } from "@/backend/pedidos/application/pedido.service";
-import { ModeloService } from "@/backend/modelos/application/modelo.service";
-import { ModeloPedidoService } from "@/backend/modelosPedidos/application/modeloPedido.service";
-import { ProveedorService } from "@/backend/proveedores/application/proveedor.service";
-import { AlmacenService } from "@/backend/almacenes/application/almacen.service";
+import { PedidoService } from '@/backend/pedidos/application/pedido.service';
+import { ModeloService } from '@/backend/modelos/application/modelo.service';
+import { ModeloPedidoService } from '@/backend/modelosPedidos/application/modeloPedido.service';
+import { ProveedorService } from '@/backend/proveedores/application/proveedor.service';
+import { AlmacenService } from '@/backend/almacenes/application/almacen.service';
 
-import { MarcaService } from "@/backend/marcas/application/marca.service";
-import { CategoryService } from "@/backend/categorias/application/category.service";
+import { MarcaService } from '@/backend/marcas/application/marca.service';
+import { CategoryService } from '@/backend/categorias/application/category.service';
 
 export async function getPedidoRequestServer(pedidoId) {
   try {
@@ -42,7 +42,7 @@ export async function getAllPedidosRequestServer() {
     const response = await pedidoService.getAllPedidos();
 
     if (response?.status !== 200) {
-      console.log("Error al obtener todos los pedidos");
+      console.log('Error al obtener todos los pedidos');
       return { pedidos: [], status: 500 };
     }
     const pedidos = response?.payload;
@@ -56,11 +56,9 @@ export async function getAllPedidosRequestServer() {
 }
 
 export async function deletePedidoRequestClient(pedidoId) {
-
-  console.log("Pedido en request client", pedidoId);
-  /* eslint-disable */
+  console.log('Pedido en request client', pedidoId);
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -70,7 +68,7 @@ export async function deletePedidoRequestClient(pedidoId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          "No se pudo eliminar el pedido: " + response.response?.data?.error
+          'No se pudo eliminar el pedido: ' + response.response?.data?.error,
         );
         return;
       }
@@ -90,7 +88,7 @@ export async function getAllModelosRequestServer() {
     const response = await modeloService.getAllModelos();
 
     if (response?.status !== 200) {
-      console.log("Error al obtener todos los modelos");
+      console.log('Error al obtener todos los modelos');
       return { modelos: [], status: 500 };
     }
     const modelos = response?.payload;
@@ -111,7 +109,7 @@ export async function getAllModelosPedidosRequestServer() {
     const response = await modeloPedidoService.getAllModelosPedidos();
 
     if (response?.status !== 200) {
-      console.log("Error al obtener todos los modelos");
+      console.log('Error al obtener todos los modelos');
       return { modelosPedidos: [], status: 500 };
     }
     const modelosPedidos = response?.payload;
@@ -132,7 +130,7 @@ export async function getAllProveedoresRequestServer() {
     const response = await proveedorService.getAllProveedores();
 
     if (response?.status !== 200) {
-      console.log("Error al obtener todos los proveedores");
+      console.log('Error al obtener todos los proveedores');
       return { proveedores: [], status: 500 };
     }
     const proveedores = response?.payload;
@@ -153,7 +151,7 @@ export async function getAllAlmacenesRequestServer() {
     const response = await almacenService.getAllAlmacenes();
 
     if (response?.status !== 200) {
-      console.log("Error al obtener todos los almacenes");
+      console.log('Error al obtener todos los almacenes');
       return { almacenes: [], status: 500 };
     }
     const almacenes = response?.payload;
@@ -167,15 +165,14 @@ export async function getAllAlmacenesRequestServer() {
 }
 
 export async function getMarcasBySegmentDataForModelosRequestServer(
-  marcaAndSegmentData
+  marcaAndSegmentData,
 ) {
   try {
     await connectDB();
     const marcaService = new MarcaService();
 
-    const response = await marcaService.getMarcasBySegmentData(
-      marcaAndSegmentData
-    );
+    const response =
+      await marcaService.getMarcasBySegmentData(marcaAndSegmentData);
 
     if (response?.status !== 200) {
       console.log('Error al obtener marcas por segmento');
@@ -189,14 +186,14 @@ export async function getMarcasBySegmentDataForModelosRequestServer(
 }
 
 export async function getCategoriesBySegmentDataForModelosRequestServer(
-  categoryAndSegmentData
+  categoryAndSegmentData,
 ) {
   try {
     await connectDB();
     const categoryService = new CategoryService();
 
     const response = await categoryService.getCategoriesBySegmentData(
-      categoryAndSegmentData
+      categoryAndSegmentData,
     );
 
     if (response?.status !== 200) {
@@ -213,23 +210,25 @@ export async function getCategoriesBySegmentDataForModelosRequestServer(
   }
 }
 
-
-export async function createModeloPedidoRequestClient(modeloPedidoData, setLoading) {
-  /* eslint-disable */
+export async function createModeloPedidoRequestClient(
+  modeloPedidoData,
+  setLoading,
+) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
       await delay();
 
       // Obtener los datos de la persona
-      const response = await postData(createModeloPedidoClientUrl, modeloPedidoData);
+      const response = await postData(
+        createModeloPedidoClientUrl,
+        modeloPedidoData,
+      );
       if (response?.status !== 201) {
         setLoading(false);
-        reject(
-          'No se pudo crear el modelo: ' + response.response?.data?.error
-        );
+        reject('No se pudo crear el modelo: ' + response.response?.data?.error);
         return;
       }
 
@@ -287,4 +286,3 @@ export async function getCategoryRequestServer(categoryId) {
     console.log(error);
   }
 }
-

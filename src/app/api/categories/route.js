@@ -15,11 +15,11 @@ export async function GET(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Categorias Route: Error interno al obtener todas las categorias: ${error.message}`
+      `Categorias Route: Error interno al obtener todas las categorias: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno obteniendo todas las categorías' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -35,11 +35,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Categorias Route: Error interno al crear la categoría: ${error.message}`
+      `Categorias Route: Error interno al crear la categoría: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear la categoría' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

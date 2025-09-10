@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import {
   IdCardIcon,
   Loader2,
@@ -14,9 +14,9 @@ import {
   User,
   UserCheck,
   CalendarIcon,
-} from "lucide-react";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   RiAppsLine,
   RiArrowLeftLine,
@@ -24,16 +24,16 @@ import {
   RiFileTextFill,
   RiInfoCardLine,
   RiInstanceFill,
-} from "@remixicon/react";
+} from '@remixicon/react';
 
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 import {
   Form,
   FormControl,
@@ -41,37 +41,37 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
+} from '@/components/formInputs/onChange';
 import {
   createOrdenDeServicioRequestClient,
   searchClientePorDniOrRucClientRequest,
-} from "@/app/taller/ordenes-servicio/nuevo/_services/requests";
+} from '@/app/taller/ordenes-servicio/nuevo/_services/requests';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
-import { createOrdenDeServicioSchema } from "@/app/taller/ordenes-servicio/nuevo/_services/validations/createOrdenDeServicioSchemaForm";
-import { MecanicosTallerTable } from "@/app/taller/ordenes-servicio/nuevo/_components/mecanicosTallerTable/data-table";
-import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
+} from '@/components/ui/select';
+import { Textarea } from '@/components/ui/textarea';
+import { createOrdenDeServicioSchema } from '@/app/taller/ordenes-servicio/nuevo/_services/validations/createOrdenDeServicioSchemaForm';
+import { MecanicosTallerTable } from '@/app/taller/ordenes-servicio/nuevo/_components/mecanicosTallerTable/data-table';
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
 
 export function NuevaOrdenDeServicioForm(mecanicos) {
   const router = useRouter();
@@ -86,24 +86,24 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
     defaultValues: {
       //Cliente
 
-      identificador: "",
-      tipo: "persona",
-      nombres: "",
-      apellidos: "",
-      razonSocial: "",
-      representanteLegal: "",
-      email: "",
-      direccion: "",
-      celular: "",
+      identificador: '',
+      tipo: 'persona',
+      nombres: '',
+      apellidos: '',
+      razonSocial: '',
+      representanteLegal: '',
+      email: '',
+      direccion: '',
+      celular: '',
 
       //Moto
 
-      nombre: "",
-      placa: "",
-      vin: "",
-      descripcion: "",
-      categoria: "",
-      marca: "",
+      nombre: '',
+      placa: '',
+      vin: '',
+      descripcion: '',
+      categoria: '',
+      marca: '',
 
       //Mecanicos
 
@@ -111,10 +111,10 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
 
       //Orden de servicio
 
-      montoAdelanto: "",
-      origenServicio: "",
-      tipoServicio: "",
-      comentarios: "",
+      montoAdelanto: '',
+      origenServicio: '',
+      tipoServicio: '',
+      comentarios: '',
       fechaIngreso: new Date(),
     },
   });
@@ -138,10 +138,10 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
     toast.promise(
       createOrdenDeServicioRequestClient(
         createOrdenDeServicioObject,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
-        loading: "Registrando...",
+        loading: 'Registrando...',
         success: (response) => {
           console.log(response);
           clearErrors();
@@ -152,7 +152,7 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
           setFormSubmitIsLoading(false);
           return error instanceof Error ? error.message : String(error);
         },
-      }
+      },
     );
   });
 
@@ -165,103 +165,103 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
       const tipo = formData.tipo;
       const identificador = formData.identificador;
 
-      if (tipo === "persona") {
+      if (tipo === 'persona') {
         if (!identificador || identificador.length !== 8) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un DNI válido", {
-            description: "El DNI debe tener 8 dígitos",
+          toast.warning('Por favor, ingrese un DNI válido', {
+            description: 'El DNI debe tener 8 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (persona) => {
               setValue(
-                "apellidos",
-                persona?.apellidos || persona?.datos?.apellidos
+                'apellidos',
+                persona?.apellidos || persona?.datos?.apellidos,
               );
-              setValue("nombres", persona?.nombres || persona?.datos?.nombres);
+              setValue('nombres', persona?.nombres || persona?.datos?.nombres);
               setValue(
-                "direccion",
-                persona?.direccion || persona?.datos?.direccion
+                'direccion',
+                persona?.direccion || persona?.datos?.direccion,
               );
-              setValue("email", persona?.email || persona?.datos?.email);
-              setValue("celular", persona?.celular || persona?.datos?.celular);
-              clearErrors("apellidos");
-              clearErrors("nombres");
-              clearErrors("direccion");
-              clearErrors("email");
-              clearErrors("celular");
+              setValue('email', persona?.email || persona?.datos?.email);
+              setValue('celular', persona?.celular || persona?.datos?.celular);
+              clearErrors('apellidos');
+              clearErrors('nombres');
+              clearErrors('direccion');
+              clearErrors('email');
+              clearErrors('celular');
               return `Persona encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
 
-      if (tipo === "empresa") {
+      if (tipo === 'empresa') {
         if (!identificador || identificador.length !== 11) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un RUC válido", {
-            description: "El RUC debe tener 11 dígitos",
+          toast.warning('Por favor, ingrese un RUC válido', {
+            description: 'El RUC debe tener 11 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (empresa) => {
               setValue(
-                "razonSocial",
-                empresa?.razonSocial || empresa?.datos?.razonSocial
+                'razonSocial',
+                empresa?.razonSocial || empresa?.datos?.razonSocial,
               );
               setValue(
-                "representanteLegal",
+                'representanteLegal',
                 empresa?.representanteLegal ||
-                  empresa?.datos?.representanteLegal
+                  empresa?.datos?.representanteLegal,
               );
               setValue(
-                "direccion",
-                empresa?.direccion || empresa?.datos?.direccion
+                'direccion',
+                empresa?.direccion || empresa?.datos?.direccion,
               );
-              setValue("email", empresa?.email || empresa?.datos?.email);
-              setValue("celular", empresa?.celular || empresa?.datos?.celular);
-              clearErrors("razonSocial");
-              clearErrors("representanteLegal");
-              clearErrors("direccion");
-              clearErrors("email");
-              clearErrors("celular");
+              setValue('email', empresa?.email || empresa?.datos?.email);
+              setValue('celular', empresa?.celular || empresa?.datos?.celular);
+              clearErrors('razonSocial');
+              clearErrors('representanteLegal');
+              clearErrors('direccion');
+              clearErrors('email');
+              clearErrors('celular');
               return `Empresa encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
     } catch (error) {
       setSearchByDniOrRucIsLoading(false);
-      toast.error("Error al buscar persona por DNI");
-      console.error("Error al buscar persona por DNI:", error);
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
     }
   };
 
   useEffect(() => {
-    form.setValue("mecanicos", mecanicosTaller);
-    form.clearErrors("mecanicos");
+    form.setValue('mecanicos', mecanicosTaller);
+    form.clearErrors('mecanicos');
   }, [mecanicosTaller]);
 
   return (
@@ -282,22 +282,22 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
                       <RadioGroup
                         onValueChange={(value) => {
                           field.onChange(value);
-                          setValue("identificador", "");
-                          clearErrors("identificador");
-                          clearErrors("apellidos");
-                          clearErrors("nombres");
-                          clearErrors("razonSocial");
-                          clearErrors("representanteLegal");
-                          clearErrors("direccion");
-                          clearErrors("email");
-                          clearErrors("celular");
-                          setValue("apellidos", "");
-                          setValue("nombres", "");
-                          setValue("razonSocial", "");
-                          setValue("representanteLegal", "");
-                          setValue("direccion", "");
-                          setValue("email", "");
-                          setValue("celular", "");
+                          setValue('identificador', '');
+                          clearErrors('identificador');
+                          clearErrors('apellidos');
+                          clearErrors('nombres');
+                          clearErrors('razonSocial');
+                          clearErrors('representanteLegal');
+                          clearErrors('direccion');
+                          clearErrors('email');
+                          clearErrors('celular');
+                          setValue('apellidos', '');
+                          setValue('nombres', '');
+                          setValue('razonSocial', '');
+                          setValue('representanteLegal', '');
+                          setValue('direccion', '');
+                          setValue('email', '');
+                          setValue('celular', '');
                         }}
                         defaultValue={field.value}
                         className="flex flex-row space-x-4"
@@ -328,7 +328,7 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>
-                      {watch("tipo") === "persona" ? "DNI" : "RUC"}
+                      {watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
                     </FormLabel>
                     <div className="relative">
                       <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -336,7 +336,7 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
                         <Input
                           type="text"
                           placeholder={
-                            watch("tipo") === "persona" ? "DNI" : "RUC"
+                            watch('tipo') === 'persona' ? 'DNI' : 'RUC'
                           }
                           className="pl-8"
                           autoComplete="off"
@@ -352,10 +352,10 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
                       <FormMessage />
                       <div
                         className={cn(
-                          "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
+                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
                           searchByDniOrRucIsLoading
-                            ? "opacity-75 pointer-events-none"
-                            : "cursor-pointer"
+                            ? 'opacity-75 pointer-events-none'
+                            : 'cursor-pointer',
                         )}
                         onClick={handleSearchByDniOrRuc}
                       >
@@ -380,7 +380,7 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
                   </FormItem>
                 )}
               />
-              {watch("tipo") === "persona" ? (
+              {watch('tipo') === 'persona' ? (
                 <>
                   <FormField
                     control={control}
@@ -786,15 +786,15 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !date && "text-muted-foreground"
+                              'w-[280px] justify-start text-left font-normal',
+                              !date && 'text-muted-foreground',
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {date ? (
-                              format(date, "PPP", { locale: es })
+                              format(date, 'PPP', { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -810,7 +810,7 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
                             onSelect={(selectedDate) => {
                               if (selectedDate) {
                                 field.onChange(selectedDate);
-                                setDate(selectedDate); 
+                                setDate(selectedDate);
                                 setOpen(false);
                               }
                             }}
@@ -833,7 +833,7 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
                     <FormLabel>Origen del Servicio</FormLabel>
                     <div className="relative">
                       <Select
-                        defaultValue={""}
+                        defaultValue={''}
                         onValueChange={field.onChange}
                         disabled={formSubmitIsLoading}
                       >
@@ -861,7 +861,7 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
                     <FormLabel>Tipo de Servicio</FormLabel>
                     <div className="relative">
                       <Select
-                        defaultValue={""}
+                        defaultValue={''}
                         onValueChange={field.onChange}
                         disabled={formSubmitIsLoading}
                       >
@@ -972,7 +972,7 @@ export function NuevaOrdenDeServicioForm(mecanicos) {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                "Registrando..."
+                'Registrando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

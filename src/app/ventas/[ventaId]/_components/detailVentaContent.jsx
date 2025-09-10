@@ -1,8 +1,8 @@
-import { User, Package, Gift, Calendar, Hash, FileText } from "lucide-react";
-import { RiFileListLine } from "@remixicon/react";
+import { User, Package, Gift, Calendar, Hash, FileText } from 'lucide-react';
+import { RiFileListLine } from '@remixicon/react';
 
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -10,14 +10,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { formatDateLong } from "@/lib/formateador";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/table';
+import { formatDateLong } from '@/lib/formateador';
+import { Label } from '@/components/ui/label';
 
-import { DetailProductPreventaDetailSheet } from "@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet";
-import { DetailVentaButtons } from "@/app/ventas/[ventaId]/_components/buttons/detailVentaButtons";
-import { EmitirComprobanteVentaButton } from "@/app/ventas/[ventaId]/_components/buttons/emitirComprobanteVentaButton";
-import { DetailObsequioPreventaDetailSheet } from "../../preventas/[preventaId]/_components/sheets/detailObsequioPreventaDetailSheet";
+import { DetailProductPreventaDetailSheet } from '@/app/ventas/preventas/[preventaId]/_components/sheets/detailProductPreventaDetailSheet';
+import { DetailVentaButtons } from '@/app/ventas/[ventaId]/_components/buttons/detailVentaButtons';
+import { EmitirComprobanteVentaButton } from '@/app/ventas/[ventaId]/_components/buttons/emitirComprobanteVentaButton';
+import { DetailObsequioPreventaDetailSheet } from '../../preventas/[preventaId]/_components/sheets/detailObsequioPreventaDetailSheet';
 
 export function DetailVentaContent({ ventaData }) {
   return (
@@ -41,12 +41,12 @@ export function DetailVentaContent({ ventaData }) {
                 Información del Cliente
               </CardTitle>
             </CardHeader>
-            {ventaData?.clienteId?.tipo === "persona" ? (
+            {ventaData?.clienteId?.tipo === 'persona' ? (
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Nombre:</strong>{" "}
-                    {ventaData?.clienteId?.datos?.nombres}{" "}
+                    <strong>Nombre:</strong>{' '}
+                    {ventaData?.clienteId?.datos?.nombres}{' '}
                     {ventaData?.clienteId?.datos?.apellidos}
                   </p>
                   <p>
@@ -54,19 +54,19 @@ export function DetailVentaContent({ ventaData }) {
                   </p>
                   {ventaData?.clienteId?.datos?.direccion && (
                     <p>
-                      <strong>Dirección:</strong>{" "}
+                      <strong>Dirección:</strong>{' '}
                       {ventaData?.clienteId?.datos?.direccion}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -76,29 +76,29 @@ export function DetailVentaContent({ ventaData }) {
               <CardContent>
                 <div className="space-y-2">
                   <p>
-                    <strong>Razon Social:</strong>{" "}
+                    <strong>Razon Social:</strong>{' '}
                     {ventaData?.clienteId?.datos?.razonSocial}
                   </p>
                   <p>
                     <strong>RUC:</strong> {ventaData?.clienteId?.datos?.ruc}
                   </p>
                   <p>
-                    <strong>Representante Legal:</strong>{" "}
+                    <strong>Representante Legal:</strong>{' '}
                     {ventaData?.clienteId?.datos?.representanteLegal}
                   </p>
                   <p>
-                    <strong>Direccion:</strong>{" "}
+                    <strong>Direccion:</strong>{' '}
                     {ventaData?.clienteId?.datos?.direccion}
                   </p>
                   {ventaData?.clienteId?.datos?.email && (
                     <p>
-                      <strong>Email:</strong>{" "}
+                      <strong>Email:</strong>{' '}
                       {ventaData?.clienteId?.datos?.email}
                     </p>
                   )}
                   {ventaData?.clienteId?.datos?.celular && (
                     <p>
-                      <strong>Celular:</strong>{" "}
+                      <strong>Celular:</strong>{' '}
                       {ventaData?.clienteId?.datos?.celular}
                     </p>
                   )}
@@ -120,14 +120,14 @@ export function DetailVentaContent({ ventaData }) {
                   <strong>Código:</strong> {ventaData?.code}
                 </p>
                 <p>
-                  <strong>Fecha:</strong>{" "}
+                  <strong>Fecha:</strong>{' '}
                   {formatDateLong(ventaData?.fecha, true)}
                 </p>
                 <p>
-                  <strong>Vendedor:</strong>{" "}
+                  <strong>Vendedor:</strong>{' '}
                   {ventaData?.usuario?.nombres +
-                    " " +
-                    ventaData?.usuario?.apellidos}{" "}
+                    ' ' +
+                    ventaData?.usuario?.apellidos}{' '}
                 </p>
                 {ventaData?.sucursalId?.nombre && (
                   <p>
@@ -177,7 +177,7 @@ export function DetailVentaContent({ ventaData }) {
                       <TableCell>{producto?.descripcion}</TableCell>
                       <TableCell>
                         <Badge variant="outline">
-                          {producto?.tipo === "moto"
+                          {producto?.tipo === 'moto'
                             ? producto?.estado?.titulo
                             : producto?.estado}
                         </Badge>
@@ -187,9 +187,9 @@ export function DetailVentaContent({ ventaData }) {
                       </TableCell>
                       <TableCell>{producto?.cantidad}</TableCell>
                       <TableCell>
-                        S/.{" "}
+                        S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
-                          2
+                          2,
                         )}
                       </TableCell>
                       <TableCell>
@@ -277,17 +277,17 @@ export function DetailVentaContent({ ventaData }) {
             <CardContent>
               <div className="space-y-2">
                 <p>
-                  <strong>Total de Productos:</strong>{" "}
+                  <strong>Total de Productos:</strong>{' '}
                   {ventaData?.productos?.reduce(
                     (acc, producto) => acc + producto?.cantidad,
-                    0
+                    0,
                   )}
                 </p>
                 <p>
-                  <strong>Total de Obsequios:</strong>{" "}
+                  <strong>Total de Obsequios:</strong>{' '}
                   {ventaData?.obsequios?.reduce(
                     (acc, obsequio) => acc + obsequio?.cantidad,
-                    0
+                    0,
                   )}
                 </p>
                 <p>
@@ -296,7 +296,7 @@ export function DetailVentaContent({ ventaData }) {
                     .reduce(
                       (acc, producto) =>
                         acc + producto?.precioVenta * producto?.cantidad,
-                      0
+                      0,
                     )
                     .toFixed(2)}
                 </p>

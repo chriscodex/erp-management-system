@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
-import { ArrowUpDown, CalendarIcon, Edit, Text } from "lucide-react";
-import { RiDeleteBinLine, RiHashtag, RiPriceTag3Line } from "@remixicon/react";
+import { useEffect, useState } from 'react';
+import { ArrowUpDown, CalendarIcon, Edit, Text } from 'lucide-react';
+import { RiDeleteBinLine, RiHashtag, RiPriceTag3Line } from '@remixicon/react';
 
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
@@ -12,8 +12,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import {
   flexRender,
   getCoreRowModel,
@@ -21,25 +21,25 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/popover';
+import { Textarea } from '@/components/ui/textarea';
 
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
 
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 import {
   Table,
   TableBody,
@@ -47,8 +47,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
 import {
   Sheet,
   SheetContent,
@@ -58,12 +58,12 @@ import {
   SheetTrigger,
   SheetClose,
   SheetFooter,
-} from "@/components/ui/sheet";
-import { generarNumeroAleatorioSeisDigitos } from "@/lib/utils";
-import { SheetAddProductoExternoWrapper } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/sheets/addProductoExterno/sheetAddProductoExternoWrapper";
-import { formatDateShort } from "@/lib/formateador";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { productoExternoSchema } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/productoExternoSchemaForm";
+} from '@/components/ui/sheet';
+import { generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
+import { SheetAddProductoExternoWrapper } from '@/app/taller/ordenes-servicio/[id]/mecanico/_components/sheets/addProductoExterno/sheetAddProductoExternoWrapper';
+import { formatDateShort } from '@/lib/formateador';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { productoExternoSchema } from '@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/productoExternoSchemaForm';
 
 export function ProductosExternosTallerTable({
   productosExternosTaller,
@@ -72,8 +72,8 @@ export function ProductosExternosTallerTable({
   const updateRowValue = (internalId, key, value) => {
     setProductosExternosTaller((prevData) =>
       prevData.map((row) =>
-        row.internalId === internalId ? { ...row, [key]: value } : row
-      )
+        row.internalId === internalId ? { ...row, [key]: value } : row,
+      ),
     );
   };
 
@@ -81,7 +81,7 @@ export function ProductosExternosTallerTable({
     setProductosExternosTaller((prevData) => {
       // Filtra el producto a eliminar
       const updatedData = prevData.filter(
-        (row) => row.internalId !== internalId
+        (row) => row.internalId !== internalId,
       );
       // Reasigna la numeración
       return updatedData.map((row, index) => ({
@@ -93,13 +93,13 @@ export function ProductosExternosTallerTable({
 
   const columns = [
     {
-      accessorKey: "numeracion",
+      accessorKey: 'numeracion',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             className="w-1"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             N°
             <ArrowUpDown className="h-4 w-4" />
@@ -107,16 +107,16 @@ export function ProductosExternosTallerTable({
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("numeracion")}</div>;
+        return <div className="text-start">{row.getValue('numeracion')}</div>;
       },
     },
     {
-      accessorKey: "nombre",
+      accessorKey: 'nombre',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Nombre
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -124,16 +124,16 @@ export function ProductosExternosTallerTable({
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("nombre")}</div>;
+        return <div className="text-start">{row.getValue('nombre')}</div>;
       },
     },
     {
-      accessorKey: "fecha",
+      accessorKey: 'fecha',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Fecha
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -143,18 +143,18 @@ export function ProductosExternosTallerTable({
       cell: ({ row }) => {
         return (
           <div className="text-start">
-            {formatDateShort(row.getValue("fecha"), false)}
+            {formatDateShort(row.getValue('fecha'), false)}
           </div>
         );
       },
     },
     {
-      accessorKey: "cantidad",
+      accessorKey: 'cantidad',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Cantidad
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -162,13 +162,13 @@ export function ProductosExternosTallerTable({
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("cantidad")}</div>;
+        return <div className="text-start">{row.getValue('cantidad')}</div>;
       },
     },
 
     {
-      id: "actions",
-      header: "Acciones",
+      id: 'actions',
+      header: 'Acciones',
       cell: ({ row }) => {
         const productoExternoData = row.original;
 
@@ -185,8 +185,8 @@ export function ProductosExternosTallerTable({
         const updateForm = useForm({
           resolver: zodResolver(productoExternoSchema),
           defaultValues: {
-            nombre: productoExternoData.nombre || "",
-            descripcion: productoExternoData.descripcion || "",
+            nombre: productoExternoData.nombre || '',
+            descripcion: productoExternoData.descripcion || '',
             cantidad: productoExternoData.cantidad || 1,
             fecha: new Date(productoExternoData.fecha),
           },
@@ -196,21 +196,21 @@ export function ProductosExternosTallerTable({
 
         const onSubmit = handleSubmit(async (data) => {
           setFormSubmitIsLoading(true);
-          updateRowValue(productoExternoData.internalId, "nombre", data.nombre);
+          updateRowValue(productoExternoData.internalId, 'nombre', data.nombre);
           updateRowValue(
             productoExternoData.internalId,
-            "descripcion",
-            data.descripcion
+            'descripcion',
+            data.descripcion,
           );
           updateRowValue(
             productoExternoData.internalId,
-            "cantidad",
-            parseInt(data.cantidad)
+            'cantidad',
+            parseInt(data.cantidad),
           );
           updateRowValue(
             productoExternoData.internalId,
-            "fecha",
-            data.fecha.toISOString()
+            'fecha',
+            data.fecha.toISOString(),
           );
         });
 
@@ -230,8 +230,8 @@ export function ProductosExternosTallerTable({
                             Producto externo N°{productoExternoData?.numeracion}
                           </SheetTitle>
                           <SheetDescription>
-                            Modifique la información del producto externo actual. Luego
-                            pulse en actualizar
+                            Modifique la información del producto externo
+                            actual. Luego pulse en actualizar
                           </SheetDescription>
                         </SheetHeader>
                         <Form {...updateForm}>
@@ -313,15 +313,15 @@ export function ProductosExternosTallerTable({
                                     <Popover open={open} onOpenChange={setOpen}>
                                       <PopoverTrigger asChild>
                                         <Button
-                                          variant={"outline"}
+                                          variant={'outline'}
                                           className={cn(
-                                            "w-[280px] justify-start text-left font-normal",
-                                            !date && "text-muted-foreground"
+                                            'w-[280px] justify-start text-left font-normal',
+                                            !date && 'text-muted-foreground',
                                           )}
                                         >
                                           <CalendarIcon className="mr-2 h-4 w-4" />
                                           {date ? (
-                                            format(date, "PPP", { locale: es })
+                                            format(date, 'PPP', { locale: es })
                                           ) : (
                                             <span>Selecciona una fecha</span>
                                           )}
@@ -461,7 +461,7 @@ export function ProductosExternosTallerTable({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -474,13 +474,13 @@ export function ProductosExternosTallerTable({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

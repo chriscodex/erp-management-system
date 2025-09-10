@@ -7,9 +7,8 @@ import { EmpresaService } from '@/backend/empresas/application/empresa.service';
 import { connectDB } from '@/db/mongodb';
 
 export async function deletePreventaRequestClient(preventaId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -20,7 +19,7 @@ export async function deletePreventaRequestClient(preventaId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la preventa: ' + response.response?.data?.error
+          'No se pudo eliminar la preventa: ' + response.response?.data?.error,
         );
         return;
       }
@@ -33,9 +32,8 @@ export async function deletePreventaRequestClient(preventaId) {
 }
 
 export async function createVentaRequestClient(preventaId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -47,7 +45,6 @@ export async function createVentaRequestClient(preventaId) {
       }
 
       resolve(response?.data?.payload);
-      
     } catch (error) {
       reject(error);
     }

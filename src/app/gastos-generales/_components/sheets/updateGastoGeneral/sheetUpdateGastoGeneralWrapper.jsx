@@ -13,7 +13,7 @@ import { Sheet } from '@/components/ui/sheet';
 
 import { UpdateGastoGeneralForm } from '@/app/gastos-generales/_components/sheets/updateGastoGeneral/updateGastoGeneralForm';
 
-export function SheetUpdateGastoGeneralWrapper({ gastoGeneralData}) {
+export function SheetUpdateGastoGeneralWrapper({ gastoGeneralData }) {
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {

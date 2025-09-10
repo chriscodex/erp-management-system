@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Pencil, Trash2 } from "lucide-react";
-import Link from "next/link";
+import { Pencil, Trash2 } from 'lucide-react';
+import Link from 'next/link';
 
-import { Button } from "@/components/ui/button";
-import { DeleteMotoAlert } from "@/app/inventario/motos/modelos/[modeloId]/_components/dialogs/deleteUnidadMotoAlert";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { Button } from '@/components/ui/button';
+import { DeleteMotoAlert } from '@/app/inventario/motos/modelos/[modeloId]/_components/dialogs/deleteUnidadMotoAlert';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 export function DetailButtons({ motoId, modeloData }) {
   const router = useRouter();
@@ -19,7 +19,7 @@ export function DetailButtons({ motoId, modeloData }) {
     router.refresh();
   }, [router]);
 
-  if (session?.user?.rol !== "Administrador") return null;
+  if (session?.user?.rol !== 'Administrador') return null;
 
   return (
     <>

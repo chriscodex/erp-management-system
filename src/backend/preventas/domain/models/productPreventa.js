@@ -44,10 +44,7 @@ export const productoPreventaSchema = new Schema(
     ],
     precioCompra: {
       type: Number,
-      required: [
-        true,
-        'El precio de compra es requerido',
-      ],
+      required: [true, 'El precio de compra es requerido'],
       min: [0, 'El precio de compra no puede ser negativo'],
     },
     precioVenta: {
@@ -57,10 +54,7 @@ export const productoPreventaSchema = new Schema(
     },
     importado: {
       type: String,
-      required: [
-        true,
-        'Indicar si es importado es requerido',
-      ],
+      required: [true, 'Indicar si es importado es requerido'],
       enum: ['si', 'no'],
     },
     marcaNombre: {
@@ -94,5 +88,5 @@ export const productoPreventaSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );

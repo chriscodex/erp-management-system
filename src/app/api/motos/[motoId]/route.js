@@ -17,11 +17,11 @@ export async function DELETE(_, contextRoute) {
   } catch (error) {
     console.error(
       'Moto Route: Error interno eliminar una moto:',
-      error.message
+      error.message,
     );
     return NextResponse.json(
       { error: 'Error eliminando el producto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -30,7 +30,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateMotoController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -41,11 +41,11 @@ export async function PATCH(request, contextRoute) {
   } catch (error) {
     console.error(
       'Moto Route: Error interno actualizar la moto:',
-      error.message
+      error.message,
     );
     return NextResponse.json(
       { message: 'Error interno actualizando la moto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

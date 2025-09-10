@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 import { formatDateShort } from '@/lib/formateador';
-import { DeletePreventaAlert } from '@/app/ventas/preventas/[preventaId]/_components/dialogs/deletePreventaAlert';
+import { DeleteVentaAlert } from '@/app/ventas/[ventaId]/_components/dialogs/deleteVentaAlert';
 
 export const columnsVentas = [
   {
@@ -178,10 +178,10 @@ export const columnsVentas = [
             </DropdownMenuItem>
           </DropdownMenuContent>
           {/* Dialog Delete */}
-          <DeletePreventaAlert
+          <DeleteVentaAlert
             isOpen={isOpenDialogDelete}
             setIsOpen={setIsOpenDialogDelete}
-            preventaId={id}
+            ventaId={id}
             actionAfterComplete="refresh"
           />
         </DropdownMenu>

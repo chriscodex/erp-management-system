@@ -39,8 +39,7 @@ import { cn } from '@/lib/utils';
 import { UpdateFormCalendar } from '@/components/calendars/updateFormCalendar';
 import { updateGastoGeneralRequestClient } from '@/app/gastos-generales/_services/requests';
 
-export function UpdateGastoGeneralForm({ onClose, gastoGeneralData}) {
-
+export function UpdateGastoGeneralForm({ onClose, gastoGeneralData }) {
   const router = useRouter();
   const [date, setDate] = useState(new Date(gastoGeneralData?.fecha));
 
@@ -74,13 +73,14 @@ export function UpdateGastoGeneralForm({ onClose, gastoGeneralData}) {
     const gastoGeneralDataToUpdate = Object.keys(currentValues).reduce(
       (datosCambiados, key) => {
         if (
-          currentValues[key] !== updateGastoGeneralForm.formState.defaultValues[key]
+          currentValues[key] !==
+          updateGastoGeneralForm.formState.defaultValues[key]
         ) {
           datosCambiados[key] = currentValues[key];
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
     if (new Date(gastoGeneralData?.fecha).getTime() !== date.getTime()) {
       gastoGeneralDataToUpdate['fecha'] = date;
@@ -98,7 +98,7 @@ export function UpdateGastoGeneralForm({ onClose, gastoGeneralData}) {
       updateGastoGeneralRequestClient(
         gastoGeneralData?._id,
         gastoGeneralDataForm,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -113,7 +113,7 @@ export function UpdateGastoGeneralForm({ onClose, gastoGeneralData}) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -161,7 +161,7 @@ export function UpdateGastoGeneralForm({ onClose, gastoGeneralData}) {
                   className={cn(
                     'w-[280px] justify-start text-left font-normal',
                     !date && 'text-muted-foreground',
-                    formSubmitIsLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    formSubmitIsLoading ? 'opacity-50 cursor-not-allowed' : '',
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />

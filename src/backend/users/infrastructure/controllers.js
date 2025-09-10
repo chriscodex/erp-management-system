@@ -12,10 +12,10 @@ export async function getUsersController() {
   } catch (error) {
     console.error(
       'Users Controller: Error interno al obtener todos los usuarios:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Users Controller: Error interno al obtener todos los usuarios'
+      'Users Controller: Error interno al obtener todos los usuarios',
     );
   }
 }
@@ -32,7 +32,7 @@ export async function getUserByDataController(contextRoute) {
   } catch (error) {
     console.error(
       'Users Controller: Error interno al obtener el usuario:',
-      error.message
+      error.message,
     );
     throw new Error('Users Controller: Error interno al obtener el usuario');
   }
@@ -51,7 +51,7 @@ export async function createUserController(request) {
   } catch (error) {
     console.error(
       'Users Controller: Error interno al crear el usuario:',
-      error.message
+      error.message,
     );
     throw new Error('Users Controller: Error interno al crear el usuario');
   }
@@ -70,7 +70,7 @@ export async function updateUserController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Users Controller: Error interno al actualizar el usuario:',
-      error.message
+      error.message,
     );
     throw new Error('Users Controller: Error interno al actualizar el usuario');
   }
@@ -88,7 +88,7 @@ export async function deleteUserController(contextRoute) {
   } catch (error) {
     console.error(
       'Users Controller: Error interno eliminando el usuario:',
-      error.message
+      error.message,
     );
     throw new Error('Users Controller: Error interno eliminando el usuario');
   }

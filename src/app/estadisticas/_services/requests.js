@@ -1,7 +1,7 @@
 import { connectDB } from '@/db/mongodb';
 import { simplificadorParaClientComponent } from '@/lib/utils';
 import { VentaHistoricaService } from '@/backend/ventas/application/ventaHistorica.service';
-import { PedidoHistoricoService} from '@/backend/pedidos/application/pedidoHistorico.service';
+import { PedidoHistoricoService } from '@/backend/pedidos/application/pedidoHistorico.service';
 import { OrdenServicioHistoricaService } from '@/backend/ordenesServicio/application/ordenServicioHistorica.service';
 
 export async function getAllVentasHistoricasRequestServer() {
@@ -51,9 +51,11 @@ export async function getAllOrdenesServicioHistoricasRequestServer() {
   try {
     await connectDB();
 
-    const ordenesServicioHistoricasService = new OrdenServicioHistoricaService();
+    const ordenesServicioHistoricasService =
+      new OrdenServicioHistoricaService();
 
-    const response = await ordenesServicioHistoricasService.getAllOrdenesDeServicioHistoricas();
+    const response =
+      await ordenesServicioHistoricasService.getAllOrdenesDeServicioHistoricas();
 
     if (response?.status !== 200) {
       console.log('Error al obtener todas las órdenes históricas');
@@ -61,7 +63,9 @@ export async function getAllOrdenesServicioHistoricasRequestServer() {
     }
     const ordenesServicioHistoricas = response?.payload;
     return {
-      ordenesServicioHistoricas: simplificadorParaClientComponent(ordenesServicioHistoricas),
+      ordenesServicioHistoricas: simplificadorParaClientComponent(
+        ordenesServicioHistoricas,
+      ),
       status: 200,
     };
   } catch (error) {

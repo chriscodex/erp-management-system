@@ -25,7 +25,7 @@ export class ProveedorService {
       };
     } catch (error) {
       console.error(
-        `Proveedor Service: Error interno al buscar todas los proveedores: ${error.message}`
+        `Proveedor Service: Error interno al buscar todas los proveedores: ${error.message}`,
       );
       return {
         status: 500,
@@ -53,7 +53,7 @@ export class ProveedorService {
       };
     } catch (error) {
       console.error(
-        `Proveedor Service: Error interno al buscar los proveedores: ${error.message}`
+        `Proveedor Service: Error interno al buscar los proveedores: ${error.message}`,
       );
       return {
         status: 500,
@@ -67,7 +67,7 @@ export class ProveedorService {
 
       if (!proveedorValidated.success) {
         console.log(
-          `Proveedor Service: Error de validación de schema de proveedor al crear ${proveedorValidated}`
+          `Proveedor Service: Error de validación de schema de proveedor al crear ${proveedorValidated}`,
         );
         return {
           status: 400,
@@ -76,12 +76,11 @@ export class ProveedorService {
       }
 
       // Validar si el proveedor ya existe
-      const proveedorFound = await this.proveedorRepository.getProveedorByData(
-        proveedorData
-      );
+      const proveedorFound =
+        await this.proveedorRepository.getProveedorByData(proveedorData);
       if (proveedorFound) {
         console.log(
-          'Proveedor Service: Un proveedor con los mismos datos ya existe'
+          'Proveedor Service: Un proveedor con los mismos datos ya existe',
         );
         return {
           status: 409,
@@ -95,9 +94,8 @@ export class ProveedorService {
         estado: 'activo',
       };
       // Crear el proveedor
-      const proveedorCreated = await this.proveedorRepository.createProveedor(
-        proveedorObject
-      );
+      const proveedorCreated =
+        await this.proveedorRepository.createProveedor(proveedorObject);
       console.log('Proveedor Service: Proveedor creado correctamente');
       return {
         status: 201,
@@ -105,7 +103,7 @@ export class ProveedorService {
       };
     } catch (error) {
       console.error(
-        `Proveedor Service: Error interno al crear el proveedor: ${error.message}`
+        `Proveedor Service: Error interno al crear el proveedor: ${error.message}`,
       );
       return {
         status: 500,
@@ -119,7 +117,7 @@ export class ProveedorService {
 
       if (!proveedorValidated.success) {
         console.log(
-          'Proveedor Service: Error de validación de schema de proveedor al actualizar'
+          'Proveedor Service: Error de validación de schema de proveedor al actualizar',
         );
         return {
           status: 400,
@@ -133,7 +131,7 @@ export class ProveedorService {
           await this.proveedorRepository.getProveedorByData(proveedorData);
         if (proveedorFound && proveedorFound?._id !== proveedorId) {
           console.log(
-            'Proveedor Service: Un proveedor con el mismo nombre ya existe'
+            'Proveedor Service: Un proveedor con el mismo nombre ya existe',
           );
           return {
             status: 409,
@@ -144,7 +142,7 @@ export class ProveedorService {
 
       const proveedorUpdated = await this.proveedorRepository.updateProveedor(
         proveedorId,
-        proveedorData
+        proveedorData,
       );
 
       if (!proveedorUpdated) {
@@ -162,7 +160,7 @@ export class ProveedorService {
       };
     } catch (error) {
       console.error(
-        `Proveedor Service: Error interno al actualizar un proveedor: ${error.message}`
+        `Proveedor Service: Error interno al actualizar un proveedor: ${error.message}`,
       );
       return {
         status: 500,
@@ -172,13 +170,12 @@ export class ProveedorService {
   }
   async deleteProveedor(proveedorId) {
     try {
-      const proveedorDeleted = await this.proveedorRepository.deleteProveedor(
-        proveedorId
-      );
+      const proveedorDeleted =
+        await this.proveedorRepository.deleteProveedor(proveedorId);
 
       if (!proveedorDeleted) {
         console.log(
-          'Proveedor Service: Proveedor no encontrado para ser eliminado'
+          'Proveedor Service: Proveedor no encontrado para ser eliminado',
         );
         return {
           status: 404,
@@ -193,7 +190,7 @@ export class ProveedorService {
       };
     } catch (error) {
       console.error(
-        `Proveedor Service: Error interno al eliminar el proveedor: ${error.message}`
+        `Proveedor Service: Error interno al eliminar el proveedor: ${error.message}`,
       );
       return {
         status: 500,

@@ -3,19 +3,14 @@ import { z } from 'zod';
 const objectIdRegex = /^[a-f\d]{24}$/i;
 
 export const createOrdenServicioSchema = z.object({
-
   code: z.union([z.string(), z.number()]),
   cliente: z.object({
-    clienteId: z
-      .string()
-      .regex(objectIdRegex, {
-        message: 'Debe ingresar un cliente',
-      }),
+    clienteId: z.string().regex(objectIdRegex, {
+      message: 'Debe ingresar un cliente',
+    }),
     tipo: z.enum(['persona', 'empresa']),
     datos: z.object({
-      dni: z
-        .string()
-        .length(8, 'El DNI debe tener 8 dígitos'),
+      dni: z.string().length(8, 'El DNI debe tener 8 dígitos'),
       nombres: z
         .string()
         .min(3, {
@@ -38,7 +33,8 @@ export const createOrdenServicioSchema = z.object({
           message: 'El nombre de la empresa debe tener al menos 3 caracteres',
         })
         .max(150, {
-          message: 'El nombre de la empresa no puede tener más de 150 caracteres',
+          message:
+            'El nombre de la empresa no puede tener más de 150 caracteres',
         })
         .optional(),
       representanteLegal: z.string().optional(),
@@ -46,7 +42,8 @@ export const createOrdenServicioSchema = z.object({
         .string()
         .min(3, {
           message: 'La dirección debe tener al menos 3 caracteres',
-        }).optional(),
+        })
+        .optional(),
       email: z
         .string()
         .email({ message: 'Ingrese un correo válido' })
@@ -64,59 +61,57 @@ export const createOrdenServicioSchema = z.object({
         message: 'El VIN debe tener 17 dígitos',
       })
       .optional(),
-    placa: z
-      .string()
-      .optional(),
+    placa: z.string().optional(),
     nombre: z
       .string()
-      .min(3, "El nombre de la moto debe tener al menos 3 caracteres")
-      .max(100, "Máximo 100 caracteres")
+      .min(3, 'El nombre de la moto debe tener al menos 3 caracteres')
+      .max(100, 'Máximo 100 caracteres')
       .optional(),
     descripcion: z
       .string()
-      .min(3, "La descripción debe tener al menos 3 caracteres")
-      .max(250, "Máximo 250 caracteres")
+      .min(3, 'La descripción debe tener al menos 3 caracteres')
+      .max(250, 'Máximo 250 caracteres')
       .optional(),
     categoria: z
       .string()
-      .min(3, "El nombre de la marca debe tener al menos 3 caracteres")
-      .max(20, "Máximo 20 caracteres")
+      .min(3, 'El nombre de la marca debe tener al menos 3 caracteres')
+      .max(20, 'Máximo 20 caracteres')
       .optional(),
     marca: z
       .string()
-      .min(3, "El nombre de la marca debe tener al menos 3 caracteres")
-      .max(20, "Máximo 20 caracteres").optional(),
+      .min(3, 'El nombre de la marca debe tener al menos 3 caracteres')
+      .max(20, 'Máximo 20 caracteres')
+      .optional(),
   }),
-  mecanicos: z.array(
-    z.object({
-      userId: z
-        .string()
-        .regex(objectIdRegex, {
+  mecanicos: z
+    .array(
+      z.object({
+        userId: z.string().regex(objectIdRegex, {
           message: 'Debe ingresar un mecánico',
         }),
-      dni: z.string()
-        .length(8, 'El DNI debe tener 8 dígitos'),
-      nombres: z
-        .string()
-        .min(3, {
-          message: 'Los nombres deben tener al menos 3 caracteres',
-        })
-        .max(50, {
-          message: 'Los nombres no puede tener más de 50 caracteres',
-        }),
-      apellidos: z
-        .string()
-        .min(3, {
-          message: 'Los apellidos deben tener al menos 3 caracteres',
-        })
-        .max(50, {
-          message: 'Los apellidos no puede tener más de 50 caracteres',
-        }),
-    })
-  ).min(1, "Debe asignar al menos un mecánico"),
+        dni: z.string().length(8, 'El DNI debe tener 8 dígitos'),
+        nombres: z
+          .string()
+          .min(3, {
+            message: 'Los nombres deben tener al menos 3 caracteres',
+          })
+          .max(50, {
+            message: 'Los nombres no puede tener más de 50 caracteres',
+          }),
+        apellidos: z
+          .string()
+          .min(3, {
+            message: 'Los apellidos deben tener al menos 3 caracteres',
+          })
+          .max(50, {
+            message: 'Los apellidos no puede tener más de 50 caracteres',
+          }),
+      }),
+    )
+    .min(1, 'Debe asignar al menos un mecánico'),
   fechaIngreso: z
     .union([z.date(), z.string()])
-    .transform((val) => (typeof val === "string" ? new Date(val) : val)),
+    .transform((val) => (typeof val === 'string' ? new Date(val) : val)),
   origenServicio: z.enum(['garantia', 'pagado', 'interno'], {
     required_error: 'Seleccione un origen de servicio',
   }),
@@ -125,10 +120,9 @@ export const createOrdenServicioSchema = z.object({
   }),
   pago: z.object({
     montoAdelanto: z.number({
-      required_error: "Ingrese el monto adelantado",
-      invalid_type_error: "Debe ingresar un número válido",
-    })
+      required_error: 'Ingrese el monto adelantado',
+      invalid_type_error: 'Debe ingresar un número válido',
+    }),
   }),
   comentarios: z.string().optional(),
 });
-

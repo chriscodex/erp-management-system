@@ -1,20 +1,20 @@
-import { notFound } from "next/navigation";
-import { RiEditFill } from "@remixicon/react";
+import { notFound } from 'next/navigation';
+import { RiEditFill } from '@remixicon/react';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 
-import { getOrdenDeServicioRequestServer } from "@/app/taller/ordenes-servicio/_services/requests";
+import { getOrdenDeServicioRequestServer } from '@/app/taller/ordenes-servicio/_services/requests';
 
-import { NuevaInformacionMecanicoForm } from "@/app/taller/ordenes-servicio/[id]/mecanico/_components/nuevaInformacionMecanicoForm";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NuevaInformacionMecanicoForm } from '@/app/taller/ordenes-servicio/[id]/mecanico/_components/nuevaInformacionMecanicoForm';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function EditarOrdenDeServicioPage({ params }) {
   const session = await getServerSession(authOptions);
   if (
-    session?.user?.rol !== "Administrador" &&
-    session?.user?.rol !== "Tecnico"
+    session?.user?.rol !== 'Administrador' &&
+    session?.user?.rol !== 'Tecnico'
   ) {
     notFound();
   }
@@ -23,13 +23,13 @@ export default async function EditarOrdenDeServicioPage({ params }) {
 
   const titles = [
     {
-      title: "Taller",
-      href: "",
+      title: 'Taller',
+      href: '',
       active: false,
     },
     {
-      title: "Órdenes de Servicio",
-      href: "/taller/ordenes-servicio",
+      title: 'Órdenes de Servicio',
+      href: '/taller/ordenes-servicio',
       active: true,
     },
     {
@@ -38,8 +38,8 @@ export default async function EditarOrdenDeServicioPage({ params }) {
       active: true,
     },
     {
-      title: "Información de mecánico",
-      href: "",
+      title: 'Información de mecánico',
+      href: '',
       active: false,
     },
   ];

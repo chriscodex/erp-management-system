@@ -1,4 +1,3 @@
-
 import { getDataByDniFromExternalApi } from '@/backend/shared/externalApi';
 import { seed } from '@/db/seed';
 import { connectDB } from '@/db/mongodb';

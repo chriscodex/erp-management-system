@@ -120,7 +120,7 @@ const productSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Index para mejorar búsquedas por nombre

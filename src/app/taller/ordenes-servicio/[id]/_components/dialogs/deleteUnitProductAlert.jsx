@@ -28,18 +28,25 @@ export function DeleteUnitProductAlert({
   const handleConfirmationDelete = async () => {
     try {
       setIsOpen(false);
-      toast.promise(deleteUnitProductRequestClient(ordenDeServicioData, productId, unitProductId), {
-        loading: 'Eliminando...',
-        success: () => {
-          if (actionAfterComplete === 'refresh') {
-            router.refresh();
-            return `Unidad eliminada correctamente`;
-          }
+      toast.promise(
+        deleteUnitProductRequestClient(
+          ordenDeServicioData,
+          productId,
+          unitProductId,
+        ),
+        {
+          loading: 'Eliminando...',
+          success: () => {
+            if (actionAfterComplete === 'refresh') {
+              router.refresh();
+              return `Unidad eliminada correctamente`;
+            }
+          },
+          error: (error) => {
+            return error;
+          },
         },
-        error: (error) => {
-          return error;
-        },
-      });
+      );
     } catch (error) {}
   };
 

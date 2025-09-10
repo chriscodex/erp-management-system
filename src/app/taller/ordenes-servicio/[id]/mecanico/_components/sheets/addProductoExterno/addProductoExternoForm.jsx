@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 
 import {
   Form,
@@ -11,7 +11,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import {
   SheetClose,
@@ -20,24 +20,24 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
+} from '@/components/ui/sheet';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Textarea } from "@/components/ui/textarea";
+} from '@/components/ui/popover';
+import { Textarea } from '@/components/ui/textarea';
 
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
-import { cn } from "@/lib/utils";
-import { CalendarIcon, Text } from "lucide-react";
+import { cn } from '@/lib/utils';
+import { CalendarIcon, Text } from 'lucide-react';
 
-import { Button } from "@/components/ui/button";
-import { productoExternoSchema } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/productoExternoSchemaForm";
-import { RiHashtag, RiPriceTag3Line } from "@remixicon/react";
+import { Button } from '@/components/ui/button';
+import { productoExternoSchema } from '@/app/taller/ordenes-servicio/[id]/mecanico/_services/validations/productoExternoSchemaForm';
+import { RiHashtag, RiPriceTag3Line } from '@remixicon/react';
 
 export function AddProductoExternoForm({ onClose, onAgregarProductoExterno }) {
   const [date, setDate] = useState(new Date());
@@ -47,8 +47,8 @@ export function AddProductoExternoForm({ onClose, onAgregarProductoExterno }) {
   const addForm = useForm({
     resolver: zodResolver(productoExternoSchema),
     defaultValues: {
-      nombre: "",
-      descripcion: "",
+      nombre: '',
+      descripcion: '',
       cantidad: 1,
       fecha: new Date(),
     },
@@ -155,15 +155,15 @@ export function AddProductoExternoForm({ onClose, onAgregarProductoExterno }) {
                   <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                       <Button
-                        variant={"outline"}
+                        variant={'outline'}
                         className={cn(
-                          "w-[280px] justify-start text-left font-normal",
-                          !date && "text-muted-foreground"
+                          'w-[280px] justify-start text-left font-normal',
+                          !date && 'text-muted-foreground',
                         )}
                       >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {date ? (
-                          format(date, "PPP", { locale: es })
+                          format(date, 'PPP', { locale: es })
                         ) : (
                           <span>Selecciona una fecha</span>
                         )}

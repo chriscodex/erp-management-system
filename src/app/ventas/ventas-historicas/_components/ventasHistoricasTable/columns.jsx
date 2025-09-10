@@ -1,28 +1,28 @@
-"use client";
+'use client';
 
-import { ArrowUpDown, ExternalLink } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { RiFileListLine } from "@remixicon/react";
+import { ArrowUpDown, ExternalLink } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { RiFileListLine } from '@remixicon/react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 
-import { formatDateShort } from "@/lib/formateador";
+import { formatDateShort } from '@/lib/formateador';
 
 export const columnsVentasHistoricas = [
   {
-    accessorKey: "cliente",
+    accessorKey: 'cliente',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Cliente
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -33,20 +33,20 @@ export const columnsVentasHistoricas = [
       const cliente = row?.original?.clienteId;
       return (
         <div className="text-start">
-          {cliente?.tipo === "empresa"
+          {cliente?.tipo === 'empresa'
             ? cliente?.datos?.razonSocial
-            : cliente?.datos?.nombres + " " + cliente?.datos?.apellidos}
+            : cliente?.datos?.nombres + ' ' + cliente?.datos?.apellidos}
         </div>
       );
     },
   },
   {
-    accessorKey: "identificador",
+    accessorKey: 'identificador',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Identificador
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -58,10 +58,10 @@ export const columnsVentasHistoricas = [
       return (
         <div className="text-start flex">
           <p className="font-light mr-2 text-[0.8rem] border rounded-md px-1">
-            {cliente?.tipo === "empresa" ? "RUC" : "DNI"}
+            {cliente?.tipo === 'empresa' ? 'RUC' : 'DNI'}
           </p>
           <p>
-            {cliente?.tipo === "empresa"
+            {cliente?.tipo === 'empresa'
               ? cliente?.datos?.ruc
               : cliente?.datos?.dni}
           </p>
@@ -70,18 +70,18 @@ export const columnsVentasHistoricas = [
     },
     // Configuramos el valor de filtro personalizado
     accessorFn: (row) => {
-      return row.cliente?.tipo === "empresa"
+      return row.cliente?.tipo === 'empresa'
         ? row.cliente?.datos?.ruc
         : row.cliente?.datos?.dni;
     },
   },
   {
-    accessorKey: "fecha",
+    accessorKey: 'fecha',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Fecha
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -94,12 +94,12 @@ export const columnsVentasHistoricas = [
     },
   },
   {
-    accessorKey: "usuario",
+    accessorKey: 'usuario',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Responsable
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -109,21 +109,21 @@ export const columnsVentasHistoricas = [
     cell: ({ row }) => {
       return (
         <div className="text-start">
-          {row.getValue("usuario")?.nombres +
-            " " +
-            row.getValue("usuario")?.apellidos}
+          {row.getValue('usuario')?.nombres +
+            ' ' +
+            row.getValue('usuario')?.apellidos}
         </div>
       );
     },
   },
   {
     accessorFn: (row) => row?.code,
-    id: "Código",
+    id: 'Código',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Código
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -136,11 +136,11 @@ export const columnsVentasHistoricas = [
     },
   },
   {
-    id: "Productos",
+    id: 'Productos',
     header: ({ column }) => (
       <Button
         variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
         Productos
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -150,17 +150,17 @@ export const columnsVentasHistoricas = [
       const productos = row.original?.productos || [];
       const totalCantidad = productos.reduce(
         (sum, prod) => sum + (prod.cantidad || 0),
-        0
+        0,
       );
       return <div className="text-center">{totalCantidad}</div>;
     },
   },
   {
-    id: "Total",
+    id: 'Total',
     header: ({ column }) => (
       <Button
         variant="ghost"
-        onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
       >
         Total
         <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -177,8 +177,8 @@ export const columnsVentasHistoricas = [
     },
   },
   {
-    id: "actions",
-    header: "Acciones",
+    id: 'actions',
+    header: 'Acciones',
     cell: ({ row }) => {
       const { _id: id } = row.original;
 
@@ -199,8 +199,9 @@ export const columnsVentasHistoricas = [
               </div>
             </TooltipTrigger>
             <TooltipContent>
-              <p className="flex items-center justify-center gap-1">Detalle
-              <ExternalLink className="h-3 w-3" />
+              <p className="flex items-center justify-center gap-1">
+                Detalle
+                <ExternalLink className="h-3 w-3" />
               </p>
             </TooltipContent>
           </Tooltip>

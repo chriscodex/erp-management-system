@@ -342,7 +342,7 @@ const ordenServicioSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const OrdenServicio =

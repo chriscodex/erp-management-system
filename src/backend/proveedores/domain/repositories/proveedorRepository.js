@@ -19,10 +19,10 @@ export class ProveedorRepository {
       return proveedores;
     } catch (error) {
       console.error(
-        `Proveedor Repository: Error al buscar todos los proveedores: ${error.message}`
+        `Proveedor Repository: Error al buscar todos los proveedores: ${error.message}`,
       );
       throw new Error(
-        `Error al buscar todos los proveedores: ${error.message}`
+        `Error al buscar todos los proveedores: ${error.message}`,
       );
     }
   }
@@ -30,7 +30,7 @@ export class ProveedorRepository {
     try {
       if (!proveedorData) {
         console.log(
-          'Proveedor Repository: Datos del proveedor no proporcionados'
+          'Proveedor Repository: Datos del proveedor no proporcionados',
         );
         return null;
       }
@@ -54,7 +54,7 @@ export class ProveedorRepository {
       return proveedoresFound;
     } catch (error) {
       console.error(
-        `Proveedor Repository: Error al buscar los proveedores: ${error.message}`
+        `Proveedor Repository: Error al buscar los proveedores: ${error.message}`,
       );
       throw new Error(`Error al buscar los proveedores: ${error.message}`);
     }
@@ -93,7 +93,7 @@ export class ProveedorRepository {
       return proveedorFound;
     } catch (error) {
       console.error(
-        `Proveedor Repository: Error al buscar al proveedor: ${error.message}`
+        `Proveedor Repository: Error al buscar al proveedor: ${error.message}`,
       );
       throw new Error(`Error al buscar al proveedor: ${error.message}`);
     }
@@ -107,7 +107,7 @@ export class ProveedorRepository {
       return savedProveedor;
     } catch (error) {
       console.log(
-        `Proveedor Repository: Error al crear el proveedor: ${error.message}`
+        `Proveedor Repository: Error al crear el proveedor: ${error.message}`,
       );
       throw new Error(`Error al crear el proveedor: ${error.message}`);
     }
@@ -119,12 +119,12 @@ export class ProveedorRepository {
         proveedorData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedProveedor) {
         console.log(
-          'Proveedor Repository: Proveedor no encontrado para ser actualizada'
+          'Proveedor Repository: Proveedor no encontrado para ser actualizada',
         );
         return null;
       }
@@ -133,7 +133,7 @@ export class ProveedorRepository {
       return updatedProveedor;
     } catch (error) {
       console.error(
-        `Proveedor Repository: Error al actualizar el proveedor: ${error.message}`
+        `Proveedor Repository: Error al actualizar el proveedor: ${error.message}`,
       );
       throw new Error(`Error al actualizar el proveedor: ${error.message}`);
     }
@@ -146,7 +146,7 @@ export class ProveedorRepository {
 
       if (!deletedProveedor) {
         console.log(
-          'Proveedor Repository: Proveedor no encontrado para ser eliminado'
+          'Proveedor Repository: Proveedor no encontrado para ser eliminado',
         );
         return null;
       }
@@ -155,7 +155,7 @@ export class ProveedorRepository {
       return deletedProveedor;
     } catch (error) {
       console.error(
-        `Proveedor Repository: Error al eliminar el proveedor: ${error.message}`
+        `Proveedor Repository: Error al eliminar el proveedor: ${error.message}`,
       );
       throw new Error(`Error al eliminar el proveedor: ${error.message}`);
     }

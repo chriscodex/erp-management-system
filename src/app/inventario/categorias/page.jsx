@@ -1,15 +1,15 @@
-import { RiAppsLine } from "@remixicon/react";
+import { RiAppsLine } from '@remixicon/react';
 
-import { sortByUpdateDateDesc } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { DataTableCategory } from "@/app/inventario/categorias/_components/categoriesTable/data-table";
+import { sortByUpdateDateDesc } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { DataTableCategory } from '@/app/inventario/categorias/_components/categoriesTable/data-table';
 import {
   getAllCategoriesRequestServer,
   getAllSegmentsRequestServer,
-} from "@/app/inventario/categorias/_services/requests";
-import { SheetAddCategoryWrapper } from "@/app/inventario/categorias/_components/sheets/addCategory/sheetAddWrapper";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+} from '@/app/inventario/categorias/_services/requests';
+import { SheetAddCategoryWrapper } from '@/app/inventario/categorias/_components/sheets/addCategory/sheetAddWrapper';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 
 export default async function CategoriasPage() {
   // eslint-disable-next-line no-undef
@@ -23,16 +23,16 @@ export default async function CategoriasPage() {
   const { segments } = segmentsResponse;
 
   const categoriesSorted = sortByUpdateDateDesc(categories);
-  
+
   const titles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Categorías",
-      href: "",
+      title: 'Categorías',
+      href: '',
       active: false,
     },
   ];

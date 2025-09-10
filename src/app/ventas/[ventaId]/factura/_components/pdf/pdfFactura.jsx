@@ -26,12 +26,14 @@ export function PdfFactura({
   selectedEmpresa,
   qrBase64,
   clienteRuc,
+  fecha,
 }) {
-  const currentTime = formatDateLong(new Date().toISOString(), false);
+  console.log('ventaData', ventaData);
+  const currentTime = formatDateLong(new Date(fecha).toISOString(), true);
 
   const codigoFactura = formatearCodigoCounterBoletaFactura(
     counterFactura,
-    'factura'
+    'factura',
   );
 
   const MapPin = () => (
@@ -128,7 +130,7 @@ export function PdfFactura({
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>RUC:</Text>
-              <Text>{clienteRuc}</Text>
+              <Text>{clienteRuc || ventaData?.clienteId?.datos?.ruc}</Text>
             </View>
             {ventaData?.clienteId?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
@@ -194,7 +196,7 @@ export function PdfFactura({
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -207,7 +209,7 @@ export function PdfFactura({
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -219,7 +221,7 @@ export function PdfFactura({
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -231,7 +233,7 @@ export function PdfFactura({
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -243,9 +245,9 @@ export function PdfFactura({
                   .reduce(
                     (acc, producto) =>
                       acc + producto?.precioVenta * producto?.cantidad,
-                    0
+                    0,
                   )
-                  .toFixed(2)
+                  .toFixed(2),
               )}
             </Text>
           </View>

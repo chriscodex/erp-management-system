@@ -20,7 +20,7 @@ Este proyecto utiliza **Next.js 14 con App Router**, organizado por **dominios f
   - Su propio `loading.jsx`
   - En algunos casos, `layout.jsx` y subcarpetas como `_components` y `_services`
 - `src/components/` contiene componentes globales compartidos (como `Navbar`, `Sidebar`, `LoadingSkeleton`, etc.)
-- `src/hooks/` contiene hooks globales como `useQrBase64`
+- `src/hooks/` contiene hooks globales como `useMobile`
 - `src/lib/` agrupa lógica utilitaria, validadores, formateadores de fechas y funciones de acceso a datos (`fetchData`, `urls`, etc.)
 
 ### 🔒 Autenticación
@@ -55,9 +55,10 @@ Cada módulo del sistema tiene su propia subcarpeta dentro de `app/`, por ejempl
 - `/modulo/nuevo` – Formulario para agregar un nuevo elemento
 - `/modulo/[id]` – Vista de detalle o edición (ruta dinámica en Next.js)
 
-**Ejemplo real**:  
-- `/usuarios/` – Lista de usuarios  
-- `/usuarios/nuevo` – Formulario para crear un usuario  
+**Ejemplo real**:
+
+- `/usuarios/` – Lista de usuarios
+- `/usuarios/nuevo` – Formulario para crear un usuario
 - `/usuarios/[id]` – Detalle o edición del usuario
 
 Las rutas dinámicas usan la convención de Next.js (`[id]`) y algunas operaciones como eliminar se ejecutan mediante `AlertDialog`.

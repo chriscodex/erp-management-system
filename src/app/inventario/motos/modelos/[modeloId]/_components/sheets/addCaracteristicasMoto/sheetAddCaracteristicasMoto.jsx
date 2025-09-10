@@ -7,7 +7,6 @@ import { Sheet } from '@/components/ui/sheet';
 import { AddCaracteristicasMotoForm } from '@/app/inventario/motos/modelos/[modeloId]/_components/sheets/addCaracteristicasMoto/addCaracteristicasMotoForm';
 
 export function SheetAddCaracteristicasMotoWrapper({ onSave, defaultValues }) {
-
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {
@@ -34,7 +33,11 @@ export function SheetAddCaracteristicasMotoWrapper({ onSave, defaultValues }) {
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <AddCaracteristicasMotoForm onSave={handleSave} onClose={handleCloseSheet} defaultValues={defaultValues}/>
+          <AddCaracteristicasMotoForm
+            onSave={handleSave}
+            onClose={handleCloseSheet}
+            defaultValues={defaultValues}
+          />
         </Sheet>
       )}
     </div>

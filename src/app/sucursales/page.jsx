@@ -1,22 +1,22 @@
-import { notFound } from "next/navigation";
-import Link from "next/link";
-import { Label } from "@radix-ui/react-label";
-import { Plus } from "lucide-react";
-import { RiBuilding4Line } from "@remixicon/react";
+import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import { Label } from '@radix-ui/react-label';
+import { Plus } from 'lucide-react';
+import { RiBuilding4Line } from '@remixicon/react';
 
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { columns } from "@/app/sucursales/_components/sucursalesTable/columns";
-import { NavbarSimple } from "@/components/navbar/NavbarSimple";
-import { Button } from "@/components/ui/button";
-import { DataTable } from "@/app/sucursales/_components/sucursalesTable/data-table";
-import { sortByUpdateDateDesc } from "@/lib/utils";
-import { getAllSucursalesRequestServer } from "@/app/sucursales/_services/requests";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { columns } from '@/app/sucursales/_components/sucursalesTable/columns';
+import { NavbarSimple } from '@/components/navbar/NavbarSimple';
+import { Button } from '@/components/ui/button';
+import { DataTable } from '@/app/sucursales/_components/sucursalesTable/data-table';
+import { sortByUpdateDateDesc } from '@/lib/utils';
+import { getAllSucursalesRequestServer } from '@/app/sucursales/_services/requests';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
   const { sucursales, status } = await getAllSucursalesRequestServer();

@@ -1,7 +1,5 @@
-import { fetchData} from '@/lib/fetchData';
-import {
-  getProductByCodeClientUrl,
-} from '@/lib/urls';
+import { fetchData } from '@/lib/fetchData';
+import { getProductByCodeClientUrl } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
 export function getProductByCodeClientRequest(code, setLoading) {
@@ -14,7 +12,7 @@ export function getProductByCodeClientRequest(code, setLoading) {
       await delay();
 
       const responseProduct = await fetchData(
-        `${getProductByCodeClientUrl}/?unit-code=${code}`
+        `${getProductByCodeClientUrl}/?unit-code=${code}`,
       );
 
       if (responseProduct?.status === 200 && responseProduct?.data?.payload) {
@@ -34,7 +32,6 @@ export function getProductByCodeClientRequest(code, setLoading) {
 
       setLoading(false);
       reject('No se ha encontrado un producto con ese código');
-
     } catch (error) {
       setLoading(false);
       reject(error);

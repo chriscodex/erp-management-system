@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useEffect, useState, useRef } from "react";
-import { ArrowUpDown, Edit, Plus } from "lucide-react";
-import { toast } from "sonner";
-import { RiDeleteBinLine } from "@remixicon/react";
+import { useEffect, useState, useRef } from 'react';
+import { ArrowUpDown, Edit, Plus } from 'lucide-react';
+import { toast } from 'sonner';
+import { RiDeleteBinLine } from '@remixicon/react';
 
 import {
   flexRender,
@@ -12,14 +12,14 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
+} from '@tanstack/react-table';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/tooltip';
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -27,9 +27,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Button } from "@/components/ui/button";
-import { getProductByCodeClientRequest } from "@/app/taller/ordenes-servicio/[id]/mecanico/_services/requests";
+} from '@/components/ui/table';
+import { Button } from '@/components/ui/button';
+import { getProductByCodeClientRequest } from '@/app/taller/ordenes-servicio/[id]/mecanico/_services/requests';
 import {
   Sheet,
   SheetContent,
@@ -37,13 +37,10 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import {
-  formatMoney,
-  generarNumeroAleatorioSeisDigitos,
-} from "@/lib/utils";
-import { BadgeUnitProduct } from "@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct";
-import { Label } from "@/components/ui/label";
+} from '@/components/ui/sheet';
+import { formatMoney, generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
+import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
+import { Label } from '@/components/ui/label';
 
 export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
   const searchProductsInputRef = useRef(null);
@@ -51,8 +48,8 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
   const updateRowValue = (internalId, key, value) => {
     setProductsTaller((prevData) =>
       prevData.map((row) =>
-        row.internalId === internalId ? { ...row, [key]: value } : row
-      )
+        row.internalId === internalId ? { ...row, [key]: value } : row,
+      ),
     );
   };
 
@@ -60,7 +57,7 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
     setProductsTaller((prevData) => {
       // Filtra el producto a eliminar
       const updatedData = prevData.filter(
-        (row) => row.internalId !== internalId
+        (row) => row.internalId !== internalId,
       );
 
       // Reasigna la numeración
@@ -73,13 +70,13 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
 
   const columns = [
     {
-      accessorKey: "numeracion",
+      accessorKey: 'numeracion',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
             className="w-1"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             N°
             <ArrowUpDown className="h-4 w-4" />
@@ -87,16 +84,16 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("numeracion")}</div>;
+        return <div className="text-start">{row.getValue('numeracion')}</div>;
       },
     },
     {
-      accessorKey: "code",
+      accessorKey: 'code',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Código
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -104,16 +101,16 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("code")}</div>;
+        return <div className="text-start">{row.getValue('code')}</div>;
       },
     },
     {
-      accessorKey: "nombre",
+      accessorKey: 'nombre',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Nombre
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -121,16 +118,16 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("nombre")}</div>;
+        return <div className="text-start">{row.getValue('nombre')}</div>;
       },
     },
     {
-      accessorKey: "cantidad",
+      accessorKey: 'cantidad',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Cantidad
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -138,16 +135,16 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
         );
       },
       cell: ({ row }) => {
-        return <div className="text-start">{row.getValue("cantidad")}</div>;
+        return <div className="text-start">{row.getValue('cantidad')}</div>;
       },
     },
     {
-      accessorKey: "precioVenta",
+      accessorKey: 'precioVenta',
       header: ({ column }) => {
         return (
           <Button
             variant="ghost"
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
           >
             Precio de Venta
             <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -155,20 +152,20 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
         );
       },
       cell: ({ row }) => {
-        const precioVenta = row.getValue("precioVenta");
+        const precioVenta = row.getValue('precioVenta');
         return <div className="text-start">S/. {formatMoney(precioVenta)}</div>;
       },
     },
     {
-      id: "actions",
-      header: "Acciones",
+      id: 'actions',
+      header: 'Acciones',
       cell: ({ row }) => {
         const productData = row.original;
 
-        let estadoProducto = "";
-        if (productData?.tipo === "producto") {
+        let estadoProducto = '';
+        if (productData?.tipo === 'producto') {
           const unitProduct = productData?.unidades?.find(
-            (unidad) => unidad?.code === productData?.code
+            (unidad) => unidad?.code === productData?.code,
           );
 
           if (unitProduct) {
@@ -187,8 +184,8 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
         const handleApplyChange = () => {
           updateRowValue(
             productData.internalId,
-            "precioVenta",
-            parseFloat(tempPrice)
+            'precioVenta',
+            parseFloat(tempPrice),
           );
         };
 
@@ -202,126 +199,123 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
                       <SheetTrigger className="text-start">
                         <Edit className="w-5 h-5 text-muted-foreground hover:text-foreground" />
                       </SheetTrigger>
-                        <SheetContent>
-                          <SheetHeader>
-                            <SheetTitle>
-                              Producto {productData?.nombre}
-                            </SheetTitle>
-                            <SheetDescription>
-                              {productData?.code}
-                            </SheetDescription>
-                          </SheetHeader>
-                          <div className="grid gap-4 py-4">
-                            <div className="grid grid-cols-3 items-center gap-4">
-                              <label className="col-span-1 text-left font-bold">
-                                Nombre
-                              </label>
-                              <p className="col-span-2">
-                                {productData?.nombre}
-                              </p>
-                            </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                              <label className="col-span-1 text-left font-bold">
-                                Descripción
-                              </label>
-                              <p className="col-span-2">
-                                {productData?.descripcion}
-                              </p>
-                            </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                              <label className="col-span-1 text-left font-bold">
-                                Marca
-                              </label>
-                              <p className="col-span-2">
-                                {productData?.marcaId?.nombre}
-                              </p>
-                            </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                              <label className="col-span-1 text-left font-bold">
-                                Categoría
-                              </label>
-                              <p className="col-span-2">
-                                {productData?.categoryId?.nombre}
-                              </p>
-                            </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                              <label className="col-span-1 text-left font-bold">
-                                Importado
-                              </label>
-                              <p className="col-span-2">
-                                {productData?.importado === "si" ? "Si" : "No"}
-                              </p>
-                            </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                              <label className="col-span-1 text-left font-bold">
-                                Almacén
-                              </label>
-                              <p className="col-span-2">
-                                {productData?.almacenId?.nombre}
-                              </p>
-                            </div>
-                            <div className="grid grid-cols-3 items-center gap-4">
-                              <label className="col-span-1 text-left font-bold">
-                                Estado
-                              </label>
-                              <div className="col-span-2">
-                                {estadoProducto === "disponible" && (
-                                  <BadgeUnitProduct variant="successTable">
-                                    Disponible
-                                  </BadgeUnitProduct>
-                                )}
-                                {estadoProducto === "reparado" && (
-                                  <BadgeUnitProduct variant="blueTable">
-                                    Reparado
-                                  </BadgeUnitProduct>
-                                )}
-                                {estadoProducto === "desaparecido" && (
-                                  <BadgeUnitProduct variant="orangeTable">
-                                    Desaparecido
-                                  </BadgeUnitProduct>
-                                )}
-                                {estadoProducto === "dañado" && (
-                                  <BadgeUnitProduct variant="redTable">
-                                    Dañado
-                                  </BadgeUnitProduct>
-                                )}
-                              </div>
-                            </div>
-                            <div>
-                              <label className="col-span-1 text-left font-bold">
-                                Precio de venta
-                              </label>
-                              <div className="relative mt-1">
-                                <p className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-                                  S/.
-                                </p>
-                                <Input
-                                  id="sale-price"
-                                  type="number"
-                                  value={tempPrice}
-                                  onChange={handleTempPriceChange}
-                                  onKeyDown={(event) => {
-                                    if (event.key === "Enter") {
-                                      handleApplyChange();
-                                    }
-                                  }}
-                                  className="pl-9"
-                                  min={0}
-                                  step={0.1}
-                                />
-                              </div>
-                            </div>
-                            <div className="flex justify-end">
-                              <Button
-                                variant="default"
-                                onClick={handleApplyChange}
-                              >
-                                Guardar
-                              </Button>
+                      <SheetContent>
+                        <SheetHeader>
+                          <SheetTitle>
+                            Producto {productData?.nombre}
+                          </SheetTitle>
+                          <SheetDescription>
+                            {productData?.code}
+                          </SheetDescription>
+                        </SheetHeader>
+                        <div className="grid gap-4 py-4">
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Nombre
+                            </label>
+                            <p className="col-span-2">{productData?.nombre}</p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Descripción
+                            </label>
+                            <p className="col-span-2">
+                              {productData?.descripcion}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Marca
+                            </label>
+                            <p className="col-span-2">
+                              {productData?.marcaId?.nombre}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Categoría
+                            </label>
+                            <p className="col-span-2">
+                              {productData?.categoryId?.nombre}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Importado
+                            </label>
+                            <p className="col-span-2">
+                              {productData?.importado === 'si' ? 'Si' : 'No'}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Almacén
+                            </label>
+                            <p className="col-span-2">
+                              {productData?.almacenId?.nombre}
+                            </p>
+                          </div>
+                          <div className="grid grid-cols-3 items-center gap-4">
+                            <label className="col-span-1 text-left font-bold">
+                              Estado
+                            </label>
+                            <div className="col-span-2">
+                              {estadoProducto === 'disponible' && (
+                                <BadgeUnitProduct variant="successTable">
+                                  Disponible
+                                </BadgeUnitProduct>
+                              )}
+                              {estadoProducto === 'reparado' && (
+                                <BadgeUnitProduct variant="blueTable">
+                                  Reparado
+                                </BadgeUnitProduct>
+                              )}
+                              {estadoProducto === 'desaparecido' && (
+                                <BadgeUnitProduct variant="orangeTable">
+                                  Desaparecido
+                                </BadgeUnitProduct>
+                              )}
+                              {estadoProducto === 'dañado' && (
+                                <BadgeUnitProduct variant="redTable">
+                                  Dañado
+                                </BadgeUnitProduct>
+                              )}
                             </div>
                           </div>
-                        </SheetContent>
-                     
+                          <div>
+                            <label className="col-span-1 text-left font-bold">
+                              Precio de venta
+                            </label>
+                            <div className="relative mt-1">
+                              <p className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+                                S/.
+                              </p>
+                              <Input
+                                id="sale-price"
+                                type="number"
+                                value={tempPrice}
+                                onChange={handleTempPriceChange}
+                                onKeyDown={(event) => {
+                                  if (event.key === 'Enter') {
+                                    handleApplyChange();
+                                  }
+                                }}
+                                className="pl-9"
+                                min={0}
+                                step={0.1}
+                              />
+                            </div>
+                          </div>
+                          <div className="flex justify-end">
+                            <Button
+                              variant="default"
+                              onClick={handleApplyChange}
+                            >
+                              Guardar
+                            </Button>
+                          </div>
+                        </div>
+                      </SheetContent>
                     </Sheet>
                   </div>
                 </TooltipTrigger>
@@ -372,7 +366,7 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   /* Agregar Producto */
   const [searchProductIsLoading, setSearchProductIsLoading] = useState(false);
@@ -380,19 +374,19 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
     event.preventDefault();
 
     if (!searchValue) {
-      toast.error("Ingrese el codigo del producto");
+      toast.error('Ingrese el codigo del producto');
       return;
     }
     if (searchValue.length < 13) {
-      toast.error("El codigo debe tener 13 caracteres");
+      toast.error('El codigo debe tener 13 caracteres');
       return;
     }
 
     const duplicado = productsTaller.some(
-      (product) => product?.code === searchValue
+      (product) => product?.code === searchValue,
     );
     if (duplicado) {
-      toast.error("El producto ya se encuentra en la lista");
+      toast.error('El producto ya se encuentra en la lista');
       return;
     }
 
@@ -402,22 +396,21 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
     toast.promise(
       getProductByCodeClientRequest(searchValue, setSearchProductIsLoading),
       {
-        loading: "Buscando...",
+        loading: 'Buscando...',
         success: (response) => {
-
-          console.log("RESPONSE", response);
+          console.log('RESPONSE', response);
 
           const unidadEncontrada = response.unidades?.find(
-            (u) => u.code === searchValue
+            (u) => u.code === searchValue,
           );
 
           const estadoUnidad = unidadEncontrada?.estado;
-          
+
           setProductsTaller([
             ...productsTaller,
             {
               ...response,
-              tipo: "producto",
+              tipo: 'producto',
               cantidad: 1,
               code: searchValue,
               estado: estadoUnidad,
@@ -425,7 +418,7 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
               internalId: generarNumeroAleatorioSeisDigitos(),
             },
           ]);
-          setSearchValue("");
+          setSearchValue('');
           if (searchProductsInputRef.current) {
             searchProductsInputRef.current.focus();
           }
@@ -436,7 +429,7 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
           setSearchProductIsLoading(false);
           return error;
         },
-      }
+      },
     );
   };
 
@@ -464,7 +457,7 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
           }}
           className="max-w-sm"
           onKeyDown={(event) => {
-            if (event.key === "Enter") {
+            if (event.key === 'Enter') {
               event.preventDefault();
               handleAgregarProducto(event);
             }
@@ -493,7 +486,7 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -506,13 +499,13 @@ export function ProductsTallerTable({ productsTaller, setProductsTaller }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

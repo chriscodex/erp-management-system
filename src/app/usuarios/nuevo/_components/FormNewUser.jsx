@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
 import {
   Loader2,
   User,
@@ -17,11 +17,11 @@ import {
   IdCardIcon,
   SearchIcon,
   CalendarIcon, //Calendar
-} from "lucide-react";
+} from 'lucide-react';
 
-import { newUserSchema } from "@/app/usuarios/nuevo/_validations/newUserSchema";
-import { createUserRequestClient } from "@/app/usuarios/nuevo/_services/requests";
-import { cn } from "@/lib/utils";
+import { newUserSchema } from '@/app/usuarios/nuevo/_validations/newUserSchema';
+import { createUserRequestClient } from '@/app/usuarios/nuevo/_services/requests';
+import { cn } from '@/lib/utils';
 import {
   Form,
   FormControl,
@@ -29,40 +29,40 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { buscarPorDniClientRequest } from "@/lib/globalRequests";
+} from '@/components/ui/tooltip';
+import { buscarPorDniClientRequest } from '@/lib/globalRequests';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
+} from '@/components/formInputs/onChange';
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"; //Calendar
+} from '@/components/ui/popover'; //Calendar
 
 function FormNewUser({ sucursales }) {
   const router = useRouter();
@@ -73,16 +73,16 @@ function FormNewUser({ sucursales }) {
   const form = useForm({
     resolver: zodResolver(newUserSchema),
     defaultValues: {
-      dni: "",
-      apellidos: "",
-      nombres: "",
-      celular: "",
-      direccion: "",
-      password: "",
-      confirmPassword: "",
-      rol: "Vendedor",
+      dni: '',
+      apellidos: '',
+      nombres: '',
+      celular: '',
+      direccion: '',
+      password: '',
+      confirmPassword: '',
+      rol: 'Vendedor',
       fechaIngreso: new Date(),
-      sucursalId: "",
+      sucursalId: '',
     },
   });
 
@@ -107,10 +107,10 @@ function FormNewUser({ sucursales }) {
     toast.promise(
       createUserRequestClient(newUserData, setFormSubmitIsLoading),
       {
-        loading: "Creando...",
+        loading: 'Creando...',
         success: () => {
           clearErrors();
-          router.push("/usuarios");
+          router.push('/usuarios');
           return `Usuario creado correctamente`;
         },
 
@@ -118,7 +118,7 @@ function FormNewUser({ sucursales }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -131,20 +131,20 @@ function FormNewUser({ sucursales }) {
       const dni = formData.dni;
       if (!dni || dni.length !== 8) {
         setSearchByDniIsLoading(false);
-        toast.warning("Por favor, ingrese un DNI válido", {
-          description: "El DNI debe tener 8 dígitos",
+        toast.warning('Por favor, ingrese un DNI válido', {
+          description: 'El DNI debe tener 8 dígitos',
         });
         return;
       }
 
       // Toast promise para buscar una persona
       toast.promise(buscarPorDniClientRequest(dni, setSearchByDniIsLoading), {
-        loading: "Buscando...",
+        loading: 'Buscando...',
         success: (persona) => {
-          setValue("apellidos", persona?.apellidos);
-          setValue("nombres", persona?.nombres);
-          clearErrors("apellidos");
-          clearErrors("nombres");
+          setValue('apellidos', persona?.apellidos);
+          setValue('nombres', persona?.nombres);
+          clearErrors('apellidos');
+          clearErrors('nombres');
           return `Persona encontrada`;
         },
         error: (error) => {
@@ -154,8 +154,8 @@ function FormNewUser({ sucursales }) {
       });
     } catch (error) {
       setSearchByDniIsLoading(false);
-      toast.error("Error al buscar persona por DNI");
-      console.error("Error al buscar persona por DNI:", error);
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
     }
   };
 
@@ -194,10 +194,10 @@ function FormNewUser({ sucursales }) {
                     <FormMessage />
                     <div
                       className={cn(
-                        "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
+                        'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
                         searchByDniIsLoading
-                          ? "opacity-75 pointer-events-none"
-                          : "cursor-pointer"
+                          ? 'opacity-75 pointer-events-none'
+                          : 'cursor-pointer',
                       )}
                       onClick={handleSearchByDni}
                     >
@@ -417,15 +417,15 @@ function FormNewUser({ sucursales }) {
                     <Popover open={open} onOpenChange={setOpen}>
                       <PopoverTrigger asChild>
                         <Button
-                          variant={"outline"}
+                          variant={'outline'}
                           className={cn(
-                            "w-[280px] justify-start text-left font-normal",
-                            !date && "text-muted-foreground"
+                            'w-[280px] justify-start text-left font-normal',
+                            !date && 'text-muted-foreground',
                           )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
                           {date ? (
-                            format(date, "PPP", { locale: es })
+                            format(date, 'PPP', { locale: es })
                           ) : (
                             <span>Selecciona una fecha</span>
                           )}
@@ -503,7 +503,7 @@ function FormNewUser({ sucursales }) {
                     Creando Usuario...
                   </>
                 ) : (
-                  "Crear Usuario"
+                  'Crear Usuario'
                 )}
               </Button>
             </div>

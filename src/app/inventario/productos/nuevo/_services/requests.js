@@ -3,9 +3,8 @@ import { postData } from '@/lib/fetchData';
 import { delay } from '@/lib/utils';
 
 export async function createProductRequestClient(product, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso para pruebas en la UI
@@ -16,7 +15,7 @@ export async function createProductRequestClient(product, setLoading) {
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          'No se pudo crear el producto: ' + response.response?.data?.error
+          'No se pudo crear el producto: ' + response.response?.data?.error,
         );
         return;
       }

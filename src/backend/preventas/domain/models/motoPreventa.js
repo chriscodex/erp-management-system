@@ -99,5 +99,5 @@ export const motoPreventaSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );

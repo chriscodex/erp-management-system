@@ -16,11 +16,11 @@ export async function GET(_, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Marcas Route: Error interno al obtener la marca: ${error.message}`
+      `Marcas Route: Error interno al obtener la marca: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno obteniendo la marca' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -29,7 +29,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateMarcaController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -39,11 +39,11 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Marcas Route: Error interno al actualizar la marca: ${error.message}`
+      `Marcas Route: Error interno al actualizar la marca: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno actualizando la marca' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -59,11 +59,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Marcas Route: Error interno al eliminar la marca: ${error.message}`
+      `Marcas Route: Error interno al eliminar la marca: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno eliminando la marca' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

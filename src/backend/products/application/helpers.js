@@ -9,24 +9,29 @@ import { generarNumeroAleatorio } from '@/lib/utils';
  * @returns {Promise<string>} - Código único del producto
  */
 export async function generarCodigoUnicoDelProducto(productRepository) {
-  const numericCode = generarNumeroAleatorio(12);
-  const productCode = `2${numericCode}`;
+  try {
+    const numericCode = generarNumeroAleatorio(12);
+    const productCode = `2${numericCode}`;
 
-  // Validar si el código ya existe
-  const codeExists = await productRepository.getProductByData({
-    code: productCode,
-  });
+    // Validar si el código ya existe
+    const codeExists = await productRepository.getProductByData({
+      code: productCode,
+    });
 
-  if (codeExists) {
-    console.log(
-      'Product Service: El código generado ya existe, generando uno nuevo...'
-    );
-    // Llamar recursivamente hasta encontrar un código único
-    return await generarCodigoUnicoDelProducto(productRepository);
+    if (codeExists) {
+      console.log(
+        'Product Service: El código generado ya existe, generando uno nuevo...',
+      );
+      // Llamar recursivamente hasta encontrar un código único
+      return await generarCodigoUnicoDelProducto(productRepository);
+    }
+
+    console.log('Product Service: El código generado no existe');
+    return productCode;
+  } catch (error) {
+    console.error('Error generando código único de producto:', error);
+    throw error;
   }
-
-  console.log('Product Service: El código generado no existe');
-  return productCode;
 }
 
 /**

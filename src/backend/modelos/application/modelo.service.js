@@ -13,6 +13,13 @@ export class ModeloService {
     this.categoryRepository = new CategoryRepository();
     this.marcaRepository = new MarcaRepository();
   }
+  /**
+   * Obtener todos los modelos.
+   * @returns {Promise<{status: number, payload: Array<Modelo>}>} Promise con el status y el payload.
+   *  El status sera 200 si se encontraron modelos.
+   *  Si no se encontraron modelos, el status sera 200 y el payload sera un array vacio.
+   *  Si hubo un error interno, el status sera 500 y el payload sera el mensaje de error.
+   */
   async getAllModelos() {
     try {
       const modelos = await this.modeloRepository.getAllModelos();
@@ -32,7 +39,7 @@ export class ModeloService {
       };
     } catch (error) {
       console.error(
-        `Modelo Service: Error interno al buscar todos los modelos: ${error.message}`
+        `Modelo Service: Error interno al buscar todos los modelos: ${error.message}`,
       );
       return {
         status: 500,
@@ -59,7 +66,7 @@ export class ModeloService {
       };
     } catch (error) {
       console.error(
-        `Modelo Service: Error interno al buscar todos los modelos: ${error.message}`
+        `Modelo Service: Error interno al buscar todos los modelos: ${error.message}`,
       );
       return {
         status: 500,
@@ -69,9 +76,8 @@ export class ModeloService {
   }
   async getModeloByData(modeloData) {
     try {
-      const modeloFound = await this.modeloRepository.getModeloByData(
-        modeloData
-      );
+      const modeloFound =
+        await this.modeloRepository.getModeloByData(modeloData);
 
       if (!modeloFound) {
         console.log('Modelo Service: El modelo no existe');
@@ -88,7 +94,7 @@ export class ModeloService {
       };
     } catch (error) {
       console.error(
-        `Modelo Service: Error interno al buscar el modelo: ${error.message}`
+        `Modelo Service: Error interno al buscar el modelo: ${error.message}`,
       );
       return {
         status: 500,
@@ -103,7 +109,7 @@ export class ModeloService {
 
       if (!modeloValidated.success) {
         console.log(
-          `Modelo Service: Error de validación de schema al crear el modelo ${modeloValidated}`
+          `Modelo Service: Error de validación de schema al crear el modelo ${modeloValidated}`,
         );
         return {
           status: 400,
@@ -112,9 +118,8 @@ export class ModeloService {
       }
 
       // Validar si un modelo con ese nombre y en el mismo segmento ya existe
-      const modeloFound = await this.modeloRepository.getModeloByData(
-        modeloData
-      );
+      const modeloFound =
+        await this.modeloRepository.getModeloByData(modeloData);
       if (modeloFound) {
         console.log('Modelo Service: Un modelo con el mismo nombre ya existe');
         return {
@@ -126,7 +131,7 @@ export class ModeloService {
 
       // Generar el codigo unico
       const modeloCode = await generarCodigoUnicoDelModelo(
-        this.modeloRepository
+        this.modeloRepository,
       );
 
       const modeloObject = {
@@ -135,9 +140,8 @@ export class ModeloService {
         estado: 'activo',
       };
       // Crear el modelo
-      const modeloCreated = await this.modeloRepository.createModelo(
-        modeloObject
-      );
+      const modeloCreated =
+        await this.modeloRepository.createModelo(modeloObject);
       console.log('Modelo Service: Modelo creado correctamente');
       return {
         status: 201,
@@ -145,7 +149,7 @@ export class ModeloService {
       };
     } catch (error) {
       console.error(
-        `Modelo Service: Error interno al crear un modelo: ${error.message}`
+        `Modelo Service: Error interno al crear un modelo: ${error.message}`,
       );
       return {
         status: 500,
@@ -159,7 +163,7 @@ export class ModeloService {
 
       if (!modeloValidated.success) {
         console.log(
-          'Modelo Service: Error de validación de schema de modelo al actualizar'
+          'Modelo Service: Error de validación de schema de modelo al actualizar',
         );
         return {
           status: 400,
@@ -169,12 +173,11 @@ export class ModeloService {
 
       // Validar si un modelo con ese nombre ya existe
       if (modeloData.nombre) {
-        const modeloFound = await this.modeloRepository.getModeloByData(
-          modeloData
-        );
+        const modeloFound =
+          await this.modeloRepository.getModeloByData(modeloData);
         if (modeloFound && modeloFound?._id !== modeloId) {
           console.log(
-            'Modelo Service: Un modelo con el mismo nombre ya existe'
+            'Modelo Service: Un modelo con el mismo nombre ya existe',
           );
           return {
             status: 409,
@@ -185,7 +188,7 @@ export class ModeloService {
 
       const modeloUpdated = await this.modeloRepository.updateModelo(
         modeloId,
-        modeloData
+        modeloData,
       );
 
       if (!modeloUpdated) {
@@ -203,7 +206,7 @@ export class ModeloService {
       };
     } catch (error) {
       console.error(
-        `Modelo Service: Error interno al actualizar un modelo: ${error.message}`
+        `Modelo Service: Error interno al actualizar un modelo: ${error.message}`,
       );
       return {
         status: 500,
@@ -230,7 +233,7 @@ export class ModeloService {
       };
     } catch (error) {
       console.error(
-        `Modelo Service: Error interno al eliminar un modelo: ${error.message}`
+        `Modelo Service: Error interno al eliminar un modelo: ${error.message}`,
       );
       return {
         status: 500,

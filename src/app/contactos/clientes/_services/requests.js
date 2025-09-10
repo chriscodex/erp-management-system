@@ -1,19 +1,19 @@
-import { fetchData, deleteData, patchData, postData } from "@/lib/fetchData";
+import { fetchData, deleteData, patchData, postData } from '@/lib/fetchData';
 import {
   createClienteClientUrl,
   deleteClienteClientUrl,
   updateClienteClientUrl,
   searchClienteClientUrl,
-} from "@/lib/urls";
-import { ClienteService } from "@/backend/clientes/application/cliente.service";
-import { delay, simplificadorParaClientComponent } from "@/lib/utils";
-import { connectDB } from "@/db/mongodb";
+} from '@/lib/urls';
+import { ClienteService } from '@/backend/clientes/application/cliente.service';
+import { delay, simplificadorParaClientComponent } from '@/lib/utils';
+import { connectDB } from '@/db/mongodb';
 
 export function searchClientePorDniOrRucClientRequest(
   identificador,
-  setLoading
+  setLoading,
 ) {
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
     try {
       setLoading(true);
@@ -23,17 +23,17 @@ export function searchClientePorDniOrRucClientRequest(
 
       if (identificador?.length !== 8 && identificador?.length !== 11) {
         setLoading(false);
-        reject("Por favor, ingrese un DNI o RUC válido");
+        reject('Por favor, ingrese un DNI o RUC válido');
         return;
       }
 
       if (identificador?.length === 8) {
         const response = await fetchData(
-          `${searchClienteClientUrl}?dni=${identificador}`
+          `${searchClienteClientUrl}?dni=${identificador}`,
         );
         if (response?.status !== 200) {
           setLoading(false);
-          reject("No se ha encontrado una persona con ese DNI");
+          reject('No se ha encontrado una persona con ese DNI');
           return;
         }
         setLoading(false);
@@ -42,11 +42,11 @@ export function searchClientePorDniOrRucClientRequest(
 
       if (identificador?.length === 11) {
         const response = await fetchData(
-          `${searchClienteClientUrl}?ruc=${identificador}`
+          `${searchClienteClientUrl}?ruc=${identificador}`,
         );
         if (response?.status !== 200) {
           setLoading(false);
-          reject("No se ha encontrado una empresa con ese RUC");
+          reject('No se ha encontrado una empresa con ese RUC');
           return;
         }
         setLoading(false);
@@ -66,7 +66,7 @@ export async function getAllClientesRequestServer() {
 
     const response = await clienteService.getAllClientes();
     if (response?.status !== 200) {
-      console.log("Error al obtener todos los clientes");
+      console.log('Error al obtener todos los clientes');
       return { clientes: [], status: response?.status };
     }
     const clientes = response?.payload;
@@ -80,10 +80,8 @@ export async function getAllClientesRequestServer() {
 }
 
 export async function createClienteRequestClient(clienteData, setLoading) {
-  /* eslint-disable */
-
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -91,14 +89,14 @@ export async function createClienteRequestClient(clienteData, setLoading) {
 
       let clienteDataPreformatted = {};
 
-      if (clienteData?.tipo === "persona") {
+      if (clienteData?.tipo === 'persona') {
         clienteDataPreformatted = {
           dni: clienteData?.identificador,
           nombres: clienteData?.nombres,
           apellidos: clienteData?.apellidos,
         };
       }
-      if (clienteData?.tipo === "empresa") {
+      if (clienteData?.tipo === 'empresa') {
         clienteDataPreformatted = {
           ruc: clienteData?.identificador,
           razonSocial: clienteData?.razonSocial,
@@ -120,7 +118,7 @@ export async function createClienteRequestClient(clienteData, setLoading) {
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          "No se pudo crear el cliente: " + response.response?.data?.error
+          'No se pudo crear el cliente: ' + response.response?.data?.error,
         );
         return;
       }
@@ -134,14 +132,9 @@ export async function createClienteRequestClient(clienteData, setLoading) {
   });
 }
 
-export async function updateClienteRequestClient(
-  clienteData,
-  setLoading
-) {
-  /* eslint-disable */
+export async function updateClienteRequestClient(clienteData, setLoading) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
-    
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -154,7 +147,7 @@ export async function updateClienteRequestClient(
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          "No se pudo actualizar el cliente: " + response.response?.data?.error
+          'No se pudo actualizar el cliente: ' + response.response?.data?.error,
         );
         return;
       }
@@ -169,9 +162,8 @@ export async function updateClienteRequestClient(
 }
 
 export async function deleteClienteRequestClient(clienteId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -182,7 +174,7 @@ export async function deleteClienteRequestClient(clienteId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          "No se pudo eliminar el cliente: " + response.response?.data?.error
+          'No se pudo eliminar el cliente: ' + response.response?.data?.error,
         );
         return;
       }

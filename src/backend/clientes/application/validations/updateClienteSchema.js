@@ -1,5 +1,3 @@
-import { z } from "zod";
+import { z } from 'zod';
 
-export const updateClienteSchema = z.object({
-
-});
+export const updateClienteSchema = z.object({});

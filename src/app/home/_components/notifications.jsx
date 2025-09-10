@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import {
   Bell,
   X,
@@ -9,20 +9,20 @@ import {
   XCircle,
   ExternalLink,
   Loader2,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { cn } from "@/lib/utils";
-import Link from "next/link";
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+} from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { ScrollArea } from '@/components/ui/scroll-area';
+import { cn } from '@/lib/utils';
+import Link from 'next/link';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 
 import {
   getNotificacionesForHomeRequestClient,
   removeNotificacionTemporallyForHomeRequestClient,
-} from "@/app/home/_services/requests";
-import { formatDateShort } from "@/lib/formateador";
+} from '@/app/home/_services/requests';
+import { formatDateShort } from '@/lib/formateador';
 
 // Componente hijo que contiene solo la lista de notificaciones
 function NotificationsList({
@@ -33,28 +33,28 @@ function NotificationsList({
 }) {
   const getNotificationLink = (notification) => {
     switch (notification.type) {
-      case "expired_pedido":
+      case 'expired_pedido':
         return `/inventario/motos/pedidos/${notification?.data?.pedidoId}`;
-      case "bike_needs":
+      case 'bike_needs':
         return `/inventario/motos/modelos/${notification?.data?.modeloId}/unidades/${notification?.data?.motoId}`;
-      case "low_stock":
+      case 'low_stock':
         return `/inventario/productos/${notification?.data?.productId}`;
-      case "high_sales":
+      case 'high_sales':
         return `/ventas/ventas-historicas`;
       default:
-        return "#";
+        return '#';
     }
   };
 
   const getNotificationIcon = (type) => {
     switch (type) {
-      case "expired_pedido":
+      case 'expired_pedido':
         return <AlertTriangle className="h-4 w-4 text-orange-500" />;
-      case "bike_needs":
+      case 'bike_needs':
         return <AlertTriangle className="h-4 w-4 text-purple-500" />;
-      case "low_stock":
+      case 'low_stock':
         return <AlertTriangle className="h-4 w-4 text-yellow-500" />;
-      case "high_sales":
+      case 'high_sales':
         return <XCircle className="h-4 w-4 text-red-500" />;
       default:
         return <CheckCircle className="h-4 w-4 text-yellow-500" />;
@@ -87,8 +87,8 @@ function NotificationsList({
           <div
             key={notification._id}
             className={cn(
-              "p-4 rounded-lg border transition-all duration-200 hover:shadow-md",
-              "bg-gray-50 dark:bg-gray-900"
+              'p-4 rounded-lg border transition-all duration-200 hover:shadow-md',
+              'bg-gray-50 dark:bg-gray-900',
             )}
           >
             <div className="flex items-start gap-3">
@@ -147,7 +147,7 @@ export function Notifications() {
         setNotifications(data);
       })
       .catch((error) => {
-        console.error("Error al cargar notificaciones:", error);
+        console.error('Error al cargar notificaciones:', error);
       })
       .finally(() => {
         setIsLoading(false);
@@ -158,10 +158,10 @@ export function Notifications() {
     try {
       await removeNotificacionTemporallyForHomeRequestClient(id);
       setNotifications((prev) =>
-        prev.filter((notification) => notification._id !== id)
+        prev.filter((notification) => notification._id !== id),
       );
     } catch (error) {
-      console.error("Error al eliminar la notificación:", error);
+      console.error('Error al eliminar la notificación:', error);
     }
   };
 

@@ -17,11 +17,11 @@ export async function GET(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Users Route: Error interno al obtener los usuarios: ${error.message}`
+      `Users Route: Error interno al obtener los usuarios: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error obteniendo los usuarios' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -37,11 +37,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Users Route: Error interno al crear el usuario: ${error.message}`
+      `Users Route: Error interno al crear el usuario: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear el usuario' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

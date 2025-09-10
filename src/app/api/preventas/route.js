@@ -12,11 +12,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Preventas Route: Error interno al crear la preventa: ${error.message}`
+      `Preventas Route: Error interno al crear la preventa: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear la preventa' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

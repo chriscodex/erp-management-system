@@ -5,11 +5,10 @@ import { delay } from '@/lib/utils';
 export async function updateProductRequestClient(
   productId,
   productData,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -25,7 +24,8 @@ export async function updateProductRequestClient(
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar el producto: ' + response.response?.data?.error
+          'No se pudo actualizar el producto: ' +
+            response.response?.data?.error,
         );
         return;
       }

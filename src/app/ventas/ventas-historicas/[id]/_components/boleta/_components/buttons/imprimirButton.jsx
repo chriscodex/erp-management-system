@@ -1,18 +1,18 @@
-/*  */ "use client";
+/*  */ 'use client';
 
-import { useState } from "react";
-import { pdf } from "@react-pdf/renderer";
-import { RiPrinterLine } from "@remixicon/react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { pdf } from '@react-pdf/renderer';
+import { RiPrinterLine } from '@remixicon/react';
+import { useRouter } from 'next/navigation';
 
-import { Button } from "@/components/ui/button";
-import { PdfBoleta } from "@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta";
+import { Button } from '@/components/ui/button';
+import { PdfBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/pdfBoleta';
 import {
   getCurrentCounterBoletaRequestClient,
   updateBoletaStateRequestClient,
-} from "@/app/ventas/[ventaId]/boleta/_services/requests";
-import { formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
-import { EmpresasSelect } from "@/app/ventas/[ventaId]/_components/empresasSelect";
+} from '@/app/ventas/[ventaId]/boleta/_services/requests';
+import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
+import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
   const router = useRouter();
 
@@ -24,7 +24,7 @@ export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
     try {
       const boletaEmitida = ventaData?.comprobante
         .toLowerCase()
-        .includes("boleta");
+        .includes('boleta');
 
       const counterBoleta = boletaEmitida
         ? ventaData?.counter
@@ -32,7 +32,7 @@ export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
 
       const codigoBoleta = formatearCodigoCounterBoletaFactura(
         counterBoleta,
-        "boleta"
+        'boleta',
       );
 
       const empresaSeleccionada = boletaEmitida
@@ -49,7 +49,7 @@ export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
       const blob = await pdf(doc).toBlob();
 
       // Crear un enlace temporal y forzar la descarga
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = `boleta-${codigoBoleta}.pdf`;
       document.body.appendChild(link);
@@ -70,12 +70,12 @@ export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
         await updateBoletaStateRequestClient(
           ventaData?._id,
           counterBoleta,
-          selectedEmpresaFormateada
+          selectedEmpresaFormateada,
         );
       }
       router.refresh();
     } catch (error) {
-      console.error("Error al generar el PDF:", error);
+      console.error('Error al generar el PDF:', error);
     }
     setLoading(false);
   };
@@ -96,7 +96,9 @@ export function ImprimirBoletaButton({ ventaData, empresas, reimprimir }) {
         disabled={loading}
       >
         <RiPrinterLine className="h-4 w-4" />
-        <p>{loading ? "Generando..." : reimprimir ? "Reimprimir" : "Imprimir"}</p>
+        <p>
+          {loading ? 'Generando...' : reimprimir ? 'Reimprimir' : 'Imprimir'}
+        </p>
       </Button>
     </div>
   );

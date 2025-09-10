@@ -12,7 +12,6 @@ export class UsersService {
       const users = await this.userRepository.getAllUsers();
 
       if (users?.length === 0) {
-        
         console.log('User Service: No se encontraron usuarios');
         return {
           status: 200,
@@ -27,7 +26,7 @@ export class UsersService {
       };
     } catch (error) {
       console.error(
-        `User Service: Error interno al buscar todos los usuarios: ${error.message}`
+        `User Service: Error interno al buscar todos los usuarios: ${error.message}`,
       );
       return {
         status: 500,
@@ -54,7 +53,7 @@ export class UsersService {
       };
     } catch (error) {
       console.error(
-        `User Service: Error interno al buscar un usuario: ${error.message}`
+        `User Service: Error interno al buscar un usuario: ${error.message}`,
       );
       return {
         status: 500,
@@ -91,45 +90,45 @@ export class UsersService {
     }
   }
   async getUsersBySucursal(sucursalId) {
-      try {
-        const usersFound = await this.userRepository.getUsersBySucursal(sucursalId);
-  
-        if (!usersFound) {
-          console.log('User Service: Los usuarios no existen');
-          return {
-            status: 200,
-            payload: null,
-          };
-        }
-  
-        console.log('User Service: Los usuarios existen');
+    try {
+      const usersFound =
+        await this.userRepository.getUsersBySucursal(sucursalId);
+
+      if (!usersFound) {
+        console.log('User Service: Los usuarios no existen');
         return {
           status: 200,
-          payload: usersFound,
-        };
-      } catch (error) {
-        console.error(
-          `User Service: Error interno al buscar los usuarios: ${error.message}`
-        );
-        return {
-          status: 500,
-          payload: error.message,
+          payload: null,
         };
       }
+
+      console.log('User Service: Los usuarios existen');
+      return {
+        status: 200,
+        payload: usersFound,
+      };
+    } catch (error) {
+      console.error(
+        `User Service: Error interno al buscar los usuarios: ${error.message}`,
+      );
+      return {
+        status: 500,
+        payload: error.message,
+      };
     }
+  }
   async createUser(user) {
     try {
-
       // Validar los datos del usuario enviado con el schema
       const userValidated = createUserSchema.safeParse(user);
 
       if (!userValidated.success) {
         const formattedErrors = userValidated.error.issues.map((err) => ({
-          path: err.path.join("."),
+          path: err.path.join('.'),
           message: err.message,
         }));
 
-        console.log("Pedido Service: Error de validación", formattedErrors);
+        console.log('Pedido Service: Error de validación', formattedErrors);
 
         return {
           status: 400,
@@ -171,7 +170,7 @@ export class UsersService {
       };
     } catch (error) {
       console.error(
-        `User Service: Error interno al crear un usuario: ${error.message}`
+        `User Service: Error interno al crear un usuario: ${error.message}`,
       );
       return {
         status: 500,
@@ -186,7 +185,7 @@ export class UsersService {
 
       if (!userValidated.success) {
         console.log(
-          'User Service: Error de validación de schema de usuario al actualizar'
+          'User Service: Error de validación de schema de usuario al actualizar',
         );
         return {
           status: 400,
@@ -214,7 +213,7 @@ export class UsersService {
 
       const userUpdated = await this.userRepository.updateUser(
         userId,
-        userData
+        userData,
       );
 
       if (!userUpdated) {
@@ -232,7 +231,7 @@ export class UsersService {
       };
     } catch (error) {
       console.error(
-        `User Service: Error interno al actualizar un usuario: ${error.message}`
+        `User Service: Error interno al actualizar un usuario: ${error.message}`,
       );
       return {
         status: 500,

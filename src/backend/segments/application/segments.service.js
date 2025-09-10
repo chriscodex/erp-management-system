@@ -23,7 +23,7 @@ export class SegmentService {
       };
     } catch (error) {
       console.error(
-        `Segment Service: Error interno al obtener todas los segmentos: ${error.message}`
+        `Segment Service: Error interno al obtener todas los segmentos: ${error.message}`,
       );
       return {
         status: 500,
@@ -33,9 +33,8 @@ export class SegmentService {
   }
   async getSegmentByData(segmentFilter) {
     try {
-      const segmentFiltered = await this.segmentRepository.getSegmentByData(
-        segmentFilter
-      );
+      const segmentFiltered =
+        await this.segmentRepository.getSegmentByData(segmentFilter);
 
       if (!segmentFiltered) {
         console.log('Segment Service: No se encontraron segmentos filtrados');
@@ -52,7 +51,7 @@ export class SegmentService {
       };
     } catch (error) {
       console.error(
-        `Segment Service: Error interno al obtener segmentos filtrados: ${error.message}`
+        `Segment Service: Error interno al obtener segmentos filtrados: ${error.message}`,
       );
       return {
         status: 500,

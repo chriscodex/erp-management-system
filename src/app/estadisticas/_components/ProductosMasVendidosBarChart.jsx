@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from "recharts";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { Bar, BarChart, CartesianGrid, Rectangle, XAxis } from 'recharts';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Card,
@@ -11,17 +11,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';
 
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
+import { MesAnioPicker } from '@/components/calendars/MesAnioPicker';
 
 export default function ProductosMasVendidos(dataVentasHistoricas) {
-
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
@@ -81,9 +80,9 @@ export default function ProductosMasVendidos(dataVentasHistoricas) {
   const activeIndex = chartData.reduce(
     (maxIndex, item, idx, arr) =>
       item.cantidad > arr[maxIndex].cantidad ? idx : maxIndex,
-    0
+    0,
   );
-  
+
   useEffect(() => {
     router.refresh();
   }, [mes, anio, router]);

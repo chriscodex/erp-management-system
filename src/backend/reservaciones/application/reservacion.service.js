@@ -2,14 +2,14 @@ import { ReservacionRepository } from '@/backend/reservaciones/domain/repositori
 import { createReservacionSchema } from '@/backend/reservaciones/application/validations/createReservacionSchema';
 import { updateReservacionSchema } from '@/backend/reservaciones/application/validations/updateReservacionSchema';
 
-
 export class ReservacionService {
   constructor() {
     this.reservacionRepository = new ReservacionRepository();
   }
   async getAllReservaciones() {
     try {
-      const reservaciones = await this.reservacionRepository.getAllReservaciones();
+      const reservaciones =
+        await this.reservacionRepository.getAllReservaciones();
 
       if (reservaciones?.length === 0) {
         console.log('Reservacion Service: No se encontraron reservaciones');
@@ -26,7 +26,7 @@ export class ReservacionService {
       };
     } catch (error) {
       console.error(
-        `Reservacion Service: Error interno al buscar todas las reservaciones: ${error.message}`
+        `Reservacion Service: Error interno al buscar todas las reservaciones: ${error.message}`,
       );
       return {
         status: 500,
@@ -36,8 +36,8 @@ export class ReservacionService {
   }
   async getReservacionByData(reservacionData) {
     try {
-
-      const reservacionFound = await this.reservacionRepository.getReservacionByData(reservacionData);
+      const reservacionFound =
+        await this.reservacionRepository.getReservacionByData(reservacionData);
 
       if (!reservacionFound) {
         console.log('Reservacion Service: La reservación no existe');
@@ -54,7 +54,7 @@ export class ReservacionService {
       };
     } catch (error) {
       console.error(
-        `Reservacion Service: Error interno al buscar una reservación: ${error.message}`
+        `Reservacion Service: Error interno al buscar una reservación: ${error.message}`,
       );
       return {
         status: 500,
@@ -64,12 +64,12 @@ export class ReservacionService {
   }
   async createReservacion(reservacion) {
     try {
-      
-      const reservacionValidated = createReservacionSchema.safeParse(reservacion);
+      const reservacionValidated =
+        createReservacionSchema.safeParse(reservacion);
 
       if (!reservacionValidated.success) {
         console.log(
-          'Reservacion Service: Error de validación de schema de reservación al crear'
+          'Reservacion Service: Error de validación de schema de reservación al crear',
         );
         return {
           status: 400,
@@ -82,7 +82,8 @@ export class ReservacionService {
       };
 
       // Crear la reservacion
-      const reservacionCreated = await this.reservacionRepository.createReservacion(reservacionObject);
+      const reservacionCreated =
+        await this.reservacionRepository.createReservacion(reservacionObject);
 
       const reservacionCreatedObject = reservacionCreated.toObject();
 
@@ -93,7 +94,7 @@ export class ReservacionService {
       };
     } catch (error) {
       console.error(
-        `Reservacion Service: Error interno al crear una reservación: ${error.message}`
+        `Reservacion Service: Error interno al crear una reservación: ${error.message}`,
       );
       return {
         status: 500,
@@ -104,11 +105,12 @@ export class ReservacionService {
   async updateReservacion(reservacionId, reservacionData) {
     try {
       // Validar los datos de la reservacion enviada con el schema
-      const reservacionValidated = updateReservacionSchema.safeParse(reservacionData);
+      const reservacionValidated =
+        updateReservacionSchema.safeParse(reservacionData);
 
       if (!reservacionValidated.success) {
         console.log(
-          'Reservacion Service: Error de validación de schema de reservación al actualizar'
+          'Reservacion Service: Error de validación de schema de reservación al actualizar',
         );
         return {
           status: 400,
@@ -116,10 +118,11 @@ export class ReservacionService {
         };
       }
 
-      const reservacionUpdated = await this.reservacionRepository.updateReservacion(
-        reservacionId,
-        reservacionData
-      );
+      const reservacionUpdated =
+        await this.reservacionRepository.updateReservacion(
+          reservacionId,
+          reservacionData,
+        );
 
       if (!reservacionUpdated) {
         console.log('Reservacion Service: La reservación no existe');
@@ -136,7 +139,7 @@ export class ReservacionService {
       };
     } catch (error) {
       console.error(
-        `Reservacion Service: Error interno al actualizar una reservación: ${error.message}`
+        `Reservacion Service: Error interno al actualizar una reservación: ${error.message}`,
       );
       return {
         status: 500,
@@ -146,7 +149,8 @@ export class ReservacionService {
   }
   async deleteReservacion(reservacionId) {
     try {
-      const reservacionDeleted = await this.reservacionRepository.deleteReservacion(reservacionId);
+      const reservacionDeleted =
+        await this.reservacionRepository.deleteReservacion(reservacionId);
 
       if (!reservacionDeleted) {
         console.log('Reservacion Service: La reservación no existe');
@@ -169,4 +173,3 @@ export class ReservacionService {
     }
   }
 }
-

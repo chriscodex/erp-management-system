@@ -15,7 +15,6 @@ import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
 export function ImprimirFacturaButton({ ordenDeServicioData, empresas }) {
-
   const router = useRouter();
 
   const [selectedEmpresa, setSelectedEmpresa] = useState(null || empresas[0]);
@@ -28,7 +27,7 @@ export function ImprimirFacturaButton({ ordenDeServicioData, empresas }) {
 
       const codigoFactura = formatearCodigoCounterBoletaFactura(
         counterFactura,
-        'factura'
+        'factura',
       );
 
       const doc = (

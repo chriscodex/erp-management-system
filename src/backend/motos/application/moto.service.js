@@ -35,7 +35,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al obtener las motos: ${error.message}`
+        `Moto Service: Error interno al obtener las motos: ${error.message}`,
       );
       return {
         status: 500,
@@ -45,13 +45,12 @@ export class MotoService {
   }
   async getAllMotosByData(motoData) {
     try {
-      const motosFiltered = await this.motoRepository.getAllMotosByData(
-        motoData
-      );
+      const motosFiltered =
+        await this.motoRepository.getAllMotosByData(motoData);
 
       if (!motosFiltered) {
         console.log(
-          'Moto Service: No se encontraron motos filtradas por modeloId'
+          'Moto Service: No se encontraron motos filtradas por modeloId',
         );
         return {
           status: 200,
@@ -66,7 +65,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al obtener las motos filtradas por modeloId: ${error.message}`
+        `Moto Service: Error interno al obtener las motos filtradas por modeloId: ${error.message}`,
       );
       return {
         status: 500,
@@ -85,7 +84,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al contar todas las motos: ${error.message}`
+        `Moto Service: Error interno al contar todas las motos: ${error.message}`,
       );
       return {
         status: 500,
@@ -123,7 +122,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al buscar la moto: ${error.message}`
+        `Moto Service: Error interno al buscar la moto: ${error.message}`,
       );
       return {
         status: 500,
@@ -138,7 +137,7 @@ export class MotoService {
       if (!motoValidated.success) {
         console.log(
           'Moto Service: Error de validación de schema de moto al crear',
-          motoValidated.error.format?.() || motoValidated.error
+          motoValidated.error.format?.() || motoValidated.error,
         );
         return {
           status: 400,
@@ -200,7 +199,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al crear la moto: ${error.message}`
+        `Moto Service: Error interno al crear la moto: ${error.message}`,
       );
       return {
         status: 500,
@@ -222,7 +221,7 @@ export class MotoService {
 
       if (!motoValidated.success) {
         console.log(
-          'Moto Service: Error de validación de schema de moto al actualizar'
+          'Moto Service: Error de validación de schema de moto al actualizar',
         );
         return {
           status: 400,
@@ -246,7 +245,7 @@ export class MotoService {
 
       const motoUpdated = await this.motoRepository.updateMoto(
         motoId,
-        motoData
+        motoData,
       );
 
       if (!motoUpdated) {
@@ -264,7 +263,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al actualizar una moto: ${error.message}`
+        `Moto Service: Error interno al actualizar una moto: ${error.message}`,
       );
       return {
         status: 500,
@@ -291,7 +290,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al eliminar una moto: ${error.message}`
+        `Moto Service: Error interno al eliminar una moto: ${error.message}`,
       );
       return {
         status: 500,
@@ -303,7 +302,7 @@ export class MotoService {
     try {
       const gastoCreated = await this.gastoMotoRepository.createGastoMoto(
         gastoData,
-        moto
+        moto,
       );
 
       if (!gastoCreated) {
@@ -321,7 +320,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al agregar un gasto a la moto: ${error.message}`
+        `Moto Service: Error interno al agregar un gasto a la moto: ${error.message}`,
       );
       return {
         status: 500,
@@ -333,7 +332,7 @@ export class MotoService {
     try {
       const gastoDeleted = await this.gastoMotoRepository.deleteGastoMoto(
         gastoId,
-        motoId
+        motoId,
       );
 
       if (!gastoDeleted) {
@@ -351,7 +350,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al eliminar un gasto a la moto: ${error.message}`
+        `Moto Service: Error interno al eliminar un gasto a la moto: ${error.message}`,
       );
       return {
         status: 500,
@@ -385,7 +384,7 @@ export class MotoService {
       const gastoUpdated = await this.gastoMotoRepository.updateGastoMoto(
         gastoId,
         motoId,
-        gastoWithId
+        gastoWithId,
       );
 
       if (!gastoUpdated) {
@@ -403,7 +402,7 @@ export class MotoService {
       };
     } catch (error) {
       console.error(
-        `Moto Service: Error interno al actualizar el gasto: ${error.message}`
+        `Moto Service: Error interno al actualizar el gasto: ${error.message}`,
       );
       return {
         status: 500,

@@ -63,7 +63,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(marcaDataToUpdate).length === 0) {
@@ -77,7 +77,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
       updateMarcaRequestClient(
         marcaData?._id,
         marcaDataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -91,7 +91,7 @@ export function UpdateFormMarca({ segments, marcaData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 

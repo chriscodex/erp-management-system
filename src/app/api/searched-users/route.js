@@ -15,11 +15,11 @@ export async function GET(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `SearchedUser Route: Error interno al obtener el searchedUser: ${error.message}`
+      `SearchedUser Route: Error interno al obtener el searchedUser: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno obteniedo el searchedUser' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

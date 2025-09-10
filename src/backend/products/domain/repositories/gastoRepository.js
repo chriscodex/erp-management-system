@@ -13,7 +13,7 @@ export class GastoRepository {
         { $push: { gastos: gastoData } },
         {
           new: true,
-        }
+        },
       );
 
       if (!gastoCreated) {
@@ -25,10 +25,10 @@ export class GastoRepository {
       return gastoCreated;
     } catch (error) {
       console.error(
-        `Product Repository: Error al agregar un gasto al producto: ${error.message}`
+        `Product Repository: Error al agregar un gasto al producto: ${error.message}`,
       );
       throw new Error(
-        `Error al agregar un gasto al producto: ${error.message}`
+        `Error al agregar un gasto al producto: ${error.message}`,
       );
     }
   }
@@ -36,7 +36,7 @@ export class GastoRepository {
     try {
       const gastoDeleted = await this.productModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(productId) },
-        { $pull: { gastos: { _id: new mongoose.Types.ObjectId(gastoId) } } }
+        { $pull: { gastos: { _id: new mongoose.Types.ObjectId(gastoId) } } },
       );
 
       if (!gastoDeleted) {
@@ -48,10 +48,10 @@ export class GastoRepository {
       return gastoDeleted;
     } catch (error) {
       console.error(
-        `Product Repository: Error al eliminar un gasto al producto: ${error.message}`
+        `Product Repository: Error al eliminar un gasto al producto: ${error.message}`,
       );
       throw new Error(
-        `Error al eliminar un gasto al producto: ${error.message}`
+        `Error al eliminar un gasto al producto: ${error.message}`,
       );
     }
   }
@@ -62,7 +62,7 @@ export class GastoRepository {
           _id: new mongoose.Types.ObjectId(productId),
           'gastos._id': new mongoose.Types.ObjectId(gastoId),
         },
-        { $set: { 'gastos.$': gastoData } }
+        { $set: { 'gastos.$': gastoData } },
       );
 
       if (!updatedProduct) {
@@ -74,10 +74,10 @@ export class GastoRepository {
       return updatedProduct;
     } catch (error) {
       console.error(
-        `Product Repository: Error al actualizar el gasto del producto: ${error.message}`
+        `Product Repository: Error al actualizar el gasto del producto: ${error.message}`,
       );
       throw new Error(
-        `Error al actualizar el gasto del producto: ${error.message}`
+        `Error al actualizar el gasto del producto: ${error.message}`,
       );
     }
   }

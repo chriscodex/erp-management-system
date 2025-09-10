@@ -18,7 +18,7 @@ export async function GET(_, contextRoute) {
   } catch (error) {
     return NextResponse.json(
       { error: 'Error obteniendo el producto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -35,11 +35,11 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Product Route: Error interno al actualizar el producto: ${error.message}`
+      `Product Route: Error interno al actualizar el producto: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno al actualizar el producto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -56,11 +56,11 @@ export async function DELETE(_, contextRoute) {
   } catch (error) {
     console.error(
       'Products Route: Error interno eliminar un producto:',
-      error.message
+      error.message,
     );
     return NextResponse.json(
       { error: 'Error eliminando el producto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

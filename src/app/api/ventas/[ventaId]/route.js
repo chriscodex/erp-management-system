@@ -6,7 +6,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateVentaController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -16,11 +16,11 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Ventas Route: Error interno al actualizar la venta: ${error.message}`
+      `Ventas Route: Error interno al actualizar la venta: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno actualizando la venta' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -36,11 +36,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Ventas Route: Error interno al eliminar la venta: ${error.message}`
+      `Ventas Route: Error interno al eliminar la venta: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno eliminando la venta' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

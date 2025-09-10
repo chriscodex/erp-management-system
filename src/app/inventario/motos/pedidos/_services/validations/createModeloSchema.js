@@ -22,7 +22,7 @@ export const createModeloSchema = z.object({
         message: 'Ingrese el valor del stock minimo',
       }),
     ])
-    .transform((val) => (typeof val === 'string' ? Number(val) : val)) 
+    .transform((val) => (typeof val === 'string' ? Number(val) : val))
     .refine((val) => Number.isInteger(val) && val >= 0, {
       message: 'El stock debe ser un número mayor o igual a 0',
     }),

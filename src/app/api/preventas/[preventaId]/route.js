@@ -15,11 +15,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Preventas Route: Error interno al eliminar la preventa: ${error.message}`
+      `Preventas Route: Error interno al eliminar la preventa: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno eliminando la preventa' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -28,7 +28,7 @@ export async function PUT(request, contextRoute) {
   try {
     const { payload, status } = await updatePreventaController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 201) {
@@ -38,11 +38,11 @@ export async function PUT(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Preventa Route: Error interno al actualizar la preventa: ${error.message}`
+      `Preventa Route: Error interno al actualizar la preventa: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno al actualizar la preventa' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

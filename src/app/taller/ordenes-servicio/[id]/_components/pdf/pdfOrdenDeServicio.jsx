@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   Document,
   Text,
@@ -8,12 +8,10 @@ import {
   Image,
   Svg,
   Path,
-} from "@react-pdf/renderer";
+} from '@react-pdf/renderer';
 
-import { stylesOrdenDeServicio } from "@/app/taller/ordenes-servicio/[id]/_components/pdf/stylesOrdenDeServicio.js";
-import {
-  formatDateLong,
-} from "@/lib/formateador";
+import { stylesOrdenDeServicio } from '@/app/taller/ordenes-servicio/[id]/_components/pdf/stylesOrdenDeServicio.js';
+import { formatDateLong } from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesOrdenDeServicio);
 
@@ -60,7 +58,7 @@ export function PdfOrdenDeServicio({ ordenDeServicioData }) {
     <Document>
       <Page size="A4">
         <View style={styles.header}>
-          <Image src={"/logoB.jpeg"} style={styles.image} alt="logo" />
+          <Image src={'/logoB.jpeg'} style={styles.image} alt="logo" />
           <Text style={styles.title}>Orden de Servicio</Text>
         </View>
         <View style={styles.body}>
@@ -94,7 +92,7 @@ export function PdfOrdenDeServicio({ ordenDeServicioData }) {
               </View>
               <View style={styles.datosOrdenDeServicio}>
                 <Text style={styles.datosOrdenDeServicioBold}>
-                  Fecha de emisión:{" "}
+                  Fecha de emisión:{' '}
                 </Text>
                 <Text>{currentTime}</Text>
               </View>
@@ -105,61 +103,52 @@ export function PdfOrdenDeServicio({ ordenDeServicioData }) {
             <View style={styles.datosCliente}>
               <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
               <Text style={styles.datosClienteName}>
-                {ordenDeServicioData?.cliente?.tipo === "empresa"
+                {ordenDeServicioData?.cliente?.tipo === 'empresa'
                   ? ordenDeServicioData?.cliente?.datos?.nombre
                   : `${ordenDeServicioData?.cliente?.datos?.apellidos} ${ordenDeServicioData?.cliente?.datos?.nombres}`}
               </Text>
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
-                  {ordenDeServicioData?.cliente?.tipo === "empresa"
+                  {ordenDeServicioData?.cliente?.tipo === 'empresa'
                     ? `RUC: `
                     : `DNI: `}
                 </Text>
                 <Text>
-                  {ordenDeServicioData?.cliente?.tipo === "empresa"
+                  {ordenDeServicioData?.cliente?.tipo === 'empresa'
                     ? `${ordenDeServicioData?.cliente?.datos?.ruc}`
                     : `${ordenDeServicioData?.cliente?.datos?.dni}`}
                 </Text>
               </View>
-              {ordenDeServicioData?.cliente?.tipo === "empresa" && (
+              {ordenDeServicioData?.cliente?.tipo === 'empresa' && (
                 <View style={styles.datosClienteInfo}>
                   <Text style={styles.datosClienteInfoTitle}>
-                    {"Representante Legal: "}
+                    {'Representante Legal: '}
                   </Text>
                   <Text>
-                    {
-                      ordenDeServicioData?.cliente?.datos
-                        ?.representanteLegal
-                    }
+                    {ordenDeServicioData?.cliente?.datos?.representanteLegal}
                   </Text>
                 </View>
               )}
-              {ordenDeServicioData?.cliente?.tipo === "empresa" && (
+              {ordenDeServicioData?.cliente?.tipo === 'empresa' && (
                 <View style={styles.datosClienteInfo}>
                   <Text style={styles.datosClienteInfoTitle}>
-                    {"Dirección: "}
+                    {'Dirección: '}
                   </Text>
-                  <Text>
-                    {ordenDeServicioData?.cliente?.datos?.direccion}
-                  </Text>
+                  <Text>{ordenDeServicioData?.cliente?.datos?.direccion}</Text>
                 </View>
               )}
               {ordenDeServicioData?.cliente?.datos?.email && (
                 <View style={styles.datosClienteInfo}>
-                  <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
-                  <Text>
-                    {ordenDeServicioData.cliente.datos.email}
-                  </Text>
+                  <Text style={styles.datosClienteInfoTitle}>{'Email: '}</Text>
+                  <Text>{ordenDeServicioData.cliente.datos.email}</Text>
                 </View>
               )}
               {ordenDeServicioData?.cliente?.datos?.celular && (
                 <View style={styles.datosClienteInfo}>
                   <Text style={styles.datosClienteInfoTitle}>
-                    {"Celular: "}
+                    {'Celular: '}
                   </Text>
-                  <Text>
-                    {ordenDeServicioData.cliente.datos.celular}
-                  </Text>
+                  <Text>{ordenDeServicioData.cliente.datos.celular}</Text>
                 </View>
               )}
             </View>
@@ -167,26 +156,26 @@ export function PdfOrdenDeServicio({ ordenDeServicioData }) {
               <Text style={styles.datosMotoTitle}>Datos de la moto</Text>
               {ordenDeServicioData?.moto?.vin && (
                 <View style={styles.datosMotoInfo}>
-                  <Text style={styles.datosMotoInfoTitle}>{"VIN: "}</Text>
+                  <Text style={styles.datosMotoInfoTitle}>{'VIN: '}</Text>
                   <Text>{ordenDeServicioData.moto.vin}</Text>
                 </View>
               )}
               {ordenDeServicioData?.moto?.placa && (
                 <View style={styles.datosMotoInfo}>
-                  <Text style={styles.datosMotoInfoTitle}>{"Placa: "}</Text>
+                  <Text style={styles.datosMotoInfoTitle}>{'Placa: '}</Text>
                   <Text>{ordenDeServicioData.moto.placa}</Text>
                 </View>
               )}
               {ordenDeServicioData?.moto?.nombre && (
                 <View style={styles.datosMotoInfo}>
-                  <Text style={styles.datosMotoInfoTitle}>{"Nombre: "}</Text>
+                  <Text style={styles.datosMotoInfoTitle}>{'Nombre: '}</Text>
                   <Text>{ordenDeServicioData.moto.nombre}</Text>
                 </View>
               )}
               {ordenDeServicioData?.moto?.descripcion && (
                 <View style={styles.datosMotoInfo}>
                   <Text style={styles.datosMotoInfoTitle}>
-                    {"Descripción: "}
+                    {'Descripción: '}
                   </Text>
                   <Text style={styles.datosMotoDescription}>
                     {ordenDeServicioData.moto.descripcion}
@@ -195,13 +184,13 @@ export function PdfOrdenDeServicio({ ordenDeServicioData }) {
               )}
               {ordenDeServicioData?.moto?.categoria && (
                 <View style={styles.datosMotoInfo}>
-                  <Text style={styles.datosMotoInfoTitle}>{"Categoría: "}</Text>
+                  <Text style={styles.datosMotoInfoTitle}>{'Categoría: '}</Text>
                   <Text>{ordenDeServicioData.moto.categoria}</Text>
                 </View>
               )}
               {ordenDeServicioData?.moto?.marca && (
                 <View style={styles.datosMotoInfo}>
-                  <Text style={styles.datosMotoInfoTitle}>{"Marca: "}</Text>
+                  <Text style={styles.datosMotoInfoTitle}>{'Marca: '}</Text>
                   <Text>{ordenDeServicioData.moto.marca}</Text>
                 </View>
               )}
@@ -209,43 +198,38 @@ export function PdfOrdenDeServicio({ ordenDeServicioData }) {
           </View>
 
           <View style={styles.ordenDeServicioTitleContainer}>
-            <Text style={styles.ordenDeServicioTitle}>
-              Orden de Servicio
-            </Text>
+            <Text style={styles.ordenDeServicioTitle}>Orden de Servicio</Text>
           </View>
           <View style={styles.ordenDeServicioSubTitleContainer}>
             <View style={styles.ordenDeServicioSubTitle}>
               <Text style={styles.ordenDeServicioSubTitleBold}>
-                Fecha de ingreso:{" "}
+                Fecha de ingreso:{' '}
               </Text>
               <Text>
-                {formatDateLong(
-                  ordenDeServicioData?.fechaIngreso,
-                  true
-                )}
+                {formatDateLong(ordenDeServicioData?.fechaIngreso, true)}
               </Text>
             </View>
             {ordenDeServicioData?.fechaEntregaEstimada && (
               <View style={styles.datosMotoInfo}>
                 <Text style={styles.datosMotoInfoTitle}>
-                  {"Fecha de entrega estimada: "}
+                  {'Fecha de entrega estimada: '}
                 </Text>
                 <Text>
                   {formatDateLong(
                     ordenDeServicioData?.fechaEntregaEstimada,
-                    false
+                    false,
                   )}
                 </Text>
               </View>
             )}
             {ordenDeServicioData?.origenServicio && (
               <View style={styles.datosMotoInfo}>
-                <Text style={styles.datosMotoInfoTitle}>{"Servicio: "}</Text>
+                <Text style={styles.datosMotoInfoTitle}>{'Servicio: '}</Text>
                 <Text>
                   {{
-                    pagado: "Pagado",
-                    garantia: "Garantía",
-                    interno: "Interno",
+                    pagado: 'Pagado',
+                    garantia: 'Garantía',
+                    interno: 'Interno',
                   }[ordenDeServicioData.origenServicio] ||
                     ordenDeServicioData.origenServicio}
                 </Text>
@@ -253,11 +237,11 @@ export function PdfOrdenDeServicio({ ordenDeServicioData }) {
             )}
             {ordenDeServicioData?.tipoServicio && (
               <View style={styles.datosMotoInfo}>
-                <Text style={styles.datosMotoInfoTitle}>{"Tipo: "}</Text>
+                <Text style={styles.datosMotoInfoTitle}>{'Tipo: '}</Text>
                 <Text>
                   {{
-                    mantenimiento: "Mantenimiento",
-                    reparacion: "Reparación",
+                    mantenimiento: 'Mantenimiento',
+                    reparacion: 'Reparación',
                   }[ordenDeServicioData.tipoServicio] ||
                     ordenDeServicioData.tipoServicio}
                 </Text>
