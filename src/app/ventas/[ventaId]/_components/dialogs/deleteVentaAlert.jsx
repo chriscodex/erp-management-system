@@ -33,7 +33,6 @@ export function DeleteVentaAlert({
   actionAfterComplete = 'refresh',
 }) {
   const router = useRouter();
-
   const handleConfirmationDeleteProduct = async () => {
     try {
       setIsOpen(false);
@@ -42,7 +41,7 @@ export function DeleteVentaAlert({
         success: () => {
           if (actionAfterComplete === 'push') {
             router.push(`/ventas`);
-            return `Preventa eliminada correctamente`;
+            return `Venta eliminada correctamente`;
           }
         },
         error: (error) => {
