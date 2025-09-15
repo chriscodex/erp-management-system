@@ -7,6 +7,7 @@ import { RiPrinterLine } from '@remixicon/react';
 import { Button } from '@/components/ui/button';
 import { PdfNotaDeVenta } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/pdf/pdfNotaDeVenta';
 import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
+import { updateNotaDeVentaStateRequestClient } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_services/requests';
 
 export function ImprimirNotaDeVentaButton({ ordenDeServicioData, empresas }) {
   const selectedEmpresaSinFormatear = empresas.find(
@@ -25,6 +26,10 @@ export function ImprimirNotaDeVentaButton({ ordenDeServicioData, empresas }) {
     setLoading(true);
     try {
       const codigoNotaDeVenta = ordenDeServicioData?.code;
+
+      await updateNotaDeVentaStateRequestClient(
+        ordenDeServicioData?._id,
+      );
 
       const doc = (
         <PdfNotaDeVenta

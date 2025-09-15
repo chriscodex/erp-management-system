@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { PdfBoleta } from '@/app/taller/ordenes-servicio-historial/[id]/_components/boleta/_components/pdf/pdfBoleta';
 import { PdfFactura } from '@/app/taller/ordenes-servicio-historial/[id]/_components/factura/_components/pdf/pdfFactura';
+import { PdfNotaDeVenta } from '@/app/taller/ordenes-servicio-historial/[id]/_components/nota-venta/pdfNotaDeVenta';
 import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 
 export function ImprimirComprobanteOrdenDeServicioHistoricaButton({
@@ -20,16 +21,19 @@ export function ImprimirComprobanteOrdenDeServicioHistoricaButton({
     try {
       const { comprobante, counter } = ordenDeServicioHistoricaData;
 
-      // Elegir si es boleta o factura
+      // Elegir si es boleta, factura o solo nota de venta
       const tipoComprobante = comprobante?.toLowerCase().includes('boleta')
         ? 'boleta'
         : comprobante?.toLowerCase().includes('factura')
-          ? 'factura'
-          : 'undefined';
-      const codigo = formatearCodigoCounterBoletaFactura(
-        counter,
-        tipoComprobante,
-      );
+        ? 'factura'
+        : comprobante?.toLowerCase().includes('nota de venta')
+        ? 'nota-venta'
+        : 'undefined';
+
+      const codigo =
+        tipoComprobante === 'boleta' || tipoComprobante === 'factura'
+          ? formatearCodigoCounterBoletaFactura(counter, tipoComprobante)
+          : ordenDeServicioHistoricaData.code;
 
       // Elegir el documento a renderizar
 
@@ -40,10 +44,16 @@ export function ImprimirComprobanteOrdenDeServicioHistoricaButton({
             counterBoleta={counter}
             selectedEmpresa={ordenDeServicioHistoricaData?.empresa}
           />
-        ) : (
+        ) : tipoComprobante === 'factura' ? (
           <PdfFactura
             ordenDeServicioHistoricaData={ordenDeServicioHistoricaData}
             counterFactura={counter}
+            selectedEmpresa={ordenDeServicioHistoricaData?.empresa}
+          />
+        ) : (
+          <PdfNotaDeVenta
+            ordenDeServicioHistoricaData={ordenDeServicioHistoricaData}
+            codigoNotaDeVenta={ordenDeServicioHistoricaData?.code}
             selectedEmpresa={ordenDeServicioHistoricaData?.empresa}
           />
         );

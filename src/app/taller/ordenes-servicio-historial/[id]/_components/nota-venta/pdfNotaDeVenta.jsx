@@ -11,7 +11,7 @@ import {
   Path,
 } from '@react-pdf/renderer';
 
-import { stylesNotaDeVenta } from '@/app/ventas/[ventaId]/nota-venta/_components/pdf/stylesNotaVenta';
+import { stylesNotaDeVenta } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/pdf/stylesNotaDeVenta.js';
 import {
   formatDateLong,
 } from '@/lib/formateador';
@@ -19,7 +19,7 @@ import {
 const styles = StyleSheet.create(stylesNotaDeVenta);
 
 export function PdfNotaDeVenta({
-  ventaData,
+  ordenDeServicioHistoricaData,
   codigoNotaDeVenta,
   empresaSeleccionada,
 }) {
@@ -117,46 +117,50 @@ export function PdfNotaDeVenta({
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {ventaData?.clienteId?.tipo === 'empresa'
-                ? ventaData?.clienteId?.datos?.nombre
-                : `${ventaData?.clienteId?.datos?.apellidos} ${ventaData?.clienteId?.datos?.nombres}`}
+              {ordenDeServicioHistoricaData?.cliente?.tipo === 'empresa'
+                ? ordenDeServicioHistoricaData?.cliente?.datos?.nombre
+                : `${ordenDeServicioHistoricaData?.cliente?.datos?.apellidos} ${ordenDeServicioHistoricaData?.cliente?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {ventaData?.clienteId?.tipo === 'empresa' ? `RUC: ` : `DNI: `}
+                {ordenDeServicioHistoricaData?.cliente?.tipo === 'empresa'
+                  ? `RUC: `
+                  : `DNI: `}
               </Text>
               <Text>
-                {ventaData?.clienteId?.tipo === 'empresa'
-                  ? `${ventaData?.clienteId?.datos?.ruc}`
-                  : `${ventaData?.clienteId?.datos?.dni}`}
+                {ordenDeServicioHistoricaData?.cliente?.tipo === 'empresa'
+                  ? `${ordenDeServicioHistoricaData?.cliente?.datos?.ruc}`
+                  : `${ordenDeServicioHistoricaData?.cliente?.datos?.dni}`}
               </Text>
             </View>
-            {ventaData?.clienteId?.tipo === 'empresa' && (
+            {ordenDeServicioHistoricaData?.cliente?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {'Representante Legal: '}
                 </Text>
-                <Text>{ventaData?.clienteId?.datos?.representanteLegal}</Text>
+                <Text>
+                  {ordenDeServicioHistoricaData?.cliente?.datos?.representanteLegal}
+                </Text>
               </View>
             )}
-            {ventaData?.clienteId?.tipo === 'empresa' && (
+            {ordenDeServicioHistoricaData?.cliente?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
                   {'Dirección: '}
                 </Text>
-                <Text>{ventaData?.clienteId?.datos?.direccion}</Text>
+                <Text>{ordenDeServicioHistoricaData?.cliente?.datos?.direccion}</Text>
               </View>
             )}
-            {ventaData?.clienteId?.datos?.email && (
+            {ordenDeServicioHistoricaData?.cliente?.datos?.email && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{'Email: '}</Text>
-                <Text>{ventaData?.clienteId?.datos?.email}</Text>
+                <Text>{ordenDeServicioHistoricaData?.cliente?.datos?.email}</Text>
               </View>
             )}
-            {ventaData?.clienteId?.datos?.celular && (
+            {ordenDeServicioHistoricaData?.cliente?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>{'Celular: '}</Text>
-                <Text>{ventaData?.clienteId?.datos?.celular}</Text>
+                <Text>{ordenDeServicioHistoricaData?.cliente?.datos?.celular}</Text>
               </View>
             )}
           </View>
@@ -174,7 +178,7 @@ export function PdfNotaDeVenta({
               <Text style={styles.tableCellHeader}>Importe</Text>
             </View>
             {/* Filas de productos */}
-            {ventaData?.productos?.map((item) => (
+            {ordenDeServicioHistoricaData?.productos?.map((item) => (
               <View key={item._id} style={styles.tableRow}>
                 <Text style={styles.tableCell}>{item?.nombre}</Text>
                 <Text style={styles.tableCell}>
@@ -186,7 +190,7 @@ export function PdfNotaDeVenta({
                 </Text>
               </View>
             ))}
-            {ventaData?.servicios?.map((item) => (
+            {ordenDeServicioHistoricaData?.servicios?.map((item) => (
               <View key={`servicio-${item._id}`} style={styles.tableRow}>
                 <Text style={styles.tableCell}>{item?.descripcion}</Text>
                 <Text style={styles.tableCell}>{item?.precio?.toFixed(2)}</Text>
@@ -201,8 +205,8 @@ export function PdfNotaDeVenta({
           <View style={styles.totalRow}>
             <Text style={styles.totalCell}>Importe Total: S/.</Text>
             <Text style={styles.totalCell}>
-              {ventaData?.productos
-                .concat(ventaData?.servicios || [])
+              {ordenDeServicioHistoricaData?.productos
+                .concat(ordenDeServicioHistoricaData?.servicios || [])
                 .reduce(
                   (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
                   0,
@@ -213,20 +217,20 @@ export function PdfNotaDeVenta({
           <View style={styles.totalRow}>
             <Text style={styles.totalCell}>Adelanto recibido: S/.</Text>
             <Text style={styles.totalCell}>
-              {(ventaData?.pago?.montoAdelanto || 0).toFixed(2)}
+              {(ordenDeServicioHistoricaData?.pago?.montoAdelanto || 0).toFixed(2)}
             </Text>
           </View>
           <View style={styles.totalRow}>
             <Text style={styles.totalCell}>Importe a Pagar: S/.</Text>
             <Text style={styles.totalCell}>
               {(
-                ventaData?.productos
-                  .concat(ventaData?.servicios || [])
+                ordenDeServicioHistoricaData?.productos
+                  .concat(ordenDeServicioHistoricaData?.servicios || [])
                   .reduce(
                     (acc, item) =>
                       acc + (item?.precioVenta || item?.precio) * 1,
                     0,
-                  ) - (ventaData?.pago?.montoAdelanto || 0)
+                  ) - (ordenDeServicioHistoricaData?.pago?.montoAdelanto || 0)
               ).toFixed(2)}
             </Text>
           </View>
