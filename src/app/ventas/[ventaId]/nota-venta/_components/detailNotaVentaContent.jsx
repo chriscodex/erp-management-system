@@ -94,6 +94,10 @@ export function DetailNotaVentaContent({ ventaData, empresas }) {
                     ventaData?.usuario?.apellidos}{' '}
                 </p>
                 <p>
+                  <strong>Comprobante:</strong>{' '}
+                  {ventaData?.comprobante}
+                </p>
+                <p>
                   <strong>Estado SUNAT:</strong> {ventaData?.estadoSunat}
                 </p>
               </div>

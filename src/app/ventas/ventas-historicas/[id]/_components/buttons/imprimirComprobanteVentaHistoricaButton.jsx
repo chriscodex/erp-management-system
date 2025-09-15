@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { PdfBoleta } from '@/app/ventas/ventas-historicas/[id]/_components/boleta/_components/pdf/pdfBoleta';
 import { PdfFactura } from '@/app/ventas/ventas-historicas/[id]/_components/factura/_components/pdf/pdfFactura';
+import { PdfNotaVenta } from '@/app/ventas/ventas-historicas/[id]/_components/nota-venta/pdfNotaVenta';
 import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
 
 export function ImprimirComprobanteVentaHistoricaButton({
@@ -20,17 +21,19 @@ export function ImprimirComprobanteVentaHistoricaButton({
     try {
       const { comprobante, counter, empresa } = ventaHistoricaData;
 
-      // Elegir si es boleta o factura
+      // Elegir si es boleta, factura o solo nota de venta
       const tipoComprobante = comprobante?.toLowerCase().includes('boleta')
         ? 'boleta'
         : comprobante?.toLowerCase().includes('factura')
-          ? 'factura'
-          : 'undefined';
+        ? 'factura'
+        : comprobante?.toLowerCase().includes('nota de venta')
+        ? 'nota-venta'
+        : 'undefined';
 
-      const codigo = formatearCodigoCounterBoletaFactura(
-        counter,
-        tipoComprobante,
-      );
+      const codigo =
+        tipoComprobante === 'boleta' || tipoComprobante === 'factura'
+          ? formatearCodigoCounterBoletaFactura(counter, tipoComprobante)
+          : ventaHistoricaData.code;
 
       const doc =
         tipoComprobante === 'boleta' ? (
@@ -39,10 +42,16 @@ export function ImprimirComprobanteVentaHistoricaButton({
             counterBoleta={counter}
             selectedEmpresa={empresa}
           />
-        ) : (
+        ) : tipoComprobante === 'factura' ? (
           <PdfFactura
             ventaHistoricaData={ventaHistoricaData}
             counterFactura={counter}
+            selectedEmpresa={empresa}
+          />
+        ) : (
+          <PdfNotaVenta
+            ventaHistoricaData={ventaHistoricaData}
+            codigoNotaDeVenta={ventaHistoricaData?.code}
             selectedEmpresa={empresa}
           />
         );

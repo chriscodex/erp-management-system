@@ -15,7 +15,7 @@ import { RiFileListLine } from '@remixicon/react';
 
 export const columns = [
   {
-    accessorKey: 'Usuario',
+    accessorKey: 'usuario',
     header: ({ column }) => {
       return (
         <Button
@@ -29,12 +29,17 @@ export const columns = [
     },
 
     cell: ({ row }) => {
-      console.log('asdasdasdasdasdasdas', row?.original);
       const nombres = row?.original?.nombres;
       const apellidos = row?.original?.apellidos;
       const fullname = `${nombres || ''} ${apellidos || ''}`.trim();
 
       return <div className="text-start">{fullname}</div>;
+    },
+    filterFn: (row, id, value) => {
+      const fullname = `${row.original.nombres || ''} ${
+        row.original.apellidos || ''
+      }`.toLowerCase();
+      return fullname.includes(value.toLowerCase());
     },
   },
   {

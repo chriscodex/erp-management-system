@@ -49,8 +49,6 @@ export function UpdateFormProduct({
 }) {
   const router = useRouter();
 
-  console.log(productData?.almacenId?._id);
-
   const updateForm = useForm({
     resolver: zodResolver(updateProductFormSchema),
     defaultValues: {

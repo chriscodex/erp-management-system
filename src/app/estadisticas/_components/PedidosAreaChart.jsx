@@ -47,8 +47,6 @@ export default function PedidosAreaChart({ dataPedidosHistoricos }) {
     return data;
   }, [dataPedidosHistoricos, anio]);
 
-  console.log('chartData de AreaChart', chartData);
-
   chartData[0].pedidos = 2;
   chartData[1].pedidos = 4;
   chartData[3].pedidos = 16;
