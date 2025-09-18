@@ -15,11 +15,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Gasto Route: Error interno eliminando el gasto del producto: ${error.message}`
+      `Gasto Route: Error interno eliminando el gasto del producto: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno eliminando el gasto del producto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -28,7 +28,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateGastoController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -38,11 +38,11 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Gasto Route: Error interno al actualizar el gasto del producto: ${error.message}`
+      `Gasto Route: Error interno al actualizar el gasto del producto: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno al actualizar el gasto del producto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

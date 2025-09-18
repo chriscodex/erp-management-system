@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   flexRender,
@@ -7,12 +7,12 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
-import { useEffect, useState } from "react";
-import { useDebouncedCallback } from "use-debounce";
-import { useRouter } from "next/navigation";
+} from '@tanstack/react-table';
+import { useEffect, useState } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+import { useRouter } from 'next/navigation';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -20,11 +20,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { DataTablePagination } from "@/components/ui/table-pagination";
-import { DataTableViewOptions } from "@/components/ui/table-view-options";
-import { serverErrorToast } from "@/components/toast/serverErrorToast";
-import { TIME_DEBOUNCE } from "@/lib/utils";
+} from '@/components/ui/table';
+import { DataTablePagination } from '@/components/ui/table-pagination';
+import { DataTableViewOptions } from '@/components/ui/table-view-options';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { TIME_DEBOUNCE } from '@/lib/utils';
 
 export function DataTableUsersPerSucursal({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -50,17 +50,15 @@ export function DataTableUsersPerSucursal({ columns, data, status = 200 }) {
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn("nombre")?.setFilterValue(value);
+    table.getColumn('usuario')?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
     debouncedSearch(searchValue);
   }, [searchValue, debouncedSearch]);
-
-  // table.getColumn('rol').getIsVisible();
 
   useEffect(() => {
     if (status === 500) {
@@ -78,7 +76,7 @@ export function DataTableUsersPerSucursal({ columns, data, status = 200 }) {
       {/* Input */}
       <div className="flex items-center py-4 w-full">
         <Input
-          placeholder="Buscar por nombre"
+          placeholder="Buscar por nombre de usuario"
           value={searchValue}
           onChange={(e) => {
             const trimmedValue = e.target.value.trim();
@@ -100,7 +98,7 @@ export function DataTableUsersPerSucursal({ columns, data, status = 200 }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -113,13 +111,13 @@ export function DataTableUsersPerSucursal({ columns, data, status = 200 }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

@@ -18,16 +18,18 @@ export async function getAllEmpresasRequestServer() {
     }
     const empresas = response?.payload;
 
-    return { empresas: simplificadorParaClientComponent(empresas), status: 200 };
+    return {
+      empresas: simplificadorParaClientComponent(empresas),
+      status: 200,
+    };
   } catch (error) {
     console.error(error);
   }
 }
 
 export async function deleteEmpresaRequestClient(empresaId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -38,7 +40,7 @@ export async function deleteEmpresaRequestClient(empresaId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la empresa: ' + response.response?.data?.error
+          'No se pudo eliminar la empresa: ' + response.response?.data?.error,
         );
         return;
       }

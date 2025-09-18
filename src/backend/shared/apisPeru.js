@@ -3,7 +3,9 @@
 import axios from 'axios';
 import https from 'https';
 
-const BASE_URL = process.env.NEXT_PUBLIC_APISPERU_URL || 'https://facturacion.apisperu.com/api/v1';
+const BASE_URL =
+  process.env.NEXT_PUBLIC_APISPERU_URL ||
+  'https://facturacion.apisperu.com/api/v1';
 
 /**
  * Inicia sesión en APISPeru para obtener el token JWT
@@ -15,14 +17,10 @@ export async function loginApisPeru() {
       password: process.env.APISPERU_PASSWORD,
     };
 
-    const response = await axios.post(
-      `${BASE_URL}/auth/login`,
-      credentials,
-      {
-        headers: { 'Content-Type': 'application/json' },
-        httpsAgent: new https.Agent({ rejectUnauthorized: false }),
-      }
-    );
+    const response = await axios.post(`${BASE_URL}/auth/login`, credentials, {
+      headers: { 'Content-Type': 'application/json' },
+      httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+    });
 
     return {
       token: response.data.token,
@@ -65,17 +63,13 @@ export async function sendInvoiceToSunat(invoiceData) {
     if (!token) return { payload, status };
 
     // 2. POST al endpoint /invoice/send
-    const response = await axios.post(
-      `${BASE_URL}/invoice/send`,
-      invoiceData,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        httpsAgent: new https.Agent({ rejectUnauthorized: false }),
-      }
-    );
+    const response = await axios.post(`${BASE_URL}/invoice/send`, invoiceData, {
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      },
+      httpsAgent: new https.Agent({ rejectUnauthorized: false }),
+    });
 
     return {
       payload: response.data,

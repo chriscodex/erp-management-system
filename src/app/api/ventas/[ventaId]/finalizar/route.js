@@ -12,11 +12,11 @@ export async function POST(_, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Ventas Route: Error interno al finalizar la venta: ${error.message}`
+      `Ventas Route: Error interno al finalizar la venta: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al finalizar la venta' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

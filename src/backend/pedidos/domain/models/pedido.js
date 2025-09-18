@@ -1,45 +1,45 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models } from 'mongoose';
 
 const pedidoSchema = new Schema(
   {
     code: {
       type: String,
-      required: [true, "El code es requerido en el schema de pedidos."],
+      required: [true, 'El code es requerido en el schema de pedidos.'],
     },
     modelo: {
       nombre: {
         type: String,
         required: [
           true,
-          "El nombre del modelo es requerido en el schema de pedidos.",
+          'El nombre del modelo es requerido en el schema de pedidos.',
         ],
       },
       descripcion: {
         type: String,
         required: [
           false,
-          "La descripcion del modelo es requerida en el schema de pedidos.",
+          'La descripcion del modelo es requerida en el schema de pedidos.',
         ],
       },
       stockMinimo: {
         type: Number,
         required: [
           true,
-          "La descripcion del modelo es requerida en el schema de pedidos.",
+          'La descripcion del modelo es requerida en el schema de pedidos.',
         ],
       },
       marcaId: {
         type: Schema.Types.ObjectId,
         required: [
           true,
-          "La descripcion del modelo es requerida en el schema de pedidos.",
+          'La descripcion del modelo es requerida en el schema de pedidos.',
         ],
       },
       categoryId: {
         type: Schema.Types.ObjectId,
         required: [
           true,
-          "La descripcion del modelo es requerida en el schema de pedidos.",
+          'La descripcion del modelo es requerida en el schema de pedidos.',
         ],
       },
     },
@@ -48,14 +48,14 @@ const pedidoSchema = new Schema(
         type: String,
         required: [
           true,
-          "El nombre de la moto es requerido en el schema de pedidos.",
+          'El nombre de la moto es requerido en el schema de pedidos.',
         ],
       },
       descripcion: {
         type: String,
         required: [
           false,
-          "La descripcion de la moto es requerida en el schema de pedidos.",
+          'La descripcion de la moto es requerida en el schema de pedidos.',
         ],
       },
       caracteristicas: {
@@ -104,9 +104,9 @@ const pedidoSchema = new Schema(
         type: String,
         required: [
           true,
-          "Indicar si es importado es requerido en el schema de pedidos",
+          'Indicar si es importado es requerido en el schema de pedidos',
         ],
-        enum: ["si", "no"],
+        enum: ['si', 'no'],
       },
     },
     estadoPago: {
@@ -131,13 +131,13 @@ const pedidoSchema = new Schema(
     },
     proveedorId: {
       type: Schema.Types.ObjectId,
-      ref: "Proveedor",
-      required: [true, "El proveedor es requerido en el schema de pedidos."],
+      ref: 'Proveedor',
+      required: [true, 'El proveedor es requerido en el schema de pedidos.'],
     },
     almacenId: {
       type: Schema.Types.ObjectId,
-      ref: "Almacen",
-      required: [true, "El almacen es requerido en el schema de pedidos."],
+      ref: 'Almacen',
+      required: [true, 'El almacen es requerido en el schema de pedidos.'],
     },
     fechaLimite: {
       type: Date,
@@ -146,7 +146,7 @@ const pedidoSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
-export const Pedido = models?.Pedido || model("Pedido", pedidoSchema);
+export const Pedido = models?.Pedido || model('Pedido', pedidoSchema);

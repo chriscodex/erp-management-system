@@ -1,6 +1,6 @@
-"use client";
-import { TrendingUp } from "lucide-react";
-import { Pie, PieChart } from "recharts";
+'use client';
+import { TrendingUp } from 'lucide-react';
+import { Pie, PieChart } from 'recharts';
 
 import {
   Card,
@@ -9,12 +9,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';
 
 export default function ProductosImportadosPieChart({ dataProductos }) {
   function contarImportados(dataProductos) {
@@ -23,7 +23,7 @@ export default function ProductosImportadosPieChart({ dataProductos }) {
       noImportados: 0,
     };
     dataProductos?.products.forEach((producto) => {
-      if (producto?.importado === "sí" || producto?.importado === "si") {
+      if (producto?.importado === 'sí' || producto?.importado === 'si') {
         resultado.importados += 1;
       } else {
         resultado.noImportados += 1;
@@ -46,18 +46,22 @@ export default function ProductosImportadosPieChart({ dataProductos }) {
     dataMensualProductosImportados || {};
 
   const chartData = [
-    { origen: "Importados", cantidad: importados, fill: "hsl(var(--chart-2))" },
-    { origen: "No importados", cantidad: noImportados, fill: "hsl(var(--chart-3))" },
+    { origen: 'Importados', cantidad: importados, fill: 'hsl(var(--chart-2))' },
+    {
+      origen: 'No importados',
+      cantidad: noImportados,
+      fill: 'hsl(var(--chart-3))',
+    },
   ];
 
   const chartConfig = {
     boletas: {
-      label: "Importados ",
-      color: "hsl(var(--chart-1))",
+      label: 'Importados ',
+      color: 'hsl(var(--chart-1))',
     },
     facturas: {
-      label: "No importados ",
-      color: "hsl(var(--chart-2))",
+      label: 'No importados ',
+      color: 'hsl(var(--chart-2))',
     },
   };
 

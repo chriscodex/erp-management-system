@@ -1,12 +1,11 @@
 import { delay } from '@/lib/utils';
 
 import { deleteReservacionClientUrl } from '@/lib/urls';
-import { deleteData} from '@/lib/fetchData';
+import { deleteData } from '@/lib/fetchData';
 
 export async function deleteReservacionRequestClient(reservacionId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -17,7 +16,8 @@ export async function deleteReservacionRequestClient(reservacionId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la reservacion: ' + response.response?.data?.error
+          'No se pudo eliminar la reservacion: ' +
+            response.response?.data?.error,
         );
         return;
       }

@@ -1,8 +1,10 @@
-import { fetchData, patchData } from '@/lib/fetchData';
+import { fetchData, patchData, postData } from '@/lib/fetchData';
 import {
   getCurrentCounterNotaVentaClientUrl,
   updateNotaVentaStateClientUrl,
   incrementCounterNotaVentaClientUrl,
+  finalizarOrdenDeServicioClientUrl,
+  updateOrdenDeServicioClientUrl,
 } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
@@ -18,7 +20,7 @@ export async function getCurrentCounterNotaDeVentaRequestClient() {
 
     if (response?.status === 500) {
       throw new Error(
-        'No se pudo obtener el contador de boletas: ' + response?.data?.error
+        'No se pudo obtener el contador de boletas: ' + response?.data?.error,
       );
     }
 
@@ -39,7 +41,7 @@ export async function updateNotaDeVentaStateRequestClient(ordenDeServicioId) {
       urlUpdateStateNotaVenta,
       {
         comprobante: 'Nota de Venta Impresa',
-      }
+      },
     );
 
     const urlIncrementCounterNotaVenta = `${incrementCounterNotaVentaClientUrl}`;
@@ -48,20 +50,20 @@ export async function updateNotaDeVentaStateRequestClient(ordenDeServicioId) {
       urlIncrementCounterNotaVenta,
       {
         type: 'nota-venta',
-      }
+      },
     );
 
     if (responseUpdateStateNotaVenta?.status !== 200) {
       throw new Error(
         'No se pudo actualizar el estado de la nota de venta: ' +
-          responseUpdateStateNotaVenta?.data?.error
+          responseUpdateStateNotaVenta?.data?.error,
       );
     }
 
     if (responseIncrementCounterNotaVenta?.status !== 200) {
       throw new Error(
         'No se pudo incrementar el contador de notas de venta: ' +
-          responseIncrementCounterNotaVenta?.data?.error
+          responseIncrementCounterNotaVenta?.data?.error,
       );
     }
 
@@ -70,4 +72,46 @@ export async function updateNotaDeVentaStateRequestClient(ordenDeServicioId) {
     console.error('Error en updateNotaVentaStateRequestClient:', error);
     throw error;
   }
+}
+
+export async function finalizarNotaVentaRequestClient(ordenServicioId) {
+  // eslint-disable-next-line no-undef
+  return new Promise(async (resolve, reject) => {
+    try {
+      // Simular tiempo de retraso
+      await delay();
+
+      const urlUpdateStateNotaVenta = `${updateOrdenDeServicioClientUrl}/${ordenServicioId}`;
+
+      const responseUpdateStateNotaVenta = await patchData(
+        urlUpdateStateNotaVenta,
+        {
+          comprobante: 'Nota de Venta Impresa',
+        },
+      );
+
+      if (responseUpdateStateNotaVenta?.status !== 200) {
+        throw new Error(
+          'No se pudo actualizar el estado de la nota de venta: ' +
+            responseUpdateStateNotaVenta?.data?.error,
+        );
+      }
+
+      const url = `${finalizarOrdenDeServicioClientUrl}/${ordenServicioId}/finalizar`;
+
+      // Obtener los datos de la persona
+      const response = await postData(url);
+      if (response?.status !== 201) {
+        reject(
+          'No se pudo eliminar la orden de servicio: ' +
+            response.response?.data?.error,
+        );
+        return;
+      }
+
+      resolve(response?.data?.payload);
+    } catch (error) {
+      reject(error);
+    }
+  });
 }

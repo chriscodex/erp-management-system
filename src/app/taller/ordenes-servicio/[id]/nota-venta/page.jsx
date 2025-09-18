@@ -1,17 +1,17 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { getOrdenDeServicioRequestServer } from "@/app/taller/ordenes-servicio/_services/requests";
-import { getAllEmpresasForComprobanteVentaRequestServer } from "@/app/ventas/[ventaId]/_services/requests";
-import { DetailNotaDeVentaContent } from "@/app/taller/ordenes-servicio/[id]/nota-venta/_components/detailNotaDeVentaContent";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { getOrdenDeServicioRequestServer } from '@/app/taller/ordenes-servicio/_services/requests';
+import { getAllEmpresasForComprobanteVentaRequestServer } from '@/app/ventas/[ventaId]/_services/requests';
+import { DetailNotaDeVentaContent } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/detailNotaDeVentaContent';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
   if (
-    session?.user?.rol !== "Administrador" &&
-    session?.user?.rol !== "Tecnico"
+    session?.user?.rol !== 'Administrador' &&
+    session?.user?.rol !== 'Tecnico'
   ) {
     notFound();
   }
@@ -34,13 +34,13 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Taller",
-      href: "",
+      title: 'Taller',
+      href: '',
       active: false,
     },
     {
-      title: "Órdenes de Servicio",
-      href: "/taller/ordenes-servicio",
+      title: 'Órdenes de Servicio',
+      href: '/taller/ordenes-servicio',
       active: true,
     },
     {
@@ -49,8 +49,8 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: "Nota de venta",
-      href: "",
+      title: 'Nota de venta',
+      href: '',
       active: false,
     },
   ];

@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { pdf } from "@react-pdf/renderer";
-import { RiPrinterLine } from "@remixicon/react";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import { pdf } from '@react-pdf/renderer';
+import { RiPrinterLine } from '@remixicon/react';
+import { useRouter } from 'next/navigation';
 
-import { Button } from "@/components/ui/button";
-import { PdfFactura } from "@/app/ventas/[ventaId]/factura/_components/pdf/pdfFactura";
+import { Button } from '@/components/ui/button';
+import { PdfFactura } from '@/app/ventas/[ventaId]/factura/_components/pdf/pdfFactura';
 import {
   getCurrentCounterFacturaRequestClient,
   updateFacturaStateRequestClient,
-} from "@/app/ventas/[ventaId]/factura/_services/requests";
-import { formatearCodigoCounterBoletaFactura } from "@/lib/formateador";
-import { EmpresasSelect } from "@/app/ventas/[ventaId]/_components/empresasSelect";
+} from '@/app/ventas/[ventaId]/factura/_services/requests';
+import { formatearCodigoCounterBoletaFactura } from '@/lib/formateador';
+import { EmpresasSelect } from '@/app/ventas/[ventaId]/_components/empresasSelect';
 
 export function ImprimirFacturaButton({ ventaData, empresas, reimprimir }) {
   const router = useRouter();
@@ -25,7 +25,7 @@ export function ImprimirFacturaButton({ ventaData, empresas, reimprimir }) {
     try {
       const facturaEmitida = ventaData?.comprobante
         .toLowerCase()
-        .includes("factura");
+        .includes('factura');
 
       const counterFactura = facturaEmitida
         ? ventaData?.counter
@@ -33,7 +33,7 @@ export function ImprimirFacturaButton({ ventaData, empresas, reimprimir }) {
 
       const codigoFactura = formatearCodigoCounterBoletaFactura(
         counterFactura,
-        "factura"
+        'factura',
       );
 
       const empresaSeleccionada = facturaEmitida
@@ -50,7 +50,7 @@ export function ImprimirFacturaButton({ ventaData, empresas, reimprimir }) {
       const blob = await pdf(doc).toBlob();
 
       // Crear un enlace temporal y forzar la descarga
-      const link = document.createElement("a");
+      const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       link.download = `factura-${codigoFactura}.pdf`;
       document.body.appendChild(link);
@@ -58,25 +58,25 @@ export function ImprimirFacturaButton({ ventaData, empresas, reimprimir }) {
       document.body.removeChild(link);
 
       if (!facturaEmitida) {
-              const selectedEmpresaFormateada = {
-                empresaId: selectedEmpresa._id,
-                ruc: selectedEmpresa.ruc,
-                nombre: selectedEmpresa.nombre,
-                descripcion: selectedEmpresa.descripcion,
-                direccion: selectedEmpresa.direccion,
-                telefono: selectedEmpresa.telefono,
-                email: selectedEmpresa.email,
-              };
-      
-              await updateFacturaStateRequestClient(
-                ventaData?._id,
-                counterFactura,
-                selectedEmpresaFormateada
-              );
-            }
+        const selectedEmpresaFormateada = {
+          empresaId: selectedEmpresa._id,
+          ruc: selectedEmpresa.ruc,
+          nombre: selectedEmpresa.nombre,
+          descripcion: selectedEmpresa.descripcion,
+          direccion: selectedEmpresa.direccion,
+          telefono: selectedEmpresa.telefono,
+          email: selectedEmpresa.email,
+        };
+
+        await updateFacturaStateRequestClient(
+          ventaData?._id,
+          counterFactura,
+          selectedEmpresaFormateada,
+        );
+      }
       router.refresh();
     } catch (error) {
-      console.error("Error al generar el PDF:", error);
+      console.error('Error al generar el PDF:', error);
     }
     setLoading(false);
   };
@@ -96,7 +96,9 @@ export function ImprimirFacturaButton({ ventaData, empresas, reimprimir }) {
         disabled={loading}
       >
         <RiPrinterLine className="h-4 w-4" />
-        <p>{loading ? "Generando..." : reimprimir ? "Reimprimir" : "Imprimir"}</p>
+        <p>
+          {loading ? 'Generando...' : reimprimir ? 'Reimprimir' : 'Imprimir'}
+        </p>
       </Button>
     </div>
   );

@@ -1,25 +1,25 @@
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 import {
   RiFileList2Fill,
   RiFileList3Line,
   RiFileListLine,
-} from "@remixicon/react";
+} from '@remixicon/react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { useRouter } from "next/navigation";
+} from '@/components/ui/tooltip';
+import { useRouter } from 'next/navigation';
 
 export function EmitirComprobanteOrdenDeServicioButton({
   ordenDeServicioData,
@@ -28,8 +28,8 @@ export function EmitirComprobanteOrdenDeServicioButton({
 
   const comprobante = ordenDeServicioData?.comprobante.toLowerCase();
 
-  const boletaEmitida = comprobante?.includes("boleta");
-  const facturaEmitida = comprobante?.includes("factura");
+  const boletaEmitida = comprobante?.includes('boleta');
+  const facturaEmitida = comprobante?.includes('factura');
 
   const hayProductosServicios =
     (ordenDeServicioData?.productos?.length ?? 0) > 0 ||
@@ -59,8 +59,8 @@ export function EmitirComprobanteOrdenDeServicioButton({
               <TooltipContent>
                 <p>
                   {!hayProductosServicios
-                    ? "Agregue productos o servicios antes de emitir una boleta"
-                    : "Ya se emitió una factura, no puedes emitir boleta"}
+                    ? 'Agregue productos o servicios antes de emitir una boleta'
+                    : 'Ya se emitió una factura, no puedes emitir boleta'}
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -69,7 +69,7 @@ export function EmitirComprobanteOrdenDeServicioButton({
               className="cursor-pointer"
               onClick={() =>
                 router.push(
-                  `/taller/ordenes-servicio/${ordenDeServicioData?._id}/boleta`
+                  `/taller/ordenes-servicio/${ordenDeServicioData?._id}/boleta`,
                 )
               }
             >
@@ -94,8 +94,8 @@ export function EmitirComprobanteOrdenDeServicioButton({
               <TooltipContent>
                 <p>
                   {!hayProductosServicios
-                    ? "Agregue productos o servicios antes de emitir una factura"
-                    : "Ya se emitió una boleta, no puedes emitir factura"}
+                    ? 'Agregue productos o servicios antes de emitir una factura'
+                    : 'Ya se emitió una boleta, no puedes emitir factura'}
                 </p>
               </TooltipContent>
             </Tooltip>
@@ -104,7 +104,7 @@ export function EmitirComprobanteOrdenDeServicioButton({
               className="cursor-pointer"
               onClick={() =>
                 router.push(
-                  `/taller/ordenes-servicio/${ordenDeServicioData?._id}/factura`
+                  `/taller/ordenes-servicio/${ordenDeServicioData?._id}/factura`,
                 )
               }
             >
@@ -120,7 +120,7 @@ export function EmitirComprobanteOrdenDeServicioButton({
             className="cursor-pointer"
             onClick={() =>
               router.push(
-                `/taller/ordenes-servicio/${ordenDeServicioData?._id}/nota-venta`
+                `/taller/ordenes-servicio/${ordenDeServicioData?._id}/nota-venta`,
               )
             }
           >

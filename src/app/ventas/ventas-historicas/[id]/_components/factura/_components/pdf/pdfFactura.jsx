@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Document,
@@ -9,24 +9,27 @@ import {
   Image,
   Svg,
   Path,
-} from "@react-pdf/renderer";
+} from '@react-pdf/renderer';
 
-import { stylesFactura } from "@/app/ventas/[ventaId]/factura/_components/pdf/stylesFactura.js";
+import { stylesFactura } from '@/app/ventas/[ventaId]/factura/_components/pdf/stylesFactura.js';
 import {
   formatDateLong,
   formatNumeroALetras,
   formatearCodigoCounterBoletaFactura,
-} from "@/lib/formateador";
+} from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesFactura);
 
-export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa }) {
-
+export function PdfFactura({
+  ventaHistoricaData,
+  counterFactura,
+  selectedEmpresa,
+}) {
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
   const codigoFactura = formatearCodigoCounterBoletaFactura(
     counterFactura,
-    "factura"
+    'factura',
   );
 
   const MapPin = () => (
@@ -67,35 +70,35 @@ export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa
     <Document>
       <Page size="A4">
         <View style={styles.header}>
-          <Image src={"/logoB.jpeg"} style={styles.image} alt="logo" />
+          <Image src={'/logoB.jpeg'} style={styles.image} alt="logo" />
           <Text style={styles.title}>Factura electrónica</Text>
         </View>
         <View style={styles.body}>
           <View style={styles.datosEmpresa}>
             <View>
               <Text style={styles.datosEmpresaTitle}>
-                {selectedEmpresa?.nombre || "Moto Rock Ruta 33 E.I.R.L"}
+                {selectedEmpresa?.nombre || 'Moto Rock Ruta 33 E.I.R.L'}
               </Text>
               <Text style={styles.datosEmpresaTitle}>
-                RUC N° {selectedEmpresa?.ruc || "20202020202"}
+                RUC N° {selectedEmpresa?.ruc || '20202020202'}
               </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
                 <Text>
                   {selectedEmpresa?.direccion ||
-                    "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}
+                    'Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz'}
                 </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>{selectedEmpresa?.telefono || "01-442-1210"}</Text>
+                <Text>{selectedEmpresa?.telefono || '01-442-1210'}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
                 <Text>
-                  {selectedEmpresa?.email || "gerencia@motorock33.com"}
+                  {selectedEmpresa?.email || 'gerencia@motorock33.com'}
                 </Text>
               </View>
             </View>
@@ -117,45 +120,49 @@ export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {ventaHistoricaData?.clienteId?.tipo === "empresa"
+              {ventaHistoricaData?.clienteId?.tipo === 'empresa'
                 ? ventaHistoricaData?.clienteId?.datos?.nombre
                 : `${ventaHistoricaData?.clienteId?.datos?.apellidos} ${ventaHistoricaData?.clienteId?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {ventaHistoricaData?.clienteId?.tipo === "empresa" ? `RUC: ` : `DNI: `}
+                {ventaHistoricaData?.clienteId?.tipo === 'empresa'
+                  ? `RUC: `
+                  : `DNI: `}
               </Text>
               <Text>
-                {ventaHistoricaData?.clienteId?.tipo === "empresa"
+                {ventaHistoricaData?.clienteId?.tipo === 'empresa'
                   ? `${ventaHistoricaData?.clienteId?.datos?.ruc}`
                   : `${ventaHistoricaData?.clienteId?.datos?.dni}`}
               </Text>
             </View>
-            {ventaHistoricaData?.clienteId?.tipo === "empresa" && (
+            {ventaHistoricaData?.clienteId?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
-                  {"Representante Legal: "}
+                  {'Representante Legal: '}
                 </Text>
-                <Text>{ventaHistoricaData?.clienteId?.datos?.representanteLegal}</Text>
+                <Text>
+                  {ventaHistoricaData?.clienteId?.datos?.representanteLegal}
+                </Text>
               </View>
             )}
-            {ventaHistoricaData?.clienteId?.tipo === "empresa" && (
+            {ventaHistoricaData?.clienteId?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
-                  {"Dirección: "}
+                  {'Dirección: '}
                 </Text>
                 <Text>{ventaHistoricaData?.clienteId?.datos?.direccion}</Text>
               </View>
             )}
             {ventaHistoricaData?.clienteId?.datos?.email && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
+                <Text style={styles.datosClienteInfoTitle}>{'Email: '}</Text>
                 <Text>{ventaHistoricaData?.clienteId?.datos?.email}</Text>
               </View>
             )}
             {ventaHistoricaData?.clienteId?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
+                <Text style={styles.datosClienteInfoTitle}>{'Celular: '}</Text>
                 <Text>{ventaHistoricaData?.clienteId?.datos?.celular}</Text>
               </View>
             )}
@@ -195,7 +202,7 @@ export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa
                 ventaHistoricaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -208,7 +215,7 @@ export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa
                 ventaHistoricaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -220,7 +227,7 @@ export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -232,7 +239,7 @@ export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -244,9 +251,9 @@ export function PdfFactura({ ventaHistoricaData, counterFactura, selectedEmpresa
                   .reduce(
                     (acc, producto) =>
                       acc + producto?.precioVenta * producto?.cantidad,
-                    0
+                    0,
                   )
-                  .toFixed(2)
+                  .toFixed(2),
               )}
             </Text>
           </View>

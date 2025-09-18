@@ -1,27 +1,27 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import {
   getCategoriesBySegmentDataForModelosRequestServer,
   getMarcasBySegmentDataForModelosRequestServer,
-} from "@/app/inventario/motos/modelos/_services/requests";
-import { getProductByIdRequestServer } from "@/app/inventario/productos/[id]/_services/requests";
-import { UpdateFormProduct } from "@/app/inventario/productos/[id]/edit/_components/updateFormProduct";
+} from '@/app/inventario/motos/modelos/_services/requests';
+import { getProductByIdRequestServer } from '@/app/inventario/productos/[id]/_services/requests';
+import { UpdateFormProduct } from '@/app/inventario/productos/[id]/edit/_components/updateFormProduct';
 import {
   getAllAlmacenesByDataForProductsRequestServer,
   getAllProveedoresByDataForProductsRequestServer,
-} from "@/app/inventario/productos/_services/requests";
-import { sortByUpdateDateAsc } from "@/lib/utils";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+} from '@/app/inventario/productos/_services/requests';
+import { sortByUpdateDateAsc } from '@/lib/utils';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
-  
-  if (session?.user?.rol !== "Administrador") {
+
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
 
@@ -29,15 +29,15 @@ export default async function Page({ params }) {
   const results = await Promise.allSettled([
     getProductByIdRequestServer(params.id),
     getCategoriesBySegmentDataForModelosRequestServer({
-      segmentName: "Productos",
-      categoryEstado: "activo",
+      segmentName: 'Productos',
+      categoryEstado: 'activo',
     }),
     getMarcasBySegmentDataForModelosRequestServer({
-      nombre: "Productos",
-      marcaEstado: "activo",
+      nombre: 'Productos',
+      marcaEstado: 'activo',
     }),
-    getAllProveedoresByDataForProductsRequestServer({ estado: "activo" }),
-    getAllAlmacenesByDataForProductsRequestServer({ estado: "activo" }),
+    getAllProveedoresByDataForProductsRequestServer({ estado: 'activo' }),
+    getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' }),
   ]);
 
   const { product } = results[0].value;
@@ -56,13 +56,13 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Productos",
-      href: "/inventario/productos",
+      title: 'Productos',
+      href: '/inventario/productos',
       active: true,
     },
     {
@@ -71,8 +71,8 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: "Editar",
-      href: "",
+      title: 'Editar',
+      href: '',
       active: false,
     },
   ];

@@ -17,11 +17,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Motos Route: Error interno al crear la moto: ${error.message}`
+      `Motos Route: Error interno al crear la moto: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear la moto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -37,11 +37,11 @@ export async function GET(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Motos Route: Error interno al obtener la(s) moto(s): ${error.message}`
+      `Motos Route: Error interno al obtener la(s) moto(s): ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno al obtener la(s) moto(s)' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

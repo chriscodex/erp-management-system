@@ -25,12 +25,13 @@ export function PdfBoleta({
   counterBoleta,
   selectedEmpresa,
   qrBase64,
+  fecha,
 }) {
-  const currentTime = formatDateLong(new Date().toISOString(), false);
+  const currentTime = formatDateLong(new Date(fecha).toISOString(), true);
 
   const codigoBoleta = formatearCodigoCounterBoletaFactura(
     counterBoleta,
-    'boleta'
+    'boleta',
   );
 
   const MapPin = () => (
@@ -200,7 +201,7 @@ export function PdfBoleta({
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -213,7 +214,7 @@ export function PdfBoleta({
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -225,7 +226,7 @@ export function PdfBoleta({
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -237,7 +238,7 @@ export function PdfBoleta({
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -249,9 +250,9 @@ export function PdfBoleta({
                   .reduce(
                     (acc, producto) =>
                       acc + producto?.precioVenta * producto?.cantidad,
-                    0
+                    0,
                   )
-                  .toFixed(2)
+                  .toFixed(2),
               )}
             </Text>
           </View>
@@ -261,7 +262,10 @@ export function PdfBoleta({
           {/* QR en base64 */}
           <View style={styles.qrContainer}>
             <Text style={styles.qrMessage}>
-              Representación impresa de la BOLETA DE VENTA ELECTRÓNICA. El usuario puede consultar su validez en SUNAT Virtual: www.sunat.gob.pe en Operaciones sin Clave SOL / Consulta validez del CPE
+              Representación impresa de la BOLETA DE VENTA ELECTRÓNICA. El
+              usuario puede consultar su validez en SUNAT Virtual:
+              www.sunat.gob.pe en Operaciones sin Clave SOL / Consulta validez
+              del CPE
             </Text>
             {qrBase64 && (
               <Image src={qrBase64} style={styles.qrImage} alt="QR de boleta" />

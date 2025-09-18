@@ -105,7 +105,6 @@ export const columnsTodasMotos = [
       );
     },
     cell: ({ row }) => {
-      console.log(row.getValue('estado'));
       return (
         <div className="text-start">
           {row.getValue('estado')?.titulo === 'disponible' && (
@@ -114,7 +113,9 @@ export const columnsTodasMotos = [
             </BadgeUnitProduct>
           )}
           {row.getValue('estado')?.titulo === 'prevendido' && (
-            <BadgeUnitProduct variant="purpleTable">Prevendido</BadgeUnitProduct>
+            <BadgeUnitProduct variant="purpleTable">
+              Prevendido
+            </BadgeUnitProduct>
           )}
           {row.getValue('estado')?.titulo === 'reparado' && (
             <BadgeUnitProduct variant="blueTable">Reparado</BadgeUnitProduct>
@@ -145,7 +146,7 @@ export const columnsTodasMotos = [
                 className="cursor-pointer"
                 onClick={() =>
                   router.push(
-                    `/inventario/motos/modelos/${modeloId?._id}/unidades/${motoId}`
+                    `/inventario/motos/modelos/${modeloId?._id}/unidades/${motoId}`,
                   )
                 }
               >

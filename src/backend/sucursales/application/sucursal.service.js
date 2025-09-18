@@ -25,7 +25,7 @@ export class SucursalService {
       };
     } catch (error) {
       console.error(
-        `Sucursal Service: Error interno al buscar todas las sucursales: ${error.message}`
+        `Sucursal Service: Error interno al buscar todas las sucursales: ${error.message}`,
       );
       return {
         status: 500,
@@ -35,7 +35,8 @@ export class SucursalService {
   }
   async getSucursalByData(sucursalData) {
     try {
-      const sucursalFound = await this.sucursalRepository.getSucursalByData(sucursalData);
+      const sucursalFound =
+        await this.sucursalRepository.getSucursalByData(sucursalData);
 
       if (!sucursalFound) {
         console.log('Sucursal Service: La sucursal no existe');
@@ -52,7 +53,7 @@ export class SucursalService {
       };
     } catch (error) {
       console.error(
-        `Sucursal Service: Error interno al buscar una sucursal: ${error.message}`
+        `Sucursal Service: Error interno al buscar una sucursal: ${error.message}`,
       );
       return {
         status: 500,
@@ -62,12 +63,11 @@ export class SucursalService {
   }
   async createSucursal(sucursal) {
     try {
-
       const sucursalValidated = createSucursalSchema.safeParse(sucursal);
 
       if (!sucursalValidated.success) {
         console.log(
-          'Sucursal Service: Error de validación de schema de sucursal al crear'
+          'Sucursal Service: Error de validación de schema de sucursal al crear',
         );
         return {
           status: 400,
@@ -76,7 +76,8 @@ export class SucursalService {
       }
 
       // Validar si la sucursal existe
-      const sucursalFound = await this.sucursalRepository.getSucursalByData(sucursal);
+      const sucursalFound =
+        await this.sucursalRepository.getSucursalByData(sucursal);
       if (sucursalFound) {
         console.log('Sucursal Service: La sucursal ya existe');
         return {
@@ -91,7 +92,8 @@ export class SucursalService {
       };
 
       // Crear la sucursal
-      const sucursalCreated = await this.sucursalRepository.createSucursal(sucursalObject);
+      const sucursalCreated =
+        await this.sucursalRepository.createSucursal(sucursalObject);
 
       const sucursalCreatedObject = sucursalCreated.toObject();
 
@@ -102,7 +104,7 @@ export class SucursalService {
       };
     } catch (error) {
       console.error(
-        `Sucursal Service: Error interno al crear una sucursal: ${error.message}`
+        `Sucursal Service: Error interno al crear una sucursal: ${error.message}`,
       );
       return {
         status: 500,
@@ -117,7 +119,7 @@ export class SucursalService {
 
       if (!sucursalValidated.success) {
         console.log(
-          'Sucursal Service: Error de validación de schema de sucursal al actualizar'
+          'Sucursal Service: Error de validación de schema de sucursal al actualizar',
         );
         return {
           status: 400,
@@ -127,7 +129,7 @@ export class SucursalService {
 
       const sucursalUpdated = await this.sucursalRepository.updateSucursal(
         sucursalId,
-        sucursalData
+        sucursalData,
       );
 
       if (!sucursalUpdated) {
@@ -145,7 +147,7 @@ export class SucursalService {
       };
     } catch (error) {
       console.error(
-        `Sucursal Service: Error interno al actualizar una sucursal: ${error.message}`
+        `Sucursal Service: Error interno al actualizar una sucursal: ${error.message}`,
       );
       return {
         status: 500,
@@ -155,7 +157,8 @@ export class SucursalService {
   }
   async deleteSucursal(sucursalId) {
     try {
-      const sucursalDeleted = await this.sucursalRepository.deleteSucursal(sucursalId);
+      const sucursalDeleted =
+        await this.sucursalRepository.deleteSucursal(sucursalId);
 
       if (!sucursalDeleted) {
         console.log('Sucursal Service: La sucursal no existe');
@@ -178,4 +181,3 @@ export class SucursalService {
     }
   }
 }
-

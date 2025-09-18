@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
+import { useForm } from 'react-hook-form';
 
-import { Input } from "@/components/ui/input";
-import { toast } from "sonner";
+import { Input } from '@/components/ui/input';
+import { toast } from 'sonner';
 
 import {
   Form,
@@ -12,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   SheetClose,
   SheetContent,
@@ -20,8 +20,8 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/sheet';
+import { Button } from '@/components/ui/button';
 
 import {
   RiArrowUpDownLine,
@@ -33,7 +33,7 @@ import {
   RiRuler2Fill,
   RiSpeedLine,
   RiStopMiniFill,
-} from "@remixicon/react";
+} from '@remixicon/react';
 
 export function UpdateCaracteristicasMotoForm({
   onSave,
@@ -72,7 +72,7 @@ export function UpdateCaracteristicasMotoForm({
   const onSubmit = handleSubmit((data) => {
     onSave(data);
     onClose();
-    toast.success("Características actualizadas correctamente");
+    toast.success('Características actualizadas correctamente');
   });
 
   return (
@@ -84,7 +84,10 @@ export function UpdateCaracteristicasMotoForm({
         </SheetDescription>
       </SheetHeader>
       <Form {...updateCaracteristicasMotoForm}>
-        <form onSubmit={onSubmit} className="grid gap-4 py-4">
+        <form
+          onSubmit={onSubmit}
+          className="grid gap-4 py-4 overflow-y-auto max-h-[80vh]"
+        >
           <FormField
             control={control}
             name="motor"

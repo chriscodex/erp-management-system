@@ -1,12 +1,12 @@
 import { startOfMonth, endOfMonth, isSameMonth } from 'date-fns';
 
-import { NotificacionRepository } from "@/backend/notificaciones/domain/repositories/notificacionRepository";
-import { ProductRepository } from "@/backend/products/domain/repositories/productRepository";
-import { VentaRepository } from "@/backend/ventas/domain/repositories/ventaRepository";
-import { ventasHistoricasRepository } from "@/backend/ventas/domain/repositories/ventasHistoricasRepository";
+import { NotificacionRepository } from '@/backend/notificaciones/domain/repositories/notificacionRepository';
+import { ProductRepository } from '@/backend/products/domain/repositories/productRepository';
+import { VentaRepository } from '@/backend/ventas/domain/repositories/ventaRepository';
+import { ventasHistoricasRepository } from '@/backend/ventas/domain/repositories/ventasHistoricasRepository';
 import { MotoRepository } from '@/backend/motos/domain/repositories/motoRepository';
 import { PedidoRepository } from '@/backend/pedidos/domain/repositories/pedidoRepository';
-import { createNotificacionSchema } from "@/backend/notificaciones/application/validations/createNotificacionSchema";
+import { createNotificacionSchema } from '@/backend/notificaciones/application/validations/createNotificacionSchema';
 import { formatDateShort } from '@/lib/formateador';
 export class NotificacionService {
   constructor() {
@@ -29,10 +29,10 @@ export class NotificacionService {
 
   async getAllNotificaciones() {
     try {
-      const notificaciones = await this.notificacionRepository.getNotificacionesActivas();
+      const notificaciones =
+        await this.notificacionRepository.getNotificacionesActivas();
 
       if (notificaciones?.length === 0) {
-
         console.log('Notificacion Service: No se encontraron notificaciones');
         return {
           status: 200,
@@ -47,7 +47,7 @@ export class NotificacionService {
       };
     } catch (error) {
       console.error(
-        `Notificacion Service: Error interno al buscar todos los notificaciones: ${error.message}`
+        `Notificacion Service: Error interno al buscar todos los notificaciones: ${error.message}`,
       );
       return {
         status: 500,
@@ -57,7 +57,10 @@ export class NotificacionService {
   }
   async getNotificacionByData(notificacionData) {
     try {
-      const notificacionFound = await this.notificacionRepository.getNotificacionByData(notificacionData);
+      const notificacionFound =
+        await this.notificacionRepository.getNotificacionByData(
+          notificacionData,
+        );
 
       if (!notificacionFound) {
         console.log('Notificacion Service: La notificacion no existe');
@@ -74,7 +77,7 @@ export class NotificacionService {
       };
     } catch (error) {
       console.error(
-        `Notificacion Service: Error interno al buscar la notificacion: ${error.message}`
+        `Notificacion Service: Error interno al buscar la notificacion: ${error.message}`,
       );
       return {
         status: 500,
@@ -84,12 +87,12 @@ export class NotificacionService {
   }
   async createNotificacion(notificacion) {
     try {
-
-      const notificacionValidated = createNotificacionSchema.safeParse(notificacion);
+      const notificacionValidated =
+        createNotificacionSchema.safeParse(notificacion);
 
       if (!notificacionValidated.success) {
         console.log(
-          'Notificacion Service: Error de validación de schema de notificacion al crear'
+          'Notificacion Service: Error de validación de schema de notificacion al crear',
         );
         return {
           status: 400,
@@ -98,7 +101,8 @@ export class NotificacionService {
       }
 
       // Validar si la notificacion existe
-      const notificacionFound = await this.notificacionRepository.getNotificacionByData(notificacion);
+      const notificacionFound =
+        await this.notificacionRepository.getNotificacionByData(notificacion);
       if (notificacionFound) {
         console.log('Notificacion Service: La notificacion ya existe');
         return {
@@ -113,7 +117,10 @@ export class NotificacionService {
       };
 
       // Crear la notificacion
-      const notificacionCreated = await this.notificacionRepository.createNotificacion(notificacionObject);
+      const notificacionCreated =
+        await this.notificacionRepository.createNotificacion(
+          notificacionObject,
+        );
 
       const notificacionCreatedObject = notificacionCreated.toObject();
 
@@ -125,7 +132,7 @@ export class NotificacionService {
       };
     } catch (error) {
       console.error(
-        `Notificacion Service: Error interno al crear una notificacion: ${error.message}`
+        `Notificacion Service: Error interno al crear una notificacion: ${error.message}`,
       );
       return {
         status: 500,
@@ -136,37 +143,37 @@ export class NotificacionService {
 
   async updateNotificacion(notificacionId, notificacionData) {
     try {
-
       if (notificacionData.closed === true) {
         const daysInMs = 3 * 24 * 60 * 60 * 1000;
         const fechaClosed = new Date();
-        const fechaReopening = new Date(fechaClosed.getTime() + daysInMs); 
+        const fechaReopening = new Date(fechaClosed.getTime() + daysInMs);
 
         notificacionData.fechaClosed = fechaClosed;
         notificacionData.fechaReopening = fechaReopening;
-
       } else if (notificacionData.closed === false) {
         // Limpiar las fechas
-        notificacionData.fechaClosed = undefined; 
-        notificacionData.fechaReopening = undefined; 
+        notificacionData.fechaClosed = undefined;
+        notificacionData.fechaReopening = undefined;
       }
 
       // Validar los datos del de la notificación con el schema
-      const notificacionValidated = createNotificacionSchema.safeParse(notificacionData);
+      const notificacionValidated =
+        createNotificacionSchema.safeParse(notificacionData);
 
       if (!notificacionValidated.success) {
         console.log(
-          'Notificacion Service: Error de validación de schema de notificacion al remover'
+          'Notificacion Service: Error de validación de schema de notificacion al remover',
         );
         return {
           status: 400,
           payload: notificacionValidated.error.issues,
         };
       }
-      const notificacionUpdated = await this.notificacionRepository.updateNotificacion(
-        notificacionId,
-        notificacionData
-      );
+      const notificacionUpdated =
+        await this.notificacionRepository.updateNotificacion(
+          notificacionId,
+          notificacionData,
+        );
 
       if (!notificacionUpdated) {
         console.log('Notificacion Service: La notificacion no existe');
@@ -183,7 +190,7 @@ export class NotificacionService {
       };
     } catch (error) {
       console.error(
-        `Notificacion Service: Error interno al remover una notificacion: ${error.message}`
+        `Notificacion Service: Error interno al remover una notificacion: ${error.message}`,
       );
       return {
         status: 500,
@@ -194,7 +201,8 @@ export class NotificacionService {
 
   async deleteNotificacion(notificacionId) {
     try {
-      const notificacionDeleted = await this.notificacionRepository.deleteNotificacion(notificacionId);
+      const notificacionDeleted =
+        await this.notificacionRepository.deleteNotificacion(notificacionId);
 
       if (!notificacionDeleted) {
         console.log('Notificacion Service: La notificacion no existe');
@@ -220,67 +228,90 @@ export class NotificacionService {
     const productos = await this.productRepository.getAllProducts();
     for (const product of productos) {
       const isLow = product.stock <= product.stockMinimo;
-      const notificationExists = await this.notificacionRepository.getNotificacionByData({ type: "low_stock", productId: product._id });
+      const notificationExists =
+        await this.notificacionRepository.getNotificacionByData({
+          type: 'low_stock',
+          productId: product._id,
+        });
       //Crear la notificación si no existe
       if (isLow && !notificationExists) {
         await this.notificacionRepository.createNotificacion({
-          title: "Stock bajo",
+          title: 'Stock bajo',
           message: `El Producto ${product.nombre} cuenta con solo ${product.stock} unidades.`,
-          type: "low_stock",
+          type: 'low_stock',
           fecha: new Date(),
           closed: false,
           fechaClosed: undefined,
           fechaReopening: undefined,
-          data: { productId: product._id }
+          data: { productId: product._id },
         });
       }
       //Eliminarla si ya se subsanó el stock
       if (!isLow && notificationExists) {
-        await this.notificacionRepository.deleteNotificacion(notificationExists._id);
+        await this.notificacionRepository.deleteNotificacion(
+          notificationExists._id,
+        );
       }
     }
   }
 
   async checkHighSales() {
-
     const inicioDelMes = startOfMonth(new Date());
     const finDelMes = endOfMonth(new Date());
 
-    const totalVentasMes = await this.ventaRepository.getVentasInDateRange(inicioDelMes, finDelMes);
+    const totalVentasMes = await this.ventaRepository.getVentasInDateRange(
+      inicioDelMes,
+      finDelMes,
+    );
 
-    const totalVentasHistoricasMes = await this.ventaHistoricaRepository.getVentasHistoricasInDateRange(inicioDelMes, finDelMes);
+    const totalVentasHistoricasMes =
+      await this.ventaHistoricaRepository.getVentasHistoricasInDateRange(
+        inicioDelMes,
+        finDelMes,
+      );
 
     // const total = totalVentas + totalVentasHistoricas;
 
-    const total = [...totalVentasMes, ...totalVentasHistoricasMes].reduce((total, venta) => {
-      const totalVenta = venta.productos.reduce((sum, producto) => {
-        return sum + (producto.precioVenta * (producto.cantidad || 1));
-      }, 0);
-      return total + totalVenta;
-    }, 0);
+    const total = [...totalVentasMes, ...totalVentasHistoricasMes].reduce(
+      (total, venta) => {
+        const totalVenta = venta.productos.reduce((sum, producto) => {
+          return sum + producto.precioVenta * (producto.cantidad || 1);
+        }, 0);
+        return total + totalVenta;
+      },
+      0,
+    );
 
-    const notificationExists = await this.notificacionRepository.getNotificacionByData({ type: "high_sales" });
+    const notificationExists =
+      await this.notificacionRepository.getNotificacionByData({
+        type: 'high_sales',
+      });
 
     // Eliminar la notificación si ya existe y es de otro mes
-    if (notificationExists && !isSameMonth(new Date(notificationExists.fecha), new Date())) {
-      await this.notificacionRepository.deleteNotificacion(notificationExists._id);
+    if (
+      notificationExists &&
+      !isSameMonth(new Date(notificationExists.fecha), new Date())
+    ) {
+      await this.notificacionRepository.deleteNotificacion(
+        notificationExists._id,
+      );
     }
-    //Eliminar la notificación si ya existe y el total es menor a 150000
-    if (total <= 150000 && notificationExists) {
+    //Eliminar la notificación si ya existe y el total es menor a 130000
+    if (total <= 130000 && notificationExists) {
       await this.notificacionRepository.deleteNotificacion(notificationExists._id);
     }
     //Crea la notificación si no existe
 
-    if (total > 150000 && !notificationExists) {
+    if (total > 130000 && !notificationExists) {
       await this.notificacionRepository.createNotificacion({
-        title: "Ventas altas",
+        title: 'Ventas altas',
         message: `Las ventas del mes superan los S/ 150,000.`,
-        type: "high_sales",
+        type: 'high_sales',
         fecha: new Date(),
         closed: false,
         fechaClosed: undefined,
         fechaReopening: undefined,
-        data: { month: new Date().getMonth(), year: new Date().getFullYear() }
+        data: { month: new Date().getMonth(), year: new Date().getFullYear() },
       });
     }
   }
@@ -288,32 +319,38 @@ export class NotificacionService {
   async checkBikeRepairOrAssembly() {
     const motos = await this.motoRepository.getAllMotos();
     for (const moto of motos) {
-
       const { titulo } = moto.estado;
 
-      const needsRepair = titulo === "dañado";
-      const needsAssembly = titulo === "desarmado";
+      const needsRepair = titulo === 'dañado';
+      const needsAssembly = titulo === 'desarmado';
 
-      const notificationExists = await this.notificacionRepository.getNotificacionByData({ type: "bike_needs", modeloId: moto.modeloId._id, motoId: moto._id });
+      const notificationExists =
+        await this.notificacionRepository.getNotificacionByData({
+          type: 'bike_needs',
+          modeloId: moto.modeloId._id,
+          motoId: moto._id,
+        });
       //Crear la notificación si no existe
       if ((needsRepair || needsAssembly) && !notificationExists) {
         await this.notificacionRepository.createNotificacion({
-          title: "Una moto necesita atención",
-          message: `La moto ${moto.nombre} necesita ser ${needsRepair ? "reparada" : "ensamblada"}.`,
-          type: "bike_needs",
+          title: 'Una moto necesita atención',
+          message: `La moto ${moto.nombre} necesita ser ${needsRepair ? 'reparada' : 'ensamblada'}.`,
+          type: 'bike_needs',
           fecha: new Date(),
           closed: false,
           fechaClosed: undefined,
           fechaReopening: undefined,
           data: {
             modeloId: moto.modeloId._id,
-            motoId: moto._id
-          }
+            motoId: moto._id,
+          },
         });
       }
       //Eliminarla si ya se reparó o armó la moto
       if (!(needsRepair || needsAssembly) && notificationExists) {
-        await this.notificacionRepository.deleteNotificacion(notificationExists._id);
+        await this.notificacionRepository.deleteNotificacion(
+          notificationExists._id,
+        );
       }
     }
   }
@@ -321,31 +358,27 @@ export class NotificacionService {
   async checkExpiredPedidos() {
     const pedidos = await this.pedidoRepository.getAllPedidos();
     for (const pedido of pedidos) {
-
       const expired = new Date() > pedido.fechaLimite;
 
-      const notificationExists = await this.notificacionRepository.getNotificacionByData({ type: "expired_pedido", pedidoId: pedido._id });
+      const notificationExists =
+        await this.notificacionRepository.getNotificacionByData({
+          type: 'expired_pedido',
+          pedidoId: pedido._id,
+        });
 
       //Crear la notificación si no existe
       if (expired && !notificationExists) {
         await this.notificacionRepository.createNotificacion({
-          title: "Pedido atrasado",
+          title: 'Pedido atrasado',
           message: `El pedido ${pedido.code} excedió su fecha límite desde el ${formatDateShort(pedido.fechaLimite, false)}`,
-          type: "expired_pedido",
+          type: 'expired_pedido',
           fecha: new Date(),
           closed: false,
           fechaClosed: undefined,
           fechaReopening: undefined,
-          data: { pedidoId: pedido._id }
+          data: { pedidoId: pedido._id },
         });
       }
-      //Eliminarla si se entregó
-
-      // if (!expired && notificationExists) {
-      //   await this.notificacionRepository.deleteNotificacion(notificationExists._id);
-      // }
-
     }
   }
-
 }

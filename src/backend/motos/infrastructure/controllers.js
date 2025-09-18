@@ -14,7 +14,9 @@ export async function getMotoByDataController(request) {
     if (motoCode !== null) {
       const product = await motoService.getMotoByData({
         code: motoCode,
-        'estado.titulo': { $in: ['disponible', 'reparado', 'dañado', 'desarmado'] },
+        'estado.titulo': {
+          $in: ['disponible', 'reparado', 'dañado', 'desarmado'],
+        },
       });
       return product;
     }
@@ -23,7 +25,7 @@ export async function getMotoByDataController(request) {
   } catch (error) {
     console.error(
       'Moto Controller: Error interno al obtener las motos:',
-      error.message
+      error.message,
     );
     throw new Error('Moto Controller: Error interno al obtener las motos');
   }
@@ -40,7 +42,7 @@ export async function createMotoController(request) {
   } catch (error) {
     console.error(
       'Moto Controller: Error interno al crear la moto:',
-      error.message
+      error.message,
     );
     throw new Error('Moto Controller: Error interno al crear la moto');
   }
@@ -58,7 +60,7 @@ export async function updateMotoController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Moto Controller: Error interno actualizando la moto:',
-      error.message
+      error.message,
     );
     throw new Error('Moto Controller: Error interno actualizando la moto');
   }
@@ -77,7 +79,7 @@ export async function deleteMotoController(contextRoute) {
   } catch (error) {
     console.error(
       'Moto Controller: Error interno al eliminar una moto:',
-      error.message
+      error.message,
     );
     throw new Error('Moto Controller: Error interno al eliminar una moto');
   }
@@ -96,7 +98,7 @@ export async function createGastoMotoController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Moto Controller: Error interno al crear un gasto:',
-      error.message
+      error.message,
     );
     throw new Error('Moto Controller: Error interno al crear un gasto');
   }
@@ -114,7 +116,7 @@ export async function deleteGastoMotoController(contextRoute) {
   } catch (error) {
     console.error(
       'Moto Controller: Error interno al eliminar un gasto:',
-      error.message
+      error.message,
     );
     throw new Error('Moto Controller: Error interno al eliminar un gasto');
   }
@@ -133,7 +135,7 @@ export async function updateGastoMotoController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Moto Controller: Error interno actualizando el gasto:',
-      error.message
+      error.message,
     );
     throw new Error('Moto Controller: Error interno actualizando el gasto');
   }

@@ -23,10 +23,10 @@ export function EmpresasSelect({
   disabled = false,
 }) {
   useEffect(() => {
-  if (empresas.length > 0 && !selectedEmpresaId) {
-    setSelectedEmpresaId(empresas[0]._id);
-  }
-}, [empresas, selectedEmpresaId, setSelectedEmpresaId]);
+    if (empresas.length > 0 && !selectedEmpresaId) {
+      setSelectedEmpresaId(empresas[0]._id);
+    }
+  }, [empresas, selectedEmpresaId, setSelectedEmpresaId]);
 
   return (
     <div className="flex items-center gap-2">

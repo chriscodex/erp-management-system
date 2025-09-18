@@ -77,7 +77,7 @@ export function UpdateGastoMotoForm({ onClose, gastoData, motoId }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
     if (new Date(gastoData?.fecha).getTime() !== date.getTime()) {
       gastoDataToUpdate['fecha'] = date;
@@ -96,7 +96,7 @@ export function UpdateGastoMotoForm({ onClose, gastoData, motoId }) {
         gastoData?._id,
         motoId,
         gastoDataForm,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -111,7 +111,7 @@ export function UpdateGastoMotoForm({ onClose, gastoData, motoId }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -159,7 +159,7 @@ export function UpdateGastoMotoForm({ onClose, gastoData, motoId }) {
                   className={cn(
                     'w-[280px] justify-start text-left font-normal',
                     !date && 'text-muted-foreground',
-                    formSubmitIsLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    formSubmitIsLoading ? 'opacity-50 cursor-not-allowed' : '',
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />

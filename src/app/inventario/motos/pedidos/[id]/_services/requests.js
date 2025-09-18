@@ -3,9 +3,8 @@ import { inventariarPedidoClientUrl } from '@/lib/urls';
 import { delay } from '@/lib/utils';
 
 export async function inventariarPedidoRequestClient(pedidoId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -14,7 +13,9 @@ export async function inventariarPedidoRequestClient(pedidoId) {
 
       const response = await postData(inventariarPedidoUrl, { id: pedidoId });
       if (response?.status !== 201) {
-        reject('No se pudo inventariar el pedido: ' + response.response?.data?.error);
+        reject(
+          'No se pudo inventariar el pedido: ' + response.response?.data?.error,
+        );
         return;
       }
       resolve(response?.data?.payload);
@@ -23,4 +24,3 @@ export async function inventariarPedidoRequestClient(pedidoId) {
     }
   });
 }
-

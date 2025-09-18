@@ -52,9 +52,8 @@ export async function getAllSegmentsRequestServer() {
 }
 
 export async function createCategoryRequestClient(category, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -65,7 +64,7 @@ export async function createCategoryRequestClient(category, setLoading) {
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          'No se pudo crear la categoría: ' + response.response?.data?.error
+          'No se pudo crear la categoría: ' + response.response?.data?.error,
         );
         return;
       }
@@ -82,11 +81,10 @@ export async function createCategoryRequestClient(category, setLoading) {
 export async function updateCategoryRequestClient(
   categoryId,
   category,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -100,7 +98,7 @@ export async function updateCategoryRequestClient(
         setLoading(false);
         reject(
           'No se pudo actualizar la categoría: ' +
-            response.response?.data?.error
+            response.response?.data?.error,
         );
         return;
       }
@@ -115,9 +113,8 @@ export async function updateCategoryRequestClient(
 }
 
 export async function deleteCategoryRequestClient(id) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -128,7 +125,7 @@ export async function deleteCategoryRequestClient(id) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la categoría: ' + response.response?.data?.error
+          'No se pudo eliminar la categoría: ' + response.response?.data?.error,
         );
         return;
       }

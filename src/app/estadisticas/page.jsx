@@ -1,42 +1,41 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { Label } from "@radix-ui/react-label";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { NavbarSimple } from "@/components/navbar/NavbarSimple";
-import { RiBarChart2Line } from "@remixicon/react";
+import { Label } from '@radix-ui/react-label';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { NavbarSimple } from '@/components/navbar/NavbarSimple';
+import { RiBarChart2Line } from '@remixicon/react';
 
-import IncomeExpenseBarChart from "@/app/estadisticas/_components/IncomeExpenseBarChart";
-import { getAllProductsRequestServer } from "@/app/inventario/productos/_services/requests";
-import { getAllMotosRequestServer } from "../inventario/motos/todas/_services/requests";
-import { getAllGastosGeneralesRequestServer } from "@/app/gastos-generales/_services/requests";
+import IncomeExpenseBarChart from '@/app/estadisticas/_components/IncomeExpenseBarChart';
+import { getAllProductsRequestServer } from '@/app/inventario/productos/_services/requests';
+import { getAllMotosRequestServer } from '../inventario/motos/todas/_services/requests';
+import { getAllGastosGeneralesRequestServer } from '@/app/gastos-generales/_services/requests';
 
 import BoletasYFacturasPieChart from "./_components/BoletasYFacturasPieChart";
-import { getCounterByTypeRequestServer } from "@/app/estadisticas/_services/requests";
 
-import LeaderboardSalesBarChart from "./_components/LeaderboardSalesBarChart";
-import { getAllVentasHistoricasRequestServer } from "@/app/estadisticas/_services/requests";
+import LeaderboardSalesBarChart from './_components/LeaderboardSalesBarChart';
+import { getAllVentasHistoricasRequestServer } from '@/app/estadisticas/_services/requests';
 
-import ProductosImportadosPieChart from "./_components/ProductosImportadosPieChart";
-import ProductosMasVendidos from "./_components/ProductosMasVendidosBarChart";
-import ObsequiosLineChart from "./_components/ObsequiosLineChart";
+import ProductosImportadosPieChart from './_components/ProductosImportadosPieChart';
+import ProductosMasVendidos from './_components/ProductosMasVendidosBarChart';
+import ObsequiosLineChart from './_components/ObsequiosLineChart';
 
-import VentasTotalesBarChart from "@/app/estadisticas/_components/VentasTotalesBarChart";
+import VentasTotalesBarChart from '@/app/estadisticas/_components/VentasTotalesBarChart';
 
-import PedidosAreaChart from "./_components/PedidosAreaChart";
-import { getAllPedidosHistoricosRequestServer } from "@/app/estadisticas/_services/requests";
+import PedidosAreaChart from './_components/PedidosAreaChart';
+import { getAllPedidosHistoricosRequestServer } from '@/app/estadisticas/_services/requests';
 
-import OrdenesDeServicioAreaChart from "@/app/estadisticas/_components/OrdenesDeServicioAreaChart";
-import TipoDeServicioRadialChart from "@/app/estadisticas/_components/TipoDeServicioRadialChart";
-import OrigenDeServicioPieChart from "./_components/OrigenDeServicioPieChart";
+import OrdenesDeServicioAreaChart from '@/app/estadisticas/_components/OrdenesDeServicioAreaChart';
+import TipoDeServicioRadialChart from '@/app/estadisticas/_components/TipoDeServicioRadialChart';
+import OrigenDeServicioPieChart from './_components/OrigenDeServicioPieChart';
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { getAllOrdenesDeServicioHistoricasRequestServer } from "../taller/ordenes-servicio-historial/_services/requests";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { getAllOrdenesDeServicioHistoricasRequestServer } from '../taller/ordenes-servicio-historial/_services/requests';
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
 
@@ -45,8 +44,6 @@ export default async function Page() {
     getAllProductsRequestServer(),
     getAllMotosRequestServer(),
     getAllGastosGeneralesRequestServer(),
-    getCounterByTypeRequestServer("boletas"),
-    getCounterByTypeRequestServer("facturas"),
     getAllVentasHistoricasRequestServer(),
     getAllPedidosHistoricosRequestServer(),
     getAllOrdenesDeServicioHistoricasRequestServer(),
@@ -54,12 +51,10 @@ export default async function Page() {
   const dataProductos = results[0].value;
   const dataMotos = results[1].value;
   const dataGastosGenerales = results[2].value;
-  const dataCounterBoletas = results[3].value;
-  const dataCounterFacturas = results[4].value;
-  const dataVentasHistoricas = results[5].value;
-  const dataPedidosHistoricos = results[6].value;
-  const dataOrdenesDeServicioHistoricas = results[7].value;
-  
+  const dataVentasHistoricas = results[3].value;
+  const dataPedidosHistoricos = results[4].value;
+  const dataOrdenesDeServicioHistoricas = results[5].value;
+
   return (
     <>
       <NavbarSimple title="Estadísticas">
@@ -78,6 +73,7 @@ export default async function Page() {
               dataMotos={dataMotos}
               dataGastosGenerales={dataGastosGenerales}
               dataVentasHistoricas={dataVentasHistoricas}
+              dataOrdenesDeServicioHistoricas={dataOrdenesDeServicioHistoricas}
             />
             <div className="flex flex-col gap-4 2xl:flex-row">
               <LeaderboardSalesBarChart
@@ -86,8 +82,8 @@ export default async function Page() {
               />
               <div className="flex flex-col gap-4">
                 <BoletasYFacturasPieChart
-                  dataCounterBoletas={dataCounterBoletas}
-                  dataCounterFacturas={dataCounterFacturas}
+                  dataVentasHistoricas={dataVentasHistoricas}
+                  dataOrdenesDeServicioHistoricas={dataOrdenesDeServicioHistoricas}
                 />
                 <ProductosImportadosPieChart dataProductos={dataProductos} />
               </div>

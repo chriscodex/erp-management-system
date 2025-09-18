@@ -5,9 +5,8 @@ import { deleteVentaClientUrl, finalizarVentaClientUrl } from '@/lib/urls';
 import { delay, simplificadorParaClientComponent } from '@/lib/utils';
 
 export async function deleteVentaRequestClient(ventaId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -18,7 +17,7 @@ export async function deleteVentaRequestClient(ventaId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la venta: ' + response.response?.data?.error
+          'No se pudo eliminar la venta: ' + response.response?.data?.error,
         );
         return;
       }
@@ -53,10 +52,8 @@ export async function getAllEmpresasForComprobanteVentaRequestServer() {
 }
 
 export async function finalizarVentaRequestClient(ventaId) {
-  /* eslint-disable */
-
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -67,7 +64,7 @@ export async function finalizarVentaRequestClient(ventaId) {
       const response = await postData(url);
       if (response?.status !== 201) {
         reject(
-          'No se pudo eliminar la venta: ' + response.response?.data?.error
+          'No se pudo eliminar la venta: ' + response.response?.data?.error,
         );
         return;
       }

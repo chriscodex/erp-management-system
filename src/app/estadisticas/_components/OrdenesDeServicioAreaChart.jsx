@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import * as React from "react";
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+import * as React from 'react';
+import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
 
-import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Card,
@@ -12,16 +12,16 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartLegend,
   ChartLegendContent,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';
 
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
+import { MesAnioPicker } from '@/components/calendars/MesAnioPicker';
 
 export default function OrdenesDeServicioAreaChart({
   dataOrdenesDeServicioHistoricas,
@@ -38,25 +38,25 @@ export default function OrdenesDeServicioAreaChart({
 
   const chartConfig = {
     total: {
-      label: "Total",
-      color: "var(--chart-4)",
+      label: 'Total',
+      color: 'var(--chart-4)',
     },
   };
-  
+
   const chartData = useMemo(() => {
     const ordenesDeServicioFiltradas =
       dataOrdenesDeServicioHistoricas.ordenesDeServicioHistoricas.filter(
         (ordenDeServicio) => {
           const fecha = new Date(ordenDeServicio.fechaIngreso);
           return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
-        }
+        },
       );
 
     const ordenesDeServicioPorDia = {};
 
     for (const ordenDeServicio of ordenesDeServicioFiltradas) {
       const fecha = new Date(ordenDeServicio.fechaIngreso);
-      const dia = fecha.toISOString().split("T")[0];
+      const dia = fecha.toISOString().split('T')[0];
 
       if (ordenesDeServicioPorDia[dia]) {
         ordenesDeServicioPorDia[dia] += 1;
@@ -74,7 +74,7 @@ export default function OrdenesDeServicioAreaChart({
       d <= fechaFin;
       d.setDate(d.getDate() + 1)
     ) {
-      const dateStr = d.toISOString().split("T")[0];
+      const dateStr = d.toISOString().split('T')[0];
       diasDelMes.push({
         date: dateStr,
         total: ordenesDeServicioPorDia[dateStr] || 0,
@@ -89,7 +89,7 @@ export default function OrdenesDeServicioAreaChart({
       (ordenDeServicio) => {
         const fecha = new Date(ordenDeServicio.fechaIngreso);
         return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
-      }
+      },
     ).length;
   }, [dataOrdenesDeServicioHistoricas, mes, anio]);
 
@@ -124,8 +124,8 @@ export default function OrdenesDeServicioAreaChart({
           <AreaChart data={chartData}>
             <defs>
               <linearGradient id="fillTotal" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(var(--chart-4))" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="hsl(var(--chart-4))" stopOpacity={0.1} />
+                <stop offset="15%" stopColor="hsl(var(--chart-4))" stopOpacity={0.9} />
+                <stop offset="95%" stopColor="hsl(var(--chart-4))" stopOpacity={0.3} />
               </linearGradient>
             </defs>
             <CartesianGrid vertical={false} />
@@ -137,9 +137,9 @@ export default function OrdenesDeServicioAreaChart({
               minTickGap={32}
               tickFormatter={(value) => {
                 const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
+                return date.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
                 });
               }}
             />
@@ -148,9 +148,9 @@ export default function OrdenesDeServicioAreaChart({
               content={
                 <ChartTooltipContent
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
+                    return new Date(value).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
                     });
                   }}
                   indicator="dot"

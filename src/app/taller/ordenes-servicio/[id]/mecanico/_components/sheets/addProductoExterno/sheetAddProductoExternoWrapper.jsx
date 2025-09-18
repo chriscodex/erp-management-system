@@ -7,7 +7,6 @@ import { Sheet } from '@/components/ui/sheet';
 import { AddProductoExternoForm } from '@/app/taller/ordenes-servicio/[id]/mecanico/_components/sheets/addProductoExterno/addProductoExternoForm';
 
 export function SheetAddProductoExternoWrapper({ onAgregarProductoExterno }) {
-
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {
@@ -29,7 +28,10 @@ export function SheetAddProductoExternoWrapper({ onAgregarProductoExterno }) {
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <AddProductoExternoForm onClose={handleCloseSheet} onAgregarProductoExterno={onAgregarProductoExterno}/>
+          <AddProductoExternoForm
+            onClose={handleCloseSheet}
+            onAgregarProductoExterno={onAgregarProductoExterno}
+          />
         </Sheet>
       )}
     </div>

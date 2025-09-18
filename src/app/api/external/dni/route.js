@@ -14,11 +14,13 @@ export async function GET(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `ExternalApi Route: Error interno al buscar usuario por DNI: ${error.message}`
+      `ExternalApi Route: Error interno al buscar usuario por DNI: ${error.message}`,
     );
     return NextResponse.json(
-      { error: 'Error obteniendo los datos de la persona desde la API externa' },
-      { status: 500 }
+      {
+        error: 'Error obteniendo los datos de la persona desde la API externa',
+      },
+      { status: 500 },
     );
   }
 }

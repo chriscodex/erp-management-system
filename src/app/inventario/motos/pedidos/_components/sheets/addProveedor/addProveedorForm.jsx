@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { toast } from "sonner";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { toast } from 'sonner';
 
 import {
   Form,
@@ -12,7 +12,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   SheetClose,
   SheetContent,
@@ -20,23 +20,22 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
-import { Input } from "@/components/ui/input";
-import { addProveedorFormSchema } from "@/app/contactos/proveedores/_services/validations/addProveedorFormSchema";
+} from '@/components/ui/sheet';
+import { Input } from '@/components/ui/input';
+import { addProveedorFormSchema } from '@/app/contactos/proveedores/_services/validations/addProveedorFormSchema';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
-import { createProveedorRequestClient } from "@/app/contactos/proveedores/_services/requests";
-import { Button } from "@/components/ui/button";
+} from '@/components/formInputs/onChange';
+import { createProveedorRequestClient } from '@/app/contactos/proveedores/_services/requests';
+import { Button } from '@/components/ui/button';
 
 export function AddProveedorForm({ onClose, onAddProveedor }) {
   // const router = useRouter();
 
   const addForm = useForm({
     resolver: zodResolver(addProveedorFormSchema),
-    defaultValues: {
-    },
+    defaultValues: {},
   });
 
   const { handleSubmit, control, clearErrors, reset: resetForm } = addForm;
@@ -44,32 +43,29 @@ export function AddProveedorForm({ onClose, onAddProveedor }) {
   const [formSubmitIsLoading, setFormSubmitIsLoading] = useState(false);
 
   const onSubmit = handleSubmit(async (data) => {
-      setFormSubmitIsLoading(true);
-  
-      toast.promise(
-        createProveedorRequestClient(data, setFormSubmitIsLoading),
-        {
-          loading: "Creando...",
-          success: (nuevoProveedor) => {
-            if (nuevoProveedor && onAddProveedor) {
-              onAddProveedor(nuevoProveedor);
-            }
-            clearErrors();
-            resetForm();
-            onClose();
-            console.log(nuevoProveedor);
-            return "Proveedor creado correctamente";
-          },
-  
-          error: (error) => {
-            console.error("❌ Error inesperado:", error);
-            return typeof error === "string"
-              ? error
-              : error?.message || "Error desconocido";
-          },
+    setFormSubmitIsLoading(true);
+
+    toast.promise(createProveedorRequestClient(data, setFormSubmitIsLoading), {
+      loading: 'Creando...',
+      success: (nuevoProveedor) => {
+        if (nuevoProveedor && onAddProveedor) {
+          onAddProveedor(nuevoProveedor);
         }
-      );
+        clearErrors();
+        resetForm();
+        onClose();
+        console.log(nuevoProveedor);
+        return 'Proveedor creado correctamente';
+      },
+
+      error: (error) => {
+        console.error('❌ Error inesperado:', error);
+        return typeof error === 'string'
+          ? error
+          : error?.message || 'Error desconocido';
+      },
     });
+  });
 
   return (
     <SheetContent>

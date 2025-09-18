@@ -25,9 +25,8 @@ export async function getAllMarcasRequestServer() {
 }
 
 export async function deleteMarcaRequestClient(marcaId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -37,7 +36,7 @@ export async function deleteMarcaRequestClient(marcaId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la categoría: ' + response.response?.data?.error
+          'No se pudo eliminar la categoría: ' + response.response?.data?.error,
         );
         return;
       }

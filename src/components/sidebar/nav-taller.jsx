@@ -21,8 +21,8 @@ import {
 } from '@/components/ui/sidebar';
 
 export function NavTaller({ navTitle, items }) {
-  const { open } = useSidebar()
-  
+  const { open } = useSidebar();
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel className="select-none">{navTitle}</SidebarGroupLabel>
@@ -36,7 +36,9 @@ export function NavTaller({ navTitle, items }) {
           >
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
-                <SidebarMenuButton className={`${open ? '' : 'pointer-events-none'}`}>
+                <SidebarMenuButton
+                  className={`${open ? '' : 'pointer-events-none'}`}
+                >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>
                   {item.items?.length > 0 && (

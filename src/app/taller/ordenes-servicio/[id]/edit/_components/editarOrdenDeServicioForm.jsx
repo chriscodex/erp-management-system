@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import {
   IdCardIcon,
   Loader2,
@@ -14,9 +14,9 @@ import {
   UserCheck,
   Mail,
   CalendarIcon,
-} from "lucide-react";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   RiAppsLine,
   RiArrowLeftLine,
@@ -24,15 +24,15 @@ import {
   RiFileTextFill,
   RiInfoCardLine,
   RiInstanceFill,
-} from "@remixicon/react";
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
+} from '@remixicon/react';
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 import {
   Form,
   FormControl,
@@ -40,43 +40,43 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
+} from '@/components/ui/tooltip';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
+} from '@/components/formInputs/onChange';
 
-import { agregarNumeracionTable, cn } from "@/lib/utils";
+import { agregarNumeracionTable, cn } from '@/lib/utils';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 
-import { searchClientePorDniOrRucClientRequest } from "@/app/taller/ordenes-servicio/nuevo/_services/requests";
-import { Textarea } from "@/components/ui/textarea";
-import { updateOrdenDeServicioSchema } from "@/app/taller/ordenes-servicio/[id]/edit/_services/validations/updateOrdenDeServicioSchemaForm";
-import { updateOrdenDeServicioRequestClient } from "@/app/taller/ordenes-servicio/[id]/edit/_services/requests";
-import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
-import { MecanicosTallerTable } from "@/app/taller/ordenes-servicio/nuevo/_components/mecanicosTallerTable/data-table";
+import { searchClientePorDniOrRucClientRequest } from '@/app/taller/ordenes-servicio/nuevo/_services/requests';
+import { Textarea } from '@/components/ui/textarea';
+import { updateOrdenDeServicioSchema } from '@/app/taller/ordenes-servicio/[id]/edit/_services/validations/updateOrdenDeServicioSchemaForm';
+import { updateOrdenDeServicioRequestClient } from '@/app/taller/ordenes-servicio/[id]/edit/_services/requests';
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
+import { MecanicosTallerTable } from '@/app/taller/ordenes-servicio/nuevo/_components/mecanicosTallerTable/data-table';
 
 export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
   const router = useRouter();
 
   const [mecanicosTaller, setMecanicosTaller] = useState(
-    agregarNumeracionTable(ordenDeServicioData?.mecanicos) || []
+    agregarNumeracionTable(ordenDeServicioData?.mecanicos) || [],
   );
 
   const defaultDate = ordenDeServicioData?.fechaIngreso
@@ -92,29 +92,29 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
       identificador:
         ordenDeServicioData?.cliente?.datos?.dni ||
         ordenDeServicioData?.cliente?.datos?.ruc ||
-        "",
-      tipo: ordenDeServicioData?.cliente?.tipo || "persona",
-      nombres: ordenDeServicioData?.cliente?.datos?.nombres || "",
-      apellidos: ordenDeServicioData?.cliente?.datos?.apellidos || "",
-      razonSocial: ordenDeServicioData?.cliente?.datos?.razonSocial || "",
+        '',
+      tipo: ordenDeServicioData?.cliente?.tipo || 'persona',
+      nombres: ordenDeServicioData?.cliente?.datos?.nombres || '',
+      apellidos: ordenDeServicioData?.cliente?.datos?.apellidos || '',
+      razonSocial: ordenDeServicioData?.cliente?.datos?.razonSocial || '',
       representanteLegal:
-        ordenDeServicioData?.cliente?.datos?.representanteLegal || "",
-      direccion: ordenDeServicioData?.cliente?.datos?.direccion || "",
-      email: ordenDeServicioData?.cliente?.datos?.email || "",
-      celular: ordenDeServicioData?.cliente?.datos?.celular || "",
+        ordenDeServicioData?.cliente?.datos?.representanteLegal || '',
+      direccion: ordenDeServicioData?.cliente?.datos?.direccion || '',
+      email: ordenDeServicioData?.cliente?.datos?.email || '',
+      celular: ordenDeServicioData?.cliente?.datos?.celular || '',
 
-      nombre: ordenDeServicioData?.moto?.nombre || "",
-      placa: ordenDeServicioData?.moto?.placa || "",
-      vin: ordenDeServicioData?.moto?.vin || "",
-      descripcion: ordenDeServicioData?.moto?.descripcion || "",
-      categoria: ordenDeServicioData?.moto?.categoria || "",
-      marca: ordenDeServicioData?.moto?.marca || "",
+      nombre: ordenDeServicioData?.moto?.nombre || '',
+      placa: ordenDeServicioData?.moto?.placa || '',
+      vin: ordenDeServicioData?.moto?.vin || '',
+      descripcion: ordenDeServicioData?.moto?.descripcion || '',
+      categoria: ordenDeServicioData?.moto?.categoria || '',
+      marca: ordenDeServicioData?.moto?.marca || '',
 
-      origenServicio: ordenDeServicioData?.origenServicio || "",
-      tipoServicio: ordenDeServicioData?.tipoServicio || "",
+      origenServicio: ordenDeServicioData?.origenServicio || '',
+      tipoServicio: ordenDeServicioData?.tipoServicio || '',
       montoAdelanto: ordenDeServicioData?.pago?.montoAdelanto || 0,
       fechaIngreso: defaultDate,
-      comentarios: ordenDeServicioData?.comentarios || "",
+      comentarios: ordenDeServicioData?.comentarios || '',
     },
   });
 
@@ -142,7 +142,7 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
         JSON.stringify(mecanicosTaller) ===
         JSON.stringify(agregarNumeracionTable(ordenDeServicioData?.mecanicos))
       ) {
-        toast.error("No se han realizado cambios.");
+        toast.error('No se han realizado cambios.');
         setFormSubmitIsLoading(false);
         return;
       }
@@ -152,101 +152,92 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
       ...ordenDeServicioData,
     };
 
-    if (formData?.tipo === "persona") {
-
-      updateObject["cliente"] = {
+    if (formData?.tipo === 'persona') {
+      updateObject['cliente'] = {
         tipo: formData?.tipo,
         datos: {
           dni: formData?.identificador,
           nombres: formData?.nombres,
           apellidos: formData?.apellidos,
           direccion:
-            formData?.direccion?.trim() === ""
+            formData?.direccion?.trim() === ''
               ? undefined
               : formData?.direccion?.trim(),
           email:
-            formData?.email?.trim() === "" 
-            ? undefined 
-            : formData?.email?.trim(),
+            formData?.email?.trim() === ''
+              ? undefined
+              : formData?.email?.trim(),
           celular:
-            formData?.celular?.trim() === ""
+            formData?.celular?.trim() === ''
               ? undefined
               : formData?.celular?.trim(),
         },
       };
     }
 
-    if (formData?.tipo === "empresa") {
-      updateObject["cliente"] = {
+    if (formData?.tipo === 'empresa') {
+      updateObject['cliente'] = {
         tipo: formData?.tipo,
         datos: {
           ruc: formData?.identificador,
           razonSocial: formData?.razonSocial,
           representanteLegal: formData?.representanteLegal,
           direccion:
-            formData?.direccion?.trim() === ""
+            formData?.direccion?.trim() === ''
               ? undefined
               : formData?.direccion?.trim(),
           email:
-            formData?.email?.trim() === "" 
-            ? undefined 
-            : formData?.email?.trim(),
+            formData?.email?.trim() === ''
+              ? undefined
+              : formData?.email?.trim(),
           celular:
-            formData?.celular?.trim() === ""
+            formData?.celular?.trim() === ''
               ? undefined
               : formData?.celular?.trim(),
         },
       };
     }
 
-    updateObject["moto"] = {
+    updateObject['moto'] = {
       nombre:
-        formData?.nombre.trim() === "" 
-        ? undefined 
-        : formData?.nombre?.trim(),
+        formData?.nombre.trim() === '' ? undefined : formData?.nombre?.trim(),
       descripcion:
-        formData?.descripcion.trim() === ""
+        formData?.descripcion.trim() === ''
           ? undefined
           : formData?.descripcion?.trim(),
       categoria:
-        formData?.categoria.trim() === ""
+        formData?.categoria.trim() === ''
           ? undefined
           : formData?.categoria?.trim(),
       marca:
-        formData?.marca.trim() === "" 
-        ? undefined 
-        : formData?.marca?.trim(),
+        formData?.marca.trim() === '' ? undefined : formData?.marca?.trim(),
       placa:
-        formData?.placa.trim() === "" 
-        ? undefined 
-        : formData?.placa?.trim(),
-      vin: formData?.vin.trim() === "" 
-      ? undefined 
-      : formData?.vin?.trim(),
+        formData?.placa.trim() === '' ? undefined : formData?.placa?.trim(),
+      vin: formData?.vin.trim() === '' ? undefined : formData?.vin?.trim(),
     };
 
-    updateObject["pago"] = {
+    updateObject['pago'] = {
       montoAdelanto: formData?.montoAdelanto,
     };
 
-    updateObject["mecanicos"] = mecanicosTaller;
-    updateObject["fechaIngreso"] = formData?.fechaIngreso;
-    updateObject["origenServicio"] = formData?.origenServicio;
-    updateObject["tipoServicio"] = formData?.tipoServicio;
-    updateObject["comentarios"] = formData?.comentarios.trim() === "" 
-      ? undefined 
-      : formData?.comentarios?.trim(),
-
-    delete updateObject.createdAt;
+    updateObject['mecanicos'] = mecanicosTaller;
+    updateObject['fechaIngreso'] = formData?.fechaIngreso;
+    updateObject['origenServicio'] = formData?.origenServicio;
+    updateObject['tipoServicio'] = formData?.tipoServicio;
+    ((updateObject['comentarios'] =
+      formData?.comentarios.trim() === ''
+        ? undefined
+        : formData?.comentarios?.trim()),
+      delete updateObject.createdAt);
     delete updateObject.updatedAt;
 
     // Toast promise para buscar una persona
     toast.promise(
       updateOrdenDeServicioRequestClient(updateObject, setFormSubmitIsLoading),
       {
-        loading: "Editando...",
+        loading: 'Editando...',
         success: (response) => {
-          console.log("XX", response);
+          console.log('XX', response);
           clearErrors();
           router.push(`/taller/ordenes-servicio/${ordenDeServicioData._id}`);
           return `Orden de servicio actualizada correctamente`;
@@ -255,7 +246,7 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -268,97 +259,97 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
       const tipo = formData.tipo;
       const identificador = formData.identificador;
 
-      if (tipo === "persona") {
+      if (tipo === 'persona') {
         if (!identificador || identificador.length !== 8) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un DNI válido", {
-            description: "El DNI debe tener 8 dígitos",
+          toast.warning('Por favor, ingrese un DNI válido', {
+            description: 'El DNI debe tener 8 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (persona) => {
               setValue(
-                "apellidos",
-                persona?.apellidos || persona?.datos?.apellidos
+                'apellidos',
+                persona?.apellidos || persona?.datos?.apellidos,
               );
-              setValue("nombres", persona?.nombres || persona?.datos?.nombres);
+              setValue('nombres', persona?.nombres || persona?.datos?.nombres);
               setValue(
-                "direccion",
-                persona?.direccion || persona?.datos?.direccion
+                'direccion',
+                persona?.direccion || persona?.datos?.direccion,
               );
-              setValue("email", persona?.email || persona?.datos?.email);
-              setValue("celular", persona?.celular || persona?.datos?.celular);
-              clearErrors("apellidos");
-              clearErrors("nombres");
-              clearErrors("direccion");
-              clearErrors("email");
-              clearErrors("celular");
+              setValue('email', persona?.email || persona?.datos?.email);
+              setValue('celular', persona?.celular || persona?.datos?.celular);
+              clearErrors('apellidos');
+              clearErrors('nombres');
+              clearErrors('direccion');
+              clearErrors('email');
+              clearErrors('celular');
               return `Persona encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
 
-      if (tipo === "empresa") {
+      if (tipo === 'empresa') {
         if (!identificador || identificador.length !== 11) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un RUC válido", {
-            description: "El RUC debe tener 11 dígitos",
+          toast.warning('Por favor, ingrese un RUC válido', {
+            description: 'El RUC debe tener 11 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (empresa) => {
               setValue(
-                "razonSocial",
-                empresa?.razonSocial || empresa?.datos?.razonSocial
+                'razonSocial',
+                empresa?.razonSocial || empresa?.datos?.razonSocial,
               );
               setValue(
-                "representanteLegal",
+                'representanteLegal',
                 empresa?.representanteLegal ||
-                  empresa?.datos?.representanteLegal
+                  empresa?.datos?.representanteLegal,
               );
               setValue(
-                "direccion",
-                empresa?.direccion || empresa?.datos?.direccion
+                'direccion',
+                empresa?.direccion || empresa?.datos?.direccion,
               );
-              setValue("email", empresa?.email || empresa?.datos?.email);
-              setValue("celular", empresa?.celular || empresa?.datos?.celular);
-              clearErrors("razonSocial");
-              clearErrors("representanteLegal");
-              clearErrors("direccion");
-              clearErrors("email");
-              clearErrors("celular");
+              setValue('email', empresa?.email || empresa?.datos?.email);
+              setValue('celular', empresa?.celular || empresa?.datos?.celular);
+              clearErrors('razonSocial');
+              clearErrors('representanteLegal');
+              clearErrors('direccion');
+              clearErrors('email');
+              clearErrors('celular');
               return `Empresa encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
     } catch (error) {
       setSearchByDniOrRucIsLoading(false);
-      toast.error("Error al buscar persona por DNI");
-      console.error("Error al buscar persona por DNI:", error);
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
     }
   };
 
@@ -369,8 +360,8 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
   }, [ordenDeServicioData]);
 
   useEffect(() => {
-    form.setValue("mecanicos", mecanicosTaller);
-    form.clearErrors("mecanicos");
+    form.setValue('mecanicos', mecanicosTaller);
+    form.clearErrors('mecanicos');
   }, [mecanicosTaller]);
 
   return (
@@ -391,22 +382,22 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
                       <RadioGroup
                         onValueChange={(value) => {
                           field.onChange(value);
-                          setValue("identificador", "");
-                          clearErrors("identificador");
-                          clearErrors("apellidos");
-                          clearErrors("nombres");
-                          clearErrors("razonSocial");
-                          clearErrors("representanteLegal");
-                          clearErrors("direccion");
-                          clearErrors("email");
-                          clearErrors("celular");
-                          setValue("apellidos", "");
-                          setValue("nombres", "");
-                          setValue("razonSocial", "");
-                          setValue("representanteLegal", "");
-                          setValue("direccion", "");
-                          setValue("email", "");
-                          setValue("celular", "");
+                          setValue('identificador', '');
+                          clearErrors('identificador');
+                          clearErrors('apellidos');
+                          clearErrors('nombres');
+                          clearErrors('razonSocial');
+                          clearErrors('representanteLegal');
+                          clearErrors('direccion');
+                          clearErrors('email');
+                          clearErrors('celular');
+                          setValue('apellidos', '');
+                          setValue('nombres', '');
+                          setValue('razonSocial', '');
+                          setValue('representanteLegal', '');
+                          setValue('direccion', '');
+                          setValue('email', '');
+                          setValue('celular', '');
                         }}
                         defaultValue={field.value}
                         className="flex flex-row space-x-4"
@@ -437,7 +428,7 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>
-                      {watch("tipo") === "persona" ? "DNI" : "RUC"}
+                      {watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
                     </FormLabel>
                     <div className="relative">
                       <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -445,7 +436,7 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
                         <Input
                           type="text"
                           placeholder={
-                            watch("tipo") === "persona" ? "DNI" : "RUC"
+                            watch('tipo') === 'persona' ? 'DNI' : 'RUC'
                           }
                           className="pl-8"
                           autoComplete="off"
@@ -461,10 +452,10 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
                       <FormMessage />
                       <div
                         className={cn(
-                          "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
+                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
                           searchByDniOrRucIsLoading
-                            ? "opacity-75 pointer-events-none"
-                            : "cursor-pointer"
+                            ? 'opacity-75 pointer-events-none'
+                            : 'cursor-pointer',
                         )}
                         onClick={handleSearchByDniOrRuc}
                       >
@@ -489,7 +480,7 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
                   </FormItem>
                 )}
               />
-              {watch("tipo") === "persona" ? (
+              {watch('tipo') === 'persona' ? (
                 <>
                   <FormField
                     control={control}
@@ -894,15 +885,15 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !date && "text-muted-foreground"
+                              'w-[280px] justify-start text-left font-normal',
+                              !date && 'text-muted-foreground',
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {date ? (
-                              format(date, "PPP", { locale: es })
+                              format(date, 'PPP', { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -1080,7 +1071,7 @@ export function EditarOrdenDeServicioForm({ ordenDeServicioData }) {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                "Registrando..."
+                'Registrando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

@@ -34,10 +34,10 @@ export class ProductRepository {
       return products;
     } catch (error) {
       console.error(
-        `Product Repository: Error al buscar todas los productos: ${error.message}`
+        `Product Repository: Error al buscar todas los productos: ${error.message}`,
       );
       throw new Error(
-        `Product Repository: Error al buscar todas los productos: ${error.message}`
+        `Product Repository: Error al buscar todas los productos: ${error.message}`,
       );
     }
   }
@@ -49,10 +49,10 @@ export class ProductRepository {
       return totalProducts;
     } catch (error) {
       console.error(
-        `Product Repository: Error al contar todas los productos: ${error.message}`
+        `Product Repository: Error al contar todas los productos: ${error.message}`,
       );
       throw new Error(
-        `Product Repository: Error al contar todas los productos: ${error.message}`
+        `Product Repository: Error al contar todas los productos: ${error.message}`,
       );
     }
   }
@@ -83,7 +83,7 @@ export class ProductRepository {
 
       if (productData.proveedorId) {
         filter.proveedorId = new mongoose.Types.ObjectId(
-          productData.proveedorId
+          productData.proveedorId,
         );
       }
 
@@ -115,7 +115,7 @@ export class ProductRepository {
       return productFound;
     } catch (error) {
       console.error(
-        `Product Repository: Error al buscar los productos: ${error.message}`
+        `Product Repository: Error al buscar los productos: ${error.message}`,
       );
       throw new Error(`Error al buscar los productos: ${error.message}`);
     }
@@ -147,7 +147,7 @@ export class ProductRepository {
 
       if (productData.proveedorId) {
         filter.proveedorId = new mongoose.Types.ObjectId(
-          productData.proveedorId
+          productData.proveedorId,
         );
       }
 
@@ -194,7 +194,9 @@ export class ProductRepository {
           });
 
           if (existsByCode) {
-            console.log('Product Repository: Producto con code existe pero estado no válido');
+            console.log(
+              'Product Repository: Producto con code existe pero estado no válido',
+            );
             return 'invalid_state';
           }
         }
@@ -205,10 +207,9 @@ export class ProductRepository {
       console.log('Product Repository: Producto encontrado');
 
       return productFound;
-
     } catch (error) {
       console.error(
-        `Product Repository: Error al buscar el producto: ${error.message}`
+        `Product Repository: Error al buscar el producto: ${error.message}`,
       );
       throw new Error(`Error al buscar el producto: ${error.message}`);
     }
@@ -230,7 +231,7 @@ export class ProductRepository {
       return populatedProduct;
     } catch (error) {
       console.log(
-        `Product Repository: Error al crear el producto: ${error.message}`
+        `Product Repository: Error al crear el producto: ${error.message}`,
       );
       throw new Error(`Error al crear el producto: ${error.message}`);
     }
@@ -242,12 +243,12 @@ export class ProductRepository {
         productData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedProduct) {
         console.log(
-          'Product Repository: Producto no encontrado para ser actualizado'
+          'Product Repository: Producto no encontrado para ser actualizado',
         );
         return null;
       }
@@ -256,7 +257,7 @@ export class ProductRepository {
       return updatedProduct;
     } catch (error) {
       console.error(
-        `Product Repository: Error al actualizar el producto: ${error.message}`
+        `Product Repository: Error al actualizar el producto: ${error.message}`,
       );
       throw new Error(`Error al actualizar el producto: ${error.message}`);
     }
@@ -276,20 +277,20 @@ export class ProductRepository {
       const productUpdated = await this.productModel.findOneAndUpdate(
         { 'unidades._id': unitProductId }, // Filtrar por el ID del subdocumento
         { $set: filter }, // Actualizar dinámicamente solo los campos enviados
-        { new: true } // Retornar el producto actualizado
+        { new: true }, // Retornar el producto actualizado
       );
 
       // Manejo de errores o producto no encontrado
       if (!productUpdated) {
         throw new Error(
-          `Producto con la unidad ${unitProductId} no encontrado`
+          `Producto con la unidad ${unitProductId} no encontrado`,
         );
       }
 
       return productUpdated;
     } catch (error) {
       console.log(
-        `Product Repository: Error al actualizar el unitProduct: ${error.message}`
+        `Product Repository: Error al actualizar el unitProduct: ${error.message}`,
       );
       throw new Error(`Error al actualizar el unitProduct: ${error.message}`);
     }
@@ -302,7 +303,7 @@ export class ProductRepository {
 
       if (!deletedProduct) {
         console.log(
-          'Product Repository: Producto no encontrado para ser eliminado'
+          'Product Repository: Producto no encontrado para ser eliminado',
         );
         return null;
       }
@@ -311,7 +312,7 @@ export class ProductRepository {
       return deletedProduct;
     } catch (error) {
       console.error(
-        `Product Repository: Error al eliminar el producto: ${error.message}`
+        `Product Repository: Error al eliminar el producto: ${error.message}`,
       );
       throw new Error(`Error al eliminar el producto: ${error.message}`);
     }
@@ -332,16 +333,16 @@ export class ProductRepository {
           $push: { unidades: { $each: nuevasUnidades } },
           $inc: { stock: cantidadAAgregar }, // Incrementar el stock
         },
-        { new: true, runValidators: true } // Retornar el documento actualizado
+        { new: true, runValidators: true }, // Retornar el documento actualizado
       );
 
       console.log(
-        'Product Repository: Unidades agregadas correctamente al producto'
+        'Product Repository: Unidades agregadas correctamente al producto',
       );
       return productoActualizado;
     } catch (error) {
       console.error(
-        `Product Repository: Error al agregar unidades: ${error.message}`
+        `Product Repository: Error al agregar unidades: ${error.message}`,
       );
       throw new Error(`Error al agregar unidades: ${error.message}`);
     }
@@ -359,7 +360,7 @@ export class ProductRepository {
       // Eliminar las unidades necesarias desde el final
       const remainingUnits = product.unidades.slice(
         0,
-        product?.unidades?.length - cantidadARemover
+        product?.unidades?.length - cantidadARemover,
       );
 
       // Actualizar el producto en la base de datos
@@ -369,16 +370,16 @@ export class ProductRepository {
           $set: { unidades: remainingUnits },
           $inc: { stock: -cantidadARemover }, // Reducir el stock
         },
-        { new: true, runValidators: true } // Retornar el producto actualizado
+        { new: true, runValidators: true }, // Retornar el producto actualizado
       );
 
       console.log(
-        'Product Repository: Unidades eliminadas correctamente del producto'
+        'Product Repository: Unidades eliminadas correctamente del producto',
       );
       return updatedProduct;
     } catch (error) {
       console.error(
-        `Product Repository: Error al eliminar unidades: ${error.message}`
+        `Product Repository: Error al eliminar unidades: ${error.message}`,
       );
       throw new Error(`Error al eliminar unidades: ${error.message}`);
     }
@@ -394,12 +395,12 @@ export class ProductRepository {
 
       // Buscar la unidad con el _id proporcionado
       const unitIndex = product.unidades.findIndex(
-        (unit) => unit._id.toString() === unitId.toString()
+        (unit) => unit._id.toString() === unitId.toString(),
       );
       if (unitIndex === -1) {
         console.log('Product Repository: Unidad no encontrada');
         throw new Error(
-          `Unidad con ID ${unitId} no encontrada en el producto.`
+          `Unidad con ID ${unitId} no encontrada en el producto.`,
         );
       }
 
@@ -413,16 +414,16 @@ export class ProductRepository {
           $set: { unidades: product.unidades },
           $inc: { stock: -1 }, // Reducir el stock en 1
         },
-        { new: true, runValidators: true }
+        { new: true, runValidators: true },
       );
 
       console.log(
-        'Product Repository: Unidad eliminada correctamente del producto'
+        'Product Repository: Unidad eliminada correctamente del producto',
       );
       return updatedProduct;
     } catch (error) {
       console.error(
-        `Product Repository: Error al eliminar unidad: ${error.message}`
+        `Product Repository: Error al eliminar unidad: ${error.message}`,
       );
       throw new Error(`Error al eliminar unidad: ${error.message}`);
     }

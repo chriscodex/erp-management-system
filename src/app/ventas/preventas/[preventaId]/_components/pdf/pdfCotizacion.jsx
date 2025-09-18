@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import {
   Document,
   Text,
@@ -8,10 +8,10 @@ import {
   Image,
   Svg,
   Path,
-} from "@react-pdf/renderer";
+} from '@react-pdf/renderer';
 
-import { stylesCotizacion } from "@/app/ventas/preventas/[preventaId]/_components/pdf/stylesCotizacion.js";
-import { formatDateLong, formatDateShort } from "@/lib/formateador";
+import { stylesCotizacion } from '@/app/ventas/preventas/[preventaId]/_components/pdf/stylesCotizacion.js';
+import { formatDateLong, formatDateShort } from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesCotizacion);
 
@@ -58,36 +58,34 @@ export function PdfCotizacion({ preventaData, empresa }) {
     <Document>
       <Page size="A4">
         <View style={styles.header}>
-          <Image src={"/logoB.jpeg"} style={styles.image} alt="logo" />
+          <Image src={'/logoB.jpeg'} style={styles.image} alt="logo" />
           <Text style={styles.title}>Cotización electrónica</Text>
         </View>
         <View style={styles.body}>
           <View style={styles.datosEmpresa}>
             <View>
               <Text style={styles.datosEmpresaTitle}>
-                {empresa?.nombre || "xxx"}
+                {empresa?.nombre || 'xxx'}
               </Text>
               <Text style={styles.datosEmpresaTitle}>
-                RUC N° {empresa?.ruc || "xxxxx"}
+                RUC N° {empresa?.ruc || 'xxxxx'}
               </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
                 <Text>
                   {empresa?.direccion ||
-                    "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}
+                    'Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz'}
                 </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>{empresa?.telefono || "01-442-1210"}</Text>
+                <Text>{empresa?.telefono || '01-442-1210'}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
-                <Text>
-                  {empresa?.email || "gerencia@motorock33.com"}
-                </Text>
+                <Text>{empresa?.email || 'gerencia@motorock33.com'}</Text>
               </View>
             </View>
 
@@ -98,61 +96,60 @@ export function PdfCotizacion({ preventaData, empresa }) {
               </View>
               <View style={styles.datosCotizacion}>
                 <Text style={styles.datosCotizacionBold}>
-                  Fecha de emisión:{" "}
+                  Fecha de emisión:{' '}
                 </Text>
                 <Text>{currentTime}</Text>
               </View>
             </View>
-            
           </View>
           <View style={styles.separator} />
 
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {preventaData?.clienteId?.tipo === "empresa"
+              {preventaData?.clienteId?.tipo === 'empresa'
                 ? preventaData?.clienteId?.datos?.nombre
                 : `${preventaData?.clienteId?.datos?.apellidos} ${preventaData?.clienteId?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {preventaData?.clienteId?.tipo === "empresa"
+                {preventaData?.clienteId?.tipo === 'empresa'
                   ? `RUC: `
                   : `DNI: `}
               </Text>
               <Text>
-                {preventaData?.clienteId?.tipo === "empresa"
+                {preventaData?.clienteId?.tipo === 'empresa'
                   ? `${preventaData?.clienteId?.datos?.ruc}`
                   : `${preventaData?.clienteId?.datos?.dni}`}
               </Text>
             </View>
-            {preventaData?.clienteId?.tipo === "empresa" && (
+            {preventaData?.clienteId?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
-                  {"Representante Legal: "}
+                  {'Representante Legal: '}
                 </Text>
                 <Text>
                   {preventaData?.clienteId?.datos?.representanteLegal}
                 </Text>
               </View>
             )}
-            {preventaData?.clienteId?.tipo === "empresa" && (
+            {preventaData?.clienteId?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
-                  {"Dirección: "}
+                  {'Dirección: '}
                 </Text>
                 <Text>{preventaData?.clienteId?.datos?.direccion}</Text>
               </View>
             )}
             {preventaData?.clienteId?.datos?.email && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
+                <Text style={styles.datosClienteInfoTitle}>{'Email: '}</Text>
                 <Text>{preventaData.cliente.datos.email}</Text>
               </View>
             )}
             {preventaData?.clienteId?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
+                <Text style={styles.datosClienteInfoTitle}>{'Celular: '}</Text>
                 <Text>{preventaData.cliente.datos.celular}</Text>
               </View>
             )}
@@ -163,7 +160,7 @@ export function PdfCotizacion({ preventaData, empresa }) {
           </View>
           <View style={styles.cotizacionSubTitleContainer}>
             <Text style={styles.cotizacionSubTitle}>
-              Válida hasta el{" "}
+              Válida hasta el{' '}
               {formatDateShort(preventaData?.fechaValidez, false)}
             </Text>
           </View>
@@ -199,7 +196,7 @@ export function PdfCotizacion({ preventaData, empresa }) {
                 preventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -212,7 +209,7 @@ export function PdfCotizacion({ preventaData, empresa }) {
                 preventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -224,7 +221,7 @@ export function PdfCotizacion({ preventaData, empresa }) {
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -236,7 +233,7 @@ export function PdfCotizacion({ preventaData, empresa }) {
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -246,7 +243,7 @@ export function PdfCotizacion({ preventaData, empresa }) {
               Información adicional
             </Text>
             <Text>
-              Esta cotización es válida hasta el{" "}
+              Esta cotización es válida hasta el{' '}
               {formatDateShort(preventaData?.fechaValidez, false)}. Luego de
               esta fecha los precios pueden variar. Ante cualquier consulta, no
               dude en contactarnos.

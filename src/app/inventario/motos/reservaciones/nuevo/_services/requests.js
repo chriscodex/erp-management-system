@@ -1,13 +1,10 @@
 import { fetchData, postData } from '@/lib/fetchData';
-import {
-  createReservacionClientUrl,
-  searchClienteClientUrl,
-} from '@/lib/urls';
-import { delay} from '@/lib/utils';
+import { createReservacionClientUrl, searchClienteClientUrl } from '@/lib/urls';
+import { delay } from '@/lib/utils';
 
 export function searchClientePorDniOrRucClientRequest(
   identificador,
-  setLoading
+  setLoading,
 ) {
   // eslint-disable-next-line
   return new Promise(async (resolve, reject) => {
@@ -25,7 +22,7 @@ export function searchClientePorDniOrRucClientRequest(
 
       if (identificador?.length === 8) {
         const response = await fetchData(
-          `${searchClienteClientUrl}?dni=${identificador}`
+          `${searchClienteClientUrl}?dni=${identificador}`,
         );
         if (response?.status !== 200) {
           setLoading(false);
@@ -38,7 +35,7 @@ export function searchClientePorDniOrRucClientRequest(
 
       if (identificador?.length === 11) {
         const response = await fetchData(
-          `${searchClienteClientUrl}?ruc=${identificador}`
+          `${searchClienteClientUrl}?ruc=${identificador}`,
         );
         if (response?.status !== 200) {
           setLoading(false);
@@ -56,11 +53,12 @@ export function searchClientePorDniOrRucClientRequest(
   });
 }
 
-
-export async function createReservacionRequestClient(reservacionData, setLoading) {
-  /* eslint-disable */
+export async function createReservacionRequestClient(
+  reservacionData,
+  setLoading,
+) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -93,24 +91,27 @@ export async function createReservacionRequestClient(reservacionData, setLoading
         moto: {
           nombre: reservacionData?.moto?.nombre,
           descripcion: reservacionData?.moto?.descripcion,
-          categoria:{
+          categoria: {
             nombre: reservacionData?.moto?.categoria?.nombre,
           },
-          marca:{
+          marca: {
             nombre: reservacionData?.moto?.marca?.nombre,
-          }
+          },
         },
         cliente: {
           tipo: reservacionData?.cliente?.tipo,
           datos: clienteData,
-        }
+        },
       };
-  
-      const response = await postData(createReservacionClientUrl, reservacionObject);
+
+      const response = await postData(
+        createReservacionClientUrl,
+        reservacionObject,
+      );
       if (response?.status !== 201) {
         setLoading(false);
         reject(
-          'No se pudo crear la reservacion: ' + response.response?.data?.error
+          'No se pudo crear la reservacion: ' + response.response?.data?.error,
         );
         return;
       }

@@ -6,9 +6,7 @@ import { useState } from 'react';
 import { Sheet } from '@/components/ui/sheet';
 import { AddModeloForm } from '@/app/inventario/motos/pedidos/_components/sheets/addModelo/addModeloForm';
 
-
 export function SheetAddModeloWrapper({ categories, marcas, onAddModelo }) {
-
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {
@@ -30,7 +28,12 @@ export function SheetAddModeloWrapper({ categories, marcas, onAddModelo }) {
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <AddModeloForm onClose={handleCloseSheet} categories={categories} marcas={marcas} onAddModelo={onAddModelo}/>
+          <AddModeloForm
+            onClose={handleCloseSheet}
+            categories={categories}
+            marcas={marcas}
+            onAddModelo={onAddModelo}
+          />
         </Sheet>
       )}
     </div>

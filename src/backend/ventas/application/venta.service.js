@@ -40,7 +40,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al buscar todas las ventas: ${error.message}`
+        `Venta Service: Error interno al buscar todas las ventas: ${error.message}`,
       );
       return {
         status: 500,
@@ -68,7 +68,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al buscar la venta: ${error.message}`
+        `Venta Service: Error interno al buscar la venta: ${error.message}`,
       );
       return {
         status: 500,
@@ -127,7 +127,7 @@ export class VentaService {
     try {
       const updatedVenta = await this.ventaRepository.updateVenta(
         ventaId,
-        ventaData
+        ventaData,
       );
 
       return {
@@ -136,7 +136,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al actualizar la venta: ${error.message}`
+        `Venta Service: Error interno al actualizar la venta: ${error.message}`,
       );
       throw new Error(`Error al actualizar la venta: ${error.message}`);
     }
@@ -144,6 +144,49 @@ export class VentaService {
 
   async deleteVenta(ventaId) {
     try {
+
+      const ventaFound = await this.ventaRepository.getVentaByData({ id: ventaId });
+
+      if (!ventaFound) {
+        console.log("Venta Service: La venta no existe");
+        return {
+          status: 200,
+          payload: "La venta no existe",
+        };
+      }
+
+      // Cambiar el estado de los productos y motos a disponible
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        ventaFound?.productos?.map(async (producto) => {
+          if (producto.modeloId) {
+            await this.motoRepository.updateMoto(producto._id, {
+              estado: {
+                titulo: "disponible",
+                observaciones: producto?.estado?.observaciones,
+              },
+            });
+          } else {
+            await this.productRepository.updateUnitProduct(producto.unitId, {
+              estado: "disponible",
+            });
+          }
+        })
+      );
+
+      // Cambiar el estado de los obsequios incluidos en la venta
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        ventaFound?.obsequios?.map(async (obsequio) => {
+          // En caso de ser SOAT, salta a la siguiente iteración
+          if (obsequio.nombre === "SOAT") return;
+
+          await this.productRepository.updateUnitProduct(obsequio.unitId, {
+            estado: "disponible",
+          });
+        })
+      );
+
       const deletedVenta = await this.ventaRepository.deleteVenta(ventaId);
 
       if (!deletedVenta) {
@@ -161,7 +204,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al eliminar la venta: ${error.message}`
+        `Venta Service: Error interno al eliminar la venta: ${error.message}`,
       );
       return {
         status: 500,
@@ -179,7 +222,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`
+        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`,
       );
       return {
         status: 500,
@@ -197,7 +240,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`
+        `Venta Service: Error interno al obtener el contador de boleta: ${error.message}`,
       );
       return {
         status: 500,
@@ -236,7 +279,7 @@ export class VentaService {
 
       const ventaHistoricaCreated =
         await this.ventasHistoricasRepository.createVentaHistorica(
-          ventaHistorica
+          ventaHistorica,
         );
       console.log('Venta Service: Venta finalizada correctamente');
 
@@ -252,12 +295,23 @@ export class VentaService {
           } else {
             await this.productRepository.deleteSingleUnitFromProduct(
               producto.productId,
-              producto.unitId
+              producto.unitId,
+            );
+          }
+        }),
+      );
+      //Eliminar los obsequios del inventario
+      // eslint-disable-next-line no-undef
+      await Promise.all(
+        venta?.obsequios?.map(async (obsequio) => {
+          if (obsequio.productId) {
+            await this.productRepository.deleteSingleUnitFromProduct(
+              obsequio.productId,
+              obsequio.unitId
             );
           }
         })
       );
-
       return {
         status: 201,
         payload: {
@@ -267,7 +321,7 @@ export class VentaService {
       };
     } catch (error) {
       console.error(
-        `Venta Service: Error interno al finalizar la venta: ${error.message}`
+        `Venta Service: Error interno al finalizar la venta: ${error.message}`,
       );
       return {
         status: 500,
@@ -289,9 +343,10 @@ export class VentaService {
 
       // 2. Obtener el contador de boletas
       const numeroBoleta = await this.counterRepository.getCounterByType(
-        'boletas'
+        'boletas',
       );
-      if (!numeroBoleta) {
+
+      if (numeroBoleta === null || numeroBoleta === undefined) {
         return {
           status: 500,
           payload: 'No se pudo obtener el contador de boletas',
@@ -301,7 +356,7 @@ export class VentaService {
       // 3. Calcular serie y correlativo
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         numeroBoleta,
-        'boleta'
+        'boleta',
       );
 
       // 4. Mapear la venta al formato JSON de boleta
@@ -349,15 +404,15 @@ export class VentaService {
         detailsVenta
           .reduce(
             (acumulador, elemento) => acumulador + elemento.mtoValorVenta,
-            0
+            0,
           )
-          .toFixed(2)
+          .toFixed(2),
       );
       const valorDeVenta = montoOperGravadas;
       const montoIGV = Number(
         detailsVenta
           .reduce((acumulador, elemento) => acumulador + elemento.igv, 0)
-          .toFixed(2)
+          .toFixed(2),
       );
       const subTotal = Number((montoOperGravadas + montoIGV).toFixed(2));
       const montoImpVenta = subTotal;
@@ -412,6 +467,8 @@ export class VentaService {
       // 5. Enviar a Sunat
       const sunatResponse = await sendInvoiceToSunat(invoiceData);
 
+      console.log('Respuesta de Sunat:', sunatResponse);
+
       // 6. Si la respuesta es exitosa, actualizar solo estadoSunat
       let estadoSunat = 'Error al enviar a Sunat';
       if (
@@ -440,7 +497,7 @@ export class VentaService {
     } catch (error) {
       console.error(
         'Venta Service: Error al enviar boleta a Sunat:',
-        error.message
+        error.message,
       );
       return {
         status: 500,
@@ -461,7 +518,7 @@ export class VentaService {
 
       // 2. Obtener el contador de facturas
       const numeroFactura = await this.counterRepository.getCounterByType(
-        'facturas'
+        'facturas',
       );
       if (!numeroFactura) {
         return {
@@ -473,7 +530,7 @@ export class VentaService {
       // 3. Calcular serie y correlativo
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         numeroFactura,
-        'factura'
+        'factura',
       );
 
       // 4. Mapear la venta al formato JSON de factura
@@ -617,7 +674,7 @@ export class VentaService {
     } catch (error) {
       console.error(
         'Venta Service: Error al enviar factura a Sunat:',
-        error.message
+        error.message,
       );
       return {
         status: 500,

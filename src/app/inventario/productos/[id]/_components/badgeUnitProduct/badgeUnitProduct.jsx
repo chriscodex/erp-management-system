@@ -22,12 +22,12 @@ const badgeVariants = cva(
           'bg-purple-500 text-neutral-100 font-normal text-base w-[120px] flex items-center justify-center',
         yellowTable:
           'bg-yellow-500 text-neutral-100 font-normal text-base w-[120px] flex items-center justify-center',
-        },
+      },
     },
     defaultVariants: {
       variant: 'default',
     },
-  }
+  },
 );
 
 function BadgeUnitProduct({ className, variant, ...props }) {

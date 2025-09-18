@@ -24,9 +24,8 @@ export async function getAllUsersRequestServer() {
 }
 
 export async function deleteUserRequestClient(userId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -37,7 +36,7 @@ export async function deleteUserRequestClient(userId) {
       const response = await deleteData(url);
       if (response?.status === 500) {
         reject(
-          'No se pudo eliminar el usuario: ' + response.response?.data?.error
+          'No se pudo eliminar el usuario: ' + response.response?.data?.error,
         );
         return;
       }
@@ -62,7 +61,10 @@ export async function getAllSucursalesRequestServer() {
     }
     const sucursales = response?.payload;
 
-    return { sucursales: simplificadorParaClientComponent(sucursales), status: 200 };
+    return {
+      sucursales: simplificadorParaClientComponent(sucursales),
+      status: 200,
+    };
   } catch (error) {
     console.error(error);
   }

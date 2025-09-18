@@ -47,8 +47,7 @@ const modeloSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
-
 
 export const Modelo = models?.Modelo || model('Modelo', modeloSchema);

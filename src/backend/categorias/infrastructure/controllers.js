@@ -34,10 +34,10 @@ export async function getCategoriesController(request) {
   } catch (error) {
     console.error(
       'Categorias Controller: Error interno al obtener todas las categorias:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Categorias Controller: Error interno al obtener todas las categorias'
+      'Categorias Controller: Error interno al obtener todas las categorias',
     );
   }
 }
@@ -53,10 +53,10 @@ export async function createCategoryController(request) {
   } catch (error) {
     console.error(
       'Categorias Controller: Error interno al crear una categoría:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Categorias Controller: Error interno al crear una categoría'
+      'Categorias Controller: Error interno al crear una categoría',
     );
   }
 }
@@ -74,10 +74,10 @@ export async function updateCategoryController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Categorias Controller: Error interno al actualizar la categoría:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Categorias Controller: Error interno al actualizar la categoría'
+      'Categorias Controller: Error interno al actualizar la categoría',
     );
   }
 }
@@ -95,10 +95,10 @@ export async function deleteCategoryController(contextRoute) {
   } catch (error) {
     console.error(
       'Categorias Controller: Error interno al eliminar la categoría:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Categorias Controller: Error interno al eliminar la categoría'
+      'Categorias Controller: Error interno al eliminar la categoría',
     );
   }
 }

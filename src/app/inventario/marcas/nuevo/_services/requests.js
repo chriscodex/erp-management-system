@@ -26,10 +26,9 @@ export async function getAllSegmentsRequestServer() {
   }
 }
 
-export async function createMarcaRequestClient(marca, setLoading, setError) {
-  /* eslint-disable */
+export async function createMarcaRequestClient(marca, setLoading) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -37,16 +36,6 @@ export async function createMarcaRequestClient(marca, setLoading, setError) {
 
       // Obtener los datos de la persona
       const response = await postData(createMarcaClientUrl, marca);
-      if (response?.status === 201) {
-        setLoading(false);
-        setError('nombre', {
-          type: 'custom',
-          message:
-            'Una marca con el mismo nombre ya existe en el segmento seleccionado',
-        });
-        reject('No se pudo crear la marca: ' + response.response?.data?.error);
-        return;
-      }
       if (response?.status !== 201) {
         setLoading(false);
         reject('No se pudo crear la marca: ' + response.response?.data?.error);

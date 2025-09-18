@@ -87,7 +87,7 @@ export function AddGastoMotoForm({ onClose, motoId }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -134,7 +134,7 @@ export function AddGastoMotoForm({ onClose, motoId }) {
                   variant={'outline'}
                   className={cn(
                     'w-[280px] justify-start text-left font-normal',
-                    !date && 'text-muted-foreground'
+                    !date && 'text-muted-foreground',
                   )}
                 >
                   <CalendarIcon className="mr-2 h-4 w-4" />

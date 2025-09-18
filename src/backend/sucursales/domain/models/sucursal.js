@@ -13,7 +13,7 @@ const sucursalSchema = new Schema(
     },
     direccion: {
       type: String,
-      required: [true, 'La dirección es requerida en el schema de empresa'],
+      required: false,
     },
     telefono: {
       type: String,
@@ -26,7 +26,7 @@ const sucursalSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Sucursal = models?.Sucursal || model('Sucursal', sucursalSchema);

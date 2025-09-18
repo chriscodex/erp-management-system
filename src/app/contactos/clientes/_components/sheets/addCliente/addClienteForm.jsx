@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 import {
   Form,
@@ -13,7 +13,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 import {
   SheetClose,
   SheetContent,
@@ -21,14 +21,14 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet";
+} from '@/components/ui/sheet';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import {
   IdCardIcon,
   Loader2,
@@ -38,19 +38,19 @@ import {
   SearchIcon,
   User,
   UserCheck,
-} from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { addClienteFormSchema } from "@/app/contactos/clientes/_services/validations/addClienteFormSchema";
+} from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { addClienteFormSchema } from '@/app/contactos/clientes/_services/validations/addClienteFormSchema';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
+} from '@/components/formInputs/onChange';
 import {
   createClienteRequestClient,
   searchClientePorDniOrRucClientRequest,
-} from "@/app/contactos/clientes/_services/requests";
-import { Button } from "@/components/ui/button";
+} from '@/app/contactos/clientes/_services/requests';
+import { Button } from '@/components/ui/button';
 
 export function AddClienteForm({ onClose }) {
   const router = useRouter();
@@ -58,15 +58,15 @@ export function AddClienteForm({ onClose }) {
   const addForm = useForm({
     resolver: zodResolver(addClienteFormSchema),
     defaultValues: {
-      tipo: "persona",
-      identificador: "",
-      nombres: "",
-      apellidos: "",
-      razonSocial: "",
-      representanteLegal: "",
-      email: "",
-      direccion: "",
-      celular: "",
+      tipo: 'persona',
+      identificador: '',
+      nombres: '',
+      apellidos: '',
+      razonSocial: '',
+      representanteLegal: '',
+      email: '',
+      direccion: '',
+      celular: '',
     },
   });
 
@@ -92,7 +92,7 @@ export function AddClienteForm({ onClose }) {
 
     // Toast promise para buscar una persona
     toast.promise(createClienteRequestClient(data, setFormSubmitIsLoading), {
-      loading: "Creando...",
+      loading: 'Creando...',
       success: () => {
         clearErrors();
         resetForm();
@@ -116,83 +116,85 @@ export function AddClienteForm({ onClose }) {
       const tipo = formData.tipo;
       const identificador = formData.identificador;
 
-      if (tipo === "persona") {
+      if (tipo === 'persona') {
         if (!identificador || identificador.length !== 8) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un DNI válido", {
-            description: "El DNI debe tener 8 dígitos",
+          toast.warning('Por favor, ingrese un DNI válido', {
+            description: 'El DNI debe tener 8 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (persona) => {
-              console.log("persona", persona);
+              console.log('persona', persona);
               setValue(
-                "apellidos",
-                persona?.apellidos || persona?.datos?.apellidos
+                'apellidos',
+                persona?.apellidos || persona?.datos?.apellidos,
               );
-              setValue("nombres", persona?.nombres || persona?.datos?.nombres);
-              setValue("direccion", persona?.direccion || persona?.datos?.direccion);
-              setValue("email", persona?.email || persona?.datos?.email);
-              setValue("celular", persona?.celular || persona?.datos?.celular);
+              setValue('nombres', persona?.nombres || persona?.datos?.nombres);
+              setValue(
+                'direccion',
+                persona?.direccion || persona?.datos?.direccion,
+              );
+              setValue('email', persona?.email || persona?.datos?.email);
+              setValue('celular', persona?.celular || persona?.datos?.celular);
 
-
-              clearErrors("apellidos");
-              clearErrors("nombres");
-              clearErrors("direccion");
-              clearErrors("email");
-              clearErrors("celular");
+              clearErrors('apellidos');
+              clearErrors('nombres');
+              clearErrors('direccion');
+              clearErrors('email');
+              clearErrors('celular');
               return `Persona encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
 
-      if (tipo === "empresa") {
+      if (tipo === 'empresa') {
         if (!identificador || identificador.length !== 11) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un RUC válido", {
-            description: "El RUC debe tener 11 dígitos",
+          toast.warning('Por favor, ingrese un RUC válido', {
+            description: 'El RUC debe tener 11 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (empresa) => {
-              console.log("empresa", empresa);
+              console.log('empresa', empresa);
 
-              setValue("cliente.datos.nombre", empresa?.razonSocial);
-              setValue("telefono", empresa?.telefono);
-              clearErrors("nombre");
-              clearErrors("telefono");
+              setValue('cliente.datos.nombre', empresa?.razonSocial);
+              setValue('telefono', empresa?.telefono);
+              clearErrors('nombre');
+              clearErrors('telefono');
               return `Empresa encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
     } catch (error) {
       setSearchByDniOrRucIsLoading(false);
-      toast.error("Error al buscar persona por DNI");
-      console.error("Error al buscar persona por DNI:", error);
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
     }
   };
 
@@ -215,20 +217,20 @@ export function AddClienteForm({ onClose }) {
                   <RadioGroup
                     onValueChange={(value) => {
                       field.onChange(value);
-                      setValue("identificador", "");
-                      clearErrors("identificador");
-                      clearErrors("apellidos");
-                      clearErrors("nombres");
-                      clearErrors("razonSocial");
-                      clearErrors("representanteLegal");
-                      clearErrors("direccion");
-                      clearErrors("celular");
-                      setValue("apellidos", "");
-                      setValue("nombres", "");
-                      setValue("razonSocial", "");
-                      setValue("representanteLegal", "");
-                      setValue("direccion", "");
-                      setValue("celular", "");
+                      setValue('identificador', '');
+                      clearErrors('identificador');
+                      clearErrors('apellidos');
+                      clearErrors('nombres');
+                      clearErrors('razonSocial');
+                      clearErrors('representanteLegal');
+                      clearErrors('direccion');
+                      clearErrors('celular');
+                      setValue('apellidos', '');
+                      setValue('nombres', '');
+                      setValue('razonSocial', '');
+                      setValue('representanteLegal', '');
+                      setValue('direccion', '');
+                      setValue('celular', '');
                     }}
                     defaultValue={field.value}
                     className="flex flex-row space-x-4"
@@ -259,14 +261,14 @@ export function AddClienteForm({ onClose }) {
             render={({ field }) => (
               <FormItem className="space-y-2">
                 <FormLabel>
-                  {watch("tipo") === "persona" ? "DNI" : "RUC"}
+                  {watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
                 </FormLabel>
                 <div className="relative">
                   <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Input
                       type="text"
-                      placeholder={watch("tipo") === "persona" ? "DNI" : "RUC"}
+                      placeholder={watch('tipo') === 'persona' ? 'DNI' : 'RUC'}
                       className="pl-8"
                       autoComplete="off"
                       disabled={
@@ -281,10 +283,10 @@ export function AddClienteForm({ onClose }) {
                   <FormMessage />
                   <div
                     className={cn(
-                      "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
+                      'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
                       searchByDniOrRucIsLoading
-                        ? "opacity-75 pointer-events-none"
-                        : "cursor-pointer"
+                        ? 'opacity-75 pointer-events-none'
+                        : 'cursor-pointer',
                     )}
                     onClick={handleSearchByDniOrRuc}
                   >
@@ -309,7 +311,7 @@ export function AddClienteForm({ onClose }) {
               </FormItem>
             )}
           />
-          {watch("tipo") === "persona" ? (
+          {watch('tipo') === 'persona' ? (
             <>
               <FormField
                 control={control}

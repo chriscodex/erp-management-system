@@ -12,11 +12,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Modelo Pedido Route: Error interno al crear el modelo: ${error.message}`
+      `Modelo Pedido Route: Error interno al crear el modelo: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear el modelo' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

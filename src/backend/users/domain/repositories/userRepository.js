@@ -4,7 +4,6 @@ import { User } from '@/backend/users/domain/models/user';
 import { Sucursal } from '@/backend/sucursales/domain/models/sucursal';
 
 export class UserRepository {
-
   constructor() {
     this.userModel = User;
     this.sucursalModel = Sucursal;
@@ -23,7 +22,7 @@ export class UserRepository {
       return users;
     } catch (error) {
       console.error(
-        `User Repository: Error al buscar todos los usuarios: ${error.message}`
+        `User Repository: Error al buscar todos los usuarios: ${error.message}`,
       );
       throw new Error(`Error al buscar todos los usuarios: ${error.message}`);
     }
@@ -53,7 +52,9 @@ export class UserRepository {
         filter.estado = userData.estado;
       }
 
-      const userFound = await User.findOne(filter).populate('sucursalId').select('-password');
+      const userFound = await User.findOne(filter)
+        .populate('sucursalId')
+        .select('-password');
 
       if (!userFound) {
         console.log('User Repository: Usuario no encontrado');
@@ -62,24 +63,45 @@ export class UserRepository {
 
       console.log('User Repository: Usuario encontrado');
       return userFound;
-
     } catch (error) {
       console.error(
-        `User Repository: Error al buscar un usuario: ${error.message}`
+        `User Repository: Error al buscar un usuario: ${error.message}`,
       );
       throw new Error(`Error al buscar un usuario: ${error.message}`);
+    }
+  }
+
+
+  async getAllMecanicos() {
+    try {
+      const mecanicos = await User.find({ rol: 'Tecnico', estado: 'activo' }).populate('sucursalId').select('-password');
+
+      if (mecanicos?.length === 0) {
+        console.log('User Repository: No se encontraron mecanicos');
+        return [];
+      }
+
+      console.log('User Repository: Mecanicos encontrados');
+      return mecanicos;
+    } catch (error) {
+      console.error(
+        `User Repository: Error al buscar todos los mecanicos: ${error.message}`
+      );
+      throw new Error(`Error al buscar todos los mecanicos: ${error.message}`);
     }
   }
 
   async getUsersBySucursal(sucursalId) {
     try {
       const users = await this.userModel
-        .find({ 'sucursalId': new mongoose.Types.ObjectId(sucursalId) })
+        .find({ sucursalId: new mongoose.Types.ObjectId(sucursalId) })
         .populate('sucursalId');
 
       return users;
     } catch (error) {
-      throw new Error(`Error al buscar los usuarios de la sucursal: ${error.message}`);
+      throw new Error(
+        `Error al buscar los usuarios de la sucursal: ${error.message}`,
+      );
     }
   }
 
@@ -102,12 +124,12 @@ export class UserRepository {
         user,
         {
           new: true,
-        }
+        },
       ).select('-password');
 
       if (!updatedUser) {
         console.log(
-          'User Repository: Usuario no encontrado para ser actualizado'
+          'User Repository: Usuario no encontrado para ser actualizado',
         );
         return null;
       }
@@ -116,7 +138,7 @@ export class UserRepository {
       return updatedUser;
     } catch (error) {
       console.error(
-        `User Repository: Error al actualizar usuario: ${error.message}`
+        `User Repository: Error al actualizar usuario: ${error.message}`,
       );
       throw new Error(`Error al actualizar usuario: ${error.message}`);
     }
@@ -129,7 +151,7 @@ export class UserRepository {
 
       if (!deletedUser) {
         console.log(
-          'User Repository: Usuario no encontrado para ser eliminado'
+          'User Repository: Usuario no encontrado para ser eliminado',
         );
         return null;
       }
@@ -138,7 +160,7 @@ export class UserRepository {
       return deletedUser;
     } catch (error) {
       console.error(
-        `User Repository: Error al eliminar usuario: ${error.message}`
+        `User Repository: Error al eliminar usuario: ${error.message}`,
       );
       throw new Error(`Error al eliminar usuario: ${error.message}`);
     }

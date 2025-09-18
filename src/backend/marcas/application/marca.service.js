@@ -27,7 +27,7 @@ export class MarcaService {
       };
     } catch (error) {
       console.error(
-        `Marca Service: Error interno al buscar todas las marcas: ${error.message}`
+        `Marca Service: Error interno al buscar todas las marcas: ${error.message}`,
       );
       return {
         status: 500,
@@ -37,13 +37,12 @@ export class MarcaService {
   }
   async getMarcasBySegmentData(marcaAndSegmentData) {
     try {
-      const marcasFiltered = await this.marcaRepository.getMarcasBySegmentData(
-        marcaAndSegmentData
-      );
+      const marcasFiltered =
+        await this.marcaRepository.getMarcasBySegmentData(marcaAndSegmentData);
 
       if (marcasFiltered?.length === 0) {
         console.log(
-          'Marca Service: No se encontraron marcas filtradas por segmento'
+          'Marca Service: No se encontraron marcas filtradas por segmento',
         );
         return {
           status: 200,
@@ -58,7 +57,7 @@ export class MarcaService {
       };
     } catch (error) {
       console.error(
-        `Marca Service: Error interno al obtener marcas filtradas por segmento: ${error.message}`
+        `Marca Service: Error interno al obtener marcas filtradas por segmento: ${error.message}`,
       );
       return {
         status: 500,
@@ -85,7 +84,7 @@ export class MarcaService {
       };
     } catch (error) {
       console.error(
-        `Marca Service: Error interno al buscar la marca: ${error.message}`
+        `Marca Service: Error interno al buscar la marca: ${error.message}`,
       );
       return {
         status: 500,
@@ -100,7 +99,7 @@ export class MarcaService {
 
       if (!marcaValidated.success) {
         console.log(
-          `Marca Service: Error de validación de schema de marca al crear ${marcaValidated}`
+          `Marca Service: Error de validación de schema de marca al crear ${marcaValidated}`,
         );
         return {
           status: 400,
@@ -146,7 +145,7 @@ export class MarcaService {
       };
     } catch (error) {
       console.error(
-        `Marca Service: Error interno al crear una marca: ${error.message}`
+        `Marca Service: Error interno al crear una marca: ${error.message}`,
       );
       return {
         status: 500,
@@ -161,7 +160,7 @@ export class MarcaService {
 
       if (!marcaValidated.success) {
         console.log(
-          'Marca Service: Error de validación de schema de marca al actualizar'
+          'Marca Service: Error de validación de schema de marca al actualizar',
         );
         return {
           status: 400,
@@ -188,7 +187,7 @@ export class MarcaService {
         const marcaFound = await this.marcaRepository.getMarcaByData(marcaData);
         if (marcaFound && marcaFound?._id !== marcaId) {
           console.log(
-            'Marca Service: Una marca con el mismo nombre ya existe en el segmento seleccionado'
+            'Marca Service: Una marca con el mismo nombre ya existe en el segmento seleccionado',
           );
           return {
             status: 409,
@@ -200,7 +199,7 @@ export class MarcaService {
 
       const marcaUpdated = await this.marcaRepository.updateMarca(
         marcaId,
-        marcaData
+        marcaData,
       );
 
       if (!marcaUpdated) {
@@ -218,7 +217,7 @@ export class MarcaService {
       };
     } catch (error) {
       console.error(
-        `Marca Service: Error interno al actualizar la marca: ${error.message}`
+        `Marca Service: Error interno al actualizar la marca: ${error.message}`,
       );
       return {
         status: 500,
@@ -245,7 +244,7 @@ export class MarcaService {
       };
     } catch (error) {
       console.error(
-        `Marca Service: Error interno al eliminar la marca: ${error.message}`
+        `Marca Service: Error interno al eliminar la marca: ${error.message}`,
       );
       return {
         status: 500,

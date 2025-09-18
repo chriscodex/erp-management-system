@@ -13,8 +13,8 @@ export async function GET(request, { params }) {
         return NextResponse.json(dni);
 
       case 'ruc':
-        // const ruc = await getDataByRucTest();
-        // return NextResponse.json(ruc);
+      // const ruc = await getDataByRucTest();
+      // return NextResponse.json(ruc);
 
       default:
         return NextResponse.json({ error: 'Invalid type' }, { status: 400 });
@@ -23,7 +23,7 @@ export async function GET(request, { params }) {
     console.log(error);
     return NextResponse.json(
       { error: 'Internal Server Error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

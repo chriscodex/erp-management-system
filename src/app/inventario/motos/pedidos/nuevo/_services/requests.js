@@ -1,11 +1,10 @@
-import { postData } from "@/lib/fetchData";
-import { createPedidoClientUrl } from "@/lib/urls";
-import { delay} from "@/lib/utils";
+import { postData } from '@/lib/fetchData';
+import { createPedidoClientUrl } from '@/lib/urls';
+import { delay } from '@/lib/utils';
 
 export async function createPedidoRequestClient(pedidoData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso para pruebas en la UI
@@ -29,7 +28,9 @@ export async function createPedidoRequestClient(pedidoData, setLoading) {
         },
         estadoPago: pedidoData.estadoTitle,
         // montoPagado: pedidoData.montoPagado,
-        montoPagado: pedidoData.montoPagado ? Number(pedidoData.montoPagado) : 0,
+        montoPagado: pedidoData.montoPagado
+          ? Number(pedidoData.montoPagado)
+          : 0,
         montoTotal: pedidoData.montoTotal,
         fechaPago: pedidoData.fechaPago,
         comentario: pedidoData.comentario,
@@ -40,11 +41,11 @@ export async function createPedidoRequestClient(pedidoData, setLoading) {
 
       const response = await postData(
         createPedidoClientUrl,
-        pedidoDataFormated
+        pedidoDataFormated,
       );
       if (response?.status !== 201) {
         setLoading(false);
-        reject("No se pudo crear el pedido: " + response.response?.data?.error);
+        reject('No se pudo crear el pedido: ' + response.response?.data?.error);
         return;
       }
 

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   BarChart,
@@ -7,22 +7,22 @@ import {
   YAxis,
   CartesianGrid,
   ResponsiveContainer,
-} from "recharts";
-import { RiDownload2Line } from "@remixicon/react";
-import { useSession } from "next-auth/react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { contarEstadoDeUnidades } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { useIsMobile } from "@/hooks/use-mobile";
+} from 'recharts';
+import { RiDownload2Line } from '@remixicon/react';
+import { useSession } from 'next-auth/react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { contarEstadoDeUnidades } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
+import { useIsMobile } from '@/hooks/use-mobile';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { Button } from "@/components/ui/button";
-import { generateExcelFileForProductsCode } from "@/app/inventario/productos/[id]/_services/helpers";
-import { SheetAddStockProductWrapper } from "@/app/inventario/productos/[id]/_components/Sheets/addStock/addStockProductWrapper";
-import { SheetReduceStockProductWrapper } from "@/app/inventario/productos/[id]/_components/Sheets/reduceStock/reduceStockProductWrapper";
+} from '@/components/ui/chart';
+import { Button } from '@/components/ui/button';
+import { generateExcelFileForProductsCode } from '@/app/inventario/productos/[id]/_services/helpers';
+import { SheetAddStockProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/addStock/addStockProductWrapper';
+import { SheetReduceStockProductWrapper } from '@/app/inventario/productos/[id]/_components/Sheets/reduceStock/reduceStockProductWrapper';
 
 export default function GraphicSingleProductCard({ unidades, product }) {
   const { data: session } = useSession();
@@ -34,6 +34,8 @@ export default function GraphicSingleProductCard({ unidades, product }) {
     unidadesDanadas,
     unidadesReparadas,
     unidadesDesaparecidas,
+    unidadesTaller,
+    unidadesPrevendidas,
   } = contarEstadoDeUnidades(unidades);
 
   // Datos para los gráficos
@@ -41,22 +43,32 @@ export default function GraphicSingleProductCard({ unidades, product }) {
     {
       name: `Disponibles`,
       unidades: unidadesDisponibles,
-      fill: "#16a34a",
+      fill: '#16a34a',
     },
     {
       name: `Dañados`,
       unidades: unidadesDanadas,
-      fill: "#ef4444",
+      fill: '#ef4444',
     },
     {
       name: `Reparados`,
       unidades: unidadesReparadas,
-      fill: "#3b82f6",
+      fill: '#3b82f6',
     },
     {
       name: `Desaparecidos`,
       unidades: unidadesDesaparecidas,
-      fill: "#f59e0b",
+      fill: '#f97316',
+    },
+    {
+      name: `Taller`,
+      unidades: unidadesTaller,
+      fill: '#f59e0b',
+    },
+    {
+      name: `Prevendidos`,
+      unidades: unidadesPrevendidas,
+      fill: '#a855f7',
     },
   ];
 
@@ -65,7 +77,7 @@ export default function GraphicSingleProductCard({ unidades, product }) {
 
   const chartConfig = {
     unidades: {
-      label: "Unidades",
+      label: 'Unidades',
     },
   };
 
@@ -73,7 +85,7 @@ export default function GraphicSingleProductCard({ unidades, product }) {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle className="w-full flex-col">
-          {session?.user?.rol === "Administrador" && (
+          {session?.user?.rol === 'Administrador' && (
             <div className="grid md:grid-cols-3 grid-cols-1 gap-4 mb-6">
               <SheetAddStockProductWrapper productData={product} />
               <SheetReduceStockProductWrapper productData={product} />
@@ -92,14 +104,16 @@ export default function GraphicSingleProductCard({ unidades, product }) {
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4 px-2">
-        <div className="flex flex-row items-center justify-between space-y-0 pb-2 gap-1">
-          <Label className="sm:block font-bold text-green-600">{`Disponibles: ${unidadesDisponibles}`}</Label>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pb-2">
+          <Label className="font-bold text-green-600">{`Disponibles: ${unidadesDisponibles}`}</Label>
           <Label className="font-bold text-red-500">{`Dañados: ${unidadesDanadas}`}</Label>
           <Label className="font-bold text-blue-500">{`Reparados: ${unidadesReparadas}`}</Label>
-          <Label className="font-bold text-amber-500">{`Desaparecidos: ${unidadesDesaparecidas}`}</Label>
+          <Label className="font-bold text-orange-500">{`Desaparecidos: ${unidadesDesaparecidas}`}</Label>
+          <Label className="font-bold text-amber-500">{`Taller: ${unidadesTaller}`}</Label>
+          <Label className="font-bold text-purple-500">{`Prevendidos: ${unidadesPrevendidas}`}</Label>
         </div>
         <ChartContainer config={chartConfig}>
-          <ResponsiveContainer width="100%" height={"100%"}>
+          <ResponsiveContainer width="100%" height={'100%'}>
             <BarChart data={salesData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis

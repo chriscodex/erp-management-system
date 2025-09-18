@@ -30,11 +30,10 @@ export async function getProductByIdRequestServer(id) {
 export async function updateUnitProductRequestClient(
   unitProductId,
   unitProductData,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -48,7 +47,7 @@ export async function updateUnitProductRequestClient(
         setLoading(false);
         reject(
           'No se pudo actualizar la unidad de producto: ' +
-            response.response?.data?.error
+            response.response?.data?.error,
         );
         return;
       }
@@ -65,11 +64,10 @@ export async function updateUnitProductRequestClient(
 export async function addUnitProductRequestClient(
   productId,
   cantidadAAgregar,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -86,7 +84,7 @@ export async function addUnitProductRequestClient(
         setLoading(false);
         reject(
           'No se pudo agregar nuevas unidades al stock: ' +
-            response.response?.data?.error
+            response.response?.data?.error,
         );
         return;
       }
@@ -103,11 +101,10 @@ export async function addUnitProductRequestClient(
 export async function reduceUnitProductRequestClient(
   productId,
   cantidadADisminuir,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -124,7 +121,7 @@ export async function reduceUnitProductRequestClient(
         setLoading(false);
         reject(
           'No se pudo disminuir las unidades al stock: ' +
-            response.response?.data?.error
+            response.response?.data?.error,
         );
         return;
       }
@@ -139,9 +136,8 @@ export async function reduceUnitProductRequestClient(
 }
 
 export async function deleteUnitProductRequestClient(productId, unitProductId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -152,7 +148,7 @@ export async function deleteUnitProductRequestClient(productId, unitProductId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar el producto: ' + response.response?.data?.error
+          'No se pudo eliminar el producto: ' + response.response?.data?.error,
         );
         return;
       }

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   flexRender,
@@ -7,17 +7,17 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
-import { useEffect, useState, useMemo, useRef } from "react";
-import { useDebouncedCallback } from "use-debounce";
-import { useRouter } from "next/navigation";
+} from '@tanstack/react-table';
+import { useEffect, useState, useMemo, useRef } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+import { useRouter } from 'next/navigation';
 
-import { Badge } from "@/components/ui/badge";
-import { format } from "date-fns";
-import { es } from "date-fns/locale";
+import { Badge } from '@/components/ui/badge';
+import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
 import {
   Table,
   TableBody,
@@ -25,14 +25,18 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { FiltroAvanzadoOrdenesDeServicioModal } from "@/app/taller/ordenes-servicio-historial/_components/FiltroAvanzadoOrdenesDeServicioModal";
-import { DataTablePagination } from "@/components/ui/table-pagination";
-import { DataTableViewOptions } from "@/components/ui/table-view-options";
-import { serverErrorToast } from "@/components/toast/serverErrorToast";
-import { TIME_DEBOUNCE } from "@/lib/utils";
+} from '@/components/ui/table';
+import { FiltroAvanzadoOrdenesDeServicioModal } from '@/app/taller/ordenes-servicio-historial/_components/FiltroAvanzadoOrdenesDeServicioModal';
+import { DataTablePagination } from '@/components/ui/table-pagination';
+import { DataTableViewOptions } from '@/components/ui/table-view-options';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
+import { TIME_DEBOUNCE } from '@/lib/utils';
 
-export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 200 }) {
+export function DataTableOrdenesDeServicioHistoricas({
+  columns,
+  data,
+  status = 200,
+}) {
   const router = useRouter();
 
   const [filtrosAvanzados, setFiltrosAvanzados] = useState(false);
@@ -40,13 +44,12 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
 
   /* Sorting */
   const [sorting, setSorting] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState("");
+  const [globalFilter, setGlobalFilter] = useState('');
 
   /*Filtrar datos*/
 
   const datosFiltrados = useMemo(() => {
-
-    return data.filter((ventaHistorica) => {
+    return data.filter((ordenDeServicioHistorica) => {
       const codigoFiltro = filtrosAvanzados?.codigo;
       const montoMinimo = filtrosAvanzados?.montoMinimo
         ? parseFloat(filtrosAvanzados?.montoMinimo)
@@ -63,17 +66,21 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
       const tipoFiltro = filtrosAvanzados?.tipo;
       const identificadorFiltro = filtrosAvanzados?.identificador?.trim();
 
-      // Extraemos datos de la ventaHistorica
-      const codigo = ventaHistorica?.code || "";
+      // Extraemos datos de la ordenDeServicioHistorica
+      const codigo = ordenDeServicioHistorica?.code || "";
       const montoTotal =
-        ventaHistorica?.productos.reduce((sum, prod) => {
+        (ordenDeServicioHistorica?.productos?.reduce((sum, prod) => {
           const precio = prod.precioVenta || 0;
           const cantidad = prod.cantidad || 0;
           return sum + precio * cantidad;
-        }, 0) || 0;
-      const fechaVenta = new Date(ventaHistorica?.fecha);
-      const tipoCliente = ventaHistorica?.cliente?.tipo;
-      const datosCliente = ventaHistorica?.cliente?.datos || {};
+        }, 0) || 0) +
+        (ordenDeServicioHistorica?.servicios?.reduce((sum, serv) => {
+          const precio = serv.precio || 0;
+          return sum + precio;
+        }, 0) || 0);
+      const fechaVenta = new Date(ordenDeServicioHistorica?.fechaIngreso);
+      const tipoCliente = ordenDeServicioHistorica?.cliente?.tipo;
+      const datosCliente = ordenDeServicioHistorica?.cliente?.datos || {};
       const dniCliente = datosCliente?.dni || "";
       const rucCliente = datosCliente?.ruc || "";
 
@@ -88,9 +95,9 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
       const coincideTipo = !tipoFiltro || tipoCliente === tipoFiltro;
       const coincideIdentificador =
         !identificadorFiltro ||
-        (tipoCliente === "persona" &&
+        (tipoCliente === 'persona' &&
           dniCliente.includes(identificadorFiltro)) ||
-        (tipoCliente === "empresa" && rucCliente.includes(identificadorFiltro));
+        (tipoCliente === 'empresa' && rucCliente.includes(identificadorFiltro));
 
       return (
         coincideCodigo &&
@@ -112,29 +119,29 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
       filtros.push(`Monto Máximo: ${filtrosAvanzados.montoMaximo}`);
     if (filtrosAvanzados?.fechaDesde)
       filtros.push(
-        `Fecha Desde: ${format(new Date(filtrosAvanzados.fechaDesde), "PPP", {
+        `Fecha Desde: ${format(new Date(filtrosAvanzados.fechaDesde), 'PPP', {
           locale: es,
-        })}`
+        })}`,
       );
     if (filtrosAvanzados?.fechaHasta)
       filtros.push(
-        `Fecha Hasta: ${format(new Date(filtrosAvanzados.fechaHasta), "PPP", {
+        `Fecha Hasta: ${format(new Date(filtrosAvanzados.fechaHasta), 'PPP', {
           locale: es,
-        })}`
+        })}`,
       );
     if (filtrosAvanzados?.tipo)
       filtros.push(
         `Cliente: ${
-          filtrosAvanzados.tipo === "persona" ? "Persona" : "Empresa"
-        }`
+          filtrosAvanzados.tipo === 'persona' ? 'Persona' : 'Empresa'
+        }`,
       );
     if (filtrosAvanzados?.identificador) {
       const labelIdentificador =
-        filtrosAvanzados.tipo === "persona"
-          ? "DNI"
-          : filtrosAvanzados.tipo === "empresa"
-          ? "RUC"
-          : "Identificador";
+        filtrosAvanzados.tipo === 'persona'
+          ? 'DNI'
+          : filtrosAvanzados.tipo === 'empresa'
+            ? 'RUC'
+            : 'Identificador';
       filtros.push(`${labelIdentificador}: ${filtrosAvanzados.identificador}`);
     }
     if (filtrosAvanzados?.codigo)
@@ -142,7 +149,6 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
 
     return filtros;
   };
-
 
   /* Table */
   const table = useReactTable({
@@ -161,7 +167,7 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
     globalFilterFn: (row, columnId, filterValue) => {
       // Filtrar por identificador (RUC/DNI) o código
       const identificador =
-        row.original.cliente?.tipo === "empresa"
+        row.original.cliente?.tipo === 'empresa'
           ? row.original.cliente?.datos?.ruc
           : row.original.cliente?.datos?.dni;
 
@@ -175,7 +181,7 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const debouncedSearch = useDebouncedCallback((value) => {
     setGlobalFilter(value);
@@ -226,7 +232,7 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
         <Button
           variant="secondary"
           className={`ml-2 transition-opacity border ${
-            filtrosAvanzados ? "opacity-100" : "opacity-70 cursor-not-allowed"
+            filtrosAvanzados ? 'opacity-100' : 'opacity-70 cursor-not-allowed'
           }`}
           onClick={() => {
             setFiltrosAvanzados(false);
@@ -244,7 +250,11 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
           <p className="font-semibold text-sm">Filtros aplicados:</p>
           <div className="flex gap-2 flex-wrap">
             {obtenerFiltrosAplicados().map((filtro, index) => (
-              <Badge key={index} variant="outline" className="text-sm font-thin">
+              <Badge
+                key={index}
+                variant="outline"
+                className="text-sm font-thin"
+              >
                 {filtro}
               </Badge>
             ))}
@@ -264,7 +274,7 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -277,13 +287,13 @@ export function DataTableOrdenesDeServicioHistoricas({ columns, data, status = 2
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

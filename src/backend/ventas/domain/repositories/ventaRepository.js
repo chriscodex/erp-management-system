@@ -21,7 +21,11 @@ export class VentaRepository {
    */
   async getAllVentas() {
     try {
-      const ventas = await this.ventaModel.find({}).populate('clienteId').populate('usuario.id').populate('sucursalId');
+      const ventas = await this.ventaModel
+        .find({})
+        .populate('clienteId')
+        .populate('usuario.id')
+        .populate('sucursalId');
 
       if (ventas?.length === 0) {
         console.log('Venta Repository: No se encontraron ventas');
@@ -32,22 +36,25 @@ export class VentaRepository {
       return ventas;
     } catch (error) {
       console.error(
-        `Venta Repository: Error al buscar todas las ventas: ${error}`
+        `Venta Repository: Error al buscar todas las ventas: ${error}`,
       );
       throw new Error(
-        `Venta Repository: Error al buscar todas las ventas: ${error}`
+        `Venta Repository: Error al buscar todas las ventas: ${error}`,
       );
     }
   }
 
   async getVentasInDateRange(fecha1, fecha2) {
     try {
-      const ventas = await this.ventaModel.find({
-        fecha: {
-          $gte: fecha1,
-          $lte: fecha2
-        }
-      }).populate('clienteId').populate('usuario.id');
+      const ventas = await this.ventaModel
+        .find({
+          fecha: {
+            $gte: fecha1,
+            $lte: fecha2,
+          },
+        })
+        .populate('clienteId')
+        .populate('usuario.id');
 
       if (ventas?.length === 0) {
         console.log('Venta Repository: No se encontraron ventas');
@@ -58,10 +65,10 @@ export class VentaRepository {
       return ventas;
     } catch (error) {
       console.error(
-        `Venta Repository: Error al buscar todas las ventas: ${error}`
+        `Venta Repository: Error al buscar todas las ventas: ${error}`,
       );
       throw new Error(
-        `Venta Repository: Error al buscar todas las ventas: ${error}`
+        `Venta Repository: Error al buscar todas las ventas: ${error}`,
       );
     }
   }
@@ -81,7 +88,11 @@ export class VentaRepository {
       if (ventaData.code) {
         filter.code = { $regex: new RegExp(`^${ventaData.code}$`, 'i') };
       }
-      const ventaFound = await this.ventaModel.findOne(filter).populate('clienteId').populate('usuario.id').populate('sucursalId');
+      const ventaFound = await this.ventaModel
+        .findOne(filter)
+        .populate('clienteId')
+        .populate('usuario.id')
+        .populate('sucursalId');
 
       if (!ventaFound) {
         console.log('Venta Repository: Venta no encontrada');
@@ -92,7 +103,7 @@ export class VentaRepository {
       return ventaFound;
     } catch (error) {
       console.error(
-        `Venta Repository: Error al buscar la venta: ${error.message}`
+        `Venta Repository: Error al buscar la venta: ${error.message}`,
       );
       throw new Error(`Error al buscar una venta: ${error.message}`);
     }
@@ -113,10 +124,10 @@ export class VentaRepository {
       return ventaCreated;
     } catch (error) {
       console.error(
-        `Venta Repository: Error al crear la venta: ${error.message}`
+        `Venta Repository: Error al crear la venta: ${error.message}`,
       );
       throw new Error(
-        `Venta Repository: Error al crear la venta: ${error.message}`
+        `Venta Repository: Error al crear la venta: ${error.message}`,
       );
     }
   }
@@ -126,12 +137,12 @@ export class VentaRepository {
       const updatedVenta = await this.ventaModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(ventaId) },
         ventaData,
-        { new: true }
+        { new: true },
       );
 
       if (!updatedVenta) {
         console.log(
-          'Venta Repository: Venta no encontrada para ser actualizada'
+          'Venta Repository: Venta no encontrada para ser actualizada',
         );
         return null;
       }
@@ -140,7 +151,7 @@ export class VentaRepository {
       return updatedVenta;
     } catch (error) {
       console.error(
-        `Venta Repository: Error al actualizar la venta: ${error.message}`
+        `Venta Repository: Error al actualizar la venta: ${error.message}`,
       );
       throw new Error(`Error al actualizar la venta: ${error.message}`);
     }
@@ -161,7 +172,7 @@ export class VentaRepository {
       return deletedVenta;
     } catch (error) {
       console.error(
-        `Venta Repository: Error al eliminar una venta: ${error.message}`
+        `Venta Repository: Error al eliminar una venta: ${error.message}`,
       );
       throw new Error(`Error al eliminar la venta: ${error.message}`);
     }

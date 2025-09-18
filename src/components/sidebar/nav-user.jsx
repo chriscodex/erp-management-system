@@ -1,6 +1,6 @@
 'use client';
 
-import { ChevronsUpDown, LogOut, Moon, Sun, Settings } from 'lucide-react';
+import { ChevronsUpDown, LogOut, Moon, Sun } from 'lucide-react';
 import { useTheme } from 'next-themes';
 import { signOut, useSession } from 'next-auth/react';
 
@@ -58,7 +58,7 @@ export function NavUser() {
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
                 <Skeleton className="h-8 w-8 rounded-lg" />
-                <Skeleton  className="h-full flex-1 max-w-[--skeleton-width]" />
+                <Skeleton className="h-full flex-1 max-w-[--skeleton-width]" />
                 <ChevronsUpDown className="ml-auto size-4" />
               </SidebarMenuButton>
             )}

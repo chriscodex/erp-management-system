@@ -5,7 +5,7 @@ export async function POST(request, contextRoute) {
   try {
     const { payload, status } = await createGastoMotoController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 201) {
@@ -15,11 +15,11 @@ export async function POST(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Gasto Moto Route: Error interno al crear el gasto: ${error.message}`
+      `Gasto Moto Route: Error interno al crear el gasto: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear el gasto' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

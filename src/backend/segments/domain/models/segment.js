@@ -1,10 +1,5 @@
 import { Schema, model, models } from 'mongoose';
 
-// Eliminar el modelo en caso no considere los cambios
-// if (models.Segment) {
-//   delete models.Segment;
-// }
-
 const segmentSchema = new Schema({
   nombre: {
     type: String,

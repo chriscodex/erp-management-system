@@ -18,16 +18,18 @@ export async function getAllSucursalesRequestServer() {
     }
     const sucursales = response?.payload;
 
-    return { sucursales: simplificadorParaClientComponent(sucursales), status: 200 };
+    return {
+      sucursales: simplificadorParaClientComponent(sucursales),
+      status: 200,
+    };
   } catch (error) {
     console.error(error);
   }
 }
 
 export async function deleteSucursalRequestClient(sucursalId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -38,7 +40,7 @@ export async function deleteSucursalRequestClient(sucursalId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar la sucursal: ' + response.response?.data?.error
+          'No se pudo eliminar la sucursal: ' + response.response?.data?.error,
         );
         return;
       }

@@ -1,7 +1,10 @@
 import { connectDB } from '@/db/mongodb';
 import { simplificadorParaClientComponent } from '@/lib/utils';
 import { fetchData, patchData } from '@/lib/fetchData';
-import { getNotificacionesClientUrl, updateNotificacionClientUrl } from '@/lib/urls';
+import {
+  getNotificacionesClientUrl,
+  updateNotificacionClientUrl,
+} from '@/lib/urls';
 
 import { MotoService } from '@/backend/motos/application/moto.service';
 
@@ -47,15 +50,17 @@ export async function getAllMotosForHomeRequestServer() {
   }
 }
 
-
 export async function getNotificacionesForHomeRequestClient() {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
     try {
       // Obtener las notificaciones
       const response = await fetchData(getNotificacionesClientUrl);
       if (response?.status !== 200) {
-        reject('No se pudieron obtener las notificaciones: ' + response.response?.data?.error);
+        reject(
+          'No se pudieron obtener las notificaciones: ' +
+            response.response?.data?.error,
+        );
         return;
       }
       resolve(response?.data?.payload);
@@ -65,11 +70,13 @@ export async function getNotificacionesForHomeRequestClient() {
   });
 }
 
-export async function removeNotificacionTemporallyForHomeRequestClient(notificacionId) {
-  /* eslint-disable */
+export async function removeNotificacionTemporallyForHomeRequestClient(
+  notificacionId,
+  setLoading,
+) {
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
     try {
-
       const updateNotificacionUrl = `${updateNotificacionClientUrl}/${notificacionId}`;
 
       const response = await patchData(updateNotificacionUrl, { closed: true });
@@ -77,7 +84,8 @@ export async function removeNotificacionTemporallyForHomeRequestClient(notificac
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo remover la notificacion: ' + response.response?.data?.error
+          'No se pudo remover la notificacion: ' +
+            response.response?.data?.error,
         );
         return;
       }

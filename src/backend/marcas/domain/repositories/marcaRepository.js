@@ -21,10 +21,10 @@ export class MarcaRepository {
       return marcas;
     } catch (error) {
       console.error(
-        `Marca Repository: Error al buscar todas las marcas: ${error}`
+        `Marca Repository: Error al buscar todas las marcas: ${error}`,
       );
       throw new Error(
-        `Marca Repository: Error al buscar todas las marcas: ${error}`
+        `Marca Repository: Error al buscar todas las marcas: ${error}`,
       );
     }
   }
@@ -36,7 +36,7 @@ export class MarcaRepository {
       /* Filtros para el segmento */
       if (marcaAndSegmentData.segmentId) {
         segmentFilter._id = new mongoose.Types.ObjectId(
-          marcaAndSegmentData.segmentId
+          marcaAndSegmentData.segmentId,
         );
       }
 
@@ -59,26 +59,26 @@ export class MarcaRepository {
           match: segmentFilter,
         })
         .then(
-          (results) => results.filter((marca) => marca.segmentId) // Solo incluye resultados donde `segmentId` cumple la condición
+          (results) => results.filter((marca) => marca.segmentId), // Solo incluye resultados donde `segmentId` cumple la condición
         );
 
       if (marcasFiltered?.length === 0) {
         console.log(
-          'Marca Repository: No se encontraron marcas filtradas por segmento'
+          'Marca Repository: No se encontraron marcas filtradas por segmento',
         );
         return [];
       }
 
       console.log(
-        'Marca Repository: Marcas filtradas por segmento encontradas'
+        'Marca Repository: Marcas filtradas por segmento encontradas',
       );
       return marcasFiltered;
     } catch (error) {
       console.error(
-        `Marca Repository: Error al buscar marcas filtradas por segmento: ${error.message}`
+        `Marca Repository: Error al buscar marcas filtradas por segmento: ${error.message}`,
       );
       throw new Error(
-        `Error interno al buscar marcas filtradas por segmento: ${error.message}`
+        `Error interno al buscar marcas filtradas por segmento: ${error.message}`,
       );
     }
   }
@@ -115,7 +115,7 @@ export class MarcaRepository {
       return marcaFound;
     } catch (error) {
       console.error(
-        `Marca Repository: Error al buscar la marca: ${error.message}`
+        `Marca Repository: Error al buscar la marca: ${error.message}`,
       );
       throw new Error(`Error al buscar una marca: ${error.message}`);
     }
@@ -132,7 +132,7 @@ export class MarcaRepository {
       return populatedMarca;
     } catch (error) {
       console.log(
-        `Marca Repository: Error al crear la marca: ${error.message}`
+        `Marca Repository: Error al crear la marca: ${error.message}`,
       );
       throw new Error(`Error al crear la marca: ${error.message}`);
     }
@@ -144,12 +144,12 @@ export class MarcaRepository {
         marca,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedMarca) {
         console.log(
-          'Marca Repository: Marca no encontrada para ser actualizada'
+          'Marca Repository: Marca no encontrada para ser actualizada',
         );
         return null;
       }
@@ -158,7 +158,7 @@ export class MarcaRepository {
       return updatedMarca;
     } catch (error) {
       console.error(
-        `Marca Repository: Error al actualizar la marca: ${error.message}`
+        `Marca Repository: Error al actualizar la marca: ${error.message}`,
       );
       throw new Error(`Error al actualizar la marca: ${error.message}`);
     }
@@ -178,7 +178,7 @@ export class MarcaRepository {
       return deletedMarca;
     } catch (error) {
       console.error(
-        `Marca Repository: Error al eliminar una marca: ${error.message}`
+        `Marca Repository: Error al eliminar una marca: ${error.message}`,
       );
       throw new Error(`Error al eliminar la marca: ${error.message}`);
     }

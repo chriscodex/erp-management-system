@@ -1,5 +1,9 @@
 import { NextResponse } from 'next/server';
-import { getClienteByDataController, updateClienteController, deleteClienteController} from '@/backend/clientes/infrastructure/controllers';
+import {
+  getClienteByDataController,
+  updateClienteController,
+  deleteClienteController,
+} from '@/backend/clientes/infrastructure/controllers';
 
 export async function GET(_, contextRoute) {
   try {
@@ -12,11 +16,11 @@ export async function GET(_, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Cliente Route: Error interno al obtener el cliente: ${error.message}`
+      `Cliente Route: Error interno al obtener el cliente: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno obteniendo el cliente' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -25,7 +29,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateClienteController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -35,11 +39,11 @@ export async function PATCH(request, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Cliente Route: Error interno al actualizar el cliente: ${error.message}`
+      `Cliente Route: Error interno al actualizar el cliente: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno al actualizar el cliente' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -55,11 +59,11 @@ export async function DELETE(_, contextRoute) {
     return NextResponse.json({ error: payload }, { status });
   } catch (error) {
     console.error(
-      `Cliente Route: Error interno al eliminar el cliente: ${error.message}`
+      `Cliente Route: Error interno al eliminar el cliente: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno eliminando el cliente' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

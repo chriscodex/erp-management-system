@@ -15,11 +15,11 @@ export async function PATCH(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Counter Route: Error interno al incrementar el counter: ${error.message}`
+      `Counter Route: Error interno al incrementar el counter: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno incrementando el counter' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,22 +1,22 @@
-import { notFound } from "next/navigation";
-import { RiAuctionFill } from "@remixicon/react";
+import { notFound } from 'next/navigation';
+import { RiAuctionFill } from '@remixicon/react';
 
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { getProductByIdRequestServer } from "@/app/inventario/productos/[id]/_services/requests";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { DataTableGastos } from "@/app/inventario/productos/[id]/gastos/_components/gastosTable/data-table";
-import { agregarNumeracionTable, sortByUpdateDateDesc } from "@/lib/utils";
-import { SheetAddGastoWrapper } from "@/app/inventario/productos/[id]/gastos/_components/sheets/addGasto/sheetAddGastoWrapper";
-import { StatCard } from "@/components/customCards/statCard";
-import { DollarSign } from "lucide-react";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { Label } from '@/components/ui/label';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { getProductByIdRequestServer } from '@/app/inventario/productos/[id]/_services/requests';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { DataTableGastos } from '@/app/inventario/productos/[id]/gastos/_components/gastosTable/data-table';
+import { agregarNumeracionTable, sortByUpdateDateDesc } from '@/lib/utils';
+import { SheetAddGastoWrapper } from '@/app/inventario/productos/[id]/gastos/_components/sheets/addGasto/sheetAddGastoWrapper';
+import { StatCard } from '@/components/customCards/statCard';
+import { DollarSign } from 'lucide-react';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function ProductGastoPage({ params }) {
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
 
@@ -31,13 +31,13 @@ export default async function ProductGastoPage({ params }) {
   /* Secciones del navbar */
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Productos",
-      href: "/inventario/productos",
+      title: 'Productos',
+      href: '/inventario/productos',
       active: true,
     },
     {
@@ -46,8 +46,8 @@ export default async function ProductGastoPage({ params }) {
       active: true,
     },
     {
-      title: "Gastos",
-      href: "",
+      title: 'Gastos',
+      href: '',
       active: false,
     },
   ];
@@ -55,7 +55,7 @@ export default async function ProductGastoPage({ params }) {
   const gastosEnumerados = agregarNumeracionTable(gastosSorted);
   const totalMonto = gastosEnumerados.reduce(
     (sum, gasto) => sum + gasto.monto,
-    0
+    0,
   );
   return (
     <NavbarDynamic titles={navbarTitles}>

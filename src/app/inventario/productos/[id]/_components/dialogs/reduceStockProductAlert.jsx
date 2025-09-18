@@ -44,7 +44,7 @@ export function ReduceStockProductAlert({
         reduceUnitProductRequestClient(
           productId,
           cantidadADisminuir,
-          setFormSubmitIsLoading
+          setFormSubmitIsLoading,
         ),
         {
           loading: 'Procesando...',
@@ -57,7 +57,7 @@ export function ReduceStockProductAlert({
             setFormSubmitIsLoading(false);
             return error;
           },
-        }
+        },
       );
     } catch (error) {
       console.error(error);

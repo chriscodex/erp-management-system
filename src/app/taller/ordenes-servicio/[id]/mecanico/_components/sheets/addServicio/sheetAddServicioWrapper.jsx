@@ -7,7 +7,6 @@ import { Sheet } from '@/components/ui/sheet';
 import { AddServicioForm } from '@/app/taller/ordenes-servicio/[id]/mecanico/_components/sheets/addServicio/addServicioForm';
 
 export function SheetAddServicioWrapper({ onAgregarServicio }) {
-
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {
@@ -29,7 +28,10 @@ export function SheetAddServicioWrapper({ onAgregarServicio }) {
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <AddServicioForm onClose={handleCloseSheet} onAgregarServicio={onAgregarServicio}/>
+          <AddServicioForm
+            onClose={handleCloseSheet}
+            onAgregarServicio={onAgregarServicio}
+          />
         </Sheet>
       )}
     </div>

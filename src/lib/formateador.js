@@ -1,16 +1,29 @@
 import { format } from '@formkit/tempo';
 import writtenNumber from 'written-number';
 
+/**
+ * Crea un nombre completo utilizando la primera palabra de los
+ * nombres y apellidos proporcionados.
+ *
+ * @param {string} nombres - Cadena de texto que contiene los nombres completos.
+ * @param {string} apellidos - Cadena de texto que contiene los apellidos completos.
+ * @returns {string} El nombre completo formado por la primera palabra de los
+ * nombres y apellidos.
+ */
 export function CrearFullName(nombres, apellidos) {
-  // Obtener la primera palabra de cada string
   const nombre = nombres?.split(' ')[0];
   const apellido = apellidos?.split(' ')[0];
 
-  // Concatenar las primeras palabras
   return `${nombre} ${apellido}`;
 }
 
-/* Convierte una palabra o palabras todas escritas en mayúsculas a formato título */
+/**
+ * Convierte una oracion a Mayusculas y minusculas, para que solo la primera
+ * letra de cada palabra este en mayusculas. Util para formatear nombres de
+ * personas.
+ * @param {string} oracion - La oracion que se quiere formatear
+ * @returns {string} La oracion formateada
+ */
 export function MayusculasATitulo(oracion) {
   return oracion
     .toLowerCase()
@@ -25,7 +38,6 @@ export function MayusculasATitulo(oracion) {
  * @param {string} date - Fecha en formato ISO string
  * @returns {string} La fecha en formato de hora corto
  */
-
 export function formatHour(date) {
   const dateObj = new Date(date);
   const formattedDate = format({
@@ -96,6 +108,21 @@ export function formatDateFull(date, hour = true) {
   return hour ? `${formattedDate} - ${formatHour(date)}` : formattedDate;
 }
 
+/**
+ * Obtiene la serie y el correlativo de un comprobante basado en el número
+ * proporcionado y el tipo de comprobante. La serie varía dependiendo del
+ * tipo de comprobante (boleta, factura, cotización o nota-venta) y el
+ * número de veces que se ha superado el máximo permitido. El correlativo
+ * es el número formateado con ceros a la izquierda hasta completar 8 dígitos.
+ *
+ * @param {number} numero - Número utilizado para calcular el correlativo.
+ * Debe ser positivo.
+ * @param {string} comprobante - Tipo de comprobante ('boleta', 'factura',
+ * 'cotizacion', 'nota-venta').
+ * @returns {{serie: string, correlativo: string}} Un objeto que contiene
+ * la serie y el correlativo formateado del comprobante.
+ * @throws {Error} Si el número es negativo o el tipo de comprobante no es válido.
+ */
 export function obtenerSerieYCorrelativo(numero, comprobante) {
   if (numero < 0) throw new Error('El número debe ser positivo');
 
@@ -143,24 +170,41 @@ export function obtenerSerieYCorrelativo(numero, comprobante) {
 }
 
 /**
- * Función para mostrar en UI el código completo.
+ * Formatea un número y un tipo de comprobante en un código
+ * compuesto por la serie y el correlativo. La serie y el correlativo
+ * son calculados por la función obtenerSerieYCorrelativo.
+ *
+ * @param {number} numero - Número a formatear. Debe ser positivo.
+ * @param {string} comprobante - Tipo de comprobante ('boleta', 'factura',
+ * 'cotizacion', 'nota-venta').
+ * @returns {string} Un string que contiene el código formateado.
+ * @throws {Error} Si el número es negativo o el tipo de comprobante no es válido.
  */
 export function formatearCodigoCounterBoletaFactura(numero, comprobante) {
   const { serie, correlativo } = obtenerSerieYCorrelativo(numero, comprobante);
   return `${serie}-${correlativo}`;
 }
 
-export function formatNumeroALetras(numero) {
+/**
+ * Convierte un número a su representación en letras en español, seguido de la parte
+ * decimal en formato de centavos, y retorna una cadena formateada en el estilo
+ * "SON ... CON .../100 SOLES".
+ *
+ * @param {number} numero - El número a convertir. Puede tener parte decimal.
+ * @returns {string} Una cadena que representa el número en letras, seguido de la
+ * representación de los centavos.
+ *
+ * @example
+ * // returns "SON CINCO CON 50/100 SOLES"
+ * formatNumeroALetras(5.5);
+ */
 
-  //Extraer y leeer parte entera del número
+export function formatNumeroALetras(numero) {
   const parteEntera = Math.floor(numero);
-  const letrasParteEntera = writtenNumber(parteEntera, {lang: 'es'});
-  
-  //Extraer y leer parte decimal del número
+  const letrasParteEntera = writtenNumber(parteEntera, { lang: 'es' });
+
   const parteDecimal = Math.round((numero - parteEntera) * 100);
   const letrasParteDecimal = parteDecimal.toString().padStart(2, '0');
 
-  //Concatenar las partes
   return `SON ${letrasParteEntera.toUpperCase()} CON ${letrasParteDecimal}/100 SOLES`;
 }
-

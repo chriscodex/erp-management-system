@@ -49,8 +49,6 @@ export function UpdateFormProduct({
 }) {
   const router = useRouter();
 
-  console.log(productData?.almacenId?._id);
-
   const updateForm = useForm({
     resolver: zodResolver(updateProductFormSchema),
     defaultValues: {
@@ -88,7 +86,7 @@ export function UpdateFormProduct({
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(DataToUpdate).length === 0) {
@@ -102,7 +100,7 @@ export function UpdateFormProduct({
       updateProductRequestClient(
         productData?._id,
         DataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -116,7 +114,7 @@ export function UpdateFormProduct({
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 

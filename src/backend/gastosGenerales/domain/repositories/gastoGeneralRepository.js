@@ -8,7 +8,9 @@ export class GastoGeneralRepository {
       const gastosGenerales = await GastoGeneral.find();
 
       if (gastosGenerales?.length === 0) {
-        console.log('Gasto General Repository: No se encontraron gastos generales');
+        console.log(
+          'Gasto General Repository: No se encontraron gastos generales',
+        );
         return [];
       }
 
@@ -16,9 +18,11 @@ export class GastoGeneralRepository {
       return gastosGenerales;
     } catch (error) {
       console.error(
-        `Gasto General Repository: Error al buscar todos los gastos generales: ${error.message}`
+        `Gasto General Repository: Error al buscar todos los gastos generales: ${error.message}`,
       );
-      throw new Error(`Error al buscar todos los gastos generales: ${error.message}`);
+      throw new Error(
+        `Error al buscar todos los gastos generales: ${error.message}`,
+      );
     }
   }
   async getGastoGeneralByData(gastoGeneralData) {
@@ -45,7 +49,7 @@ export class GastoGeneralRepository {
       return gastoGeneralFound;
     } catch (error) {
       console.error(
-        `Gasto General Repository: Error al buscar gasto general: ${error.message}`
+        `Gasto General Repository: Error al buscar gasto general: ${error.message}`,
       );
       throw new Error(`Error al buscar gasto general: ${error.message}`);
     }
@@ -55,10 +59,14 @@ export class GastoGeneralRepository {
       const newGastoGeneral = new GastoGeneral(gastoGeneral);
       const savedGastoGeneral = await newGastoGeneral.save();
 
-      console.log('Gasto General Repository: Gasto General creado correctamente');
+      console.log(
+        'Gasto General Repository: Gasto General creado correctamente',
+      );
       return savedGastoGeneral;
     } catch (error) {
-      console.log(`Gasto General Repository: Error al crear Gasto General: ${error.message}`);
+      console.log(
+        `Gasto General Repository: Error al crear Gasto General: ${error.message}`,
+      );
       throw new Error(`Error al crear Gasto General: ${error.message}`);
     }
   }
@@ -69,21 +77,23 @@ export class GastoGeneralRepository {
         gastoGeneral,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedGastoGeneral) {
         console.log(
-          'Gasto General Repository: Gasto general no encontrado para ser actualizado'
+          'Gasto General Repository: Gasto general no encontrado para ser actualizado',
         );
         return null;
       }
 
-      console.log('Gasto General Repository: Gasto general actualizado correctamente');
+      console.log(
+        'Gasto General Repository: Gasto general actualizado correctamente',
+      );
       return updatedGastoGeneral;
     } catch (error) {
       console.error(
-        `Gasto General Repository: Error al actualizar gasto general: ${error.message}`
+        `Gasto General Repository: Error al actualizar gasto general: ${error.message}`,
       );
       throw new Error(`Error al actualizar gasto general: ${error.message}`);
     }
@@ -96,16 +106,18 @@ export class GastoGeneralRepository {
 
       if (!deletedGastoGeneral) {
         console.log(
-          'Gasto General Repository: Gasto general no encontrado para ser eliminado'
+          'Gasto General Repository: Gasto general no encontrado para ser eliminado',
         );
         return null;
       }
 
-      console.log('Gasto General Repository: Gasto general encontrado y eliminado');
+      console.log(
+        'Gasto General Repository: Gasto general encontrado y eliminado',
+      );
       return deletedGastoGeneral;
     } catch (error) {
       console.error(
-        `Gasto General Repository: Error al eliminar gasto general: ${error.message}`
+        `Gasto General Repository: Error al eliminar gasto general: ${error.message}`,
       );
       throw new Error(`Error al eliminar gasto general: ${error.message}`);
     }

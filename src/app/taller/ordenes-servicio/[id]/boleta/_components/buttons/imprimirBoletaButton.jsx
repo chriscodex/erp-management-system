@@ -28,11 +28,11 @@ export function ImprimirBoletaButton({
   const router = useRouter();
 
   const selectedEmpresaSinFormatear = empresas.find(
-    (empresa) => empresa.ruc === ordenDeServicioData?.empresa?.ruc
+    (empresa) => empresa.ruc === ordenDeServicioData?.empresa?.ruc,
   );
 
   const [selectedEmpresaId, setSelectedEmpresaId] = useState(
-    selectedEmpresaSinFormatear?._id || empresas[0]?._id || ''
+    selectedEmpresaSinFormatear?._id || empresas[0]?._id || '',
   );
 
   // Siempre obtener el objeto empresa seleccionado a partir del id
@@ -49,10 +49,6 @@ export function ImprimirBoletaButton({
         ? ordenDeServicioData?.counter
         : await getCurrentCounterBoletaRequestClient();
 
-      let fechaParaImprimir = isBoletaEmitida
-        ? ordenDeServicioData?.fechaEmisionComprobante
-        : '';
-
       if (!isBoletaEmitida && empresaSeleccionada) {
         const selectedEmpresaFormateada = {
           empresaId: empresaSeleccionada._id,
@@ -68,18 +64,16 @@ export function ImprimirBoletaButton({
           ubigeo: empresaSeleccionada.ubigeo,
         };
 
-        const responseUpdate = await updateBoletaStateRequestClient(
+        await updateBoletaStateRequestClient(
           ordenDeServicioData?._id,
           counterBoleta,
-          selectedEmpresaFormateada
+          selectedEmpresaFormateada,
         );
-
-        fechaParaImprimir = responseUpdate?.fechaEmisionComprobante;
       }
 
       const codigoBoleta = formatearCodigoCounterBoletaFactura(
         counterBoleta,
-        'boleta'
+        'boleta',
       );
 
       const empresaParaPDF = isBoletaEmitida
@@ -88,32 +82,29 @@ export function ImprimirBoletaButton({
 
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         counterBoleta,
-        'boleta'
+        'boleta',
       );
 
       const montoTotalProductos = ordenDeServicioData?.productos.reduce(
         (acumulador, producto) =>
           acumulador + producto?.precioVenta * producto?.cantidad,
-        0
+        0,
       );
 
       const montoTotalServicios = ordenDeServicioData?.servicios.reduce(
         (acumulador, servicio) => acumulador + servicio?.precio,
-        0
+        0,
       );
 
       const montoTotal = montoTotalProductos + montoTotalServicios;
 
       const montoIgv = (0.18 * montoTotal).toFixed(2);
 
-      // Fecha
-      const fechaFormateada = new Date(
-        fechaParaImprimir ||
-          ordenDeServicioData?.fechaEmisionComprobante ||
-          new Date()
-      )
-        .toISOString()
-        .slice(0, 10);
+      const fecha = isBoletaEmitida
+        ? new Date(ordenDeServicioData?.fechaEmisionComprobante)
+        : new Date();
+
+      const fechaFormateada = fecha.toISOString().slice(0, 10);
 
       const clienteDni = ordenDeServicioData?.cliente?.datos?.dni || '';
 
@@ -129,6 +120,7 @@ export function ImprimirBoletaButton({
           counterBoleta={counterBoleta}
           selectedEmpresa={empresaParaPDF}
           qrBase64={qrBase64}
+          fecha={fecha}
         />
       );
       const blob = await pdf(doc).toBlob();

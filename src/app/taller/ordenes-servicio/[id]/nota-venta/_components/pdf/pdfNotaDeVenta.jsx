@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Document,
@@ -9,28 +9,21 @@ import {
   Image,
   Svg,
   Path,
-} from "@react-pdf/renderer";
+} from '@react-pdf/renderer';
 
-import { stylesNotaDeVenta } from "@/app/taller/ordenes-servicio/[id]/nota-venta/_components/pdf/stylesNotaDeVenta.js";
+import { stylesNotaDeVenta } from '@/app/taller/ordenes-servicio/[id]/nota-venta/_components/pdf/stylesNotaDeVenta.js';
 import {
   formatDateLong,
-  formatNumeroALetras,
-  formatearCodigoCounterBoletaFactura,
-} from "@/lib/formateador";
+} from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesNotaDeVenta);
 
 export function PdfNotaDeVenta({
   ordenDeServicioData,
-  counterNotaDeVenta,
+  codigoNotaDeVenta,
   empresaSeleccionada,
 }) {
   const currentTime = formatDateLong(new Date().toISOString(), true);
-
-  const codigoNotaDeVenta = formatearCodigoCounterBoletaFactura(
-    counterNotaDeVenta,
-    "nota-venta"
-  );
 
   const MapPin = () => (
     <Svg
@@ -70,35 +63,35 @@ export function PdfNotaDeVenta({
     <Document>
       <Page size="A4">
         <View style={styles.header}>
-          <Image src={"/logoB.jpeg"} style={styles.image} alt="logo" />
+          <Image src={'/logoB.jpeg'} style={styles.image} alt="logo" />
           <Text style={styles.title}>Nota de venta</Text>
         </View>
         <View style={styles.body}>
           <View style={styles.datosEmpresa}>
             <View>
               <Text style={styles.datosEmpresaTitle}>
-                {empresaSeleccionada?.nombre || "Moto Rock Ruta 33 E.I.R.L"}
+                {empresaSeleccionada?.nombre || 'Moto Rock Ruta 33 E.I.R.L'}
               </Text>
               <Text style={styles.datosEmpresaTitle}>
-                RUC N° {empresaSeleccionada?.ruc || "20202020202"}
+                RUC N° {empresaSeleccionada?.ruc || '20202020202'}
               </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
                 <Text>
                   {empresaSeleccionada?.direccion ||
-                    "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}
+                    'Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz'}
                 </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>{empresaSeleccionada?.telefono || "01-442-1210"}</Text>
+                <Text>{empresaSeleccionada?.telefono || '01-442-1210'}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
                 <Text>
-                  {empresaSeleccionada?.email || "gerencia@motorock33.com"}
+                  {empresaSeleccionada?.email || 'gerencia@motorock33.com'}
                 </Text>
               </View>
             </View>
@@ -112,7 +105,7 @@ export function PdfNotaDeVenta({
               </View>
               <View style={styles.datosNotaDeVenta}>
                 <Text style={styles.datosNotaDeVentaBold}>
-                  Fecha de emisión:{" "}
+                  Fecha de emisión:{' '}
                 </Text>
                 <Text>{currentTime}</Text>
               </View>
@@ -124,49 +117,49 @@ export function PdfNotaDeVenta({
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {ordenDeServicioData?.cliente?.tipo === "empresa"
+              {ordenDeServicioData?.cliente?.tipo === 'empresa'
                 ? ordenDeServicioData?.cliente?.datos?.nombre
                 : `${ordenDeServicioData?.cliente?.datos?.apellidos} ${ordenDeServicioData?.cliente?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {ordenDeServicioData?.cliente?.tipo === "empresa"
+                {ordenDeServicioData?.cliente?.tipo === 'empresa'
                   ? `RUC: `
                   : `DNI: `}
               </Text>
               <Text>
-                {ordenDeServicioData?.cliente?.tipo === "empresa"
+                {ordenDeServicioData?.cliente?.tipo === 'empresa'
                   ? `${ordenDeServicioData?.cliente?.datos?.ruc}`
                   : `${ordenDeServicioData?.cliente?.datos?.dni}`}
               </Text>
             </View>
-            {ordenDeServicioData?.cliente?.tipo === "empresa" && (
+            {ordenDeServicioData?.cliente?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
-                  {"Representante Legal: "}
+                  {'Representante Legal: '}
                 </Text>
                 <Text>
                   {ordenDeServicioData?.cliente?.datos?.representanteLegal}
                 </Text>
               </View>
             )}
-            {ordenDeServicioData?.cliente?.tipo === "empresa" && (
+            {ordenDeServicioData?.cliente?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
-                  {"Dirección: "}
+                  {'Dirección: '}
                 </Text>
                 <Text>{ordenDeServicioData?.cliente?.datos?.direccion}</Text>
               </View>
             )}
             {ordenDeServicioData?.cliente?.datos?.email && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
+                <Text style={styles.datosClienteInfoTitle}>{'Email: '}</Text>
                 <Text>{ordenDeServicioData?.cliente?.datos?.email}</Text>
               </View>
             )}
             {ordenDeServicioData?.cliente?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
+                <Text style={styles.datosClienteInfoTitle}>{'Celular: '}</Text>
                 <Text>{ordenDeServicioData?.cliente?.datos?.celular}</Text>
               </View>
             )}
@@ -210,43 +203,13 @@ export function PdfNotaDeVenta({
           </View>
           {/* Totales */}
           <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>Op. Gravada: S/.</Text>
-            <Text>
-              {(
-                0.82 *
-                ordenDeServicioData?.productos
-                  .concat(ordenDeServicioData?.servicios || [])
-                  .reduce(
-                    (acc, item) =>
-                      acc + (item?.precioVenta || item?.precio) * 1,
-                    0
-                  )
-              ).toFixed(2)}
-            </Text>
-          </View>
-          <View style={styles.totalRow}>
-            <Text style={styles.totalCell}>I.G.V.: S/.</Text>
-            <Text>
-              {(
-                0.18 *
-                ordenDeServicioData?.productos
-                  .concat(ordenDeServicioData?.servicios || [])
-                  .reduce(
-                    (acc, item) =>
-                      acc + (item?.precioVenta || item?.precio) * 1,
-                    0
-                  )
-              ).toFixed(2)}
-            </Text>
-          </View>
-          <View style={styles.totalRow}>
             <Text style={styles.totalCell}>Importe Total: S/.</Text>
             <Text style={styles.totalCell}>
               {ordenDeServicioData?.productos
                 .concat(ordenDeServicioData?.servicios || [])
                 .reduce(
                   (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -266,34 +229,11 @@ export function PdfNotaDeVenta({
                   .reduce(
                     (acc, item) =>
                       acc + (item?.precioVenta || item?.precio) * 1,
-                    0
+                    0,
                   ) - (ordenDeServicioData?.pago?.montoAdelanto || 0)
               ).toFixed(2)}
             </Text>
           </View>
-          {(
-            ordenDeServicioData?.productos
-              .concat(ordenDeServicioData?.servicios || [])
-              .reduce(
-                (acc, item) => acc + (item?.precioVenta || item?.precio) * 1,
-                0
-              ) - (ordenDeServicioData?.pago?.montoAdelanto || 0)
-          ).toFixed(2) > 0 && (
-            <View style={styles.totalRow}>
-              <Text style={styles.totalCell}>
-                {formatNumeroALetras(
-                  ordenDeServicioData?.productos
-                    .concat(ordenDeServicioData?.servicios || [])
-                    .reduce(
-                      (acc, item) =>
-                        acc + (item?.precioVenta || item?.precio) * 1,
-                      0
-                    ) - (ordenDeServicioData?.pago?.montoAdelanto || 0)
-                )}
-              </Text>
-            </View>
-          )}
-
         </View>
       </Page>
     </Document>

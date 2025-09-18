@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { Bar, BarChart, XAxis, YAxis } from 'recharts';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Card,
@@ -11,13 +11,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart";
 import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { formatMoney } from "@/lib/utils";
@@ -27,25 +28,26 @@ export default function IncomeExpenseBarChart({
   dataMotos,
   dataGastosGenerales,
   dataVentasHistoricas,
+  dataOrdenesDeServicioHistoricas,
 }) {
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
   const [anio, setAnio] = useState(new Date().getFullYear());
+  const [withImpuestos, setWithImpuestos] = useState(false);
 
   function handleDateChange(month, year) {
     setMes(month);
     setAnio(year);
   }
 
-  //Cálculos para ingresos (ventas)
-
-  function sumarIngresos(dataVentasHistoricas, anio, mes) {
+  // Ingresos por ventas históricas
+  function sumarIngresosVentas(dataVentasHistoricas, anio, mes) {
     if (
       !dataVentasHistoricas ||
       !Array.isArray(dataVentasHistoricas.ventasHistoricas)
     ) {
-      console.error("Ventas históricas no válidas");
+      console.error('Ventas históricas no válidas');
       return 0;
     }
 
@@ -56,7 +58,9 @@ export default function IncomeExpenseBarChart({
 
       if (mesVenta === mes && anioVenta === anio) {
         const sumaVenta = (venta.productos || []).reduce((suma, producto) => {
-          return suma + (producto.precioVenta || 0);
+          const precio = producto.precioVenta || 0;
+          const cantidad = producto.cantidad || 0;
+          return suma + precio * cantidad;
         }, 0);
 
         return total + sumaVenta;
@@ -66,13 +70,109 @@ export default function IncomeExpenseBarChart({
     }, 0);
   }
 
-  const totalIngresos = sumarIngresos(dataVentasHistoricas, anio, mes);
+  // Ingresos por órdenes de servicio
+  function sumarIngresosOrdenesServicio(
+    dataOrdenesDeServicioHistoricas,
+    anio,
+    mes
+  ) {
+    if (
+      !dataOrdenesDeServicioHistoricas ||
+      !Array.isArray(
+        dataOrdenesDeServicioHistoricas.ordenesDeServicioHistoricas
+      )
+    ) {
+      console.error("Órdenes de servicio históricas no válidas");
+      return 0;
+    }
+
+    return dataOrdenesDeServicioHistoricas.ordenesDeServicioHistoricas.reduce(
+      (total, orden) => {
+        const fechaOrden = new Date(orden.fechaIngreso);
+        const mesOrden = fechaOrden.getMonth() + 1;
+        const anioOrden = fechaOrden.getFullYear();
+
+        if (mesOrden === mes && anioOrden === anio) {
+          // Productos
+          const sumaProductos = (orden.productos || []).reduce(
+            (suma, producto) => {
+              const precio = producto.precioVenta || 0;
+              const cantidad = producto.cantidad || 0;
+              return suma + precio * cantidad;
+            },
+            0
+          );
+
+          // Servicios
+          const sumaServicios = (orden.servicios || []).reduce(
+            (suma, servicio) => {
+              const precio = servicio.precio || 0;
+              return suma + precio;
+            },
+            0
+          );
+
+          return total + sumaProductos + sumaServicios;
+        }
+
+        return total;
+      },
+      0
+    );
+  }
+
+  // Combinar ingresos
+  function calcularIngresos(
+    dataVentasHistoricas,
+    dataOrdenesDeServicioHistoricas,
+    anio,
+    mes
+  ) {
+    const totalIngresosVentas = sumarIngresosVentas(
+      dataVentasHistoricas,
+      anio,
+      mes
+    );
+    const totalIngresosOrdenes = sumarIngresosOrdenesServicio(
+      dataOrdenesDeServicioHistoricas,
+      anio,
+      mes
+    );
+
+    return {
+      totalIngresosVentas,
+      totalIngresosOrdenes,
+      totalGeneral: totalIngresosVentas + totalIngresosOrdenes,
+    };
+  }
+
+  const ingresosResultado = calcularIngresos(
+    dataVentasHistoricas,
+    dataOrdenesDeServicioHistoricas,
+    anio,
+    mes
+  );
+
+  // Con impuestos
+
+  // Aplica el 0.82 si el filtro está activo
+  const ingresosCalculados = {
+    totalIngresosVentas: withImpuestos
+      ? ingresosResultado.totalIngresosVentas * 0.82
+      : ingresosResultado.totalIngresosVentas,
+    totalIngresosOrdenes: withImpuestos
+      ? ingresosResultado.totalIngresosOrdenes * 0.82
+      : ingresosResultado.totalIngresosOrdenes,
+    totalGeneral: withImpuestos
+      ? ingresosResultado.totalGeneral * 0.82
+      : ingresosResultado.totalGeneral,
+  };
 
   //Cálculos para egresos
 
   function sumarGastos(data, anio, mes) {
     if (!Array.isArray(data)) {
-      console.error(data, "Array no válido.");
+      console.error(data, 'Array no válido.');
       return 0;
     }
     return data.reduce((total, row) => {
@@ -88,7 +188,7 @@ export default function IncomeExpenseBarChart({
       // Sumar los montos de los gastos filtrados
       const sumaGastos = gastosFiltrados.reduce(
         (sum, gasto) => sum + (gasto.monto || 0),
-        0
+        0,
       );
 
       // Filtrar los gastos del row según el mes y año para gastos generales
@@ -114,14 +214,14 @@ export default function IncomeExpenseBarChart({
     dataMotos,
     dataGastosGenerales,
     mes,
-    anio
+    anio,
   ) {
     const totalGastosProductos = sumarGastos(dataProductos.products, anio, mes);
     const totalGastosMotos = sumarGastos(dataMotos.motos, anio, mes);
     const totalGastosGenerales = sumarGastos(
       dataGastosGenerales.gastosGenerales,
       anio,
-      mes
+      mes,
     );
 
     return {
@@ -138,11 +238,11 @@ export default function IncomeExpenseBarChart({
     dataMotos,
     dataGastosGenerales,
     mes,
-    anio
+    anio,
   );
 
   const dataMensual = {
-    ingresos: totalIngresos,
+    ingresos: ingresosResultado?.totalGeneral,
     egresos: resultado?.totalGeneral,
   };
   // Extraer ingresos y egresos del mes seleccionado
@@ -150,13 +250,13 @@ export default function IncomeExpenseBarChart({
   const { ingresos = 0, egresos = 0 } = dataMensual || {};
 
   const chartConfig = {
-    ingresos: { label: "Ingresos", color: "hsl(var(--chart-1))" },
-    egresos: { label: "Egresos", color: "hsl(var(--chart-2))" },
+    ingresos: { label: 'Ingresos', color: 'hsl(var(--chart-1))' },
+    egresos: { label: 'Egresos', color: 'hsl(var(--chart-2))' },
   };
 
   const chartData = [
-    { tipo: "Ingresos", monto: ingresos, fill: "hsl(var(--chart-1))" },
-    { tipo: "Egresos", monto: egresos, fill: "hsl(var(--chart-2))" },
+    { tipo: 'Ingresos', monto: ingresos, fill: 'hsl(var(--chart-1))' },
+    { tipo: 'Egresos', monto: egresos, fill: 'hsl(var(--chart-2))' },
   ];
 
   useEffect(() => {
@@ -167,9 +267,16 @@ export default function IncomeExpenseBarChart({
     <Card>
       <CardHeader>
         <CardTitle className="mb-2 text-lg">Ingresos y egresos</CardTitle>
-        <CardDescription className="">
+        <CardDescription className="flex flex-col sm:flex-row sm:items-center sm:gap-2">
           <span className="font-bold mr-2">Seleccione el mes y año: </span>
           <MesAnioPicker onChange={handleDateChange} />
+          {/* Toggle con impuestos */}
+          <Button
+            variant={withImpuestos ? "default" : "outline"}
+            onClick={() => setWithImpuestos(!withImpuestos)}
+          >
+            Con impuestos
+          </Button>
         </CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center lg:flex-row gap-5">
@@ -216,17 +323,28 @@ export default function IncomeExpenseBarChart({
                 <span className="text-sm font-medium mr-2 text-chart-1">
                   Ingresos por ventas
                 </span>
-                <span className=" font-semibold">
-                  S/ {formatMoney(ingresos)}
+                <span className="font-semibold">
+                  S/ {formatMoney(ingresosCalculados.totalIngresosVentas)}
                 </span>
               </div>
+
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium mr-2 text-chart-1">
+                  Ingresos por órdenes de servicio
+                </span>
+                <span className="font-semibold">
+                  S/ {formatMoney(ingresosCalculados.totalIngresosOrdenes)}
+                </span>
+              </div>
+
               <Separator />
+
               <div className="flex items-center justify-between">
                 <span className="font-semibold mr-2 text-chart-1">
                   Total ingresos
                 </span>
                 <span className="font-bold text-chart-1">
-                  S/ {formatMoney(ingresos)}
+                  S/ {formatMoney(ingresosCalculados.totalGeneral)}
                 </span>
               </div>
             </CardContent>
@@ -276,12 +394,15 @@ export default function IncomeExpenseBarChart({
               <span className="text-base font-semibold mr-2">Balance</span>
               <Badge
                 className={`text-sm ${
-                  ingresos - resultado?.totalGeneral >= 0
+                  ingresosCalculados.totalGeneral - resultado?.totalGeneral >= 0
                     ? "bg-chart-1 text-white"
                     : "bg-chart-2 text-white"
                 }`}
               >
-                S/ {formatMoney(ingresos - resultado?.totalGeneral)}
+                S/{" "}
+                {formatMoney(
+                  ingresosCalculados.totalGeneral - resultado?.totalGeneral
+                )}
               </Badge>
             </CardContent>
           </Card>

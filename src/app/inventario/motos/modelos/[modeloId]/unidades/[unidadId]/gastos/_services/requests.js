@@ -7,9 +7,8 @@ import {
 import { delay } from '@/lib/utils';
 
 export async function addGastoMotoRequestClient(motoId, gastoData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -42,11 +41,10 @@ export async function updateGastoMotoRequestClient(
   gastoId,
   motoId,
   motoData,
-  setLoading
+  setLoading,
 ) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -59,7 +57,7 @@ export async function updateGastoMotoRequestClient(
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar el gasto: ' + response.response?.data?.error
+          'No se pudo actualizar el gasto: ' + response.response?.data?.error,
         );
         return;
       }
@@ -74,9 +72,8 @@ export async function updateGastoMotoRequestClient(
 }
 
 export async function deleteGastoMotoRequestClient(gastoId, motoId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       console.log(gastoId, motoId);
       // Simular tiempo de retraso
@@ -88,7 +85,7 @@ export async function deleteGastoMotoRequestClient(gastoId, motoId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar el gasto: ' + response.response?.data?.error
+          'No se pudo eliminar el gasto: ' + response.response?.data?.error,
         );
         return;
       }

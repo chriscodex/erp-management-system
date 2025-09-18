@@ -114,7 +114,7 @@ export function DataTableReservaciones({ columns, data, status = 200 }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -133,7 +133,7 @@ export function DataTableReservaciones({ columns, data, status = 200 }) {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

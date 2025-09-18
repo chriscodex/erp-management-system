@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Document,
@@ -9,23 +9,27 @@ import {
   Image,
   Svg,
   Path,
-} from "@react-pdf/renderer";
+} from '@react-pdf/renderer';
 
-import { stylesBoleta } from "@/app/ventas/[ventaId]/boleta/_components/pdf/stylesBoleta.js";
+import { stylesBoleta } from '@/app/ventas/[ventaId]/boleta/_components/pdf/stylesBoleta.js';
 import {
   formatDateLong,
   formatearCodigoCounterBoletaFactura,
   formatNumeroALetras,
-} from "@/lib/formateador";
+} from '@/lib/formateador';
 
 const styles = StyleSheet.create(stylesBoleta);
 
-export function PdfBoleta({ ventaHistoricaData, counterBoleta, selectedEmpresa }) {
+export function PdfBoleta({
+  ventaHistoricaData,
+  counterBoleta,
+  selectedEmpresa,
+}) {
   const currentTime = formatDateLong(new Date().toISOString(), false);
 
   const codigoBoleta = formatearCodigoCounterBoletaFactura(
     counterBoleta,
-    "boleta"
+    'boleta',
   );
 
   const MapPin = () => (
@@ -66,35 +70,35 @@ export function PdfBoleta({ ventaHistoricaData, counterBoleta, selectedEmpresa }
     <Document>
       <Page size="A4">
         <View style={styles.header}>
-          <Image src={"/logoB.jpeg"} style={styles.image} alt="logo" />
+          <Image src={'/logoB.jpeg'} style={styles.image} alt="logo" />
           <Text style={styles.title}>Boleta electrónica</Text>
         </View>
         <View style={styles.body}>
           <View style={styles.datosEmpresa}>
             <View>
               <Text style={styles.datosEmpresaTitle}>
-                {selectedEmpresa?.nombre || "Moto Rock Ruta 33 E.I.R.L"}
+                {selectedEmpresa?.nombre || 'Moto Rock Ruta 33 E.I.R.L'}
               </Text>
               <Text style={styles.datosEmpresaTitle}>
-                RUC N° {selectedEmpresa?.ruc || "20202020202"}
+                RUC N° {selectedEmpresa?.ruc || '20202020202'}
               </Text>
               <View style={styles.datosEmpresaContacto}>
                 <MapPin />
                 <Text>
                   {selectedEmpresa?.direccion ||
-                    "Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz"}
+                    'Av. Las Flores N° 364 Bar. Nicrupampa - Huaraz'}
                 </Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Phone />
-                <Text>{selectedEmpresa?.telefono || "01-442-1210"}</Text>
+                <Text>{selectedEmpresa?.telefono || '01-442-1210'}</Text>
               </View>
 
               <View style={styles.datosEmpresaContacto}>
                 <Mail />
                 <Text>
-                  {selectedEmpresa?.email || "gerencia@motorock33.com"}
+                  {selectedEmpresa?.email || 'gerencia@motorock33.com'}
                 </Text>
               </View>
             </View>
@@ -116,43 +120,49 @@ export function PdfBoleta({ ventaHistoricaData, counterBoleta, selectedEmpresa }
           <View style={styles.datosCliente}>
             <Text style={styles.datosClienteTitle}>Datos del cliente</Text>
             <Text style={styles.datosClienteName}>
-              {ventaHistoricaData?.clienteId?.tipo === "empresa"
+              {ventaHistoricaData?.clienteId?.tipo === 'empresa'
                 ? ventaHistoricaData?.clienteId?.datos?.nombre
                 : `${ventaHistoricaData?.clienteId?.datos?.apellidos} ${ventaHistoricaData?.clienteId?.datos?.nombres}`}
             </Text>
             <View style={styles.datosClienteInfo}>
               <Text style={styles.datosClienteInfoTitle}>
-                {ventaHistoricaData?.clienteId?.tipo === "empresa" ? `RUC: ` : `DNI: `}
+                {ventaHistoricaData?.clienteId?.tipo === 'empresa'
+                  ? `RUC: `
+                  : `DNI: `}
               </Text>
               <Text>
-                {ventaHistoricaData?.clienteId?.tipo === "empresa"
+                {ventaHistoricaData?.clienteId?.tipo === 'empresa'
                   ? `${ventaHistoricaData?.clienteId?.datos?.ruc}`
                   : `${ventaHistoricaData?.clienteId?.datos?.dni}`}
               </Text>
             </View>
-            {ventaHistoricaData?.clienteId?.tipo === "empresa" && (
+            {ventaHistoricaData?.clienteId?.tipo === 'empresa' && (
               <View style={styles.datosClienteInfo}>
                 <Text style={styles.datosClienteInfoTitle}>
-                  {"Representante Legal: "}
+                  {'Representante Legal: '}
                 </Text>
-                <Text>{ventaHistoricaData?.clienteId?.datos?.representanteLegal}</Text>
+                <Text>
+                  {ventaHistoricaData?.clienteId?.datos?.representanteLegal}
+                </Text>
               </View>
             )}
             {ventaHistoricaData?.clienteId?.datos?.direccion && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>{"Dirección: "}</Text>
+                <Text style={styles.datosClienteInfoTitle}>
+                  {'Dirección: '}
+                </Text>
                 <Text>{ventaHistoricaData.clienteId.datos.direccion}</Text>
               </View>
             )}
             {ventaHistoricaData?.clienteId?.datos?.email && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>{"Email: "}</Text>
+                <Text style={styles.datosClienteInfoTitle}>{'Email: '}</Text>
                 <Text>{ventaHistoricaData.clienteId.datos.email}</Text>
               </View>
             )}
             {ventaHistoricaData?.clienteId?.datos?.celular && (
               <View style={styles.datosClienteInfo}>
-                <Text style={styles.datosClienteInfoTitle}>{"Celular: "}</Text>
+                <Text style={styles.datosClienteInfoTitle}>{'Celular: '}</Text>
                 <Text>{ventaHistoricaData.clienteId.datos.celular}</Text>
               </View>
             )}
@@ -195,7 +205,7 @@ export function PdfBoleta({ ventaHistoricaData, counterBoleta, selectedEmpresa }
                 ventaHistoricaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -208,7 +218,7 @@ export function PdfBoleta({ ventaHistoricaData, counterBoleta, selectedEmpresa }
                 ventaHistoricaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </Text>
@@ -220,7 +230,7 @@ export function PdfBoleta({ ventaHistoricaData, counterBoleta, selectedEmpresa }
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -232,7 +242,7 @@ export function PdfBoleta({ ventaHistoricaData, counterBoleta, selectedEmpresa }
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </Text>
@@ -244,9 +254,9 @@ export function PdfBoleta({ ventaHistoricaData, counterBoleta, selectedEmpresa }
                   .reduce(
                     (acc, producto) =>
                       acc + producto?.precioVenta * producto?.cantidad,
-                    0
+                    0,
                   )
-                  .toFixed(2)
+                  .toFixed(2),
               )}
             </Text>
           </View>

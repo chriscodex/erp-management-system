@@ -1,36 +1,36 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { RiMotorbikeFill } from "@remixicon/react";
-import { FormAddModel } from "@/app/inventario/motos/modelos/nuevo/_components/FormAddModel";
+} from '@/components/ui/card';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { RiMotorbikeFill } from '@remixicon/react';
+import { FormAddModel } from '@/app/inventario/motos/modelos/nuevo/_components/FormAddModel';
 import {
   getCategoriesBySegmentDataForModelosRequestServer,
   getMarcasBySegmentDataForModelosRequestServer,
-} from "@/app/inventario/motos/modelos/_services/requests";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+} from '@/app/inventario/motos/modelos/_services/requests';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function AddModeloMotoPage() {
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
   // eslint-disable-next-line no-undef
   const results = await Promise.allSettled([
     getCategoriesBySegmentDataForModelosRequestServer({
-      segmentName: "Motos",
-      categoryEstado: "activo",
+      segmentName: 'Motos',
+      categoryEstado: 'activo',
     }),
     getMarcasBySegmentDataForModelosRequestServer({
-      nombre: "Motos",
-      marcaEstado: "activo",
+      nombre: 'Motos',
+      marcaEstado: 'activo',
     }),
   ]);
 
@@ -40,23 +40,23 @@ export default async function AddModeloMotoPage() {
   /* Secciones del navbar */
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Motos",
-      href: "",
+      title: 'Motos',
+      href: '',
       active: false,
     },
     {
-      title: "Modelos",
-      href: "/inventario/motos/modelos",
+      title: 'Modelos',
+      href: '/inventario/motos/modelos',
       active: true,
     },
     {
-      title: "Agregar Modelo",
-      href: "",
+      title: 'Agregar Modelo',
+      href: '',
       active: false,
     },
   ];

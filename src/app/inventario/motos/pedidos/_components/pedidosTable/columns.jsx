@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { RiDeleteBinLine, RiFileListLine } from "@remixicon/react";
+import { MoreHorizontal, ArrowUpDown } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { RiDeleteBinLine, RiFileListLine } from '@remixicon/react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,21 +13,21 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+} from '@/components/ui/dropdown-menu';
 
-import { formatDateShort } from "@/lib/formateador";
-import { formatMoney } from "@/lib/utils";
-import { DeletePedidoAlert } from "@/app/inventario/motos/pedidos/_components/dialogs/DeletePedidoAlert";
+import { formatDateShort } from '@/lib/formateador';
+import { formatMoney } from '@/lib/utils';
+import { DeletePedidoAlert } from '@/app/inventario/motos/pedidos/_components/dialogs/DeletePedidoAlert';
 
 export const columnsPedidos = [
   {
-    accessorKey: "numeracion",
+    accessorKey: 'numeracion',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           className="w-1"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           N°
           <ArrowUpDown className="h-4 w-4" />
@@ -35,16 +35,16 @@ export const columnsPedidos = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("numeracion")}</div>;
+      return <div className="text-start">{row.getValue('numeracion')}</div>;
     },
   },
   {
-    accessorKey: "code",
+    accessorKey: 'code',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Código
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -57,12 +57,12 @@ export const columnsPedidos = [
     },
   },
   {
-    accessorKey: "fechaCreacion",
+    accessorKey: 'fechaCreacion',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Fecha de creación
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -79,12 +79,12 @@ export const columnsPedidos = [
     },
   },
   {
-    accessorKey: "Cantidad de motos",
+    accessorKey: 'Cantidad de motos',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Cantidad de motos
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -97,12 +97,12 @@ export const columnsPedidos = [
     },
   },
   {
-    accessorKey: "montoPagadoYTotal",
+    accessorKey: 'montoPagadoYTotal',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Monto Pagado / Total
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -112,9 +112,10 @@ export const columnsPedidos = [
     cell: ({ row }) => {
       const montoPagado = row?.original?.montoPagado;
       const montoTotal = formatMoney(row?.original?.montoTotal);
-  
-      const showSoloTotal = montoPagado === undefined || montoPagado === null || montoPagado === "";
-  
+
+      const showSoloTotal =
+        montoPagado === undefined || montoPagado === null || montoPagado === '';
+
       return (
         <div className="text-start">
           {showSoloTotal
@@ -125,10 +126,9 @@ export const columnsPedidos = [
     },
   },
   {
-    id: "actions",
-    header: "Acciones",
+    id: 'actions',
+    header: 'Acciones',
     cell: ({ row }) => {
-
       // const { _id: id } = row.original._id;
 
       const id = row.original._id;

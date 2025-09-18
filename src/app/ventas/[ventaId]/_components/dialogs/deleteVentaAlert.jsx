@@ -33,16 +33,19 @@ export function DeleteVentaAlert({
   actionAfterComplete = 'refresh',
 }) {
   const router = useRouter();
-
   const handleConfirmationDeleteProduct = async () => {
     try {
       setIsOpen(false);
       toast.promise(deleteVentaRequestClient(ventaId), {
         loading: 'Eliminando...',
         success: () => {
+          if (actionAfterComplete === 'refresh') {
+            router.refresh();
+            return `Venta eliminada correctamente`;
+          }
           if (actionAfterComplete === 'push') {
             router.push(`/ventas`);
-            return `Preventa eliminada correctamente`;
+            return `Venta eliminada correctamente`;
           }
         },
         error: (error) => {
@@ -59,8 +62,8 @@ export function DeleteVentaAlert({
           <AlertDialogHeader>
             <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esta venta será
-              permanentemente eliminada y no podrás recuperar sus datos.
+              Esta acción no se puede deshacer. Esta venta será permanentemente
+              eliminada y no podrás recuperar sus datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

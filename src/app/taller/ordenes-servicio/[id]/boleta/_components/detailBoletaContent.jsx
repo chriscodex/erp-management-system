@@ -34,14 +34,14 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
     (acc, product) => {
       return acc + product.precioVenta;
     },
-    0
+    0,
   );
 
   const precioTotalServicios = ordenDeServicioData?.servicios?.reduce(
     (acc, servicio) => {
       return acc + servicio.precio;
     },
-    0
+    0,
   );
 
   return (
@@ -187,7 +187,7 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                     <strong>Número de comprobante:</strong>{' '}
                     {formatearCodigoCounterBoletaFactura(
                       ordenDeServicioData?.counter,
-                      'boleta'
+                      'boleta',
                     )}
                   </p>
                 )}
@@ -251,7 +251,7 @@ export function DetailBoletaContent({ ordenDeServicioData, empresas }) {
                       <TableCell>
                         S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
-                          2
+                          2,
                         )}
                       </TableCell>
                       <TableCell>

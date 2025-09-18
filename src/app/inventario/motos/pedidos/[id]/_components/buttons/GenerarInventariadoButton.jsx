@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { RiBox3Fill} from '@remixicon/react';
+import { RiBox3Fill } from '@remixicon/react';
 
 import { Button } from '@/components/ui/button';
 

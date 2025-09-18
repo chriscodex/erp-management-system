@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
-import { MoreHorizontal, ArrowUpDown, Trash2 } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { MoreHorizontal, ArrowUpDown, Trash2 } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,19 +12,19 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { DeleteUserAlert } from "@/app/usuarios/_components/Dialog/DeleteUserAlert";
-import { Badge } from "@/components/ui/badge";
-import { RiFileListLine, RiShoppingCartLine } from "@remixicon/react";
+} from '@/components/ui/dropdown-menu';
+import { DeleteUserAlert } from '@/app/usuarios/_components/Dialog/DeleteUserAlert';
+import { Badge } from '@/components/ui/badge';
+import { RiFileListLine, RiShoppingCartLine } from '@remixicon/react';
 
 export const columns = [
   {
-    accessorKey: "apellidos",
+    accessorKey: 'apellidos',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Apellidos
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -32,16 +32,16 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("apellidos")}</div>;
+      return <div className="text-start">{row.getValue('apellidos')}</div>;
     },
   },
   {
-    accessorKey: "nombres",
+    accessorKey: 'nombres',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Nombres
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -49,16 +49,16 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("nombres")}</div>;
+      return <div className="text-start">{row.getValue('nombres')}</div>;
     },
   },
   {
-    accessorKey: "rol",
+    accessorKey: 'rol',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Rol
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -67,12 +67,12 @@ export const columns = [
     },
   },
   {
-    accessorKey: "estado",
+    accessorKey: 'estado',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Estado
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -82,7 +82,7 @@ export const columns = [
     cell: ({ row }) => {
       return (
         <div className="text-start">
-          {row.getValue("estado") === "activo" ? (
+          {row.getValue('estado') === 'activo' ? (
             <Badge
               variant="successTable"
               className="text-sm w-[71px] flex justify-center"
@@ -99,8 +99,8 @@ export const columns = [
     },
   },
   {
-    id: "actions",
-    header: "Acciones",
+    id: 'actions',
+    header: 'Acciones',
     cell: ({ row }) => {
       const { _id: userId, rol } = row.original;
 
@@ -130,7 +130,7 @@ export const columns = [
               Detalle
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            {(rol === "Vendedor" || rol === "Administrador") && (
+            {(rol === 'Vendedor' || rol === 'Administrador') && (
               <>
                 <DropdownMenuItem
                   className="cursor-pointer"

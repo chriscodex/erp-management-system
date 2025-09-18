@@ -30,11 +30,11 @@ export function ImprimirFacturaButton({
   const router = useRouter();
 
   const selectedEmpresaSinFormatear = empresas.find(
-    (empresa) => empresa.ruc === ordenDeServicioData?.empresa?.ruc
+    (empresa) => empresa.ruc === ordenDeServicioData?.empresa?.ruc,
   );
 
   const [selectedEmpresaId, setSelectedEmpresaId] = useState(
-    selectedEmpresaSinFormatear?._id || empresas[0]?._id || ''
+    selectedEmpresaSinFormatear?._id || empresas[0]?._id || '',
   );
 
   // Siempre obtener el objeto empresa seleccionado a partir del id
@@ -50,10 +50,6 @@ export function ImprimirFacturaButton({
       const counterFactura = isFacturaEmitida
         ? ordenDeServicioData?.counter
         : await getCurrentCounterFacturaRequestClient();
-
-      let fechaParaImprimir = isFacturaEmitida
-        ? ordenDeServicioData?.fechaEmisionComprobante
-        : '';
 
       if (!isFacturaEmitida && empresaSeleccionada) {
         // Actualizar el estado de la factura en el backend
@@ -71,18 +67,16 @@ export function ImprimirFacturaButton({
           ubigeo: empresaSeleccionada.ubigeo,
         };
 
-        const responseUpdate = await updateFacturaStateRequestClient(
+        await updateFacturaStateRequestClient(
           ordenDeServicioData?._id,
           counterFactura,
-          selectedEmpresaFormateada
+          selectedEmpresaFormateada,
         );
-
-        fechaParaImprimir = responseUpdate?.fechaEmisionComprobante;
       }
 
       const codigoFactura = formatearCodigoCounterBoletaFactura(
         counterFactura,
-        'factura'
+        'factura',
       );
 
       const empresaParaPDF = isFacturaEmitida
@@ -92,25 +86,23 @@ export function ImprimirFacturaButton({
       // Serie y correlativo
       const { serie, correlativo } = obtenerSerieYCorrelativo(
         counterFactura,
-        'factura'
+        'factura',
       );
 
       // Total y IGV
       const total = ordenDeServicioData?.productos?.reduce(
         (acc, producto) => acc + producto?.precioVenta * producto?.cantidad,
-        0
+        0,
       );
 
       const montoIgv = (0.18 * total).toFixed(2);
 
+      const fecha = isFacturaEmitida
+        ? new Date(ordenDeServicioData?.fechaEmisionComprobante)
+        : new Date();
+
       // Fecha
-      const fechaFormateada = new Date(
-        fechaParaImprimir ||
-          ordenDeServicioData?.fechaEmisionComprobante ||
-          new Date()
-      )
-        .toISOString()
-        .slice(0, 10);
+      const fechaFormateada = fecha.toISOString().slice(0, 10);
 
       // Valor QR SUNAT
       const value = `${
@@ -126,6 +118,7 @@ export function ImprimirFacturaButton({
           selectedEmpresa={empresaParaPDF}
           qrBase64={qrBase64}
           clienteRuc={clienteRuc}
+          fecha={fecha}
         />
       );
       const blob = await pdf(doc).toBlob();
@@ -152,7 +145,7 @@ export function ImprimirFacturaButton({
         await updateFacturaStateRequestClient(
           ordenDeServicioData?._id,
           counterFactura,
-          selectedEmpresaFormateada
+          selectedEmpresaFormateada,
         );
       }
     } catch (error) {

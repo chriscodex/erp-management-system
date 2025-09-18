@@ -3,33 +3,19 @@ import { connectDB } from '@/db/mongodb';
 
 const userService = new UsersService();
 
-export async function getUsersController(request) {
+export async function getUsersController() {
   try {
-
-    // Extrae los query parameters de la URL
-    const { searchParams } = new URL(request.url);
-    const mecanicoDNI = searchParams.get('dni');
-
     await connectDB();
-
-    if (mecanicoDNI !== null) {
-      const mecanico = await userService.getUserByData({
-        dni: mecanicoDNI,
-        rol: 'Tecnico',
-        estado: 'activo',
-      });
-      return mecanico;
-    }
 
     const users = await userService.getAllUsers();
     return users;
   } catch (error) {
     console.error(
       'Users Controller: Error interno al obtener todos los usuarios:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Users Controller: Error interno al obtener todos los usuarios'
+      'Users Controller: Error interno al obtener todos los usuarios',
     );
   }
 }
@@ -46,7 +32,7 @@ export async function getUserByDataController(contextRoute) {
   } catch (error) {
     console.error(
       'Users Controller: Error interno al obtener el usuario:',
-      error.message
+      error.message,
     );
     throw new Error('Users Controller: Error interno al obtener el usuario');
   }
@@ -65,7 +51,7 @@ export async function createUserController(request) {
   } catch (error) {
     console.error(
       'Users Controller: Error interno al crear el usuario:',
-      error.message
+      error.message,
     );
     throw new Error('Users Controller: Error interno al crear el usuario');
   }
@@ -84,7 +70,7 @@ export async function updateUserController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Users Controller: Error interno al actualizar el usuario:',
-      error.message
+      error.message,
     );
     throw new Error('Users Controller: Error interno al actualizar el usuario');
   }
@@ -102,7 +88,7 @@ export async function deleteUserController(contextRoute) {
   } catch (error) {
     console.error(
       'Users Controller: Error interno eliminando el usuario:',
-      error.message
+      error.message,
     );
     throw new Error('Users Controller: Error interno eliminando el usuario');
   }

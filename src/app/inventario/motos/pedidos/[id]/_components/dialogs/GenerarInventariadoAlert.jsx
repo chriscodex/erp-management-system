@@ -26,7 +26,7 @@ export function GenerarInventariadoAlert({
       setIsOpen(false);
       toast.promise(inventariarPedidoRequestClient(pedidoId), {
         loading: 'Inventariando pedido...',
-        success: (response) => {
+        success: () => {
           if (actionAfterComplete === 'refresh') {
             router.refresh();
             return `Pedido inventariado correctamente`;
@@ -49,7 +49,9 @@ export function GenerarInventariadoAlert({
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirmar Generación de Inventariado</AlertDialogTitle>
+            <AlertDialogTitle>
+              Confirmar Generación de Inventariado
+            </AlertDialogTitle>
             <AlertDialogDescription>
               Estás a punto de pasar este pedido al inventario de motos. Al
               continuar, el pedido será eliminado y el registro se moverá al

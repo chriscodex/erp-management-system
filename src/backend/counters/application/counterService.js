@@ -7,16 +7,15 @@ export class CounterService {
 
   async getCurrentCounterByType(counterType) {
     try {
-      const counter = await this.counterRepository.getCounterByType(
-        counterType
-      );
+      const counter =
+        await this.counterRepository.getCounterByType(counterType);
       return {
         status: 200,
         payload: counter,
       };
     } catch (error) {
       console.error(
-        `Counter Service: Error interno al obtener el contador de boleta: ${error.message}`
+        `Counter Service: Error interno al obtener el contador de boleta: ${error.message}`,
       );
       return {
         status: 500,
@@ -35,7 +34,7 @@ export class CounterService {
       };
     } catch (error) {
       console.error(
-        `Counter Service: Error interno al aumentar el contador: ${error.message}`
+        `Counter Service: Error interno al aumentar el contador: ${error.message}`,
       );
       return {
         status: 500,

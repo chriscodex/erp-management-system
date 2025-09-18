@@ -1,9 +1,5 @@
 import { Schema, model, models } from 'mongoose';
 
-// if (models.Product) {
-//   delete models.Product;
-// }
-
 const productSchema = new Schema(
   {
     estado: {
@@ -124,7 +120,7 @@ const productSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Index para mejorar búsquedas por nombre

@@ -1,8 +1,16 @@
 'use client';
 
 import { useState } from 'react';
-import { RiArrowLeftLine} from '@remixicon/react';
-import {  Building, Text, MapPin, IdCardIcon, Phone, Mail, Save} from 'lucide-react';
+import { RiArrowLeftLine } from '@remixicon/react';
+import {
+  Building,
+  Text,
+  MapPin,
+  IdCardIcon,
+  Phone,
+  Mail,
+  Save,
+} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -64,7 +72,7 @@ export function UpdateFormEmpresa({ empresaData }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(empresaDataToUpdate).length === 0) {
@@ -78,7 +86,7 @@ export function UpdateFormEmpresa({ empresaData }) {
       updateEmpresaRequestClient(
         empresaData?._id,
         empresaDataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -92,226 +100,228 @@ export function UpdateFormEmpresa({ empresaData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
   return (
     <Form {...updateEmpresaForm}>
       <form onSubmit={onSubmit} className="space-y-8">
-      <FormField
-            control={control}
-            name="nombre"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel>Nombre</FormLabel>
-                <div className="relative">
+        <FormField
+          control={control}
+          name="nombre"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel>Nombre</FormLabel>
+              <div className="relative">
                 <Building className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <FormControl>
-                    <Input
-                      placeholder="Razón social"
-                      className="pl-8"
-                      autoComplete="off"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="ruc"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel>RUC</FormLabel>
-                <div className="relative">
+                <FormControl>
+                  <Input
+                    placeholder="Razón social"
+                    className="pl-8"
+                    autoComplete="off"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="ruc"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel>RUC</FormLabel>
+              <div className="relative">
                 <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <FormControl>
-                    <Input
-                      placeholder="RUC"
-                      className="pl-8"
-                      autoComplete="off"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="descripcion"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel>Descripción (Opcional)</FormLabel>
-                <div className="relative">
+                <FormControl>
+                  <Input
+                    placeholder="RUC"
+                    className="pl-8"
+                    autoComplete="off"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="descripcion"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel>Descripción (Opcional)</FormLabel>
+              <div className="relative">
                 <Text className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <FormControl>
-                    <Textarea
-                      className="pl-8"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                      placeholder="Escribe la descripción aquí"
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
+                <FormControl>
+                  <Textarea
+                    className="pl-8"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                    placeholder="Escribe la descripción aquí"
+                  />
+                </FormControl>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="direccion"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel>Dirección</FormLabel>
+              <div className="relative">
+                <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                <FormControl>
+                  <Input
+                    placeholder="Dirección"
+                    className="pl-8"
+                    autoComplete="off"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+          <FormField
+            control={control}
+            name="departamento"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Departamento</FormLabel>
+                <FormControl>
+                  <select
+                    className="pl-2 py-2 border rounded w-full disabled:bg-muted"
+                    disabled={formSubmitIsLoading}
+                    value={field.value}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                    name={field.name}
+                    ref={field.ref}
+                  >
+                    <option value="">Selecciona un departamento</option>
+                    {departamentosPeru.map((dep) => (
+                      <option key={dep} value={dep}>
+                        {dep}
+                      </option>
+                    ))}
+                  </select>
+                </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
           <FormField
             control={control}
-            name="direccion"
+            name="distrito"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel>Dirección</FormLabel>
-                <div className="relative">
-                  <MapPin className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <FormControl>
-                    <Input
-                      placeholder="Dirección"
-                      className="pl-8"
-                      autoComplete="off"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
+                <FormLabel>Distrito</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Distrito"
+                    autoComplete="off"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <FormField
-              control={control}
-              name="departamento"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Departamento</FormLabel>
-                  <FormControl>
-                    <select
-                      className="pl-2 py-2 border rounded w-full disabled:bg-muted"
-                      disabled={formSubmitIsLoading}
-                      value={field.value}
-                      onChange={field.onChange}
-                      onBlur={field.onBlur}
-                      name={field.name}
-                      ref={field.ref}
-                    >
-                      <option value="">Selecciona un departamento</option>
-                      {departamentosPeru.map((dep) => (
-                        <option key={dep} value={dep}>{dep}</option>
-                      ))}
-                    </select>
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="distrito"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Distrito</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Distrito"
-                      autoComplete="off"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="provincia"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Provincia</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Provincia"
-                      autoComplete="off"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={control}
-              name="ubigeo"
-              render={({ field }) => (
-                <FormItem className="space-y-2">
-                  <FormLabel>Ubigeo</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Ubigeo (6 dígitos)"
-                      autoComplete="off"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
           <FormField
             control={control}
-            name="telefono"
+            name="provincia"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel>Teléfono</FormLabel>
-                <div className="relative">
+                <FormLabel>Provincia</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Provincia"
+                    autoComplete="off"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="ubigeo"
+            render={({ field }) => (
+              <FormItem className="space-y-2">
+                <FormLabel>Ubigeo</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Ubigeo (6 dígitos)"
+                    autoComplete="off"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+        <FormField
+          control={control}
+          name="telefono"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel>Teléfono</FormLabel>
+              <div className="relative">
                 <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <FormControl>
-                    <Input
-                      placeholder="987654321"
-                      className="pl-8"
-                      autoComplete="off"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="space-y-2">
-                <FormLabel>Correo electrónico</FormLabel>
-                <div className="relative">
+                <FormControl>
+                  <Input
+                    placeholder="987654321"
+                    className="pl-8"
+                    autoComplete="off"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="email"
+          render={({ field }) => (
+            <FormItem className="space-y-2">
+              <FormLabel>Correo electrónico</FormLabel>
+              <div className="relative">
                 <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                  <FormControl>
-                    <Input
-                      placeholder="correo@correo.com"
-                      className="pl-8"
-                      autoComplete="off"
-                      disabled={formSubmitIsLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </div>
-              </FormItem>
-            )}
-          />
+                <FormControl>
+                  <Input
+                    placeholder="correo@correo.com"
+                    className="pl-8"
+                    autoComplete="off"
+                    disabled={formSubmitIsLoading}
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </div>
+            </FormItem>
+          )}
+        />
         <div className="space-y-4">
           <div className="flex justify-end space-x-2 mt-4">
             <div className="flex space-x-2">

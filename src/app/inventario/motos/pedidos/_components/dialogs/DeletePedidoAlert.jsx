@@ -34,7 +34,6 @@ export function DeletePedidoAlert({
 }) {
   const router = useRouter();
 
-
   const handleConfirmationDeletePedido = async () => {
     try {
       setIsOpen(false);
@@ -64,8 +63,8 @@ export function DeletePedidoAlert({
           <AlertDialogHeader>
             <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Este pedido  será
-              permanentemente eliminado y no podrás recuperar sus datos.
+              Esta acción no se puede deshacer. Este pedido será permanentemente
+              eliminado y no podrás recuperar sus datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

@@ -3,7 +3,15 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { Building, IdCardIcon, Mail, MapPin, Phone, Save, Text } from 'lucide-react';
+import {
+  Building,
+  IdCardIcon,
+  Mail,
+  MapPin,
+  Phone,
+  Save,
+  Text,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { RiArrowLeftLine } from '@remixicon/react';
@@ -60,18 +68,21 @@ export function CreateFormEmpresa() {
     setFormSubmitIsLoading(true);
 
     // Toast promise para buscar una persona
-    toast.promise(createEmpresaRequestClient(data, setFormSubmitIsLoading, setError), {
-      loading: 'Creando...',
-      success: () => {
-        clearErrors();
-        router.push('/empresas');
-        return `Empresa creada correctamente`;
+    toast.promise(
+      createEmpresaRequestClient(data, setFormSubmitIsLoading, setError),
+      {
+        loading: 'Creando...',
+        success: () => {
+          clearErrors();
+          router.push('/empresas');
+          return `Empresa creada correctamente`;
+        },
+        error: (error) => {
+          setFormSubmitIsLoading(false);
+          return error;
+        },
       },
-      error: (error) => {
-        setFormSubmitIsLoading(false);
-        return error;
-      },
-    });
+    );
   });
 
   return (
@@ -85,7 +96,7 @@ export function CreateFormEmpresa() {
               <FormItem className="space-y-2">
                 <FormLabel>Nombre</FormLabel>
                 <div className="relative">
-                <Building className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Building className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Input
                       placeholder="Razón social"
@@ -107,7 +118,7 @@ export function CreateFormEmpresa() {
               <FormItem className="space-y-2">
                 <FormLabel>RUC</FormLabel>
                 <div className="relative">
-                <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Input
                       placeholder="RUC"
@@ -129,7 +140,7 @@ export function CreateFormEmpresa() {
               <FormItem className="space-y-2">
                 <FormLabel>Descripción (Opcional)</FormLabel>
                 <div className="relative">
-                <Text className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Text className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Textarea
                       className="pl-8"
@@ -257,7 +268,7 @@ export function CreateFormEmpresa() {
               <FormItem className="space-y-2">
                 <FormLabel>Teléfono</FormLabel>
                 <div className="relative">
-                <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Phone className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Input
                       placeholder="987654321"
@@ -277,9 +288,9 @@ export function CreateFormEmpresa() {
             name="email"
             render={({ field }) => (
               <FormItem className="space-y-2">
-                <FormLabel>Correo electrónico</FormLabel>
+                <FormLabel>Correo electrónico (opcional)</FormLabel>
                 <div className="relative">
-                <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                  <Mail className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <FormControl>
                     <Input
                       placeholder="correo@correo.com"

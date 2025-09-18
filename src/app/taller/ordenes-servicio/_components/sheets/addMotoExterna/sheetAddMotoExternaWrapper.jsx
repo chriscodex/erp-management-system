@@ -7,7 +7,6 @@ import { Sheet } from '@/components/ui/sheet';
 import { AddMotoExternaForm } from '@/app/taller/ordenes-servicio/_components/sheets/addMotoExterna/addMotoExternaForm';
 
 export function SheetAddMotoExternaWrapper({ onSave, defaultValues }) {
-
   const [isSheetOpen, setIsSheetOpen] = useState(false);
 
   const handleOpenSheet = () => {
@@ -34,7 +33,11 @@ export function SheetAddMotoExternaWrapper({ onSave, defaultValues }) {
       </div>
       {isSheetOpen && (
         <Sheet open={isSheetOpen} onOpenChange={handleCloseSheet}>
-          <AddMotoExternaForm onSave={handleSave} onClose={handleCloseSheet} defaultValues={defaultValues}/>
+          <AddMotoExternaForm
+            onSave={handleSave}
+            onClose={handleCloseSheet}
+            defaultValues={defaultValues}
+          />
         </Sheet>
       )}
     </div>

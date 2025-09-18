@@ -1,11 +1,11 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import {
   getClienteRequestServer,
   getVentasHistoricasRequestServer,
-} from "@/app/contactos/clientes/[id]/_services/requests";
-import { DetailClienteContent } from "@/app/contactos/clientes/[id]/_components/detailClienteContent";
+} from '@/app/contactos/clientes/[id]/_services/requests';
+import { DetailClienteContent } from '@/app/contactos/clientes/[id]/_components/detailClienteContent';
 
 export default async function Page({ params }) {
   // eslint-disable-next-line no-undef
@@ -22,18 +22,18 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Contactos",
-      href: "",
+      title: 'Contactos',
+      href: '',
       active: false,
     },
     {
-      title: "Clientes",
-      href: "/contactos/clientes",
+      title: 'Clientes',
+      href: '/contactos/clientes',
       active: true,
     },
     {
       title: cliente?._id,
-      href: "",
+      href: '',
       active: false,
     },
   ];

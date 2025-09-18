@@ -1,22 +1,22 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { getModeloByIdRequestServer } from "@/app/inventario/motos/modelos/[modeloId]/_services/requests";
-import { UpdateFormModelo } from "@/app/inventario/motos/modelos/[modeloId]/edit/_components/updateFormModelo";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { getModeloByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/_services/requests';
+import { UpdateFormModelo } from '@/app/inventario/motos/modelos/[modeloId]/edit/_components/updateFormModelo';
 import {
   getCategoriesBySegmentDataForModelosRequestServer,
   getMarcasBySegmentDataForModelosRequestServer,
-} from "@/app/inventario/motos/modelos/_services/requests";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+} from '@/app/inventario/motos/modelos/_services/requests';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
 
@@ -24,12 +24,12 @@ export default async function Page({ params }) {
   const results = await Promise.allSettled([
     getModeloByIdRequestServer(params.modeloId),
     getCategoriesBySegmentDataForModelosRequestServer({
-      segmentName: "Motos",
-      categoryEstado: "activo",
+      segmentName: 'Motos',
+      categoryEstado: 'activo',
     }),
     getMarcasBySegmentDataForModelosRequestServer({
-      nombre: "Motos",
-      marcaEstado: "activo",
+      nombre: 'Motos',
+      marcaEstado: 'activo',
     }),
   ]);
 
@@ -45,18 +45,18 @@ export default async function Page({ params }) {
 
   const titles = [
     {
-      title: "Inventario",
-      href: "/inventario/todos",
+      title: 'Inventario',
+      href: '/inventario/todos',
       active: false,
     },
     {
-      title: "Motos",
-      href: "",
+      title: 'Motos',
+      href: '',
       active: false,
     },
     {
-      title: "Modelos",
-      href: "/inventario/motos/modelos",
+      title: 'Modelos',
+      href: '/inventario/motos/modelos',
       active: true,
     },
     {
@@ -65,8 +65,8 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: "Editar",
-      href: "",
+      title: 'Editar',
+      href: '',
       active: false,
     },
   ];

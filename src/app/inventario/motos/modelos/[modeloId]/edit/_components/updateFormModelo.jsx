@@ -70,7 +70,7 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(DataToUpdate).length === 0) {
@@ -84,7 +84,7 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
       updateModeloRequestClient(
         modeloData?._id,
         DataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Actualizando...',
@@ -98,7 +98,7 @@ export function UpdateFormModelo({ modeloData, marcas, categories }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 

@@ -17,11 +17,11 @@ export async function GET(_, contextRoute) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Almacenes Route: Error interno al obtener el almacen: ${error.message}`
+      `Almacenes Route: Error interno al obtener el almacen: ${error.message}`,
     );
     return NextResponse.json(
       { message: 'Error interno obteniendo el almacen' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -30,7 +30,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateAlmacenController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -41,11 +41,11 @@ export async function PATCH(request, contextRoute) {
   } catch (error) {
     console.error(
       'Almcen Route: Error interno actualizar el almacén:',
-      error.message
+      error.message,
     );
     return NextResponse.json(
       { message: 'Error interno actualizando el almacén' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -62,11 +62,11 @@ export async function DELETE(_, contextRoute) {
   } catch (error) {
     console.error(
       'Almacen Route: Error interno eliminar el almacén:',
-      error.message
+      error.message,
     );
     return NextResponse.json(
       { error: 'Error eliminando el almacen' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

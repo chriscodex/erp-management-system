@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
-import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Card,
@@ -11,16 +11,17 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
+} from '@/components/ui/chart';
 
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
+import { MesAnioPicker } from '@/components/calendars/MesAnioPicker';
 
 export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
+
   const router = useRouter();
 
   const [mes, setMes] = useState(new Date().getMonth() + 1);
@@ -37,14 +38,14 @@ export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
       (venta) => {
         const fecha = new Date(venta.fecha);
         return fecha.getMonth() + 1 === mes && fecha.getFullYear() === anio;
-      }
+      },
     );
 
     const ventasPorDia = {};
 
     for (const venta of ventasFiltradas) {
       const fecha = new Date(venta.fecha);
-      const dia = fecha.toISOString().split("T")[0];
+      const dia = fecha.toISOString().split('T')[0];
 
       if (ventasPorDia[dia]) {
         ventasPorDia[dia] += 1;
@@ -62,7 +63,7 @@ export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
       d <= fechaFin;
       d.setDate(d.getDate() + 1)
     ) {
-      const dateStr = d.toISOString().split("T")[0];
+      const dateStr = d.toISOString().split('T')[0];
       diasDelMes.push({
         date: dateStr,
         total: ventasPorDia[dateStr] || 0,
@@ -81,11 +82,11 @@ export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
 
   const chartConfig = {
     views: {
-      label: "Ventas",
+      label: 'Ventas',
     },
     total: {
-      label: "Total",
-      color: "hsl(var(--chart-1))",
+      label: 'Total',
+      color: 'hsl(var(--chart-1))',
     },
   };
 
@@ -134,9 +135,9 @@ export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
               minTickGap={32}
               tickFormatter={(value) => {
                 const date = new Date(value);
-                return date.toLocaleDateString("en-US", {
-                  month: "short",
-                  day: "numeric",
+                return date.toLocaleDateString('en-US', {
+                  month: 'short',
+                  day: 'numeric',
                 });
               }}
             />
@@ -146,10 +147,10 @@ export default function VentasTotalesBarChart({ dataVentasHistoricas }) {
                   className="w-[150px]"
                   nameKey="views"
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
+                    return new Date(value).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
                     });
                   }}
                 />

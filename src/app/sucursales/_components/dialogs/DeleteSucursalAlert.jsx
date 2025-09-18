@@ -63,8 +63,8 @@ export function DeleteSucursalAlert({
           <AlertDialogHeader>
             <AlertDialogTitle>¿Estás completamente seguro?</AlertDialogTitle>
             <AlertDialogDescription>
-              Esta acción no se puede deshacer. Esta sucursal será permanentemente
-              eliminada y no podrás recuperar sus datos.
+              Esta acción no se puede deshacer. Esta sucursal será
+              permanentemente eliminada y no podrás recuperar sus datos.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

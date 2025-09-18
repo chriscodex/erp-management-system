@@ -1,5 +1,3 @@
 import { z } from 'zod';
 
-export const createNotificacionSchema = z.object({
-
-});
+export const createNotificacionSchema = z.object({});

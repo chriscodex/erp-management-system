@@ -14,7 +14,7 @@ export async function createPreventaController(request) {
   } catch (error) {
     console.error(
       'Preventa Controller: Error interno al crear la preventa:',
-      error.message
+      error.message,
     );
     throw new Error('Preventa Controller: Error interno al crear la preventa');
   }
@@ -33,10 +33,10 @@ export async function updatePreventaController(request, contextRoute) {
   } catch (error) {
     console.error(
       'Preventa Controller: Error interno actualizando la Preventa:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Preventa Controller: Error interno actualizando la Preventa'
+      'Preventa Controller: Error interno actualizando la Preventa',
     );
   }
 }
@@ -53,10 +53,10 @@ export async function cancelarPreventaController(contextRoute) {
   } catch (error) {
     console.error(
       'Preventa Controller: Error interno cancelando la Preventa:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Preventa Controller: Error interno cancelando la Preventa'
+      'Preventa Controller: Error interno cancelando la Preventa',
     );
   }
 }

@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import { ArrowUpDown, ExternalLink } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { ArrowUpDown, ExternalLink } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { RiFileListLine } from "@remixicon/react";
-import { formatDateLong } from "@/lib/formateador";
-import { formatMoney } from "@/lib/utils";
+} from '@/components/ui/tooltip';
+import { RiFileListLine } from '@remixicon/react';
+import { formatDateLong } from '@/lib/formateador';
+import { formatMoney } from '@/lib/utils';
 
 export const columns = [
   {
-    accessorKey: "code",
+    accessorKey: 'code',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Código
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -29,16 +29,16 @@ export const columns = [
       );
     },
     cell: ({ row }) => {
-      return <div className="text-start">{row.getValue("code")}</div>;
+      return <div className="text-start">{row.getValue('code')}</div>;
     },
   },
   {
-    accessorKey: "fecha",
+    accessorKey: 'fecha',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Fecha
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -48,18 +48,18 @@ export const columns = [
     cell: ({ row }) => {
       return (
         <div className="text-start">
-          {formatDateLong(row.getValue("fecha"), false)}
+          {formatDateLong(row.getValue('fecha'), false)}
         </div>
       );
     },
   },
   {
-    accessorKey: "productos",
+    accessorKey: 'productos',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Productos
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -73,12 +73,12 @@ export const columns = [
     },
   },
   {
-    accessorKey: "monto",
+    accessorKey: 'monto',
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
           Monto
           <ArrowUpDown className="ml-2 h-4 w-4" />
@@ -89,15 +89,20 @@ export const columns = [
     cell: ({ row }) => {
       const total = row?.original?.productos.reduce(
         (acc, p) => acc + (p.precioVenta || 0) * (p.cantidad || 1),
-        0
+        0,
       );
-      return <div className="text-start">{`S/. `}{formatMoney(total)}</div>;
+      return (
+        <div className="text-start">
+          {`S/. `}
+          {formatMoney(total)}
+        </div>
+      );
     },
   },
 
   {
-    id: "actions",
-    header: "Acciones",
+    id: 'actions',
+    header: 'Acciones',
     cell: ({ row }) => {
       const { _id: id } = row.original;
 

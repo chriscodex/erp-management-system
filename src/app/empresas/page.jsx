@@ -1,11 +1,11 @@
-import { notFound } from "next/navigation";
-import { Building, Plus, MapPin, Phone, Mail } from "lucide-react";
-import Link from "next/link";
+import { notFound } from 'next/navigation';
+import { Building, Plus, MapPin, Phone, Mail } from 'lucide-react';
+import Link from 'next/link';
 
-import { Label } from "@/components/ui/label";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { Button } from "@/components/ui/button";
-import { getAllEmpresasRequestServer } from "@/app/empresas/_services/requests";
+import { Label } from '@/components/ui/label';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { Button } from '@/components/ui/button';
+import { getAllEmpresasRequestServer } from '@/app/empresas/_services/requests';
 import {
   Card,
   CardContent,
@@ -13,25 +13,25 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { RiFileListLine } from "@remixicon/react";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { RiFileListLine } from '@remixicon/react';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function EmpresasPage() {
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
-  
+
   const { empresas } = await getAllEmpresasRequestServer();
   /* Secciones del navbar */
   const navbarTitles = [
     {
-      title: "Empresas",
-      href: "",
+      title: 'Empresas',
+      href: '',
       active: false,
     },
   ];

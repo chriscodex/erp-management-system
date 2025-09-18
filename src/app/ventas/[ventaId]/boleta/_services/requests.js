@@ -18,7 +18,7 @@ export async function getCurrentCounterBoletaRequestClient() {
 
     if (response?.status === 500) {
       throw new Error(
-        'No se pudo obtener el contador de boletas: ' + response?.data?.error
+        'No se pudo obtener el contador de boletas: ' + response?.data?.error,
       );
     }
 
@@ -31,7 +31,7 @@ export async function getCurrentCounterBoletaRequestClient() {
 
 /**
  * Actualiza el estado de la boleta y envía la boleta a Sunat.
- * 
+ *
  * @param {number} ventaId - El id de la venta para la cual se va a realizar la actualización.
  * @param {number} counterBoleta - El valor actual del contador de boletas.
  * @param {object} selectedEmpresa - La empresa seleccionada para el envío de la boleta.
@@ -41,7 +41,7 @@ export async function getCurrentCounterBoletaRequestClient() {
 export async function updateBoletaStateRequestClient(
   ventaId,
   counterBoleta,
-  selectedEmpresa
+  selectedEmpresa,
 ) {
   try {
     await delay();
@@ -53,6 +53,8 @@ export async function updateBoletaStateRequestClient(
       },
     });
 
+    console.log('updateBoletaStateRequestClient', responseEnviarBoleta);
+
     if (
       responseEnviarBoleta?.status !== 200 ||
       !responseEnviarBoleta?.data?.payload?.success
@@ -60,7 +62,7 @@ export async function updateBoletaStateRequestClient(
       throw new Error(
         'No se pudo enviar la boleta a Sunat: ' +
           responseEnviarBoleta?.data?.payload?.estadoSunat ||
-          responseEnviarBoleta?.data?.error
+          responseEnviarBoleta?.data?.error,
       );
     }
 
@@ -79,20 +81,20 @@ export async function updateBoletaStateRequestClient(
       urlIncrementCounterBoleta,
       {
         type: 'boletas',
-      }
+      },
     );
 
     if (responseUpdateStateBoleta?.status !== 200) {
       throw new Error(
         'No se pudo actualizar el estado de la boleta: ' +
-          responseUpdateStateBoleta?.data?.error
+          responseUpdateStateBoleta?.data?.error,
       );
     }
 
     if (responseIncrementCounterBoleta?.status !== 200) {
       throw new Error(
         'No se pudo incrementar el contador de boletas: ' +
-          responseIncrementCounterBoleta?.data?.error
+          responseIncrementCounterBoleta?.data?.error,
       );
     }
   } catch (error) {

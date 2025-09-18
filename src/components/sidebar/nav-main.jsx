@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import { ChevronRight } from "lucide-react";
-import Link from "next/link";
-import { useSidebar } from "@/components/ui/sidebar";
+import { ChevronRight } from 'lucide-react';
+import Link from 'next/link';
+import { useSidebar } from '@/components/ui/sidebar';
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+} from '@/components/ui/collapsible';
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -18,9 +18,9 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
-} from "@/components/ui/sidebar";
+} from '@/components/ui/sidebar';
 
-import { useSession } from "next-auth/react";
+import { useSession } from 'next-auth/react';
 
 export function NavMain({ navTitle, items }) {
   const { open } = useSidebar();
@@ -29,14 +29,14 @@ export function NavMain({ navTitle, items }) {
   const filteredItems = items
     .map((item) => {
       // Filtro especial para "Contactos"
-      if (item.title === "Contactos") {
-        if (session?.user?.rol === "Administrador") return item;
+      if (item.title === 'Contactos') {
+        if (session?.user?.rol === 'Administrador') return item;
         if (
-          session?.user?.rol === "Vendedor" ||
-          session?.user?.rol === "Tecnico"
+          session?.user?.rol === 'Vendedor' ||
+          session?.user?.rol === 'Tecnico'
         ) {
           const soloClientes = item.items.filter(
-            (subItem) => subItem.title === "Clientes"
+            (subItem) => subItem.title === 'Clientes',
           );
           return soloClientes.length ? { ...item, items: soloClientes } : null;
         }
@@ -45,17 +45,17 @@ export function NavMain({ navTitle, items }) {
 
       // Filtro especial para "Inventario" -> ocultar "Almacenes, Reservaciones y Pedidos" a no administradores
 
-      if (item.title === "Inventario") {
+      if (item.title === 'Inventario') {
         const filteredSubItems = item.items
           .map((subItem) => {
             // Filtrar "Reservaciones" y "Pedidos" dentro de "Motos"
-            if (subItem.title === "Motos" && Array.isArray(subItem.items)) {
+            if (subItem.title === 'Motos' && Array.isArray(subItem.items)) {
               const filteredMotoSubItems = subItem.items.filter((motoItem) => {
                 if (
-                  motoItem.title === "Reservaciones" ||
-                  motoItem.title === "Pedidos"
+                  motoItem.title === 'Reservaciones' ||
+                  motoItem.title === 'Pedidos'
                 ) {
-                  return session?.user?.rol === "Administrador";
+                  return session?.user?.rol === 'Administrador';
                 }
                 return true;
               });
@@ -64,8 +64,8 @@ export function NavMain({ navTitle, items }) {
             }
 
             // Filtrar "Almacenes"
-            if (subItem.title === "Almacenes") {
-              return session?.user?.rol === "Administrador" ? subItem : null;
+            if (subItem.title === 'Almacenes') {
+              return session?.user?.rol === 'Administrador' ? subItem : null;
             }
 
             return subItem;
@@ -93,7 +93,7 @@ export function NavMain({ navTitle, items }) {
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton
-                  className={`${open ? "" : "pointer-events-none"}`}
+                  className={`${open ? '' : 'pointer-events-none'}`}
                 >
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>

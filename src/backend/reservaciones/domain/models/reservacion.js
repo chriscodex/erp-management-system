@@ -1,4 +1,4 @@
-import { Schema, model, models } from "mongoose";
+import { Schema, model, models } from 'mongoose';
 
 const reservacionSchema = new Schema(
   {
@@ -6,12 +6,12 @@ const reservacionSchema = new Schema(
       type: Number,
       required: [
         true,
-        "El pago inicial es requerido en el schema de reservaciones",
+        'El pago inicial es requerido en el schema de reservaciones',
       ],
     },
     fechaLimite: {
       type: Date,
-      required: [true, "Fecha is required"],
+      required: [true, 'Fecha is required'],
     },
     comentario: {
       type: String,
@@ -22,14 +22,14 @@ const reservacionSchema = new Schema(
         type: String,
         required: [
           true,
-          "El nombre de la moto es requerido en el schema de reservaciones",
+          'El nombre de la moto es requerido en el schema de reservaciones',
         ],
       },
       descripcion: {
         type: String,
         required: [
           true,
-          "La descripcion de la moto es requerida en el schema de reservaciones",
+          'La descripcion de la moto es requerida en el schema de reservaciones',
         ],
       },
       categoria: {
@@ -37,7 +37,7 @@ const reservacionSchema = new Schema(
           type: String,
           required: [
             true,
-            "El nombre de la categoria es requerido en el schema de reservaciones",
+            'El nombre de la categoria es requerido en el schema de reservaciones',
           ],
         },
       },
@@ -46,7 +46,7 @@ const reservacionSchema = new Schema(
           type: String,
           required: [
             true,
-            "El nombre de la marca es requerido en el schema de reservaciones",
+            'El nombre de la marca es requerido en el schema de reservaciones',
           ],
         },
       },
@@ -54,22 +54,22 @@ const reservacionSchema = new Schema(
     cliente: {
       tipo: {
         type: String,
-        required: [true, "El tipo es requerido en el schema de reservaciones"],
-        enum: ["persona", "empresa"],
+        required: [true, 'El tipo es requerido en el schema de reservaciones'],
+        enum: ['persona', 'empresa'],
       },
       datos: {
         type: Schema.Types.Mixed,
         required: [
           true,
-          "Los datos del cliente son requeridos en el schema de reservaciones",
+          'Los datos del cliente son requeridos en el schema de reservaciones',
         ],
       },
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export const Reservacion =
-  models?.Reservacion || model("Reservacion", reservacionSchema);
+  models?.Reservacion || model('Reservacion', reservacionSchema);

@@ -86,7 +86,7 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
       updateOrdenServicioRequestClient(
         ordenDeServicioData._id,
         updateObject,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
         loading: 'Agregando RUC...',
@@ -99,7 +99,7 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -107,14 +107,14 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
     (acc, product) => {
       return acc + product.precioVenta;
     },
-    0
+    0,
   );
 
   const precioTotalServicios = ordenDeServicioData?.servicios?.reduce(
     (acc, servicio) => {
       return acc + servicio.precio;
     },
-    0
+    0,
   );
 
   return (
@@ -344,7 +344,7 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
                     <strong>Número de comprobante:</strong>{' '}
                     {formatearCodigoCounterBoletaFactura(
                       ordenDeServicioData?.counter,
-                      'factura'
+                      'factura',
                     )}
                   </p>
                 )}
@@ -408,7 +408,7 @@ export function DetailFacturaContent({ ordenDeServicioData, empresas }) {
                       <TableCell>
                         S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
-                          2
+                          2,
                         )}
                       </TableCell>
                       <TableCell>

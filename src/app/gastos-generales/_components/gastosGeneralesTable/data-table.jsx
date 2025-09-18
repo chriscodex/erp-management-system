@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   flexRender,
@@ -7,12 +7,12 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   getFilteredRowModel,
-} from "@tanstack/react-table";
-import { useEffect, useState, useMemo } from "react";
-import { useDebouncedCallback } from "use-debounce";
-import { useRouter } from "next/navigation";
+} from '@tanstack/react-table';
+import { useEffect, useState, useMemo } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+import { useRouter } from 'next/navigation';
 
-import { Input } from "@/components/ui/input";
+import { Input } from '@/components/ui/input';
 import {
   Table,
   TableBody,
@@ -20,14 +20,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { serverErrorToast } from "@/components/toast/serverErrorToast";
+} from '@/components/ui/table';
+import { serverErrorToast } from '@/components/toast/serverErrorToast';
 
-import { DataTablePagination } from "@/components/ui/table-pagination";
-import { DataTableViewOptions } from "@/components/ui/table-view-options";
-import { TIME_DEBOUNCE } from "@/lib/utils";
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
-import { Button } from "@/components/ui/button";
+import { DataTablePagination } from '@/components/ui/table-pagination';
+import { DataTableViewOptions } from '@/components/ui/table-view-options';
+import { TIME_DEBOUNCE } from '@/lib/utils';
+import { MesAnioPicker } from '@/components/calendars/MesAnioPicker';
+import { Button } from '@/components/ui/button';
 
 export function DataTableGastosGenerales({ columns, data, status = 200 }) {
   const router = useRouter();
@@ -80,10 +80,10 @@ export function DataTableGastosGenerales({ columns, data, status = 200 }) {
   });
 
   /* Search */
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
 
   const debouncedSearch = useDebouncedCallback((value) => {
-    table.getColumn("descripcion")?.setFilterValue(value);
+    table.getColumn('descripcion')?.setFilterValue(value);
   }, TIME_DEBOUNCE);
 
   useEffect(() => {
@@ -119,12 +119,12 @@ export function DataTableGastosGenerales({ columns, data, status = 200 }) {
           />
           <MesAnioPicker onChange={handleDateChange} />
           <Button
-              className={`${filtroActivo ? "opacity-100" : "opacity-70 select-none pointer-events-none"}`}
-              onClick={limpiarFiltro}
-            >
-              Mostrar todos los gastos generales
-            </Button>
-            {/* {filtroActivo && (
+            className={`${filtroActivo ? 'opacity-100' : 'opacity-70 select-none pointer-events-none'}`}
+            onClick={limpiarFiltro}
+          >
+            Mostrar todos los gastos generales
+          </Button>
+          {/* {filtroActivo && (
             
           )} */}
         </div>
@@ -143,7 +143,7 @@ export function DataTableGastosGenerales({ columns, data, status = 200 }) {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -156,13 +156,13 @@ export function DataTableGastosGenerales({ columns, data, status = 200 }) {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
+                  data-state={row.getIsSelected() && 'selected'}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

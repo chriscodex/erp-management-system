@@ -25,10 +25,10 @@ export async function getSegmentsController(request) {
   } catch (error) {
     console.error(
       'Segments Controller: Error interno al obtener todos los segmentos:',
-      error.message
+      error.message,
     );
     throw new Error(
-      'Segments Controller: Error interno al obtener todos los segmentos'
+      'Segments Controller: Error interno al obtener todos los segmentos',
     );
   }
 }

@@ -1,5 +1,4 @@
-
-import { z } from "zod";
+import { z } from 'zod';
 
 const objectIdRegex = /^[a-f\d]{24}$/i;
 
@@ -8,28 +7,28 @@ export const updatePedidoSchema = z.object({
     nombre: z
       .string()
       .min(1, {
-        message: "El nombre debe tener al menos 1 caracter",
+        message: 'El nombre debe tener al menos 1 caracter',
       })
       .max(50, {
-        message: "El nombre debe tener menos de 50 caracteres",
+        message: 'El nombre debe tener menos de 50 caracteres',
       }),
     descripcion: z.string().optional(),
     stockMinimo: z
       .number({
-        required_error: "El stock mínimo es requerido",
-        invalid_type_error: "El stock mínimo debe ser un número",
+        required_error: 'El stock mínimo es requerido',
+        invalid_type_error: 'El stock mínimo debe ser un número',
       })
-      .int("El stock mínimo debe ser un número entero")
-      .nonnegative("El sotck mínimo debe ser mayor o igual a 0"),
+      .int('El stock mínimo debe ser un número entero')
+      .nonnegative('El sotck mínimo debe ser mayor o igual a 0'),
   }),
   moto: z.object({
     nombre: z
       .string()
       .min(1, {
-        message: "El nombre debe tener al menos 1 caracter",
+        message: 'El nombre debe tener al menos 1 caracter',
       })
       .max(50, {
-        message: "El nombre debe tener menos de 50 caracteres",
+        message: 'El nombre debe tener menos de 50 caracteres',
       }),
     descripcion: z.string().optional(),
     caracteristicas: z
@@ -48,44 +47,44 @@ export const updatePedidoSchema = z.object({
       .optional(),
     cantidad: z
       .number()
-      .nonnegative("La cantidad debe ser un número mayor o igual a 0"),
-    importado: z.enum(["si", "no"]),
+      .nonnegative('La cantidad debe ser un número mayor o igual a 0'),
+    importado: z.enum(['si', 'no']),
   }),
-  estadoPago: z.enum(["pendiente", "parcial", "completado"]),
+  estadoPago: z.enum(['pendiente', 'parcial', 'completado']),
   montoPagado: z
     .number()
-    .nonnegative("El monto pagado debe ser un número mayor o igual a 0")
+    .nonnegative('El monto pagado debe ser un número mayor o igual a 0')
     .optional(),
   montoTotal: z
     .number()
-    .nonnegative("El monto total debe ser un número mayor o igual a 0"),
+    .nonnegative('El monto total debe ser un número mayor o igual a 0'),
   fechaPago: z.preprocess(
     (val) => {
-      if (typeof val === "string" || val instanceof Date) {
+      if (typeof val === 'string' || val instanceof Date) {
         return new Date(val);
       }
       return val;
     },
     z.date().refine((date) => !isNaN(date.getTime()), {
-      message: "La fecha no es válida",
-    })
+      message: 'La fecha no es válida',
+    }),
   ),
   comentario: z.string().optional(),
   proveedorId: z.string().regex(objectIdRegex, {
-    message: "Debe elegir un proveedor",
+    message: 'Debe elegir un proveedor',
   }),
   almacenId: z.string().regex(objectIdRegex, {
-    message: "Debe elegir un almacen",
+    message: 'Debe elegir un almacen',
   }),
   fechaLimite: z.preprocess(
     (val) => {
-      if (typeof val === "string" || val instanceof Date) {
+      if (typeof val === 'string' || val instanceof Date) {
         return new Date(val);
       }
       return val;
     },
     z.date().refine((date) => !isNaN(date.getTime()), {
-      message: "La fecha no es válida",
-    })
+      message: 'La fecha no es válida',
+    }),
   ),
 });

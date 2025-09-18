@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Bar, BarChart, XAxis, YAxis } from "recharts";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { Bar, BarChart, XAxis, YAxis } from 'recharts';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 
 import {
   Card,
@@ -11,14 +11,14 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   ChartContainer,
   ChartTooltip,
   ChartTooltipContent,
-} from "@/components/ui/chart";
-import { MesAnioPicker } from "@/components/calendars/MesAnioPicker";
-import { formatMoney } from "@/lib/utils";
+} from '@/components/ui/chart';
+import { MesAnioPicker } from '@/components/calendars/MesAnioPicker';
+import { formatMoney } from '@/lib/utils';
 
 export default function IncomeExpenseBarChart({
   dataProductos,
@@ -43,7 +43,7 @@ export default function IncomeExpenseBarChart({
       !dataVentasHistoricas ||
       !Array.isArray(dataVentasHistoricas.ventasHistoricas)
     ) {
-      console.error("Ventas históricas no válidas");
+      console.error('Ventas históricas no válidas');
       return 0;
     }
 
@@ -70,7 +70,7 @@ export default function IncomeExpenseBarChart({
 
   function sumarGastos(data, anio, mes) {
     if (!Array.isArray(data)) {
-      console.error(data, "Array no válido.");
+      console.error(data, 'Array no válido.');
       return 0;
     }
     return data.reduce((total, row) => {
@@ -86,7 +86,7 @@ export default function IncomeExpenseBarChart({
       // Sumar los montos de los gastos filtrados
       const sumaGastos = gastosFiltrados.reduce(
         (sum, gasto) => sum + (gasto.monto || 0),
-        0
+        0,
       );
 
       // Filtrar los gastos del row según el mes y año para gastos generales
@@ -112,14 +112,14 @@ export default function IncomeExpenseBarChart({
     dataMotos,
     dataGastosGenerales,
     mes,
-    anio
+    anio,
   ) {
     const totalGastosProductos = sumarGastos(dataProductos.products, anio, mes);
     const totalGastosMotos = sumarGastos(dataMotos.motos, anio, mes);
     const totalGastosGenerales = sumarGastos(
       dataGastosGenerales.gastosGenerales,
       anio,
-      mes
+      mes,
     );
 
     return {
@@ -136,7 +136,7 @@ export default function IncomeExpenseBarChart({
     dataMotos,
     dataGastosGenerales,
     mes,
-    anio
+    anio,
   );
 
   const dataMensual = {
@@ -148,13 +148,13 @@ export default function IncomeExpenseBarChart({
   const { ingresos = 0, egresos = 0 } = dataMensual || {};
 
   const chartConfig = {
-    ingresos: { label: "Ingresos", color: "hsl(var(--chart-1))" },
-    egresos: { label: "Egresos", color: "hsl(var(--chart-2))" },
+    ingresos: { label: 'Ingresos', color: 'hsl(var(--chart-1))' },
+    egresos: { label: 'Egresos', color: 'hsl(var(--chart-2))' },
   };
 
   const chartData = [
-    { tipo: "Ingresos", monto: ingresos, fill: "hsl(var(--chart-1))" },
-    { tipo: "Egresos", monto: egresos, fill: "hsl(var(--chart-2))" },
+    { tipo: 'Ingresos', monto: ingresos, fill: 'hsl(var(--chart-1))' },
+    { tipo: 'Egresos', monto: egresos, fill: 'hsl(var(--chart-2))' },
   ];
 
   useEffect(() => {
@@ -175,19 +175,19 @@ export default function IncomeExpenseBarChart({
           <div className="flex flex-1 flex-col justify-center gap-1 border px-6 py-4 text-left sm:px-2 sm:py-6">
             <span className="text-xs text-muted-foreground">Ingresos</span>
             <span className="text-base font-bold leading-none 2xl:text-sm">
-              {"S/." + formatMoney(ingresos)}
+              {'S/.' + formatMoney(ingresos)}
             </span>
           </div>
           <div className="flex flex-1 flex-col justify-center gap-1 border-x lg:border-y px-6 py-4 text-left sm:px-2 sm:py-6">
             <span className="text-xs text-muted-foreground">Egresos</span>
             <span className="text-base font-bold leading-none 2xl:text-sm">
-              {"S/." + formatMoney(egresos)}
+              {'S/.' + formatMoney(egresos)}
             </span>
           </div>
           <div className="flex flex-1 flex-col justify-center gap-1 border px-6 py-4 text-left sm:px-2 sm:py-6">
             <span className="text-xs text-muted-foreground">Balance</span>
             <span className="text-base font-bold leading-none 2xl:text-sm">
-              {"S/." + formatMoney(ingresos - egresos)}
+              {'S/.' + formatMoney(ingresos - egresos)}
             </span>
           </div>
         </div>

@@ -1,21 +1,21 @@
-import { notFound } from "next/navigation";
+import { notFound } from 'next/navigation';
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
 import {
   getAllAlmacenesByDataForProductsRequestServer,
   getAllProveedoresByDataForProductsRequestServer,
-} from "@/app/inventario/productos/_services/requests";
-import { sortByUpdateDateAsc } from "@/lib/utils";
-import { getMotoByIdRequestServer } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests";
-import { UpdateMotoForm } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_components/updateMotoForm";
-import { getAllModelosForUpdateMotoFormRequestServer } from "@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/requests";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+} from '@/app/inventario/productos/_services/requests';
+import { sortByUpdateDateAsc } from '@/lib/utils';
+import { getMotoByIdRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/_services/requests';
+import { UpdateMotoForm } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_components/updateMotoForm';
+import { getAllModelosForUpdateMotoFormRequestServer } from '@/app/inventario/motos/modelos/[modeloId]/unidades/[unidadId]/edit/_services/requests';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function Page({ params }) {
   const session = await getServerSession(authOptions);
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
   // eslint-disable-next-line no-undef
@@ -23,13 +23,13 @@ export default async function Page({ params }) {
     getServerSession(authOptions),
     getMotoByIdRequestServer(params?.unidadId),
     getAllModelosForUpdateMotoFormRequestServer(),
-    getAllProveedoresByDataForProductsRequestServer({ estado: "activo" }),
-    getAllAlmacenesByDataForProductsRequestServer({ estado: "activo" }),
+    getAllProveedoresByDataForProductsRequestServer({ estado: 'activo' }),
+    getAllAlmacenesByDataForProductsRequestServer({ estado: 'activo' }),
   ]);
-  const { moto } = results[0].value;
-  const { modelos } = results[1].value ?? [];
-  const { proveedores } = results[2].value ?? [];
-  const { almacenes } = results[3].value ?? [];
+  const { moto } = results[1].value;
+  const { modelos } = results[2].value ?? [];
+  const { proveedores } = results[3].value ?? [];
+  const { almacenes } = results[4].value ?? [];
 
   const { nombre, modeloId: modeloData } = moto;
   const almacenesOrderedByCreation = sortByUpdateDateAsc(almacenes);
@@ -40,18 +40,18 @@ export default async function Page({ params }) {
 
   const navbarTitles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Motos",
-      href: "",
+      title: 'Motos',
+      href: '',
       active: false,
     },
     {
-      title: "Modelos",
-      href: "/inventario/motos/modelos",
+      title: 'Modelos',
+      href: '/inventario/motos/modelos',
       active: true,
     },
     {
@@ -65,8 +65,8 @@ export default async function Page({ params }) {
       active: true,
     },
     {
-      title: "Editar",
-      href: "",
+      title: 'Editar',
+      href: '',
       active: false,
     },
   ];

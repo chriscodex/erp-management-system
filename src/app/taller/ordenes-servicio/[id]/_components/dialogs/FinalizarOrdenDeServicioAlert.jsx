@@ -24,7 +24,6 @@ export function FinalizarOrdenDeServicioAlert({
 
   const handleCreateOrdenDeServicio = async () => {
     try {
-
       setIsOpen(false);
       toast.promise(finalizarOrdenDeServicioRequestClient(ordenDeServicioId), {
         loading: 'Finalizando Orden De Servicio...',
@@ -50,11 +49,14 @@ export function FinalizarOrdenDeServicioAlert({
       <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Confirmar Finalización de Orden de Servicio</AlertDialogTitle>
+            <AlertDialogTitle>
+              Confirmar Finalización de Orden de Servicio
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              Estás a punto de finalizar esta orden de servicio. Al
-              continuar, la orden de servicio será eliminada y el registro se moverá al
-              historial de órdenes de servicio. ¿Estás seguro de que deseas continuar?
+              Estás a punto de finalizar esta orden de servicio. Al continuar,
+              la orden de servicio será eliminada y el registro se moverá al
+              historial de órdenes de servicio. ¿Estás seguro de que deseas
+              continuar?
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

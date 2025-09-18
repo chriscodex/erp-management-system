@@ -148,7 +148,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                     <strong>Número de comprobante:</strong>{' '}
                     {formatearCodigoCounterBoletaFactura(
                       ventaData?.counter,
-                      'boleta'
+                      'boleta',
                     )}
                   </p>
                 )}
@@ -208,7 +208,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                       <TableCell>
                         S/.{' '}
                         {(producto?.precioVenta * producto?.cantidad).toFixed(
-                          2
+                          2,
                         )}
                       </TableCell>
                     </TableRow>
@@ -224,7 +224,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </div>
@@ -235,7 +235,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                 ventaData?.productos.reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
               ).toFixed(2)}
             </div>
@@ -245,7 +245,7 @@ export function DetailBoletaContent({ ventaData, empresas }) {
                 .reduce(
                   (acc, producto) =>
                     acc + producto?.precioVenta * producto?.cantidad,
-                  0
+                  0,
                 )
                 .toFixed(2)}
             </div>

@@ -13,7 +13,7 @@ export class GastoMotoRepository {
         { $push: { gastos: gastoData } },
         {
           new: true,
-        }
+        },
       );
 
       if (!gastoCreated) {
@@ -25,7 +25,7 @@ export class GastoMotoRepository {
       return gastoCreated;
     } catch (error) {
       console.error(
-        `GastoMoto Repository: Error al agregar un gasto a la moto: ${error.message}`
+        `GastoMoto Repository: Error al agregar un gasto a la moto: ${error.message}`,
       );
       throw new Error(`Error al agregar un gasto a la moto: ${error.message}`);
     }
@@ -34,7 +34,7 @@ export class GastoMotoRepository {
     try {
       const gastoDeleted = await this.motoModel.findOneAndUpdate(
         { _id: new mongoose.Types.ObjectId(motoId) },
-        { $pull: { gastos: { _id: new mongoose.Types.ObjectId(gastoId) } } }
+        { $pull: { gastos: { _id: new mongoose.Types.ObjectId(gastoId) } } },
       );
 
       if (!gastoDeleted) {
@@ -46,7 +46,7 @@ export class GastoMotoRepository {
       return gastoDeleted;
     } catch (error) {
       console.error(
-        `GastoMoto Repository: Error al eliminar un gasto a la moto: ${error.message}`
+        `GastoMoto Repository: Error al eliminar un gasto a la moto: ${error.message}`,
       );
       throw new Error(`Error al eliminar un gasto a la moto: ${error.message}`);
     }
@@ -58,7 +58,7 @@ export class GastoMotoRepository {
           _id: new mongoose.Types.ObjectId(motoId),
           'gastos._id': new mongoose.Types.ObjectId(gastoId),
         },
-        { $set: { 'gastos.$': gastoData } }
+        { $set: { 'gastos.$': gastoData } },
       );
 
       if (!updatedProduct) {
@@ -70,10 +70,10 @@ export class GastoMotoRepository {
       return updatedProduct;
     } catch (error) {
       console.error(
-        `GastoMoto Repository: Error al actualizar el gasto de la moto: ${error.message}`
+        `GastoMoto Repository: Error al actualizar el gasto de la moto: ${error.message}`,
       );
       throw new Error(
-        `Error al actualizar el gasto de la moto: ${error.message}`
+        `Error al actualizar el gasto de la moto: ${error.message}`,
       );
     }
   }

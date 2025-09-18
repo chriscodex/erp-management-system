@@ -3,8 +3,8 @@ import {
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Badge } from "@/components/ui/badge";
+} from '@/components/ui/tooltip';
+import { Badge } from '@/components/ui/badge';
 import {
   Sheet,
   SheetContent,
@@ -12,9 +12,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet";
-import { RiFileListLine } from "@remixicon/react";
-import { formatDateShort } from "@/lib/formateador";
+} from '@/components/ui/sheet';
+import { RiFileListLine } from '@remixicon/react';
+import { formatDateShort } from '@/lib/formateador';
 
 export function DetailMecanicoOrdenDeServicioDetailSheet({ mecanico }) {
   return (
@@ -51,7 +51,7 @@ export function DetailMecanicoOrdenDeServicioDetailSheet({ mecanico }) {
                           Dirección
                         </label>
                         <p className="col-span-2">
-                          {mecanico?.userId?.direccion || "Desconocida"}
+                          {mecanico?.userId?.direccion || 'Desconocida'}
                         </p>
                       </div>
                       {/* <div className="grid grid-cols-3 items-center gap-4">
@@ -67,7 +67,7 @@ export function DetailMecanicoOrdenDeServicioDetailSheet({ mecanico }) {
                           Celular
                         </label>
                         <p className="col-span-2">
-                          {mecanico?.userId?.celular || "Desconocido"}
+                          {mecanico?.userId?.celular || 'Desconocido'}
                         </p>
                       </div>
                       <div className="grid grid-cols-3 items-center gap-4">
@@ -78,8 +78,8 @@ export function DetailMecanicoOrdenDeServicioDetailSheet({ mecanico }) {
                           <p className="col-span-2">
                             {formatDateShort(
                               mecanico?.userId?.fechaIngreso,
-                              false
-                            ) || "Desconocida"}
+                              false,
+                            ) || 'Desconocida'}
                           </p>
                         </div>
                       </div>
@@ -88,7 +88,7 @@ export function DetailMecanicoOrdenDeServicioDetailSheet({ mecanico }) {
                           Estado
                         </label>
                         <div className="col-span-2">
-                          {mecanico?.userId?.estado === "activo" ? (
+                          {mecanico?.userId?.estado === 'activo' ? (
                             <Badge variant="success">Activo</Badge>
                           ) : (
                             <Badge variant="error">Inactivo</Badge>

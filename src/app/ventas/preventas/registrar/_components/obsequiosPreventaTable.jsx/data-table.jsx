@@ -38,7 +38,10 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { generarNumeroAleatorio, generarNumeroAleatorioSeisDigitos } from '@/lib/utils';
+import {
+  generarNumeroAleatorio,
+  generarNumeroAleatorioSeisDigitos,
+} from '@/lib/utils';
 import { BadgeUnitProduct } from '@/app/inventario/productos/[id]/_components/badgeUnitProduct/badgeUnitProduct';
 
 export function ObsequiosPreventaTable({
@@ -50,8 +53,10 @@ export function ObsequiosPreventaTable({
   const deleteObsequio = (internalId) => {
     setObsequiosPreventa((prevData) => {
       // Filtra el producto a eliminar
-      const updatedData = prevData.filter((row) => row.internalId !== internalId);
-  
+      const updatedData = prevData.filter(
+        (row) => row.internalId !== internalId,
+      );
+
       // Reasigna la numeración
       return updatedData.map((row, index) => ({
         ...row,
@@ -63,8 +68,8 @@ export function ObsequiosPreventaTable({
   const columns = [
     {
       accessorKey: 'numeracion',
-/*************  ✨ Windsurf Command ⭐  *************/
-/*******  47e86d4f-f69c-4498-8794-5bfdb540416c  *******/
+      /*************  ✨ Windsurf Command ⭐  *************/
+      /*******  47e86d4f-f69c-4498-8794-5bfdb540416c  *******/
       header: ({ column }) => {
         return (
           <Button
@@ -140,7 +145,7 @@ export function ObsequiosPreventaTable({
 
         let estadoObsequio = '';
         const unitProduct = obsequioData?.unidades?.find(
-          (unidad) => unidad?.code === obsequioData?.code
+          (unidad) => unidad?.code === obsequioData?.code,
         );
 
         if (unitProduct) {
@@ -312,7 +317,7 @@ export function ObsequiosPreventaTable({
     }
 
     const duplicado = obsequiosPreventa.some(
-      (obsequio) => obsequio?.code === trimmedSearchValue
+      (obsequio) => obsequio?.code === trimmedSearchValue,
     );
     if (duplicado) {
       toast.error('El obsequio ya se encuentra en la lista');
@@ -323,7 +328,10 @@ export function ObsequiosPreventaTable({
 
     // Toast para buscar producto
     toast.promise(
-      getObsequioByCodeClientRequest(trimmedSearchValue, setSearchProductIsLoading),
+      getObsequioByCodeClientRequest(
+        trimmedSearchValue,
+        setSearchProductIsLoading,
+      ),
       {
         loading: 'Buscando...',
         success: (response) => {
@@ -349,20 +357,20 @@ export function ObsequiosPreventaTable({
           setSearchProductIsLoading(false);
           return error;
         },
-      }
+      },
     );
   };
 
   const handleAgregarSOAT = async () => {
     const duplicado = obsequiosPreventa.some(
-      (obsequio) => obsequio?.nombre === 'SOAT'
+      (obsequio) => obsequio?.nombre === 'SOAT',
     );
     if (duplicado) {
       toast.error('El obsequio ya se encuentra en la lista');
       return;
     }
 
-    const soatCode = generarNumeroAleatorio(13)
+    const soatCode = generarNumeroAleatorio(13);
 
     setObsequiosPreventa([
       ...obsequiosPreventa,
@@ -435,7 +443,7 @@ export function ObsequiosPreventaTable({
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext()
+                            header.getContext(),
                           )}
                     </TableHead>
                   );
@@ -454,7 +462,7 @@ export function ObsequiosPreventaTable({
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}

@@ -1,12 +1,12 @@
-import { useState } from "react";
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale } from "react-datepicker";
-import es from "date-fns/locale/es";
-import { Button } from "@/components/ui/button";
-import { Calendar } from "lucide-react";
+import { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import { registerLocale } from 'react-datepicker';
+import es from 'date-fns/locale/es';
+import { Button } from '@/components/ui/button';
+import { Calendar } from 'lucide-react';
 
-registerLocale("es", es);
+registerLocale('es', es);
 
 function AnioPicker({ onChange }) {
   const [fecha, setFecha] = useState(new Date());

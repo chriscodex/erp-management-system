@@ -31,9 +31,8 @@ export async function getAllProductsRequestServer() {
 }
 
 export async function deleteProductRequestClient(productId) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       // Simular tiempo de retraso
       await delay();
@@ -44,7 +43,7 @@ export async function deleteProductRequestClient(productId) {
       const response = await deleteData(url);
       if (response?.status !== 204) {
         reject(
-          'No se pudo eliminar el producto: ' + response.response?.data?.error
+          'No se pudo eliminar el producto: ' + response.response?.data?.error,
         );
         return;
       }
@@ -56,14 +55,15 @@ export async function deleteProductRequestClient(productId) {
   });
 }
 
-export async function getMarcasBySegmentDataForProductsRequestServer(marcaAndSegmentData) {
+export async function getMarcasBySegmentDataForProductsRequestServer(
+  marcaAndSegmentData,
+) {
   try {
     await connectDB();
     const marcaService = new MarcaService();
 
-    const response = await marcaService.getMarcasBySegmentData(
-      marcaAndSegmentData
-    );
+    const response =
+      await marcaService.getMarcasBySegmentData(marcaAndSegmentData);
 
     if (response?.status !== 200) {
       console.log('Error al obtener marcas por segmento');
@@ -77,14 +77,14 @@ export async function getMarcasBySegmentDataForProductsRequestServer(marcaAndSeg
 }
 
 export async function getCategoriesBySegmentDataForProductsRequestServer(
-  categoryAndSegmentData
+  categoryAndSegmentData,
 ) {
   try {
     await connectDB();
     const categoryService = new CategoryService();
 
     const response = await categoryService.getCategoriesBySegmentData(
-      categoryAndSegmentData
+      categoryAndSegmentData,
     );
 
     if (response?.status !== 200) {
@@ -101,14 +101,15 @@ export async function getCategoriesBySegmentDataForProductsRequestServer(
   }
 }
 
-export async function getAllProveedoresByDataForProductsRequestServer(proveedorData) {
+export async function getAllProveedoresByDataForProductsRequestServer(
+  proveedorData,
+) {
   try {
     await connectDB();
     const proveedorService = new ProveedorService();
 
-    const response = await proveedorService.getAllProveedoresByData(
-      proveedorData
-    );
+    const response =
+      await proveedorService.getAllProveedoresByData(proveedorData);
     if (response?.status !== 200) {
       console.log('Error al obtener todas los proveedores');
       return { proveedores: [], status: response?.status };
@@ -123,7 +124,9 @@ export async function getAllProveedoresByDataForProductsRequestServer(proveedorD
   }
 }
 
-export async function getAllAlmacenesByDataForProductsRequestServer(almacenData) {
+export async function getAllAlmacenesByDataForProductsRequestServer(
+  almacenData,
+) {
   try {
     await connectDB();
     const almacenService = new AlmacenService();

@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import {
-  createProveedorController,
-} from '@/backend/proveedores/infrastructure/controller';
+import { createProveedorController } from '@/backend/proveedores/infrastructure/controller';
 
 export async function POST(request) {
   try {
@@ -15,11 +13,11 @@ export async function POST(request) {
     return NextResponse.json({ payload }, { status });
   } catch (error) {
     console.error(
-      `Proveedor Route: Error interno al crear el proveedor: ${error.message}`
+      `Proveedor Route: Error interno al crear el proveedor: ${error.message}`,
     );
     return NextResponse.json(
       { error: 'Error interno al crear el proveedor' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

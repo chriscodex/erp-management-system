@@ -7,10 +7,13 @@ export class VentaHistoricaService {
 
   async getAllVentasHistoricas() {
     try {
-      const ventasHistoricas = await this.ventasHistoricasRepository.getAllVentasHistoricas();
+      const ventasHistoricas =
+        await this.ventasHistoricasRepository.getAllVentasHistoricas();
 
       if (ventasHistoricas?.length === 0) {
-        console.log('Venta Historica Service: No se encontraron ventas históricas');
+        console.log(
+          'Venta Historica Service: No se encontraron ventas históricas',
+        );
         return {
           status: 200,
           payload: [],
@@ -23,7 +26,7 @@ export class VentaHistoricaService {
       };
     } catch (error) {
       console.error(
-        `Venta Historica Service: Error interno al buscar todas las ventas históricas: ${error.message}`
+        `Venta Historica Service: Error interno al buscar todas las ventas históricas: ${error.message}`,
       );
       return {
         status: 500,
@@ -33,7 +36,10 @@ export class VentaHistoricaService {
   }
   async getVentaHistoricaByData(ventaHistoricaData) {
     try {
-      const ventaHistoricaFound = await this.ventasHistoricasRepository.getVentaHistoricaByData(ventaHistoricaData);
+      const ventaHistoricaFound =
+        await this.ventasHistoricasRepository.getVentaHistoricaByData(
+          ventaHistoricaData,
+        );
 
       if (!ventaHistoricaFound) {
         console.log('Venta Historica Service: La venta histórica no existe');
@@ -50,7 +56,7 @@ export class VentaHistoricaService {
       };
     } catch (error) {
       console.error(
-        `Venta Historica Service: Error interno al buscar la venta historica: ${error.message}`
+        `Venta Historica Service: Error interno al buscar la venta historica: ${error.message}`,
       );
       return {
         status: 500,
@@ -60,7 +66,10 @@ export class VentaHistoricaService {
   }
   async getVentasHistoricasByCliente(clientId) {
     try {
-      const ventasHistoricasFound = await this.ventasHistoricasRepository.getVentasHistoricasByCliente(clientId);
+      const ventasHistoricasFound =
+        await this.ventasHistoricasRepository.getVentasHistoricasByCliente(
+          clientId,
+        );
 
       if (!ventasHistoricasFound) {
         console.log('Venta Historica Service: Las ventas históricas no existe');
@@ -77,7 +86,7 @@ export class VentaHistoricaService {
       };
     } catch (error) {
       console.error(
-        `Venta Historica Service: Error interno al buscar las ventas historicas: ${error.message}`
+        `Venta Historica Service: Error interno al buscar las ventas historicas: ${error.message}`,
       );
       return {
         status: 500,
@@ -87,10 +96,13 @@ export class VentaHistoricaService {
   }
   async getVentasHistoricasByUser(userId) {
     try {
-      const ventasHistoricasFound = await this.ventasHistoricasRepository.getVentasHistoricasByUser(userId);
+      const ventasHistoricasFound =
+        await this.ventasHistoricasRepository.getVentasHistoricasByUser(userId);
 
       if (!ventasHistoricasFound) {
-        console.log('Venta Historica Service: Las ventas históricas no existen');
+        console.log(
+          'Venta Historica Service: Las ventas históricas no existen',
+        );
         return {
           status: 200,
           payload: null,
@@ -104,7 +116,7 @@ export class VentaHistoricaService {
       };
     } catch (error) {
       console.error(
-        `Venta Historica Service: Error interno al buscar las ventas historicas: ${error.message}`
+        `Venta Historica Service: Error interno al buscar las ventas historicas: ${error.message}`,
       );
       return {
         status: 500,
@@ -113,4 +125,3 @@ export class VentaHistoricaService {
     }
   }
 }
-

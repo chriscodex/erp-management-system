@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { RiArrowLeftLine } from "@remixicon/react";
-import { Building, Text, MapPin, Phone, Mail, Save } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
+import { useState } from 'react';
+import { RiArrowLeftLine } from '@remixicon/react';
+import { Building, Text, MapPin, Phone, Mail, Save } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner';
 
 import {
   Form,
@@ -15,12 +15,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { updateSucursalSchema } from "@/app/sucursales/[id]/edit/_services/validations/updateSucursalSchema";
-import { Textarea } from "@/components/ui/textarea";
-import { updateSucursalRequestClient } from "@/app/sucursales/[id]/_services/requests.js";
+} from '@/components/ui/form';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { updateSucursalSchema } from '@/app/sucursales/[id]/edit/_services/validations/updateSucursalSchema';
+import { Textarea } from '@/components/ui/textarea';
+import { updateSucursalRequestClient } from '@/app/sucursales/[id]/_services/requests.js';
 
 export function UpdateFormSucursal({ sucursalData }) {
   const router = useRouter();
@@ -59,11 +59,11 @@ export function UpdateFormSucursal({ sucursalData }) {
         }
         return datosCambiados;
       },
-      {}
+      {},
     );
 
     if (Object.keys(sucursalDataToUpdate).length === 0) {
-      toast.error("No se han realizado cambios.");
+      toast.error('No se han realizado cambios.');
       setFormSubmitIsLoading(false);
       return;
     }
@@ -73,10 +73,10 @@ export function UpdateFormSucursal({ sucursalData }) {
       updateSucursalRequestClient(
         sucursalData?._id,
         sucursalDataToUpdate,
-        setFormSubmitIsLoading
+        setFormSubmitIsLoading,
       ),
       {
-        loading: "Actualizando...",
+        loading: 'Actualizando...',
         success: () => {
           clearErrors();
           // router.refresh();
@@ -87,7 +87,7 @@ export function UpdateFormSucursal({ sucursalData }) {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 

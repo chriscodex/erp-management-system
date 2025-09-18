@@ -16,11 +16,11 @@ export async function DELETE(_, contextRoute) {
   } catch (error) {
     console.error(
       'Categorias Route: Error interno al eliminar la categoría:',
-      error.message
+      error.message,
     );
     return NextResponse.json(
       { message: 'Error interno al eliminar la categoría' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -29,7 +29,7 @@ export async function PATCH(request, contextRoute) {
   try {
     const { payload, status } = await updateCategoryController(
       request,
-      contextRoute
+      contextRoute,
     );
 
     if (status !== 200) {
@@ -40,11 +40,11 @@ export async function PATCH(request, contextRoute) {
   } catch (error) {
     console.error(
       'Categorias Route: Error interno actualizar la categoría:',
-      error.message
+      error.message,
     );
     return NextResponse.json(
       { message: 'Error interno actualizando la categoría' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

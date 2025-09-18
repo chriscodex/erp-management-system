@@ -1,11 +1,11 @@
-import { RiGroup3Line } from "@remixicon/react";
+import { RiGroup3Line } from '@remixicon/react';
 
-import { sortByUpdateDateDesc } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { getAllClientesRequestServer } from "@/app/contactos/clientes/_services/requests";
-import { DataTableClientes } from "@/app/contactos/clientes/_components/clientesTable/data-table";
+import { sortByUpdateDateDesc } from '@/lib/utils';
+import { Label } from '@/components/ui/label';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { getAllClientesRequestServer } from '@/app/contactos/clientes/_services/requests';
+import { DataTableClientes } from '@/app/contactos/clientes/_components/clientesTable/data-table';
 
 export default async function ClientesPage() {
   // eslint-disable-next-line no-undef
@@ -14,13 +14,13 @@ export default async function ClientesPage() {
 
   const titles = [
     {
-      title: "Contactos",
-      href: "",
+      title: 'Contactos',
+      href: '',
       active: false,
     },
     {
-      title: "Clientes",
-      href: "",
+      title: 'Clientes',
+      href: '',
       active: false,
     },
   ];

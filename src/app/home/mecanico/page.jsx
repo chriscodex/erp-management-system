@@ -1,30 +1,30 @@
-import { Bike, Package, Plus } from "lucide-react";
-import { notFound } from "next/navigation";
+import { Bike, Package, Plus } from 'lucide-react';
+import { notFound } from 'next/navigation';
 import {
   RiHome2Line,
   RiGroup3Line,
   RiMotorbikeFill,
   RiFileCopy2Line,
-} from "@remixicon/react";
-import { NavbarSimple } from "@/components/navbar/NavbarSimple";
-import { Label } from "@/components/ui/label";
-import { StatHomeCard } from "@/app/home/_components/statCard";
+} from '@remixicon/react';
+import { NavbarSimple } from '@/components/navbar/NavbarSimple';
+import { Label } from '@/components/ui/label';
+import { StatHomeCard } from '@/app/home/_components/statCard';
 
 import {
   getAllProductsRequestServer,
   getAllMotosRequestServer,
   getAllOrdenesDeServicioRequestServer,
-} from "@/app/home/mecanico/_services/requests";
+} from '@/app/home/mecanico/_services/requests';
 
-import { QuickAccessCard } from "@/app/home/_components/quickAccesCard";
+import { QuickAccessCard } from '@/app/home/_components/quickAccesCard';
 
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
 
-  if (session?.user?.rol !== "Tecnico") {
+  if (session?.user?.rol !== 'Tecnico') {
     notFound();
   }
   // eslint-disable-next-line no-undef

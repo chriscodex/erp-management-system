@@ -1,35 +1,35 @@
-import { notFound } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { NavbarDynamic } from "@/components/navbar/NavbarDynamic";
-import { RiCalendarScheduleLine } from "@remixicon/react";
-import { NuevaReservacionForm } from "@/app/inventario/motos/reservaciones/nuevo/_components/nuevaReservacionForm";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { notFound } from 'next/navigation';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { NavbarDynamic } from '@/components/navbar/NavbarDynamic';
+import { RiCalendarScheduleLine } from '@remixicon/react';
+import { NuevaReservacionForm } from '@/app/inventario/motos/reservaciones/nuevo/_components/nuevaReservacionForm';
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 
 export default async function NuevaReservacionPage() {
   const session = await getServerSession(authOptions);
-  if (session?.user?.rol !== "Administrador") {
+  if (session?.user?.rol !== 'Administrador') {
     notFound();
   }
   const titles = [
     {
-      title: "Inventario",
-      href: "",
+      title: 'Inventario',
+      href: '',
       active: false,
     },
     {
-      title: "Motos",
-      href: "",
+      title: 'Motos',
+      href: '',
       active: false,
     },
     {
-      title: "Reservaciones",
-      href: "",
-      active: false,
+      title: 'Reservaciones',
+      href: '/inventario/motos/reservaciones',
+      active: true,
     },
     {
-      title: "Nueva Reservacion",
-      href: "",
+      title: 'Nueva Reservacion',
+      href: '',
       active: false,
     },
   ];

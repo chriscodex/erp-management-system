@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { Trash2 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { RiEditFill } from "@remixicon/react";
+import { Trash2 } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { RiEditFill } from '@remixicon/react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
-import { DeletePedidoAlert } from "@/app/inventario/motos/pedidos/_components/dialogs/DeletePedidoAlert";
+import { DeletePedidoAlert } from '@/app/inventario/motos/pedidos/_components/dialogs/DeletePedidoAlert';
 
 export function DetailPedidoButtons({ pedidoId }) {
   const router = useRouter();
@@ -23,9 +23,7 @@ export function DetailPedidoButtons({ pedidoId }) {
       <div className="flex justify-end space-x-4">
         <Button
           onClick={() => {
-            router.push(
-              `/inventario/motos/pedidos/${pedidoId}/edit`
-            );
+            router.push(`/inventario/motos/pedidos/${pedidoId}/edit`);
           }}
           variant="outline"
           className="flex items-center"

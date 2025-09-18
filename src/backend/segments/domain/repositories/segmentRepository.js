@@ -19,7 +19,7 @@ export class SegmentRepository {
     } catch (error) {
       console.log(error);
       throw new Error(
-        `Error interno al buscar todas los segmentos: ${error.message}`
+        `Error interno al buscar todas los segmentos: ${error.message}`,
       );
     }
   }
@@ -54,7 +54,7 @@ export class SegmentRepository {
       return segmentFound;
     } catch (error) {
       console.error(
-        `Segment Repository: Error al buscar el segmento: ${error.message}`
+        `Segment Repository: Error al buscar el segmento: ${error.message}`,
       );
       throw new Error(`Error al buscar el segmento: ${error.message}`);
     }

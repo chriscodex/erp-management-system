@@ -13,21 +13,29 @@ export class OrdenServicioHistoricaRepository {
 
   async getAllOrdenesDeServicioHistoricas() {
     try {
-      const ordenesServicioHistoricas = await this.ordenServicioHistoricaModel.find({}).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
+      const ordenesServicioHistoricas = await this.ordenServicioHistoricaModel
+        .find({})
+        .populate('cliente.clienteId')
+        .populate('mecanicos.userId')
+        .populate('productos.productId');
 
       if (ordenesServicioHistoricas?.length === 0) {
-        console.log("Orden de Servicio Historica Repository: No se encontraron ordenes de servicio");
+        console.log(
+          'Orden de Servicio Historica Repository: No se encontraron ordenes de servicio',
+        );
         return [];
       }
 
-      console.log("Orden de Servicio Historica Repository: Ordenes de servicio encontradas");
+      console.log(
+        'Orden de Servicio Historica Repository: Ordenes de servicio encontradas',
+      );
       return ordenesServicioHistoricas;
     } catch (error) {
       console.error(
-        `Orden de Servicio Historica Repository: Error al buscar todas las ordenes de servicio: ${error}`
+        `Orden de Servicio Historica Repository: Error al buscar todas las ordenes de servicio: ${error}`,
       );
       throw new Error(
-        `Orden de Servicio Historica Repository: Error al buscar todas las ordenes de servicio: ${error}`
+        `Orden de Servicio Historica Repository: Error al buscar todas las ordenes de servicio: ${error}`,
       );
     }
   }
@@ -35,7 +43,9 @@ export class OrdenServicioHistoricaRepository {
   async getOrdenDeServicioHistoricaByData(ordenDeServicio) {
     try {
       if (!ordenDeServicio) {
-        console.log("Orden de Servicio Historial Repository: Orden de servicio historica no proporcionada");
+        console.log(
+          'Orden de Servicio Historial Repository: Orden de servicio historica no proporcionada',
+        );
         return null;
       }
 
@@ -46,22 +56,33 @@ export class OrdenServicioHistoricaRepository {
       }
 
       if (ordenDeServicio.code) {
-        filter.code = { $regex: new RegExp(`^${ordenDeServicio.code}$`, "i") };
+        filter.code = { $regex: new RegExp(`^${ordenDeServicio.code}$`, 'i') };
       }
-      const ordenDeServicioHistoricaFound = await this.ordenServicioHistoricaModel.findOne(filter).populate('cliente.clienteId').populate('mecanicos.userId').populate('productos.productId');
+      const ordenDeServicioHistoricaFound =
+        await this.ordenServicioHistoricaModel
+          .findOne(filter)
+          .populate('cliente.clienteId')
+          .populate('mecanicos.userId')
+          .populate('productos.productId');
 
       if (!ordenDeServicioHistoricaFound) {
-        console.log("Orden de Servicio Historial Repository: Orden de servicio historica no encontrada");
+        console.log(
+          'Orden de Servicio Historial Repository: Orden de servicio historica no encontrada',
+        );
         return null;
       }
 
-      console.log("Orden de Servicio Historial Repository: Orden de servicio historica encontrada");
+      console.log(
+        'Orden de Servicio Historial Repository: Orden de servicio historica encontrada',
+      );
       return ordenDeServicioHistoricaFound;
     } catch (error) {
       console.error(
-        `Orden de Servicio Historial Repository: Error al buscar la orden de servicio historica: ${error.message}`
+        `Orden de Servicio Historial Repository: Error al buscar la orden de servicio historica: ${error.message}`,
       );
-      throw new Error(`Error al buscar una orden de servicio historica: ${error.message}`);
+      throw new Error(
+        `Error al buscar una orden de servicio historica: ${error.message}`,
+      );
     }
   }
   async getOrdenesDeServicioHistoricasByCliente(clienteId) {
@@ -71,10 +92,12 @@ export class OrdenServicioHistoricaRepository {
         .sort({ fecha: -1 })
         .populate('clienteId')
         .populate('usuario.id');
-  
+
       return ventas;
     } catch (error) {
-      throw new Error(`Error al buscar ventas historicas del cliente: ${error.message}`);
+      throw new Error(
+        `Error al buscar ventas historicas del cliente: ${error.message}`,
+      );
     }
   }
 
@@ -85,32 +108,41 @@ export class OrdenServicioHistoricaRepository {
         .sort({ fecha: -1 })
         .populate('clienteId')
         .populate('usuario.id');
-  
+
       return ventas;
     } catch (error) {
-      throw new Error(`Error al buscar ventas historicas del vendedor: ${error.message}`);
+      throw new Error(
+        `Error al buscar ventas historicas del vendedor: ${error.message}`,
+      );
     }
   }
 
   async createOrdenDeServicioHistorica(ordenDeServicioHistoricaData) {
     try {
-      const ordenDeServicioHistorica = new this.ordenServicioHistoricaModel(ordenDeServicioHistoricaData);
+      const ordenDeServicioHistorica = new this.ordenServicioHistoricaModel(
+        ordenDeServicioHistoricaData,
+      );
 
-      const ordenDeServicioHistoricaSaved = await ordenDeServicioHistorica.save();
+      const ordenDeServicioHistoricaSaved =
+        await ordenDeServicioHistorica.save();
 
       if (!ordenDeServicioHistoricaSaved) {
-        console.log("Orden de Servicio Historica Repository: Error al crear la orden de servicio");
+        console.log(
+          'Orden de Servicio Historica Repository: Error al crear la orden de servicio',
+        );
         return null;
       }
 
-      console.log("Orden de Servicio Historica Repository: Orden de servicio creada");
+      console.log(
+        'Orden de Servicio Historica Repository: Orden de servicio creada',
+      );
       return ordenDeServicioHistoricaSaved;
     } catch (error) {
       console.error(
-        `Orden de Servicio Historica Repository: Error al crear la orden de servicio: ${error.message}`
+        `Orden de Servicio Historica Repository: Error al crear la orden de servicio: ${error.message}`,
       );
       throw new Error(
-        `Orden de Servicio Historica Repository: Error al crear la orden de servicio: ${error.message}`
+        `Orden de Servicio Historica Repository: Error al crear la orden de servicio: ${error.message}`,
       );
     }
   }

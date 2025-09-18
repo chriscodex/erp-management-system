@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
 import {
   CalendarIcon,
   IdCardIcon,
@@ -12,12 +12,12 @@ import {
   Save,
   SearchIcon,
   User,
-} from "lucide-react";
-import { AddFormCalendar } from "@/components/calendars/addFormCalendar";
-import { format } from "date-fns"; //Calendar
-import { es } from "date-fns/locale"; //Calendar
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+} from 'lucide-react';
+import { AddFormCalendar } from '@/components/calendars/addFormCalendar';
+import { format } from 'date-fns'; //Calendar
+import { es } from 'date-fns/locale'; //Calendar
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   RiAppsLine,
   RiArrowLeftLine,
@@ -25,7 +25,7 @@ import {
   RiChat3Line,
   RiFileTextFill,
   RiInstanceFill,
-} from "@remixicon/react";
+} from '@remixicon/react';
 
 import {
   Form,
@@ -34,36 +34,36 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { cn } from "@/lib/utils";
+} from '@/components/ui/tooltip';
+import { cn } from '@/lib/utils';
 import {
   onChangeCelular,
   onChangeNumero,
-} from "@/components/formInputs/onChange";
+} from '@/components/formInputs/onChange';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover';
 
-import { MoneyInputField } from "@/components/formInputs/MoneyInputField";
+import { MoneyInputField } from '@/components/formInputs/MoneyInputField';
 import {
   createReservacionRequestClient,
   searchClientePorDniOrRucClientRequest,
-} from "@/app/inventario/motos/reservaciones/nuevo/_services/requests";
+} from '@/app/inventario/motos/reservaciones/nuevo/_services/requests';
 
-import { Textarea } from "@/components/ui/textarea";
-import { createReservacionSchema } from "@/app/inventario/motos/reservaciones/nuevo/_services/validations/createReservacionSchema";
+import { Textarea } from '@/components/ui/textarea';
+import { createReservacionSchema } from '@/app/inventario/motos/reservaciones/nuevo/_services/validations/createReservacionSchema';
 
 export function NuevaReservacionForm() {
   // const { data: session } = useSession();
@@ -76,26 +76,24 @@ export function NuevaReservacionForm() {
   const form = useForm({
     resolver: zodResolver(createReservacionSchema),
     defaultValues: {
+      identificador: '',
 
-      identificador: "",
+      codigo: '',
 
-      codigo: "",
-      
-      pagoInicial: "",
+      pagoInicial: '',
       fechaLimite: new Date(),
-      comentario: "",
+      comentario: '',
 
       cliente: {
-        tipo: "persona",
-        datos: {
-        }
+        tipo: 'persona',
+        datos: {},
       },
 
       moto: {
-        nombre: "",
-        descripcion: "",
-        categoria: "",
-        marca: "",
+        nombre: '',
+        descripcion: '',
+        categoria: '',
+        marca: '',
       },
     },
   });
@@ -113,11 +111,10 @@ export function NuevaReservacionForm() {
 
   // Manejo de formulario
   const onSubmit = handleSubmit(async (data) => {
-
     toast.promise(
       createReservacionRequestClient(data, setFormSubmitIsLoading, setError),
       {
-        loading: "Registrando...",
+        loading: 'Registrando...',
 
         success: (response) => {
           console.log(response);
@@ -129,7 +126,7 @@ export function NuevaReservacionForm() {
           setFormSubmitIsLoading(false);
           return error;
         },
-      }
+      },
     );
   });
 
@@ -142,75 +139,80 @@ export function NuevaReservacionForm() {
       const tipo = formData.cliente.tipo;
       const identificador = formData.identificador;
 
-      if (tipo === "persona") {
+      if (tipo === 'persona') {
         if (!identificador || identificador.length !== 8) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un DNI válido", {
-            description: "El DNI debe tener 8 dígitos",
+          toast.warning('Por favor, ingrese un DNI válido', {
+            description: 'El DNI debe tener 8 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (persona) => {
-              console.log("persona",persona);
-              setValue("cliente.datos.apellidos", persona?.apellidos || persona?.datos?.apellidos);
-              setValue("cliente.datos.nombres", persona?.nombres || persona?.datos?.nombres);
-              setValue("celular", persona?.celular || persona?.datos?.celular);
-              clearErrors("apellidos");
-              clearErrors("nombres");
-              clearErrors("celular");
+              console.log('persona', persona);
+              setValue(
+                'cliente.datos.apellidos',
+                persona?.apellidos || persona?.datos?.apellidos,
+              );
+              setValue(
+                'cliente.datos.nombres',
+                persona?.nombres || persona?.datos?.nombres,
+              );
+              setValue('celular', persona?.celular || persona?.datos?.celular);
+              clearErrors('apellidos');
+              clearErrors('nombres');
+              clearErrors('celular');
               return `Persona encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
 
-      if (tipo === "empresa") {
+      if (tipo === 'empresa') {
         if (!identificador || identificador.length !== 11) {
           setSearchByDniOrRucIsLoading(false);
-          toast.warning("Por favor, ingrese un RUC válido", {
-            description: "El RUC debe tener 11 dígitos",
+          toast.warning('Por favor, ingrese un RUC válido', {
+            description: 'El RUC debe tener 11 dígitos',
           });
           return;
         }
         toast.promise(
           searchClientePorDniOrRucClientRequest(
             identificador,
-            setSearchByDniOrRucIsLoading
+            setSearchByDniOrRucIsLoading,
           ),
           {
-            loading: "Buscando...",
+            loading: 'Buscando...',
             success: (empresa) => {
+              console.log('empresa', empresa);
 
-              console.log("empresa",empresa);
-
-              setValue("cliente.datos.nombre", empresa?.razonSocial);
-              setValue("telefono", empresa?.telefono);
-              clearErrors("nombre");
-              clearErrors("telefono");
+              setValue('cliente.datos.nombre', empresa?.razonSocial);
+              setValue('telefono', empresa?.telefono);
+              clearErrors('nombre');
+              clearErrors('telefono');
               return `Empresa encontrada`;
             },
             error: (error) => {
               setSearchByDniOrRucIsLoading(false);
               return error;
             },
-          }
+          },
         );
       }
     } catch (error) {
       setSearchByDniOrRucIsLoading(false);
-      toast.error("Error al buscar persona por DNI");
-      console.error("Error al buscar persona por DNI:", error);
+      toast.error('Error al buscar persona por DNI');
+      console.error('Error al buscar persona por DNI:', error);
     }
   };
 
@@ -326,16 +328,16 @@ export function NuevaReservacionForm() {
                       <RadioGroup
                         onValueChange={(value) => {
                           field.onChange(value);
-                          setValue("identificador", "");
-                          clearErrors("identificador");
-                          clearErrors("apellidos");
-                          clearErrors("nombres");
-                          clearErrors("nombre");
-                          clearErrors("celular");
-                          setValue("apellidos", "");
-                          setValue("nombres", "");
-                          setValue("nombre", "");
-                          setValue("celular", "");
+                          setValue('identificador', '');
+                          clearErrors('identificador');
+                          clearErrors('apellidos');
+                          clearErrors('nombres');
+                          clearErrors('nombre');
+                          clearErrors('celular');
+                          setValue('apellidos', '');
+                          setValue('nombres', '');
+                          setValue('nombre', '');
+                          setValue('celular', '');
                         }}
                         defaultValue={field.value}
                         className="flex flex-row space-x-4"
@@ -366,7 +368,7 @@ export function NuevaReservacionForm() {
                 render={({ field }) => (
                   <FormItem className="space-y-2">
                     <FormLabel>
-                      {watch("cliente.tipo") === "persona" ? "DNI" : "RUC"}
+                      {watch('cliente.tipo') === 'persona' ? 'DNI' : 'RUC'}
                     </FormLabel>
                     <div className="relative">
                       <IdCardIcon className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -374,7 +376,7 @@ export function NuevaReservacionForm() {
                         <Input
                           type="text"
                           placeholder={
-                            watch("cliente.tipo") === "persona" ? "DNI" : "RUC"
+                            watch('cliente.tipo') === 'persona' ? 'DNI' : 'RUC'
                           }
                           className="pl-8"
                           autoComplete="off"
@@ -390,10 +392,10 @@ export function NuevaReservacionForm() {
                       <FormMessage />
                       <div
                         className={cn(
-                          "absolute right-3 top-1.5 h-auto w-auto text-muted-foreground",
+                          'absolute right-3 top-1.5 h-auto w-auto text-muted-foreground',
                           searchByDniOrRucIsLoading
-                            ? "opacity-75 pointer-events-none"
-                            : "cursor-pointer"
+                            ? 'opacity-75 pointer-events-none'
+                            : 'cursor-pointer',
                         )}
                         onClick={handleSearchByDniOrRuc}
                       >
@@ -418,7 +420,7 @@ export function NuevaReservacionForm() {
                   </FormItem>
                 )}
               />
-              {watch("cliente.tipo") === "persona" ? (
+              {watch('cliente.tipo') === 'persona' ? (
                 <>
                   <FormField
                     control={control}
@@ -585,15 +587,15 @@ export function NuevaReservacionForm() {
                       <Popover open={open} onOpenChange={setOpen}>
                         <PopoverTrigger asChild>
                           <Button
-                            variant={"outline"}
+                            variant={'outline'}
                             className={cn(
-                              "w-[280px] justify-start text-left font-normal",
-                              !date && "text-muted-foreground"
+                              'w-[280px] justify-start text-left font-normal',
+                              !date && 'text-muted-foreground',
                             )}
                           >
                             <CalendarIcon className="mr-2 h-4 w-4" />
                             {date ? (
-                              format(date, "PPP", { locale: es })
+                              format(date, 'PPP', { locale: es })
                             ) : (
                               <span>Selecciona una fecha</span>
                             )}
@@ -662,7 +664,7 @@ export function NuevaReservacionForm() {
             </Button>
             <Button type="submit" disabled={formSubmitIsLoading}>
               {formSubmitIsLoading ? (
-                "Creando..."
+                'Creando...'
               ) : (
                 <>
                   <Save className="mr-2 h-4 w-4" />

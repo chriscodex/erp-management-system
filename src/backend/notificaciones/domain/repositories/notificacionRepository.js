@@ -1,22 +1,23 @@
 import mongoose from 'mongoose';
 
-import { Notificacion } from "@/backend/notificaciones/domain/models/notificacion";
+import { Notificacion } from '@/backend/notificaciones/domain/models/notificacion';
 
 export class NotificacionRepository {
   async getNotificacionesActivas() {
     try {
-
       const currentDate = new Date();
 
       const notificaciones = await Notificacion.find({
         $or: [
           { closed: false }, // Notificaciones abiertas
-          { closed: true, fechaReopening: { $lte: currentDate } } // Closed pero listas para reaparecer
+          { closed: true, fechaReopening: { $lte: currentDate } }, // Closed pero listas para reaparecer
         ],
-      }).sort({ createdAt: -1 });;
+      }).sort({ createdAt: -1 });
 
       if (notificaciones?.length === 0) {
-        console.log('Notificacion Repository: No se encontraron notificaciones');
+        console.log(
+          'Notificacion Repository: No se encontraron notificaciones',
+        );
         return [];
       }
 
@@ -24,9 +25,11 @@ export class NotificacionRepository {
       return notificaciones;
     } catch (error) {
       console.error(
-        `Notificacion Repository: Error al buscar todas las notificaciones: ${error.message}`
+        `Notificacion Repository: Error al buscar todas las notificaciones: ${error.message}`,
       );
-      throw new Error(`Error al buscar todas las notificaciones: ${error.message}`);
+      throw new Error(
+        `Error al buscar todas las notificaciones: ${error.message}`,
+      );
     }
   }
   async getNotificacionByData(notificacionData) {
@@ -76,17 +79,14 @@ export class NotificacionRepository {
       console.log('Notificacion Repository: Notificacion encontrada');
 
       return notificacionFound;
-
     } catch (error) {
       console.error(
-        `Notificacion Repository: Error al buscar la notificacion: ${error.message}`
+        `Notificacion Repository: Error al buscar la notificacion: ${error.message}`,
       );
       throw new Error(`Error al buscar un usuario: ${error.message}`);
     }
   }
-  // async create(data) {
-  //   return await Notificacion.create(data);
-  // }
+  
   async createNotificacion(notificacion) {
     try {
       const newNotificacion = new Notificacion(notificacion);
@@ -95,7 +95,9 @@ export class NotificacionRepository {
       console.log('Notificacion Repository: Notificacion creada correctamente');
       return savedNotificacion;
     } catch (error) {
-      console.log(`Notificacion Repository: Error al crear notificacion: ${error.message}`);
+      console.log(
+        `Notificacion Repository: Error al crear notificacion: ${error.message}`,
+      );
       throw new Error(`Error al crear notificacion: ${error.message}`);
     }
   }
@@ -106,21 +108,23 @@ export class NotificacionRepository {
         notificacionData,
         {
           new: true,
-        }
+        },
       );
 
       if (!updatedNotificacion) {
         console.log(
-          'Notificacion Repository: Notificacion no encontrado para ser actualizado'
+          'Notificacion Repository: Notificacion no encontrado para ser actualizado',
         );
         return null;
       }
 
-      console.log('Notificacion Repository: Notificacion actualizado correctamente');
+      console.log(
+        'Notificacion Repository: Notificacion actualizado correctamente',
+      );
       return updatedNotificacion;
     } catch (error) {
       console.error(
-        `Notificacion Repository: Error al actualizar la notificacion: ${error.message}`
+        `Notificacion Repository: Error al actualizar la notificacion: ${error.message}`,
       );
       throw new Error(`Error al actualizar la notificacion: ${error.message}`);
     }
@@ -133,16 +137,18 @@ export class NotificacionRepository {
 
       if (!deletedNotificacion) {
         console.log(
-          'Notificacion Repository: Notificacion no encontrada para ser eliminada'
+          'Notificacion Repository: Notificacion no encontrada para ser eliminada',
         );
         return null;
       }
 
-      console.log('Notificacion Repository: Notificacion encontrada y eliminada');
+      console.log(
+        'Notificacion Repository: Notificacion encontrada y eliminada',
+      );
       return deletedNotificacion;
     } catch (error) {
       console.error(
-        `Notificacion Repository: Error al eliminar notificacion: ${error.message}`
+        `Notificacion Repository: Error al eliminar notificacion: ${error.message}`,
       );
       throw new Error(`Error al eliminar notificacion: ${error.message}`);
     }
@@ -150,7 +156,7 @@ export class NotificacionRepository {
   async close(id) {
     return await Notificacion.findByIdAndUpdate(id, {
       closed: true,
-      fechaClosed: new Date()
+      fechaClosed: new Date(),
     });
   }
 

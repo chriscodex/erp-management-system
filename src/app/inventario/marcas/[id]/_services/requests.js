@@ -24,9 +24,8 @@ export async function getMarcaRequestServer(id) {
 }
 
 export async function updateMarcaRequestClient(marcaId, marcaData, setLoading) {
-  /* eslint-disable */
+  // eslint-disable-next-line no-undef
   return new Promise(async (resolve, reject) => {
-    /* eslint-enable */
     try {
       setLoading(true);
       // Simular tiempo de retraso
@@ -39,7 +38,7 @@ export async function updateMarcaRequestClient(marcaId, marcaData, setLoading) {
       if (response?.status !== 200) {
         setLoading(false);
         reject(
-          'No se pudo actualizar la marca: ' + response.response?.data?.error
+          'No se pudo actualizar la marca: ' + response.response?.data?.error,
         );
         return;
       }

@@ -43,7 +43,8 @@ export function DataTablePagination({ table }) {
           </Select>
         </div>
         <div className="flex w-[90px] sm:w-[100px] items-center justify-center text-sm font-medium">
-          Página {table.getState().pagination.pageIndex + 1} de {table.getPageCount()}
+          Página {table.getState().pagination.pageIndex + 1} de{' '}
+          {table.getPageCount()}
         </div>
         <div className="flex items-center space-x-1 sm:space-x-2">
           {/* Botón para ir a la primera página, oculto en móviles */}

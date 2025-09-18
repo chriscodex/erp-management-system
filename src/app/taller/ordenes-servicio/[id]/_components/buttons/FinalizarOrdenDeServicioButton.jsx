@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { RiFileCopy2Line } from "@remixicon/react";
+import { useState } from 'react';
+import { RiFileCopy2Line } from '@remixicon/react';
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Button } from "@/components/ui/button";
+} from '@/components/ui/tooltip';
+import { Button } from '@/components/ui/button';
 
-import { FinalizarOrdenDeServicioAlert } from "@/app/taller/ordenes-servicio/[id]/_components/dialogs/FinalizarOrdenDeServicioAlert";
+import { FinalizarOrdenDeServicioAlert } from '@/app/taller/ordenes-servicio/[id]/_components/dialogs/FinalizarOrdenDeServicioAlert';
 
 export function FinalizarOrdenDeServicioButton({
   ordenDeServicioId,
-  disabled
+  disabled,
 }) {
   const [isOpenDialogDelete, setIsOpenDialogDelete] = useState(false);
 

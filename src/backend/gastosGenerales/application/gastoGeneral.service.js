@@ -3,17 +3,19 @@ import { GastoGeneralRepository } from '@/backend/gastosGenerales/domain/reposit
 import { createGastoGeneralSchema } from '@/backend/gastosGenerales/application/validations/createGastoGeneralSchema';
 import { updateGastoGeneralSchema } from '@/backend/gastosGenerales/application/validations/updateGastoGeneralSchema';
 
-
 export class GastoGeneralService {
   constructor() {
     this.gastoGeneralRepository = new GastoGeneralRepository();
   }
   async getAllGastosGenerales() {
     try {
-      const gastosGenerales = await this.gastoGeneralRepository.getAllGastosGenerales();
+      const gastosGenerales =
+        await this.gastoGeneralRepository.getAllGastosGenerales();
 
       if (gastosGenerales?.length === 0) {
-        console.log('Gasto General Service: No se encontraron gastos generales');
+        console.log(
+          'Gasto General Service: No se encontraron gastos generales',
+        );
         return {
           status: 200,
           payload: [],
@@ -27,7 +29,7 @@ export class GastoGeneralService {
       };
     } catch (error) {
       console.error(
-        `Gasto General Service: Error interno al buscar todos los gastos generales: ${error.message}`
+        `Gasto General Service: Error interno al buscar todos los gastos generales: ${error.message}`,
       );
       return {
         status: 500,
@@ -37,10 +39,12 @@ export class GastoGeneralService {
   }
   async getGastoGeneralByData(gastoGeneralData) {
     try {
-
       console.log(gastoGeneralData);
 
-      const gastoGeneralFound = await this.gastoGeneralRepository.getGastoGeneralByData(gastoGeneralData);
+      const gastoGeneralFound =
+        await this.gastoGeneralRepository.getGastoGeneralByData(
+          gastoGeneralData,
+        );
 
       if (!gastoGeneralFound) {
         console.log('Gasto General Service: El gasto general no existe');
@@ -57,7 +61,7 @@ export class GastoGeneralService {
       };
     } catch (error) {
       console.error(
-        `Gasto General Service: Error interno al buscar un gasto general: ${error.message}`
+        `Gasto General Service: Error interno al buscar un gasto general: ${error.message}`,
       );
       return {
         status: 500,
@@ -67,16 +71,16 @@ export class GastoGeneralService {
   }
   async createGastoGeneral(gastoGeneral) {
     try {
-      
-      const gastoGeneralValidated = createGastoGeneralSchema.safeParse(gastoGeneral);
+      const gastoGeneralValidated =
+        createGastoGeneralSchema.safeParse(gastoGeneral);
 
       if (!gastoGeneralValidated.success) {
         console.log(
-          'Gasto General Service: Error de validación de schema de gasto general al crear'
+          'Gasto General Service: Error de validación de schema de gasto general al crear',
         );
         return {
           status: 400,
-          payload:gastoGeneralValidated.error.issues,
+          payload: gastoGeneralValidated.error.issues,
         };
       }
       // Crear el objeto de gasto general
@@ -85,7 +89,10 @@ export class GastoGeneralService {
       };
 
       // Crear la gasto general
-      const gastoGeneralCreated = await this.gastoGeneralRepository.createGastoGeneral(gastoGeneralObject);
+      const gastoGeneralCreated =
+        await this.gastoGeneralRepository.createGastoGeneral(
+          gastoGeneralObject,
+        );
 
       const gastoGeneralCreatedObject = gastoGeneralCreated.toObject();
 
@@ -96,7 +103,7 @@ export class GastoGeneralService {
       };
     } catch (error) {
       console.error(
-        `Gasto General Service: Error interno al crear un gasto general: ${error.message}`
+        `Gasto General Service: Error interno al crear un gasto general: ${error.message}`,
       );
       return {
         status: 500,
@@ -107,11 +114,12 @@ export class GastoGeneralService {
   async updateGastoGeneral(gastoGeneralId, gastoGeneralData) {
     try {
       // Validar los datos del gasto general enviada con el schema
-      const gastoGeneralValidated = updateGastoGeneralSchema.safeParse(gastoGeneralData);
+      const gastoGeneralValidated =
+        updateGastoGeneralSchema.safeParse(gastoGeneralData);
 
       if (!gastoGeneralValidated.success) {
         console.log(
-          'Gasto General Service: Error de validación de schema de gasto general al actualizar'
+          'Gasto General Service: Error de validación de schema de gasto general al actualizar',
         );
         return {
           status: 400,
@@ -119,10 +127,11 @@ export class GastoGeneralService {
         };
       }
 
-      const gastoGeneralUpdated = await this.gastoGeneralRepository.updateGastoGeneral(
-        gastoGeneralId,
-        gastoGeneralData
-      );
+      const gastoGeneralUpdated =
+        await this.gastoGeneralRepository.updateGastoGeneral(
+          gastoGeneralId,
+          gastoGeneralData,
+        );
 
       if (!gastoGeneralUpdated) {
         console.log('Gasto General Service: Gasto general no existe');
@@ -132,14 +141,16 @@ export class GastoGeneralService {
         };
       }
 
-      console.log('Gasto General Service: Gasto general actualizado correctamente');
+      console.log(
+        'Gasto General Service: Gasto general actualizado correctamente',
+      );
       return {
         status: 200,
         payload: gastoGeneralUpdated,
       };
     } catch (error) {
       console.error(
-        `Gasto General Service: Error interno al actualizar un gasto general: ${error.message}`
+        `Gasto General Service: Error interno al actualizar un gasto general: ${error.message}`,
       );
       return {
         status: 500,
@@ -149,7 +160,8 @@ export class GastoGeneralService {
   }
   async deleteGastoGeneral(gastoGeneralId) {
     try {
-      const gastoGeneralDeleted = await this.gastoGeneralRepository.deleteGastoGeneral(gastoGeneralId);
+      const gastoGeneralDeleted =
+        await this.gastoGeneralRepository.deleteGastoGeneral(gastoGeneralId);
 
       if (!gastoGeneralDeleted) {
         console.log('Gasto General Service: El gasto general no existe');
@@ -159,7 +171,9 @@ export class GastoGeneralService {
         };
       }
 
-      console.log('Gasto General Service: Gasto general eliminado correctamente');
+      console.log(
+        'Gasto General Service: Gasto general eliminado correctamente',
+      );
       return {
         status: 204,
         payload: gastoGeneralDeleted,
