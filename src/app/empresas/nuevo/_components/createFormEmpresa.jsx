@@ -208,13 +208,13 @@ export function CreateFormEmpresa() {
             />
             <FormField
               control={control}
-              name="distrito"
+              name="provincia"
               render={({ field }) => (
                 <FormItem className="space-y-2">
-                  <FormLabel>Distrito</FormLabel>
+                  <FormLabel>Provincia</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Distrito"
+                      placeholder="Provincia"
                       autoComplete="off"
                       disabled={formSubmitIsLoading}
                       {...field}
@@ -226,13 +226,13 @@ export function CreateFormEmpresa() {
             />
             <FormField
               control={control}
-              name="provincia"
+              name="distrito"
               render={({ field }) => (
                 <FormItem className="space-y-2">
-                  <FormLabel>Provincia</FormLabel>
+                  <FormLabel>Distrito</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Provincia"
+                      placeholder="Distrito"
                       autoComplete="off"
                       disabled={formSubmitIsLoading}
                       {...field}
