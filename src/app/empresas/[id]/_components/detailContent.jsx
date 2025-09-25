@@ -65,12 +65,12 @@ export default function DetailContent({ empresaData, updatedAt }) {
               <p>{departamento}</p>
             </div>
             <div>
-              <span className="text-sm text-muted-foreground">Distrito:</span>
-              <p>{distrito}</p>
-            </div>
-            <div>
               <span className="text-sm text-muted-foreground">Provincia:</span>
               <p>{provincia}</p>
+            </div>
+            <div>
+              <span className="text-sm text-muted-foreground">Distrito:</span>
+              <p>{distrito}</p>
             </div>
             <div>
               <span className="text-sm text-muted-foreground">Ubigeo:</span>
