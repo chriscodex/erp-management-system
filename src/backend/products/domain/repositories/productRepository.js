@@ -404,15 +404,15 @@ export class ProductRepository {
         );
       }
 
-      // Eliminar la unidad del array de unidades
-      product.unidades.splice(unitIndex, 1); // Eliminar la unidad
-
-      // Actualizar el stock (decrementar en 1)
-      const updatedProduct = await this.productModel.findByIdAndUpdate(
-        productId,
+      //Eliminación atómica y actualización del stock
+      const updatedProduct = await this.productModel.findOneAndUpdate(
         {
-          $set: { unidades: product.unidades },
-          $inc: { stock: -1 }, // Reducir el stock en 1
+          _id: productId,
+          'unidades._id': unitId,
+        },
+        {
+          $pull: { unidades: { _id: unitId } }, // Eliminar solo esa unidad
+          $inc: { stock: -1 }, // Decrementar el stock
         },
         { new: true, runValidators: true },
       );
