@@ -1,36 +1,183 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Business Management System - ERP for Retail <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat&logo=typescript&logoColor=white"> <img src="https://img.shields.io/badge/Next.js-black?style=flat&logo=next.js&logoColor=white"> <img src="https://img.shields.io/badge/React-1c2c4c?style=flat&logo=react&logoColor=61DAFB"> <img src="https://img.shields.io/badge/TailwindCSS-38B2AC?style=flat&logo=tailwind-css&logoColor=white"> <img src="https://img.shields.io/badge/shadcn/ui-000000?style=flat&logo=radixui&logoColor=white"> <img src="https://img.shields.io/badge/Node.js-43853D?style=flat&logo=node.js&logoColor=white"> <img src="https://img.shields.io/badge/Express.js-404D59?style=flat&logo=express&logoColor=white"> <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=flat&logo=mongodb&logoColor=white"> <img src="https://img.shields.io/badge/Docker-2496ED?style=flat&logo=docker&logoColor=white"> <img src="https://img.shields.io/badge/Git-F1502F?style=flat&logo=git&logoColor=white"> <img src="https://img.shields.io/badge/GitHub-000000?style=flat&logo=github&logoColor=white">
 
-## Getting Started
 
-First, run the development server:
+This repository contains the core web platform of an ERP system built with Next.js 14 using server side ecosystem. The solution follows clean, modular architectural principles and is designed to scale horizontally, with a structure that can be decoupled into microservices as the platform grows. It supports core operational workflows—including sales, inventory, expenses, companies, and user management—while ensuring consistent user experience, maintainability, and long-term extensibility.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## 🧱 Core Technologies
+
+- **Next.js 14** (App Router, layouts, loading.js, server actions)
+- **TailwindCSS** + **shadcn/ui** for UI styling
+- **React Hook Form** + **Zod** for form validation
+- **NextAuth.js** using JWT
+- **Framer Motion** for animations
+- **Axios** with a custom wrapper (`src/lib/fetchData.js`)
+- **Radix UI** (headless) and **Lucide Icons**
+
+---
+
+## 🧩 Frontend Architecture
+
+The project follows a domain-based structure inside `app/`, ensuring clean separation between pages, components, and service logic.
+
+### 📁 General Structure
+
+```
+app/
+  users/
+    page.jsx
+    loading.jsx
+    layout.jsx
+    _components/
+    _services/
+  inventory/
+  sales/
+  ...
+src/
+  components/   # Global shared components
+  hooks/        # Shared hooks
+  lib/          # Utilities, validators, fetchData, URL helpers, formatters
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🔒 Authentication & Authorization
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Authentication is implemented with **NextAuth.js** using username/password credentials.
 
-## Learn More
+### Key Features
 
-To learn more about Next.js, take a look at the following resources:
+- Secure sessions with **JWT**
+- Server-side validation via `getServerSession`
+- Role-based access control using `session.user.role`
+- Unauthorized users are redirected to `notFound()`
+- Automatic session invalidation if the user is deleted or the token expires
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## ⚙️ View Layer Workflow
 
-## Deploy on Vercel
+All CRUD views follow a uniform and predictable pattern.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 📝 Forms
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Built with **React Hook Form**
+- Schema validation with **Zod**
+- Error handling via `formState.errors`
+- Reusable UI components from shadcn (Input, Select, FormField, etc.)
+
+### 🔗 Service Layer
+
+Each module includes a `requests.js` file inside `_services/`, which:
+
+- Performs HTTP requests to the backend
+- Handles errors and response transformation
+- Accesses backend services inside the monorepo, such as:
+
+```
+@/backend/*/application/*.service.js
+```
+
+### 📊 Tables & Lists
+
+- Implemented with `<DataTable />`
+- Typed columns
+- Integrated sorting
+- Edit/Delete actions through `AlertDialog`
+
+---
+
+## 🧭 Routing & Module Conventions
+
+Each module inside `app/` follows the same path structure:
+
+```
+/module/        → List view
+/module/new     → Create form
+/module/[id]    → Detail or edit view
+```
+
+Example:
+
+```
+/users/
+/users/new
+/users/[id]
+```
+
+### Typical `page.jsx` Structure
+
+- Session validation with `getServerSession(authOptions)`
+- Permission checking
+- Layout using `NavbarSimple`, `Card`, `Label`, and Lucide icons
+- “Add” button linking to `/module/new`
+- Table rendering via `<DataTable />`
+
+---
+
+## 🧑‍⚖️ Role Management
+
+Supported roles:
+
+- **Administrator**
+- **Seller**
+- **Technician**
+
+Rules:
+
+- Only **Administrator** has full access
+- Unauthorized access → `notFound()`
+- Restricted visibility or disabled actions depending on the role
+
+---
+
+## 🗂 Available Modules
+
+Each module implements full CRUD operations:
+
+- **Users** – System user management  
+- **Contacts** – Clients and suppliers  
+- **Companies** – Associated businesses  
+- **Inventory** – Categories, brands, warehouses, products, and motorcycles  
+- **Sales** – Sales records and customer payments  
+- **General Expenses** – Business expense tracking  
+- **Settings** – System configuration (currency, taxes, etc.)
+
+### Special dashboards (non-CRUD)
+
+- **home/**
+- **dashboard/**
+- **statistics/**
+
+These render aggregated data, metrics, charts, and summary cards.
+
+---
+
+## 💡 Copilot Style Guidelines
+
+To maintain consistency across the project:
+
+- Suggest modern React code with clean JSX
+- Forms must use **react-hook-form** + **Zod**
+- Styling with Tailwind + shadcn
+- Animations with **Framer Motion**
+- Icons from **lucide-react**
+- Follow established patterns for layout, spacing, and typography
+
+---
+
+## 📦 Installation & Running
+
+```bash
+npm install
+npm run dev
+```
+
+> The frontend requires the backend included in the monorepo to retrieve real data.
+
+---
+
+## 📜 License
+
+Internal use only — academic and demonstration purposes.
